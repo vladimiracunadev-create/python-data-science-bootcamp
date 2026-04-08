@@ -1,0 +1,9 @@
+id_viaje,linea,origen,destino,duracion_min,pasajeros,retraso_min,dia_semana,lluvia
+1,L1,Centro,Norte,35,120,4,Lunes,No
+2,L2,Centro,Poniente,42,95,8,Lunes,Sí
+3,L1,Norte,Centro,33,140,2,Martes,No
+4,L3,Sur,Centro,48,110,10,Miércoles,Sí
+5,L2,Poniente,Centro,39,98,6,Jueves,No
+6,L3,Centro,Sur,46,105,9,Viernes,Sí
+7,L1,Centro,Norte,31,150,1,Viernes,No
+8,L2,Centro,Poniente,44,90,12,Sábado,Sí

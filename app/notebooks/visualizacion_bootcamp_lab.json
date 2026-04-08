@@ -1,0 +1,15 @@
+{
+  "title": "Visualización exploratoria",
+  "description": "Construye gráficos simples y comenta hallazgos.",
+  "cells": [
+    {
+      "code": "from pathlib import Path\ndf = pd.read_csv(Path.cwd() / \"datasets\" / \"retencion_clientes.csv\")\ndf"
+    },
+    {
+      "code": "plt.figure(figsize=(8,4))\nplt.plot(df[\"mes\"], df[\"clientes_activos\"], marker=\"o\")\nplt.xticks(rotation=45)\nplt.title(\"Clientes activos por mes\")\nplt.tight_layout()"
+    },
+    {
+      "code": "df[\"tasa_perdida\"] = (df[\"clientes_perdidos\"] / df[\"clientes_activos\"]).round(3)\ndf[[\"mes\", \"tasa_perdida\"]]"
+    }
+  ]
+}

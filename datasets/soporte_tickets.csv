@@ -1,0 +1,9 @@
+ticket_id,categoria,prioridad,horas_resolucion,satisfaccion,canal
+T-1001,Acceso,Alta,2.1,4.5,Correo
+T-1002,Pago,Media,5.4,3.8,Chat
+T-1003,Acceso,Alta,1.4,4.9,Teléfono
+T-1004,Bug,Alta,8.2,3.2,Chat
+T-1005,Consulta,Baja,12.3,4.1,Correo
+T-1006,Pago,Media,4.0,4.0,Web
+T-1007,Bug,Alta,6.3,2.9,Teléfono
+T-1008,Consulta,Baja,10.1,4.3,Web

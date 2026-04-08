@@ -1,0 +1,8 @@
+services:
+  bootcamp-app:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/workspace
+    command: python -m app.app

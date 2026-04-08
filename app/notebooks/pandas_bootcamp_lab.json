@@ -1,0 +1,15 @@
+{
+  "title": "Primer análisis con pandas",
+  "description": "Carga un CSV, explora columnas y responde preguntas rápidas.",
+  "cells": [
+    {
+      "code": "from pathlib import Path\nbase = Path.cwd()\ndf = pd.read_csv(base / \"datasets\" / \"ventas_tienda.csv\")\ndf.head()"
+    },
+    {
+      "code": "df.info()"
+    },
+    {
+      "code": "df.groupby(\"categoria\")[\"unidades\"].sum().sort_values(ascending=False)"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "title": "Python básico aplicado a datos",
+  "description": "Variables, listas, funciones y primeros pasos con estructuras simples.",
+  "cells": [
+    {
+      "code": "ventas = [12000, 15000, 9800, 21000]\nprint(\"Total:\", sum(ventas))\nprint(\"Promedio:\", sum(ventas)/len(ventas))"
+    },
+    {
+      "code": "productos = [\"Martillo\", \"Taladro\", \"Pintura\"]\nfor producto in productos:\n    print(producto)"
+    },
+    {
+      "code": "def clasificar_venta(monto):\n    if monto >= 15000:\n        return \"alta\"\n    return \"normal\"\n\nclasificar_venta(21000)"
+    }
+  ]
+}
