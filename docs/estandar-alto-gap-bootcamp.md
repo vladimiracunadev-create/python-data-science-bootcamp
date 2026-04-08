@@ -41,6 +41,15 @@ Antes de esta pasada, las brechas mas claras eran:
 - se reforzo `site/index.html` como portal real del alumno;
 - se agrego `site/product/index.html` como presentacion institucional del producto;
 - se separo con claridad la superficie para alumnos de la superficie para la institucion.
+- se elevo la capa visual con iconografia, arquitectura visible y matriz funcional en la vista institucional.
+
+### Arquitectura documental
+
+- se agrego `docs/INDEX.md` como mapa de lectura por audiencia;
+- se agrego `docs/CATALOGO_PRODUCTO.md` como fuente de verdad del producto;
+- se agrego `docs/ARQUITECTURA_PRODUCTO.md` con diagramas y fronteras del sistema;
+- se agrego `docs/GUIA_EVALUACION.md` como ruta ejecutiva para evaluadores;
+- se rehizo `README.md` con badges, rutas por perfil, arquitectura y mapa documental.
 
 ### Operacion y seguridad
 
@@ -62,25 +71,25 @@ Antes de esta pasada, las brechas mas claras eran:
 | Pilar | Estado actual | Nota |
 |---|---|---|
 | Identidad de producto | mejorado | ya no depende solo del README |
-| Rutas por audiencia | medio/alto | alumno, institucion, operador, entrevistador |
-| Visuales con intencion | mejorado | Pages ahora tiene dos superficies diferenciadas |
+| Rutas por audiencia | alto | indice, guia de evaluacion y README alineados |
+| Visuales con intencion | alto | Pages ahora tiene dos superficies diferenciadas y arquitectura visible |
 | Quickstart reproducible | alto | virtualenv, Docker y compose |
 | Runbook operativo | alto | existe base clara en raiz |
 | Postura de seguridad | alto para demo local | honesta y acotada |
 | Defaults seguros | medio/alto | localhost, headers, health checks |
 | CI visible | alto | tests, lint y build |
 | Security workflow | medio | buena base, aun se puede profundizar |
-| Catalogo/taxonomia | medio | todavia puede unificarse mas |
+| Catalogo/taxonomia | alto | existe fuente de verdad explicita del producto |
 | Evidencia de validacion | medio/alto | tests y endpoints ya visibles |
 | Storytelling comercial | medio/alto | ya existe, pero puede refinarse mas |
 
 ## Lo que todavia falta para rozar Tier A
 
-1. una taxonomia canonica que separe con mas claridad demo, portal alumno, laboratorio y futuro movil;
-2. una politica de releases y versionado mas visible;
-3. mas observabilidad si algun dia el runner se expone fuera del equipo local;
-4. una experiencia PDF y HTML todavia mas integrada entre presentacion, producto y operacion;
-5. una capa de medicion de uso o progreso si el producto evoluciona a cohortes mas grandes.
+1. una politica de releases y versionado mas visible;
+2. mas observabilidad si algun dia el runner se expone fuera del equipo local;
+3. una experiencia PDF y HTML todavia mas integrada entre presentacion, producto y operacion;
+4. una capa de medicion de uso o progreso si el producto evoluciona a cohortes mas grandes;
+5. una family adicional de docs HTML publicas si la capa institucional necesita vivir fuera del repo.
 
 ## Regla de continuidad
 

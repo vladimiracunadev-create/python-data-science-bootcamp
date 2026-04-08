@@ -1,11 +1,11 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="es">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Bootcamp Python para Data Science | Presentacion del Producto</title>
-  <meta name="description" content="Presentacion institucional del bootcamp de Python para Data Science: alcance inicial, valor pedagogico, operacion y crecimiento.">
-  <meta name="theme-color" content="#0b2438">
+  <meta name="description" content="Presentacion institucional del bootcamp de Python para Data Science: superficies, arquitectura, documentacion, operacion y crecimiento.">
+  <meta name="theme-color" content="#10253d">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
@@ -14,12 +14,13 @@
 </head>
 <body>
   <header class="hero">
-    <div class="hero-shell">
+    <div class="shell">
       <nav class="topbar">
         <a class="brand" href="../">Portal del alumno</a>
         <div class="toplinks">
-          <a href="#alcance">Alcance</a>
-          <a href="#valor">Valor</a>
+          <a href="#superficies">Superficies</a>
+          <a href="#arquitectura">Arquitectura</a>
+          <a href="#documentacion">Documentacion</a>
           <a href="#operacion">Operacion</a>
           <a href="#crecimiento">Crecimiento</a>
         </div>
@@ -28,186 +29,345 @@
       <section class="hero-grid">
         <div class="hero-copy">
           <p class="eyebrow">Presentacion institucional</p>
-          <h1>Una base de capacitacion tecnica con criterio pedagogico y crecimiento real</h1>
+          <h1>Una base de capacitacion tecnica tratada como producto, no como carpeta de clases</h1>
           <p class="hero-text">
-            Este producto no es una coleccion de archivos. Es una base reusable para ensenar Python y Data Science
-            en contexto escolar, con progresion de clases, practica guiada, portal del alumno, laboratorio interactivo
-            y una operacion que puede crecer sin rehacerse desde cero.
+            Este bootcamp integra curriculum modular, laboratorio local, portal del alumno, documentacion canonica,
+            operacion reproducible y una ruta de crecimiento clara. La primera version puede partir acotada,
+            pero la base ya esta pensada para escalar sin rehacer todo desde cero.
           </p>
+
           <div class="badge-row">
             <span>12 clases modulares</span>
-            <span>Portal del alumno</span>
-            <span>Laboratorio interactivo</span>
-            <span>Base reusable</span>
+            <span>Laboratorio Flask</span>
+            <span>GitHub Pages</span>
+            <span>CI + Security</span>
           </div>
+
           <div class="hero-actions">
-            <a class="btn btn-primary" href="#alcance">Ver version inicial</a>
+            <a class="btn btn-primary" href="#arquitectura">Ver arquitectura</a>
+            <a class="btn btn-secondary" href="../">Ver portal del alumno</a>
             <a class="btn btn-secondary" href="https://github.com/vladimiracunadev-create/python-data-science-bootcamp" target="_blank" rel="noreferrer">Ver repositorio</a>
           </div>
         </div>
 
         <aside class="hero-panel">
-          <p class="panel-label">Lo que ya existe hoy</p>
-          <ul class="panel-list">
-            <li>curriculum modular con 12 clases;</li>
-            <li>datasets, ejercicios, notebooks y soluciones;</li>
-            <li>entorno Flask para practica y runner local;</li>
-            <li>GitHub Pages para alumnos;</li>
-            <li>health checks, CI y postura de seguridad visible.</li>
-          </ul>
-          <p class="panel-note">
-            La primera version escolar no necesita usar todo. El valor esta en poder empezar acotado y crecer sin perder estructura.
-          </p>
+          <p class="panel-label">Pruebas visibles hoy</p>
+          <div class="proof-list">
+            <article class="proof-card">
+              <strong>Producto navegable</strong>
+              <span>Portal alumno + vista institucional + laboratorio local</span>
+            </article>
+            <article class="proof-card">
+              <strong>Operacion seria</strong>
+              <span>Health checks, runbook, compose local y perfil endurecido</span>
+            </article>
+            <article class="proof-card">
+              <strong>Documentacion por audiencia</strong>
+              <span>Indice, catalogo, arquitectura y guia de evaluacion</span>
+            </article>
+            <article class="proof-card">
+              <strong>Escalabilidad honesta</strong>
+              <span>Ruta movil declarada como evolucion, no como promesa actual</span>
+            </article>
+          </div>
         </aside>
       </section>
     </div>
   </header>
 
-  <main>
-    <section id="alcance" class="section">
+  <main class="shell">
+    <section id="superficies" class="section">
       <div class="section-head">
-        <p class="eyebrow">Alcance inicial</p>
-        <h2>La primera implementacion debe ser simple, medible y ejecutable</h2>
+        <p class="eyebrow">Superficies</p>
+        <h2>Cuatro capas visibles y una ruta futura</h2>
+        <p class="section-copy">
+          La propuesta no depende de una sola pantalla. Cada audiencia entra por una superficie distinta, con rol,
+          lenguaje y nivel de detalle propios.
+        </p>
       </div>
 
-      <div class="phase-grid">
-        <article class="phase-card">
-          <span class="phase-number">01</span>
-          <h3>Python esencial</h3>
-          <p>Variables, tipos, estructuras basicas y lectura de datos con ejemplos cercanos al contexto del estudiante.</p>
+      <div class="card-grid card-grid-4">
+        <article class="info-card">
+          <div class="icon-badge" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M4 6h16v12H4z"/><path d="M9 18h6"/><path d="M8 10h8"/><path d="M8 13h5"/></svg>
+          </div>
+          <h3>Laboratorio interactivo</h3>
+          <p>La app local en Flask permite ver clases, cargar notebooks, ejecutar codigo y guardar practica.</p>
+          <code>app/</code>
         </article>
-        <article class="phase-card">
-          <span class="phase-number">02</span>
-          <h3>Pandas desde CSV</h3>
-          <p>Carga, limpieza inicial, filtros y tablas resumen para pasar rapido de sintaxis a analisis.</p>
+        <article class="info-card">
+          <div class="icon-badge" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M4 5h16v14H4z"/><path d="M8 9h8"/><path d="M8 12h8"/><path d="M8 15h5"/></svg>
+          </div>
+          <h3>Portal del alumno</h3>
+          <p>Es el enlace oficial para estudiantes: ruta, recursos, reglas de trabajo y crecimiento a movil.</p>
+          <code>site/</code>
         </article>
-        <article class="phase-card">
-          <span class="phase-number">03</span>
-          <h3>Visualizacion basica</h3>
-          <p>Graficos simples que permitan explicar lo que los datos muestran y no solo generarlos.</p>
+        <article class="info-card">
+          <div class="icon-badge" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M4 7h16v10H4z"/><path d="M8 11h8"/><path d="M8 14h4"/><circle cx="17" cy="14" r="1.5"/></svg>
+          </div>
+          <h3>Vista institucional</h3>
+          <p>Presenta el producto como sistema: alcance, arquitectura, documentacion, operacion y crecimiento.</p>
+          <code>site/product/</code>
         </article>
-        <article class="phase-card">
-          <span class="phase-number">04</span>
-          <h3>Mini proyecto guiado</h3>
-          <p>Un cierre corto donde cada estudiante conecte codigo, datos y una conclusion con sentido.</p>
+        <article class="info-card">
+          <div class="icon-badge" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M6 4h9l3 3v13H6z"/><path d="M15 4v4h4"/><path d="M9 12h6"/><path d="M9 15h6"/></svg>
+          </div>
+          <h3>Curriculum y docs</h3>
+          <p>Las clases y la documentacion no son anexos sueltos: son parte estructural del producto.</p>
+          <code>classes/ + docs/</code>
+        </article>
+      </div>
+    </section>
+
+    <section id="arquitectura" class="section section-alt">
+      <div class="section-head">
+        <p class="eyebrow">Arquitectura</p>
+        <h2>El producto ya tiene un mapa claro de capas y flujos</h2>
+        <p class="section-copy">
+          La arquitectura separa la audiencia publica del runner local y del contenido reusable. Eso evita mezclar demo, operacion y presentacion.
+        </p>
+      </div>
+
+      <div class="diagram-card">
+        <svg class="architecture-diagram" viewBox="0 0 960 430" role="img" aria-label="Diagrama de arquitectura del bootcamp">
+          <defs>
+            <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+              <path d="M0 0 L10 5 L0 10 Z" fill="#3dd4c4"></path>
+            </marker>
+          </defs>
+
+          <rect class="diag-box diag-a" x="40" y="60" width="180" height="80" rx="20"></rect>
+          <text class="diag-title" x="130" y="95">Institucion</text>
+          <text class="diag-copy" x="130" y="120">entrevista y evaluacion</text>
+
+          <rect class="diag-box diag-a" x="40" y="175" width="180" height="80" rx="20"></rect>
+          <text class="diag-title" x="130" y="210">Docente</text>
+          <text class="diag-copy" x="130" y="235">clase y seguimiento</text>
+
+          <rect class="diag-box diag-a" x="40" y="290" width="180" height="80" rx="20"></rect>
+          <text class="diag-title" x="130" y="325">Alumno</text>
+          <text class="diag-copy" x="130" y="350">ruta y recursos</text>
+
+          <rect class="diag-box diag-b" x="380" y="40" width="220" height="80" rx="20"></rect>
+          <text class="diag-title" x="490" y="75">Vista institucional</text>
+          <text class="diag-copy" x="490" y="100">site/product/</text>
+
+          <rect class="diag-box diag-b" x="380" y="155" width="220" height="80" rx="20"></rect>
+          <text class="diag-title" x="490" y="190">Laboratorio Flask</text>
+          <text class="diag-copy" x="490" y="215">app/</text>
+
+          <rect class="diag-box diag-b" x="380" y="270" width="220" height="80" rx="20"></rect>
+          <text class="diag-title" x="490" y="305">Portal del alumno</text>
+          <text class="diag-copy" x="490" y="330">site/</text>
+
+          <rect class="diag-box diag-c" x="720" y="40" width="190" height="70" rx="20"></rect>
+          <text class="diag-title" x="815" y="75">docs/</text>
+          <text class="diag-copy" x="815" y="97">catalogo y guias</text>
+
+          <rect class="diag-box diag-c" x="720" y="135" width="190" height="70" rx="20"></rect>
+          <text class="diag-title" x="815" y="170">classes/</text>
+          <text class="diag-copy" x="815" y="192">curriculum base</text>
+
+          <rect class="diag-box diag-c" x="720" y="230" width="190" height="70" rx="20"></rect>
+          <text class="diag-title" x="815" y="265">datasets/</text>
+          <text class="diag-copy" x="815" y="287">practica guiada</text>
+
+          <rect class="diag-box diag-c" x="720" y="325" width="190" height="70" rx="20"></rect>
+          <text class="diag-title" x="815" y="360">ruta movil</text>
+          <text class="diag-copy" x="815" y="382">evolucion futura</text>
+
+          <line class="diag-line" x1="220" y1="100" x2="380" y2="80"></line>
+          <line class="diag-line" x1="220" y1="215" x2="380" y2="195"></line>
+          <line class="diag-line" x1="220" y1="330" x2="380" y2="310"></line>
+
+          <line class="diag-line" x1="600" y1="80" x2="720" y2="75"></line>
+          <line class="diag-line" x1="600" y1="195" x2="720" y2="170"></line>
+          <line class="diag-line" x1="600" y1="205" x2="720" y2="265"></line>
+          <line class="diag-line" x1="600" y1="310" x2="720" y2="360"></line>
+          <line class="diag-line diag-line-soft" x1="600" y1="300" x2="720" y2="75"></line>
+        </svg>
+      </div>
+    </section>
+
+    <section id="documentacion" class="section">
+      <div class="section-head">
+        <p class="eyebrow">Documentacion</p>
+        <h2>La capa documental ya tiene piezas canonicas y no solo anexos</h2>
+        <p class="section-copy">
+          El estandar alto no es sumar archivos: es separar audiencias, fijar fuentes de verdad y conectar producto, operacion y presentacion.
+        </p>
+      </div>
+
+      <div class="card-grid card-grid-3">
+        <article class="doc-card">
+          <div class="icon-badge" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M6 4h12v16H6z"/><path d="M9 9h6"/><path d="M9 12h6"/><path d="M9 15h4"/></svg>
+          </div>
+          <h3>Indice documental</h3>
+          <p>Ordena la lectura por audiencia, resuelve por donde empezar y evita una nube de archivos sueltos.</p>
+          <code>docs/INDEX.md</code>
+        </article>
+        <article class="doc-card">
+          <div class="icon-badge" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M4 7h16v10H4z"/><path d="M8 10h8"/><path d="M8 13h8"/></svg>
+          </div>
+          <h3>Catalogo de producto</h3>
+          <p>Distingue superficies, artefactos, reglas de comunicacion y fronteras entre lo actual y lo futuro.</p>
+          <code>docs/CATALOGO_PRODUCTO.md</code>
+        </article>
+        <article class="doc-card">
+          <div class="icon-badge" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M5 5h5v5H5z"/><path d="M14 5h5v5h-5z"/><path d="M5 14h5v5H5z"/><path d="M10 7h4"/><path d="M16 10v4"/><path d="M10 16h4"/></svg>
+          </div>
+          <h3>Arquitectura del producto</h3>
+          <p>Explica capas, flujos, limites y camino de evolucion con diagramas pensados para lectura rapida.</p>
+          <code>docs/ARQUITECTURA_PRODUCTO.md</code>
+        </article>
+        <article class="doc-card">
+          <div class="icon-badge" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M4 6h16v12H4z"/><path d="M8 10h8"/><path d="M8 13h8"/><path d="M8 16h4"/></svg>
+          </div>
+          <h3>Guia de evaluacion</h3>
+          <p>Condensa la evidencia del repo para entrevista, revision ejecutiva o evaluacion de portafolio.</p>
+          <code>docs/GUIA_EVALUACION.md</code>
+        </article>
+        <article class="doc-card">
+          <div class="icon-badge" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M12 4l7 3v5c0 4.2-2.7 7.8-7 8-4.3-.2-7-3.8-7-8V7z"/><path d="M9.5 12.5l1.7 1.7 3.5-3.5"/></svg>
+          </div>
+          <h3>Seguridad y operacion</h3>
+          <p>La documentacion deja claros los riesgos aceptados, el uso local-first y el hardening recomendado.</p>
+          <code>SECURITY.md + RUNBOOK.md</code>
+        </article>
+        <article class="doc-card">
+          <div class="icon-badge" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M5 18h14"/><path d="M7 18V9"/><path d="M12 18V6"/><path d="M17 18v-4"/></svg>
+          </div>
+          <h3>Estandar alto</h3>
+          <p>El repo ya cruza su brecha contra el mejor patron documental del resto del portafolio.</p>
+          <code>docs/portfolio-high-standard.md</code>
         </article>
       </div>
     </section>
 
     <section class="section section-alt">
       <div class="section-head">
-        <p class="eyebrow">Superficies</p>
-        <h2>El producto vive en dos capas complementarias</h2>
+        <p class="eyebrow">Funcionalidad actual</p>
+        <h2>Lo que ya esta operativo, lo que apoya la venta y lo que es evolucion</h2>
       </div>
 
-      <div class="surface-grid">
-        <article class="surface-card">
-          <h3>Portal del alumno</h3>
-          <p>Canal oficial en GitHub Pages para ruta, recursos, reglas de uso tecnologico y acceso rapido.</p>
-          <a href="../">Abrir portal</a>
-        </article>
-        <article class="surface-card">
-          <h3>Laboratorio interactivo</h3>
-          <p>Aplicacion Flask para ver clases, cargar notebooks, ejecutar codigo y guardar evidencia de practica.</p>
-        </article>
-        <article class="surface-card">
-          <h3>Crecimiento a movil</h3>
-          <p>La capa publica ya deja separadas las piezas que pueden escalar luego a una app para seguimiento del alumno.</p>
-        </article>
+      <div class="table-wrap">
+        <table class="status-table">
+          <thead>
+            <tr>
+              <th>Elemento</th>
+              <th>Tipo</th>
+              <th>Estado</th>
+              <th>Que entrega hoy</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Laboratorio Flask</td>
+              <td>Nucleo operativo</td>
+              <td><span class="status status-live">Operativo</span></td>
+              <td>Clases, notebooks, ejecucion y guardado local</td>
+            </tr>
+            <tr>
+              <td>Portal del alumno</td>
+              <td>Superficie publica</td>
+              <td><span class="status status-live">Operativo</span></td>
+              <td>Ruta, recursos, reglas y enlace oficial</td>
+            </tr>
+            <tr>
+              <td>Vista institucional</td>
+              <td>Superficie publica</td>
+              <td><span class="status status-live">Operativo</span></td>
+              <td>Producto, arquitectura, documentacion y growth path</td>
+            </tr>
+            <tr>
+              <td>PDFs y piezas de entrevista</td>
+              <td>Artefacto de apoyo</td>
+              <td><span class="status status-docs">Vigente</span></td>
+              <td>Presentacion, muestra imprimible y preparacion personal</td>
+            </tr>
+            <tr>
+              <td>Ruta movil</td>
+              <td>Evolucion</td>
+              <td><span class="status status-future">Planificada</span></td>
+              <td>Seguimiento, avisos y progreso individual</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </section>
 
-    <section id="valor" class="section">
+    <section id="operacion" class="section">
       <div class="section-head">
-        <p class="eyebrow">Valor</p>
-        <h2>La propuesta no compite con una tecnologia puntual</h2>
+        <p class="eyebrow">Operacion</p>
+        <h2>La base local ya muestra criterio tecnico y no solo contenido</h2>
       </div>
 
-      <div class="value-grid">
-        <article class="value-card">
-          <h3>Secuencia pedagogica</h3>
-          <p>Transforma herramientas en aprendizaje progresivo, con dificultad dosificada y objetivos claros por bloque.</p>
-        </article>
-        <article class="value-card">
-          <h3>Lectura del grupo</h3>
-          <p>El docente no solo transmite contenido: ajusta ritmo, detecta errores y convierte confusion en avance.</p>
-        </article>
-        <article class="value-card">
-          <h3>Aprendizaje verificable</h3>
-          <p>Se pide explicar, interpretar y justificar, no solo copiar codigo que aparentemente funciona.</p>
-        </article>
-        <article class="value-card">
-          <h3>Base que permanece</h3>
-          <p>Lo que se construye para una primera cohort puede reutilizarse, medirse y crecer con menos friccion.</p>
-        </article>
-      </div>
-    </section>
-
-    <section id="operacion" class="section section-dark">
-      <div class="section-head">
-        <p class="eyebrow">Operacion y seguridad</p>
-        <h2>El demo ya muestra una forma responsable de construir</h2>
-      </div>
-
-      <div class="ops-grid">
+      <div class="card-grid card-grid-3">
         <article class="ops-card">
           <h3>Seguridad visible</h3>
           <ul>
-            <li>headers HTTP de seguridad en la app;</li>
+            <li>headers HTTP de seguridad;</li>
             <li>validacion de entradas y limites de payload;</li>
-            <li>timeout por ejecucion y reinicio de sesiones;</li>
-            <li>documentacion `SECURITY.md` y `RUNBOOK.md`.</li>
+            <li>timeout y reinicio de sesiones;</li>
+            <li>runner local-first documentado con honestidad.</li>
           </ul>
         </article>
         <article class="ops-card">
           <h3>Operacion reproducible</h3>
           <ul>
-            <li>health endpoint y readiness endpoint;</li>
-            <li>arranque local por entorno virtual o Docker;</li>
-            <li>`docker compose` local y perfil endurecido;</li>
-            <li>portal del alumno publicado con GitHub Pages.</li>
+            <li>health y readiness;</li>
+            <li>runbook operativo;</li>
+            <li>Docker local y compose de perfil mas serio;</li>
+            <li>Pages para la capa publica.</li>
           </ul>
         </article>
         <article class="ops-card">
           <h3>Validacion continua</h3>
           <ul>
-            <li>workflow de CI para lint, tests y build de contenedor;</li>
-            <li>workflow de seguridad para `pip-audit` y `bandit`;</li>
-            <li>suite automatizada para endpoints y motor base.</li>
+            <li>CI con lint, tests y build de contenedor;</li>
+            <li>security workflow con auditoria basica;</li>
+            <li>suite automatizada sobre endpoints y motor base.</li>
           </ul>
         </article>
       </div>
     </section>
 
-    <section id="crecimiento" class="section">
+    <section id="crecimiento" class="section section-alt">
       <div class="section-head">
         <p class="eyebrow">Crecimiento</p>
-        <h2>Como puede evolucionar sin rehacer el trabajo inicial</h2>
+        <h2>Como se proyecta sin inflar la madurez actual</h2>
       </div>
 
-      <div class="growth-grid">
+      <div class="card-grid card-grid-3">
         <article class="growth-card">
-          <h3>Mas profundidad tecnica</h3>
-          <p>Estadistica, machine learning introductorio, proyectos mas largos y nuevas rutas por nivel.</p>
+          <h3>Profundidad tecnica</h3>
+          <p>Mas estadistica, machine learning introductorio, proyectos mas largos y rutas por nivel.</p>
         </article>
         <article class="growth-card">
           <h3>Adaptacion por institucion</h3>
-          <p>Casos, datasets, ritmos de clase y rubricas ajustadas al contexto de cada colegio o programa.</p>
+          <p>Datasets, ritmos, rubricas y casos ajustados al contexto del grupo o del colegio.</p>
         </article>
         <article class="growth-card">
           <h3>Experiencia movil</h3>
-          <p>Seguimiento de progreso, avisos, checklists y acceso simple a materiales desde una app para estudiantes.</p>
+          <p>Seguimiento de progreso, avisos, checklists y consumo rapido de recursos desde una app para alumnos.</p>
         </article>
       </div>
     </section>
   </main>
 
-  <footer class="footer">
+  <footer class="footer shell">
     <p>Bootcamp Python para Data Science</p>
-    <p>Una base para ensenar, operar y crecer con criterio.</p>
+    <p>Producto educativo con curriculum, laboratorio, capa publica y operacion documentada.</p>
     <p><a href="../">Volver al portal del alumno</a></p>
   </footer>
 </body>
 </html>
-
-

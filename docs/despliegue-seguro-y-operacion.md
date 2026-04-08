@@ -1,21 +1,66 @@
 # Despliegue seguro y operacion del bootcamp
 
-## Postura actual del repositorio
+Documento de postura tecnica para explicar como se opera este repositorio hoy, que controles existen, que CI/CD ya esta disponible y que cambios harian falta para escenarios mas expuestos.
 
-Este proyecto esta pensado para uso local, docente y de laboratorio. No debe presentarse como aplicacion lista para exponerse directamente a internet.
+## 1. Postura actual
 
-## Controles actuales
+Este proyecto esta preparado para:
+
+- laboratorio local;
+- demostracion docente;
+- revision institucional;
+- despliegue de la capa publica estatica por GitHub Pages.
+
+Este proyecto no debe venderse hoy como plataforma multiusuario expuesta a internet abierta. El runner de codigo sigue siendo una superficie local y controlada.
+
+## 2. Modelos de despliegue
+
+| Perfil | Superficie | Estado actual | Riesgo |
+|---|---|---|---|
+| local de aula | `app/` + `classes/` | recomendado | bajo si se usa en red controlada |
+| publico estatico | `site/` | operativo por Pages | bajo |
+| demo compartida endurecida | contenedor + proxy + auth | posible, no integrada aun | medio |
+| internet abierta con runner | no recomendado hoy | fuera de alcance | alto |
+
+## 3. Arquitectura operativa
+
+```mermaid
+flowchart LR
+    A["GitHub Actions"] --> B["Deploy Pages"]
+    A --> C["CI"]
+    A --> D["Security"]
+    E["Docente / operador"] --> F["Docker o Python local"]
+    F --> G["Flask app"]
+    G --> H["Classes + datasets + notebooks"]
+```
+
+## 4. Controles actuales
+
+### Aplicacion
 
 - validacion de slugs e identificadores;
-- proteccion contra path traversal en carga y guardado;
+- proteccion contra path traversal;
 - limite de tamano de payload;
-- limite de longitud de codigo ejecutable;
-- timeout y control de sesiones en el motor de ejecucion;
-- headers de seguridad basicos en respuestas HTTP;
-- host y puerto configurables por entorno;
-- `docker-compose.yml` enlazado a `127.0.0.1` para uso local.
+- limite de longitud de codigo;
+- timeout de ejecucion;
+- control y rotacion de sesiones;
+- headers HTTP de seguridad;
+- endpoints `GET /health` y `GET /ready`.
 
-## Quickstart local recomendado
+### Operacion local
+
+- host y puerto configurables por entorno;
+- `docker-compose.yml` enlazado a `127.0.0.1`;
+- `docker-compose.prod.yml` con healthcheck y reinicio;
+- volumen separado para notebooks guardados.
+
+### Pipeline
+
+- `ci.yml`: lint, tests y build de imagen;
+- `security.yml`: `pip-audit` y `bandit`;
+- `deploy-pages.yml`: publicacion del portal del alumno.
+
+## 5. Quickstart operativo recomendado
 
 ### Python nativo
 
@@ -31,51 +76,82 @@ python run_bootcamp.py
 docker compose up --build
 ```
 
-La app quedara disponible en `http://127.0.0.1:8000`.
+### Perfil mas serio con healthcheck
 
-## Si algun dia hubiera que exponerlo fuera de localhost
+```powershell
+docker compose -f docker-compose.prod.yml up -d --build
+```
 
-No hacerlo directamente. Antes, agregar al menos:
+La aplicacion queda disponible en `http://127.0.0.1:8000`.
 
-1. reverse proxy con TLS;
-2. autenticacion adicional;
-3. rate limiting;
-4. logging y monitoreo;
-5. politica clara de sesiones;
-6. separacion entre entorno demo y entorno expuesto;
-7. gestion de secretos por variables de entorno o secret manager.
+## 6. Checklist de preapertura
 
-## Patrones heredados de otros repos tuyos
+Antes de mostrar el producto o correr una clase:
 
-De `langgraph-realworld`:
+1. verificar `pytest`;
+2. verificar `ruff check .`;
+3. abrir `GET /health`;
+4. revisar que carguen una clase y un notebook;
+5. comprobar que Pages o la vista estatica sigan publicando bien.
 
-- puertos locales por defecto;
-- seguridad por capas;
-- secretos fuera del repo;
-- postura explicita entre demo y exposicion externa.
+## 7. CI/CD ya disponible
 
-De `gabysql`:
+Esto ya existe en el repo y no es teorico:
 
-- `SECURITY.md` y `RUNBOOK.md` separados;
-- recomendaciones honestas de hardening;
-- no vender una demo como plataforma enterprise.
+- pruebas automaticas en `push` y `pull_request`;
+- lint con Ruff;
+- build de imagen Docker en CI;
+- escaneo de seguridad recurrente;
+- despliegue de la landing del alumno por GitHub Pages.
 
-De `ferremarket`:
+Eso no equivale a una plataforma enterprise. Pero si demuestra disciplina de entrega y criterio de operacion.
 
-- separar local y produccion;
-- pensar proxy, cookies seguras, observabilidad y salud operacional;
-- documentar servicios, puertos y dependencias.
+## 8. Gaps conscientes hacia una exposicion mayor
 
-## Siguiente capa de hardening si este proyecto creciera
+| Necesidad | Estado |
+|---|---|
+| TLS terminado en proxy | pendiente |
+| autenticacion de usuarios | pendiente |
+| rate limiting | pendiente |
+| observabilidad centralizada | pendiente |
+| manejo formal de secretos | parcial por entorno, no completo |
+| aislamiento fuerte del runner | pendiente |
 
-- imagen Docker non-root;
-- versionado y auditoria de dependencias mas estricta;
-- healthcheck de contenedor;
-- autenticacion simple para demos compartidas;
-- `docker-compose.prod.yml` o overlay de produccion;
-- CSP afinada si la interfaz se estabiliza;
-- CI de seguridad y escaneo de secretos.
+## 9. Postura heredada del resto del portafolio
 
-## Frase util para entrevista o desafio
+El patron consistente en tus repos fuertes se mantiene aqui:
 
-"Hoy esta preparado para laboratorio local y demostracion docente. Si el contexto exigiera exposicion mayor, yo no abriria el runner directamente: pondria proxy, TLS, auth, limites de trafico y una politica de operacion acorde."
+- separar demo de operacion real;
+- defaults locales por seguridad;
+- dejar explicitos los limites actuales;
+- documentar hardening en vez de vender humo;
+- usar CI/CD como evidencia de criterio y no como adorno.
+
+## 10. Si hubiera que exponerlo fuera de localhost
+
+No hacerlo en directo. La secuencia responsable seria:
+
+1. poner reverse proxy con TLS;
+2. aislar el runner o deshabilitarlo segun escenario;
+3. agregar autenticacion;
+4. aplicar rate limit;
+5. definir logs, monitoreo y retencion;
+6. separar entorno demo de entorno de uso real.
+
+## 11. Preguntas de seguridad que debes poder responder
+
+- por que el runner no debe exponerse a internet abierta;
+- que controles existen hoy y cuales no;
+- que diferencia hay entre portal publico y backend local;
+- por que GitHub Pages si puede ser publico mientras el runner no.
+
+## 12. Regla final
+
+La madurez tecnica de este repo no se demuestra fingiendo que todo esta listo para produccion. Se demuestra mostrando una base operativa, un pipeline visible y una frontera de seguridad bien comunicada.
+
+## 13. Relacion con otros documentos
+
+- [../SECURITY.md](../SECURITY.md)
+- [../RUNBOOK.md](../RUNBOOK.md)
+- [ARQUITECTURA_PRODUCTO.md](ARQUITECTURA_PRODUCTO.md)
+- [portal-estudiante-y-app-movil.md](portal-estudiante-y-app-movil.md)

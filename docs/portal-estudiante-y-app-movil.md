@@ -1,68 +1,121 @@
 # Portal del alumno y ruta hacia app movil
 
-## Objetivo
+Documento de producto para explicar por que existe una superficie publica separada del laboratorio local, cual es el enlace oficial para estudiantes y como evoluciona esta base hacia una experiencia movil sin sobredimensionar la madurez actual.
 
-Agregar una superficie publica, clara y reutilizable para estudiantes, separada del portal Flask de laboratorio.
+## 1. Objetivo
 
-## Enlace oficial del alumno
+Separar claramente tres cosas:
 
-Si este repositorio se publica desde `vladimiracunadev-create/python-data-science-bootcamp`, el enlace esperado de GitHub Pages es:
+- la experiencia publica del estudiante;
+- la experiencia operativa del docente;
+- la evolucion futura hacia movilidad y seguimiento.
+
+Eso evita mezclar presentacion, aprendizaje y ejecucion de codigo en una sola capa.
+
+## 2. Enlace oficial para estudiantes
+
+Si este repositorio se publica desde `vladimiracunadev-create/python-data-science-bootcamp`, la URL esperada para alumnos es:
 
 `https://vladimiracunadev-create.github.io/python-data-science-bootcamp/`
 
-Ese debe ser el enlace canonicamente compartido con estudiantes.
+Ese es el enlace que conviene compartir por correo, QR, sala virtual o material impreso.
 
-## Que resuelve GitHub Pages en este proyecto
+## 3. Que problema resuelve el portal del alumno
 
-- un punto de entrada estable y publico;
-- una landing clara para alumnos;
-- una URL facil de guardar y compartir;
-- una capa informativa que no depende del backend Flask;
-- una base visual que despues puede crecer a experiencia movil.
+| Necesidad | Respuesta del portal |
+|---|---|
+| tener un punto de entrada simple | landing publica con informacion base |
+| no depender del laboratorio local para todo | contenido estatico accesible por Pages |
+| revisar desde celular | interfaz ligera y sin backend obligatorio |
+| ordenar recursos y expectativas | ruta, normas y materiales visibles |
 
-## Que queda en GitHub Pages
+## 4. Arquitectura de superficies
 
-- presentacion del bootcamp;
+```mermaid
+flowchart LR
+    A["Alumno"] --> B["GitHub Pages / site/"]
+    C["Docente"] --> D["Laboratorio local / app/"]
+    B --> E["Ruta, recursos, normas"]
+    D --> F["Clases, notebooks, runner"]
+    B -. futura integracion .-> G["Experiencia movil"]
+```
+
+## 5. Que queda en GitHub Pages
+
+- presentacion del programa;
 - ruta de aprendizaje;
 - recursos publicos;
-- normas de trabajo y uso de tecnologia;
+- reglas de trabajo;
 - enlace oficial del curso;
-- explicacion de como se usa el programa desde celular.
+- base de lectura en celular.
 
-## Que sigue viviendo en la app Flask
+## 6. Que sigue viviendo en la app Flask
 
-- catalogo dinamico de clases desde archivos locales;
+- catalogo dinamico de clases;
 - notebooks interactivos;
 - guardado de notebooks;
-- runner de codigo;
-- ejecucion controlada del backend.
+- ejecucion de codigo;
+- sesiones y salidas generadas.
 
-## Lo portable a una app movil
+## 7. Regla de comunicacion importante
 
-Lo que puede moverse casi directo:
+El portal del alumno no es toda la aplicacion. Es la puerta de entrada oficial para estudiantes. El laboratorio Flask sigue siendo el nucleo local de practica y demostracion.
+
+## 8. Ruta movil realista
+
+### Lo portable con poca friccion
 
 - listado de clases;
 - detalle de clase;
-- avisos y recordatorios;
-- datasets y recursos;
-- tareas y checklist.
+- recordatorios;
+- checklist de avances;
+- recursos publicos y avisos.
 
-Lo que requiere mantener backend:
+### Lo que requiere backend y mayor control
 
-- ejecutar codigo;
-- guardar notebooks;
-- mantener sesiones;
-- capturar salida y graficos;
-- seguimiento individual por estudiante.
+- ejecucion de codigo;
+- guardado persistente por estudiante;
+- progreso individual;
+- sesiones autenticadas;
+- seguimiento docente por alumno.
 
-## Ruta recomendada de evolucion
+## 9. Roadmap de evolucion
 
-1. GitHub Pages como portal publico del alumno.
-2. App web movil para lectura y seguimiento.
-3. App movil con backend del bootcamp para funciones interactivas.
-4. Autenticacion y progreso individual si el programa lo necesita.
+| Fase | Entregable | Madurez esperada |
+|---|---|---|
+| fase 1 | GitHub Pages para estudiantes | operativa hoy |
+| fase 2 | experiencia web movil con mas contenido y seguimiento | factible sobre la misma base |
+| fase 3 | integracion con backend para funciones interactivas | requiere decisiones de auth y seguridad |
+| fase 4 | app movil dedicada | solo si el programa lo justifica |
 
-## Implementacion agregada en este repo
+## 10. CI/CD de la superficie publica
+
+La capa del portal ya tiene despliegue automatico por GitHub Actions:
+
+- workflow: `.github/workflows/deploy-pages.yml`;
+- build por push a `master` o `main`;
+- deploy de la carpeta `site/` a GitHub Pages.
+
+Antes de que ese deploy funcione, el repositorio debe tener GitHub Pages habilitado con `Source: GitHub Actions`.
+
+## 11. Que deben usar los alumnos
+
+El mensaje recomendado para estudiantes es simple:
+
+1. entrar al portal oficial;
+2. revisar la ruta de la clase;
+3. seguir indicaciones del docente;
+4. usar el laboratorio local o notebook cuando se indique;
+5. volver al portal para recursos y continuidad.
+
+## 12. Porque esta separacion agrega valor
+
+- mejora la claridad para el estudiante;
+- evita exponer el runner como si fuera un portal publico mas;
+- permite crecer a movil sin rehacer la experiencia base;
+- demuestra criterio de producto y no solo acumulacion de pantallas.
+
+## 13. Archivos involucrados
 
 - `site/index.html`
 - `site/styles.css`
@@ -70,6 +123,8 @@ Lo que requiere mantener backend:
 - `site/assets/icon.svg`
 - `.github/workflows/deploy-pages.yml`
 
-## Mensaje claro para reunion
+## 14. Relacion con otros documentos
 
-"El proyecto ya no depende de un solo portal. Ahora tiene una cara publica para estudiantes en GitHub Pages y una ruta clara para evolucionar a movil, mientras la parte interactiva de laboratorio sigue aislada y controlada en la app Flask."
+- [CATALOGO_PRODUCTO.md](CATALOGO_PRODUCTO.md)
+- [ARQUITECTURA_PRODUCTO.md](ARQUITECTURA_PRODUCTO.md)
+- [despliegue-seguro-y-operacion.md](despliegue-seguro-y-operacion.md)

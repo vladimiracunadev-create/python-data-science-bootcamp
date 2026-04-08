@@ -1,208 +1,191 @@
 # Preparacion para desafio tecnico
 
-## Objetivo de este documento
+Guia integral para preparar el desafio tecnico sin caer en la trampa de querer demostrar complejidad por encima de criterio. Este documento cruza contenido tecnico, explicacion, despliegue, seguridad y transferencia pedagogica.
 
-Tener una guia general de todo lo que deberias manejar si el desafio tecnico evalua no solo codigo, sino tambien criterio docente, estructura de solucion, despliegue local y seguridad basica.
+## 1. Regla principal
 
-## Regla principal
-
-No intentes impresionar por complejidad. En un desafio tecnico de este perfil vale mas:
+En este tipo de desafio vale mas:
 
 - claridad;
-- criterio;
-- capacidad de explicacion;
-- una solucion correcta y verificable;
-- buenas decisiones de alcance.
+- buen alcance;
+- validacion;
+- explicacion;
+- decisiones defendibles.
 
-## 1. Contenido tecnico general que debes manejar
+Vale menos:
 
-## Python base
+- complejidad innecesaria;
+- sobreingenieria;
+- mostrar demasiadas herramientas a la vez;
+- una solucion brillante pero dificil de sostener.
 
-- variables, tipos, listas, diccionarios y tuplas;
+## 2. Mapa de dominios que debes manejar
+
+```mermaid
+flowchart TD
+    A["Python"] --> B["Datos"]
+    B --> C["Visualizacion"]
+    C --> D["App y API"]
+    D --> E["Calidad"]
+    E --> F["Seguridad y despliegue"]
+    F --> G["Traduccion pedagogica"]
+```
+
+## 3. Contenido tecnico base
+
+### Python
+
+- tipos, listas, diccionarios y tuplas;
 - condicionales, bucles y funciones;
 - comprensiones;
-- manejo de errores con `try/except`;
-- modulos e imports;
-- lectura y escritura basica de archivos;
-- legibilidad, nombres y descomposicion en funciones simples.
+- manejo de errores;
+- imports y modulos;
+- legibilidad, nombres y descomposicion.
 
-## Analisis de datos
+### Analisis de datos
 
 - `pandas.read_csv`;
 - `head`, `info`, `describe`;
-- seleccion de columnas;
-- filtros booleanos;
+- seleccion y filtro de columnas;
 - nulos y limpieza basica;
 - `groupby`, agregaciones y ordenamiento;
-- creacion de columnas derivadas;
+- columnas derivadas;
 - interpretacion de resultados.
 
-## Visualizacion
+### Visualizacion
 
-- graficos de barras, lineas y dispersión;
+- barras, lineas y dispersion;
 - eleccion de grafico segun pregunta;
-- titulos, ejes y legibilidad;
+- legibilidad de ejes y titulos;
 - lectura de patrones;
-- errores comunes de interpretacion.
+- explicacion de hallazgos.
 
-## Estadistica y lectura de resultados
+### Estadistica descriptiva
 
 - media, mediana, conteo, porcentaje;
-- outliers y distribuciones simples;
-- diferencia entre correlacion e interpretacion causal;
-- comunicar un hallazgo en lenguaje simple.
+- distribucion simple;
+- outliers basicos;
+- diferencia entre descripcion y causalidad.
 
-## Machine Learning basico
+### Machine learning introductorio
 
-Aunque la V1 no dependa de esto, conviene manejar:
+Aunque la V1 no dependa de eso, conviene manejar:
 
 - diferencia entre regresion y clasificacion;
 - train/test split;
-- feature vs target;
+- features y target;
 - overfitting basico;
-- metricas simples como accuracy, MAE o RMSE;
-- por que no todo problema necesita ML.
+- metricas simples;
+- cuando no conviene usar ML.
 
-## Desarrollo de aplicaciones y APIs
+## 4. Desarrollo de aplicaciones y APIs
+
+Debes poder explicar:
 
 - estructura minima de una app Flask;
 - rutas GET y POST;
-- `request`, `jsonify`, validaciones basicas;
-- carga de contenido desde archivos;
+- `request`, `jsonify` y validaciones;
+- separacion entre contenido, logica y ejecucion;
 - manejo de errores y codigos HTTP;
-- separar logica de interfaz, contenido y ejecucion.
+- por que `health` y `ready` ayudan a operar.
 
-## Calidad y validacion
+## 5. Calidad, pruebas y disciplina de entrega
 
-- probar rapido desde `pytest`;
-- revisar edge cases;
-- confirmar que una ruta responde;
-- validar inputs;
-- explicar que se verifico y que no.
+En este repo ya existe una base visible. Debes poder hablar de:
 
-## Seguridad y despliegue
+- `pytest` como validacion funcional;
+- `ruff` para consistencia y calidad;
+- GitHub Actions para CI;
+- Docker build como verificacion de empaque.
+
+Si te piden un cambio, la respuesta fuerte no es solo escribir codigo. Es mostrar como verificaste que no rompiste lo existente.
+
+## 6. Seguridad y despliegue
+
+### Lo minimo que debes manejar
 
 - no exponer la app a internet por defecto;
-- bind local a `127.0.0.1` cuando corresponde;
-- usar variables de entorno para host y puerto;
-- limitar payloads y longitud de entradas;
-- bloquear path traversal y nombres invalidos;
-- usar timeouts en ejecucion de codigo;
-- agregar headers de seguridad basicos;
-- si se expone, poner proxy con TLS y autenticacion adicional;
-- no commitear secretos.
+- usar `127.0.0.1` como postura segura para local;
+- validar payloads y entradas;
+- bloquear path traversal;
+- limitar longitud de codigo;
+- usar timeouts en ejecucion;
+- mantener secretos fuera del repo;
+- distinguir Pages publico de runner local.
 
-## 2. Lo que podrian pedirte en el desafio
+### Pregunta que puede aparecer
 
-## Caso A: corregir o mejorar codigo
+"Si esto creciera, que haria falta?"
 
-Podrian pedir:
+Respuesta esperable:
 
-- arreglar un bug;
-- simplificar una funcion;
-- mejorar validaciones;
-- agregar una ruta o una clase;
-- mejorar legibilidad.
+- reverse proxy con TLS;
+- autenticacion;
+- rate limit;
+- observabilidad;
+- mejor aislamiento del runner;
+- politicas de despliegue mas estrictas.
 
-Lo importante:
+## 7. Casos que podrian pedirte
 
-- aislar el cambio;
-- explicar el problema;
-- validar con una prueba o reproduccion minima.
+| Tipo de desafio | Que podria incluir | Que debes mostrar |
+|---|---|---|
+| bugfix | corregir una funcion o ruta | reproduccion, fix y verificacion |
+| ejercicio de datos | cargar CSV, limpiar y responder preguntas | orden de pasos e interpretacion |
+| mejora de backend | agregar validacion, endpoint o capa | alcance acotado y criterio de riesgo |
+| revision de despliegue | Docker, CI o seguridad | diferencia entre local, demo y produccion |
+| aterrizaje pedagogico | convertir solucion en actividad | objetivo, secuencia y apoyo al estudiante |
 
-## Caso B: resolver un ejercicio de datos
+## 8. Preguntas marco que debes poder contestar
 
-Podrian pedir:
+### "Por que elegiste esta solucion?"
 
-- cargar un CSV;
-- limpiar datos;
-- responder preguntas de negocio;
-- graficar resultados;
-- escribir conclusiones.
+"Porque resuelve bien el problema real con una base clara, verificable y mantenible. Si el contexto despues pide mas complejidad, la escalo sobre una solucion sana."
 
-Lo importante:
+### "Por que no usaste algo mas avanzado?"
 
-- explicar la pregunta antes del codigo;
-- mostrar pasos intermedios;
-- evitar saltar directo a una respuesta final.
+"Porque primero quise asegurar una solucion correcta y entendible. La complejidad adicional solo vale si agrega valor real."
 
-## Caso C: adaptar algo a contexto educativo
+### "Como lo ensenarias?"
 
-Podrian pedir:
+"Lo dividiria en objetivo visible, ejemplo guiado, practica corta y cierre con interpretacion."
 
-- convertir una solucion tecnica en una actividad de clase;
-- proponer una clase de prueba;
-- explicar como ensenarlo a principiantes;
-- anticipar errores del grupo.
+### "Que riesgo ves aqui?"
 
-Lo importante:
+"El principal riesgo es confundir una demo local con una aplicacion lista para internet abierta. Si esto se expusiera mas, pisaria primero proxy, TLS, auth y limites."
 
-- traducir, no simplificar en exceso;
-- mantener objetivo, practica y cierre;
-- mostrar criterio de ritmo y apoyo.
+## 9. Checklist antes de entregar cualquier desafio
 
-## Caso D: revisar despliegue o seguridad
+1. entender el objetivo exacto;
+2. aclarar supuestos si hay ambiguedad;
+3. definir el minimo correcto;
+4. implementar con orden;
+5. validar;
+6. explicar tradeoffs y limites.
 
-Podrian pedir:
+## 10. Entrenamiento recomendado para hoy
 
-- revisar Docker o compose;
-- detectar riesgos de exposicion;
-- proponer una postura local segura;
-- explicar por que una demo no es produccion.
-
-Lo importante:
-
-- separar quickstart de hardening;
-- priorizar mejoras de bajo riesgo;
-- hablar de TLS, proxy, auth, rate limit y secretos si hay exposicion externa.
-
-## 3. Respuestas marco que debes poder dar
-
-## "Por que tomaste esta decision?"
-
-"Priorizo una solucion clara, verificable y facil de mantener. Si despues el contexto pide mas complejidad, la escalo sobre esta base."
-
-## "Por que no usaste algo mas avanzado?"
-
-"Porque primero quise resolver bien el problema real. La complejidad extra solo tiene sentido si agrega valor claro y no dificulta la comprension o el mantenimiento."
-
-## "Como lo ensenarias?"
-
-"Lo dividiria en una explicacion breve, una demostracion guiada, una practica corta y un cierre donde el estudiante tenga que interpretar el resultado."
-
-## "Que riesgo ves aqui?"
-
-"El principal riesgo es mezclar una demo local con una postura de despliegue abierta. Si esto saliera de entorno controlado, pisaria TLS, autenticacion, proxy y limites de exposicion."
-
-## 4. Checklist rapido antes de responder cualquier desafio
-
-1. Entender el objetivo exacto.
-2. Confirmar supuestos si algo esta ambiguo.
-3. Identificar el minimo correcto que resuelve.
-4. Implementar de forma clara.
-5. Validar el resultado.
-6. Explicar decisiones, tradeoffs y limites.
-
-## 5. Bateria de preguntas que debes estar listo para responder
-
-- Que debe aprender un principiante primero y por que.
-- Como traduces una herramienta tecnica a una actividad de aula.
-- Como manejas estudiantes con ritmos distintos.
-- Como usarias o regularias herramientas de IA en clase.
-- Como protegerias una app local de practica.
-- Que diferencia hay entre una demo, un piloto y una implementacion real.
-- Que validarias antes de exponer una app o runner de codigo.
-- Como pruebas rapido que tu cambio no rompio lo existente.
-
-## 6. Que conviene practicar hoy mismo
-
-- explicar `pandas` en voz alta como si fuera una clase;
 - resolver un CSV simple de principio a fin;
-- revisar los endpoints de esta app;
-- practicar el argumento de valor docente frente a cualquier tecnologia;
-- repasar por que este repo no debe exponerse a internet sin capas extra;
-- tener a mano un ejemplo de bug, validacion y prueba.
+- explicar `pandas` en voz alta como si fuera una clase;
+- practicar un bugfix pequeno y validar con tests;
+- revisar endpoints, seguridad y despliegue del repo;
+- ensayar el argumento de valor frente a cualquier tecnologia.
 
-## 7. Criterio final
+## 11. Cruce con el resto del portafolio
 
-Si el desafio es muy abierto, tu mejor respuesta no es "puedo hacer cualquier cosa". Tu mejor respuesta es mostrar que sabes acotar, priorizar, ejecutar y justificar.
+Lo que se espera en un estandar alto, mirando tus otros repos, no es solo codigo. Es:
+
+- documentacion clara por audiencia;
+- frontera honesta entre demo y produccion;
+- CI/CD visible;
+- seguridad explicita;
+- capacidad de explicar arquitectura y operacion.
+
+Este desafio debe responder con esa misma madurez.
+
+## 12. Documentos relacionados
+
+- [despliegue-seguro-y-operacion.md](despliegue-seguro-y-operacion.md)
+- [proceso-seleccion-skillnest.md](proceso-seleccion-skillnest.md)
+- [GUIA_EVALUACION.md](GUIA_EVALUACION.md)
+- [ARQUITECTURA_PRODUCTO.md](ARQUITECTURA_PRODUCTO.md)

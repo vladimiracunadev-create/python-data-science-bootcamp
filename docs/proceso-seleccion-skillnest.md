@@ -1,11 +1,13 @@
 # Proceso de seleccion Skillnest
 
-## Etapas confirmadas
+Mapa de lectura para enfrentar el proceso completo sin improvisar ni regalar trabajo innecesario. Este documento conecta cada etapa con la evidencia real que ya existe en el repositorio.
 
-1. Entrevista inicial.
-2. Clase de prueba.
-3. Desafio tecnico.
-4. Test psicolaboral.
+## 1. Etapas confirmadas
+
+1. entrevista inicial;
+2. clase de prueba;
+3. desafio tecnico;
+4. test psicolaboral.
 
 ```mermaid
 flowchart LR
@@ -14,68 +16,95 @@ flowchart LR
     C --> D["Test psicolaboral"]
 ```
 
-## Objetivo por etapa
+## 2. Que mira cada etapa
 
-| Etapa | Que quieren mirar | Que debes demostrar |
+| Etapa | Lo que probablemente quieren ver | La evidencia que debes llevar |
 |---|---|---|
-| Entrevista inicial | perfil, claridad, criterio, encaje | que tienes una base real, sabes adaptarte y entiendes el contexto |
-| Clase de prueba | habilidades pedagogicas | que sabes ensenar con orden, ritmo y contencion |
-| Desafio tecnico | dominio del area | que manejas Python, datos, criterios de implementacion y buenas practicas |
-| Test psicolaboral | compatibilidad cultural | que trabajas con responsabilidad, colaboracion y criterio |
+| entrevista inicial | claridad, criterio, enfoque y ajuste al contexto | README, guia de evaluacion, V1 escolar y narrativa del producto |
+| clase de prueba | capacidad de explicar, contener y cerrar | herramientas pedagogicas, metodologia y una demo corta |
+| desafio tecnico | dominio tecnico y criterio de implementacion | app local, notebooks, seguridad y documentacion de despliegue |
+| test psiclaboral | consistencia, responsabilidad y forma de trabajar | discurso coherente, limites sanos y orientacion colaborativa |
 
-## Apertura sugerida para la entrevista inicial
+## 3. Entrevista inicial
 
-Version de 60 a 90 segundos:
+### Objetivo
 
-"Prepare este repositorio como una muestra concreta de como diseno capacitaciones tecnicas. No solo contiene contenido, sino estructura docente: progresion de clases, ejercicios, notebooks, evaluacion, guia del instructor y un entorno local para practicar. Para una primera implementacion escolar yo no mostraria todo de una vez; lo aterrizaria a una ruta inicial simple, medible y ejecutable. Mi valor no depende de una herramienta puntual, sino de poder traducir tecnologia en aprendizaje real, con criterio pedagogico y una base que despues puede crecer."
+Que quede claro que no estas mostrando solo contenido tecnico. Estas mostrando una base de capacitacion ya estructurada como producto.
 
-## Cierre sugerido para la entrevista inicial
+### Apertura sugerida
 
-"Me interesa aportar desde una base seria y reusable, no desde una promesa inflada. Si les hace sentido el enfoque, el siguiente paso ideal es confirmar horas reales, perfil del grupo y alcance esperado para ajustar la version inicial con precision."
+"Prepare este repositorio como una muestra concreta de como diseno capacitaciones tecnicas. No solo tiene contenido: tiene progresion de clases, notebooks, evaluacion, guia docente, una app local para practicar y una superficie publica para estudiantes. Para una primera implementacion escolar yo no mostraria todo al mismo tiempo; lo acotaria a una ruta inicial simple, medible y escalable."
 
-## Como enfrentar la clase de prueba
+### Lo que conviene dejar instalado
 
-- no intentar mostrar todo lo que sabes;
-- demostrar progresion, claridad y manejo del grupo;
-- usar un objetivo visible y una victoria rapida;
-- incluir una mini practica guiada;
-- cerrar con interpretacion y no solo ejecucion.
+- sabes recortar con criterio;
+- no compites contra una tecnologia puntual;
+- tu valor esta en la mediacion y en la implementacion;
+- puedes empezar por una V1 sana y crecer despues.
 
-## Estructura recomendada para una clase de prueba de 15 a 20 minutos
+## 4. Clase de prueba
 
-1. Contexto y objetivo.
-2. Ejemplo simple y visible.
-3. Practica corta.
-4. Pregunta de interpretacion.
-5. Cierre con aprendizaje esperado.
+### Que demostrar
 
-## Como enfrentar el desafio tecnico
+- objetivo visible;
+- explicacion breve;
+- practica guiada;
+- chequeo de comprension;
+- cierre con interpretacion.
 
-- primero entender bien el objetivo;
-- preguntar supuestos si el enunciado esta ambiguo;
-- empezar por una solucion clara antes que sofisticada;
-- explicar decisiones tecnicas y pedagogicas;
-- validar el resultado con una prueba o chequeo rapido;
-- mostrar criterio de seguridad y despliegue si corresponde.
+### Estructura recomendada para 15 a 20 minutos
 
-## Como enfrentar el test psicolaboral
+1. contexto y objetivo;
+2. ejemplo corto y visible;
+3. practica rapida;
+4. pregunta de interpretacion;
+5. cierre con aprendizaje esperado.
 
-- responder con consistencia, no intentando adivinar el "perfil perfecto";
-- enfatizar orden, responsabilidad, adaptabilidad y trabajo colaborativo;
-- no sobreactuar seguridad absoluta;
-- mostrar que sabes poner limites sanos sin perder disposicion.
+### Error comun que debes evitar
 
-## Mensajes que deben quedar instalados durante todo el proceso
+Querer mostrar todo lo que sabes en vez de mostrar como ensenas.
 
-- tienes una base de capacitacion real, no improvisada;
-- sabes ensenar y tambien disenar experiencias de aprendizaje;
-- puedes partir con una version acotada y escalar despues;
-- tu valor no compite contra una tecnologia: esta en la mediacion, el criterio y la implementacion.
+## 5. Desafio tecnico
 
-## Riesgos que debes evitar
+### Que demostrar
 
-- sonar demasiado teorico;
-- sobreprometer personalizacion antes de definir alcance;
-- tratar de impresionar con complejidad innecesaria;
-- entrar en una posicion defensiva frente a IA u otras herramientas;
-- aceptar trabajo previo excesivo sin hablar de condiciones.
+- solucion clara;
+- validacion de lo hecho;
+- explicacion de decisiones;
+- criterio de seguridad y despliegue si corresponde;
+- capacidad de aterrizar lo tecnico a un contexto educativo.
+
+### Regla de oro
+
+Primero resolver bien. Despues sofisticar si aporta valor.
+
+## 6. Test psiclaboral
+
+No se trata de adivinar el perfil perfecto. Se trata de mostrar consistencia.
+
+### Conviene transmitir
+
+- responsabilidad;
+- colaboracion;
+- orden;
+- adaptabilidad;
+- capacidad de poner limites sanos.
+
+### Conviene evitar
+
+- sonar rigido o defensivo;
+- intentar parecer perfecto;
+- prometer disponibilidad ilimitada;
+- negar dificultades reales del trabajo docente.
+
+## 7. Hilo conductor para todo el proceso
+
+> Mi valor no depende de una herramienta especifica. Depende de mi capacidad de traducir tecnologia en aprendizaje real, con criterio, orden y una base que puede crecer sin rehacerse.
+
+## 8. Documentos que debes dominar
+
+- [GUIA_EVALUACION.md](GUIA_EVALUACION.md)
+- [implementacion-v1-skillnest-san-nicolas.md](implementacion-v1-skillnest-san-nicolas.md)
+- [herramientas-pedagogicas-de-aula.md](herramientas-pedagogicas-de-aula.md)
+- [desafio-tecnico-preparacion.md](desafio-tecnico-preparacion.md)
+- [despliegue-seguro-y-operacion.md](despliegue-seguro-y-operacion.md)
