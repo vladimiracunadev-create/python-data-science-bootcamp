@@ -1,12 +1,12 @@
-# Ejercicios — Clase 11: Evaluación robusta y Pipelines de ML
+﻿# 🧪 Ejercicios â€” Clase 11: EvaluaciÃ³n robusta y Pipelines de ML
 
-## Ejercicio 1 — Detectar overfitting (fácil)
+## Ejercicio 1 â€” Detectar overfitting (fÃ¡cil)
 
 ```python
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.model_selection import train_test_split
 
-# Entrena árboles con distintas profundidades
+# Entrena Ã¡rboles con distintas profundidades
 for depth in [1, 3, 5, 10, None]:
     model = DecisionTreeClassifier(max_depth=depth, random_state=42)
     model.fit(X_train, y_train)
@@ -15,11 +15,11 @@ for depth in [1, 3, 5, 10, None]:
     print(f"Depth={depth:>4} | Train: {train_score:.3f} | Test: {test_score:.3f}")
 ```
 
-¿A qué profundidad comienza el overfitting? ¿Cuál es la mejor profundidad?
+Â¿A quÃ© profundidad comienza el overfitting? Â¿CuÃ¡l es la mejor profundidad?
 
 ---
 
-## Ejercicio 2 — Validación cruzada (guiado)
+## Ejercicio 2 â€” ValidaciÃ³n cruzada (guiado)
 
 ```python
 from sklearn.model_selection import cross_val_score
@@ -27,14 +27,14 @@ from sklearn.model_selection import cross_val_score
 model = DecisionTreeClassifier(max_depth=4, random_state=42)
 scores = cross_val_score(model, X, y, cv=5, scoring="f1_weighted")
 print(f"F1 por fold: {scores}")
-print(f"Promedio: {scores.mean():.3f} ± {scores.std():.3f}")
+print(f"Promedio: {scores.mean():.3f} Â± {scores.std():.3f}")
 ```
 
-Compara este resultado con el F1 del ejercicio anterior. ¿Coinciden?
+Compara este resultado con el F1 del ejercicio anterior. Â¿Coinciden?
 
 ---
 
-## Ejercicio 3 — Construir un Pipeline (guiado)
+## Ejercicio 3 â€” Construir un Pipeline (guiado)
 
 ```python
 from sklearn.pipeline import Pipeline
@@ -61,7 +61,7 @@ print(f"Test F1: {f1_score(y_test, pipe.predict(X_test)):.3f}")
 
 ---
 
-## Ejercicio 4 — GridSearchCV (medio)
+## Ejercicio 4 â€” GridSearchCV (medio)
 
 ```python
 from sklearn.model_selection import GridSearchCV
@@ -72,12 +72,12 @@ params = {
 }
 gs = GridSearchCV(pipe, params, cv=5, scoring="f1", n_jobs=-1)
 gs.fit(X_train, y_train)
-print(f"Mejor combinación: {gs.best_params_}")
+print(f"Mejor combinaciÃ³n: {gs.best_params_}")
 print(f"Mejor F1 CV: {gs.best_score_:.3f}")
 ```
 
 ---
 
-## Desafío opcional
+## DesafÃ­o opcional
 
-Grafica la curva de aprendizaje usando `learning_curve` de scikit-learn para el Pipeline. ¿Necesitas más datos o un modelo más complejo?
+Grafica la curva de aprendizaje usando `learning_curve` de scikit-learn para el Pipeline. Â¿Necesitas mÃ¡s datos o un modelo mÃ¡s complejo?

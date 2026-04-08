@@ -1,16 +1,16 @@
-# Documento Teórico — Clase 04: Estadística Descriptiva
+﻿# 🧠 Documento TeÃ³rico â€” Clase 04: EstadÃ­stica Descriptiva
 
-> **Nivel:** Principiante-Intermedio · **Duración estimada de lectura:** 25 minutos
+> **Nivel:** Principiante-Intermedio Â· **DuraciÃ³n estimada de lectura:** 25 minutos
 
 ---
 
-## 1. ¿Qué es la estadística descriptiva?
+## 1. Â¿QuÃ© es la estadÃ­stica descriptiva?
 
-La estadística descriptiva **resume y describe** los datos sin hacer inferencias sobre una población mayor. Es el primer paso obligatorio de cualquier análisis.
+La estadÃ­stica descriptiva **resume y describe** los datos sin hacer inferencias sobre una poblaciÃ³n mayor. Es el primer paso obligatorio de cualquier anÃ¡lisis.
 
 ### 1.1 Tipos de variables
 
-| Tipo | Subtipo | Descripción | Ejemplo |
+| Tipo | Subtipo | DescripciÃ³n | Ejemplo |
 |---|---|---|---|
 | **Cuantitativa** | Continua | Toma cualquier valor en un rango | Ventas: $45.230,50 |
 | **Cuantitativa** | Discreta | Solo valores enteros | Unidades vendidas: 3 |
@@ -21,12 +21,12 @@ La estadística descriptiva **resume y describe** los datos sin hacer inferencia
 
 ## 2. Medidas de tendencia central
 
-### 2.1 Media (promedio aritmético)
+### 2.1 Media (promedio aritmÃ©tico)
 
-La media es la suma de todos los valores dividida por el número de observaciones.
+La media es la suma de todos los valores dividida por el nÃºmero de observaciones.
 
 ```
-x̄ = (x₁ + x₂ + ... + xₙ) / n
+xÌ„ = (xâ‚ + xâ‚‚ + ... + xâ‚™) / n
 ```
 
 **Debilidad:** muy sensible a outliers.
@@ -41,7 +41,7 @@ print(f"Media: ${media:,.2f}")
 
 ### 2.2 Mediana
 
-El valor central cuando los datos están ordenados. **Robusta frente a outliers.**
+El valor central cuando los datos estÃ¡n ordenados. **Robusta frente a outliers.**
 
 ```python
 mediana = df["total_neto"].median()
@@ -49,51 +49,51 @@ mediana = df["total_neto"].median()
 
 ### 2.3 Moda
 
-El valor más frecuente. Útil para variables categóricas.
+El valor mÃ¡s frecuente. Ãštil para variables categÃ³ricas.
 
 ```python
 moda = df["sucursal"].mode()[0]
 ```
 
-### 2.4 Comparación: Media vs. Mediana
+### 2.4 ComparaciÃ³n: Media vs. Mediana
 
-| Situación | Recomendación |
+| SituaciÃ³n | RecomendaciÃ³n |
 |---|---|
-| Distribución simétrica | Media y mediana son similares → usar media |
-| Distribución sesgada a la derecha | Mediana < media → usar mediana |
-| Muchos outliers | Mediana más representativa |
+| DistribuciÃ³n simÃ©trica | Media y mediana son similares â†’ usar media |
+| DistribuciÃ³n sesgada a la derecha | Mediana < media â†’ usar mediana |
+| Muchos outliers | Mediana mÃ¡s representativa |
 | Ingresos, precios de vivienda | Siempre usar mediana |
 | Temperatura, altura | Media es apropiada |
 
 ---
 
-## 3. Medidas de dispersión
+## 3. Medidas de dispersiÃ³n
 
 ### 3.1 Rango
 
 ```
-Rango = Máximo - Mínimo
+Rango = MÃ¡ximo - MÃ­nimo
 ```
 
 Simple pero muy sensible a outliers.
 
-### 3.2 Varianza y Desviación Estándar
+### 3.2 Varianza y DesviaciÃ³n EstÃ¡ndar
 
-La desviación estándar mide cuánto se alejan los datos del promedio, **en las mismas unidades que los datos**.
+La desviaciÃ³n estÃ¡ndar mide cuÃ¡nto se alejan los datos del promedio, **en las mismas unidades que los datos**.
 
 ```python
 varianza = df["total_neto"].var()
 desv_std = df["total_neto"].std()
-print(f"Desviación estándar: ${desv_std:,.2f}")
+print(f"DesviaciÃ³n estÃ¡ndar: ${desv_std:,.2f}")
 ```
 
-### 3.3 Coeficiente de Variación (CV)
+### 3.3 Coeficiente de VariaciÃ³n (CV)
 
-Compara la dispersión entre variables con diferentes escalas:
+Compara la dispersiÃ³n entre variables con diferentes escalas:
 
 ```python
 cv = df["total_neto"].std() / df["total_neto"].mean()
-print(f"CV: {cv:.1%}")  # mientras más alto, más disperso
+print(f"CV: {cv:.1%}")  # mientras mÃ¡s alto, mÃ¡s disperso
 ```
 
 ### 3.4 Cuartiles y Percentiles
@@ -102,10 +102,10 @@ Dividen los datos ordenados en partes iguales:
 
 | Cuartil | Percentil | Significado |
 |---|---|---|
-| Q1 | P25 | 25% de los datos están por debajo |
-| Q2 (Mediana) | P50 | 50% de los datos están por debajo |
-| Q3 | P75 | 75% de los datos están por debajo |
-| IQR = Q3 - Q1 | — | Rango intercuartílico (datos centrales) |
+| Q1 | P25 | 25% de los datos estÃ¡n por debajo |
+| Q2 (Mediana) | P50 | 50% de los datos estÃ¡n por debajo |
+| Q3 | P75 | 75% de los datos estÃ¡n por debajo |
+| IQR = Q3 - Q1 | â€” | Rango intercuartÃ­lico (datos centrales) |
 
 ```python
 q1   = df["total_neto"].quantile(0.25)
@@ -123,13 +123,13 @@ print(f"P90: ${p90:,.0f}")
 
 ---
 
-## 4. Detección de outliers
+## 4. DetecciÃ³n de outliers
 
-### 4.1 Regla del IQR (método Tukey)
+### 4.1 Regla del IQR (mÃ©todo Tukey)
 
 Un valor es outlier si:
-- Está por debajo de Q1 − 1.5 × IQR, o
-- Está por encima de Q3 + 1.5 × IQR
+- EstÃ¡ por debajo de Q1 âˆ’ 1.5 Ã— IQR, o
+- EstÃ¡ por encima de Q3 + 1.5 Ã— IQR
 
 ```python
 limite_inferior = q1 - 1.5 * iqr
@@ -137,49 +137,49 @@ limite_superior = q3 + 1.5 * iqr
 
 outliers = df[(df["total_neto"] < limite_inferior) | (df["total_neto"] > limite_superior)]
 print(f"Outliers detectados: {len(outliers)}")
-print(f"Límite inferior: ${limite_inferior:,.0f}")
-print(f"Límite superior: ${limite_superior:,.0f}")
+print(f"LÃ­mite inferior: ${limite_inferior:,.0f}")
+print(f"LÃ­mite superior: ${limite_superior:,.0f}")
 ```
 
-### 4.2 Regla de los 3 sigma (distribución normal)
+### 4.2 Regla de los 3 sigma (distribuciÃ³n normal)
 
-Si los datos son aproximadamente normales: valor outlier si está a más de 3 desviaciones de la media.
+Si los datos son aproximadamente normales: valor outlier si estÃ¡ a mÃ¡s de 3 desviaciones de la media.
 
 ```python
 z_scores = (df["total_neto"] - df["total_neto"].mean()) / df["total_neto"].std()
 outliers_zscore = df[abs(z_scores) > 3]
 ```
 
-### 4.3 ¿Qué hacer con los outliers?
+### 4.3 Â¿QuÃ© hacer con los outliers?
 
-| Situación | Acción |
+| SituaciÃ³n | AcciÃ³n |
 |---|---|
 | Error de entrada de datos | Corregir o eliminar |
-| Caso legítimo pero extremo | Mantener y documentar |
+| Caso legÃ­timo pero extremo | Mantener y documentar |
 | Afecta el modelo significativamente | Crear variable indicadora `es_outlier` |
-| Variable sesgada | Aplicar transformación (log, raíz cuadrada) |
+| Variable sesgada | Aplicar transformaciÃ³n (log, raÃ­z cuadrada) |
 
 ---
 
-## 5. Correlación
+## 5. CorrelaciÃ³n
 
-Mide la **fuerza y dirección** de la relación lineal entre dos variables.
+Mide la **fuerza y direcciÃ³n** de la relaciÃ³n lineal entre dos variables.
 
 ### 5.1 Coeficiente de Pearson
 
-| Valor de r | Interpretación |
+| Valor de r | InterpretaciÃ³n |
 |---|---|
-| 0.9 a 1.0 | Correlación muy fuerte positiva |
-| 0.7 a 0.9 | Correlación fuerte positiva |
-| 0.5 a 0.7 | Correlación moderada positiva |
-| 0.3 a 0.5 | Correlación débil positiva |
-| 0.0 a 0.3 | Correlación muy débil o nula |
-| Negativo | Misma interpretación en dirección inversa |
+| 0.9 a 1.0 | CorrelaciÃ³n muy fuerte positiva |
+| 0.7 a 0.9 | CorrelaciÃ³n fuerte positiva |
+| 0.5 a 0.7 | CorrelaciÃ³n moderada positiva |
+| 0.3 a 0.5 | CorrelaciÃ³n dÃ©bil positiva |
+| 0.0 a 0.3 | CorrelaciÃ³n muy dÃ©bil o nula |
+| Negativo | Misma interpretaciÃ³n en direcciÃ³n inversa |
 
 ```python
-# Correlación entre dos variables
+# CorrelaciÃ³n entre dos variables
 r = df["precio_unitario"].corr(df["unidades_vendidas"])
-print(f"Correlación precio-unidades: {r:.3f}")
+print(f"CorrelaciÃ³n precio-unidades: {r:.3f}")
 
 # Matriz de correlaciones
 correlaciones = df.select_dtypes(include="number").corr()
@@ -202,34 +202,34 @@ ax.set_yticks(range(len(corr.columns)))
 ax.set_xticklabels(corr.columns, rotation=45, ha="right")
 ax.set_yticklabels(corr.columns)
 
-# Agregar valores numéricos
+# Agregar valores numÃ©ricos
 for i in range(len(corr)):
     for j in range(len(corr.columns)):
         ax.text(j, i, f"{corr.iloc[i, j]:.2f}",
             ha="center", va="center", fontsize=9,
             color="black" if abs(corr.iloc[i, j]) < 0.7 else "white")
 
-plt.colorbar(im, ax=ax, label="Correlación de Pearson")
+plt.colorbar(im, ax=ax, label="CorrelaciÃ³n de Pearson")
 ax.set_title("Mapa de correlaciones")
 plt.tight_layout()
 plt.show()
 ```
 
-> ⚠️ **Correlación ≠ causalidad.** Dos variables pueden correlacionarse sin que una cause la otra.
+> âš ï¸ **CorrelaciÃ³n â‰  causalidad.** Dos variables pueden correlacionarse sin que una cause la otra.
 
 ---
 
-## 6. Asimetría y curtosis
+## 6. AsimetrÃ­a y curtosis
 
-| Estadístico | Qué mide | Valores notables |
+| EstadÃ­stico | QuÃ© mide | Valores notables |
 |---|---|---|
-| **Asimetría (skewness)** | Desviación de la simetría | 0 = simétrica, >0 = cola derecha, <0 = cola izquierda |
+| **AsimetrÃ­a (skewness)** | DesviaciÃ³n de la simetrÃ­a | 0 = simÃ©trica, >0 = cola derecha, <0 = cola izquierda |
 | **Curtosis (kurtosis)** | "Peso" de las colas | 0 = normal, >0 = colas pesadas, <0 = colas ligeras |
 
 ```python
 asimetria = df["total_neto"].skew()
 curtosis  = df["total_neto"].kurt()
-print(f"Asimetría: {asimetria:.3f}")
+print(f"AsimetrÃ­a: {asimetria:.3f}")
 print(f"Curtosis:  {curtosis:.3f}")
 ```
 
@@ -240,12 +240,12 @@ print(f"Curtosis:  {curtosis:.3f}")
 ```python
 def estadisticas_completas(serie, nombre="Variable"):
     return pd.DataFrame({
-        "Estadístico": [
+        "EstadÃ­stico": [
             "N", "Media", "Mediana", "Moda",
-            "Mínimo", "Máximo", "Rango",
+            "MÃ­nimo", "MÃ¡ximo", "Rango",
             "Q1", "Q3", "IQR",
             "Desv. Std.", "CV",
-            "Asimetría", "Curtosis"
+            "AsimetrÃ­a", "Curtosis"
         ],
         "Valor": [
             serie.count(),
@@ -263,21 +263,21 @@ def estadisticas_completas(serie, nombre="Variable"):
             f"{serie.skew():.3f}",
             f"{serie.kurt():.3f}"
         ]
-    }).set_index("Estadístico")
+    }).set_index("EstadÃ­stico")
 
 print(estadisticas_completas(df["total_neto"], "Total Neto"))
 ```
 
 ---
 
-## 8. Resumen rápido
+## 8. Resumen rÃ¡pido
 
 ```
-✅ Media → promedio (sensible a outliers)
-✅ Mediana → central (robusta a outliers)
-✅ Desv. std. → dispersión en mismas unidades que los datos
-✅ IQR → dispersión robusta (Q3 - Q1)
-✅ Outliers → IQR × 1.5 o Z-score > 3
-✅ Correlación de Pearson → relación lineal entre −1 y +1
-✅ Asimetría → forma de la distribución
+âœ… Media â†’ promedio (sensible a outliers)
+âœ… Mediana â†’ central (robusta a outliers)
+âœ… Desv. std. â†’ dispersiÃ³n en mismas unidades que los datos
+âœ… IQR â†’ dispersiÃ³n robusta (Q3 - Q1)
+âœ… Outliers â†’ IQR Ã— 1.5 o Z-score > 3
+âœ… CorrelaciÃ³n de Pearson â†’ relaciÃ³n lineal entre âˆ’1 y +1
+âœ… AsimetrÃ­a â†’ forma de la distribuciÃ³n
 ```

@@ -1,4 +1,4 @@
-# Bootcamp Python para Data Science
+﻿# 🖼 Bootcamp Python para Data Science
 
 ## Propuesta inicial para Skillnest / Colegio San Nicolas de Maipu
 

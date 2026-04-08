@@ -1,22 +1,22 @@
-# Clase 01 — Fundamentos de Python aplicados a datos
+﻿# 📘 Clase 01 â€” Fundamentos de Python aplicados a datos
 
 ## Objetivo
 
-Comprender los elementos básicos de Python y aplicarlos a pequeños ejemplos relacionados con datos simples.
+Comprender los elementos bÃ¡sicos de Python y aplicarlos a pequeÃ±os ejemplos relacionados con datos simples.
 
-## Duración sugerida
+## DuraciÃ³n sugerida
 
 90 minutos
 
 ## Resultados esperados
 
-Al finalizar, el estudiante podrá:
+Al finalizar, el estudiante podrÃ¡:
 
 - crear variables;
 - identificar tipos de datos comunes;
 - usar listas y diccionarios;
 - aplicar `if`, `for` y funciones simples;
-- leer pequeños registros y generar resultados básicos.
+- leer pequeÃ±os registros y generar resultados bÃ¡sicos.
 
 ## Materiales
 
@@ -28,4 +28,4 @@ Al finalizar, el estudiante podrá:
 
 ## Idea central
 
-Python no se presenta aquí como teoría abstracta, sino como una herramienta para organizar y transformar información.
+Python no se presenta aquÃ­ como teorÃ­a abstracta, sino como una herramienta para organizar y transformar informaciÃ³n.

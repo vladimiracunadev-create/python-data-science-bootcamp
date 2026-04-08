@@ -1,26 +1,26 @@
-# Diapositivas sugeridas — Clase 02
+﻿# 🖥 Diapositivas sugeridas â€” Clase 02
 
-## 1. Qué es pandas
+## 1. QuÃ© es pandas
 - tabla de datos
 - DataFrame y Series
 
 ## 2. Carga de datos
 - `read_csv`
-- revisión rápida
+- revisiÃ³n rÃ¡pida
 
-## 3. Exploración inicial
+## 3. ExploraciÃ³n inicial
 - `head()`
 - `info()`
 - `describe()`
 
-## 4. Selección y filtros
+## 4. SelecciÃ³n y filtros
 - columnas
 - filas
 - condiciones
 
 ## 5. Preguntas simples
-- qué sucursal vende más
-- qué categoría aparece más
+- quÃ© sucursal vende mÃ¡s
+- quÃ© categorÃ­a aparece mÃ¡s
 
 ## 6. Cierre
 - del CSV a los primeros hallazgos

@@ -1,45 +1,45 @@
-# Documento Teórico — Clase 05: Visualización Avanzada con Matplotlib
+﻿# 🧠 Documento TeÃ³rico â€” Clase 05: VisualizaciÃ³n Avanzada con Matplotlib
 
-> **Nivel:** Intermedio · **Duración estimada de lectura:** 25 minutos
+> **Nivel:** Intermedio Â· **DuraciÃ³n estimada de lectura:** 25 minutos
 
 ---
 
 ## 1. Matplotlib vs. otras bibliotecas
 
-| Biblioteca | Fortaleza | Cuándo usarla |
+| Biblioteca | Fortaleza | CuÃ¡ndo usarla |
 |---|---|---|
-| **Matplotlib** | Control total, base de todo | Gráficos personalizados, publicaciones |
-| **Seaborn** | Estadístico, estético, fácil | EDA rápido, distribuciones, heatmaps |
-| **Plotly** | Interactivo | Dashboards, exploración online |
+| **Matplotlib** | Control total, base de todo | GrÃ¡ficos personalizados, publicaciones |
+| **Seaborn** | EstadÃ­stico, estÃ©tico, fÃ¡cil | EDA rÃ¡pido, distribuciones, heatmaps |
+| **Plotly** | Interactivo | Dashboards, exploraciÃ³n online |
 | **Altair** | Declarativo, limpio | Visualizaciones web |
 
-En este bootcamp dominamos **matplotlib** porque es la base de todas las demás.
+En este bootcamp dominamos **matplotlib** porque es la base de todas las demÃ¡s.
 
 ---
 
-## 2. Sistema de coordenadas y anatomía
+## 2. Sistema de coordenadas y anatomÃ­a
 
 ```
 Figure
-└── Axes (subplot)
-    ├── Title
-    ├── X-axis
-    │   ├── Label (xlabel)
-    │   ├── Ticks (marcas)
-    │   └── Ticklabels (etiquetas de marcas)
-    ├── Y-axis
-    │   ├── Label (ylabel)
-    │   ├── Ticks
-    │   └── Ticklabels
-    ├── Spine (bordes del gráfico)
-    ├── Grid (cuadrícula)
-    ├── Legend
-    └── Artist (líneas, barras, puntos, texto)
+â””â”€â”€ Axes (subplot)
+    â”œâ”€â”€ Title
+    â”œâ”€â”€ X-axis
+    â”‚   â”œâ”€â”€ Label (xlabel)
+    â”‚   â”œâ”€â”€ Ticks (marcas)
+    â”‚   â””â”€â”€ Ticklabels (etiquetas de marcas)
+    â”œâ”€â”€ Y-axis
+    â”‚   â”œâ”€â”€ Label (ylabel)
+    â”‚   â”œâ”€â”€ Ticks
+    â”‚   â””â”€â”€ Ticklabels
+    â”œâ”€â”€ Spine (bordes del grÃ¡fico)
+    â”œâ”€â”€ Grid (cuadrÃ­cula)
+    â”œâ”€â”€ Legend
+    â””â”€â”€ Artist (lÃ­neas, barras, puntos, texto)
 ```
 
 ---
 
-## 3. Configuración global de estilo
+## 3. ConfiguraciÃ³n global de estilo
 
 ```python
 import matplotlib.pyplot as plt
@@ -69,9 +69,9 @@ mpl.rcParams.update({
 
 ---
 
-## 4. Gráficos avanzados
+## 4. GrÃ¡ficos avanzados
 
-### 4.1 Gráfico de líneas con anotaciones
+### 4.1 GrÃ¡fico de lÃ­neas con anotaciones
 
 ```python
 import pandas as pd
@@ -89,15 +89,15 @@ ax.plot(ventas.index, ventas.values / 1000,
 ax.fill_between(ventas.index, ventas.values / 1000,
     alpha=0.1, color="#22c55e")
 
-# Anotar máximo
+# Anotar mÃ¡ximo
 idx_max = ventas.idxmax()
-ax.annotate(f"Máximo\n${ventas[idx_max]/1000:.0f}K",
+ax.annotate(f"MÃ¡ximo\n${ventas[idx_max]/1000:.0f}K",
     xy=(idx_max, ventas[idx_max]/1000),
     xytext=(idx_max - 1.5, ventas[idx_max]/1000 + 5),
     fontsize=9, color="#22c55e",
     arrowprops=dict(arrowstyle="->", color="#22c55e", lw=1.5))
 
-ax.set_title("Evolución de ventas mensuales — Año 2024")
+ax.set_title("EvoluciÃ³n de ventas mensuales â€” AÃ±o 2024")
 ax.set_xlabel("Mes")
 ax.set_ylabel("Ventas (miles $)")
 ax.set_xticks(range(1, 13))
@@ -137,7 +137,7 @@ plt.tight_layout()
 plt.show()
 ```
 
-### 4.3 Scatter con tamaño y color variable
+### 4.3 Scatter con tamaÃ±o y color variable
 
 ```python
 import pandas as pd
@@ -149,7 +149,7 @@ scatter = ax.scatter(
     df["precio_unitario"],
     df["unidades_vendidas"],
     c=df["total_neto"],
-    s=df["descuento_pct"] * 10 + 20,   # tamaño según descuento
+    s=df["descuento_pct"] * 10 + 20,   # tamaÃ±o segÃºn descuento
     cmap="YlGn",
     alpha=0.75,
     edgecolors="white",
@@ -159,7 +159,7 @@ scatter = ax.scatter(
 plt.colorbar(scatter, ax=ax, label="Total neto ($)")
 ax.set_xlabel("Precio unitario ($)")
 ax.set_ylabel("Unidades vendidas")
-ax.set_title("Relación precio-unidades\n(tamaño = descuento, color = venta total)")
+ax.set_title("RelaciÃ³n precio-unidades\n(tamaÃ±o = descuento, color = venta total)")
 plt.tight_layout()
 plt.show()
 ```
@@ -194,11 +194,11 @@ plt.show()
 
 ---
 
-## 5. Dashboard completo: múltiples gráficos
+## 5. Dashboard completo: mÃºltiples grÃ¡ficos
 
 ```python
 fig = plt.figure(figsize=(16, 10))
-fig.suptitle("Dashboard de Ventas — Vista Ejecutiva", fontsize=16, fontweight="bold")
+fig.suptitle("Dashboard de Ventas â€” Vista Ejecutiva", fontsize=16, fontweight="bold")
 
 # Layout con GridSpec
 gs = fig.add_gridspec(2, 3, hspace=0.4, wspace=0.35)
@@ -210,8 +210,8 @@ ax4 = fig.add_subplot(gs[1, 1])    # fila 1, columna 1
 ax5 = fig.add_subplot(gs[1, 2])    # fila 1, columna 2
 
 # ax1: tendencia temporal (grande)
-# ax2: top categorías (barras)
-# ax3: distribución (histograma)
+# ax2: top categorÃ­as (barras)
+# ax3: distribuciÃ³n (histograma)
 # ax4: scatter precio-unidades
 # ax5: boxplot por sucursal
 
@@ -224,7 +224,7 @@ plt.show()
 ## 6. Guardar para reportes
 
 ```python
-# Alta resolución para impresión
+# Alta resoluciÃ³n para impresiÃ³n
 plt.savefig("grafico.png", dpi=300, bbox_inches="tight", transparent=False)
 
 # PDF vectorial (ideal para documentos)
@@ -236,27 +236,27 @@ plt.savefig("grafico.svg", bbox_inches="tight")
 
 ---
 
-## 7. Checklist de visualización profesional
+## 7. Checklist de visualizaciÃ³n profesional
 
-| ✅ Elemento | Descripción |
+| âœ… Elemento | DescripciÃ³n |
 |---|---|
-| Título descriptivo | Comunica el insight, no solo "Ventas mensuales" |
+| TÃ­tulo descriptivo | Comunica el insight, no solo "Ventas mensuales" |
 | Ejes etiquetados | Siempre con unidades |
-| Fuente legible | Mínimo 10pt en el gráfico final |
+| Fuente legible | MÃ­nimo 10pt en el grÃ¡fico final |
 | Escala apropiada | Eje Y desde 0 si muestra magnitud |
-| Colores con propósito | Accesibles para daltónicos |
+| Colores con propÃ³sito | Accesibles para daltÃ³nicos |
 | Sin elementos innecesarios | Eliminar bordes, grids excesivos |
-| Leyenda clara | Fuera del gráfico si tapa datos |
+| Leyenda clara | Fuera del grÃ¡fico si tapa datos |
 
 ---
 
-## 8. Resumen rápido
+## 8. Resumen rÃ¡pido
 
 ```
-✅ mpl.rcParams → configurar estilo global
-✅ GridSpec → layout complejo de subplots
-✅ ax.annotate() → anotaciones en el gráfico
-✅ scatter(c=, s=) → codificar 3ª y 4ª dimensión en scatter
-✅ ax.bar(bottom=) → barras apiladas
-✅ plt.savefig(dpi=300) → exportar en alta resolución
+âœ… mpl.rcParams â†’ configurar estilo global
+âœ… GridSpec â†’ layout complejo de subplots
+âœ… ax.annotate() â†’ anotaciones en el grÃ¡fico
+âœ… scatter(c=, s=) â†’ codificar 3Âª y 4Âª dimensiÃ³n en scatter
+âœ… ax.bar(bottom=) â†’ barras apiladas
+âœ… plt.savefig(dpi=300) â†’ exportar en alta resoluciÃ³n
 ```

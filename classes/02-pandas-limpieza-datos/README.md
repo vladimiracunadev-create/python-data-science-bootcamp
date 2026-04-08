@@ -1,22 +1,22 @@
-# Clase 02 — Introducción a pandas y limpieza básica
+﻿# 📘 Clase 02 â€” IntroducciÃ³n a pandas y limpieza bÃ¡sica
 
 ## Objetivo
 
 Aprender a cargar un archivo CSV, inspeccionarlo y responder preguntas simples usando pandas.
 
-## Duración sugerida
+## DuraciÃ³n sugerida
 
 90 minutos
 
 ## Resultados esperados
 
-Al finalizar, el estudiante podrá:
+Al finalizar, el estudiante podrÃ¡:
 
 - usar `pd.read_csv`;
 - revisar estructura con `head`, `info` y `describe`;
 - seleccionar columnas;
 - aplicar filtros simples;
-- construir una tabla resumen básica.
+- construir una tabla resumen bÃ¡sica.
 
 ## Materiales
 

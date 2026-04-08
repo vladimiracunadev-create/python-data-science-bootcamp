@@ -1,4 +1,4 @@
-# Catalogo del producto
+﻿# 🧱 Catalogo del producto
 
 Documento fuente de verdad para distinguir:
 
@@ -7,7 +7,7 @@ Documento fuente de verdad para distinguir:
 - que es una ruta documental;
 - y que partes siguen siendo evolucion futura.
 
-## 1. Definiciones
+## 🧭 1. Definiciones
 
 ### Superficie
 
@@ -25,7 +25,7 @@ Documento canonico que ordena, explica o limita el producto.
 
 Capacidad proyectada, pero no operativa hoy como pieza principal del sistema.
 
-## 2. Matriz canonica de superficies
+## 🧱 2. Matriz canonica de superficies
 
 | Superficie | Tipo | Estado | Audiencia | Que entrega hoy |
 |---|---|---|---|---|
@@ -37,7 +37,7 @@ Capacidad proyectada, pero no operativa hoy como pieza principal del sistema.
 | PDFs (`docs/pdfs/`) | artefacto de apoyo | operativo | entrevista / presentacion | piezas imprimibles y de muestra |
 | Ruta movil | evolucion | planificada | alumno | seguimiento, avisos y progreso individual |
 
-## 3. Funcionalidad real por superficie
+## ⚙ 3. Funcionalidad real por superficie
 
 | Capacidad | Laboratorio | Portal alumno | Vista institucional | Curriculum | Ruta movil |
 |---|---|---|---|---|---|
@@ -49,7 +49,7 @@ Capacidad proyectada, pero no operativa hoy como pieza principal del sistema.
 | Operar en entorno local | si | no | no | no | futura |
 | Funcionar como base reutilizable | si | si | si | si | futura |
 
-## 4. Artefactos oficiales de apoyo
+## 📦 4. Artefactos oficiales de apoyo
 
 | Artefacto | Rol | Estado |
 |---|---|---|
@@ -58,7 +58,7 @@ Capacidad proyectada, pero no operativa hoy como pieza principal del sistema.
 | `docs/pdfs/entrevista-skillnest-presentacion-v2.pdf` | presentacion breve | vigente |
 | `scripts/generar_pdf_documento.py` | generacion reproducible de PDFs | vigente |
 
-## 5. Reglas de comunicacion
+## 🗣 5. Reglas de comunicacion
 
 ### Lo que si se puede afirmar
 
@@ -75,7 +75,7 @@ Capacidad proyectada, pero no operativa hoy como pieza principal del sistema.
 - la ruta movil no debe venderse como funcionalidad actual;
 - el runner local no debe presentarse como SaaS expuesto a internet.
 
-## 6. Version inicial recomendada para colegio
+## 🏫 6. Version inicial recomendada para colegio
 
 La primera implementacion no necesita usar todo el catalogo.
 
@@ -88,6 +88,6 @@ La V1 recomendable es:
 5. mini proyecto guiado;
 6. presentacion breve de hallazgos.
 
-## 7. Regla de prioridad
+## 📌 7. Regla de prioridad
 
 Si alguna presentacion, README o landing contradice esta matriz, este documento tiene prioridad.

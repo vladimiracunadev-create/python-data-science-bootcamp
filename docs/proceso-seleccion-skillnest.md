@@ -1,4 +1,4 @@
-# Proceso de seleccion Skillnest
+﻿# 🧭 Proceso de seleccion Skillnest
 
 Mapa de lectura para enfrentar el proceso completo sin improvisar ni regalar trabajo innecesario. Este documento conecta cada etapa con la evidencia real que ya existe en el repositorio.
 

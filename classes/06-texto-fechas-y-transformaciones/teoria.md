@@ -1,6 +1,6 @@
-# Documento Teórico — Clase 06: Texto, Fechas y Transformaciones
+﻿# 🧠 Documento TeÃ³rico â€” Clase 06: Texto, Fechas y Transformaciones
 
-> **Nivel:** Intermedio · **Duración estimada de lectura:** 25 minutos
+> **Nivel:** Intermedio Â· **DuraciÃ³n estimada de lectura:** 25 minutos
 
 ---
 
@@ -8,15 +8,15 @@
 
 ### 1.1 Accessor `.str`
 
-El accessor `.str` de pandas aplica métodos de string a toda una columna vectorialmente:
+El accessor `.str` de pandas aplica mÃ©todos de string a toda una columna vectorialmente:
 
 ```python
 import pandas as pd
 df = pd.read_csv("datasets/ventas_tienda.csv")
 
-# Limpieza básica
+# Limpieza bÃ¡sica
 df["producto"] = df["producto"].str.strip()      # eliminar espacios
-df["producto"] = df["producto"].str.lower()       # minúsculas
+df["producto"] = df["producto"].str.lower()       # minÃºsculas
 df["producto"] = df["producto"].str.title()       # Title Case
 
 # Contiene / empieza con / termina con
@@ -24,48 +24,48 @@ mascaras = df["producto"].str.contains("teclado", case=False, na=False)
 perifericos = df[df["producto"].str.startswith("Peri")]
 ```
 
-### 1.2 Tabla de métodos `.str` más usados
+### 1.2 Tabla de mÃ©todos `.str` mÃ¡s usados
 
-| Método | Descripción | Ejemplo |
+| MÃ©todo | DescripciÃ³n | Ejemplo |
 |---|---|---|
-| `.str.strip()` | Eliminar espacios al inicio y final | `" datos "` → `"datos"` |
-| `.str.lower()` | Convertir a minúsculas | `"NORTE"` → `"norte"` |
-| `.str.upper()` | Convertir a mayúsculas | `"sur"` → `"SUR"` |
-| `.str.title()` | Primera letra mayúscula | `"san pedro"` → `"San Pedro"` |
-| `.str.replace(a, b)` | Reemplazar texto | `"Stgo"` → `"Santiago"` |
-| `.str.contains(p)` | Si contiene un patrón (regex) | `True/False` |
-| `.str.startswith(p)` | Si empieza con el patrón | `True/False` |
-| `.str.split(sep)` | Dividir por separador | `"a,b,c"` → `["a","b","c"]` |
-| `.str.len()` | Longitud del texto | `"hola"` → `4` |
-| `.str[:n]` | Primeros n caracteres | `"abcde"[:3]` → `"abc"` |
-| `.str.extract(regex)` | Extraer grupos con regex | Extraer código numérico |
+| `.str.strip()` | Eliminar espacios al inicio y final | `" datos "` â†’ `"datos"` |
+| `.str.lower()` | Convertir a minÃºsculas | `"NORTE"` â†’ `"norte"` |
+| `.str.upper()` | Convertir a mayÃºsculas | `"sur"` â†’ `"SUR"` |
+| `.str.title()` | Primera letra mayÃºscula | `"san pedro"` â†’ `"San Pedro"` |
+| `.str.replace(a, b)` | Reemplazar texto | `"Stgo"` â†’ `"Santiago"` |
+| `.str.contains(p)` | Si contiene un patrÃ³n (regex) | `True/False` |
+| `.str.startswith(p)` | Si empieza con el patrÃ³n | `True/False` |
+| `.str.split(sep)` | Dividir por separador | `"a,b,c"` â†’ `["a","b","c"]` |
+| `.str.len()` | Longitud del texto | `"hola"` â†’ `4` |
+| `.str[:n]` | Primeros n caracteres | `"abcde"[:3]` â†’ `"abc"` |
+| `.str.extract(regex)` | Extraer grupos con regex | Extraer cÃ³digo numÃ©rico |
 | `.str.cat(sep=)` | Concatenar Series | `"a" + "-" + "b"` |
 
-### 1.3 Expresiones regulares (regex) básicas
+### 1.3 Expresiones regulares (regex) bÃ¡sicas
 
 ```python
 import re
 
-# Extraer números de un texto
+# Extraer nÃºmeros de un texto
 df["codigo_num"] = df["codigo"].str.extract(r"(\d+)")
 
-# Reemplazar múltiples patrones
+# Reemplazar mÃºltiples patrones
 df["texto_limpio"] = df["texto"].str.replace(r"[^a-zA-Z0-9\s]", "", regex=True)
 
-# Validar formato de código
+# Validar formato de cÃ³digo
 df["codigo_valido"] = df["codigo"].str.match(r"^[A-Z]{2}\d{4}$")
 ```
 
-| Patrón regex | Coincide con |
+| PatrÃ³n regex | Coincide con |
 |---|---|
-| `\d` | Cualquier dígito (0-9) |
-| `\w` | Letra, dígito o guión bajo |
+| `\d` | Cualquier dÃ­gito (0-9) |
+| `\w` | Letra, dÃ­gito o guiÃ³n bajo |
 | `\s` | Espacio en blanco |
-| `[A-Z]` | Letra mayúscula |
+| `[A-Z]` | Letra mayÃºscula |
 | `^` | Inicio de string |
 | `$` | Final de string |
-| `+` | Una o más repeticiones |
-| `*` | Cero o más repeticiones |
+| `+` | Una o mÃ¡s repeticiones |
+| `*` | Cero o mÃ¡s repeticiones |
 | `{n}` | Exactamente n repeticiones |
 
 ---
@@ -75,10 +75,10 @@ df["codigo_valido"] = df["codigo"].str.match(r"^[A-Z]{2}\d{4}$")
 ### 2.1 Convertir texto a fecha
 
 ```python
-# Formato automático
+# Formato automÃ¡tico
 df["fecha"] = pd.to_datetime(df["fecha"])
 
-# Formato explícito (más rápido en datasets grandes)
+# Formato explÃ­cito (mÃ¡s rÃ¡pido en datasets grandes)
 df["fecha"] = pd.to_datetime(df["fecha"], format="%d/%m/%Y")
 df["fecha"] = pd.to_datetime(df["fecha"], format="%Y-%m-%d %H:%M:%S")
 ```
@@ -86,14 +86,14 @@ df["fecha"] = pd.to_datetime(df["fecha"], format="%Y-%m-%d %H:%M:%S")
 ### 2.2 Accessor `.dt`
 
 ```python
-df["año"]         = df["fecha"].dt.year
+df["aÃ±o"]         = df["fecha"].dt.year
 df["mes"]         = df["fecha"].dt.month
 df["dia"]         = df["fecha"].dt.day
 df["dia_semana"]  = df["fecha"].dt.dayofweek    # 0=lunes, 6=domingo
 df["nombre_dia"]  = df["fecha"].dt.day_name()
 df["nombre_mes"]  = df["fecha"].dt.month_name()
 df["trimestre"]   = df["fecha"].dt.quarter
-df["semana_año"]  = df["fecha"].dt.isocalendar().week
+df["semana_aÃ±o"]  = df["fecha"].dt.isocalendar().week
 df["es_fin_sem"]  = df["fecha"].dt.dayofweek >= 5
 ```
 
@@ -114,26 +114,26 @@ ventas_diarias    = df["total_neto"].resample("D").sum()
 df = df.reset_index()
 ```
 
-### 2.4 Análisis temporal útil
+### 2.4 AnÃ¡lisis temporal Ãºtil
 
 ```python
-# Ventas por día de la semana
+# Ventas por dÃ­a de la semana
 df["dia_semana"] = df["fecha"].dt.dayofweek
 ventas_por_dia = df.groupby("dia_semana")["total_neto"].mean()
-ventas_por_dia.index = ["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"]
+ventas_por_dia.index = ["Lun", "Mar", "MiÃ©", "Jue", "Vie", "SÃ¡b", "Dom"]
 
-# Heatmap hora × día (si tenemos hora)
+# Heatmap hora Ã— dÃ­a (si tenemos hora)
 df["hora"] = df["fecha"].dt.hour
 pivot = df.pivot_table(values="total_neto", index="dia_semana", columns="hora", aggfunc="mean")
 ```
 
 ---
 
-## 3. Ingeniería de features
+## 3. IngenierÃ­a de features
 
-La ingeniería de features es el proceso de **crear nuevas variables** a partir de las existentes para mejorar el análisis o los modelos.
+La ingenierÃ­a de features es el proceso de **crear nuevas variables** a partir de las existentes para mejorar el anÃ¡lisis o los modelos.
 
-### 3.1 Features derivadas de variables numéricas
+### 3.1 Features derivadas de variables numÃ©ricas
 
 ```python
 # Ratios
@@ -143,14 +143,14 @@ df["margen_estimado"]    = (df["total_neto"] - df["total_neto"] * 0.6) / df["tot
 # Interacciones
 df["precio_x_descuento"] = df["precio_unitario"] * df["descuento_pct"]
 
-# Transformaciones logarítmicas (para distribuciones sesgadas)
+# Transformaciones logarÃ­tmicas (para distribuciones sesgadas)
 import numpy as np
 df["log_ventas"] = np.log1p(df["total_neto"])  # log(1 + x) evita log(0)
 
-# Binning (convertir continuo a categorías)
+# Binning (convertir continuo a categorÃ­as)
 df["tramo_venta"] = pd.cut(df["total_neto"],
     bins=[0, 20000, 50000, 100000, float("inf")],
-    labels=["Básico", "Estándar", "Premium", "Top"]
+    labels=["BÃ¡sico", "EstÃ¡ndar", "Premium", "Top"]
 )
 ```
 
@@ -163,19 +163,19 @@ df["es_verano"]     = df["mes"].isin([12, 1, 2]).astype(int)
 df["es_fin_de_mes"] = (df["dia"] >= 25).astype(int)
 df["es_finde"]      = (df["dia_semana"] >= 5).astype(int)
 
-# Antigüedad (días desde primera compra)
+# AntigÃ¼edad (dÃ­as desde primera compra)
 primera_compra = df.groupby("cliente_id")["fecha"].transform("min")
 df["antiguedad_dias"] = (df["fecha"] - primera_compra).dt.days
 ```
 
-### 3.3 Codificación de variables categóricas
+### 3.3 CodificaciÃ³n de variables categÃ³ricas
 
-| Técnica | Cuándo usar | Código |
+| TÃ©cnica | CuÃ¡ndo usar | CÃ³digo |
 |---|---|---|
 | **Label Encoding** | Ordinal (Bajo < Medio < Alto) | `df["nivel"].map({"Bajo":0, "Medio":1, "Alto":2})` |
 | **One-Hot Encoding** | Nominal sin orden | `pd.get_dummies(df, columns=["sucursal"])` |
-| **Frequency Encoding** | Muchas categorías | `df["suc_freq"] = df["sucursal"].map(df["sucursal"].value_counts())` |
-| **Target Encoding** | Con variable objetivo disponible | Media del target por categoría |
+| **Frequency Encoding** | Muchas categorÃ­as | `df["suc_freq"] = df["sucursal"].map(df["sucursal"].value_counts())` |
+| **Target Encoding** | Con variable objetivo disponible | Media del target por categorÃ­a |
 
 ```python
 # One-Hot Encoding
@@ -188,14 +188,14 @@ df["nivel_num"] = df["nivel"].map(nivel_map)
 
 ---
 
-## 4. Normalización y estandarización
+## 4. NormalizaciÃ³n y estandarizaciÃ³n
 
 ### 4.1 Diferencia clave
 
-| Técnica | Fórmula | Resultado | Cuándo usar |
+| TÃ©cnica | FÃ³rmula | Resultado | CuÃ¡ndo usar |
 |---|---|---|---|
-| **Min-Max (Normalización)** | (x - min) / (max - min) | Valores entre 0 y 1 | KNN, redes neuronales |
-| **Z-Score (Estandarización)** | (x - media) / std | Media=0, std=1 | Regresión, SVM, PCA |
+| **Min-Max (NormalizaciÃ³n)** | (x - min) / (max - min) | Valores entre 0 y 1 | KNN, redes neuronales |
+| **Z-Score (EstandarizaciÃ³n)** | (x - media) / std | Media=0, std=1 | RegresiÃ³n, SVM, PCA |
 | **Robust Scaler** | (x - Q2) / IQR | Robusto a outliers | Datos con muchos outliers |
 
 ```python
@@ -205,7 +205,7 @@ scaler_minmax  = MinMaxScaler()
 scaler_zscore  = StandardScaler()
 scaler_robust  = RobustScaler()
 
-# Aplicar (solo en columnas numéricas)
+# Aplicar (solo en columnas numÃ©ricas)
 cols_num = ["precio_unitario", "unidades_vendidas", "descuento_pct"]
 df_norm  = df.copy()
 df_norm[cols_num] = scaler_minmax.fit_transform(df[cols_num])
@@ -213,14 +213,14 @@ df_norm[cols_num] = scaler_minmax.fit_transform(df[cols_num])
 
 ---
 
-## 5. Resumen rápido
+## 5. Resumen rÃ¡pido
 
 ```
-✅ .str accessor → operaciones de texto vectorizadas
-✅ pd.to_datetime() → convertir texto a fecha
-✅ .dt accessor → extraer año, mes, día, día semana
-✅ resample() → agregar por periodo temporal
-✅ pd.get_dummies() → one-hot encoding
-✅ np.log1p() → transformación log para distribuciones sesgadas
-✅ pd.cut() / pd.qcut() → convertir continuo a categorías
+âœ… .str accessor â†’ operaciones de texto vectorizadas
+âœ… pd.to_datetime() â†’ convertir texto a fecha
+âœ… .dt accessor â†’ extraer aÃ±o, mes, dÃ­a, dÃ­a semana
+âœ… resample() â†’ agregar por periodo temporal
+âœ… pd.get_dummies() â†’ one-hot encoding
+âœ… np.log1p() â†’ transformaciÃ³n log para distribuciones sesgadas
+âœ… pd.cut() / pd.qcut() â†’ convertir continuo a categorÃ­as
 ```

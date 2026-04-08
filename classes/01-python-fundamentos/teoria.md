@@ -1,20 +1,20 @@
-# Documento Teórico — Clase 01: Fundamentos de Python aplicados a datos
+﻿# 🧠 Documento TeÃ³rico â€” Clase 01: Fundamentos de Python aplicados a datos
 
-> **Nivel:** Principiante · **Duración estimada de lectura:** 25 minutos
+> **Nivel:** Principiante Â· **DuraciÃ³n estimada de lectura:** 25 minutos
 
 ---
 
 ## 1. Variables y tipos de datos
 
-Una **variable** es un nombre que apunta a un valor en memoria. Python es dinámico: el tipo se infiere automáticamente.
+Una **variable** es un nombre que apunta a un valor en memoria. Python es dinÃ¡mico: el tipo se infiere automÃ¡ticamente.
 
 ### 1.1 Tipos fundamentales
 
 | Tipo | Nombre Python | Ejemplo | Uso en Data Science |
 |---|---|---|---|
 | Entero | `int` | `ventas = 150` | Conteos, cantidades |
-| Decimal | `float` | `precio = 9.99` | Precios, porcentajes, métricas |
-| Texto | `str` | `ciudad = "Santiago"` | Categorías, etiquetas |
+| Decimal | `float` | `precio = 9.99` | Precios, porcentajes, mÃ©tricas |
+| Texto | `str` | `ciudad = "Santiago"` | CategorÃ­as, etiquetas |
 | Booleano | `bool` | `activo = True` | Filtros, condiciones |
 | Nulo | `NoneType` | `descuento = None` | Valor faltante |
 
@@ -23,21 +23,21 @@ producto = "Mouse"         # str
 precio = 8990              # int
 precio_oferta = 7490.50    # float
 tiene_stock = True         # bool
-proveedor = None           # NoneType — no hay proveedor asignado
+proveedor = None           # NoneType â€” no hay proveedor asignado
 
 print(type(producto))      # <class 'str'>
 print(type(precio))        # <class 'int'>
 ```
 
-### 1.2 Conversión entre tipos
+### 1.2 ConversiÃ³n entre tipos
 
 ```python
-# str → int / float
+# str â†’ int / float
 cantidad_txt = "15"
 cantidad = int(cantidad_txt)        # 15
 porcentaje = float("0.12")          # 0.12
 
-# int/float → str (para mostrar)
+# int/float â†’ str (para mostrar)
 mensaje = "Total: $" + str(precio * cantidad)
 
 # Verificar si es convertible
@@ -49,19 +49,19 @@ print("abc".isdigit())  # False
 
 ## 2. Operadores
 
-### 2.1 Aritméticos
+### 2.1 AritmÃ©ticos
 
-| Operador | Operación | Ejemplo | Resultado |
+| Operador | OperaciÃ³n | Ejemplo | Resultado |
 |---|---|---|---|
 | `+` | Suma | `5 + 3` | `8` |
 | `-` | Resta | `10 - 4` | `6` |
-| `*` | Multiplicación | `3 * 7` | `21` |
-| `/` | División | `15 / 4` | `3.75` |
-| `//` | División entera | `15 // 4` | `3` |
-| `%` | Módulo (resto) | `15 % 4` | `3` |
+| `*` | MultiplicaciÃ³n | `3 * 7` | `21` |
+| `/` | DivisiÃ³n | `15 / 4` | `3.75` |
+| `//` | DivisiÃ³n entera | `15 // 4` | `3` |
+| `%` | MÃ³dulo (resto) | `15 % 4` | `3` |
 | `**` | Potencia | `2 ** 8` | `256` |
 
-### 2.2 Comparación
+### 2.2 ComparaciÃ³n
 
 | Operador | Significado | Ejemplo | Resultado |
 |---|---|---|---|
@@ -83,20 +83,20 @@ Una lista almacena una secuencia ordenada de elementos (pueden ser de distintos 
 ```python
 precios = [8990, 15990, 25990, 3490]
 
-# Acceder por índice (empieza en 0)
+# Acceder por Ã­ndice (empieza en 0)
 print(precios[0])    # 8990
-print(precios[-1])   # 3490 (último elemento)
+print(precios[-1])   # 3490 (Ãºltimo elemento)
 
 # Slicing
 print(precios[1:3])  # [15990, 25990]
 
-# Métodos útiles
+# MÃ©todos Ãºtiles
 precios.append(12000)       # agregar al final
 precios.sort()               # ordenar in-place
-print(len(precios))          # número de elementos
+print(len(precios))          # nÃºmero de elementos
 print(sum(precios))          # suma de todos
-print(min(precios))          # mínimo
-print(max(precios))          # máximo
+print(min(precios))          # mÃ­nimo
+print(max(precios))          # mÃ¡ximo
 ```
 
 ### 3.2 Diccionarios
@@ -105,15 +105,15 @@ Un diccionario almacena pares **clave: valor**. Ideal para representar un regist
 
 ```python
 producto = {
-    "nombre": "Teclado mecánico",
+    "nombre": "Teclado mecÃ¡nico",
     "precio": 45990,
     "stock": 23,
-    "categoria": "Periféricos",
+    "categoria": "PerifÃ©ricos",
     "activo": True
 }
 
 # Acceder
-print(producto["nombre"])         # Teclado mecánico
+print(producto["nombre"])         # Teclado mecÃ¡nico
 print(producto.get("iva", 0.19))  # 0.19 (valor por defecto si no existe)
 
 # Modificar
@@ -125,14 +125,14 @@ for clave, valor in producto.items():
     print(f"  {clave}: {valor}")
 ```
 
-### 3.3 Comparación de estructuras
+### 3.3 ComparaciÃ³n de estructuras
 
 | Estructura | Ordenada | Mutable | Duplicados | Ejemplo |
 |---|---|---|---|---|
-| `list` | ✅ Sí | ✅ Sí | ✅ Permite | `[1, 2, 2, 3]` |
-| `tuple` | ✅ Sí | ❌ No | ✅ Permite | `(1, 2, 3)` |
-| `set` | ❌ No | ✅ Sí | ❌ No permite | `{1, 2, 3}` |
-| `dict` | ✅ Sí (3.7+) | ✅ Sí | Claves únicas | `{"a": 1}` |
+| `list` | âœ… SÃ­ | âœ… SÃ­ | âœ… Permite | `[1, 2, 2, 3]` |
+| `tuple` | âœ… SÃ­ | âŒ No | âœ… Permite | `(1, 2, 3)` |
+| `set` | âŒ No | âœ… SÃ­ | âŒ No permite | `{1, 2, 3}` |
+| `dict` | âœ… SÃ­ (3.7+) | âœ… SÃ­ | Claves Ãºnicas | `{"a": 1}` |
 
 ---
 
@@ -150,10 +150,10 @@ elif ventas >= 300:
 else:
     categoria = "Bajo rendimiento"
 
-print(f"Categoría: {categoria}")
+print(f"CategorÃ­a: {categoria}")
 ```
 
-**Condicional en una línea (ternario):**
+**Condicional en una lÃ­nea (ternario):**
 
 ```python
 estado = "activo" if ventas > 0 else "inactivo"
@@ -202,7 +202,7 @@ precios_con_iva = [p * 1.19 for p in precios]
 # Filtrar solo precios mayores a 10.000
 precios_altos = [p for p in precios if p > 10000]
 
-# Combinar filtro y transformación
+# Combinar filtro y transformaciÃ³n
 precios_altos_con_iva = [p * 1.19 for p in precios if p > 10000]
 ```
 
@@ -210,9 +210,9 @@ precios_altos_con_iva = [p * 1.19 for p in precios if p > 10000]
 
 ## 5. Funciones
 
-Una función encapsula lógica reutilizable. En Data Science, las funciones son esenciales para aplicar transformaciones a múltiples columnas o filas.
+Una funciÃ³n encapsula lÃ³gica reutilizable. En Data Science, las funciones son esenciales para aplicar transformaciones a mÃºltiples columnas o filas.
 
-### 5.1 Sintaxis básica
+### 5.1 Sintaxis bÃ¡sica
 
 ```python
 def calcular_total_neto(unidades, precio_unitario, descuento_pct=0.0):
@@ -222,10 +222,10 @@ def calcular_total_neto(unidades, precio_unitario, descuento_pct=0.0):
     Args:
         unidades (int): cantidad vendida
         precio_unitario (float): precio sin descuento
-        descuento_pct (float): porcentaje de descuento (0.0–1.0)
+        descuento_pct (float): porcentaje de descuento (0.0â€“1.0)
     
     Returns:
-        float: total después de aplicar descuento
+        float: total despuÃ©s de aplicar descuento
     """
     total_bruto = unidades * precio_unitario
     total_neto = total_bruto * (1 - descuento_pct)
@@ -237,7 +237,7 @@ print(calcular_total_neto(3, 8990, 0.10))    # con 10% descuento
 print(calcular_total_neto(descuento_pct=0.15, unidades=5, precio_unitario=12000))
 ```
 
-### 5.2 Funciones que retornan múltiples valores
+### 5.2 Funciones que retornan mÃºltiples valores
 
 ```python
 def resumen_ventas(lista_montos):
@@ -267,7 +267,7 @@ ventas = 1234567.89
 print(f"Ciudad: {nombre}")
 print(f"Ventas: ${ventas:,.2f}")        # separador de miles y 2 decimales
 print(f"Porcentaje: {0.1234:.1%}")      # formato porcentaje
-print(f"{'Producto':20} {'Precio':>10}")  # alineación
+print(f"{'Producto':20} {'Precio':>10}")  # alineaciÃ³n
 
 # Tabla formateada
 datos = [("Mouse", 8990), ("Teclado", 15990), ("Webcam", 25990)]
@@ -281,26 +281,26 @@ for nombre, precio in datos:
 
 ## 7. Errores frecuentes para principiantes
 
-| Error | Causa | Solución |
+| Error | Causa | SoluciÃ³n |
 |---|---|---|
 | `NameError: name 'x' is not defined` | Variable no definida o con typo | Verificar nombre y scope |
-| `IndexError: list index out of range` | Índice fuera del rango de la lista | Verificar `len()` antes de acceder |
+| `IndexError: list index out of range` | Ãndice fuera del rango de la lista | Verificar `len()` antes de acceder |
 | `KeyError: 'columna'` | Clave no existe en el diccionario | Usar `.get(clave, default)` |
-| `TypeError: unsupported operand type(s)` | Operación entre tipos incompatibles | Convertir tipos antes |
-| `IndentationError` | Indentación incorrecta | Python usa 4 espacios por nivel |
-| `ZeroDivisionError` | División por cero | Verificar denominador antes de dividir |
+| `TypeError: unsupported operand type(s)` | OperaciÃ³n entre tipos incompatibles | Convertir tipos antes |
+| `IndentationError` | IndentaciÃ³n incorrecta | Python usa 4 espacios por nivel |
+| `ZeroDivisionError` | DivisiÃ³n por cero | Verificar denominador antes de dividir |
 
 ---
 
-## 8. Resumen rápido
+## 8. Resumen rÃ¡pido
 
 ```
-✅ Variables → nombres para valores en memoria
-✅ Tipos → int, float, str, bool, None
-✅ Listas → colecciones ordenadas y mutables
-✅ Diccionarios → pares clave:valor
-✅ if/elif/else → decisiones
-✅ for → iterar sobre colecciones
-✅ Funciones → código reutilizable y organizado
-✅ f-strings → formateo moderno de texto
+âœ… Variables â†’ nombres para valores en memoria
+âœ… Tipos â†’ int, float, str, bool, None
+âœ… Listas â†’ colecciones ordenadas y mutables
+âœ… Diccionarios â†’ pares clave:valor
+âœ… if/elif/else â†’ decisiones
+âœ… for â†’ iterar sobre colecciones
+âœ… Funciones â†’ cÃ³digo reutilizable y organizado
+âœ… f-strings â†’ formateo moderno de texto
 ```

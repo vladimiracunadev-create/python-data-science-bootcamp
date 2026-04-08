@@ -1,10 +1,10 @@
-# Clase 08 — Presentación de hallazgos con claridad
+﻿# 📘 Clase 08 â€” PresentaciÃ³n de hallazgos con claridad
 
 ## Objetivo
 
-Transformar resultados técnicos en mensajes claros para audiencia no técnica.
+Transformar resultados tÃ©cnicos en mensajes claros para audiencia no tÃ©cnica.
 
-## Duración sugerida
+## DuraciÃ³n sugerida
 
 90 minutos
 
@@ -14,6 +14,6 @@ Transformar resultados técnicos en mensajes claros para audiencia no técnica.
 
 ## Foco de aprendizaje
 
-- storytelling con datos, selección de insights y cierre
-- práctica guiada en el mismo entorno
-- cierre con interpretación aplicada
+- storytelling con datos, selecciÃ³n de insights y cierre
+- prÃ¡ctica guiada en el mismo entorno
+- cierre con interpretaciÃ³n aplicada

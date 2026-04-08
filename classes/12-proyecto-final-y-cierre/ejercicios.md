@@ -1,28 +1,28 @@
-# Checklist de entregables — Proyecto Final
+﻿# 🧪 Checklist de entregables â€” Proyecto Final
 
 ## Dataset elegido
 
-Indica cuál dataset usarás y el problema que resolverás:
+Indica cuÃ¡l dataset usarÃ¡s y el problema que resolverÃ¡s:
 
 - **Dataset:** _______________
 - **Pregunta de negocio:** _______________
-- **Tipo de problema:** Regresión / Clasificación
+- **Tipo de problema:** RegresiÃ³n / ClasificaciÃ³n
 
 ---
 
-## Checklist de análisis exploratorio
+## Checklist de anÃ¡lisis exploratorio
 
 - [ ] Dimensiones del dataset (`df.shape`)
 - [ ] Tipos de datos (`df.dtypes`)
-- [ ] Estadísticas descriptivas (`df.describe()`)
+- [ ] EstadÃ­sticas descriptivas (`df.describe()`)
 - [ ] Cantidad y porcentaje de valores nulos
-- [ ] Distribución de la variable objetivo (histograma)
-- [ ] Al menos una visualización de correlación (heatmap o scatterplot)
-- [ ] Identificación de outliers (boxplot)
+- [ ] DistribuciÃ³n de la variable objetivo (histograma)
+- [ ] Al menos una visualizaciÃ³n de correlaciÃ³n (heatmap o scatterplot)
+- [ ] IdentificaciÃ³n de outliers (boxplot)
 
 ## Checklist de limpieza
 
-- [ ] Valores nulos imputados o eliminados (con justificación)
+- [ ] Valores nulos imputados o eliminados (con justificaciÃ³n)
 - [ ] Tipos de datos corregidos si es necesario
 - [ ] Variables nuevas creadas si agregan valor
 
@@ -31,14 +31,14 @@ Indica cuál dataset usarás y el problema que resolverás:
 - [ ] Train/test split (80/20, `random_state=42`)
 - [ ] Pipeline con preprocesamiento + modelo
 - [ ] Al menos 2 modelos comparados
-- [ ] Métricas de evaluación reportadas
-- [ ] El modelo supera la línea base
+- [ ] MÃ©tricas de evaluaciÃ³n reportadas
+- [ ] El modelo supera la lÃ­nea base
 
-## Checklist de presentación
+## Checklist de presentaciÃ³n
 
-- [ ] Título claro del análisis
-- [ ] Al menos 3 gráficos comunicativos (con título y etiquetas)
-- [ ] Conclusiones en lenguaje de negocio (sin jerga técnica)
+- [ ] TÃ­tulo claro del anÃ¡lisis
+- [ ] Al menos 3 grÃ¡ficos comunicativos (con tÃ­tulo y etiquetas)
+- [ ] Conclusiones en lenguaje de negocio (sin jerga tÃ©cnica)
 - [ ] Limitaciones explicitadas
 - [ ] Recomendaciones concretas para el negocio
 
@@ -48,4 +48,4 @@ Indica cuál dataset usarás y el problema que resolverás:
 
 - Notebook `.ipynb` con todas las celdas ejecutadas
 - Todas las visualizaciones visibles
-- Máximo 15 minutos de presentación oral
+- MÃ¡ximo 15 minutos de presentaciÃ³n oral

@@ -1,8 +1,8 @@
-# Indice de documentacion
+﻿# 🗺 🗺️ ??? Indice de documentacion
 
 > Punto de entrada canonico para navegar la documentacion del bootcamp por audiencia, objetivo y nivel de detalle.
 
-## Lectura recomendada segun perfil
+## 👥 Lectura recomendada segun perfil
 
 | Perfil | Documento de entrada | Que deberia obtener |
 |---|---|---|
@@ -14,7 +14,7 @@
 | Seguridad | [../SECURITY.md](../SECURITY.md) | Postura actual, riesgos aceptados y hardening recomendado |
 | Portafolio / seniority | [portfolio-high-standard.md](portfolio-high-standard.md) | Ver el estandar alto real del ecosistema del autor |
 
-## Mapa documental canonico
+## 🧱 Mapa documental canonico
 
 | Documento | Rol | Audiencia principal |
 |---|---|---|
@@ -27,7 +27,7 @@
 | [estandar-alto-gap-bootcamp.md](estandar-alto-gap-bootcamp.md) | Brecha concreta entre este repo y el estandar alto del portafolio | Maintainer |
 | [portfolio-high-standard.md](portfolio-high-standard.md) | Analisis transversal de tus mejores repos y patron de madurez | Maintainer / evaluador |
 
-## Producto y superficies publicas
+## 🖼 Producto y superficies publicas
 
 | Superficie | Ruta | Que resuelve |
 |---|---|---|
@@ -36,7 +36,7 @@
 | Laboratorio interactivo | `app/` | Entorno de clase, notebooks y runner local |
 | Curriculum base | `classes/` | Contenido pedagogico modular |
 
-## Documentos de implementacion educativa
+## 🎓 Documentos de implementacion educativa
 
 | Documento | Rol |
 |---|---|
@@ -49,7 +49,7 @@
 | [herramientas-pedagogicas-de-aula.md](herramientas-pedagogicas-de-aula.md) | Estrategias concretas de mediacion |
 | [aula-ia-y-problemas-frecuentes.md](aula-ia-y-problemas-frecuentes.md) | Uso de tecnologia y manejo de dificultades recurrentes |
 
-## Documentos de entrevista y venta de la idea
+## 🎤 Documentos de entrevista y venta de la idea
 
 | Documento | Rol |
 |---|---|
@@ -60,7 +60,7 @@
 | [proceso-seleccion-skillnest.md](proceso-seleccion-skillnest.md) | Contexto del proceso y etapas |
 | [desafio-tecnico-preparacion.md](desafio-tecnico-preparacion.md) | Contenidos a dominar para el desafio tecnico |
 
-## Regla de lectura rapida
+## ⏱ Regla de lectura rapida
 
 Si alguien tiene solo 10 minutos, la secuencia correcta es:
 

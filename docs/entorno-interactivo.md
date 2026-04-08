@@ -1,23 +1,23 @@
-# Entorno interactivo local del bootcamp
+﻿# 💻 Entorno interactivo local del bootcamp
 
 ## Objetivo
 
-Este proyecto incorpora una aplicación local en Python para que el curso no dependa solo de notebooks estáticos. La idea es que el mismo repositorio sirva como:
+Este proyecto incorpora una aplicaciÃ³n local en Python para que el curso no dependa solo de notebooks estÃ¡ticos. La idea es que el mismo repositorio sirva como:
 
-- base de planificación pedagógica;
-- espacio de práctica por clase;
+- base de planificaciÃ³n pedagÃ³gica;
+- espacio de prÃ¡ctica por clase;
 - cuaderno interactivo por celdas;
-- runner rápido para probar fragmentos de código;
+- runner rÃ¡pido para probar fragmentos de cÃ³digo;
 - laboratorio local reutilizable.
 
 ## Componentes principales
 
 - **Vista de clases**: muestra pauta, ejercicios y tarea.
 - **Cuaderno tipo Colab**: permite ejecutar celdas manteniendo contexto.
-- **Runner rápido**: sirve para probar ideas o resolver dudas en vivo.
+- **Runner rÃ¡pido**: sirve para probar ideas o resolver dudas en vivo.
 - **Guardado de notebooks**: permite persistir trabajo en JSON.
 
-## Modo de ejecución
+## Modo de ejecuciÃ³n
 
 ### Nativo
 
@@ -34,6 +34,6 @@ python -m app.app
 docker compose up --build
 ```
 
-## Nota técnica
+## Nota tÃ©cnica
 
-El ejecutor está pensado para **uso local y controlado**. Si se quisiera exponer a internet o a una sala más amplia, habría que agregar sandboxing real, aislamiento por proceso, control de recursos y autenticación.
+El ejecutor estÃ¡ pensado para **uso local y controlado**. Si se quisiera exponer a internet o a una sala mÃ¡s amplia, habrÃ­a que agregar sandboxing real, aislamiento por proceso, control de recursos y autenticaciÃ³n.

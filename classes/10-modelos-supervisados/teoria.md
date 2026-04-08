@@ -1,44 +1,44 @@
-# Documento Teórico — Clase 10: Modelos Supervisados — Clasificación
+﻿# 🧠 Documento TeÃ³rico â€” Clase 10: Modelos Supervisados â€” ClasificaciÃ³n
 
-> **Nivel:** Intermedio · **Duración estimada de lectura:** 25–30 minutos
-
----
-
-## 1. Clasificación vs. Regresión
-
-| Aspecto | Regresión | Clasificación |
-|---|---|---|
-| Output | Número continuo | Categoría / clase |
-| Ejemplo | Predecir ventas: $45.200 | ¿Cliente se va? Sí / No |
-| Métrica principal | MAE, RMSE, R² | Accuracy, F1, AUC |
-| Algoritmos comunes | Regresión Lineal, SVR | Árbol, LR Logística, SVM |
+> **Nivel:** Intermedio Â· **DuraciÃ³n estimada de lectura:** 25â€“30 minutos
 
 ---
 
-## 2. Árbol de Decisión
+## 1. ClasificaciÃ³n vs. RegresiÃ³n
 
-### 2.1 ¿Cómo funciona?
-
-Divide el espacio de los datos en regiones usando preguntas binarias (nodos). Cada camino desde la raíz hasta una hoja es una regla de decisión.
-
-```
-¿Antigüedad > 24 meses?
-        │
-    Sí──┤         No──┐
-        ↓              ↓
-¿Reclamos > 2?    ¿Productos > 1?
-   Sí → CHURN       No → CHURN
-   No → RETIENE     Sí → RETIENE
-```
-
-### 2.2 Hiperparámetros clave
-
-| Hiperparámetro | Qué controla | Valor típico |
+| Aspecto | RegresiÃ³n | ClasificaciÃ³n |
 |---|---|---|
-| `max_depth` | Profundidad máxima del árbol | 3–7 |
-| `min_samples_split` | Mínimo de ejemplos para dividir | 5–20 |
-| `min_samples_leaf` | Mínimo de ejemplos en hoja | 2–10 |
-| `criterion` | Función de impureza | "gini" o "entropy" |
+| Output | NÃºmero continuo | CategorÃ­a / clase |
+| Ejemplo | Predecir ventas: $45.200 | Â¿Cliente se va? SÃ­ / No |
+| MÃ©trica principal | MAE, RMSE, RÂ² | Accuracy, F1, AUC |
+| Algoritmos comunes | RegresiÃ³n Lineal, SVR | Ãrbol, LR LogÃ­stica, SVM |
+
+---
+
+## 2. Ãrbol de DecisiÃ³n
+
+### 2.1 Â¿CÃ³mo funciona?
+
+Divide el espacio de los datos en regiones usando preguntas binarias (nodos). Cada camino desde la raÃ­z hasta una hoja es una regla de decisiÃ³n.
+
+```
+Â¿AntigÃ¼edad > 24 meses?
+        â”‚
+    SÃ­â”€â”€â”¤         Noâ”€â”€â”
+        â†“              â†“
+Â¿Reclamos > 2?    Â¿Productos > 1?
+   SÃ­ â†’ CHURN       No â†’ CHURN
+   No â†’ RETIENE     SÃ­ â†’ RETIENE
+```
+
+### 2.2 HiperparÃ¡metros clave
+
+| HiperparÃ¡metro | QuÃ© controla | Valor tÃ­pico |
+|---|---|---|
+| `max_depth` | Profundidad mÃ¡xima del Ã¡rbol | 3â€“7 |
+| `min_samples_split` | MÃ­nimo de ejemplos para dividir | 5â€“20 |
+| `min_samples_leaf` | MÃ­nimo de ejemplos en hoja | 2â€“10 |
+| `criterion` | FunciÃ³n de impureza | "gini" o "entropy" |
 
 ```python
 from sklearn.tree import DecisionTreeClassifier
@@ -53,96 +53,96 @@ model.fit(X_train, y_train)
 
 ### 2.3 Ventajas y desventajas
 
-| ✅ Ventajas | ❌ Desventajas |
+| âœ… Ventajas | âŒ Desventajas |
 |---|---|
 | Muy interpretable | Propenso a overfitting |
-| Sin necesidad de escalar | Inestable con pequeños cambios en datos |
-| Maneja categorías y numéricos | Baja precisión en datasets complejos |
+| Sin necesidad de escalar | Inestable con pequeÃ±os cambios en datos |
+| Maneja categorÃ­as y numÃ©ricos | Baja precisiÃ³n en datasets complejos |
 | Identifica features importantes | Sesgado hacia features con muchos valores |
 
 ---
 
-## 3. Regresión Logística
+## 3. RegresiÃ³n LogÃ­stica
 
-### 3.1 ¿Cómo funciona?
+### 3.1 Â¿CÃ³mo funciona?
 
-A pesar del nombre, es un **clasificador**. Estima la probabilidad de que una instancia pertenezca a la clase positiva usando la función sigmoide:
+A pesar del nombre, es un **clasificador**. Estima la probabilidad de que una instancia pertenezca a la clase positiva usando la funciÃ³n sigmoide:
 
 ```
-P(y=1|X) = 1 / (1 + e^(−(β₀ + β₁·x₁ + ... + βₙ·xₙ)))
+P(y=1|X) = 1 / (1 + e^(âˆ’(Î²â‚€ + Î²â‚Â·xâ‚ + ... + Î²â‚™Â·xâ‚™)))
 ```
 
-La salida está siempre entre 0 y 1. Si P > 0.5 → clase 1; si P ≤ 0.5 → clase 0.
+La salida estÃ¡ siempre entre 0 y 1. Si P > 0.5 â†’ clase 1; si P â‰¤ 0.5 â†’ clase 0.
 
-### 3.2 Umbral de decisión
+### 3.2 Umbral de decisiÃ³n
 
 ```python
 # Probabilidades en lugar de clases directas
 proba = model.predict_proba(X_test)[:, 1]  # prob de clase 1
 
 # Cambiar el umbral (por defecto 0.5)
-threshold = 0.3  # más sensible (detecta más positivos)
+threshold = 0.3  # mÃ¡s sensible (detecta mÃ¡s positivos)
 y_pred_custom = (proba >= threshold).astype(int)
 ```
 
-Bajar el umbral → más recall, menos precisión.
-Subir el umbral → más precisión, menos recall.
+Bajar el umbral â†’ mÃ¡s recall, menos precisiÃ³n.
+Subir el umbral â†’ mÃ¡s precisiÃ³n, menos recall.
 
 ---
 
-## 4. La Matriz de Confusión
+## 4. La Matriz de ConfusiÃ³n
 
 ### 4.1 Estructura
 
 |  | **Predicho: Negativo (0)** | **Predicho: Positivo (1)** |
 |---|---|---|
-| **Real: Negativo (0)** | TN — Verdadero Negativo | FP — Falso Positivo (Error tipo I) |
-| **Real: Positivo (1)** | FN — Falso Negativo (Error tipo II) | TP — Verdadero Positivo |
+| **Real: Negativo (0)** | TN â€” Verdadero Negativo | FP â€” Falso Positivo (Error tipo I) |
+| **Real: Positivo (1)** | FN â€” Falso Negativo (Error tipo II) | TP â€” Verdadero Positivo |
 
-### 4.2 ¿Cuándo importa cada error?
+### 4.2 Â¿CuÃ¡ndo importa cada error?
 
-| Contexto | Error más costoso | Métrica a priorizar |
+| Contexto | Error mÃ¡s costoso | MÃ©trica a priorizar |
 |---|---|---|
-| Detección de cáncer | FN (no detectar enfermo) | Recall |
-| Filtro de spam | FP (bloquear email legítimo) | Precisión |
-| Retención de clientes | FN (no detectar cliente que se va) | Recall |
+| DetecciÃ³n de cÃ¡ncer | FN (no detectar enfermo) | Recall |
+| Filtro de spam | FP (bloquear email legÃ­timo) | PrecisiÃ³n |
+| RetenciÃ³n de clientes | FN (no detectar cliente que se va) | Recall |
 | Fraude bancario | FP + FN (ambos costosos) | F1 o AUC |
 
-### 4.3 Código
+### 4.3 CÃ³digo
 
 ```python
 from sklearn.metrics import ConfusionMatrixDisplay, confusion_matrix
 import matplotlib.pyplot as plt
 
 cm = confusion_matrix(y_test, y_pred)
-disp = ConfusionMatrixDisplay(cm, display_labels=["Se quedó", "Se fue"])
+disp = ConfusionMatrixDisplay(cm, display_labels=["Se quedÃ³", "Se fue"])
 disp.plot(cmap="Blues")
-plt.title("Matriz de Confusión — Modelo de Churn")
+plt.title("Matriz de ConfusiÃ³n â€” Modelo de Churn")
 plt.show()
 ```
 
 ---
 
-## 5. Métricas de clasificación
+## 5. MÃ©tricas de clasificaciÃ³n
 
-### 5.1 Fórmulas
+### 5.1 FÃ³rmulas
 
-| Métrica | Fórmula | Rango |
+| MÃ©trica | FÃ³rmula | Rango |
 |---|---|---|
-| **Accuracy** | (TP + TN) / Total | 0–1 |
-| **Precisión** | TP / (TP + FP) | 0–1 |
-| **Recall (Sensibilidad)** | TP / (TP + FN) | 0–1 |
-| **F1-Score** | 2 · (Prec · Recall) / (Prec + Recall) | 0–1 |
-| **Especificidad** | TN / (TN + FP) | 0–1 |
+| **Accuracy** | (TP + TN) / Total | 0â€“1 |
+| **PrecisiÃ³n** | TP / (TP + FP) | 0â€“1 |
+| **Recall (Sensibilidad)** | TP / (TP + FN) | 0â€“1 |
+| **F1-Score** | 2 Â· (Prec Â· Recall) / (Prec + Recall) | 0â€“1 |
+| **Especificidad** | TN / (TN + FP) | 0â€“1 |
 
 ### 5.2 El problema de la accuracy con clases desbalanceadas
 
 Si el 95% de los clientes **no** hace churn:
 
-- Un modelo que siempre predice "No hace churn" → **Accuracy = 95%**
+- Un modelo que siempre predice "No hace churn" â†’ **Accuracy = 95%**
 - Pero **Recall = 0%** (nunca detecta a quienes se van)
 
-Siempre revisar el balance de clases antes de elegir la métrica.
+Siempre revisar el balance de clases antes de elegir la mÃ©trica.
 
 ```python
 print(y_train.value_counts(normalize=True))
@@ -154,7 +154,7 @@ print(y_train.value_counts(normalize=True))
 from sklearn.metrics import classification_report
 
 print(classification_report(y_test, y_pred,
-    target_names=["Se quedó", "Se fue"],
+    target_names=["Se quedÃ³", "Se fue"],
     digits=3))
 ```
 
@@ -162,7 +162,7 @@ print(classification_report(y_test, y_pred,
 
 ## 6. Importancia de variables
 
-### 6.1 Árbol de Decisión
+### 6.1 Ãrbol de DecisiÃ³n
 
 ```python
 import pandas as pd
@@ -174,13 +174,13 @@ importances = pd.Series(
 ).sort_values(ascending=True)
 
 importances.plot(kind="barh", color="#22c55e", figsize=(8, 5))
-plt.title("Importancia de variables — Árbol de Decisión")
+plt.title("Importancia de variables â€” Ãrbol de DecisiÃ³n")
 plt.xlabel("Importancia (Gini)")
 plt.tight_layout()
 plt.show()
 ```
 
-### 6.2 Regresión Logística
+### 6.2 RegresiÃ³n LogÃ­stica
 
 ```python
 coef = pd.Series(
@@ -190,7 +190,7 @@ coef = pd.Series(
 
 colors = ["#ef4444" if c < 0 else "#22c55e" for c in coef]
 coef.plot(kind="barh", color=colors, figsize=(8, 5))
-plt.title("Coeficientes — Regresión Logística")
+plt.title("Coeficientes â€” RegresiÃ³n LogÃ­stica")
 plt.axvline(0, color="white", lw=0.5)
 plt.tight_layout()
 plt.show()
@@ -198,39 +198,39 @@ plt.show()
 
 ---
 
-## 7. Comparación de algoritmos
+## 7. ComparaciÃ³n de algoritmos
 
 ### 7.1 Tabla comparativa general
 
-| Criterio | Árbol Decisión | Reg. Logística | Random Forest | SVM |
+| Criterio | Ãrbol DecisiÃ³n | Reg. LogÃ­stica | Random Forest | SVM |
 |---|---|---|---|---|
-| Interpretabilidad | ✅ Alta | ✅ Alta | ❌ Baja | ❌ Baja |
-| Velocidad entrenamiento | ✅ Rápido | ✅ Rápido | ⚠️ Medio | ❌ Lento |
-| Requiere escalar features | ❌ No | ✅ Sí | ❌ No | ✅ Sí |
-| Maneja no-linealidad | ⚠️ Parcial | ❌ No | ✅ Sí | ✅ Sí |
-| Overfitting | ❌ Alto riesgo | ✅ Bajo riesgo | ✅ Bajo (ensemble) | ✅ Bajo |
+| Interpretabilidad | âœ… Alta | âœ… Alta | âŒ Baja | âŒ Baja |
+| Velocidad entrenamiento | âœ… RÃ¡pido | âœ… RÃ¡pido | âš ï¸ Medio | âŒ Lento |
+| Requiere escalar features | âŒ No | âœ… SÃ­ | âŒ No | âœ… SÃ­ |
+| Maneja no-linealidad | âš ï¸ Parcial | âŒ No | âœ… SÃ­ | âœ… SÃ­ |
+| Overfitting | âŒ Alto riesgo | âœ… Bajo riesgo | âœ… Bajo (ensemble) | âœ… Bajo |
 
 ---
 
-## 8. Errores frecuentes en clasificación
+## 8. Errores frecuentes en clasificaciÃ³n
 
-| Error | Descripción | Solución |
+| Error | DescripciÃ³n | SoluciÃ³n |
 |---|---|---|
-| **Evaluar solo con accuracy** | Engañoso con clases desbalanceadas | Usar F1, AUC, o confusion matrix |
+| **Evaluar solo con accuracy** | EngaÃ±oso con clases desbalanceadas | Usar F1, AUC, o confusion matrix |
 | **No verificar balance de clases** | El modelo aprende la clase mayoritaria | Analizar `value_counts()` |
-| **Ignorar el umbral** | 0.5 no siempre es el mejor umbral | Ajustar según el costo del error |
+| **Ignorar el umbral** | 0.5 no siempre es el mejor umbral | Ajustar segÃºn el costo del error |
 | **No comparar modelos** | Un solo modelo no tiene referencia | Comparar con baseline y al menos otro modelo |
-| **Olvidar el contexto de negocio** | F1 alto no significa modelo útil | Traducir métricas a impacto real |
+| **Olvidar el contexto de negocio** | F1 alto no significa modelo Ãºtil | Traducir mÃ©tricas a impacto real |
 
 ---
 
-## 9. Resumen rápido
+## 9. Resumen rÃ¡pido
 
 ```
-✅ Clasificación = predecir categorías (binario o multiclase)
-✅ Árbol de decisión = interpretable, riesgo de overfitting
-✅ Regresión logística = estima probabilidades, requiere escalar
-✅ Matriz de confusión = base de todas las métricas
-✅ F1 = balance entre precisión y recall
-✅ Ajustar umbral según el costo del error en el negocio
+âœ… ClasificaciÃ³n = predecir categorÃ­as (binario o multiclase)
+âœ… Ãrbol de decisiÃ³n = interpretable, riesgo de overfitting
+âœ… RegresiÃ³n logÃ­stica = estima probabilidades, requiere escalar
+âœ… Matriz de confusiÃ³n = base de todas las mÃ©tricas
+âœ… F1 = balance entre precisiÃ³n y recall
+âœ… Ajustar umbral segÃºn el costo del error en el negocio
 ```

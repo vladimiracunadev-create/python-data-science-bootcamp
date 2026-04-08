@@ -1,4 +1,4 @@
-# Ejercicios — Clase 02
+﻿# 🧪 Ejercicios â€” Clase 02
 
 ## Ejercicio 1
 Carga el archivo `ventas_tienda.csv`.
@@ -13,4 +13,4 @@ Selecciona solo las columnas `sucursal`, `categoria` y `unidades`.
 Filtra las ventas de la sucursal `Centro`.
 
 ## Ejercicio 5
-Calcula un resumen de unidades vendidas por categoría.
+Calcula un resumen de unidades vendidas por categorÃ­a.

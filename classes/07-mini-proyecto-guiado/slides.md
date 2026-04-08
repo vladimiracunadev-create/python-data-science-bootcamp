@@ -1,14 +1,14 @@
-# Pauta de clase
+﻿# 🖥 Pauta de clase
 
 ## Apertura
 - Recordatorio de la clase anterior.
-- Qué pregunta queremos responder hoy.
+- QuÃ© pregunta queremos responder hoy.
 
 ## Desarrollo
-- Explicación breve.
-- Demostración guiada.
-- Ejercicio de práctica.
-- Discusión de resultados.
+- ExplicaciÃ³n breve.
+- DemostraciÃ³n guiada.
+- Ejercicio de prÃ¡ctica.
+- DiscusiÃ³n de resultados.
 
 ## Idea clave
 
@@ -16,5 +16,5 @@ El foco de esta clase es **flujo completo desde carga hasta hallazgos** usando `
 
 ## Cierre
 - Error frecuente a evitar.
-- Qué habilidad se consolida hoy.
-- Cómo conecta con la siguiente clase.
+- QuÃ© habilidad se consolida hoy.
+- CÃ³mo conecta con la siguiente clase.

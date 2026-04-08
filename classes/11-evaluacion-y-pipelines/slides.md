@@ -1,21 +1,21 @@
-# Slides — Clase 11: Evaluación robusta y Pipelines de ML
+﻿# 🖥 Slides â€” Clase 11: EvaluaciÃ³n robusta y Pipelines de ML
 
-## Bloque 1 (20 min) — El problema del overfitting
+## Bloque 1 (20 min) â€” El problema del overfitting
 
-**Diagnóstico:**
+**DiagnÃ³stico:**
 
-| Escenario | Train score | Test score | Diagnóstico |
+| Escenario | Train score | Test score | DiagnÃ³stico |
 |---|---|---|---|
-| Perfecto | Alto | Alto | ✅ Bien |
-| Overfitting | Alto | Bajo | ❌ Memoriza |
-| Underfitting | Bajo | Bajo | ❌ Demasiado simple |
-| Varianza | Variable | Variable | ⚠️ Inestable |
+| Perfecto | Alto | Alto | âœ… Bien |
+| Overfitting | Alto | Bajo | âŒ Memoriza |
+| Underfitting | Bajo | Bajo | âŒ Demasiado simple |
+| Varianza | Variable | Variable | âš ï¸ Inestable |
 
-**Causa más común de overfitting:** modelo demasiado complejo para el volumen de datos.
+**Causa mÃ¡s comÃºn de overfitting:** modelo demasiado complejo para el volumen de datos.
 
 ---
 
-## Bloque 2 (25 min) — Validación cruzada
+## Bloque 2 (25 min) â€” ValidaciÃ³n cruzada
 
 En lugar de un solo train/test split:
 
@@ -27,23 +27,23 @@ Fold 4: [Train] [Train] [Train] [Test] [Train]
 Fold 5: [Train] [Train] [Train] [Train] [Test]
 ```
 
-**Resultado:** 5 scores → media y desviación estándar. Mucho más confiable.
+**Resultado:** 5 scores â†’ media y desviaciÃ³n estÃ¡ndar. Mucho mÃ¡s confiable.
 
 ```python
 from sklearn.model_selection import cross_val_score
 scores = cross_val_score(model, X, y, cv=5, scoring="f1")
-print(f"F1 promedio: {scores.mean():.3f} ± {scores.std():.3f}")
+print(f"F1 promedio: {scores.mean():.3f} Â± {scores.std():.3f}")
 ```
 
 ---
 
-## Bloque 3 (30 min) — Pipelines
+## Bloque 3 (30 min) â€” Pipelines
 
 **Sin Pipeline (peligroso):**
 ```python
 scaler.fit(X_train)       # OK
 X_train_scaled = scaler.transform(X_train)
-X_test_scaled = scaler.transform(X_test)  # ¿se te olvidará en prod?
+X_test_scaled = scaler.transform(X_test)  # Â¿se te olvidarÃ¡ en prod?
 ```
 
 **Con Pipeline (seguro):**
@@ -56,12 +56,12 @@ pipe = Pipeline([
     ("model", LogisticRegression())
 ])
 pipe.fit(X_train, y_train)
-pipe.predict(X_test)  # escala automáticamente
+pipe.predict(X_test)  # escala automÃ¡ticamente
 ```
 
 ---
 
-## Cierre (15 min) — GridSearchCV
+## Cierre (15 min) â€” GridSearchCV
 
 ```python
 from sklearn.model_selection import GridSearchCV

@@ -1,4 +1,4 @@
-# Portal del alumno y ruta hacia app movil
+﻿# 📱 Portal del alumno y ruta hacia app movil
 
 Documento de producto para explicar por que existe una superficie publica separada del laboratorio local, cual es el enlace oficial para estudiantes y como evoluciona esta base hacia una experiencia movil sin sobredimensionar la madurez actual.
 

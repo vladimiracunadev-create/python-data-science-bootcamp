@@ -1,10 +1,10 @@
-# Clase 04 — Estadística descriptiva para decisiones iniciales
+﻿# 📘 Clase 04 â€” EstadÃ­stica descriptiva para decisiones iniciales
 
 ## Objetivo
 
-Interpretar métricas descriptivas simples y relacionarlas con preguntas reales.
+Interpretar mÃ©tricas descriptivas simples y relacionarlas con preguntas reales.
 
-## Duración sugerida
+## DuraciÃ³n sugerida
 
 90 minutos
 
@@ -14,6 +14,6 @@ Interpretar métricas descriptivas simples y relacionarlas con preguntas reales.
 
 ## Foco de aprendizaje
 
-- promedio, mediana, conteos, dispersión simple y lectura de negocio
-- práctica guiada en el mismo entorno
-- cierre con interpretación aplicada
+- promedio, mediana, conteos, dispersiÃ³n simple y lectura de negocio
+- prÃ¡ctica guiada en el mismo entorno
+- cierre con interpretaciÃ³n aplicada

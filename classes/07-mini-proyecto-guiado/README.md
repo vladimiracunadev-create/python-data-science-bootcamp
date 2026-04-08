@@ -1,10 +1,10 @@
-# Clase 07 — Mini proyecto guiado de análisis
+﻿# 📘 Clase 07 â€” Mini proyecto guiado de anÃ¡lisis
 
 ## Objetivo
 
-Resolver un caso pequeño con preguntas, limpieza básica y visualización.
+Resolver un caso pequeÃ±o con preguntas, limpieza bÃ¡sica y visualizaciÃ³n.
 
-## Duración sugerida
+## DuraciÃ³n sugerida
 
 90 minutos
 
@@ -15,5 +15,5 @@ Resolver un caso pequeño con preguntas, limpieza básica y visualización.
 ## Foco de aprendizaje
 
 - flujo completo desde carga hasta hallazgos
-- práctica guiada en el mismo entorno
-- cierre con interpretación aplicada
+- prÃ¡ctica guiada en el mismo entorno
+- cierre con interpretaciÃ³n aplicada

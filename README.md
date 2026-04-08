@@ -1,4 +1,4 @@
-# Python Data Science Bootcamp
+﻿# 🧭 Python Data Science Bootcamp
 
 [![CI](https://github.com/vladimiracunadev-create/python-data-science-bootcamp/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/vladimiracunadev-create/python-data-science-bootcamp/actions/workflows/ci.yml)
 [![Security](https://github.com/vladimiracunadev-create/python-data-science-bootcamp/actions/workflows/security.yml/badge.svg?branch=master)](https://github.com/vladimiracunadev-create/python-data-science-bootcamp/actions/workflows/security.yml)
@@ -13,14 +13,14 @@ No es solo un repo de materiales. Reune curriculum modular, laboratorio interact
 
 ---
 
-## Estado actual del producto
+## 🧭 Estado actual del producto
 
 > Estado: base operativa  
 > Superficies publicas: portal del alumno + vista institucional  
 > Superficie local: laboratorio Flask con runner y notebooks  
 > Postura de despliegue: local-first, no internet abierta sin capas adicionales
 
-## Que resuelve hoy este repositorio
+## ✨ Que resuelve hoy este repositorio
 
 - una ruta concreta para ensenar Python y Data Science con progresion real;
 - un entorno local de clase para visualizar materiales, cargar notebooks y ejecutar codigo;
@@ -30,7 +30,7 @@ No es solo un repo de materiales. Reune curriculum modular, laboratorio interact
 
 ---
 
-## Rutas recomendadas segun perfil
+## 👥 Rutas recomendadas segun perfil
 
 | Perfil | Documento de entrada | Que mirar primero |
 |---|---|---|
@@ -46,7 +46,7 @@ Si no sabes por donde entrar, usa [docs/INDEX.md](docs/INDEX.md).
 
 ---
 
-## Como leer este repo segun tiempo disponible
+## ⏱ Como leer este repo segun tiempo disponible
 
 | Tiempo | Secuencia recomendada | Resultado esperado |
 |---|---|---|
@@ -58,7 +58,7 @@ Eso evita leer la carpeta `docs/` como una coleccion plana. La documentacion est
 
 ---
 
-## Superficies del producto
+## 🧱 Superficies del producto
 
 | Superficie | Rol | Estado |
 |---|---|---|
@@ -73,7 +73,7 @@ La fuente de verdad para esta taxonomia vive en [docs/CATALOGO_PRODUCTO.md](docs
 
 ---
 
-## Arquitectura en una mirada
+## 🏗 Arquitectura en una mirada
 
 ```mermaid
 graph LR
@@ -93,9 +93,9 @@ La arquitectura completa, con flujos y fronteras, esta en [docs/ARQUITECTURA_PRO
 
 ---
 
-## Capacidades actuales
+## 🚀 Capacidades actuales
 
-### Curriculum y pedagogia
+### 📚 Curriculum y pedagogia
 
 - 12 clases modulares;
 - ejercicios, tareas, notebooks y soluciones;
@@ -103,7 +103,7 @@ La arquitectura completa, con flujos y fronteras, esta en [docs/ARQUITECTURA_PRO
 - guias de instructor, metodologia y evaluacion;
 - ruta inicial acotada para contexto escolar.
 
-### Laboratorio interactivo
+### 💻 Laboratorio interactivo
 
 - app Flask con visualizacion de clases;
 - carga de notebooks base;
@@ -111,7 +111,7 @@ La arquitectura completa, con flujos y fronteras, esta en [docs/ARQUITECTURA_PRO
 - guardado de notebooks de practica;
 - endpoints `GET /health` y `GET /ready`.
 
-### Presentacion y evaluacion
+### 🖼 Presentacion y evaluacion
 
 - landing publica para alumnos en GitHub Pages;
 - vista institucional HTML separada del portal del alumno;
@@ -120,7 +120,7 @@ La arquitectura completa, con flujos y fronteras, esta en [docs/ARQUITECTURA_PRO
 
 ---
 
-## Inicio rapido
+## ⚡ Inicio rapido
 
 ### Opcion A - entorno virtual
 
@@ -147,7 +147,7 @@ docker compose -f docker-compose.prod.yml up -d --build
 
 ---
 
-## Validacion y CI/CD
+## 🔁 Validacion y CI/CD
 
 ```bash
 pytest
@@ -172,7 +172,7 @@ Eso cubre:
 
 ---
 
-## Seguridad y limites
+## 🔐 Seguridad y limites
 
 Protecciones actuales:
 
@@ -197,7 +197,7 @@ Ver detalle en [SECURITY.md](SECURITY.md).
 
 ---
 
-## Mapa documental
+## 🗺 Mapa documental
 
 | Documento | Rol |
 |---|---|
@@ -218,14 +218,14 @@ Ver detalle en [SECURITY.md](SECURITY.md).
 
 ---
 
-## Lo que este repo si es
+## ✅ Lo que este repo si es
 
 - una base seria de capacitacion tecnica;
 - un sistema que integra contenido, practica y presentacion;
 - una muestra de criterio pedagogico y operacional;
 - una propuesta que puede empezar acotada y crecer sin rehacerse.
 
-## Lo que este repo no vende
+## 🚫 Lo que este repo no vende
 
 - una plataforma multiusuario endurecida para internet abierta;
 - una app movil ya operativa;
@@ -234,6 +234,6 @@ Ver detalle en [SECURITY.md](SECURITY.md).
 
 ---
 
-## Idea fuerza
+## 💡 Idea fuerza
 
 El valor de este proyecto no depende de competir contra una tecnologia puntual. Su valor esta en traducir herramientas a aprendizaje real, con secuencia pedagogica, criterio docente, operacion responsable y una base documental que permite evaluarlo como producto.

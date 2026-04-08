@@ -1,31 +1,31 @@
-# Tarea — Clase 11: Evaluación robusta y Pipelines de ML
+﻿# 📝 Tarea â€” Clase 11: EvaluaciÃ³n robusta y Pipelines de ML
 
 ## Consigna
 
-Construye un Pipeline completo para predecir el **descuento aplicado** (regresión) o la **sucursal con mayor renta** (clasificación) usando `ventas_tienda.csv`.
+Construye un Pipeline completo para predecir el **descuento aplicado** (regresiÃ³n) o la **sucursal con mayor renta** (clasificaciÃ³n) usando `ventas_tienda.csv`.
 
 ## Pasos requeridos
 
-1. **Exploración**
-   - Identifica columnas numéricas y categóricas.
-   - ¿Hay valores nulos? Decide cómo imputarlos dentro del Pipeline.
+1. **ExploraciÃ³n**
+   - Identifica columnas numÃ©ricas y categÃ³ricas.
+   - Â¿Hay valores nulos? Decide cÃ³mo imputarlos dentro del Pipeline.
 
 2. **Pipeline**
-   - Usa `ColumnTransformer` para preprocesar por separado numéricas y categóricas.
-   - Incluye `SimpleImputer` en la etapa numérica.
+   - Usa `ColumnTransformer` para preprocesar por separado numÃ©ricas y categÃ³ricas.
+   - Incluye `SimpleImputer` en la etapa numÃ©rica.
    - Incluye el modelo al final del Pipeline.
 
-3. **Evaluación robusta**
-   - Aplica validación cruzada con k=5.
-   - Reporta media y desviación estándar del score.
+3. **EvaluaciÃ³n robusta**
+   - Aplica validaciÃ³n cruzada con k=5.
+   - Reporta media y desviaciÃ³n estÃ¡ndar del score.
 
-4. **Búsqueda de hiperparámetros**
-   - Usa `GridSearchCV` con al menos 2 hiperparámetros y 3 valores cada uno.
-   - Muestra los mejores parámetros.
+4. **BÃºsqueda de hiperparÃ¡metros**
+   - Usa `GridSearchCV` con al menos 2 hiperparÃ¡metros y 3 valores cada uno.
+   - Muestra los mejores parÃ¡metros.
 
-5. **Conclusión**
-   - ¿El Pipeline mejoró el resultado respecto a la clase anterior?
-   - ¿Qué hiperparámetro tuvo más impacto?
+5. **ConclusiÃ³n**
+   - Â¿El Pipeline mejorÃ³ el resultado respecto a la clase anterior?
+   - Â¿QuÃ© hiperparÃ¡metro tuvo mÃ¡s impacto?
 
 ## Entrega
 

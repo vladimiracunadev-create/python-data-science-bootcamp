@@ -1,21 +1,21 @@
-# Clase 03 — Visualización exploratoria e interpretación
+﻿# 📘 Clase 03 â€” VisualizaciÃ³n exploratoria e interpretaciÃ³n
 
 ## Objetivo
 
-Construir gráficos básicos y leer hallazgos a partir de datos resumidos.
+Construir grÃ¡ficos bÃ¡sicos y leer hallazgos a partir de datos resumidos.
 
-## Duración sugerida
+## DuraciÃ³n sugerida
 
 90 minutos
 
 ## Resultados esperados
 
-Al finalizar, el estudiante podrá:
+Al finalizar, el estudiante podrÃ¡:
 
-- crear gráficos simples con matplotlib;
-- elegir un tipo de gráfico razonable;
+- crear grÃ¡ficos simples con matplotlib;
+- elegir un tipo de grÃ¡fico razonable;
 - describir patrones observados;
-- conectar números con una conclusión.
+- conectar nÃºmeros con una conclusiÃ³n.
 
 ## Materiales
 

@@ -1,27 +1,27 @@
-# Rúbrica del mini proyecto
+﻿# 📏 RÃºbrica del mini proyecto
 
 ## Criterios
 
-### 1. Preparación y lectura de datos — 20%
+### 1. PreparaciÃ³n y lectura de datos â€” 20%
 - carga correcta;
-- comprensión básica de columnas;
-- revisión inicial del dataset.
+- comprensiÃ³n bÃ¡sica de columnas;
+- revisiÃ³n inicial del dataset.
 
-### 2. Transformación y análisis — 30%
-- cálculo adecuado de métricas;
+### 2. TransformaciÃ³n y anÃ¡lisis â€” 30%
+- cÃ¡lculo adecuado de mÃ©tricas;
 - uso coherente de pandas;
 - agrupaciones o filtros bien aplicados.
 
-### 3. Visualización — 20%
-- gráfico pertinente;
+### 3. VisualizaciÃ³n â€” 20%
+- grÃ¡fico pertinente;
 - legibilidad;
-- coherencia con el análisis.
+- coherencia con el anÃ¡lisis.
 
-### 4. Interpretación — 20%
+### 4. InterpretaciÃ³n â€” 20%
 - conclusiones claras;
-- relación entre números y decisiones.
+- relaciÃ³n entre nÃºmeros y decisiones.
 
-### 5. Orden del notebook — 10%
+### 5. Orden del notebook â€” 10%
 - estructura comprensible;
 - comentarios o encabezados;
-- presentación limpia.
+- presentaciÃ³n limpia.

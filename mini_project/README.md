@@ -1,12 +1,12 @@
-# Mini proyecto integrador
+﻿# 🚀 Mini proyecto integrador
 
-Este mini proyecto está pensado como actividad de cierre para consolidar:
+Este mini proyecto estÃ¡ pensado como actividad de cierre para consolidar:
 
-- carga y exploración de datos;
-- limpieza básica;
+- carga y exploraciÃ³n de datos;
+- limpieza bÃ¡sica;
 - agregaciones;
-- visualización;
-- interpretación de hallazgos.
+- visualizaciÃ³n;
+- interpretaciÃ³n de hallazgos.
 
 Dataset sugerido: `datasets/ventas_tienda.csv`
 

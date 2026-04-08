@@ -1,4 +1,4 @@
-# Preparacion para desafio tecnico
+﻿# 🧪 Preparacion para desafio tecnico
 
 Guia integral para preparar el desafio tecnico sin caer en la trampa de querer demostrar complejidad por encima de criterio. Este documento cruza contenido tecnico, explicacion, despliegue, seguridad y transferencia pedagogica.
 

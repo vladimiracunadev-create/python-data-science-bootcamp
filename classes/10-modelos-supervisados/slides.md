@@ -1,30 +1,30 @@
-# Slides — Clase 10: Modelos Supervisados — Clasificación
+﻿# 🖥 Slides â€” Clase 10: Modelos Supervisados â€” ClasificaciÃ³n
 
-## Bloque 1 (20 min) — ¿Regresión o Clasificación?
+## Bloque 1 (20 min) â€” Â¿RegresiÃ³n o ClasificaciÃ³n?
 
 | Problema | Tipo | Ejemplo |
 |---|---|---|
-| Predecir precio | Regresión | $150.000 |
-| Predecir si compra | Clasificación | Sí / No |
-| Predecir categoría | Clasificación multiclase | A / B / C |
+| Predecir precio | RegresiÃ³n | $150.000 |
+| Predecir si compra | ClasificaciÃ³n | SÃ­ / No |
+| Predecir categorÃ­a | ClasificaciÃ³n multiclase | A / B / C |
 
-**Hoy:** clasificación binaria. ¿Este cliente se va o se queda?
+**Hoy:** clasificaciÃ³n binaria. Â¿Este cliente se va o se queda?
 
 ---
 
-## Bloque 2 (30 min) — Árbol de Decisión
+## Bloque 2 (30 min) â€” Ãrbol de DecisiÃ³n
 
 ```
-¿Tiene más de 2 años como cliente?
-    ├── Sí → ¿Ha tenido reclamos este año?
-    │        ├── Sí → 🔴 RIESGO DE CHURN
-    │        └── No → 🟢 RETIENE
-    └── No → ¿Usa más de 1 producto?
-             ├── Sí → 🟢 RETIENE
-             └── No → 🔴 RIESGO DE CHURN
+Â¿Tiene mÃ¡s de 2 aÃ±os como cliente?
+    â”œâ”€â”€ SÃ­ â†’ Â¿Ha tenido reclamos este aÃ±o?
+    â”‚        â”œâ”€â”€ SÃ­ â†’ ðŸ”´ RIESGO DE CHURN
+    â”‚        â””â”€â”€ No â†’ ðŸŸ¢ RETIENE
+    â””â”€â”€ No â†’ Â¿Usa mÃ¡s de 1 producto?
+             â”œâ”€â”€ SÃ­ â†’ ðŸŸ¢ RETIENE
+             â””â”€â”€ No â†’ ðŸ”´ RIESGO DE CHURN
 ```
 
-**Práctica:**
+**PrÃ¡ctica:**
 ```python
 from sklearn.tree import DecisionTreeClassifier, plot_tree
 model = DecisionTreeClassifier(max_depth=3, random_state=42)
@@ -33,24 +33,24 @@ model.fit(X_train, y_train)
 
 ---
 
-## Bloque 3 (25 min) — Evaluación de clasificadores
+## Bloque 3 (25 min) â€” EvaluaciÃ³n de clasificadores
 
-**La matriz de confusión:**
+**La matriz de confusiÃ³n:**
 
-|  | Predicho: No | Predicho: Sí |
+|  | Predicho: No | Predicho: SÃ­ |
 |---|---|---|
 | **Real: No** | TN (correcto) | FP (falsa alarma) |
-| **Real: Sí** | FN (perdido) | TP (correcto) |
+| **Real: SÃ­** | FN (perdido) | TP (correcto) |
 
-**¿Cuándo usar cada métrica?**
+**Â¿CuÃ¡ndo usar cada mÃ©trica?**
 
-- **Accuracy:** cuando las clases están balanceadas.
+- **Accuracy:** cuando las clases estÃ¡n balanceadas.
 - **Recall:** cuando el costo de un FN es alto (ej: cancer, fraude).
-- **Precisión:** cuando el costo de un FP es alto (ej: spam bloqueado).
-- **F1:** balance entre precisión y recall.
+- **PrecisiÃ³n:** cuando el costo de un FP es alto (ej: spam bloqueado).
+- **F1:** balance entre precisiÃ³n y recall.
 
 ---
 
 ## Cierre (15 min)
 
-Comparar árbol de decisión vs. regresión logística en el mismo dataset. ¿Cuál tiene mejor F1? ¿Cuál es más interpretable?
+Comparar Ã¡rbol de decisiÃ³n vs. regresiÃ³n logÃ­stica en el mismo dataset. Â¿CuÃ¡l tiene mejor F1? Â¿CuÃ¡l es mÃ¡s interpretable?

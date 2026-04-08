@@ -1,8 +1,8 @@
-# Student Guide
+﻿# 🚀 Student Guide
 
 Guia base para estudiantes que usan el bootcamp por primera vez. Este documento no reemplaza la clase: ordena expectativas, reduce ansiedad y explica como aprovechar el material sin depender de copiar pasos.
 
-## 1. Que es este bootcamp
+## 🧭 1. Que es este bootcamp
 
 Este programa mezcla cuatro cosas:
 
@@ -13,7 +13,7 @@ Este programa mezcla cuatro cosas:
 
 La meta no es memorizar comandos. La meta es que puedas leer un problema, probar una idea, interpretar un resultado y explicar lo que hiciste.
 
-## 2. Como se aprende aqui
+## 📚 2. Como se aprende aqui
 
 ```mermaid
 flowchart LR
@@ -33,7 +33,7 @@ Cada clase tiene una logica simple:
 
 Si solo copias codigo, avanzas poco. Si modificas, preguntas y justificas, avanzas de verdad.
 
-## 3. Que necesitas antes de empezar
+## 🧰 3. Que necesitas antes de empezar
 
 ### Minimo tecnico
 
@@ -64,7 +64,7 @@ jupyter notebook
 
 Si trabajas desde el laboratorio local del repo, el docente puede indicarte abrir `http://127.0.0.1:8000`.
 
-## 4. Ruta recomendada para usar el material
+## 🗺 4. Ruta recomendada para usar el material
 
 | Paso | Que haces | Para que sirve |
 |---|---|---|
@@ -74,7 +74,7 @@ Si trabajas desde el laboratorio local del repo, el docente puede indicarte abri
 | 4 | resolver ejercicios antes de mirar soluciones | construir autonomia |
 | 5 | escribir una conclusion breve | transformar codigo en aprendizaje |
 
-## 5. Reglas de trabajo que te ayudan
+## ✅ 5. Reglas de trabajo que te ayudan
 
 - trabaja una idea a la vez;
 - cambia valores pequenos y mira que ocurre;
@@ -82,7 +82,7 @@ Si trabajas desde el laboratorio local del repo, el docente puede indicarte abri
 - guarda tus avances antes de experimentar de mas;
 - si algo te sale, intenta explicarlo con tus palabras.
 
-## 6. Como usar tecnologia a tu favor
+## 💡 6. Como usar tecnologia a tu favor
 
 Este bootcamp no se posiciona contra una tecnologia puntual. Puedes usar buscadores, videos, asistentes de IA, documentacion o notas externas. Lo importante es como las usas.
 
@@ -108,7 +108,7 @@ Este bootcamp no se posiciona contra una tecnologia puntual. Puedes usar buscado
 - la respuesta usa conceptos que aun no viste y no puedes justificar;
 - si cambia el ejercicio, te quedas sin punto de partida.
 
-## 7. Que se espera de ti en clase
+## 👥 7. Que se espera de ti en clase
 
 | Se espera | No se espera |
 |---|---|
@@ -117,7 +117,7 @@ Este bootcamp no se posiciona contra una tecnologia puntual. Puedes usar buscado
 | intentar antes de pedir la solucion completa | acertar siempre al primer intento |
 | corregir y volver a probar | trabajar en silencio sin mostrar bloqueos |
 
-## 8. Como pedir ayuda de forma util
+## 🆘 8. Como pedir ayuda de forma util
 
 Cuando te bloquees, intenta decir:
 
@@ -128,7 +128,7 @@ Cuando te bloquees, intenta decir:
 
 Eso ayuda a que la clase avance contigo y no por encima tuyo.
 
-## 9. Problemas frecuentes y salida rapida
+## 🧯 9. Problemas frecuentes y salida rapida
 
 | Problema | Revision rapida |
 |---|---|
@@ -144,7 +144,7 @@ Tambien puedes usar:
 python examples/validate_bootcamp.py
 ```
 
-## 10. Como se vera tu progreso
+## 📈 10. Como se vera tu progreso
 
 Vas bien cuando puedes:
 
@@ -154,7 +154,7 @@ Vas bien cuando puedes:
 - explicar un hallazgo en lenguaje claro;
 - corregir un error pequeno con cada vez menos ayuda.
 
-## 11. Si usas el portal del alumno
+## 📱 11. Si usas el portal del alumno
 
 El enlace oficial esperado para estudiantes es:
 
@@ -169,11 +169,11 @@ Ese portal sirve para:
 
 El portal no reemplaza el laboratorio ni los notebooks. Es la entrada ordenada al curso.
 
-## 12. Regla final
+## 📌 12. Regla final
 
 Tu objetivo no es "hacer que corra". Tu objetivo es entender que pregunta respondiste, con que datos trabajaste y que significa el resultado.
 
-## 13. Documentos relacionados
+## 🔗 13. Documentos relacionados
 
 - [metodologia-docente.md](metodologia-docente.md)
 - [instructor-guide.md](instructor-guide.md)

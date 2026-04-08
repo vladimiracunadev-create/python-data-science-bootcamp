@@ -1,32 +1,32 @@
-# Tarea — Clase 09: Introducción al Machine Learning
+﻿# 📝 Tarea â€” Clase 09: IntroducciÃ³n al Machine Learning
 
 ## Consigna
 
-Usando el dataset `datasets/estudiantes.csv`, construye un modelo de regresión que prediga la **nota final** de cada estudiante.
+Usando el dataset `datasets/estudiantes.csv`, construye un modelo de regresiÃ³n que prediga la **nota final** de cada estudiante.
 
 ## Pasos requeridos
 
-1. **Exploración inicial**
-   - ¿Cuántos estudiantes hay? ¿Cuántas variables?
-   - ¿Hay valores nulos? ¿Cómo los manejarás?
-   - Visualiza la distribución de la variable objetivo.
+1. **ExploraciÃ³n inicial**
+   - Â¿CuÃ¡ntos estudiantes hay? Â¿CuÃ¡ntas variables?
+   - Â¿Hay valores nulos? Â¿CÃ³mo los manejarÃ¡s?
+   - Visualiza la distribuciÃ³n de la variable objetivo.
 
-2. **Selección de features**
-   - Elige al menos 2 variables predictoras y justifica tu elección.
-   - Excluye variables que causarían data leakage.
+2. **SelecciÃ³n de features**
+   - Elige al menos 2 variables predictoras y justifica tu elecciÃ³n.
+   - Excluye variables que causarÃ­an data leakage.
 
 3. **Modelado**
    - Divide en train/test (80/20) con `random_state=42`.
    - Entrena una `LinearRegression`.
    - Calcula MAE y RMSE.
 
-4. **Comparación con línea base**
+4. **ComparaciÃ³n con lÃ­nea base**
    - Compara tu modelo contra predecir siempre el promedio.
 
-5. **Conclusión**
-   - ¿Qué variable tiene mayor influencia? (Revisa `model.coef_`)
-   - ¿Qué mejorarías si tuvieras más datos?
+5. **ConclusiÃ³n**
+   - Â¿QuÃ© variable tiene mayor influencia? (Revisa `model.coef_`)
+   - Â¿QuÃ© mejorarÃ­as si tuvieras mÃ¡s datos?
 
 ## Entrega
 
-Notebook `.ipynb` con resultados visibles (celdas ejecutadas). Máximo 2 páginas de análisis en texto.
+Notebook `.ipynb` con resultados visibles (celdas ejecutadas). MÃ¡ximo 2 pÃ¡ginas de anÃ¡lisis en texto.

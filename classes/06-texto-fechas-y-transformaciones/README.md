@@ -1,10 +1,10 @@
-# Clase 06 — Texto, fechas y transformaciones útiles
+﻿# 📘 Clase 06 â€” Texto, fechas y transformaciones Ãºtiles
 
 ## Objetivo
 
-Transformar columnas de texto y fecha para habilitar análisis más claros.
+Transformar columnas de texto y fecha para habilitar anÃ¡lisis mÃ¡s claros.
 
-## Duración sugerida
+## DuraciÃ³n sugerida
 
 90 minutos
 
@@ -15,5 +15,5 @@ Transformar columnas de texto y fecha para habilitar análisis más claros.
 ## Foco de aprendizaje
 
 - split, lower, replace, fechas y columnas derivadas
-- práctica guiada en el mismo entorno
-- cierre con interpretación aplicada
+- prÃ¡ctica guiada en el mismo entorno
+- cierre con interpretaciÃ³n aplicada

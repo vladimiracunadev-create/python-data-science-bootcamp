@@ -1,10 +1,10 @@
-# Ejercicios — Clase 01
+﻿# 🧪 Ejercicios â€” Clase 01
 
 ## Ejercicio 1
 Crea variables llamadas `producto`, `precio` y `unidades`. Luego calcula el total bruto.
 
 ## Ejercicio 2
-Crea una lista con tres productos vendidos en un día.
+Crea una lista con tres productos vendidos en un dÃ­a.
 
 ## Ejercicio 3
 Crea un diccionario para representar una venta con:
@@ -16,4 +16,4 @@ Crea un diccionario para representar una venta con:
 Recorre una lista de ventas y suma las unidades vendidas.
 
 ## Ejercicio 5
-Escribe una función `calcular_total(unidades, precio)` que devuelva el total.
+Escribe una funciÃ³n `calcular_total(unidades, precio)` que devuelva el total.

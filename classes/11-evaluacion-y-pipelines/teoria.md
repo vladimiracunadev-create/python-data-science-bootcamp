@@ -1,12 +1,12 @@
-# Documento Teórico — Clase 11: Evaluación robusta y Pipelines de ML
+﻿# 🧠 Documento TeÃ³rico â€” Clase 11: EvaluaciÃ³n robusta y Pipelines de ML
 
-> **Nivel:** Intermedio-Avanzado · **Duración estimada de lectura:** 30 minutos
+> **Nivel:** Intermedio-Avanzado Â· **DuraciÃ³n estimada de lectura:** 30 minutos
 
 ---
 
-## 1. El problema de la evaluación con un solo split
+## 1. El problema de la evaluaciÃ³n con un solo split
 
-Cuando usamos un único train/test split, el score de evaluación depende de **qué datos cayeron en el conjunto de test**. Con datasets pequeños, la varianza puede ser enorme.
+Cuando usamos un Ãºnico train/test split, el score de evaluaciÃ³n depende de **quÃ© datos cayeron en el conjunto de test**. Con datasets pequeÃ±os, la varianza puede ser enorme.
 
 **Ejemplo del problema:**
 
@@ -16,29 +16,29 @@ Cuando usamos un único train/test split, el score de evaluación depende de **q
 | Split B (seed=2) | 0.74 |
 | Split C (seed=3) | 0.87 |
 
-**¿Cuál es el "verdadero" performance del modelo?** → Ninguno de forma aislada.
+**Â¿CuÃ¡l es el "verdadero" performance del modelo?** â†’ Ninguno de forma aislada.
 
 ---
 
-## 2. Validación Cruzada (Cross-Validation)
+## 2. ValidaciÃ³n Cruzada (Cross-Validation)
 
 ### 2.1 K-Fold Cross-Validation
 
-Divide los datos en K grupos iguales. En cada iteración, un grupo es test y el resto es train. Se promedian los K scores.
+Divide los datos en K grupos iguales. En cada iteraciÃ³n, un grupo es test y el resto es train. Se promedian los K scores.
 
 ```
 Datos: [1][2][3][4][5]
 
-Iter 1: Test=[1] Train=[2][3][4][5] → score_1
-Iter 2: Test=[2] Train=[1][3][4][5] → score_2
-Iter 3: Test=[3] Train=[1][2][4][5] → score_3
-Iter 4: Test=[4] Train=[1][2][3][5] → score_4
-Iter 5: Test=[5] Train=[1][2][3][4] → score_5
+Iter 1: Test=[1] Train=[2][3][4][5] â†’ score_1
+Iter 2: Test=[2] Train=[1][3][4][5] â†’ score_2
+Iter 3: Test=[3] Train=[1][2][4][5] â†’ score_3
+Iter 4: Test=[4] Train=[1][2][3][5] â†’ score_4
+Iter 5: Test=[5] Train=[1][2][3][4] â†’ score_5
 
-Score final: mean(score_1...score_5) ± std(score_1...score_5)
+Score final: mean(score_1...score_5) Â± std(score_1...score_5)
 ```
 
-### 2.2 Implementación
+### 2.2 ImplementaciÃ³n
 
 ```python
 from sklearn.model_selection import cross_val_score, KFold
@@ -48,17 +48,17 @@ scores = cross_val_score(model, X, y, cv=kf, scoring="f1_weighted")
 
 print(f"Scores por fold: {scores.round(3)}")
 print(f"Media:           {scores.mean():.3f}")
-print(f"Desv. estándar:  {scores.std():.3f}")
+print(f"Desv. estÃ¡ndar:  {scores.std():.3f}")
 print(f"Intervalo 95%:   [{scores.mean()-2*scores.std():.3f}, {scores.mean()+2*scores.std():.3f}]")
 ```
 
 ### 2.3 Tipos de Cross-Validation
 
-| Tipo | Descripción | Cuándo usar |
+| Tipo | DescripciÃ³n | CuÃ¡ndo usar |
 |---|---|---|
 | **K-Fold** | K divisiones aleatorias | Caso general |
-| **Stratified K-Fold** | Mantiene proporción de clases en cada fold | Clases desbalanceadas |
-| **Leave-One-Out (LOO)** | K=n (cada ejemplo es un fold) | Datasets muy pequeños |
+| **Stratified K-Fold** | Mantiene proporciÃ³n de clases en cada fold | Clases desbalanceadas |
+| **Leave-One-Out (LOO)** | K=n (cada ejemplo es un fold) | Datasets muy pequeÃ±os |
 | **Time Series Split** | Respeta orden temporal | Series de tiempo |
 
 ```python
@@ -72,14 +72,14 @@ scores = cross_val_score(model, X, y, cv=skf, scoring="f1")
 
 ## 3. Overfitting y Underfitting
 
-### 3.1 Diagnóstico visual
+### 3.1 DiagnÃ³stico visual
 
-| Escenario | Train Score | Test Score | Brecha | Diagnóstico |
+| Escenario | Train Score | Test Score | Brecha | DiagnÃ³stico |
 |---|---|---|---|---|
-| Modelo ideal | 0.90 | 0.88 | Pequeña | ✅ Generaliza bien |
-| Overfitting leve | 0.95 | 0.85 | Media | ⚠️ Revisar complejidad |
-| Overfitting grave | 0.99 | 0.65 | Grande | ❌ Memoriza, no aprende |
-| Underfitting | 0.65 | 0.63 | Muy pequeña | ❌ Demasiado simple |
+| Modelo ideal | 0.90 | 0.88 | PequeÃ±a | âœ… Generaliza bien |
+| Overfitting leve | 0.95 | 0.85 | Media | âš ï¸ Revisar complejidad |
+| Overfitting grave | 0.99 | 0.65 | Grande | âŒ Memoriza, no aprende |
+| Underfitting | 0.65 | 0.63 | Muy pequeÃ±a | âŒ Demasiado simple |
 
 ### 3.2 Curva de aprendizaje
 
@@ -102,13 +102,13 @@ plt.fill_between(train_sizes,
     train_scores.mean(axis=1) + train_scores.std(axis=1),
     alpha=0.15, color="#22c55e")
 
-plt.plot(train_sizes, val_scores.mean(axis=1), "o-", label="Validación", color="#3b82f6")
+plt.plot(train_sizes, val_scores.mean(axis=1), "o-", label="ValidaciÃ³n", color="#3b82f6")
 plt.fill_between(train_sizes,
     val_scores.mean(axis=1) - val_scores.std(axis=1),
     val_scores.mean(axis=1) + val_scores.std(axis=1),
     alpha=0.15, color="#3b82f6")
 
-plt.xlabel("Tamaño del conjunto de entrenamiento")
+plt.xlabel("TamaÃ±o del conjunto de entrenamiento")
 plt.ylabel("F1-Score")
 plt.title("Curva de Aprendizaje")
 plt.legend()
@@ -117,21 +117,21 @@ plt.tight_layout()
 plt.show()
 ```
 
-**Interpretación:**
-- Si ambas curvas convergen en un valor alto → ✅ Bien.
-- Si hay gran brecha entre train y val → Overfitting (reducir complejidad o agregar datos).
-- Si ambas curvas convergen en un valor bajo → Underfitting (aumentar complejidad o agregar features).
+**InterpretaciÃ³n:**
+- Si ambas curvas convergen en un valor alto â†’ âœ… Bien.
+- Si hay gran brecha entre train y val â†’ Overfitting (reducir complejidad o agregar datos).
+- Si ambas curvas convergen en un valor bajo â†’ Underfitting (aumentar complejidad o agregar features).
 
 ---
 
 ## 4. Pipelines de scikit-learn
 
-### 4.1 ¿Por qué usar Pipelines?
+### 4.1 Â¿Por quÃ© usar Pipelines?
 
 **Problema sin Pipeline:**
 ```python
-# El scaler aprende la media/std del TOTAL de datos → data leakage
-scaler.fit(X)               # ❌ MAL: incluye datos de test
+# El scaler aprende la media/std del TOTAL de datos â†’ data leakage
+scaler.fit(X)               # âŒ MAL: incluye datos de test
 X_scaled = scaler.transform(X)
 X_train, X_test = train_test_split(X_scaled, ...)
 ```
@@ -147,12 +147,12 @@ pipe = Pipeline([
 ])
 
 pipe.fit(X_train, y_train)    # scaler aprende SOLO de train
-pipe.predict(X_test)          # aplica la misma transformación automáticamente
+pipe.predict(X_test)          # aplica la misma transformaciÃ³n automÃ¡ticamente
 ```
 
 ### 4.2 Pipeline con ColumnTransformer
 
-Cuando hay columnas numéricas y categóricas que necesitan transformaciones distintas:
+Cuando hay columnas numÃ©ricas y categÃ³ricas que necesitan transformaciones distintas:
 
 ```python
 from sklearn.pipeline import Pipeline
@@ -164,13 +164,13 @@ from sklearn.ensemble import RandomForestClassifier
 numeric_features = ["antiguedad_meses", "n_productos", "reclamos"]
 categorical_features = ["segmento", "canal_adquisicion"]
 
-# Transformaciones para numéricos
+# Transformaciones para numÃ©ricos
 numeric_transformer = Pipeline([
     ("imputer", SimpleImputer(strategy="median")),
     ("scaler", StandardScaler())
 ])
 
-# Transformaciones para categóricos
+# Transformaciones para categÃ³ricos
 categorical_transformer = Pipeline([
     ("imputer", SimpleImputer(strategy="most_frequent")),
     ("encoder", OneHotEncoder(handle_unknown="ignore", sparse_output=False))
@@ -194,35 +194,35 @@ print(f"Test F1: {f1_score(y_test, pipe.predict(X_test)):.3f}")
 
 ### 4.3 Ventajas del Pipeline
 
-| Ventaja | Descripción |
+| Ventaja | DescripciÃ³n |
 |---|---|
 | **Sin data leakage** | Transformaciones se aprenden solo en train |
-| **Reproducibilidad** | El mismo objeto aplica en train y producción |
-| **Código limpio** | Un objeto para todo el proceso |
+| **Reproducibilidad** | El mismo objeto aplica en train y producciÃ³n |
+| **CÃ³digo limpio** | Un objeto para todo el proceso |
 | **Compatible con CV** | Se puede pasar directamente a `cross_val_score` |
 | **Serializable** | Se puede guardar con `pickle` o `joblib` |
 
 ---
 
-## 5. GridSearchCV — Búsqueda de Hiperparámetros
+## 5. GridSearchCV â€” BÃºsqueda de HiperparÃ¡metros
 
-### 5.1 ¿Qué son los hiperparámetros?
+### 5.1 Â¿QuÃ© son los hiperparÃ¡metros?
 
-Los hiperparámetros son configuraciones del modelo que **no se aprenden de los datos** — los define el usuario antes del entrenamiento.
+Los hiperparÃ¡metros son configuraciones del modelo que **no se aprenden de los datos** â€” los define el usuario antes del entrenamiento.
 
-| Modelo | Hiperparámetros típicos |
+| Modelo | HiperparÃ¡metros tÃ­picos |
 |---|---|
-| Árbol de decisión | `max_depth`, `min_samples_leaf` |
-| Regresión Logística | `C` (regularización), `solver` |
+| Ãrbol de decisiÃ³n | `max_depth`, `min_samples_leaf` |
+| RegresiÃ³n LogÃ­stica | `C` (regularizaciÃ³n), `solver` |
 | Random Forest | `n_estimators`, `max_depth`, `max_features` |
 | SVM | `C`, `kernel`, `gamma` |
 
-### 5.2 Implementación
+### 5.2 ImplementaciÃ³n
 
 ```python
 from sklearn.model_selection import GridSearchCV
 
-# Prefijo "model__" para acceder a hiperparámetros dentro del Pipeline
+# Prefijo "model__" para acceder a hiperparÃ¡metros dentro del Pipeline
 param_grid = {
     "model__C": [0.01, 0.1, 1, 10, 100],
     "model__max_iter": [200, 500, 1000]
@@ -240,7 +240,7 @@ gs = GridSearchCV(
 
 gs.fit(X_train, y_train)
 
-print(f"Mejor combinación: {gs.best_params_}")
+print(f"Mejor combinaciÃ³n: {gs.best_params_}")
 print(f"Mejor F1 en CV:    {gs.best_score_:.4f}")
 print(f"F1 en Test:        {f1_score(y_test, gs.predict(X_test)):.4f}")
 ```
@@ -259,7 +259,7 @@ pivot = results.pivot_table(
 
 import seaborn as sns
 sns.heatmap(pivot, annot=True, fmt=".3f", cmap="YlGn")
-plt.title("F1 por combinación de hiperparámetros")
+plt.title("F1 por combinaciÃ³n de hiperparÃ¡metros")
 plt.tight_layout()
 plt.show()
 ```
@@ -281,15 +281,15 @@ predicciones = modelo_cargado.predict(nuevos_datos)
 
 ---
 
-## 7. Resumen de mejores prácticas
+## 7. Resumen de mejores prÃ¡cticas
 
 ```
-✅ Siempre usar Pipeline (evitar data leakage)
-✅ Evaluar con cross-validation, no un solo split
-✅ Buscar hiperparámetros con GridSearchCV dentro del Pipeline
-✅ Evaluar con el test set UNA sola vez al final
-✅ Guardar el Pipeline completo (no solo el modelo)
-✅ Documentar el proceso con comentarios y print statements
+âœ… Siempre usar Pipeline (evitar data leakage)
+âœ… Evaluar con cross-validation, no un solo split
+âœ… Buscar hiperparÃ¡metros con GridSearchCV dentro del Pipeline
+âœ… Evaluar con el test set UNA sola vez al final
+âœ… Guardar el Pipeline completo (no solo el modelo)
+âœ… Documentar el proceso con comentarios y print statements
 ```
 
 ---
@@ -303,7 +303,7 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_
 # 2. Construir Pipeline
 pipe = Pipeline([...])
 
-# 3. Buscar hiperparámetros con CV en train
+# 3. Buscar hiperparÃ¡metros con CV en train
 gs = GridSearchCV(pipe, param_grid, cv=5, scoring="f1")
 gs.fit(X_train, y_train)
 

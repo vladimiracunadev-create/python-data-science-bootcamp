@@ -1,60 +1,60 @@
-# Documento Teórico — Clase 12: Proyecto Final y Cierre del Bootcamp
+﻿# 🧠 Documento TeÃ³rico â€” Clase 12: Proyecto Final y Cierre del Bootcamp
 
-> **Nivel:** Integrador · **Duración estimada de lectura:** 20 minutos
+> **Nivel:** Integrador Â· **DuraciÃ³n estimada de lectura:** 20 minutos
 
 ---
 
-## 1. ¿Qué hace a un proyecto de Data Science profesional?
+## 1. Â¿QuÃ© hace a un proyecto de Data Science profesional?
 
-Un análisis de datos profesional no se mide solo por la precisión del modelo, sino por su **claridad, reproducibilidad y utilidad para el negocio**.
+Un anÃ¡lisis de datos profesional no se mide solo por la precisiÃ³n del modelo, sino por su **claridad, reproducibilidad y utilidad para el negocio**.
 
 ### 1.1 Los tres ejes de calidad
 
 | Eje | Pregunta clave | Indicadores |
 |---|---|---|
-| **Técnico** | ¿El análisis es correcto y reproducible? | Código limpio, métricas correctas, sin data leakage |
-| **Comunicación** | ¿Los resultados son comprensibles? | Visualizaciones claras, lenguaje accesible |
-| **Negocio** | ¿El análisis genera valor real? | Recomendaciones concretas y accionables |
+| **TÃ©cnico** | Â¿El anÃ¡lisis es correcto y reproducible? | CÃ³digo limpio, mÃ©tricas correctas, sin data leakage |
+| **ComunicaciÃ³n** | Â¿Los resultados son comprensibles? | Visualizaciones claras, lenguaje accesible |
+| **Negocio** | Â¿El anÃ¡lisis genera valor real? | Recomendaciones concretas y accionables |
 
 ---
 
 ## 2. Estructura de un proyecto completo
 
-### 2.1 Organización de archivos
+### 2.1 OrganizaciÃ³n de archivos
 
 ```
-📁 proyecto_ventas/
-├── 📄 README.md              ← descripción del proyecto
-├── 📁 datos/
-│   ├── ventas_tienda.csv     ← datos originales (nunca modificar)
-│   └── ventas_limpio.csv     ← versión procesada
-├── 📁 notebooks/
-│   ├── 01_exploracion.ipynb
-│   ├── 02_limpieza.ipynb
-│   └── 03_modelado.ipynb
-├── 📁 src/
-│   └── utils.py              ← funciones reutilizables
-├── 📁 resultados/
-│   ├── figura_correlaciones.png
-│   └── modelo_final.pkl
-└── requirements.txt
+ðŸ“ proyecto_ventas/
+â”œâ”€â”€ ðŸ“„ README.md              â† descripciÃ³n del proyecto
+â”œâ”€â”€ ðŸ“ datos/
+â”‚   â”œâ”€â”€ ventas_tienda.csv     â† datos originales (nunca modificar)
+â”‚   â””â”€â”€ ventas_limpio.csv     â† versiÃ³n procesada
+â”œâ”€â”€ ðŸ“ notebooks/
+â”‚   â”œâ”€â”€ 01_exploracion.ipynb
+â”‚   â”œâ”€â”€ 02_limpieza.ipynb
+â”‚   â””â”€â”€ 03_modelado.ipynb
+â”œâ”€â”€ ðŸ“ src/
+â”‚   â””â”€â”€ utils.py              â† funciones reutilizables
+â”œâ”€â”€ ðŸ“ resultados/
+â”‚   â”œâ”€â”€ figura_correlaciones.png
+â”‚   â””â”€â”€ modelo_final.pkl
+â””â”€â”€ requirements.txt
 ```
 
-### 2.2 El notebook de análisis — estructura recomendada
+### 2.2 El notebook de anÃ¡lisis â€” estructura recomendada
 
 ```
-Sección 1: Contexto y pregunta de negocio
-Sección 2: Carga e inspección inicial de datos
-Sección 3: Análisis Exploratorio (EDA)
-Sección 4: Limpieza y transformación
-Sección 5: Modelado y evaluación
-Sección 6: Conclusiones e insights
-Sección 7: Recomendaciones para el negocio
+SecciÃ³n 1: Contexto y pregunta de negocio
+SecciÃ³n 2: Carga e inspecciÃ³n inicial de datos
+SecciÃ³n 3: AnÃ¡lisis Exploratorio (EDA)
+SecciÃ³n 4: Limpieza y transformaciÃ³n
+SecciÃ³n 5: Modelado y evaluaciÃ³n
+SecciÃ³n 6: Conclusiones e insights
+SecciÃ³n 7: Recomendaciones para el negocio
 ```
 
 ---
 
-## 3. Análisis Exploratorio (EDA) completo
+## 3. AnÃ¡lisis Exploratorio (EDA) completo
 
 ### 3.1 Checklist de EDA
 
@@ -72,7 +72,7 @@ null_info = pd.DataFrame({
 })
 print(null_info[null_info["nulos"] > 0])
 
-# Estadísticas descriptivas
+# EstadÃ­sticas descriptivas
 print(df.describe().T)
 
 # Duplicados
@@ -86,11 +86,11 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 fig, axes = plt.subplots(2, 2, figsize=(14, 10))
-fig.suptitle("Análisis Exploratorio — Dataset Ventas", fontsize=14, fontweight="bold")
+fig.suptitle("AnÃ¡lisis Exploratorio â€” Dataset Ventas", fontsize=14, fontweight="bold")
 
-# 1. Distribución de la variable objetivo
+# 1. DistribuciÃ³n de la variable objetivo
 axes[0, 0].hist(df["total_neto"], bins=20, color="#22c55e", edgecolor="white")
-axes[0, 0].set_title("Distribución de ventas netas")
+axes[0, 0].set_title("DistribuciÃ³n de ventas netas")
 axes[0, 0].set_xlabel("Total neto ($)")
 
 # 2. Ventas por sucursal
@@ -115,7 +115,7 @@ axes[1, 1].boxplot(
     [df[df["sucursal"] == s]["total_neto"] for s in df["sucursal"].unique()],
     labels=df["sucursal"].unique()
 )
-axes[1, 1].set_title("Distribución por sucursal (boxplot)")
+axes[1, 1].set_title("DistribuciÃ³n por sucursal (boxplot)")
 axes[1, 1].set_ylabel("Total neto ($)")
 axes[1, 1].tick_params(axis="x", rotation=45)
 
@@ -126,23 +126,23 @@ plt.show()
 
 ---
 
-## 4. Limpieza de datos — Guía práctica
+## 4. Limpieza de datos â€” GuÃ­a prÃ¡ctica
 
 ### 4.1 Estrategias para valores nulos
 
 | Tipo de columna | Porcentaje nulo | Estrategia recomendada |
 |---|---|---|
-| Numérica | < 5% | Imputar con mediana |
-| Numérica | 5–30% | Imputar con mediana + crear flag |
-| Numérica | > 30% | Evaluar eliminar columna |
-| Categórica | < 10% | Imputar con moda o "Desconocido" |
-| Categórica | > 10% | "Desconocido" como categoría propia |
+| NumÃ©rica | < 5% | Imputar con mediana |
+| NumÃ©rica | 5â€“30% | Imputar con mediana + crear flag |
+| NumÃ©rica | > 30% | Evaluar eliminar columna |
+| CategÃ³rica | < 10% | Imputar con moda o "Desconocido" |
+| CategÃ³rica | > 10% | "Desconocido" como categorÃ­a propia |
 | Fecha | Cualquiera | Investigar origen del nulo |
 
-### 4.2 Código de limpieza documentada
+### 4.2 CÃ³digo de limpieza documentada
 
 ```python
-# BUENA PRÁCTICA: documentar cada decisión de limpieza
+# BUENA PRÃCTICA: documentar cada decisiÃ³n de limpieza
 
 # 1. Eliminar duplicados exactos
 n_antes = len(df)
@@ -153,7 +153,7 @@ print(f"Duplicados eliminados: {n_antes - len(df)}")
 df["fecha_venta"] = pd.to_datetime(df["fecha_venta"])
 df["descuento_pct"] = df["descuento_pct"].astype(float)
 
-# 3. Imputar nulos numéricos con mediana
+# 3. Imputar nulos numÃ©ricos con mediana
 for col in ["descuento_pct", "precio_unitario"]:
     mediana = df[col].median()
     n_nulos = df[col].isnull().sum()
@@ -173,23 +173,23 @@ df["total_neto"] = df["total_bruto"] * (1 - df["descuento_pct"] / 100)
 
 ### 5.1 Estructura de un buen reporte
 
-1. **Contexto:** ¿Qué problema resolvemos? ¿Para quién?
-2. **Hallazgos:** Los 3–5 insights más importantes.
+1. **Contexto:** Â¿QuÃ© problema resolvemos? Â¿Para quiÃ©n?
+2. **Hallazgos:** Los 3â€“5 insights mÃ¡s importantes.
 3. **Evidencia:** Las visualizaciones que los sustentan.
 4. **Recomendaciones:** Acciones concretas para el negocio.
-5. **Limitaciones:** Qué no puede decir este análisis.
+5. **Limitaciones:** QuÃ© no puede decir este anÃ¡lisis.
 
-### 5.2 Principios de visualización efectiva
+### 5.2 Principios de visualizaciÃ³n efectiva
 
-| Principio | Aplicación |
+| Principio | AplicaciÃ³n |
 |---|---|
-| **Una idea, un gráfico** | No saturar con demasiada información |
-| **Título descriptivo** | "Ventas caen 30% en Q3" en lugar de "Ventas por trimestre" |
+| **Una idea, un grÃ¡fico** | No saturar con demasiada informaciÃ³n |
+| **TÃ­tulo descriptivo** | "Ventas caen 30% en Q3" en lugar de "Ventas por trimestre" |
 | **Etiquetas legibles** | Ejes, unidades, leyendas siempre presentes |
-| **Color con propósito** | Un color destaca, muchos confunden |
-| **Audiencia no técnica** | Sin jerga, sin notación matemática |
+| **Color con propÃ³sito** | Un color destaca, muchos confunden |
+| **Audiencia no tÃ©cnica** | Sin jerga, sin notaciÃ³n matemÃ¡tica |
 
-### 5.3 Ejemplo de visualización comunicativa
+### 5.3 Ejemplo de visualizaciÃ³n comunicativa
 
 ```python
 fig, ax = plt.subplots(figsize=(10, 5))
@@ -206,7 +206,7 @@ for bar, val in zip(bars, ventas_mes.values):
     ax.text(bar.get_x() + bar.get_width()/2, bar.get_height() + 0.02,
             f"${val:.1f}M", ha="center", va="bottom", fontsize=9, color="white")
 
-ax.set_title("Ventas mensuales — Los meses rojos están bajo el promedio anual",
+ax.set_title("Ventas mensuales â€” Los meses rojos estÃ¡n bajo el promedio anual",
              fontsize=12, fontweight="bold", pad=15)
 ax.set_xlabel("Mes")
 ax.set_ylabel("Ventas (millones $)")
@@ -219,26 +219,26 @@ plt.show()
 
 ---
 
-## 6. Cómo presentar un modelo de ML a audiencia no técnica
+## 6. CÃ³mo presentar un modelo de ML a audiencia no tÃ©cnica
 
-### 6.1 Traducción de métricas
+### 6.1 TraducciÃ³n de mÃ©tricas
 
-| Métrica técnica | Traducción para negocio |
+| MÃ©trica tÃ©cnica | TraducciÃ³n para negocio |
 |---|---|
 | F1 = 0.82 | "El modelo identifica correctamente 8 de cada 10 clientes en riesgo" |
-| RMSE = $1.200 | "Nuestras predicciones de ventas se desvían en promedio $1.200" |
-| Recall = 0.90 | "De cada 10 clientes que se irían, detectamos 9" |
-| Precisión = 0.75 | "De cada 4 clientes que el modelo marca como riesgo, 3 realmente se van" |
+| RMSE = $1.200 | "Nuestras predicciones de ventas se desvÃ­an en promedio $1.200" |
+| Recall = 0.90 | "De cada 10 clientes que se irÃ­an, detectamos 9" |
+| PrecisiÃ³n = 0.75 | "De cada 4 clientes que el modelo marca como riesgo, 3 realmente se van" |
 
-### 6.2 Estructura de presentación de 5 minutos
+### 6.2 Estructura de presentaciÃ³n de 5 minutos
 
 ```
-00:00 – 00:30  ¿Qué problema resolvimos y por qué importa?
-00:30 – 01:30  ¿Qué encontramos en los datos? (1 gráfico clave)
-01:30 – 02:30  ¿Cómo funciona el modelo? (sin matemáticas)
-02:30 – 03:30  ¿Qué tan bueno es? (métricas en lenguaje de negocio)
-03:30 – 04:30  ¿Qué debería hacer el negocio con esto?
-04:30 – 05:00  Limitaciones y próximos pasos
+00:00 â€“ 00:30  Â¿QuÃ© problema resolvimos y por quÃ© importa?
+00:30 â€“ 01:30  Â¿QuÃ© encontramos en los datos? (1 grÃ¡fico clave)
+01:30 â€“ 02:30  Â¿CÃ³mo funciona el modelo? (sin matemÃ¡ticas)
+02:30 â€“ 03:30  Â¿QuÃ© tan bueno es? (mÃ©tricas en lenguaje de negocio)
+03:30 â€“ 04:30  Â¿QuÃ© deberÃ­a hacer el negocio con esto?
+04:30 â€“ 05:00  Limitaciones y prÃ³ximos pasos
 ```
 
 ---
@@ -247,31 +247,31 @@ plt.show()
 
 | Clase | Habilidad | Herramienta |
 |---|---|---|
-| 01 | Variables, tipos, control de flujo | Python básico |
-| 02 | Carga, limpieza, transformación | pandas |
-| 03 | Exploración visual de datos | matplotlib, seaborn |
-| 04 | Estadísticas descriptivas | pandas, statistics |
+| 01 | Variables, tipos, control de flujo | Python bÃ¡sico |
+| 02 | Carga, limpieza, transformaciÃ³n | pandas |
+| 03 | ExploraciÃ³n visual de datos | matplotlib, seaborn |
+| 04 | EstadÃ­sticas descriptivas | pandas, statistics |
 | 05 | Visualizaciones comunicativas | matplotlib avanzado |
-| 06 | Texto, fechas, ingeniería de features | pandas, re |
+| 06 | Texto, fechas, ingenierÃ­a de features | pandas, re |
 | 07 | Proyecto guiado integrador | Todas las anteriores |
-| 08 | Presentación de hallazgos | Storytelling |
-| 09 | Machine Learning — regresión | scikit-learn |
-| 10 | Clasificación y evaluación | scikit-learn |
-| 11 | Pipelines y validación cruzada | scikit-learn |
+| 08 | PresentaciÃ³n de hallazgos | Storytelling |
+| 09 | Machine Learning â€” regresiÃ³n | scikit-learn |
+| 10 | ClasificaciÃ³n y evaluaciÃ³n | scikit-learn |
+| 11 | Pipelines y validaciÃ³n cruzada | scikit-learn |
 | 12 | Proyecto final integrador | Todas las anteriores |
 
 ---
 
-## 8. Próximos pasos recomendados
+## 8. PrÃ³ximos pasos recomendados
 
 | Nivel | Recurso | Tiempo estimado |
 |---|---|---|
-| Práctica inmediata | Kaggle Learn (gratuito) | 2–4 semanas |
-| Profundizar ML | "Hands-On ML" — Géron | 2–3 meses |
-| Portfolio | 3 proyectos con datos reales en GitHub | 3–6 meses |
-| Especialización | MLOps, Deep Learning, o NLP | 6–12 meses |
+| PrÃ¡ctica inmediata | Kaggle Learn (gratuito) | 2â€“4 semanas |
+| Profundizar ML | "Hands-On ML" â€” GÃ©ron | 2â€“3 meses |
+| Portfolio | 3 proyectos con datos reales en GitHub | 3â€“6 meses |
+| EspecializaciÃ³n | MLOps, Deep Learning, o NLP | 6â€“12 meses |
 | Comunidad | Meetups de Data Science locales | Ongoing |
 
 ---
 
-> **Mensaje final:** El análisis de datos es una habilidad que se construye proyecto a proyecto. Lo más importante no es saber todos los algoritmos, sino hacer las preguntas correctas y comunicar los hallazgos con claridad.
+> **Mensaje final:** El anÃ¡lisis de datos es una habilidad que se construye proyecto a proyecto. Lo mÃ¡s importante no es saber todos los algoritmos, sino hacer las preguntas correctas y comunicar los hallazgos con claridad.

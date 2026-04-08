@@ -1,24 +1,24 @@
-# Diapositivas sugeridas — Clase 03
+﻿# 🖥 Diapositivas sugeridas â€” Clase 03
 
-## 1. ¿Por qué graficar?
-- ver patrones rápidamente
-- comparar categorías
+## 1. Â¿Por quÃ© graficar?
+- ver patrones rÃ¡pidamente
+- comparar categorÃ­as
 - apoyar decisiones
 
-## 2. Gráficos básicos
+## 2. GrÃ¡ficos bÃ¡sicos
 - barras
-- líneas
+- lÃ­neas
 - histogramas
 
-## 3. Buenas prácticas
-- título claro
+## 3. Buenas prÃ¡cticas
+- tÃ­tulo claro
 - ejes legibles
 - no sobrecargar
 
-## 4. Interpretación
-- qué muestra el gráfico
-- qué no muestra
-- qué decisiones podría apoyar
+## 4. InterpretaciÃ³n
+- quÃ© muestra el grÃ¡fico
+- quÃ© no muestra
+- quÃ© decisiones podrÃ­a apoyar
 
 ## 5. Cierre
 - del dato al relato breve

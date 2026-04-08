@@ -1,41 +1,41 @@
-# Entrega Final — Proyecto Integrador del Bootcamp
+﻿# 📝 Entrega Final â€” Proyecto Integrador del Bootcamp
 
-## Descripción
+## DescripciÃ³n
 
-Este es el proyecto final del bootcamp. Integra todos los aprendizajes del curso en un análisis completo, desde la exploración hasta la presentación de resultados.
+Este es el proyecto final del bootcamp. Integra todos los aprendizajes del curso en un anÃ¡lisis completo, desde la exploraciÃ³n hasta la presentaciÃ³n de resultados.
 
 ## Requisitos
 
-### Mínimo para aprobar (nota ≥ 60)
+### MÃ­nimo para aprobar (nota â‰¥ 60)
 
-1. Análisis exploratorio con al menos 3 estadísticas descriptivas y 2 visualizaciones.
-2. Limpieza de datos documentada (explicar qué se hizo y por qué).
-3. Un modelo entrenado y evaluado con métricas correctas.
+1. AnÃ¡lisis exploratorio con al menos 3 estadÃ­sticas descriptivas y 2 visualizaciones.
+2. Limpieza de datos documentada (explicar quÃ© se hizo y por quÃ©).
+3. Un modelo entrenado y evaluado con mÃ©tricas correctas.
 4. Conclusiones escritas en lenguaje de negocio.
 
-### Para nota sobresaliente (≥ 85)
+### Para nota sobresaliente (â‰¥ 85)
 
-- Comparación de al menos 2 modelos.
+- ComparaciÃ³n de al menos 2 modelos.
 - Pipeline completo con preprocesamiento.
-- Validación cruzada.
-- Visualizaciones de alta calidad con títulos y etiquetas.
-- Análisis de importancia de variables.
+- ValidaciÃ³n cruzada.
+- Visualizaciones de alta calidad con tÃ­tulos y etiquetas.
+- AnÃ¡lisis de importancia de variables.
 - Recomendaciones accionables para el negocio.
 
-## Rúbrica detallada
+## RÃºbrica detallada
 
 | Criterio | Peso | Indicadores |
 |---|---|---|
-| Exploración y visualización | 25% | Estadísticas correctas, gráficos claros, insights identificados |
-| Limpieza y transformación | 20% | Nulos manejados, tipos correctos, ingeniería de features |
-| Modelado y evaluación | 25% | Métricas correctas, comparación de modelos, validación |
-| Comunicación de resultados | 15% | Claridad, lenguaje accesible, visualizaciones |
-| Reproducibilidad | 15% | Código limpio, notebook ejecutable de principio a fin |
+| ExploraciÃ³n y visualizaciÃ³n | 25% | EstadÃ­sticas correctas, grÃ¡ficos claros, insights identificados |
+| Limpieza y transformaciÃ³n | 20% | Nulos manejados, tipos correctos, ingenierÃ­a de features |
+| Modelado y evaluaciÃ³n | 25% | MÃ©tricas correctas, comparaciÃ³n de modelos, validaciÃ³n |
+| ComunicaciÃ³n de resultados | 15% | Claridad, lenguaje accesible, visualizaciones |
+| Reproducibilidad | 15% | CÃ³digo limpio, notebook ejecutable de principio a fin |
 
 ## Plazos
 
-- **Entrega del notebook:** 7 días después de la clase 12.
-- **Presentación oral:** última sesión del bootcamp (15 min por persona).
+- **Entrega del notebook:** 7 dÃ­as despuÃ©s de la clase 12.
+- **PresentaciÃ³n oral:** Ãºltima sesiÃ³n del bootcamp (15 min por persona).
 
 ## Formato de entrega
 
