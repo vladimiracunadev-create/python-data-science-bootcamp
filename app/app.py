@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import os
 import re
 from pathlib import Path
 
@@ -14,10 +15,21 @@ app = Flask(__name__, template_folder=str(BASE_DIR / "app" / "templates"), stati
 
 MAX_PAYLOAD_BYTES = 1_000_000  # 1 MB
 SLUG_RE = re.compile(r"^[\w\-]{1,80}$")
+DEFAULT_HOST = os.getenv("BOOTCAMP_HOST", "127.0.0.1")
+DEFAULT_PORT = int(os.getenv("BOOTCAMP_PORT", "8000"))
 
 
 def _valid_slug(slug: str) -> bool:
     return bool(SLUG_RE.match(slug))
+
+
+@app.after_request
+def add_security_headers(response):
+    response.headers.setdefault("X-Content-Type-Options", "nosniff")
+    response.headers.setdefault("X-Frame-Options", "SAMEORIGIN")
+    response.headers.setdefault("Referrer-Policy", "no-referrer")
+    response.headers.setdefault("Permissions-Policy", "camera=(), microphone=(), geolocation=()")
+    return response
 
 
 @app.get("/")
@@ -88,4 +100,4 @@ def api_reset():
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=8000, debug=False)
+    app.run(host=DEFAULT_HOST, port=DEFAULT_PORT, debug=False)

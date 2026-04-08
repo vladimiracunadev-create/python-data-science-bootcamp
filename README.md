@@ -160,6 +160,29 @@ Ver `docs/metodologia-docente.md` para el enfoque pedagógico completo.
 
 ---
 
+## Materiales de presentacion
+
+- `docs/entrevista-skillnest-presentacion-v2.md`
+- `docs/demo-capacitaciones-escalable.md`
+- `docs/aula-ia-y-problemas-frecuentes.md`
+- `docs/entrevista-skillnest-preparacion.md`
+- `docs/implementacion-v1-skillnest-san-nicolas.md`
+- `docs/proceso-seleccion-skillnest.md`
+- `docs/desafio-tecnico-preparacion.md`
+- `docs/herramientas-pedagogicas-de-aula.md`
+- `docs/despliegue-seguro-y-operacion.md`
+- `docs/portal-estudiante-y-app-movil.md`
+
+---
+
+## Portal del Alumno
+
+- Landing publica en GitHub Pages: `site/`
+- Workflow de publicacion: `.github/workflows/deploy-pages.yml`
+- URL esperada: `https://vladimiracunadev-create.github.io/python-data-science-bootcamp/`
+
+---
+
 ## Licencia
 
 MIT — libre uso educativo y comercial con atribución.
