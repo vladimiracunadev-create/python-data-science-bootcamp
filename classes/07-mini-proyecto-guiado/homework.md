@@ -1,4 +1,7 @@
-﻿# 📝 Tarea breve
+# 📝 Tarea breve
+
+> 📝 Trabajo autonomo para consolidar lo visto y practicar con mas calma.
+
 
 Usando `datasets/ventas_tienda.csv`:
 

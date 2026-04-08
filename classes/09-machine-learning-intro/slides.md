@@ -1,6 +1,9 @@
-﻿# 🖥 Slides â€” Clase 09: IntroducciÃ³n al Machine Learning
+# 🖥 Slides â€” Clase 09: IntroducciÃ³n al Machine Learning
 
-## Bloque 1 (20 min) â€” Â¿QuÃ© es el Machine Learning?
+> 🖥 Guion visual breve para conducir la sesion sin sobrecargar la clase.
+
+
+## 🧱 Bloque 1 (20 min) â€” Â¿QuÃ© es el Machine Learning?
 
 **Punto de partida:** Â¿CÃ³mo decide un banco si aprobar un crÃ©dito?
 
@@ -19,7 +22,7 @@
 
 ---
 
-## Bloque 2 (30 min) â€” El flujo de trabajo de ML
+## 🧱 Bloque 2 (30 min) â€” El flujo de trabajo de ML
 
 ```
 Datos â†’ Explorar â†’ Limpiar â†’ Features â†’ Modelo â†’ Evaluar â†’ Comunicar
@@ -35,7 +38,7 @@ Datos â†’ Explorar â†’ Limpiar â†’ Features â†’ Modelo â†
 
 ---
 
-## Bloque 3 (25 min) â€” Interpretar el modelo
+## 🧱 Bloque 3 (25 min) â€” Interpretar el modelo
 
 - **Coeficientes:** Â¿quÃ© variable influye mÃ¡s?
 - **MAE:** en promedio, Â¿cuÃ¡nto nos equivocamos?
@@ -45,7 +48,7 @@ Datos â†’ Explorar â†’ Limpiar â†’ Features â†’ Modelo â†
 
 ---
 
-## Cierre (15 min) â€” ReflexiÃ³n
+## ✅ Cierre (15 min) â€” ReflexiÃ³n
 
 - Â¿QuÃ© aprendiÃ³ el modelo?
 - Â¿En quÃ© casos fallarÃ­a?

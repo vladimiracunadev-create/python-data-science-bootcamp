@@ -1,4 +1,7 @@
-﻿# 🧠 Documento TeÃ³rico â€” Clase 04: EstadÃ­stica Descriptiva
+# 🧠 Documento TeÃ³rico â€” Clase 04: EstadÃ­stica Descriptiva
+
+> 🧠 Base conceptual para preparar, reforzar o profundizar lo visto en clase.
+
 
 > **Nivel:** Principiante-Intermedio Â· **DuraciÃ³n estimada de lectura:** 25 minutos
 
@@ -270,7 +273,7 @@ print(estadisticas_completas(df["total_neto"], "Total Neto"))
 
 ---
 
-## 8. Resumen rÃ¡pido
+## ✅ 8. Resumen rÃ¡pido
 
 ```
 âœ… Media â†’ promedio (sensible a outliers)

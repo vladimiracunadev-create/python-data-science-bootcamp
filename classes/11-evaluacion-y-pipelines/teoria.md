@@ -1,4 +1,7 @@
-﻿# 🧠 Documento TeÃ³rico â€” Clase 11: EvaluaciÃ³n robusta y Pipelines de ML
+# 🧠 Documento TeÃ³rico â€” Clase 11: EvaluaciÃ³n robusta y Pipelines de ML
+
+> 🧠 Base conceptual para preparar, reforzar o profundizar lo visto en clase.
+
 
 > **Nivel:** Intermedio-Avanzado Â· **DuraciÃ³n estimada de lectura:** 30 minutos
 
@@ -281,7 +284,7 @@ predicciones = modelo_cargado.predict(nuevos_datos)
 
 ---
 
-## 7. Resumen de mejores prÃ¡cticas
+## ✅ 7. Resumen de mejores prÃ¡cticas
 
 ```
 âœ… Siempre usar Pipeline (evitar data leakage)

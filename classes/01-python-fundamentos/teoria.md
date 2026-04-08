@@ -1,4 +1,7 @@
-﻿# 🧠 Documento TeÃ³rico â€” Clase 01: Fundamentos de Python aplicados a datos
+# 🧠 Documento TeÃ³rico â€” Clase 01: Fundamentos de Python aplicados a datos
+
+> 🧠 Base conceptual para preparar, reforzar o profundizar lo visto en clase.
+
 
 > **Nivel:** Principiante Â· **DuraciÃ³n estimada de lectura:** 25 minutos
 
@@ -292,7 +295,7 @@ for nombre, precio in datos:
 
 ---
 
-## 8. Resumen rÃ¡pido
+## ✅ 8. Resumen rÃ¡pido
 
 ```
 âœ… Variables â†’ nombres para valores en memoria

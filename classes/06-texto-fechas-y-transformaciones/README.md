@@ -1,18 +1,21 @@
-﻿# 📘 Clase 06 â€” Texto, fechas y transformaciones Ãºtiles
+# 📘 Clase 06 â€” Texto, fechas y transformaciones Ãºtiles
 
-## Objetivo
+> 🎯 Ficha de clase con objetivo, materiales y foco de aprendizaje.
+
+
+## 🎯 Objetivo
 
 Transformar columnas de texto y fecha para habilitar anÃ¡lisis mÃ¡s claros.
 
-## DuraciÃ³n sugerida
+## ⏱ DuraciÃ³n sugerida
 
 90 minutos
 
-## Dataset base
+## 🗂 Dataset base
 
 `datasets/soporte_tickets.csv`
 
-## Foco de aprendizaje
+## 🎓 Foco de aprendizaje
 
 - split, lower, replace, fechas y columnas derivadas
 - prÃ¡ctica guiada en el mismo entorno

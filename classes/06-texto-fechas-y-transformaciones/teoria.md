@@ -1,4 +1,7 @@
-﻿# 🧠 Documento TeÃ³rico â€” Clase 06: Texto, Fechas y Transformaciones
+# 🧠 Documento TeÃ³rico â€” Clase 06: Texto, Fechas y Transformaciones
+
+> 🧠 Base conceptual para preparar, reforzar o profundizar lo visto en clase.
+
 
 > **Nivel:** Intermedio Â· **DuraciÃ³n estimada de lectura:** 25 minutos
 
@@ -213,7 +216,7 @@ df_norm[cols_num] = scaler_minmax.fit_transform(df[cols_num])
 
 ---
 
-## 5. Resumen rÃ¡pido
+## ✅ 5. Resumen rÃ¡pido
 
 ```
 âœ… .str accessor â†’ operaciones de texto vectorizadas

@@ -1,4 +1,7 @@
-﻿# 🧠 Documento TeÃ³rico â€” Clase 05: VisualizaciÃ³n Avanzada con Matplotlib
+# 🧠 Documento TeÃ³rico â€” Clase 05: VisualizaciÃ³n Avanzada con Matplotlib
+
+> 🧠 Base conceptual para preparar, reforzar o profundizar lo visto en clase.
+
 
 > **Nivel:** Intermedio Â· **DuraciÃ³n estimada de lectura:** 25 minutos
 
@@ -250,7 +253,7 @@ plt.savefig("grafico.svg", bbox_inches="tight")
 
 ---
 
-## 8. Resumen rÃ¡pido
+## ✅ 8. Resumen rÃ¡pido
 
 ```
 âœ… mpl.rcParams â†’ configurar estilo global

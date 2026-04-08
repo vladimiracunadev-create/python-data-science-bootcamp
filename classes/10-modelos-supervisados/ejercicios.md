@@ -1,6 +1,9 @@
-﻿# 🧪 Ejercicios â€” Clase 10: Modelos Supervisados â€” ClasificaciÃ³n
+# 🧪 Ejercicios â€” Clase 10: Modelos Supervisados â€” ClasificaciÃ³n
 
-## Ejercicio 1 â€” Preparar datos para clasificaciÃ³n (fÃ¡cil)
+> 🧪 Practica guiada para trabajar en clase y consolidar el aprendizaje.
+
+
+## 🧪 Ejercicio 1 â€” Preparar datos para clasificaciÃ³n (fÃ¡cil)
 
 Con `datasets/retencion_clientes.csv`:
 
@@ -11,7 +14,7 @@ Con `datasets/retencion_clientes.csv`:
 
 ---
 
-## Ejercicio 2 â€” Ãrbol de decisiÃ³n (guiado)
+## 🧪 Ejercicio 2 â€” Ãrbol de decisiÃ³n (guiado)
 
 ```python
 from sklearn.tree import DecisionTreeClassifier
@@ -35,7 +38,7 @@ print(classification_report(y_test, y_pred, target_names=["Se quedÃ³", "Se fue
 
 ---
 
-## Ejercicio 3 â€” Matriz de confusiÃ³n (guiado)
+## 🧪 Ejercicio 3 â€” Matriz de confusiÃ³n (guiado)
 
 ```python
 from sklearn.metrics import ConfusionMatrixDisplay
@@ -51,7 +54,7 @@ Identifica: Â¿cuÃ¡ntos clientes que se fueron NO fueron detectados (falsos n
 
 ---
 
-## Ejercicio 4 â€” Comparar dos modelos (medio)
+## 🧪 Ejercicio 4 â€” Comparar dos modelos (medio)
 
 Entrena tambiÃ©n una `LogisticRegression` y compara el F1-score de ambos modelos.
 
@@ -69,6 +72,6 @@ print(f"F1 RegresiÃ³n LogÃ­st.: {f1_score(y_test, y_pred_lr):.3f}")
 
 ---
 
-## DesafÃ­o opcional
+## ✨ DesafÃ­o opcional
 
 Visualiza el Ã¡rbol de decisiÃ³n con `plot_tree` y explica en palabras quÃ© regla de decisiÃ³n aprendiÃ³ el modelo. Â¿Tiene sentido para el negocio?

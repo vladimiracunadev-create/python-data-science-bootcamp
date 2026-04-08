@@ -1,18 +1,21 @@
-﻿# 📘 Clase 11 â€” EvaluaciÃ³n robusta y Pipelines de ML
+# 📘 Clase 11 â€” EvaluaciÃ³n robusta y Pipelines de ML
 
-## Objetivo
+> 🎯 Ficha de clase con objetivo, materiales y foco de aprendizaje.
+
+
+## 🎯 Objetivo
 
 Aplicar validaciÃ³n cruzada, bÃºsqueda de hiperparÃ¡metros y construir pipelines reproducibles de preprocesamiento + modelo.
 
-## DuraciÃ³n sugerida
+## ⏱ DuraciÃ³n sugerida
 
 90 minutos
 
-## Dataset base
+## 🗂 Dataset base
 
 `datasets/ventas_tienda.csv` Â· `datasets/retencion_clientes.csv`
 
-## Resultados esperados
+## ✅ Resultados esperados
 
 Al finalizar, el estudiante podrÃ¡:
 
@@ -22,7 +25,7 @@ Al finalizar, el estudiante podrÃ¡:
 - realizar bÃºsqueda de hiperparÃ¡metros con GridSearchCV;
 - interpretar la curva de aprendizaje.
 
-## Materiales
+## 🧰 Materiales
 
 - `notebook.ipynb` â€” prÃ¡ctica guiada
 - `slides.md` â€” pauta de la clase
@@ -31,11 +34,11 @@ Al finalizar, el estudiante podrÃ¡:
 - `soluciones.ipynb` â€” soluciones comentadas
 - `teoria.md` â€” documento teÃ³rico completo (base para PDF)
 
-## Idea central
+## 💡 Idea central
 
 Un modelo que funciona en el notebook pero falla en producciÃ³n es inÃºtil. Los pipelines garantizan que el preprocesamiento en producciÃ³n sea idÃ©ntico al del entrenamiento.
 
-## Conceptos clave
+## 🔑 Conceptos clave
 
 | Concepto | DescripciÃ³n |
 |---|---|
@@ -48,6 +51,6 @@ Un modelo que funciona en el notebook pero falla en producciÃ³n es inÃºtil. 
 | GridSearchCV | Probar combinaciones de hiperparÃ¡metros sistemÃ¡ticamente |
 | Curva de aprendizaje | DiagnÃ³stico de overfitting/underfitting |
 
-## Nota para el docente
+## 👩‍🏫 Nota para el docente
 
 Usar ejemplos concretos de cÃ³mo el data leakage (filtraciÃ³n de datos del futuro al entrenamiento) distorsiona los resultados y cÃ³mo el Pipeline lo evita automÃ¡ticamente.

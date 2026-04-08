@@ -1,6 +1,9 @@
-﻿# 📏 RÃºbrica del mini proyecto
+# 📏 RÃºbrica del mini proyecto
 
-## Criterios
+> 📏 Criterios simples para revisar el mini proyecto con foco en proceso y claridad.
+
+
+## 📋 Criterios
 
 ### 1. PreparaciÃ³n y lectura de datos â€” 20%
 - carga correcta;

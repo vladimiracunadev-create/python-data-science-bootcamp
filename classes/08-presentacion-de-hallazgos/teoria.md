@@ -1,4 +1,7 @@
-﻿# 🧠 Documento TeÃ³rico â€” Clase 08: PresentaciÃ³n de Hallazgos con Claridad
+# 🧠 Documento TeÃ³rico â€” Clase 08: PresentaciÃ³n de Hallazgos con Claridad
+
+> 🧠 Base conceptual para preparar, reforzar o profundizar lo visto en clase.
+
 
 > **Nivel:** Intermedio Â· **DuraciÃ³n estimada de lectura:** 20 minutos
 
@@ -157,7 +160,7 @@ accesibles podrÃ­a incrementar el volumen sin sacrificar mÃ¡rgenes."
 
 ---
 
-## 7. Resumen rÃ¡pido
+## ✅ 7. Resumen rÃ¡pido
 
 ```
 âœ… Contexto â†’ Conflicto â†’ ResoluciÃ³n â†’ AcciÃ³n (arco narrativo)

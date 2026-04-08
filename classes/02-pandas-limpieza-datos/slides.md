@@ -1,4 +1,7 @@
-﻿# 🖥 Diapositivas sugeridas â€” Clase 02
+# 🖥 Diapositivas sugeridas â€” Clase 02
+
+> 🖥 Guion visual breve para conducir la sesion sin sobrecargar la clase.
+
 
 ## 1. QuÃ© es pandas
 - tabla de datos

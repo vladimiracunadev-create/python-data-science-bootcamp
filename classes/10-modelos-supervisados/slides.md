@@ -1,6 +1,9 @@
-﻿# 🖥 Slides â€” Clase 10: Modelos Supervisados â€” ClasificaciÃ³n
+# 🖥 Slides â€” Clase 10: Modelos Supervisados â€” ClasificaciÃ³n
 
-## Bloque 1 (20 min) â€” Â¿RegresiÃ³n o ClasificaciÃ³n?
+> 🖥 Guion visual breve para conducir la sesion sin sobrecargar la clase.
+
+
+## 🧱 Bloque 1 (20 min) â€” Â¿RegresiÃ³n o ClasificaciÃ³n?
 
 | Problema | Tipo | Ejemplo |
 |---|---|---|
@@ -12,7 +15,7 @@
 
 ---
 
-## Bloque 2 (30 min) â€” Ãrbol de DecisiÃ³n
+## 🧱 Bloque 2 (30 min) â€” Ãrbol de DecisiÃ³n
 
 ```
 Â¿Tiene mÃ¡s de 2 aÃ±os como cliente?
@@ -33,7 +36,7 @@ model.fit(X_train, y_train)
 
 ---
 
-## Bloque 3 (25 min) â€” EvaluaciÃ³n de clasificadores
+## 🧱 Bloque 3 (25 min) â€” EvaluaciÃ³n de clasificadores
 
 **La matriz de confusiÃ³n:**
 
@@ -51,6 +54,6 @@ model.fit(X_train, y_train)
 
 ---
 
-## Cierre (15 min)
+## ✅ Cierre (15 min)
 
 Comparar Ã¡rbol de decisiÃ³n vs. regresiÃ³n logÃ­stica en el mismo dataset. Â¿CuÃ¡l tiene mejor F1? Â¿CuÃ¡l es mÃ¡s interpretable?

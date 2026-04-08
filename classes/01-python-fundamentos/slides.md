@@ -1,4 +1,7 @@
-﻿# 🖥 Diapositivas sugeridas â€” Clase 01
+# 🖥 Diapositivas sugeridas â€” Clase 01
+
+> 🖥 Guion visual breve para conducir la sesion sin sobrecargar la clase.
+
 
 ## 1. Bienvenida
 - QuÃ© veremos hoy

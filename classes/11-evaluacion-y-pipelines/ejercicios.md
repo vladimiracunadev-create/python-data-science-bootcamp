@@ -1,6 +1,9 @@
-﻿# 🧪 Ejercicios â€” Clase 11: EvaluaciÃ³n robusta y Pipelines de ML
+# 🧪 Ejercicios â€” Clase 11: EvaluaciÃ³n robusta y Pipelines de ML
 
-## Ejercicio 1 â€” Detectar overfitting (fÃ¡cil)
+> 🧪 Practica guiada para trabajar en clase y consolidar el aprendizaje.
+
+
+## 🧪 Ejercicio 1 â€” Detectar overfitting (fÃ¡cil)
 
 ```python
 from sklearn.tree import DecisionTreeClassifier
@@ -19,7 +22,7 @@ for depth in [1, 3, 5, 10, None]:
 
 ---
 
-## Ejercicio 2 â€” ValidaciÃ³n cruzada (guiado)
+## 🧪 Ejercicio 2 â€” ValidaciÃ³n cruzada (guiado)
 
 ```python
 from sklearn.model_selection import cross_val_score
@@ -34,7 +37,7 @@ Compara este resultado con el F1 del ejercicio anterior. Â¿Coinciden?
 
 ---
 
-## Ejercicio 3 â€” Construir un Pipeline (guiado)
+## 🧪 Ejercicio 3 â€” Construir un Pipeline (guiado)
 
 ```python
 from sklearn.pipeline import Pipeline
@@ -61,7 +64,7 @@ print(f"Test F1: {f1_score(y_test, pipe.predict(X_test)):.3f}")
 
 ---
 
-## Ejercicio 4 â€” GridSearchCV (medio)
+## 🧪 Ejercicio 4 â€” GridSearchCV (medio)
 
 ```python
 from sklearn.model_selection import GridSearchCV
@@ -78,6 +81,6 @@ print(f"Mejor F1 CV: {gs.best_score_:.3f}")
 
 ---
 
-## DesafÃ­o opcional
+## ✨ DesafÃ­o opcional
 
 Grafica la curva de aprendizaje usando `learning_curve` de scikit-learn para el Pipeline. Â¿Necesitas mÃ¡s datos o un modelo mÃ¡s complejo?

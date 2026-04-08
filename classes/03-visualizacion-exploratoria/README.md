@@ -1,14 +1,17 @@
-﻿# 📘 Clase 03 â€” VisualizaciÃ³n exploratoria e interpretaciÃ³n
+# 📘 Clase 03 â€” VisualizaciÃ³n exploratoria e interpretaciÃ³n
 
-## Objetivo
+> 🎯 Ficha de clase con objetivo, materiales y foco de aprendizaje.
+
+
+## 🎯 Objetivo
 
 Construir grÃ¡ficos bÃ¡sicos y leer hallazgos a partir de datos resumidos.
 
-## DuraciÃ³n sugerida
+## ⏱ DuraciÃ³n sugerida
 
 90 minutos
 
-## Resultados esperados
+## ✅ Resultados esperados
 
 Al finalizar, el estudiante podrÃ¡:
 
@@ -17,7 +20,7 @@ Al finalizar, el estudiante podrÃ¡:
 - describir patrones observados;
 - conectar nÃºmeros con una conclusiÃ³n.
 
-## Materiales
+## 🧰 Materiales
 
 - `notebook.ipynb`
 - `slides.md`

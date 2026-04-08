@@ -1,6 +1,9 @@
-﻿# 🧪 Checklist de entregables â€” Proyecto Final
+# 🧪 Checklist de entregables â€” Proyecto Final
 
-## Dataset elegido
+> 🧪 Practica guiada para trabajar en clase y consolidar el aprendizaje.
+
+
+## 🗂 Dataset elegido
 
 Indica cuÃ¡l dataset usarÃ¡s y el problema que resolverÃ¡s:
 
@@ -10,7 +13,7 @@ Indica cuÃ¡l dataset usarÃ¡s y el problema que resolverÃ¡s:
 
 ---
 
-## Checklist de anÃ¡lisis exploratorio
+## ✅ Checklist de anÃ¡lisis exploratorio
 
 - [ ] Dimensiones del dataset (`df.shape`)
 - [ ] Tipos de datos (`df.dtypes`)
@@ -20,13 +23,13 @@ Indica cuÃ¡l dataset usarÃ¡s y el problema que resolverÃ¡s:
 - [ ] Al menos una visualizaciÃ³n de correlaciÃ³n (heatmap o scatterplot)
 - [ ] IdentificaciÃ³n de outliers (boxplot)
 
-## Checklist de limpieza
+## ✅ Checklist de limpieza
 
 - [ ] Valores nulos imputados o eliminados (con justificaciÃ³n)
 - [ ] Tipos de datos corregidos si es necesario
 - [ ] Variables nuevas creadas si agregan valor
 
-## Checklist de modelado
+## ✅ Checklist de modelado
 
 - [ ] Train/test split (80/20, `random_state=42`)
 - [ ] Pipeline con preprocesamiento + modelo
@@ -34,7 +37,7 @@ Indica cuÃ¡l dataset usarÃ¡s y el problema que resolverÃ¡s:
 - [ ] MÃ©tricas de evaluaciÃ³n reportadas
 - [ ] El modelo supera la lÃ­nea base
 
-## Checklist de presentaciÃ³n
+## ✅ Checklist de presentaciÃ³n
 
 - [ ] TÃ­tulo claro del anÃ¡lisis
 - [ ] Al menos 3 grÃ¡ficos comunicativos (con tÃ­tulo y etiquetas)
@@ -44,7 +47,7 @@ Indica cuÃ¡l dataset usarÃ¡s y el problema que resolverÃ¡s:
 
 ---
 
-## Formato de entrega
+## 📦 Formato de entrega
 
 - Notebook `.ipynb` con todas las celdas ejecutadas
 - Todas las visualizaciones visibles

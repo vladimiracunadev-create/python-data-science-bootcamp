@@ -1,4 +1,7 @@
-﻿# 📝 Tarea â€” Clase 02
+# 📝 Tarea â€” Clase 02
+
+> 📝 Trabajo autonomo para consolidar lo visto y practicar con mas calma.
+
 
 1. Cargar `datasets/estudiantes.csv`
 2. Revisar su estructura
@@ -7,5 +10,5 @@
    - Â¿cuÃ¡ntos estudiantes estÃ¡n en riesgo?
 4. Escribir una breve conclusiÃ³n en lenguaje simple.
 
-## DesafÃ­o opcional
+## ✨ DesafÃ­o opcional
 Cruzar asistencia y desempeÃ±o para identificar patrones.

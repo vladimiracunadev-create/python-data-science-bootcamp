@@ -1,4 +1,7 @@
-﻿# 🧠 Documento TeÃ³rico â€” Clase 12: Proyecto Final y Cierre del Bootcamp
+# 🧠 Documento TeÃ³rico â€” Clase 12: Proyecto Final y Cierre del Bootcamp
+
+> 🧠 Base conceptual para preparar, reforzar o profundizar lo visto en clase.
+
 
 > **Nivel:** Integrador Â· **DuraciÃ³n estimada de lectura:** 20 minutos
 
@@ -262,7 +265,7 @@ plt.show()
 
 ---
 
-## 8. PrÃ³ximos pasos recomendados
+## 🚀 8. PrÃ³ximos pasos recomendados
 
 | Nivel | Recurso | Tiempo estimado |
 |---|---|---|

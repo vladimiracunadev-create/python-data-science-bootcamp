@@ -1,10 +1,13 @@
-﻿# 📝 Tarea â€” Clase 11: EvaluaciÃ³n robusta y Pipelines de ML
+# 📝 Tarea â€” Clase 11: EvaluaciÃ³n robusta y Pipelines de ML
 
-## Consigna
+> 📝 Trabajo autonomo para consolidar lo visto y practicar con mas calma.
+
+
+## 🎯 Consigna
 
 Construye un Pipeline completo para predecir el **descuento aplicado** (regresiÃ³n) o la **sucursal con mayor renta** (clasificaciÃ³n) usando `ventas_tienda.csv`.
 
-## Pasos requeridos
+## ✅ Pasos requeridos
 
 1. **ExploraciÃ³n**
    - Identifica columnas numÃ©ricas y categÃ³ricas.
@@ -27,6 +30,6 @@ Construye un Pipeline completo para predecir el **descuento aplicado** (regresi�
    - Â¿El Pipeline mejorÃ³ el resultado respecto a la clase anterior?
    - Â¿QuÃ© hiperparÃ¡metro tuvo mÃ¡s impacto?
 
-## Entrega
+## 📦 Entrega
 
 Notebook `.ipynb` con todas las celdas ejecutadas, incluyendo la tabla de resultados del GridSearchCV.

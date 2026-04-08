@@ -1,6 +1,9 @@
-﻿# 🧪 Ejercicios â€” Clase 09: IntroducciÃ³n al Machine Learning
+# 🧪 Ejercicios â€” Clase 09: IntroducciÃ³n al Machine Learning
 
-## Ejercicio 1 â€” Identificar variables (fÃ¡cil)
+> 🧪 Practica guiada para trabajar en clase y consolidar el aprendizaje.
+
+
+## 🧪 Ejercicio 1 â€” Identificar variables (fÃ¡cil)
 
 Con el dataset `ventas_tienda.csv`:
 
@@ -11,7 +14,7 @@ Con el dataset `ventas_tienda.csv`:
 
 ---
 
-## Ejercicio 2 â€” Train/Test split (guiado)
+## 🧪 Ejercicio 2 â€” Train/Test split (guiado)
 
 ```python
 from sklearn.model_selection import train_test_split
@@ -30,7 +33,7 @@ print(f"Train: {len(X_train)} filas | Test: {len(X_test)} filas")
 
 ---
 
-## Ejercicio 3 â€” Primer modelo (guiado)
+## 🧪 Ejercicio 3 â€” Primer modelo (guiado)
 
 ```python
 from sklearn.linear_model import LinearRegression
@@ -48,7 +51,7 @@ Interpreta los resultados: Â¿el error es aceptable para el negocio?
 
 ---
 
-## Ejercicio 4 â€” LÃ­nea base (medio)
+## 🧪 Ejercicio 4 â€” LÃ­nea base (medio)
 
 Calcula el MAE de un modelo "tonto" que siempre predice el promedio de `y_train`.
 
@@ -63,6 +66,6 @@ print(f"MAE lÃ­nea base: {baseline_mae:.2f}")
 
 ---
 
-## DesafÃ­o opcional
+## ✨ DesafÃ­o opcional
 
 Agrega una tercera variable al modelo (por ejemplo, `descuento_pct`) y compara el nuevo MAE con el anterior. Â¿MejorÃ³? Grafica los residuos (diferencia entre predicciÃ³n y valor real) con `plt.hist`.

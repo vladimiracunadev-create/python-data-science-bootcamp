@@ -1,14 +1,17 @@
-﻿# 📘 Clase 02 â€” IntroducciÃ³n a pandas y limpieza bÃ¡sica
+# 📘 Clase 02 â€” IntroducciÃ³n a pandas y limpieza bÃ¡sica
 
-## Objetivo
+> 🎯 Ficha de clase con objetivo, materiales y foco de aprendizaje.
+
+
+## 🎯 Objetivo
 
 Aprender a cargar un archivo CSV, inspeccionarlo y responder preguntas simples usando pandas.
 
-## DuraciÃ³n sugerida
+## ⏱ DuraciÃ³n sugerida
 
 90 minutos
 
-## Resultados esperados
+## ✅ Resultados esperados
 
 Al finalizar, el estudiante podrÃ¡:
 
@@ -18,7 +21,7 @@ Al finalizar, el estudiante podrÃ¡:
 - aplicar filtros simples;
 - construir una tabla resumen bÃ¡sica.
 
-## Materiales
+## 🧰 Materiales
 
 - `notebook.ipynb`
 - `slides.md`

@@ -1,4 +1,7 @@
-﻿# 🖥 Diapositivas sugeridas â€” Clase 03
+# 🖥 Diapositivas sugeridas â€” Clase 03
+
+> 🖥 Guion visual breve para conducir la sesion sin sobrecargar la clase.
+
 
 ## 1. Â¿Por quÃ© graficar?
 - ver patrones rÃ¡pidamente

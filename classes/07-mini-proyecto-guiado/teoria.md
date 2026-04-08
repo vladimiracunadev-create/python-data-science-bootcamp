@@ -1,4 +1,7 @@
-﻿# 🧠 Documento TeÃ³rico â€” Clase 07: Mini Proyecto Guiado
+# 🧠 Documento TeÃ³rico â€” Clase 07: Mini Proyecto Guiado
+
+> 🧠 Base conceptual para preparar, reforzar o profundizar lo visto en clase.
+
 
 > **Nivel:** Integrador Â· **DuraciÃ³n estimada de lectura:** 20 minutos
 
@@ -151,7 +154,7 @@ mediana = df["total_neto"].median()
 ## 5. Plantilla de conclusiones
 
 ```markdown
-## Conclusiones
+## ✅ Conclusiones
 
 ### Hallazgo principal
 [Una oraciÃ³n que resume el insight mÃ¡s importante]
@@ -187,7 +190,7 @@ mediana = df["total_neto"].median()
 
 ---
 
-## 7. Resumen rÃ¡pido
+## ✅ 7. Resumen rÃ¡pido
 
 ```
 âœ… Empezar siempre con las 5 preguntas del negocio

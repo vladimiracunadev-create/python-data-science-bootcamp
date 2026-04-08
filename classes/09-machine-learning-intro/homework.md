@@ -1,10 +1,13 @@
-﻿# 📝 Tarea â€” Clase 09: IntroducciÃ³n al Machine Learning
+# 📝 Tarea â€” Clase 09: IntroducciÃ³n al Machine Learning
 
-## Consigna
+> 📝 Trabajo autonomo para consolidar lo visto y practicar con mas calma.
+
+
+## 🎯 Consigna
 
 Usando el dataset `datasets/estudiantes.csv`, construye un modelo de regresiÃ³n que prediga la **nota final** de cada estudiante.
 
-## Pasos requeridos
+## ✅ Pasos requeridos
 
 1. **ExploraciÃ³n inicial**
    - Â¿CuÃ¡ntos estudiantes hay? Â¿CuÃ¡ntas variables?
@@ -27,6 +30,6 @@ Usando el dataset `datasets/estudiantes.csv`, construye un modelo de regresiÃ³
    - Â¿QuÃ© variable tiene mayor influencia? (Revisa `model.coef_`)
    - Â¿QuÃ© mejorarÃ­as si tuvieras mÃ¡s datos?
 
-## Entrega
+## 📦 Entrega
 
 Notebook `.ipynb` con resultados visibles (celdas ejecutadas). MÃ¡ximo 2 pÃ¡ginas de anÃ¡lisis en texto.

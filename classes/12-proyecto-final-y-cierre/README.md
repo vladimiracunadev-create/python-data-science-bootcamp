@@ -1,18 +1,21 @@
-﻿# 📘 Clase 12 â€” Proyecto Final y Cierre del Bootcamp
+# 📘 Clase 12 â€” Proyecto Final y Cierre del Bootcamp
 
-## Objetivo
+> 🎯 Ficha de clase con objetivo, materiales y foco de aprendizaje.
+
+
+## 🎯 Objetivo
 
 Integrar todos los aprendizajes del bootcamp en un anÃ¡lisis completo: desde la carga y limpieza de datos hasta la presentaciÃ³n de un modelo y sus conclusiones.
 
-## DuraciÃ³n sugerida
+## ⏱ DuraciÃ³n sugerida
 
 120 minutos
 
-## Dataset base
+## 🗂 Dataset base
 
 A elecciÃ³n del estudiante (cualquiera de los 5 datasets del bootcamp)
 
-## Resultados esperados
+## ✅ Resultados esperados
 
 Al finalizar, el estudiante habrÃ¡:
 
@@ -22,7 +25,7 @@ Al finalizar, el estudiante habrÃ¡:
 - visualizado los hallazgos clave con grÃ¡ficos explicativos;
 - presentado sus conclusiones de forma clara para audiencia no tÃ©cnica.
 
-## Materiales
+## 🧰 Materiales
 
 - `notebook.ipynb` â€” template guiado del proyecto
 - `slides.md` â€” pauta de la clase y criterios de evaluaciÃ³n
@@ -31,7 +34,7 @@ Al finalizar, el estudiante habrÃ¡:
 - `soluciones.ipynb` â€” ejemplo de proyecto completo resuelto
 - `teoria.md` â€” guÃ­a de presentaciÃ³n de resultados
 
-## Estructura del proyecto final
+## 🧱 Estructura del proyecto final
 
 ```
 1. DescripciÃ³n del problema y el dataset (5 min)
@@ -41,7 +44,7 @@ Al finalizar, el estudiante habrÃ¡:
 5. Conclusiones e insights para el negocio (10 min)
 ```
 
-## RÃºbrica resumida
+## 📏 RÃºbrica resumida
 
 | Criterio | Peso |
 |---|---|
@@ -51,6 +54,6 @@ Al finalizar, el estudiante habrÃ¡:
 | Visualizaciones comunicativas | 15% |
 | Conclusiones orientadas al negocio | 15% |
 
-## Nota para el docente
+## 👩‍🏫 Nota para el docente
 
 Este es el momento de celebrar el progreso. Cada estudiante llegÃ³ sin saber Python; ahora puede construir un anÃ¡lisis completo. Dar feedback positivo especÃ­fico a cada uno antes del cierre formal.

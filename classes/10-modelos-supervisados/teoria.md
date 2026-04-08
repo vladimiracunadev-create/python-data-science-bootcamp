@@ -1,4 +1,7 @@
-﻿# 🧠 Documento TeÃ³rico â€” Clase 10: Modelos Supervisados â€” ClasificaciÃ³n
+# 🧠 Documento TeÃ³rico â€” Clase 10: Modelos Supervisados â€” ClasificaciÃ³n
+
+> 🧠 Base conceptual para preparar, reforzar o profundizar lo visto en clase.
+
 
 > **Nivel:** Intermedio Â· **DuraciÃ³n estimada de lectura:** 25â€“30 minutos
 
@@ -224,7 +227,7 @@ plt.show()
 
 ---
 
-## 9. Resumen rÃ¡pido
+## ✅ 9. Resumen rÃ¡pido
 
 ```
 âœ… ClasificaciÃ³n = predecir categorÃ­as (binario o multiclase)

@@ -1,4 +1,7 @@
-﻿# 🧠 Documento TeÃ³rico â€” Clase 03: VisualizaciÃ³n Exploratoria
+# 🧠 Documento TeÃ³rico â€” Clase 03: VisualizaciÃ³n Exploratoria
+
+> 🧠 Base conceptual para preparar, reforzar o profundizar lo visto en clase.
+
 
 > **Nivel:** Principiante-Intermedio Â· **DuraciÃ³n estimada de lectura:** 25 minutos
 
@@ -218,7 +221,7 @@ colores_div = ["#ef4444", "#fca5a5", "#f9fafb", "#86efac", "#22c55e"]
 
 ---
 
-## 7. Resumen rÃ¡pido
+## ✅ 7. Resumen rÃ¡pido
 
 ```
 âœ… fig, ax = plt.subplots() â†’ crear figura con ejes

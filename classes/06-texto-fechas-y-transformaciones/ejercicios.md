@@ -1,4 +1,7 @@
-﻿# 🧪 Ejercicios
+# 🧪 Ejercicios
+
+> 🧪 Practica guiada para trabajar en clase y consolidar el aprendizaje.
+
 
 1. Carga el archivo `datasets/soporte_tickets.csv`.
 2. Identifica las columnas principales y comenta quÃ© representan.

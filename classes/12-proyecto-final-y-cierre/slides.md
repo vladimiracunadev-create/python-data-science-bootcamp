@@ -1,6 +1,9 @@
-﻿# 🖥 Slides â€” Clase 12: Proyecto Final y Cierre del Bootcamp
+# 🖥 Slides â€” Clase 12: Proyecto Final y Cierre del Bootcamp
 
-## Bloque 1 (20 min) â€” Estructura de un proyecto de Data Science profesional
+> 🖥 Guion visual breve para conducir la sesion sin sobrecargar la clase.
+
+
+## 🧱 Bloque 1 (20 min) â€” Estructura de un proyecto de Data Science profesional
 
 ```
 ðŸ“ mi_proyecto/
@@ -15,7 +18,7 @@
 
 ---
 
-## Bloque 2 (30 min) â€” Checklist del proyecto completo
+## 🧱 Bloque 2 (30 min) â€” Checklist del proyecto completo
 
 ### 1. ExploraciÃ³n (EDA)
 - [ ] Dimensiones del dataset
@@ -43,7 +46,7 @@
 
 ---
 
-## Bloque 3 (40 min) â€” Presentaciones (5 min por estudiante)
+## 🧱 Bloque 3 (40 min) â€” Presentaciones (5 min por estudiante)
 
 Estructura sugerida:
 1. **Â¿QuÃ© problema resolvÃ­?** (30 seg)
@@ -54,7 +57,7 @@ Estructura sugerida:
 
 ---
 
-## Cierre del Bootcamp (20 min)
+## ✅ Cierre del Bootcamp (20 min)
 
 **Lo que aprendiste en 12 clases:**
 

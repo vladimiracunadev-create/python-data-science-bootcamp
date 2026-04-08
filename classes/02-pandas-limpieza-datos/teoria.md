@@ -1,4 +1,7 @@
-﻿# 🧠 Documento TeÃ³rico â€” Clase 02: Pandas y Limpieza de Datos
+# 🧠 Documento TeÃ³rico â€” Clase 02: Pandas y Limpieza de Datos
+
+> 🧠 Base conceptual para preparar, reforzar o profundizar lo visto en clase.
+
 
 > **Nivel:** Principiante-Intermedio Â· **DuraciÃ³n estimada de lectura:** 30 minutos
 
@@ -279,7 +282,7 @@ with pd.ExcelWriter("reporte_completo.xlsx") as writer:
 
 ---
 
-## 9. Resumen rÃ¡pido
+## ✅ 9. Resumen rÃ¡pido
 
 ```
 âœ… pd.read_csv() â†’ cargar datos desde archivo

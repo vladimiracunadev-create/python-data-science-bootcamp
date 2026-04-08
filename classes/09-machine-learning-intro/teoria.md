@@ -1,4 +1,7 @@
-﻿# 🧠 Documento TeÃ³rico â€” Clase 09: IntroducciÃ³n al Machine Learning
+# 🧠 Documento TeÃ³rico â€” Clase 09: IntroducciÃ³n al Machine Learning
+
+> 🧠 Base conceptual para preparar, reforzar o profundizar lo visto en clase.
+
 
 > **Nivel:** Intermedio Â· **DuraciÃ³n estimada de lectura:** 25â€“30 minutos
 
@@ -242,7 +245,7 @@ plt.show()
 
 ---
 
-## 9. Resumen rÃ¡pido
+## ✅ 9. Resumen rÃ¡pido
 
 ```
 âœ… ML supervisado = aprender de ejemplos etiquetados
@@ -255,7 +258,7 @@ plt.show()
 
 ---
 
-## 10. Recursos para profundizar
+## 🔎 10. Recursos para profundizar
 
 - DocumentaciÃ³n oficial scikit-learn: [scikit-learn.org](https://scikit-learn.org)
 - "Hands-On Machine Learning" â€” AurÃ©lien GÃ©ron (CapÃ­tulos 1-4)

@@ -1,4 +1,7 @@
-﻿# 🚀 Mini proyecto integrador
+# 🚀 Mini proyecto integrador
+
+> 🚀 Actividad integradora para cerrar una ruta corta con analisis y comunicacion.
+
 
 Este mini proyecto estÃ¡ pensado como actividad de cierre para consolidar:
 

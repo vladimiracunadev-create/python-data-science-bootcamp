@@ -1,18 +1,21 @@
-﻿# 📘 Clase 10 â€” Modelos Supervisados: ClasificaciÃ³n y ComparaciÃ³n
+# 📘 Clase 10 â€” Modelos Supervisados: ClasificaciÃ³n y ComparaciÃ³n
 
-## Objetivo
+> 🎯 Ficha de clase con objetivo, materiales y foco de aprendizaje.
+
+
+## 🎯 Objetivo
 
 Entrenar y comparar modelos de clasificaciÃ³n para tomar decisiones basadas en datos.
 
-## DuraciÃ³n sugerida
+## ⏱ DuraciÃ³n sugerida
 
 90 minutos
 
-## Dataset base
+## 🗂 Dataset base
 
 `datasets/retencion_clientes.csv` Â· `datasets/estudiantes.csv`
 
-## Resultados esperados
+## ✅ Resultados esperados
 
 Al finalizar, el estudiante podrÃ¡:
 
@@ -22,7 +25,7 @@ Al finalizar, el estudiante podrÃ¡:
 - elegir el modelo adecuado segÃºn el contexto del negocio;
 - visualizar la importancia de las variables.
 
-## Materiales
+## 🧰 Materiales
 
 - `notebook.ipynb` â€” prÃ¡ctica guiada
 - `slides.md` â€” pauta de la clase
@@ -31,11 +34,11 @@ Al finalizar, el estudiante podrÃ¡:
 - `soluciones.ipynb` â€” soluciones comentadas
 - `teoria.md` â€” documento teÃ³rico completo (base para PDF)
 
-## Idea central
+## 💡 Idea central
 
 No existe un Ãºnico modelo "mejor": el modelo correcto depende del problema, los datos y el costo de equivocarse. Comparar siempre con al menos dos modelos y una lÃ­nea base.
 
-## Conceptos clave
+## 🔑 Conceptos clave
 
 | Concepto | DescripciÃ³n |
 |---|---|
@@ -48,6 +51,6 @@ No existe un Ãºnico modelo "mejor": el modelo correcto depende del problema, l
 | Recall | % de positivos reales que fueron detectados |
 | F1-Score | Media armÃ³nica de precisiÃ³n y recall |
 
-## Nota para el docente
+## 👩‍🏫 Nota para el docente
 
 El ejemplo de retenciÃ³n de clientes es ideal: los costos de falso negativo (no detectar un cliente que se va) vs. falso positivo (contactar a quien no iba a irse) son fÃ¡cilmente comprensibles.

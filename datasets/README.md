@@ -1,4 +1,7 @@
-﻿# 🗂 Diccionario de Datasets â€” Bootcamp Python Data Science
+# 🗂 Diccionario de Datasets â€” Bootcamp Python Data Science
+
+> 🗂 Catalogo de datasets sinteticos y su uso dentro del bootcamp.
+
 
 Este directorio contiene los datasets utilizados en las clases del bootcamp. Todos los datos son **sintÃ©ticos con contexto realista** generados para fines educativos.
 
@@ -145,7 +148,7 @@ Este directorio contiene los datasets utilizados en las clases del bootcamp. Tod
 
 ---
 
-## Origen y licencia
+## ⚖ Origen y licencia
 
 Todos los datasets son **datos sintÃ©ticos** generados con Python para uso exclusivamente educativo en este bootcamp. No contienen datos reales de personas, empresas o entidades.
 

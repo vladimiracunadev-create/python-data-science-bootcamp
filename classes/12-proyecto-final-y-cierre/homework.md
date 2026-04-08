@@ -1,10 +1,13 @@
-﻿# 📝 Entrega Final â€” Proyecto Integrador del Bootcamp
+# 📝 Entrega Final â€” Proyecto Integrador del Bootcamp
 
-## DescripciÃ³n
+> 📝 Trabajo autonomo para consolidar lo visto y practicar con mas calma.
+
+
+## 🧭 DescripciÃ³n
 
 Este es el proyecto final del bootcamp. Integra todos los aprendizajes del curso en un anÃ¡lisis completo, desde la exploraciÃ³n hasta la presentaciÃ³n de resultados.
 
-## Requisitos
+## 📋 Requisitos
 
 ### MÃ­nimo para aprobar (nota â‰¥ 60)
 
@@ -22,7 +25,7 @@ Este es el proyecto final del bootcamp. Integra todos los aprendizajes del curso
 - AnÃ¡lisis de importancia de variables.
 - Recomendaciones accionables para el negocio.
 
-## RÃºbrica detallada
+## 📏 RÃºbrica detallada
 
 | Criterio | Peso | Indicadores |
 |---|---|---|
@@ -32,11 +35,11 @@ Este es el proyecto final del bootcamp. Integra todos los aprendizajes del curso
 | ComunicaciÃ³n de resultados | 15% | Claridad, lenguaje accesible, visualizaciones |
 | Reproducibilidad | 15% | CÃ³digo limpio, notebook ejecutable de principio a fin |
 
-## Plazos
+## ⏱ Plazos
 
 - **Entrega del notebook:** 7 dÃ­as despuÃ©s de la clase 12.
 - **PresentaciÃ³n oral:** Ãºltima sesiÃ³n del bootcamp (15 min por persona).
 
-## Formato de entrega
+## 📦 Formato de entrega
 
 Notebook `.ipynb` con nombre: `proyecto_final_NOMBRE_APELLIDO.ipynb`, enviado al canal del bootcamp o subido al repositorio compartido.

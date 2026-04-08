@@ -1,18 +1,21 @@
-﻿# 📘 Clase 05 â€” VisualizaciÃ³n con matplotlib
+# 📘 Clase 05 â€” VisualizaciÃ³n con matplotlib
 
-## Objetivo
+> 🎯 Ficha de clase con objetivo, materiales y foco de aprendizaje.
+
+
+## 🎯 Objetivo
 
 Construir grÃ¡ficos bÃ¡sicos y explicar quÃ© historia cuentan los datos.
 
-## DuraciÃ³n sugerida
+## ⏱ DuraciÃ³n sugerida
 
 90 minutos
 
-## Dataset base
+## 🗂 Dataset base
 
 `datasets/retencion_clientes.csv`
 
-## Foco de aprendizaje
+## 🎓 Foco de aprendizaje
 
 - barras, lÃ­neas, etiquetas y lectura visual
 - prÃ¡ctica guiada en el mismo entorno

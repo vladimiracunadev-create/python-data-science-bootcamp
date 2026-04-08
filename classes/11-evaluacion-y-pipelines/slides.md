@@ -1,6 +1,9 @@
-﻿# 🖥 Slides â€” Clase 11: EvaluaciÃ³n robusta y Pipelines de ML
+# 🖥 Slides â€” Clase 11: EvaluaciÃ³n robusta y Pipelines de ML
 
-## Bloque 1 (20 min) â€” El problema del overfitting
+> 🖥 Guion visual breve para conducir la sesion sin sobrecargar la clase.
+
+
+## 🧱 Bloque 1 (20 min) â€” El problema del overfitting
 
 **DiagnÃ³stico:**
 
@@ -15,7 +18,7 @@
 
 ---
 
-## Bloque 2 (25 min) â€” ValidaciÃ³n cruzada
+## 🧱 Bloque 2 (25 min) â€” ValidaciÃ³n cruzada
 
 En lugar de un solo train/test split:
 
@@ -37,7 +40,7 @@ print(f"F1 promedio: {scores.mean():.3f} Â± {scores.std():.3f}")
 
 ---
 
-## Bloque 3 (30 min) â€” Pipelines
+## 🧱 Bloque 3 (30 min) â€” Pipelines
 
 **Sin Pipeline (peligroso):**
 ```python
@@ -61,7 +64,7 @@ pipe.predict(X_test)  # escala automÃ¡ticamente
 
 ---
 
-## Cierre (15 min) â€” GridSearchCV
+## ✅ Cierre (15 min) â€” GridSearchCV
 
 ```python
 from sklearn.model_selection import GridSearchCV

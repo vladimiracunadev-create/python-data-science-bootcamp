@@ -1,18 +1,21 @@
-﻿# 📘 Clase 09 â€” IntroducciÃ³n al Machine Learning con scikit-learn
+# 📘 Clase 09 â€” IntroducciÃ³n al Machine Learning con scikit-learn
 
-## Objetivo
+> 🎯 Ficha de clase con objetivo, materiales y foco de aprendizaje.
+
+
+## 🎯 Objetivo
 
 Comprender quÃ© es el machine learning, cuÃ¡ndo aplicarlo y construir el primer modelo predictivo simple usando scikit-learn.
 
-## DuraciÃ³n sugerida
+## ⏱ DuraciÃ³n sugerida
 
 90 minutos
 
-## Dataset base
+## 🗂 Dataset base
 
 `datasets/ventas_tienda.csv` Â· `datasets/estudiantes.csv`
 
-## Resultados esperados
+## ✅ Resultados esperados
 
 Al finalizar, el estudiante podrÃ¡:
 
@@ -22,7 +25,7 @@ Al finalizar, el estudiante podrÃ¡:
 - dividir datos en conjunto de entrenamiento y prueba;
 - interpretar el error del modelo (MAE, RMSE).
 
-## Materiales
+## 🧰 Materiales
 
 - `notebook.ipynb` â€” prÃ¡ctica guiada paso a paso
 - `slides.md` â€” pauta de la clase
@@ -31,11 +34,11 @@ Al finalizar, el estudiante podrÃ¡:
 - `soluciones.ipynb` â€” soluciones comentadas
 - `teoria.md` â€” documento teÃ³rico completo (base para PDF)
 
-## Idea central
+## 💡 Idea central
 
 Machine learning no es magia: es encontrar patrones en datos histÃ³ricos para predecir lo que aÃºn no ha ocurrido. El primer paso es siempre entender el problema antes de elegir el modelo.
 
-## Conceptos clave
+## 🔑 Conceptos clave
 
 | Concepto | DescripciÃ³n |
 |---|---|
@@ -47,6 +50,6 @@ Machine learning no es magia: es encontrar patrones en datos histÃ³ricos para 
 | MAE | Error absoluto medio |
 | RMSE | RaÃ­z del error cuadrÃ¡tico medio |
 
-## Nota para el docente
+## 👩‍🏫 Nota para el docente
 
 Enfatizar que un modelo simple bien entendido es mÃ¡s valioso que un modelo complejo mal interpretado. No avanzar a modelos complejos sin que el estudiante entienda la regresiÃ³n lineal.
