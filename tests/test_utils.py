@@ -1,7 +1,15 @@
+"""Pruebas para utilidades de transformación de datasets.
+
+Aseguran que las funciones compartidas del bootcamp carguen archivos, creen
+métricas derivadas y produzcan resúmenes ordenados como esperan las clases.
+"""
+
 from __future__ import annotations
 
 import sys
 from pathlib import Path
+
+import pytest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
@@ -15,7 +23,6 @@ def test_load_csv_returns_dataframe():
 
 
 def test_load_csv_missing_file_raises():
-    import pytest
     with pytest.raises(FileNotFoundError):
         load_csv("archivo_que_no_existe.csv")
 

@@ -21,6 +21,8 @@ Antes de calcular, conviene dejar escrita la pregunta y recortar solo las column
 **Para qué sirve:** Sirve para evitar notebooks dispersos y para mostrar que el proyecto comienza delimitando el problema.
 
 ```python
+# Qué hace: pregunta → recorte → base de trabajo → análisis.
+# Para qué sirve: Sirve para evitar notebooks dispersos y para mostrar que el proyecto comienza delimitando el problema.
 import pandas as pd
 
 df = pd.read_csv("datasets/ventas_tienda.csv")

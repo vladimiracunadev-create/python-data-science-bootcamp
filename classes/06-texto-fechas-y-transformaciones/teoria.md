@@ -21,6 +21,8 @@ Convertir y normalizar columnas no es maquillaje: cambia lo que se puede pregunt
 **Para qué sirve:** Sirve para preparar columnas que luego alimentan gráficos, filtros o variables de modelado.
 
 ```python
+# Qué hace: convertir → derivar → normalizar → reutilizar.
+# Para qué sirve: Sirve para preparar columnas que luego alimentan gráficos, filtros o variables de modelado.
 import pandas as pd
 
 df = pd.read_csv("datasets/ventas_tienda.csv")

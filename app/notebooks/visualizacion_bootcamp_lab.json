@@ -3,13 +3,13 @@
   "description": "Construye gráficos simples y comenta hallazgos.",
   "cells": [
     {
-      "code": "from pathlib import Path\ndf = pd.read_csv(Path.cwd() / \"datasets\" / \"retencion_clientes.csv\")\ndf"
+      "code": "# Qué hace: carga el dataset base y deja la tabla lista para inspección o limpieza.\n# Para qué sirve: asegura que el análisis parta desde una fuente común y verificable.\n\nfrom pathlib import Path\ndf = pd.read_csv(Path.cwd() / \"datasets\" / \"retencion_clientes.csv\")\ndf"
     },
     {
-      "code": "plt.figure(figsize=(8,4))\nplt.plot(df[\"mes\"], df[\"clientes_activos\"], marker=\"o\")\nplt.xticks(rotation=45)\nplt.title(\"Clientes activos por mes\")\nplt.tight_layout()"
+      "code": "# Qué hace: construye una visualización a partir del resumen preparado.\n# Para qué sirve: permite comunicar el hallazgo central con una lectura más rápida.\n\nplt.figure(figsize=(8,4))\nplt.plot(df[\"mes\"], df[\"clientes_activos\"], marker=\"o\")\nplt.xticks(rotation=45)\nplt.title(\"Clientes activos por mes\")\nplt.tight_layout()"
     },
     {
-      "code": "df[\"tasa_perdida\"] = (df[\"clientes_perdidos\"] / df[\"clientes_activos\"]).round(3)\ndf[[\"mes\", \"tasa_perdida\"]]"
+      "code": "# Qué hace: ejecuta el paso actual del ejercicio o laboratorio.\n# Para qué sirve: deja explícita la intención del bloque y ayuda a revisarlo con más criterio.\n\ndf[\"tasa_perdida\"] = (df[\"clientes_perdidos\"] / df[\"clientes_activos\"]).round(3)\ndf[[\"mes\", \"tasa_perdida\"]]"
     }
   ]
 }

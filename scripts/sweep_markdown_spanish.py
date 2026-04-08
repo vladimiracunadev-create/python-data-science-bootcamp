@@ -1,3 +1,10 @@
+"""Normaliza ortografía y enlaces de archivos Markdown del repositorio.
+
+Este script resuelve un problema editorial recurrente: dejar consistentes los
+acentos y algunos targets de enlaces sin tocar bloques de código ni segmentos
+inline que podrían romper ejemplos o rutas técnicas.
+"""
+
 from __future__ import annotations
 
 import re
@@ -6,7 +13,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 SKIP_PARTS = {".git", ".venv", "node_modules", ".pytest_cache"}
 
-# Ordered from longer/more specific to shorter/more general.
+# Ordenadas de más específica a más general para evitar reemplazos ambiguos.
 REPLACEMENTS: list[tuple[str, str]] = [
     ("analisis", "análisis"),
     ("arquitectonica", "arquitectónica"),
@@ -45,7 +52,6 @@ REPLACEMENTS: list[tuple[str, str]] = [
     ("ensena", "enseña"),
     ("ensenan", "enseñan"),
     ("ensenar", "enseñar"),
-    ("ensenarlo", "enseñarlo"),
     ("ensenarlo", "enseñarlo"),
     ("explicacion", "explicación"),
     ("explicaciones", "explicaciones"),
@@ -101,34 +107,17 @@ REPLACEMENTS: list[tuple[str, str]] = [
     ("tecnica", "técnica"),
     ("tecnicas", "técnicas"),
     ("tecnico", "técnico"),
+    ("tecnologia", "tecnología"),
     ("teorica", "teórica"),
     ("teorico", "teórico"),
     ("teoria", "teoría"),
     ("teorias", "teorías"),
-    ("tecnologia", "tecnología"),
     ("titulo", "título"),
     ("titulos", "títulos"),
     ("transformacion", "transformación"),
     ("version", "versión"),
     ("visualizacion", "visualización"),
 ]
-
-
-def preserve_case(source: str, replacement: str) -> str:
-    if source.isupper():
-        return replacement.upper()
-    if source[:1].isupper():
-        return replacement[:1].upper() + replacement[1:]
-    return replacement
-
-
-def apply_replacements(text: str) -> str:
-    updated = text
-    for wrong, right in REPLACEMENTS:
-        pattern = re.compile(rf"\b{re.escape(wrong)}\b", re.IGNORECASE)
-        updated = pattern.sub(lambda m: preserve_case(m.group(0), right), updated)
-    return updated
-
 
 LINK_TARGET_FIXES = {
     "docs/metodología-docente.md": "docs/metodologia-docente.md",
@@ -149,7 +138,26 @@ LINK_TARGET_FIXES = {
 }
 
 
+def preserve_case(source: str, replacement: str) -> str:
+    """Ajusta el reemplazo al patrón de mayúsculas del texto original."""
+    if source.isupper():
+        return replacement.upper()
+    if source[:1].isupper():
+        return replacement[:1].upper() + replacement[1:]
+    return replacement
+
+
+def apply_replacements(text: str) -> str:
+    """Aplica correcciones ortográficas por palabra completa."""
+    updated = text
+    for wrong, right in REPLACEMENTS:
+        pattern = re.compile(rf"\b{re.escape(wrong)}\b", re.IGNORECASE)
+        updated = pattern.sub(lambda match: preserve_case(match.group(0), right), updated)
+    return updated
+
+
 def repair_link_targets(text: str) -> str:
+    """Corrige targets de enlaces markdown que cambiaron de nombre."""
     updated = text
     for wrong, right in LINK_TARGET_FIXES.items():
         updated = updated.replace(f"]({wrong})", f"]({right})")
@@ -157,6 +165,7 @@ def repair_link_targets(text: str) -> str:
 
 
 def normalize_inline_segments(line: str) -> str:
+    """Normaliza solo el texto libre y preserva inline code e imágenes/enlaces."""
     segments = re.split(r"(`[^`]*`|!?\[[^\]]+\]\([^)]+\))", line)
     for index in range(0, len(segments), 2):
         segments[index] = apply_replacements(segments[index])
@@ -164,6 +173,7 @@ def normalize_inline_segments(line: str) -> str:
 
 
 def normalize_markdown(text: str) -> str:
+    """Normaliza markdown sin tocar bloques de código fenced."""
     lines = text.splitlines(keepends=True)
     output: list[str] = []
     in_fence = False
@@ -184,10 +194,12 @@ def normalize_markdown(text: str) -> str:
 
 
 def should_skip(path: Path) -> bool:
+    """Indica si un markdown vive dentro de carpetas técnicas a ignorar."""
     return any(part in SKIP_PARTS for part in path.parts)
 
 
 def main() -> None:
+    """Recorre el repo y reescribe solo los markdown que realmente cambian."""
     changed = 0
     for path in ROOT.rglob("*.md"):
         if should_skip(path):

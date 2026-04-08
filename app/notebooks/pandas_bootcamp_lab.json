@@ -3,13 +3,13 @@
   "description": "Carga un CSV, explora columnas y responde preguntas rápidas.",
   "cells": [
     {
-      "code": "from pathlib import Path\nbase = Path.cwd()\ndf = pd.read_csv(base / \"datasets\" / \"ventas_tienda.csv\")\ndf.head()"
+      "code": "# Qué hace: carga el dataset base y deja la tabla lista para inspección o limpieza.\n# Para qué sirve: asegura que el análisis parta desde una fuente común y verificable.\n\nfrom pathlib import Path\nbase = Path.cwd()\ndf = pd.read_csv(base / \"datasets\" / \"ventas_tienda.csv\")\ndf.head()"
     },
     {
-      "code": "df.info()"
+      "code": "# Qué hace: ejecuta el paso actual del ejercicio o laboratorio.\n# Para qué sirve: deja explícita la intención del bloque y ayuda a revisarlo con más criterio.\n\ndf.info()"
     },
     {
-      "code": "df.groupby(\"categoria\")[\"unidades\"].sum().sort_values(ascending=False)"
+      "code": "# Qué hace: resume la informaci?n por categoría o entidad.\n# Para qué sirve: permite comparar grupos con una métrica agregada y no fila por fila.\n\ndf.groupby(\"categoria\")[\"unidades\"].sum().sort_values(ascending=False)"
     }
   ]
 }

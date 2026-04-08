@@ -21,6 +21,8 @@ Antes de entrenar, conviene declarar con claridad qué queremos predecir y qué 
 **Para qué sirve:** Sirve para mostrar la estructura mínima de un flujo supervisado sin saturar al estudiante con complejidad.
 
 ```python
+# Qué hace: problema → X / y → split → entrenar → predecir.
+# Para qué sirve: Sirve para mostrar la estructura mínima de un flujo supervisado sin saturar al estudiante con complejidad.
 import pandas as pd
 from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import train_test_split

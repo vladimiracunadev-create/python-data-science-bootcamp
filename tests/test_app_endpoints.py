@@ -1,3 +1,9 @@
+"""Pruebas de humo para la capa HTTP de la app Flask.
+
+Este archivo verifica que la interfaz principal y las APIs básicas del sistema
+respondan con la estructura esperada para clases, quizzes y ejecución remota.
+"""
+
 from __future__ import annotations
 
 import sys
@@ -9,6 +15,7 @@ from app.app import app
 
 
 def _client():
+    """Crea un cliente Flask de pruebas aislado para los endpoints."""
     app.config["TESTING"] = True
     return app.test_client()
 
@@ -100,7 +107,10 @@ def test_execute_api_runs_code():
 
 def test_execute_api_captures_print():
     client = _client()
-    response = client.post("/api/execute", json={"notebook_id": "api-test-print", "code": 'print("hola bootcamp")'})
+    response = client.post(
+        "/api/execute",
+        json={"notebook_id": "api-test-print", "code": 'print("hola bootcamp")'},
+    )
     data = response.get_json()
     assert "hola bootcamp" in data["stdout"]
 

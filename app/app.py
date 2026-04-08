@@ -1,3 +1,10 @@
+"""Aplicación Flask del bootcamp Python para Data Science.
+
+Este módulo resuelve la capa HTTP del sistema local: publica la interfaz web,
+expone APIs para clases y notebooks, y conecta la ejecución de código con el
+contenido docente almacenado en disco.
+"""
+
 from __future__ import annotations
 
 import os
@@ -18,7 +25,11 @@ from .content_loader import (
 from .execution_engine import MAX_CODE_LENGTH, execute_code, reset_session
 
 BASE_DIR = Path(__file__).resolve().parents[1]
-app = Flask(__name__, template_folder=str(BASE_DIR / "app" / "templates"), static_folder=str(BASE_DIR / "app" / "static"))
+app = Flask(
+    __name__,
+    template_folder=str(BASE_DIR / "app" / "templates"),
+    static_folder=str(BASE_DIR / "app" / "static"),
+)
 
 MAX_PAYLOAD_BYTES = 1_000_000  # 1 MB
 SLUG_RE = re.compile(r"^[\w\-]{1,80}$")
@@ -27,11 +38,18 @@ DEFAULT_PORT = int(os.getenv("BOOTCAMP_PORT", "8000"))
 
 
 def _valid_slug(slug: str) -> bool:
+    """Valida identificadores de clases y notebooks expuestos por la API."""
     return bool(SLUG_RE.match(slug))
 
 
 @app.after_request
 def add_security_headers(response):
+    """Añade cabeceras básicas para endurecer la app local en navegador.
+
+    Qué resuelve:
+        Reduce riesgos comunes de contenido embebido, sniffing y políticas de
+        origen al servir una aplicación que ejecuta código local del alumno.
+    """
     response.headers.setdefault("X-Content-Type-Options", "nosniff")
     response.headers.setdefault("X-Frame-Options", "SAMEORIGIN")
     response.headers.setdefault("Referrer-Policy", "no-referrer")
@@ -55,16 +73,19 @@ def add_security_headers(response):
 
 @app.get("/")
 def index():
+    """Renderiza la vista principal con catálogo de clases y laboratorios."""
     return render_template("index.html", classes=list_classes(), templates=list_notebook_templates())
 
 
 @app.get("/health")
 def health():
+    """Expone un healthcheck liviano para launcher, tests y monitoreo local."""
     return jsonify({"status": "ok", "service": "python-data-science-bootcamp"})
 
 
 @app.get("/ready")
 def ready():
+    """Confirma que la app puede listar clases y notebooks antes de usarse."""
     classes = list_classes()
     templates = list_notebook_templates()
     return jsonify(
@@ -79,29 +100,43 @@ def ready():
 
 @app.get("/api/classes")
 def api_classes():
+    """Devuelve el catálogo de clases para la web y la app de escritorio."""
     return jsonify(list_classes())
 
 
 @app.get("/api/class/<slug>")
 def api_class_detail(slug: str):
+    """Entrega markdown y quiz de una clase en formato consumible por la UI.
+
+    Qué resuelve:
+        Convierte el contenido docente almacenado en disco en un payload JSON con
+        HTML y texto crudo, listo para renderizar y reutilizar en la aplicación.
+    """
     if not _valid_slug(slug):
         return jsonify({"error": "slug inválido"}), 400
+
     try:
         data = read_class_markdown(slug)
         quiz = load_class_quiz(slug)
     except FileNotFoundError:
         return jsonify({"error": "clase no encontrada"}), 404
-    html = {name: markdown.markdown(text, extensions=["fenced_code", "tables"]) for name, text in data.items()}
+
+    html = {
+        name: markdown.markdown(text, extensions=["fenced_code", "tables"])
+        for name, text in data.items()
+    }
     return jsonify({"slug": slug, "html": html, "raw": data, "quiz": quiz})
 
 
 @app.get("/api/notebooks")
 def api_notebooks():
+    """Lista plantillas de laboratorio disponibles en la app."""
     return jsonify(list_notebook_templates())
 
 
 @app.get("/api/notebook/<template_id>")
 def api_notebook_detail(template_id: str):
+    """Entrega el contenido de una plantilla de notebook por identificador."""
     if not _valid_slug(template_id):
         return jsonify({"error": "id inválido"}), 400
     try:
@@ -112,8 +147,10 @@ def api_notebook_detail(template_id: str):
 
 @app.post("/api/notebook/save")
 def api_notebook_save():
+    """Guarda un notebook editado por el alumno dentro del directorio seguro."""
     if request.content_length and request.content_length > MAX_PAYLOAD_BYTES:
         return jsonify({"error": "payload demasiado grande"}), 413
+
     payload = request.get_json(force=True, silent=True) or {}
     name = re.sub(r"[^a-z0-9_\-]", "_", str(payload.get("name", "mi_notebook"))[:80])
     path = save_notebook(name, payload)
@@ -122,8 +159,10 @@ def api_notebook_save():
 
 @app.post("/api/execute")
 def api_execute():
+    """Ejecuta una celda del notebook interactivo y devuelve su resultado."""
     if request.content_length and request.content_length > MAX_PAYLOAD_BYTES:
         return jsonify({"error": "payload demasiado grande"}), 413
+
     payload = request.get_json(force=True, silent=True) or {}
     notebook_id = str(payload.get("notebook_id", "default"))[:80]
     code = str(payload.get("code", ""))
@@ -134,6 +173,7 @@ def api_execute():
 
 @app.post("/api/reset")
 def api_reset():
+    """Reinicia el estado persistente de una sesión de notebook."""
     payload = request.get_json(force=True, silent=True) or {}
     notebook_id = str(payload.get("notebook_id", "default"))[:80]
     reset_session(notebook_id)

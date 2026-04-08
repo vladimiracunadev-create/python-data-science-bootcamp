@@ -21,6 +21,8 @@ El pipeline encapsula el preprocesamiento junto con el modelo y evita pasos manu
 **Para qué sirve:** Sirve para introducir una práctica más robusta sin perder claridad sobre cada componente.
 
 ```python
+# Qué hace: preprocesar + modelar → validar → comparar.
+# Para qué sirve: Sirve para introducir una práctica más robusta sin perder claridad sobre cada componente.
 import pandas as pd
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import cross_val_score

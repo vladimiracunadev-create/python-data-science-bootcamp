@@ -21,6 +21,8 @@ Antes de graficar conviene preparar un resumen que reduzca el ruido de filas ind
 **Para qué sirve:** Sirve para mostrar cómo un gráfico nace de una decisión previa de agregación y no de un clic automático.
 
 ```python
+# Qué hace: calcular métrica → agrupar → ordenar → graficar.
+# Para qué sirve: Sirve para mostrar cómo un gráfico nace de una decisión previa de agregación y no de un clic automático.
 import pandas as pd
 import matplotlib.pyplot as plt
 

@@ -464,7 +464,7 @@ export const CLASSES = [
         "explanation": "Encapsular una operación en una función evita repetir lógica y facilita explicar cada paso.",
         "schema": "entrada → calcular → devolver → reutilizar",
         "language": "python",
-        "code": "def calcular_total_bruto(unidades, precio_unitario):\n    # Multiplicamos cantidad por precio para estimar el ingreso bruto.\n    return unidades * precio_unitario\n\n\nventas = [\n    {\"producto\": \"Mouse\", \"unidades\": 3, \"precio_unitario\": 8990},\n    {\"producto\": \"Teclado\", \"unidades\": 2, \"precio_unitario\": 15990},\n]\n\ntotales = [calcular_total_bruto(v[\"unidades\"], v[\"precio_unitario\"]) for v in ventas]\nprint(totales)"
+        "code": "# Qué hace: entrada → calcular → devolver → reutilizar.\n# Para qué sirve: Sirve para introducir reutilización, parámetros y retorno usando un ejemplo cercano al análisis de ventas.\ndef calcular_total_bruto(unidades, precio_unitario):\n    # Multiplicamos cantidad por precio para estimar el ingreso bruto.\n    return unidades * precio_unitario\n\n\nventas = [\n    {\"producto\": \"Mouse\", \"unidades\": 3, \"precio_unitario\": 8990},\n    {\"producto\": \"Teclado\", \"unidades\": 2, \"precio_unitario\": 15990},\n]\n\ntotales = [calcular_total_bruto(v[\"unidades\"], v[\"precio_unitario\"]) for v in ventas]\nprint(totales)"
       }
     ],
     "quiz": null
@@ -505,7 +505,7 @@ export const CLASSES = [
         "explanation": "El primer paso no es graficar: es entender qué columnas existen, cómo vienen escritas y si podemos confiar en ellas.",
         "schema": "cargar → inspeccionar → limpiar → verificar",
         "language": "python",
-        "code": "import pandas as pd\n\ndf = pd.read_csv(\"datasets/ventas_tienda.csv\")\n\n# Revisamos primeras filas, tipos y valores faltantes antes de seguir.\nprint(df.head())\nprint(df.info())\nprint(df.isna().sum())\n\n# Ejemplo simple de limpieza visible.\ndf[\"medio_pago\"] = df[\"medio_pago\"].str.strip()"
+        "code": "# Qué hace: cargar → inspeccionar → limpiar → verificar.\n# Para qué sirve: Sirve para instalar una rutina mínima de calidad antes de cualquier análisis o visualización.\nimport pandas as pd\n\ndf = pd.read_csv(\"datasets/ventas_tienda.csv\")\n\n# Revisamos primeras filas, tipos y valores faltantes antes de seguir.\nprint(df.head())\nprint(df.info())\nprint(df.isna().sum())\n\n# Ejemplo simple de limpieza visible.\ndf[\"medio_pago\"] = df[\"medio_pago\"].str.strip()"
       }
     ],
     "quiz": null
@@ -546,7 +546,7 @@ export const CLASSES = [
         "explanation": "Antes de graficar conviene preparar un resumen que reduzca el ruido de filas individuales.",
         "schema": "calcular métrica → agrupar → ordenar → graficar",
         "language": "python",
-        "code": "import pandas as pd\nimport matplotlib.pyplot as plt\n\ndf = pd.read_csv(\"datasets/ventas_tienda.csv\")\ndf[\"total_neto\"] = df[\"unidades\"] * df[\"precio_unitario\"] * (1 - df[\"descuento_pct\"])\n\nresumen = (\n    df.groupby(\"categoria\", as_index=False)[\"total_neto\"]\n    .sum()\n    .sort_values(\"total_neto\", ascending=False)\n)\n\nplt.figure(figsize=(8, 4))\nplt.bar(resumen[\"categoria\"], resumen[\"total_neto\"])\nplt.title(\"Ventas netas por categoría\")\nplt.ylabel(\"CLP\")\nplt.xticks(rotation=20)\nplt.tight_layout()"
+        "code": "# Qué hace: calcular métrica → agrupar → ordenar → graficar.\n# Para qué sirve: Sirve para mostrar cómo un gráfico nace de una decisión previa de agregación y no de un clic automático.\nimport pandas as pd\nimport matplotlib.pyplot as plt\n\ndf = pd.read_csv(\"datasets/ventas_tienda.csv\")\ndf[\"total_neto\"] = df[\"unidades\"] * df[\"precio_unitario\"] * (1 - df[\"descuento_pct\"])\n\nresumen = (\n    df.groupby(\"categoria\", as_index=False)[\"total_neto\"]\n    .sum()\n    .sort_values(\"total_neto\", ascending=False)\n)\n\nplt.figure(figsize=(8, 4))\nplt.bar(resumen[\"categoria\"], resumen[\"total_neto\"])\nplt.title(\"Ventas netas por categoría\")\nplt.ylabel(\"CLP\")\nplt.xticks(rotation=20)\nplt.tight_layout()"
       }
     ],
     "quiz": null
@@ -587,7 +587,7 @@ export const CLASSES = [
         "explanation": "Usar varias medidas a la vez evita depender de un único número y mejora la interpretación.",
         "schema": "seleccionar variable → calcular resumen → interpretar",
         "language": "python",
-        "code": "import pandas as pd\n\ndf = pd.read_csv(\"datasets/estudiantes.csv\")\nasistencia = df[\"asistencia_pct\"]\n\nprint(\"Media:\", asistencia.mean())\nprint(\"Mediana:\", asistencia.median())\nprint(\"Desviación estándar:\", asistencia.std())\nprint(asistencia.describe())"
+        "code": "# Qué hace: seleccionar variable → calcular resumen → interpretar.\n# Para qué sirve: Sirve para conectar conceptos estadísticos con decisiones pedagógicas o de seguimiento académico.\nimport pandas as pd\n\ndf = pd.read_csv(\"datasets/estudiantes.csv\")\nasistencia = df[\"asistencia_pct\"]\n\nprint(\"Media:\", asistencia.mean())\nprint(\"Mediana:\", asistencia.median())\nprint(\"Desviación estándar:\", asistencia.std())\nprint(asistencia.describe())"
       }
     ],
     "quiz": null
@@ -628,7 +628,7 @@ export const CLASSES = [
         "explanation": "Crear una figura explícita permite controlar tamaño, etiquetas y orden visual con intención.",
         "schema": "crear figura → dibujar → rotular → ajustar",
         "language": "python",
-        "code": "import pandas as pd\nimport matplotlib.pyplot as plt\n\ndf = pd.read_csv(\"datasets/retencion_clientes.csv\")\n\nfig, ax = plt.subplots(figsize=(9, 4))\nax.plot(df[\"mes\"], df[\"clientes_activos\"], marker=\"o\", linewidth=2)\nax.set_title(\"Clientes activos por mes\")\nax.set_xlabel(\"Mes\")\nax.set_ylabel(\"Clientes activos\")\nax.tick_params(axis=\"x\", rotation=45)\nax.grid(alpha=0.2)\nplt.tight_layout()"
+        "code": "# Qué hace: crear figura → dibujar → rotular → ajustar.\n# Para qué sirve: Sirve para pasar de una visualización funcional a una visualización comunicable.\nimport pandas as pd\nimport matplotlib.pyplot as plt\n\ndf = pd.read_csv(\"datasets/retencion_clientes.csv\")\n\nfig, ax = plt.subplots(figsize=(9, 4))\nax.plot(df[\"mes\"], df[\"clientes_activos\"], marker=\"o\", linewidth=2)\nax.set_title(\"Clientes activos por mes\")\nax.set_xlabel(\"Mes\")\nax.set_ylabel(\"Clientes activos\")\nax.tick_params(axis=\"x\", rotation=45)\nax.grid(alpha=0.2)\nplt.tight_layout()"
       }
     ],
     "quiz": null
@@ -669,7 +669,7 @@ export const CLASSES = [
         "explanation": "Convertir y normalizar columnas no es maquillaje: cambia lo que se puede preguntar después.",
         "schema": "convertir → derivar → normalizar → reutilizar",
         "language": "python",
-        "code": "import pandas as pd\n\ndf = pd.read_csv(\"datasets/ventas_tienda.csv\")\ndf[\"fecha\"] = pd.to_datetime(df[\"fecha\"])\n\n# Creamos columnas nuevas para responder preguntas posteriores.\ndf[\"mes\"] = df[\"fecha\"].dt.to_period(\"M\").astype(str)\ndf[\"dia_semana\"] = df[\"fecha\"].dt.day_name()\ndf[\"producto_normalizado\"] = df[\"producto\"].str.strip().str.lower()\n\nprint(df[[\"fecha\", \"mes\", \"dia_semana\", \"producto_normalizado\"]].head())"
+        "code": "# Qué hace: convertir → derivar → normalizar → reutilizar.\n# Para qué sirve: Sirve para preparar columnas que luego alimentan gráficos, filtros o variables de modelado.\nimport pandas as pd\n\ndf = pd.read_csv(\"datasets/ventas_tienda.csv\")\ndf[\"fecha\"] = pd.to_datetime(df[\"fecha\"])\n\n# Creamos columnas nuevas para responder preguntas posteriores.\ndf[\"mes\"] = df[\"fecha\"].dt.to_period(\"M\").astype(str)\ndf[\"dia_semana\"] = df[\"fecha\"].dt.day_name()\ndf[\"producto_normalizado\"] = df[\"producto\"].str.strip().str.lower()\n\nprint(df[[\"fecha\", \"mes\", \"dia_semana\", \"producto_normalizado\"]].head())"
       }
     ],
     "quiz": null
@@ -710,7 +710,7 @@ export const CLASSES = [
         "explanation": "Antes de calcular, conviene dejar escrita la pregunta y recortar solo las columnas necesarias.",
         "schema": "pregunta → recorte → base de trabajo → análisis",
         "language": "python",
-        "code": "import pandas as pd\n\ndf = pd.read_csv(\"datasets/ventas_tienda.csv\")\ndf[\"total_neto\"] = df[\"unidades\"] * df[\"precio_unitario\"] * (1 - df[\"descuento_pct\"])\n\npregunta = \"¿Qué categoría concentra mayor ingreso neto?\"\ncolumnas = [\"fecha\", \"sucursal\", \"categoria\", \"producto\", \"medio_pago\", \"total_neto\"]\nproyecto = df[columnas].copy()\n\nprint(pregunta)\nprint(proyecto.head())"
+        "code": "# Qué hace: pregunta → recorte → base de trabajo → análisis.\n# Para qué sirve: Sirve para evitar notebooks dispersos y para mostrar que el proyecto comienza delimitando el problema.\nimport pandas as pd\n\ndf = pd.read_csv(\"datasets/ventas_tienda.csv\")\ndf[\"total_neto\"] = df[\"unidades\"] * df[\"precio_unitario\"] * (1 - df[\"descuento_pct\"])\n\npregunta = \"¿Qué categoría concentra mayor ingreso neto?\"\ncolumnas = [\"fecha\", \"sucursal\", \"categoria\", \"producto\", \"medio_pago\", \"total_neto\"]\nproyecto = df[columnas].copy()\n\nprint(pregunta)\nprint(proyecto.head())"
       }
     ],
     "quiz": null
@@ -751,7 +751,7 @@ export const CLASSES = [
         "explanation": "No todo hallazgo se comunica con un gráfico; a veces conviene escribir un mensaje breve y accionable.",
         "schema": "hallazgo → evidencia → recomendación",
         "language": "python",
-        "code": "hallazgo = \"La categoría Accesorios concentra el mayor ingreso neto del periodo.\"\nevidencia = \"El resumen por categoría la ubica en el primer lugar del ranking.\"\nrecomendacion = \"Conviene revisar margen, stock y campañas antes de ampliar la oferta.\"\n\nprint(hallazgo)\nprint(evidencia)\nprint(recomendacion)"
+        "code": "# Qué hace: hallazgo → evidencia → recomendación.\n# Para qué sirve: Sirve para entrenar una salida ejecutiva que conecte el dato con una decisión posible.\nhallazgo = \"La categoría Accesorios concentra el mayor ingreso neto del periodo.\"\nevidencia = \"El resumen por categoría la ubica en el primer lugar del ranking.\"\nrecomendacion = \"Conviene revisar margen, stock y campañas antes de ampliar la oferta.\"\n\nprint(hallazgo)\nprint(evidencia)\nprint(recomendacion)"
       }
     ],
     "quiz": null
@@ -792,7 +792,7 @@ export const CLASSES = [
         "explanation": "Antes de entrenar, conviene declarar con claridad qué queremos predecir y qué datos usaremos como entrada.",
         "schema": "problema → X / y → split → entrenar → predecir",
         "language": "python",
-        "code": "import pandas as pd\nfrom sklearn.linear_model import LinearRegression\nfrom sklearn.model_selection import train_test_split\n\ndf = pd.read_csv(\"datasets/estudiantes.csv\")\nX = df[[\"asistencia_pct\", \"evaluacion_python\", \"edad\"]]\ny = df[\"evaluacion_pandas\"]\n\nX_train, X_test, y_train, y_test = train_test_split(\n    X, y, test_size=0.2, random_state=42\n)\n\nmodelo = LinearRegression()\nmodelo.fit(X_train, y_train)\npredicciones = modelo.predict(X_test)\nprint(predicciones[:5])"
+        "code": "# Qué hace: problema → X / y → split → entrenar → predecir.\n# Para qué sirve: Sirve para mostrar la estructura mínima de un flujo supervisado sin saturar al estudiante con complejidad.\nimport pandas as pd\nfrom sklearn.linear_model import LinearRegression\nfrom sklearn.model_selection import train_test_split\n\ndf = pd.read_csv(\"datasets/estudiantes.csv\")\nX = df[[\"asistencia_pct\", \"evaluacion_python\", \"edad\"]]\ny = df[\"evaluacion_pandas\"]\n\nX_train, X_test, y_train, y_test = train_test_split(\n    X, y, test_size=0.2, random_state=42\n)\n\nmodelo = LinearRegression()\nmodelo.fit(X_train, y_train)\npredicciones = modelo.predict(X_test)\nprint(predicciones[:5])"
       }
     ],
     "quiz": null
@@ -833,7 +833,7 @@ export const CLASSES = [
         "explanation": "Primero definimos una etiqueta supervisada simple y luego entrenamos un modelo interpretable.",
         "schema": "crear etiqueta → separar variables → entrenar → revisar",
         "language": "python",
-        "code": "import pandas as pd\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.tree import DecisionTreeClassifier\n\ndf = pd.read_csv(\"datasets/estudiantes.csv\")\ndf[\"alto_desempeno\"] = (\n    (df[\"evaluacion_python\"] >= 75) & (df[\"evaluacion_pandas\"] >= 75)\n).astype(int)\n\nX = df[[\"asistencia_pct\", \"evaluacion_python\", \"edad\"]]\ny = df[\"alto_desempeno\"]\n\nX_train, X_test, y_train, y_test = train_test_split(\n    X, y, test_size=0.2, random_state=42\n)\n\nmodelo = DecisionTreeClassifier(max_depth=3, random_state=42)\nmodelo.fit(X_train, y_train)\nprint(modelo.predict(X_test[:5]))"
+        "code": "# Qué hace: crear etiqueta → separar variables → entrenar → revisar.\n# Para qué sirve: Sirve para introducir clasificación sin perder transparencia en la lógica del modelo.\nimport pandas as pd\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.tree import DecisionTreeClassifier\n\ndf = pd.read_csv(\"datasets/estudiantes.csv\")\ndf[\"alto_desempeno\"] = (\n    (df[\"evaluacion_python\"] >= 75) & (df[\"evaluacion_pandas\"] >= 75)\n).astype(int)\n\nX = df[[\"asistencia_pct\", \"evaluacion_python\", \"edad\"]]\ny = df[\"alto_desempeno\"]\n\nX_train, X_test, y_train, y_test = train_test_split(\n    X, y, test_size=0.2, random_state=42\n)\n\nmodelo = DecisionTreeClassifier(max_depth=3, random_state=42)\nmodelo.fit(X_train, y_train)\nprint(modelo.predict(X_test[:5]))"
       }
     ],
     "quiz": null
@@ -874,7 +874,7 @@ export const CLASSES = [
         "explanation": "El pipeline encapsula el preprocesamiento junto con el modelo y evita pasos manuales inconsistentes.",
         "schema": "preprocesar + modelar → validar → comparar",
         "language": "python",
-        "code": "import pandas as pd\nfrom sklearn.linear_model import LogisticRegression\nfrom sklearn.model_selection import cross_val_score\nfrom sklearn.pipeline import Pipeline\nfrom sklearn.preprocessing import StandardScaler\n\ndf = pd.read_csv(\"datasets/estudiantes.csv\")\ndf[\"alto_desempeno\"] = (\n    (df[\"evaluacion_python\"] >= 75) & (df[\"evaluacion_pandas\"] >= 75)\n).astype(int)\n\nX = df[[\"asistencia_pct\", \"evaluacion_python\", \"evaluacion_pandas\", \"edad\"]]\ny = df[\"alto_desempeno\"]\n\npipeline = Pipeline(\n    [(\"scaler\", StandardScaler()), (\"model\", LogisticRegression(max_iter=300))]\n)\nscores = cross_val_score(pipeline, X, y, cv=5, scoring=\"f1\")\nprint(scores.mean())"
+        "code": "# Qué hace: preprocesar + modelar → validar → comparar.\n# Para qué sirve: Sirve para introducir una práctica más robusta sin perder claridad sobre cada componente.\nimport pandas as pd\nfrom sklearn.linear_model import LogisticRegression\nfrom sklearn.model_selection import cross_val_score\nfrom sklearn.pipeline import Pipeline\nfrom sklearn.preprocessing import StandardScaler\n\ndf = pd.read_csv(\"datasets/estudiantes.csv\")\ndf[\"alto_desempeno\"] = (\n    (df[\"evaluacion_python\"] >= 75) & (df[\"evaluacion_pandas\"] >= 75)\n).astype(int)\n\nX = df[[\"asistencia_pct\", \"evaluacion_python\", \"evaluacion_pandas\", \"edad\"]]\ny = df[\"alto_desempeno\"]\n\npipeline = Pipeline(\n    [(\"scaler\", StandardScaler()), (\"model\", LogisticRegression(max_iter=300))]\n)\nscores = cross_val_score(pipeline, X, y, cv=5, scoring=\"f1\")\nprint(scores.mean())"
       }
     ],
     "quiz": null
@@ -915,7 +915,7 @@ export const CLASSES = [
         "explanation": "Organizar el proyecto por etapas hace que otra persona pueda seguir el razonamiento sin perderse.",
         "schema": "contexto → carga → análisis → conclusión",
         "language": "python",
-        "code": "import pandas as pd\n\n# 1. Cargar datos y dejar una copia de trabajo.\ndf = pd.read_csv(\"datasets/ventas_tienda.csv\")\ntrabajo = df.copy()\ntrabajo[\"total_neto\"] = trabajo[\"unidades\"] * trabajo[\"precio_unitario\"] * (1 - trabajo[\"descuento_pct\"])\n\n# 2. Formular la pregunta antes de seguir.\npregunta = \"¿Qué sucursal conviene reforzar en la próxima campaña?\"\nprint(pregunta)\n\n# 3. Generar una evidencia inicial.\nresumen = (\n    trabajo.groupby(\"sucursal\", as_index=False)[\"total_neto\"]\n    .sum()\n    .sort_values(\"total_neto\", ascending=False)\n)\nprint(resumen.head())"
+        "code": "# Qué hace: contexto → carga → análisis → conclusión.\n# Para qué sirve: Sirve para modelar una estructura mínima que haga legible el trabajo final ante docentes y compañeros.\nimport pandas as pd\n\n# 1. Cargar datos y dejar una copia de trabajo.\ndf = pd.read_csv(\"datasets/ventas_tienda.csv\")\ntrabajo = df.copy()\ntrabajo[\"total_neto\"] = trabajo[\"unidades\"] * trabajo[\"precio_unitario\"] * (1 - trabajo[\"descuento_pct\"])\n\n# 2. Formular la pregunta antes de seguir.\npregunta = \"¿Qué sucursal conviene reforzar en la próxima campaña?\"\nprint(pregunta)\n\n# 3. Generar una evidencia inicial.\nresumen = (\n    trabajo.groupby(\"sucursal\", as_index=False)[\"total_neto\"]\n    .sum()\n    .sort_values(\"total_neto\", ascending=False)\n)\nprint(resumen.head())"
       }
     ],
     "quiz": null

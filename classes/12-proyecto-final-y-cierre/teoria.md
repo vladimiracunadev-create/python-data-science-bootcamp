@@ -21,6 +21,8 @@ Organizar el proyecto por etapas hace que otra persona pueda seguir el razonamie
 **Para qué sirve:** Sirve para modelar una estructura mínima que haga legible el trabajo final ante docentes y compañeros.
 
 ```python
+# Qué hace: contexto → carga → análisis → conclusión.
+# Para qué sirve: Sirve para modelar una estructura mínima que haga legible el trabajo final ante docentes y compañeros.
 import pandas as pd
 
 # 1. Cargar datos y dejar una copia de trabajo.

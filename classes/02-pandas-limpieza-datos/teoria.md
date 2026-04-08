@@ -21,6 +21,8 @@ El primer paso no es graficar: es entender qué columnas existen, cómo vienen e
 **Para qué sirve:** Sirve para instalar una rutina mínima de calidad antes de cualquier análisis o visualización.
 
 ```python
+# Qué hace: cargar → inspeccionar → limpiar → verificar.
+# Para qué sirve: Sirve para instalar una rutina mínima de calidad antes de cualquier análisis o visualización.
 import pandas as pd
 
 df = pd.read_csv("datasets/ventas_tienda.csv")

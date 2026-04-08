@@ -21,6 +21,8 @@ Primero definimos una etiqueta supervisada simple y luego entrenamos un modelo i
 **Para qué sirve:** Sirve para introducir clasificación sin perder transparencia en la lógica del modelo.
 
 ```python
+# Qué hace: crear etiqueta → separar variables → entrenar → revisar.
+# Para qué sirve: Sirve para introducir clasificación sin perder transparencia en la lógica del modelo.
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.tree import DecisionTreeClassifier

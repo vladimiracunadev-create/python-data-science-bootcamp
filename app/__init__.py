@@ -1,1 +1,1 @@
-"""Aplicación interactiva local para el bootcamp."""
+"""Paquete de la aplicación local del bootcamp."""

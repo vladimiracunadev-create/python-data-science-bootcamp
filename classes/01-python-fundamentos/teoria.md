@@ -21,6 +21,8 @@ Encapsular una operación en una función evita repetir lógica y facilita expli
 **Para qué sirve:** Sirve para introducir reutilización, parámetros y retorno usando un ejemplo cercano al análisis de ventas.
 
 ```python
+# Qué hace: entrada → calcular → devolver → reutilizar.
+# Para qué sirve: Sirve para introducir reutilización, parámetros y retorno usando un ejemplo cercano al análisis de ventas.
 def calcular_total_bruto(unidades, precio_unitario):
     # Multiplicamos cantidad por precio para estimar el ingreso bruto.
     return unidades * precio_unitario

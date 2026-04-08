@@ -1,17 +1,17 @@
-"""
-launcher.py — Punto de entrada del instalador Windows del Bootcamp Python DS.
+"""Launcher local para la app del bootcamp en Windows.
 
 Responsabilidades:
-  1. Detectar si ya hay una instancia corriendo en el puerto configurado.
-  2. Arrancar el servidor Flask en un hilo separado.
-  3. Esperar que el servidor responda /health antes de abrir el navegador.
-  4. Mantener el proceso vivo mostrando un menu de consola minimo.
-  5. Apagar correctamente el servidor al salir.
+    1. Detectar si ya existe una instancia corriendo en el puerto configurado.
+    2. Arrancar el servidor Flask en un hilo separado.
+    3. Esperar el endpoint `/health` antes de abrir el navegador.
+    4. Mantener el proceso vivo con un menú mínimo de consola.
+    5. Cerrar la aplicación de forma limpia al salir.
 
-Uso:
-  python launcher.py               # Arranca en 127.0.0.1:8000
-  BOOTCAMP_PORT=9000 python launcher.py
+Este archivo resuelve la experiencia de uso más amigable para docentes o
+estudiantes que quieren abrir el sistema local sin pelear con comandos largos.
 """
+
+from __future__ import annotations
 
 import os
 import signal
@@ -19,83 +19,56 @@ import socket
 import sys
 import threading
 import time
-import urllib.error
 import urllib.request
 import webbrowser
 
-# ---------------------------------------------------------------------------
-# CONFIGURACION
-# ---------------------------------------------------------------------------
-
-# Direccion de escucha — siempre 127.0.0.1 para uso local
+# Dirección de escucha: siempre local para que la app no quede expuesta en red.
 HOST = os.environ.get("BOOTCAMP_HOST", "127.0.0.1")
-
-# Puerto — configurable por variable de entorno
+# Puerto configurable para evitar conflictos con otros servicios locales.
 PORT = int(os.environ.get("BOOTCAMP_PORT", "8000"))
-
-# Tiempo maximo de espera para que Flask arranque (segundos)
 STARTUP_TIMEOUT = 30
-
-# Intervalo de polling mientras espera que el servidor responda
 POLL_INTERVAL = 0.5
-
-# URL base de la aplicacion
 BASE_URL = f"http://{HOST}:{PORT}"
 
-# ---------------------------------------------------------------------------
-# UTILIDADES
-# ---------------------------------------------------------------------------
 
 def puerto_en_uso(host: str, port: int) -> bool:
-    """
-    Verifica si ya hay algo escuchando en host:port.
+    """Comprueba si ya existe un proceso escuchando en `host:port`.
 
-    Usa un socket TCP de prueba con timeout corto.
-    Si la conexion es exitosa, el puerto esta ocupado.
-
-    Returns:
-        True  si el puerto ya esta en uso.
-        False si el puerto esta libre.
+    Qué resuelve:
+        Evita abrir una segunda instancia de la app y permite reutilizar la ya
+        existente en lugar de fallar con un error de puerto ocupado.
     """
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
-        # SO_REUSEADDR evita falsos positivos en TIME_WAIT
         sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         sock.settimeout(1)
         try:
             sock.connect((host, port))
-            return True          # Conexion exitosa → puerto ocupado
+            return True
         except (ConnectionRefusedError, socket.timeout, OSError):
-            return False         # No hay nadie escuchando → puerto libre
+            return False
 
 
 def esperar_servidor(url: str, timeout: int) -> bool:
-    """
-    Hace polling al endpoint /health hasta que el servidor responde 200.
+    """Hace polling a `/health` hasta que el servidor responde correctamente.
 
-    Parametros:
-        url     URL completa del endpoint health.
-        timeout Tiempo maximo de espera en segundos.
-
-    Returns:
-        True  si el servidor respondio antes del timeout.
-        False si se agoto el tiempo.
+    Qué resuelve:
+        Sin esta espera, el navegador podría abrirse antes de que Flask esté
+        listo y el usuario vería una página caída al iniciar el sistema.
     """
     deadline = time.time() + timeout
     while time.time() < deadline:
         try:
-            with urllib.request.urlopen(url, timeout=2) as resp:
-                if resp.status == 200:
-                    return True     # Servidor listo
+            with urllib.request.urlopen(url, timeout=2) as response:
+                if response.status == 200:
+                    return True
         except Exception:
-            pass                    # Todavia no responde, seguir esperando
+            pass
         time.sleep(POLL_INTERVAL)
-    return False                    # Timeout agotado
+    return False
 
 
-def imprimir_banner():
-    """
-    Muestra el banner inicial del bootcamp en consola.
-    """
+def imprimir_banner() -> None:
+    """Muestra en consola el contexto básico de la sesión actual."""
     print()
     print("=" * 60)
     print("  BOOTCAMP PYTHON PARA DATA SCIENCE")
@@ -106,10 +79,8 @@ def imprimir_banner():
     print()
 
 
-def imprimir_menu():
-    """
-    Muestra las opciones disponibles en consola.
-    """
+def imprimir_menu() -> None:
+    """Presenta los comandos mínimos disponibles para el usuario."""
     print()
     print("  Opciones:")
     print("  [Enter]  Reabrir el navegador")
@@ -117,111 +88,82 @@ def imprimir_menu():
     print()
 
 
-# ---------------------------------------------------------------------------
-# ARRANQUE DEL SERVIDOR
-# ---------------------------------------------------------------------------
+def arrancar_flask() -> None:
+    """Importa y levanta la app Flask dentro de un hilo daemon.
 
-def arrancar_flask():
+    Qué resuelve:
+        Mantiene libre el hilo principal para mostrar estado, esperar `/health`
+        y responder a comandos del usuario mientras el servidor sigue vivo.
     """
-    Importa y arranca la aplicacion Flask.
-
-    Se ejecuta en un hilo daemon para que muera junto con el proceso principal.
-    El import se hace aqui (no al nivel del modulo) para que PyInstaller pueda
-    detectar las dependencias correctamente.
-    """
-    # Ajustar el path para que el import funcione tanto desde el repo
-    # como desde el directorio de instalacion de PyInstaller.
     base_dir = os.path.dirname(os.path.abspath(__file__))
     if base_dir not in sys.path:
         sys.path.insert(0, base_dir)
 
-    # Configurar variables de entorno antes de importar Flask
     os.environ.setdefault("BOOTCAMP_HOST", HOST)
     os.environ.setdefault("BOOTCAMP_PORT", str(PORT))
 
-    # Importar y ejecutar la app
-    # El import de app.app carga Flask, configura rutas y seguridad.
-    from app.app import app  # noqa: F401 — importacion necesaria para PyInstaller
+    # El import ocurre aquí para que PyInstaller detecte dependencias y para no
+    # cargar Flask si el launcher descubre una instancia ya corriendo.
+    from app.app import app
+
     app.run(host=HOST, port=PORT, debug=False, use_reloader=False)
 
 
-# ---------------------------------------------------------------------------
-# PUNTO DE ENTRADA PRINCIPAL
-# ---------------------------------------------------------------------------
-
-def main():
-    """
-    Flujo principal del launcher:
-
-    1. Mostrar banner
-    2. Verificar si el puerto ya esta en uso (instancia duplicada)
-    3. Arrancar Flask en hilo daemon
-    4. Esperar que /health responda
-    5. Abrir el navegador
-    6. Mantener el proceso vivo con menu de consola
-    7. Apagar limpiamente al recibir Ctrl+C o comando 'q'
-    """
+def main() -> None:
+    """Coordina arranque, apertura de navegador y cierre limpio del sistema."""
     imprimir_banner()
 
-    # ---- Paso 1: Verificar instancia duplicada ----
     if puerto_en_uso(HOST, PORT):
         print(f"  Ya hay una instancia corriendo en {BASE_URL}")
         print("  Abriendo el navegador...")
         webbrowser.open(BASE_URL)
         return
 
-    # ---- Paso 2: Arrancar Flask en hilo daemon ----
     print("  Iniciando el servidor Flask...")
     hilo_flask = threading.Thread(target=arrancar_flask, daemon=True, name="flask-server")
     hilo_flask.start()
 
-    # ---- Paso 3: Esperar que el servidor este listo ----
     health_url = f"{BASE_URL}/health"
     print(f"  Esperando que el servidor responda en {health_url} ...")
     listo = esperar_servidor(health_url, STARTUP_TIMEOUT)
-
     if not listo:
         print()
-        print("  ERROR: El servidor no respondio en el tiempo esperado.")
-        print("  Revisa que el puerto no este bloqueado por el firewall.")
+        print("  ERROR: El servidor no respondió en el tiempo esperado.")
+        print("  Revisa que el puerto no esté bloqueado por el firewall.")
         print(f"  Intenta abrir manualmente: {BASE_URL}")
         sys.exit(1)
 
     print("  Servidor listo.")
-
-    # ---- Paso 4: Abrir el navegador ----
     print(f"  Abriendo {BASE_URL} en el navegador...")
     webbrowser.open(BASE_URL)
-
-    # ---- Paso 5: Menu de consola ----
     imprimir_menu()
 
-    # Capturar Ctrl+C para apagar limpiamente
-    def manejador_sigint(sig, frame):
+    def manejador_sigint(sig: int, frame: object) -> None:
+        """Cierra el proceso cuando el usuario presiona Ctrl+C."""
+        del sig, frame
         print("\n\n  Apagando el servidor...")
         sys.exit(0)
 
     signal.signal(signal.SIGINT, manejador_sigint)
 
-    # Bucle principal: espera comandos del usuario
     while True:
         try:
             entrada = input("  > ").strip().lower()
         except EOFError:
-            # stdin cerrado (por ejemplo, lanzado sin consola)
-            # Mantener el servidor vivo esperando en el hilo
+            # Si la consola se cierra pero el proceso sigue vivo, esperamos al
+            # hilo para no matar abruptamente el servidor.
             hilo_flask.join()
             break
 
         if entrada in ("q", "quit", "exit", "salir"):
             print("  Apagando el servidor...")
             break
-        elif entrada == "":
-            # Enter → reabrir el navegador
+        if entrada == "":
             print(f"  Reabriendo {BASE_URL}...")
             webbrowser.open(BASE_URL)
-        else:
-            print("  Comando no reconocido. Usa [Enter] o [q].")
+            continue
+
+        print("  Comando no reconocido. Usa [Enter] o [q].")
 
     sys.exit(0)
 

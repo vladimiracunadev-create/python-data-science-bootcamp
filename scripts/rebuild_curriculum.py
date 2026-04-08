@@ -1,3 +1,10 @@
+"""Genera y sincroniza el contenido estructural del plan de clases del bootcamp.
+
+Este script resuelve la consistencia entre el catálogo docente, los markdown de
+cada clase y los datos que consume la app móvil. Cuando cambia el plan de
+clases, aquí se actualiza la fuente única para evitar divergencias.
+"""
+
 from __future__ import annotations
 
 import json
@@ -464,14 +471,27 @@ print(resumen.head())""",
 
 
 def write_text(path: Path, content: str) -> None:
+    """Escribe archivos de salida con salto de línea final estable.
+
+    Qué resuelve:
+        Mantiene consistencia entre markdown generados y evita diferencias de
+        formato triviales al regenerar el currículo.
+    """
     path.write_text(content.strip() + "\n", encoding="utf-8")
 
 
 def class_label(number: int) -> str:
+    """Devuelve la etiqueta estándar con formato de dos dígitos."""
     return f"Clase {number:02d}" if number else "Clase 00"
 
 
 def materials(item: dict) -> list[str]:
+    """Lista los materiales esperados para cada clase del bootcamp.
+
+    Qué resuelve:
+        Hace explícito qué archivos deben existir por módulo y qué cambia entre
+        una clase diagnóstica y una clase con notebook completo.
+    """
     base = ["README.md", "slides.md", "teoria.md", "ejercicios.md", "homework.md"]
     if item["number"] == 0:
         base.append("quiz.json")
@@ -481,6 +501,12 @@ def materials(item: dict) -> list[str]:
 
 
 def route_table(number: int) -> str:
+    """Devuelve una tabla breve con la secuencia sugerida de la sesión.
+
+    Qué resuelve:
+        Mantiene el mismo nivel de detalle pedagógico entre módulos y evita que
+        cada clase describa su ritmo con criterios distintos.
+    """
     if number == 0:
         return """| Tramo | Tiempo sugerido | Enfoque | Evidencia |
 |---|---|---|---|
@@ -496,7 +522,33 @@ def route_table(number: int) -> str:
 | Cierre | 10 min | Síntesis y siguiente paso | Autoevaluación breve |"""
 
 
+def documented_code(item: dict) -> str:
+    """Antepone comentarios explicativos al bloque Python principal del módulo.
+
+    Qué resuelve:
+        Hace explícito, dentro del propio código mostrado al alumno, qué hace el
+        bloque y para qué sirve dentro de la secuencia didáctica.
+    """
+    if item["code"] is None:
+        raise ValueError("El módulo no tiene bloque de código asociado")
+
+    schema = item["schema"].strip()
+    purpose = item["purpose"].strip()
+    if schema and schema[-1] not in ".!?":
+        schema += "."
+    if purpose and purpose[-1] not in ".!?":
+        purpose += "."
+
+    header = [
+        f"# Qué hace: {schema}",
+        f"# Para qué sirve: {purpose}",
+        "",
+    ]
+    return "\n".join(header) + item["code"]
+
+
 def render_readme(item: dict) -> str:
+    """Genera la ficha resumida de cada clase para navegación rápida."""
     return f"""# {item['icon']} {class_label(item['number'])}: {item['title']}
 
 > 🎯 Ficha de clase con objetivo, materiales y foco de aprendizaje.
@@ -568,6 +620,7 @@ def render_slides(item: dict) -> str:
 
 
 def render_theory(item: dict) -> str:
+    """Genera el documento teórico que acompaña a cada clase."""
     if item["code"] is None:
         main_block = f"""## 🧩 Bloque de trabajo principal
 
@@ -588,7 +641,7 @@ def render_theory(item: dict) -> str:
 **Para qué sirve:** {item['purpose']}
 
 ```python
-{item['code']}
+{documented_code(item)}
 ```"""
     return f"""# 🧠 Documento teórico — {class_label(item['number'])}: {item['title']}
 
@@ -684,6 +737,12 @@ def render_homework(item: dict) -> str:
 
 
 def render_mobile_data() -> str:
+    """Genera el dataset JavaScript que consume la app móvil.
+
+    Qué resuelve:
+        Reutiliza la misma fuente de verdad del currículo para evitar diferencias
+        entre lo que se publica en markdown y lo que ve el alumno en móvil.
+    """
     quiz = json.loads((CLASSES_DIR / "00-diagnostico-inicial" / "quiz.json").read_text(encoding="utf-8"))
     payload = []
     for item in CURRICULUM:
@@ -696,7 +755,7 @@ def render_mobile_data() -> str:
                     "explanation": item["block_intro"],
                     "schema": item["schema"],
                     "language": "python",
-                    "code": item["code"],
+                    "code": documented_code(item),
                 }
             )
         payload.append(
@@ -722,6 +781,7 @@ def render_mobile_data() -> str:
 
 
 def main() -> None:
+    """Regenera markdown de clases y el catálogo móvil a partir del currículo."""
     for item in CURRICULUM:
         class_dir = CLASSES_DIR / item["slug"]
         class_dir.mkdir(parents=True, exist_ok=True)

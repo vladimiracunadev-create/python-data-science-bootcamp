@@ -21,6 +21,8 @@ Crear una figura explícita permite controlar tamaño, etiquetas y orden visual 
 **Para qué sirve:** Sirve para pasar de una visualización funcional a una visualización comunicable.
 
 ```python
+# Qué hace: crear figura → dibujar → rotular → ajustar.
+# Para qué sirve: Sirve para pasar de una visualización funcional a una visualización comunicable.
 import pandas as pd
 import matplotlib.pyplot as plt
 

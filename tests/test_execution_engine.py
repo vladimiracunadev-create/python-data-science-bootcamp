@@ -1,3 +1,9 @@
+"""Pruebas del motor de ejecución interactiva del bootcamp.
+
+Validan que el backend conserve estado por sesión, capture stdout, reporte
+errores y soporte la carga previa de utilidades comunes para el laboratorio.
+"""
+
 from __future__ import annotations
 
 import sys
@@ -54,12 +60,10 @@ def test_reset_session_nonexistent_does_not_raise():
 
 
 def test_session_eviction_does_not_crash():
-    # Verificar que crear muchas sesiones no lanza excepciones
-    # La evicción por TTL requiere sesiones antiguas; aquí solo validamos
-    # que el sistema maneja un volumen alto sin errores
+    # Este stress mínimo asegura que crear muchas sesiones no rompe el runner.
     for i in range(50):
         execute_code(f"evict-stress-{i}", "pass")
-    assert len(_SESSIONS) > 0  # al menos hay sesiones activas
+    assert len(_SESSIONS) > 0
 
 
 def test_oversized_code_is_rejected():

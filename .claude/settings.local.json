@@ -38,7 +38,9 @@
       "Bash(ls classes/09-machine-learning-intro/*.ipynb)",
       "Bash(ls classes/10-modelos-supervisados/*.ipynb)",
       "Bash(ls classes/11-evaluacion-y-pipelines/*.ipynb)",
-      "Bash(ls classes/12-proyecto-final-y-cierre/*.ipynb)"
+      "Bash(ls classes/12-proyecto-final-y-cierre/*.ipynb)",
+      "Bash(python -m ruff check app/content_loader.py launcher.py)",
+      "Bash(ruff check:*)"
     ]
   }
 }

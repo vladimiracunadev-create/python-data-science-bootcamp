@@ -21,6 +21,8 @@ Usar varias medidas a la vez evita depender de un único número y mejora la int
 **Para qué sirve:** Sirve para conectar conceptos estadísticos con decisiones pedagógicas o de seguimiento académico.
 
 ```python
+# Qué hace: seleccionar variable → calcular resumen → interpretar.
+# Para qué sirve: Sirve para conectar conceptos estadísticos con decisiones pedagógicas o de seguimiento académico.
 import pandas as pd
 
 df = pd.read_csv("datasets/estudiantes.csv")
