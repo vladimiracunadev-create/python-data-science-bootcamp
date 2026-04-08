@@ -1,16 +1,99 @@
+from __future__ import annotations
+
+import sys
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+
 from app.app import app
 
 
+def _client():
+    app.config["TESTING"] = True
+    return app.test_client()
+
+
 def test_index_loads():
-    client = app.test_client()
-    response = client.get('/')
+    client = _client()
+    response = client.get("/")
     assert response.status_code == 200
-    assert 'Entorno Interactivo del Bootcamp Python' in response.get_data(as_text=True)
+    assert "Bootcamp Python" in response.get_data(as_text=True)
+
+
+def test_api_classes_returns_list():
+    client = _client()
+    response = client.get("/api/classes")
+    assert response.status_code == 200
+    data = response.get_json()
+    assert isinstance(data, list)
+    assert len(data) > 0
+    assert "slug" in data[0]
+    assert "title" in data[0]
+
+
+def test_api_class_detail_valid():
+    client = _client()
+    response = client.get("/api/class/01-python-fundamentos")
+    assert response.status_code == 200
+    data = response.get_json()
+    assert "html" in data
+    assert "README.md" in data["html"]
+
+
+def test_api_class_detail_invalid_slug():
+    client = _client()
+    response = client.get("/api/class/../etc/passwd")
+    assert response.status_code in (400, 404)
+
+
+def test_api_class_detail_not_found():
+    client = _client()
+    response = client.get("/api/class/clase-que-no-existe")
+    assert response.status_code == 404
 
 
 def test_execute_api_runs_code():
-    client = app.test_client()
-    response = client.post('/api/execute', json={'notebook_id': 'api-test', 'code': '2 + 3'})
+    client = _client()
+    response = client.post("/api/execute", json={"notebook_id": "api-test", "code": "2 + 3"})
     data = response.get_json()
     assert response.status_code == 200
-    assert data['result'] == '5'
+    assert data["result"] == "5"
+
+
+def test_execute_api_captures_print():
+    client = _client()
+    response = client.post("/api/execute", json={"notebook_id": "api-test-print", "code": 'print("hola bootcamp")'})
+    data = response.get_json()
+    assert "hola bootcamp" in data["stdout"]
+
+
+def test_execute_api_handles_syntax_error():
+    client = _client()
+    response = client.post("/api/execute", json={"notebook_id": "api-err", "code": "def broken(:"})
+    data = response.get_json()
+    assert response.status_code == 200
+    assert data["error"] is not None
+
+
+def test_execute_api_rejects_oversized_code():
+    client = _client()
+    response = client.post("/api/execute", json={"notebook_id": "api-big", "code": "x = 1\n" * 5000})
+    assert response.status_code in (200, 400)
+    data = response.get_json()
+    assert data.get("error") is not None
+
+
+def test_api_notebooks_returns_list():
+    client = _client()
+    response = client.get("/api/notebooks")
+    assert response.status_code == 200
+    data = response.get_json()
+    assert isinstance(data, list)
+
+
+def test_api_reset_session():
+    client = _client()
+    client.post("/api/execute", json={"notebook_id": "reset-test", "code": "x = 99"})
+    response = client.post("/api/reset", json={"notebook_id": "reset-test"})
+    assert response.status_code == 200
+    assert response.get_json()["ok"] is True

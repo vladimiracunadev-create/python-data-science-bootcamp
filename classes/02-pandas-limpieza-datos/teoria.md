@@ -1,0 +1,293 @@
+# Documento Teórico — Clase 02: Pandas y Limpieza de Datos
+
+> **Nivel:** Principiante-Intermedio · **Duración estimada de lectura:** 30 minutos
+
+---
+
+## 1. ¿Qué es pandas?
+
+`pandas` es la biblioteca estándar de Python para **manipular datos tabulares**. Permite trabajar con filas y columnas de forma eficiente, similar a Excel pero programáticamente.
+
+### 1.1 Estructuras fundamentales
+
+| Estructura | Descripción | Analogía |
+|---|---|---|
+| `Series` | Columna de datos con índice | Una columna de Excel |
+| `DataFrame` | Tabla de datos bidimensional | Una hoja de Excel completa |
+
+```python
+import pandas as pd
+
+# Series
+precios = pd.Series([8990, 15990, 25990], name="precio", index=["Mouse", "Teclado", "Webcam"])
+
+# DataFrame
+df = pd.DataFrame({
+    "producto": ["Mouse", "Teclado", "Webcam"],
+    "precio":   [8990, 15990, 25990],
+    "stock":    [45, 12, 8]
+})
+```
+
+---
+
+## 2. Carga de datos
+
+### 2.1 Formatos más comunes
+
+| Función | Formato | Ejemplo |
+|---|---|---|
+| `pd.read_csv()` | CSV (texto separado por comas) | `pd.read_csv("ventas.csv")` |
+| `pd.read_excel()` | Excel (.xlsx, .xls) | `pd.read_excel("datos.xlsx")` |
+| `pd.read_json()` | JSON | `pd.read_json("api.json")` |
+| `pd.read_sql()` | SQL | `pd.read_sql(query, conn)` |
+
+```python
+# Parámetros útiles de read_csv
+df = pd.read_csv(
+    "datasets/ventas_tienda.csv",
+    sep=",",                    # separador
+    encoding="utf-8",           # codificación
+    parse_dates=["fecha"],      # parsear fechas
+    decimal=",",                # decimal en formato europeo
+    thousands=".",              # separador de miles
+    na_values=["", "N/A", "-"] # valores a tratar como nulos
+)
+```
+
+---
+
+## 3. Exploración inicial
+
+### 3.1 Comandos de inspección esenciales
+
+| Comando | Qué muestra |
+|---|---|
+| `df.shape` | (filas, columnas) |
+| `df.dtypes` | Tipo de cada columna |
+| `df.head(n)` | Primeras n filas |
+| `df.tail(n)` | Últimas n filas |
+| `df.info()` | Resumen completo con tipos y nulos |
+| `df.describe()` | Estadísticas descriptivas de columnas numéricas |
+| `df.columns.tolist()` | Lista de nombres de columnas |
+| `df.nunique()` | Cantidad de valores únicos por columna |
+| `df.value_counts()` | Frecuencia de valores en una Series |
+
+```python
+print(f"Dimensiones: {df.shape}")
+print(f"Columnas: {df.columns.tolist()}")
+print(f"\nPrimeras filas:")
+print(df.head())
+print(f"\nInformación general:")
+df.info()
+print(f"\nEstadísticas:")
+print(df.describe())
+```
+
+---
+
+## 4. Selección de datos
+
+### 4.1 Seleccionar columnas
+
+```python
+# Una columna → Series
+precios = df["precio_unitario"]
+
+# Múltiples columnas → DataFrame
+ventas = df[["producto", "precio_unitario", "unidades_vendidas"]]
+```
+
+### 4.2 Filtrar filas con condiciones
+
+```python
+# Una condición
+ventas_altas = df[df["total_neto"] > 50000]
+
+# Múltiples condiciones
+ventas_norte_altas = df[(df["sucursal"] == "Norte") & (df["total_neto"] > 30000)]
+
+# Usando isin()
+sucursales_objetivo = df[df["sucursal"].isin(["Norte", "Centro"])]
+
+# Usando query() (más legible)
+resultado = df.query("total_neto > 50000 and sucursal == 'Norte'")
+```
+
+### 4.3 Selección por posición (iloc) e índice (loc)
+
+| Método | Selecciona por | Ejemplo |
+|---|---|---|
+| `df.loc[filas, cols]` | Etiquetas/condiciones | `df.loc[0:5, ["nombre", "precio"]]` |
+| `df.iloc[filas, cols]` | Posición numérica | `df.iloc[0:5, 0:3]` |
+
+---
+
+## 5. Limpieza de datos
+
+### 5.1 Valores nulos
+
+```python
+# Detectar nulos
+print(df.isnull().sum())
+print(df.isnull().mean().round(3) * 100)  # porcentaje
+
+# Eliminar filas con nulos
+df_sin_nulos = df.dropna()
+
+# Eliminar filas donde TODAS las columnas son nulas
+df_parcial = df.dropna(how="all")
+
+# Imputar con estadísticas
+df["precio"] = df["precio"].fillna(df["precio"].median())
+df["categoria"] = df["categoria"].fillna("Sin categoría")
+
+# Imputar con forward fill (propagar último valor válido)
+df["serie_temporal"] = df["serie_temporal"].ffill()
+```
+
+### 5.2 Duplicados
+
+```python
+# Detectar
+n_duplicados = df.duplicated().sum()
+print(f"Filas duplicadas: {n_duplicados}")
+
+# Ver duplicados
+print(df[df.duplicated(keep=False)])
+
+# Eliminar (mantener primera ocurrencia)
+df = df.drop_duplicates()
+
+# Eliminar basado en columnas específicas
+df = df.drop_duplicates(subset=["id_transaccion"])
+```
+
+### 5.3 Tipos de datos incorrectos
+
+```python
+# Convertir texto a número
+df["precio"] = pd.to_numeric(df["precio"], errors="coerce")  # NaN si falla
+
+# Convertir a fecha
+df["fecha"] = pd.to_datetime(df["fecha"], format="%Y-%m-%d")
+
+# Convertir a categoría (eficiente para texto repetido)
+df["sucursal"] = df["sucursal"].astype("category")
+```
+
+### 5.4 Limpieza de texto
+
+```python
+# Estandarizar mayúsculas/minúsculas
+df["nombre"] = df["nombre"].str.strip()          # eliminar espacios
+df["nombre"] = df["nombre"].str.lower()           # a minúsculas
+df["nombre"] = df["nombre"].str.title()           # Primera letra mayúscula
+
+# Reemplazar valores
+df["sucursal"] = df["sucursal"].str.replace("Stgo", "Santiago")
+
+# Extraer parte de un texto
+df["codigo_producto"] = df["codigo"].str[:3]      # primeros 3 caracteres
+```
+
+---
+
+## 6. Transformación de datos
+
+### 6.1 Crear nuevas columnas
+
+```python
+# Operación aritmética
+df["total_bruto"] = df["unidades_vendidas"] * df["precio_unitario"]
+df["total_neto"] = df["total_bruto"] * (1 - df["descuento_pct"] / 100)
+
+# Condición con np.where
+import numpy as np
+df["rendimiento"] = np.where(df["total_neto"] > 50000, "Alto", "Normal")
+
+# Condición múltiple con pd.cut
+df["tramo"] = pd.cut(df["total_neto"],
+    bins=[0, 20000, 50000, float("inf")],
+    labels=["Bajo", "Medio", "Alto"]
+)
+```
+
+### 6.2 Aplicar funciones
+
+```python
+# apply() a una columna
+def clasificar(monto):
+    if monto > 100000:
+        return "Premium"
+    elif monto > 50000:
+        return "Estándar"
+    return "Básico"
+
+df["segmento"] = df["total_neto"].apply(clasificar)
+
+# lambda para operaciones simples
+df["iva"] = df["total_neto"].apply(lambda x: x * 0.19)
+```
+
+### 6.3 Agrupaciones con groupby
+
+```python
+# Suma por grupo
+ventas_sucursal = df.groupby("sucursal")["total_neto"].sum()
+
+# Múltiples agregaciones
+resumen = df.groupby("sucursal").agg(
+    ventas_totales=("total_neto", "sum"),
+    n_transacciones=("total_neto", "count"),
+    ticket_promedio=("total_neto", "mean"),
+    venta_maxima=("total_neto", "max")
+).round(2)
+
+# Ordenar
+resumen = resumen.sort_values("ventas_totales", ascending=False)
+```
+
+---
+
+## 7. Guardar datos procesados
+
+```python
+# CSV
+df.to_csv("datos_limpios.csv", index=False, encoding="utf-8")
+
+# Excel
+df.to_excel("reporte.xlsx", sheet_name="Ventas", index=False)
+
+# Múltiples hojas
+with pd.ExcelWriter("reporte_completo.xlsx") as writer:
+    df.to_excel(writer, sheet_name="Datos", index=False)
+    resumen.to_excel(writer, sheet_name="Resumen")
+```
+
+---
+
+## 8. Errores frecuentes con pandas
+
+| Error | Causa | Solución |
+|---|---|---|
+| `SettingWithCopyWarning` | Modificar un slice del DataFrame | Usar `.copy()` al crear subsets |
+| `KeyError: 'columna'` | Nombre de columna incorrecto | Verificar `df.columns.tolist()` |
+| `ValueError: mixed types` | Columna con tipos mezclados | Usar `pd.to_numeric(errors='coerce')` |
+| Fecha como object | No parsear fechas al cargar | Usar `parse_dates=["columna"]` |
+| NaN inesperado después de merge | Claves sin correspondencia | Revisar el tipo de join |
+
+---
+
+## 9. Resumen rápido
+
+```
+✅ pd.read_csv() → cargar datos desde archivo
+✅ df.info() / df.describe() → inspección inicial
+✅ df[condición] → filtrar filas
+✅ df.groupby() → agregar por grupos
+✅ df.isnull().sum() → detectar nulos
+✅ df.fillna() / df.dropna() → manejar nulos
+✅ df.drop_duplicates() → eliminar duplicados
+✅ df["col"] = ... → crear columna nueva
+```

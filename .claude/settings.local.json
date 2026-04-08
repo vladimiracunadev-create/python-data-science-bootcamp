@@ -5,7 +5,16 @@
       "Bash(gh auth:*)",
       "Bash(git init:*)",
       "Bash(git add:*)",
-      "Bash(git commit -m ':*)"
+      "Bash(git commit -m ':*)",
+      "Bash(gh repo:*)",
+      "Bash(head -5 datasets/*.csv)",
+      "Bash(python -m pytest --collect-only)",
+      "Bash(wc -l app/*.py src/*.py)",
+      "Bash(python -m pytest tests/ -v)",
+      "Bash(pip install:*)",
+      "Bash(python -m venv .venv)",
+      "Bash(.venv/Scripts/pip install:*)",
+      "Bash(.venv/Scripts/python -m pytest tests/ -v --tb=short)"
     ]
   }
 }

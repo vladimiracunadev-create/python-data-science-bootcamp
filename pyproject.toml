@@ -1,3 +1,32 @@
+[project]
+name = "python-data-science-bootcamp"
+version = "2.0.0"
+description = "Bootcamp de Python para Data Science: 12 clases, notebooks interactivos, datasets y entorno de ejecución local"
+authors = [{ name = "Vladimir Acuña", email = "vladimiracunadev-create@github" }]
+license = { text = "MIT" }
+readme = "README.md"
+requires-python = ">=3.10"
+keywords = ["data-science", "bootcamp", "python", "pandas", "machine-learning", "educacion"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Education",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Education",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+
 [tool.pytest.ini_options]
 pythonpath = ["."]
 testpaths = ["tests"]
+addopts = "-v --tb=short"
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I"]
+ignore = ["E501"]

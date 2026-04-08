@@ -1,139 +1,165 @@
-# Python Data Science Bootcamp Demo
+# Python Data Science Bootcamp
 
-Repositorio demostrativo orientado a la enseñanza de **Python para Data Science**, preparado como muestra de trabajo docente y de diseño de bootcamp.
-Incluye planificación pedagógica, clases modelo, notebooks prácticos, ejercicios, evaluación, datasets y un **entorno interactivo local en Python** para practicar desde el mismo proyecto.
+Repositorio completo de un **bootcamp de Python para Data Science** de 12 clases, con entorno interactivo local, materiales pedagógicos detallados, datasets listos para usar y modelos de Machine Learning.
 
-## Propósito
+---
 
-Este repositorio busca demostrar una forma de enseñar Python para análisis de datos que sea:
+## ¿Qué incluye?
 
-- clara para estudiantes principiantes o en transición;
-- práctica y orientada a problemas reales;
-- simple de ejecutar en un entorno local;
-- flexible para adaptarse a distintos ritmos de aprendizaje;
-- reutilizable como base para un bootcamp presencial o híbrido.
+### 12 Clases completas
 
-## Qué contiene
+Cada clase incluye: README con objetivos, slides/pauta, ejercicios (3 niveles), tarea, notebook ejecutable, soluciones y **documento teórico completo con tablas y ejemplos** (base para PDF).
 
-- **docs/**: syllabus, metodología, evaluación, perfil de estudiantes, guía docente y guía de estudiantes.
-- **classes/**: clases estructuradas con objetivos, pauta, notebook, ejercicios y tarea.
-- **datasets/**: datos de ejemplo simples y explicables en sala.
-- **examples/**: notebook y scripts de demostración rápida.
-- **mini_project/**: desafío integrador con rúbrica.
-- **src/**: utilidades auxiliares para validar datos y apoyar actividades.
-- **app/**: entorno interactivo con vista de clases, cuaderno por celdas y runner de código.
-- **tests/**: pruebas simples para verificar que el entorno y los materiales funcionen.
+| # | Clase | Herramientas |
+|---|---|---|
+| 01 | Fundamentos de Python aplicados a datos | Python básico |
+| 02 | Pandas y limpieza de datos | pandas |
+| 03 | Visualización exploratoria | matplotlib |
+| 04 | Estadística descriptiva | pandas, statistics |
+| 05 | Visualización avanzada con Matplotlib | matplotlib |
+| 06 | Texto, fechas y transformaciones | pandas, re |
+| 07 | Mini proyecto guiado | Integrador |
+| 08 | Presentación de hallazgos | Storytelling |
+| 09 | Introducción al Machine Learning | scikit-learn |
+| 10 | Modelos supervisados — Clasificación | scikit-learn |
+| 11 | Evaluación robusta y Pipelines de ML | scikit-learn |
+| 12 | Proyecto final y cierre | Integrador |
 
-## Ruta recomendada para una revisión rápida
+### App interactiva local
 
-1. Leer `docs/syllabus.md`
-2. Revisar `docs/metodologia-docente.md`
-3. Abrir `classes/01-python-fundamentos/notebook.ipynb`
-4. Revisar `classes/02-pandas-limpieza-datos/notebook.ipynb`
-5. Abrir `docs/entorno-interactivo.md`
-6. Ejecutar `python -m app.app`
+Entorno tipo Colab/Jupyter integrado con el contenido del bootcamp. Sin necesidad de instalar Jupyter.
 
-## Público objetivo
+- Ejecución de código Python en el navegador
+- Auto-guardado de notebooks (30 s de inactividad)
+- `Ctrl+Enter` para ejecutar celdas
+- Captura de gráficos matplotlib, print y errores
+- Indicador visual de ejecución en progreso
 
-Pensado para personas que:
-
-- están dando sus primeros pasos en Python;
-- necesitan conectar programación con análisis de datos;
-- requieren acompañamiento guiado y ejercicios progresivos;
-- aprenden mejor a partir de ejemplos concretos.
-
-## Resultados de aprendizaje esperados
-
-Al completar el recorrido base de este repositorio, la persona podrá:
-
-- comprender fundamentos de Python aplicados a datos;
-- cargar y explorar archivos CSV con pandas;
-- limpiar y transformar datos básicos;
-- generar visualizaciones sencillas e interpretar hallazgos;
-- resolver un mini proyecto con preguntas guiadas;
-- practicar dentro de un cuaderno local por celdas con salida integrada.
-
-## Instalación rápida
-
-### Linux / macOS
+### Generador de PDFs
 
 ```bash
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-python -m app.app
-# o bien
-python run_bootcamp.py
+python scripts/generar_pdfs.py          # genera PDF de todas las clases
+python scripts/generar_pdfs.py --clase 09   # solo clase 9
 ```
 
-### Windows (PowerShell)
+PDFs profesionales con portada, tablas formateadas, bloques de código y colores del bootcamp. Guardados en `docs/pdfs/`.
 
-```powershell
+---
+
+## Inicio rápido
+
+### Opción 1: Entorno virtual (recomendado)
+
+```bash
 python -m venv .venv
-.\.venv\Scripts\Activate.ps1
+source .venv/bin/activate        # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
-python -m app.app
-# o bien
 python run_bootcamp.py
 ```
 
-Luego abre `http://127.0.0.1:8000`.
+Luego abrir [http://localhost:8000](http://localhost:8000)
 
-## Ruta alternativa con Jupyter
-
-```bash
-jupyter notebook
-```
-
-## Docker opcional
+### Opción 2: Docker
 
 ```bash
 docker compose up --build
 ```
 
-## Comandos útiles
+### Opción 3: Make
 
 ```bash
-python examples/run_demo.py
-python examples/validate_bootcamp.py
-pytest
+make install && make run
 ```
 
-Si usas `make`:
+---
+
+## Estructura del repositorio
+
+```
+python-data-science-bootcamp/
+├── classes/                  ← 12 clases con todos sus materiales
+│   ├── 01-python-fundamentos/
+│   │   ├── README.md         ← objetivos, duración, resultados esperados
+│   │   ├── slides.md         ← pauta de la clase para el docente
+│   │   ├── ejercicios.md     ← ejercicios en 3 niveles
+│   │   ├── homework.md       ← tarea para casa
+│   │   ├── notebook.ipynb    ← notebook ejecutable
+│   │   ├── soluciones.ipynb  ← soluciones comentadas
+│   │   └── teoria.md         ← documento teórico completo (base PDF)
+│   └── ...
+├── datasets/
+│   ├── README.md             ← diccionario de datos
+│   ├── ventas_tienda.csv
+│   ├── retencion_clientes.csv
+│   ├── soporte_tickets.csv
+│   ├── transporte.csv
+│   └── estudiantes.csv
+├── app/                      ← aplicación Flask interactiva
+│   ├── app.py
+│   ├── execution_engine.py   ← ejecución con timeout y evicción de sesiones
+│   ├── content_loader.py     ← carga de clases y notebooks con validación
+│   ├── notebooks/            ← plantillas de notebooks interactivos
+│   ├── templates/index.html
+│   └── static/               ← CSS y JS del frontend
+├── docs/
+│   ├── pdfs/                 ← PDFs generados por clase
+│   ├── syllabus.md
+│   ├── metodologia-docente.md
+│   ├── instructor-guide.md
+│   └── ...
+├── scripts/
+│   └── generar_pdfs.py       ← generador de PDFs desde teoria.md
+├── src/
+│   ├── utils.py
+│   └── data_checks.py
+├── tests/                    ← suite de tests (cobertura ~70%)
+├── mini_project/
+├── examples/
+├── Dockerfile
+├── docker-compose.yml
+├── Makefile
+├── pyproject.toml
+└── requirements.txt
+```
+
+---
+
+## Tests
 
 ```bash
-make setup
-make app
-make demo
-make validate
-make test
-make notebook
+pytest                          # ejecutar todos los tests
+pytest -v                       # con detalle
+pytest --cov=app --cov=src      # con cobertura
 ```
 
-## Filosofía del material
+La suite cubre: endpoints de la app, motor de ejecución, utilidades de datos y validaciones.
 
-Este repositorio no busca impresionar por complejidad técnica, sino por su capacidad de:
+---
 
-- ordenar contenidos de forma pedagógica;
-- convertir conceptos técnicos en práctica comprensible;
-- dejar evidencia concreta de preparación de clases;
-- facilitar adaptación por nivel;
-- permitir que el mismo curso tenga un entorno donde probar ejercicios y explicar en vivo.
+## Seguridad
 
-## Sugerencia de uso en entrevista o reunión
+El entorno de ejecución está diseñado para **uso local y docente**:
 
-Este repo puede mostrarse como una base ya preparada para un bootcamp.
-La forma más efectiva de presentarlo es destacar que no solo contiene código, sino también:
+- Timeout de 30 segundos por ejecución (evita bucles infinitos)
+- Evicción automática de sesiones (máx. 100 sesiones activas, TTL 1 hora)
+- Validación de tamaño de payload y longitud de código
+- Protección contra path traversal en carga de archivos
+- **No exponer a internet sin autenticación adicional**
 
-- estructura de clases,
-- criterios de evaluación,
-- notebooks reutilizables,
-- guía docente,
-- entorno interactivo de práctica,
-- posibilidad de ejecución simple local y Docker opcional.
+---
 
-## Autor
+## Metodología pedagógica
 
-**Vladimir Acuña**
-Arquitecto de Software / Full-Stack Senior / Relator Técnico
-Santiago, Chile
+- Clases de 90 minutos con estructura: **mostrar → practicar → reflexionar**
+- Ejercicios en 3 niveles: guiados, independientes y desafíos opcionales
+- Datasets con contexto empresarial chileno (ventas, soporte, transporte)
+- Documento teórico completo por clase (con tablas, código y ejemplos)
+- Evaluación continua con rúbricas explícitas
+
+Ver `docs/metodologia-docente.md` para el enfoque pedagógico completo.
+
+---
+
+## Licencia
+
+MIT — libre uso educativo y comercial con atribución.
