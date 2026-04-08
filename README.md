@@ -1,6 +1,6 @@
 # 🧭 Python Data Science Bootcamp
 
-Estado rápido: [CI](https://github.com/vladimiracunadev-create/python-data-science-bootcamp/actions/workflows/ci.yml) | [Security](https://github.com/vladimiracunadev-create/python-data-science-bootcamp/actions/workflows/security.yml) | Python 3.10, 3.11 y 3.12 | Runtime Flask | Superficie pública GitHub Pages | Estado base operativa
+🛡️ [Security](https://github.com/vladimiracunadev-create/python-data-science-bootcamp/actions/workflows/security.yml) | ✅ [CI](https://github.com/vladimiracunadev-create/python-data-science-bootcamp/actions/workflows/ci.yml) | 🐍 Python 3.10, 3.11 y 3.12 | ⚙️ Runtime Flask | 🌐 Superficie pública GitHub Pages | 🟢 Estado base operativa
 
 Base de capacitación técnica para Python y Data Science orientada a clases reales, laboratorios guiados y despliegue progresivo en contexto educativo.
 
@@ -219,7 +219,7 @@ Ver detalle en [SECURITY.md](SECURITY.md).
 
 ---
 
-## ✅ Lo que este repo si es
+## ✅ Lo que este repo sí es
 
 - una base seria de capacitación técnica;
 - un sistema que integra contenido, práctica y presentación;
