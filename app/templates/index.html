@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Bootcamp Python — Entorno Interactivo</title>
+  <title>Bootcamp Python - Entorno interactivo</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -12,16 +12,15 @@
 <body>
   <header class="hero">
     <div class="hero-brand">
-      <span class="hero-logo">🐍</span>
       <div>
-        <h1>Bootcamp Python — Data Science</h1>
-        <p>Clases, cuaderno interactivo y ejecutor de código en un solo lugar.</p>
+        <h1>Bootcamp Python - Data Science</h1>
+        <p>Clases, teoria, diagnostico y laboratorio local en un solo lugar.</p>
       </div>
     </div>
     <div class="hero-actions">
-      <button id="tabBtn-curriculum" class="tab-btn tab-active" onclick="showTab('curriculum')">📚 Clases</button>
-      <button id="tabBtn-lab" class="tab-btn" onclick="showTab('lab')">🧪 Cuaderno</button>
-      <button id="tabBtn-runner" class="tab-btn" onclick="showTab('runner')">⚡ Runner</button>
+      <button id="tabBtn-curriculum" class="tab-btn tab-active" onclick="showTab('curriculum')">Clases</button>
+      <button id="tabBtn-lab" class="tab-btn" onclick="showTab('lab')">Cuaderno</button>
+      <button id="tabBtn-runner" class="tab-btn" onclick="showTab('runner')">Runner</button>
     </div>
   </header>
 
@@ -54,8 +53,8 @@
       </section>
 
       <section class="notice">
-        <strong>⚠ Entorno local</strong>
-        <p>Este ejecutor está pensado para uso docente y de laboratorio. No exponer a internet sin capas de seguridad adicionales.</p>
+        <strong>Entorno local</strong>
+        <p>Este ejecutor esta pensado para uso docente y de laboratorio. No exponer a internet sin capas de seguridad adicionales.</p>
       </section>
     </aside>
 
@@ -77,19 +76,19 @@
       <div id="tab-lab" class="tab">
         <div class="panel">
           <div class="panel-header">
-            <h2>🧪 Cuaderno interactivo</h2>
+            <h2>Cuaderno interactivo</h2>
             <div class="actions">
               <button onclick="addCell()">+ Agregar celda</button>
-              <button id="btn-run-all" onclick="runAllCells()">▶ Ejecutar todo</button>
-              <button onclick="saveNotebook()">💾 Guardar</button>
-              <button onclick="resetRuntime()">🔄 Reiniciar entorno</button>
+              <button id="btn-run-all" onclick="runAllCells()">Ejecutar todo</button>
+              <button onclick="saveNotebook()">Guardar</button>
+              <button onclick="resetRuntime()">Reiniciar entorno</button>
             </div>
           </div>
-          <label for="notebook-title">Título del notebook</label>
-          <input id="notebook-title" class="full-width" value="Notebook de práctica" oninput="scheduleAutoSave()">
+          <label for="notebook-title">Titulo del notebook</label>
+          <input id="notebook-title" class="full-width" value="Notebook de practica" oninput="scheduleAutoSave()">
           <div id="notebook-description" class="muted"></div>
           <p class="muted" style="font-size:0.8rem; margin-top:0;">
-            💡 <strong>Ctrl+Enter</strong> ejecuta la celda activa &nbsp;·&nbsp; El entorno mantiene variables entre celdas &nbsp;·&nbsp; Auto-guardado cada 30 s de inactividad.
+            <strong>Ctrl+Enter</strong> ejecuta la celda activa. El entorno mantiene variables entre celdas y auto-guarda tras 30 s de inactividad.
           </p>
           <div id="cells"></div>
         </div>
@@ -99,16 +98,16 @@
       <div id="tab-runner" class="tab">
         <div class="panel">
           <div class="panel-header">
-            <h2>⚡ Runner rápido</h2>
+            <h2>Runner rapido</h2>
             <div class="actions">
-              <button id="btn-runner-run" onclick="runRunner()">▶ Ejecutar</button>
-              <button onclick="resetRunner()">🔄 Reiniciar runner</button>
+              <button id="btn-runner-run" onclick="runRunner()">Ejecutar</button>
+              <button onclick="resetRunner()">Reiniciar runner</button>
             </div>
           </div>
           <p class="muted" style="font-size:0.8rem; margin-top:0;">
-            💡 <strong>Ctrl+Enter</strong> ejecuta el código &nbsp;·&nbsp; Usa <code>pd</code>, <code>plt</code>, <code>math</code>, <code>statistics</code> sin importar.
+            <strong>Ctrl+Enter</strong> ejecuta el codigo. Usa <code>pd</code>, <code>plt</code>, <code>math</code> y <code>statistics</code> sin importar.
           </p>
-          <textarea id="runner-code" class="runner-code" spellcheck="false">print("¡Hola Bootcamp!")
+          <textarea id="runner-code" class="runner-code" spellcheck="false">print("Hola Bootcamp")
 valores = [10, 15, 20, 25, 30]
 print(f"Promedio: {sum(valores)/len(valores):.1f}")</textarea>
           <div id="runner-output" class="output-box"><span class="muted">Presiona Ejecutar o Ctrl+Enter para ver el resultado.</span></div>

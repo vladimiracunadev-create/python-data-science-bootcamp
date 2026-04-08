@@ -1,4 +1,4 @@
-# Homework - Clase 04: Estadistica descriptiva
+# Homework - Clase 0: Diagnostico inicial y orientacion
 
 ## Encargo
 

@@ -4,8 +4,6 @@
 >
 > Esta documentacion tiene tres territorios distintos. Saber en cual estas evita confusiones.
 
----
-
 ## Territorios de esta documentacion
 
 | Territorio | Carpeta / ubicacion | Para quien |
@@ -13,8 +11,6 @@
 | Producto del bootcamp | `docs/` (raiz) | Instituciones, docentes, alumnos, evaluadores tecnicos |
 | Preparacion para entrevista | `docs/entrevista/` | Uso personal del autor en proceso de contratacion |
 | Notas internas del maintainer | `docs/maintainer/` | Solo el autor, para analisis de portafolio y mejora continua |
-
----
 
 ## Territorio 1: Producto del bootcamp
 
@@ -71,8 +67,6 @@ Documentacion oficial del producto. Es lo que debes compartir con instituciones,
 4. [ARQUITECTURA_PRODUCTO.md](ARQUITECTURA_PRODUCTO.md)
 5. [../SECURITY.md](../SECURITY.md)
 
----
-
 ## Territorio 2: Preparacion para entrevista
 
 Documentos de uso personal para el proceso de seleccion con Skillnest / Colegio San Nicolas de Maipu. No son parte del producto en si: son instrumentos de preparacion, pitch y venta.
@@ -94,8 +88,6 @@ Documentos de uso personal para el proceso de seleccion con Skillnest / Colegio 
 | [entrevista/valor-diferencial.md](entrevista/valor-diferencial.md) | Diferenciadores para el contexto escolar |
 | [entrevista/rubrica-clase-prueba.md](entrevista/rubrica-clase-prueba.md) | Rubrica para clase de prueba |
 | [pdfs/](pdfs/) | PDFs generados para imprimir o compartir en reunion |
-
----
 
 ## Territorio 3: Notas internas del maintainer
 

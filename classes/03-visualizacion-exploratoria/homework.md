@@ -1,12 +1,17 @@
-# 📝 Tarea â€” Clase 03
+# Homework - Clase 03: Visualizacion exploratoria
 
-> 📝 Trabajo autonomo para consolidar lo visto y practicar con mas calma.
+## Encargo
 
+Deja una version corta y ordenada del trabajo de este modulo, incluyendo una conclusion breve y comentarios en los bloques clave.
 
-1. Elegir uno de los datasets disponibles.
-2. Generar un grÃ¡fico simple.
-3. Escribir 5 lÃ­neas de interpretaciÃ³n.
-4. SeÃ±alar una limitaciÃ³n del anÃ¡lisis.
+## Entregables
 
-## ✨ DesafÃ­o opcional
-Comparar dos grÃ¡ficos y justificar cuÃ¡l comunica mejor.
+- Codigo o desarrollo ordenado.
+- Conclusion breve conectada con evidencia.
+- Comentarios que expliquen que hace y para que sirve cada bloque importante.
+
+## Autoevaluacion final
+
+- Entendi la pregunta del modulo
+- Puedo explicar la salida sin leer el codigo completo
+- Deje comentarios utiles en los pasos clave

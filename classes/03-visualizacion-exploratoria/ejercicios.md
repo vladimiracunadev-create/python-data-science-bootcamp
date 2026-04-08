@@ -1,16 +1,19 @@
-# 🧪 Ejercicios â€” Clase 03
+# Ejercicios - Clase 03: Visualizacion exploratoria
 
-> 🧪 Practica guiada para trabajar en clase y consolidar el aprendizaje.
+## Antes de empezar
 
+- Lee la consigna completa antes de escribir codigo.
+- Comenta los bloques que no sean obvios.
+- Explica para que sirve cada transformacion relevante.
 
-## 🧪 Ejercicio 1
-Construye un grÃ¡fico de barras con el total neto por sucursal.
+## Trabajo guiado
 
-## 🧪 Ejercicio 2
-Construye un grÃ¡fico de barras con el total neto por categorÃ­a.
+1. Resume con tus palabras la pregunta principal del modulo.
+2. Ejecuta o revisa el bloque principal y explica la salida.
+3. Realiza una variacion pequena y anota que cambio y por que.
 
-## 🧪 Ejercicio 3
-Describe con tus palabras un hallazgo relevante del grÃ¡fico.
+## Criterios de autocorreccion
 
-## 🧪 Ejercicio 4
-Explica cuÃ¡l grÃ¡fico usarÃ­as para mostrar distribuciÃ³n de retrasos en transporte.
+- El resultado responde a la pregunta planteada.
+- El codigo esta ordenado y comentado en los puntos clave.
+- La salida se puede explicar con lenguaje simple.

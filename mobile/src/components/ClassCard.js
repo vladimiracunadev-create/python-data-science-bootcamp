@@ -41,7 +41,7 @@ const ClassCard = ({ classData, completed, onPress }) => {
       {/* Indicador de completada (checkmark en la esquina) */}
       {completed && (
         <View style={styles.completedBadge}>
-          <Text style={styles.completedBadgeText}>✓</Text>
+          <Text style={styles.completedBadgeText}>OK</Text>
         </View>
       )}
 
@@ -63,7 +63,7 @@ const ClassCard = ({ classData, completed, onPress }) => {
               <Text style={[styles.levelText, { color: lvlColor }]}>{level}</Text>
             </View>
             <View style={styles.durationBadge}>
-              <Text style={styles.durationText}>⏱ {duration}</Text>
+              <Text style={styles.durationText}>{duration}</Text>
             </View>
           </View>
         </View>
@@ -94,7 +94,7 @@ const ClassCard = ({ classData, completed, onPress }) => {
       <View style={styles.footer}>
         {completed && (
           <View style={styles.completedLabel}>
-            <Text style={styles.completedLabelText}>✓ Completada</Text>
+            <Text style={styles.completedLabelText}>Completada</Text>
           </View>
         )}
 

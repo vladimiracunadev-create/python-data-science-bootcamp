@@ -1,23 +1,28 @@
-# 🖥 Pauta de clase
+# Slides - Clase 06: Texto, fechas y transformaciones
 
-> 🖥 Guion visual breve para conducir la sesion sin sobrecargar la clase.
+## Apertura
 
+- Objetivo visible: Transformar columnas de texto y fecha para volverlas utiles en analisis y modelado inicial.
+- Mensaje central: Muchas preguntas nuevas aparecen cuando una columna se transforma bien.
 
-## 🎬 Apertura
-- Recordatorio de la clase anterior.
-- QuÃ© pregunta queremos responder hoy.
+## Ruta de la sesion
 
-## 🧩 Desarrollo
-- ExplicaciÃ³n breve.
-- DemostraciÃ³n guiada.
-- Ejercicio de prÃ¡ctica.
-- DiscusiÃ³n de resultados.
+| Tramo | Tiempo sugerido | Enfoque | Evidencia |
+|---|---|---|---|
+| Inicio | 10 min | Activar conocimientos previos | Pregunta inicial respondida |
+| Desarrollo 1 | 20 min | Conceptos y demostracion guiada | Primer bloque entendido |
+| Desarrollo 2 | 25 min | Codigo comentado y lectura de salida | Resultado explicado |
+| Practica | 25 min | Ejercicios o quiz segun el modulo | Entregable corto |
+| Cierre | 10 min | Conclusion y siguiente paso | Autoevaluacion breve |
 
-## 💡 Idea clave
+## Puntos que deben quedar claros
 
-El foco de esta clase es **split, lower, replace, fechas y columnas derivadas** usando `datasets/soporte_tickets.csv`.
+- Strings con pandas
+- to_datetime
+- Componentes de fecha
+- Variables derivadas
 
-## ✅ Cierre
-- Error frecuente a evitar.
-- QuÃ© habilidad se consolida hoy.
-- CÃ³mo conecta con la siguiente clase.
+## Cierre esperado
+
+- Una conclusion breve conectada con evidencia.
+- Un siguiente paso explicito: La clase 07 usa estas habilidades en un mini proyecto guiado.

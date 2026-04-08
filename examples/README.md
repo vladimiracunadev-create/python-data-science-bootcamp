@@ -1,12 +1,11 @@
-# 🧪 Examples
+# Examples
 
-> 🧪 Ejemplos rapidos para validar entorno, flujo y narrativa del bootcamp.
+> Ejemplos rapidos para validar entorno, flujo y narrativa del bootcamp.
 
+Esta carpeta reune materiales cortos para comprobar que el entorno funciona y para mostrar el enfoque del bootcamp sin recorrer todas las clases.
 
-Contiene materiales de demostraciÃ³n rÃ¡pida para validar el entorno y mostrar el enfoque del bootcamp sin recorrer todas las clases.
+## Archivos
 
-## 🧰 Archivos
-
-- `notebook-demo.ipynb`: recorrido corto de anÃ¡lisis.
-- `run_demo.py`: ejecuciÃ³n por consola.
-- `validate_bootcamp.py`: validaciÃ³n mÃ­nima del entorno y datasets.
+- `notebook-demo.ipynb`: recorrido breve de analisis para demo.
+- `run_demo.py`: ejemplo de ejecucion por consola.
+- `validate_bootcamp.py`: chequeo minimo del entorno y los datasets.

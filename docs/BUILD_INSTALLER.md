@@ -2,51 +2,45 @@
 
 Genera un `.exe` instalable del Bootcamp Python DS para distribuir en computadores de aula sin necesitar Python, pip ni configuracion manual.
 
----
-
 ## Que genera este proceso
 
 ```
 dist_installer/
-  BootcampPythonDS_Setup_v1.0.0.exe   <- instalador para el alumno/docente
+BootcampPythonDS_Setup_v1.0.0.exe   <- instalador para el alumno/docente
 
 dist/BootcampPythonDS/
-  BootcampPythonDS.exe                <- ejecutable directo (sin instalar)
-  app/templates/
-  app/notebooks/
-  classes/       <- curriculum completo embebido
-  datasets/      <- datasets de practica embebidos
-  site/
-  ...
+BootcampPythonDS.exe                <- ejecutable directo (sin instalar)
+app/templates/
+app/notebooks/
+classes/       <- curriculum completo embebido
+datasets/      <- datasets de practica embebidos
+site/
+...
 ```
 
 El instalador copia todo lo anterior a `Program Files\BootcampPythonDS\` y crea accesos directos.
-
----
 
 ## Arquitectura del instalador
 
 ```
 launcher.py
-    |
-    ├── Detecta puerto en uso (evita doble instancia)
-    ├── Arranca Flask en hilo daemon
-    ├── Hace polling a /health hasta que responde
-    ├── Abre el navegador en http://127.0.0.1:8000
-    └── Menu de consola: [Enter] reabrir | [q] apagar
+|
+Detecta puerto en uso (evita doble instancia)
+Arranca Flask en hilo daemon
+Hace polling a /health hasta que responde
+Abre el navegador en http://127.0.0.1:8000
+Menu de consola: [Enter] reabrir | [q] apagar
 
-    ↓ PyInstaller
-    bootcamp.spec
-    ↓
-    dist/BootcampPythonDS/ (bundle completo con Python embebido)
+ PyInstaller
+bootcamp.spec
 
-    ↓ Inno Setup
-    installer/setup.iss
-    ↓
-    dist_installer/BootcampPythonDS_Setup_v1.0.0.exe
+dist/BootcampPythonDS/ (bundle completo con Python embebido)
+
+ Inno Setup
+installer/setup.iss
+
+dist_installer/BootcampPythonDS_Setup_v1.0.0.exe
 ```
-
----
 
 ## Requisitos del entorno de build
 
@@ -61,11 +55,9 @@ launcher.py
 > El alumno/docente que usa el instalador NO necesita Python instalado.
 > El bundle de PyInstaller incluye el runtime de Python completo.
 
----
-
 ## Pasos para generar el instalador
 
-### Opcion A — Script automatico (recomendado)
+### Opcion A  Script automatico (recomendado)
 
 ```bat
 build_windows.bat
@@ -80,7 +72,7 @@ build_windows.bat --skip-pyinstaller   # Omite PyInstaller si el bundle ya exist
 build_windows.bat --skip-inno          # Genera solo el bundle, sin instalador
 ```
 
-### Opcion B — Manual paso a paso
+### Opcion B  Manual paso a paso
 
 ```bat
 # Paso 1: Instalar PyInstaller
@@ -96,8 +88,6 @@ python -m PyInstaller bootcamp.spec --noconfirm
 "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" installer\setup.iss
 ```
 
----
-
 ## Probar sin instalar
 
 ```bat
@@ -107,8 +97,6 @@ dist\BootcampPythonDS\BootcampPythonDS.exe
 Se abre una consola que muestra el servidor arrancando y luego abre el navegador en `http://127.0.0.1:8000`.
 
 Para apagar: escribir `q` en la consola o cerrar la ventana.
-
----
 
 ## Distribuir a alumnos
 
@@ -125,8 +113,6 @@ El alumno lo ejecuta como cualquier instalador de Windows:
 
 No se requiere internet, no se requiere Python, no se requiere ninguna configuracion adicional.
 
----
-
 ## Variables de entorno disponibles
 
 | Variable | Default | Descripcion |
@@ -135,8 +121,6 @@ No se requiere internet, no se requiere Python, no se requiere ninguna configura
 | `BOOTCAMP_PORT` | 8000 | Puerto del servidor |
 
 Para cambiar el puerto: editar el acceso directo del Menu de inicio y agregar las variables antes del ejecutable, o usar un `.bat` de arranque personalizado.
-
----
 
 ## Notebooks guardados por alumnos
 
@@ -148,8 +132,6 @@ C:\Program Files\BootcampPythonDS\saved_notebooks\
 
 Al desinstalar, esta carpeta NO se borra por defecto (para no perder el trabajo del alumno). Ver comentario en `installer\setup.iss` seccion `[UninstallDelete]` para cambiar este comportamiento.
 
----
-
 ## Solucionar problemas comunes
 
 | Sintoma | Causa probable | Solucion |
@@ -159,8 +141,6 @@ Al desinstalar, esta carpeta NO se borra por defecto (para no perder el trabajo 
 | El navegador abre pero muestra error 500 | Falta un archivo de datos en el bundle | Revisar la seccion `datas` en bootcamp.spec |
 | "ModuleNotFoundError" en la consola | Dependencia no detectada por PyInstaller | Agregar el modulo a `hiddenimports` en bootcamp.spec |
 | Inno Setup no encontrado | Ruta incorrecta | Ajustar la variable `INNO_SETUP` en build_windows.bat |
-
----
 
 ## Actualizar el instalador a una nueva version
 

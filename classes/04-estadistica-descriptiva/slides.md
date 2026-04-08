@@ -1,23 +1,28 @@
-# 🖥 Pauta de clase
+# Slides - Clase 04: Estadistica descriptiva
 
-> 🖥 Guion visual breve para conducir la sesion sin sobrecargar la clase.
+## Apertura
 
+- Objetivo visible: Interpretar medidas descriptivas simples y relacionarlas con preguntas reales.
+- Mensaje central: Pasar de mirar valores sueltos a resumir poblaciones con una pregunta clara.
 
-## 🎬 Apertura
-- Recordatorio de la clase anterior.
-- QuÃ© pregunta queremos responder hoy.
+## Ruta de la sesion
 
-## 🧩 Desarrollo
-- ExplicaciÃ³n breve.
-- DemostraciÃ³n guiada.
-- Ejercicio de prÃ¡ctica.
-- DiscusiÃ³n de resultados.
+| Tramo | Tiempo sugerido | Enfoque | Evidencia |
+|---|---|---|---|
+| Inicio | 10 min | Activar conocimientos previos | Pregunta inicial respondida |
+| Desarrollo 1 | 20 min | Conceptos y demostracion guiada | Primer bloque entendido |
+| Desarrollo 2 | 25 min | Codigo comentado y lectura de salida | Resultado explicado |
+| Practica | 25 min | Ejercicios o quiz segun el modulo | Entregable corto |
+| Cierre | 10 min | Conclusion y siguiente paso | Autoevaluacion breve |
 
-## 💡 Idea clave
+## Puntos que deben quedar claros
 
-El foco de esta clase es **promedio, mediana, conteos, dispersiÃ³n simple y lectura de negocio** usando `datasets/retencion_clientes.csv`.
+- Media y mediana
+- Conteos
+- Dispersion simple
+- Resumen por grupo
 
-## ✅ Cierre
-- Error frecuente a evitar.
-- QuÃ© habilidad se consolida hoy.
-- CÃ³mo conecta con la siguiente clase.
+## Cierre esperado
+
+- Una conclusion breve conectada con evidencia.
+- Un siguiente paso explicito: La clase 05 lleva estas conclusiones a graficos mas controlados.

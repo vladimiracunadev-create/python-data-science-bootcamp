@@ -1,55 +1,28 @@
-# 🖥 Slides â€” Clase 09: IntroducciÃ³n al Machine Learning
+# Slides - Clase 09: Introduccion a machine learning
 
-> 🖥 Guion visual breve para conducir la sesion sin sobrecargar la clase.
+## Apertura
 
+- Objetivo visible: Comprender que es un modelo supervisado y construir una primera regresion simple con scikit-learn.
+- Mensaje central: Mostrar machine learning como extension del analisis, no como magia negra.
 
-## 🧱 Bloque 1 (20 min) â€” Â¿QuÃ© es el Machine Learning?
+## Ruta de la sesion
 
-**Punto de partida:** Â¿CÃ³mo decide un banco si aprobar un crÃ©dito?
+| Tramo | Tiempo sugerido | Enfoque | Evidencia |
+|---|---|---|---|
+| Inicio | 10 min | Activar conocimientos previos | Pregunta inicial respondida |
+| Desarrollo 1 | 20 min | Conceptos y demostracion guiada | Primer bloque entendido |
+| Desarrollo 2 | 25 min | Codigo comentado y lectura de salida | Resultado explicado |
+| Practica | 25 min | Ejercicios o quiz segun el modulo | Entregable corto |
+| Cierre | 10 min | Conclusion y siguiente paso | Autoevaluacion breve |
 
-- Antes: reglas escritas a mano por expertos.
-- Ahora: el sistema aprende de miles de casos anteriores.
+## Puntos que deben quedar claros
 
-**Tipos de ML:**
+- Aprendizaje supervisado
+- Features y target
+- train/test split
+- Regresion lineal
 
-| Tipo | DescripciÃ³n | Ejemplo |
-|---|---|---|
-| Supervisado | Datos etiquetados | Predecir ventas |
-| No supervisado | Sin etiqueta | Segmentar clientes |
-| Por refuerzo | Aprende por recompensa | Juegos, robÃ³tica |
+## Cierre esperado
 
-**En este bootcamp:** nos enfocamos en supervisado (regresiÃ³n y clasificaciÃ³n).
-
----
-
-## 🧱 Bloque 2 (30 min) â€” El flujo de trabajo de ML
-
-```
-Datos â†’ Explorar â†’ Limpiar â†’ Features â†’ Modelo â†’ Evaluar â†’ Comunicar
-```
-
-**PrÃ¡ctica guiada:**
-
-1. Cargar `ventas_tienda.csv`
-2. Identificar: Â¿quÃ© queremos predecir?
-3. Dividir en train/test: `train_test_split`
-4. Entrenar regresiÃ³n lineal
-5. Calcular MAE y RMSE
-
----
-
-## 🧱 Bloque 3 (25 min) â€” Interpretar el modelo
-
-- **Coeficientes:** Â¿quÃ© variable influye mÃ¡s?
-- **MAE:** en promedio, Â¿cuÃ¡nto nos equivocamos?
-- **RMSE:** castiga mÃ¡s los errores grandes.
-
-**Pregunta clave:** Â¿Es nuestro modelo mejor que simplemente predecir el promedio?
-
----
-
-## ✅ Cierre (15 min) â€” ReflexiÃ³n
-
-- Â¿QuÃ© aprendiÃ³ el modelo?
-- Â¿En quÃ© casos fallarÃ­a?
-- Â¿QuÃ© datos adicionales mejorarÃ­an la predicciÃ³n?
+- Una conclusion breve conectada con evidencia.
+- Un siguiente paso explicito: La clase 10 compara modelos supervisados y metricas segun el objetivo.

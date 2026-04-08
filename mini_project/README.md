@@ -1,15 +1,14 @@
-# 🚀 Mini proyecto integrador
+# Mini proyecto integrador
 
-> 🚀 Actividad integradora para cerrar una ruta corta con analisis y comunicacion.
+> Actividad integradora para cerrar una ruta corta con analisis y comunicacion.
 
+Este mini proyecto sirve como cierre practico para consolidar:
 
-Este mini proyecto estÃ¡ pensado como actividad de cierre para consolidar:
-
-- carga y exploraciÃ³n de datos;
-- limpieza bÃ¡sica;
+- carga y exploracion de datos;
+- limpieza basica;
 - agregaciones;
-- visualizaciÃ³n;
-- interpretaciÃ³n de hallazgos.
+- visualizacion;
+- interpretacion de hallazgos.
 
 Dataset sugerido: `datasets/ventas_tienda.csv`
 

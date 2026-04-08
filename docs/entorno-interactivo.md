@@ -1,4 +1,4 @@
-# 💻 Entorno interactivo local del bootcamp
+# Entorno interactivo local del bootcamp
 
 ## Objetivo
 

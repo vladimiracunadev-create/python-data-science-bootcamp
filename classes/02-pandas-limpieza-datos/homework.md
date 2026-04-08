@@ -1,14 +1,17 @@
-# 📝 Tarea â€” Clase 02
+# Homework - Clase 02: Pandas y limpieza de datos
 
-> 📝 Trabajo autonomo para consolidar lo visto y practicar con mas calma.
+## Encargo
 
+Deja una version corta y ordenada del trabajo de este modulo, incluyendo una conclusion breve y comentarios en los bloques clave.
 
-1. Cargar `datasets/estudiantes.csv`
-2. Revisar su estructura
-3. Responder:
-   - Â¿quÃ© curso tiene mayor promedio en evaluaciÃ³n de Python?
-   - Â¿cuÃ¡ntos estudiantes estÃ¡n en riesgo?
-4. Escribir una breve conclusiÃ³n en lenguaje simple.
+## Entregables
 
-## ✨ DesafÃ­o opcional
-Cruzar asistencia y desempeÃ±o para identificar patrones.
+- Codigo o desarrollo ordenado.
+- Conclusion breve conectada con evidencia.
+- Comentarios que expliquen que hace y para que sirve cada bloque importante.
+
+## Autoevaluacion final
+
+- Entendi la pregunta del modulo
+- Puedo explicar la salida sin leer el codigo completo
+- Deje comentarios utiles en los pasos clave

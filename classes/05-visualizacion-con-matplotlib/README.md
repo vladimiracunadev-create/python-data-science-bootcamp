@@ -1,22 +1,53 @@
-# 📘 Clase 05 â€” VisualizaciÃ³n con matplotlib
+# Clase 05: Visualizacion con matplotlib
 
-> 🎯 Ficha de clase con objetivo, materiales y foco de aprendizaje.
+> Ficha de clase con objetivo, materiales y foco de aprendizaje.
 
+## Objetivo
 
-## 🎯 Objetivo
+Crear graficos mas controlados con matplotlib y mejorar su legibilidad.
 
-Construir grÃ¡ficos bÃ¡sicos y explicar quÃ© historia cuentan los datos.
+## Duracion sugerida
 
-## ⏱ DuraciÃ³n sugerida
+90 min
 
-90 minutos
+## Dataset base
 
-## 🗂 Dataset base
+- `datasets/ventas_tienda.csv`
+- `datasets/transporte.csv`
 
-`datasets/retencion_clientes.csv`
+## Resultados esperados
 
-## 🎓 Foco de aprendizaje
+- Construir figuras manualmente.
+- Rotular con sentido.
+- Comparar paneles sin ruido.
 
-- barras, lÃ­neas, etiquetas y lectura visual
-- prÃ¡ctica guiada en el mismo entorno
-- cierre con interpretaciÃ³n aplicada
+## Temas clave
+
+- Figure y Axes
+- Titulos y ejes
+- Subplots
+- Anotaciones
+
+## Materiales del modulo
+
+- `README.md`
+- `slides.md`
+- `teoria.md`
+- `ejercicios.md`
+- `homework.md`
+- `notebook.ipynb`
+- `soluciones.ipynb`
+
+## Como leer el codigo de esta clase
+
+- Cada bloque debe responder una pregunta concreta.
+- Los comentarios deben explicar que hace el bloque y para que sirve.
+- Antes de pasar al siguiente paso, verifica que entiendes la salida.
+
+## Idea fuerza
+
+Pasar de la grafica funcional a la grafica comunicable.
+
+## Nota para el docente
+
+Compara dos versiones de una misma grafica: una descuidada y otra bien rotulada.

@@ -1,4 +1,4 @@
-# 👥 Perfil de estudiantes
+# Perfil de estudiantes
 
 ## Perfil principal esperado
 

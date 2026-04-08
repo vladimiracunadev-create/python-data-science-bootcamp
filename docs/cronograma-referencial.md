@@ -1,4 +1,4 @@
-# 🗓 Cronograma referencial
+# Cronograma referencial
 
 ## Propuesta simple de 6 sesiones base
 

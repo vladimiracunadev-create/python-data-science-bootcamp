@@ -75,8 +75,11 @@ export const fontWeight = {
 export const levelColor = (level) => {
   if (!level) return colors.textMuted;
   const l = level.toLowerCase();
+  if (l === 'diagnostico') return colors.info;
   if (l === 'basico') return colors.levelBasic;
   if (l === 'intermedio') return colors.levelInter;
+  if (l === 'integrador') return colors.warning;
   if (l === 'avanzado') return colors.levelAdv;
+  if (l === 'intermedio-avanzado') return colors.info;
   return colors.textMuted;
 };

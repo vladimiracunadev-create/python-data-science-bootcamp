@@ -1,4 +1,4 @@
-# 🏫 Implementacion V1 para Skillnest / Colegio San Nicolas de Maipu
+# Implementacion V1 para Skillnest / Colegio San Nicolas de Maipu
 
 Documento de aterrizaje para convertir este repositorio en una primera implementacion escolar concreta, acotada y defendible. La idea no es prometer "todo el bootcamp completo", sino mostrar que la base ya existe y que sabes recortarla con criterio.
 
@@ -36,7 +36,7 @@ Esta inconsistencia debe aclararse en la entrevista. Mientras no exista confirma
 
 ## 3. Lo que ya resuelve el repo para una V1
 
-- 12 clases modulares con materiales reutilizables;
+- clase 0 diagnostica + 12 clases modulares con materiales reutilizables;
 - notebooks, soluciones y datasets;
 - documentacion docente y de evaluacion;
 - laboratorio local para demostracion;
@@ -115,11 +115,11 @@ Uso recomendado:
 
 ```mermaid
 flowchart LR
-    A["Python base"] --> B["Leer CSV"]
-    B --> C["Filtrar y resumir"]
-    C --> D["Graficar"]
-    D --> E["Mini proyecto"]
-    E --> F["Presentar hallazgos"]
+A["Python base"] --> B["Leer CSV"]
+B --> C["Filtrar y resumir"]
+C --> D["Graficar"]
+D --> E["Mini proyecto"]
+E --> F["Presentar hallazgos"]
 ```
 
 Esta ruta es suficiente para una primera implementacion creible, medible y ejecutable.

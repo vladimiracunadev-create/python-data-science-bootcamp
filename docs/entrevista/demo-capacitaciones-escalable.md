@@ -1,4 +1,4 @@
-# 📈 Demo escalable de capacitaciones
+# Demo escalable de capacitaciones
 
 ## Idea central
 

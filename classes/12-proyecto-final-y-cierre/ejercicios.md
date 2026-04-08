@@ -1,54 +1,19 @@
-# 🧪 Checklist de entregables â€” Proyecto Final
+# Ejercicios - Clase 12: Proyecto final y cierre
 
-> 🧪 Practica guiada para trabajar en clase y consolidar el aprendizaje.
+## Antes de empezar
 
+- Lee la consigna completa antes de escribir codigo.
+- Comenta los bloques que no sean obvios.
+- Explica para que sirve cada transformacion relevante.
 
-## 🗂 Dataset elegido
+## Trabajo guiado
 
-Indica cuÃ¡l dataset usarÃ¡s y el problema que resolverÃ¡s:
+1. Resume con tus palabras la pregunta principal del modulo.
+2. Ejecuta o revisa el bloque principal y explica la salida.
+3. Realiza una variacion pequena y anota que cambio y por que.
 
-- **Dataset:** _______________
-- **Pregunta de negocio:** _______________
-- **Tipo de problema:** RegresiÃ³n / ClasificaciÃ³n
+## Criterios de autocorreccion
 
----
-
-## ✅ Checklist de anÃ¡lisis exploratorio
-
-- [ ] Dimensiones del dataset (`df.shape`)
-- [ ] Tipos de datos (`df.dtypes`)
-- [ ] EstadÃ­sticas descriptivas (`df.describe()`)
-- [ ] Cantidad y porcentaje de valores nulos
-- [ ] DistribuciÃ³n de la variable objetivo (histograma)
-- [ ] Al menos una visualizaciÃ³n de correlaciÃ³n (heatmap o scatterplot)
-- [ ] IdentificaciÃ³n de outliers (boxplot)
-
-## ✅ Checklist de limpieza
-
-- [ ] Valores nulos imputados o eliminados (con justificaciÃ³n)
-- [ ] Tipos de datos corregidos si es necesario
-- [ ] Variables nuevas creadas si agregan valor
-
-## ✅ Checklist de modelado
-
-- [ ] Train/test split (80/20, `random_state=42`)
-- [ ] Pipeline con preprocesamiento + modelo
-- [ ] Al menos 2 modelos comparados
-- [ ] MÃ©tricas de evaluaciÃ³n reportadas
-- [ ] El modelo supera la lÃ­nea base
-
-## ✅ Checklist de presentaciÃ³n
-
-- [ ] TÃ­tulo claro del anÃ¡lisis
-- [ ] Al menos 3 grÃ¡ficos comunicativos (con tÃ­tulo y etiquetas)
-- [ ] Conclusiones en lenguaje de negocio (sin jerga tÃ©cnica)
-- [ ] Limitaciones explicitadas
-- [ ] Recomendaciones concretas para el negocio
-
----
-
-## 📦 Formato de entrega
-
-- Notebook `.ipynb` con todas las celdas ejecutadas
-- Todas las visualizaciones visibles
-- MÃ¡ximo 15 minutos de presentaciÃ³n oral
+- El resultado responde a la pregunta planteada.
+- El codigo esta ordenado y comentado en los puntos clave.
+- La salida se puede explicar con lenguaje simple.

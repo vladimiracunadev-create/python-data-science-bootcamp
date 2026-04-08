@@ -1,31 +1,32 @@
-# Clase 04: Estadistica descriptiva
+# Clase 0: Diagnostico inicial y orientacion
 
 > Ficha de clase con objetivo, materiales y foco de aprendizaje.
 
 ## Objetivo
 
-Interpretar medidas descriptivas simples y relacionarlas con preguntas reales.
+Estimar el punto de partida del grupo antes de iniciar la ruta formal.
 
 ## Duracion sugerida
 
-90 min
+15 min
 
 ## Dataset base
 
-- `datasets/retencion_clientes.csv`
+- `No requiere dataset.`
 
 ## Resultados esperados
 
-- Calcular resumenes utiles.
-- Comparar segmentos.
-- Explicar que aporta cada medida.
+- Identificar fortalezas iniciales.
+- Detectar vacios de apoyo.
+- Alinear expectativas del recorrido.
 
 ## Temas clave
 
-- Media y mediana
-- Conteos
-- Dispersion simple
-- Resumen por grupo
+- Python basico
+- Lectura de tablas
+- Graficos
+- Modelado inicial
+- Habitos de trabajo
 
 ## Materiales del modulo
 
@@ -34,8 +35,7 @@ Interpretar medidas descriptivas simples y relacionarlas con preguntas reales.
 - `teoria.md`
 - `ejercicios.md`
 - `homework.md`
-- `notebook.ipynb`
-- `soluciones.ipynb`
+- `quiz.json`
 
 ## Como leer el codigo de esta clase
 
@@ -45,8 +45,8 @@ Interpretar medidas descriptivas simples y relacionarlas con preguntas reales.
 
 ## Idea fuerza
 
-Pasar de mirar valores sueltos a resumir poblaciones con una pregunta clara.
+Diagnostico breve, correccion inmediata y acuerdo sobre la ruta de aprendizaje.
 
 ## Nota para el docente
 
-Invita a justificar por que elegir media o mediana segun la distribucion observada.
+Usa el resultado para ajustar ritmo, apoyos y ejemplos de las primeras clases.

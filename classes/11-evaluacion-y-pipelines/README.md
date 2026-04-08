@@ -1,56 +1,53 @@
-# 📘 Clase 11 â€” EvaluaciÃ³n robusta y Pipelines de ML
+# Clase 11: Evaluacion y pipelines
 
-> 🎯 Ficha de clase con objetivo, materiales y foco de aprendizaje.
+> Ficha de clase con objetivo, materiales y foco de aprendizaje.
 
+## Objetivo
 
-## 🎯 Objetivo
+Evaluar modelos con mayor rigor y evitar leakage o sobreajuste.
 
-Aplicar validaciÃ³n cruzada, bÃºsqueda de hiperparÃ¡metros y construir pipelines reproducibles de preprocesamiento + modelo.
+## Duracion sugerida
 
-## ⏱ DuraciÃ³n sugerida
+90 min
 
-90 minutos
+## Dataset base
 
-## 🗂 Dataset base
+- `datasets/retencion_clientes.csv`
+- `datasets/ventas_tienda.csv`
 
-`datasets/ventas_tienda.csv` Â· `datasets/retencion_clientes.csv`
+## Resultados esperados
 
-## ✅ Resultados esperados
+- Detectar overfitting inicial.
+- Aplicar validacion cruzada.
+- Construir un pipeline simple.
 
-Al finalizar, el estudiante podrÃ¡:
+## Temas clave
 
-- aplicar validaciÃ³n cruzada (k-fold) para evaluar modelos de forma robusta;
-- construir un Pipeline de scikit-learn con preprocesamiento y modelo;
-- escalar variables numÃ©ricas y codificar variables categÃ³ricas dentro del pipeline;
-- realizar bÃºsqueda de hiperparÃ¡metros con GridSearchCV;
-- interpretar la curva de aprendizaje.
+- Cross-validation
+- Overfitting
+- Pipelines
+- GridSearchCV
 
-## 🧰 Materiales
+## Materiales del modulo
 
-- `notebook.ipynb` â€” prÃ¡ctica guiada
-- `slides.md` â€” pauta de la clase
-- `ejercicios.md` â€” ejercicios progresivos
-- `homework.md` â€” tarea
-- `soluciones.ipynb` â€” soluciones comentadas
-- `teoria.md` â€” documento teÃ³rico completo (base para PDF)
+- `README.md`
+- `slides.md`
+- `teoria.md`
+- `ejercicios.md`
+- `homework.md`
+- `notebook.ipynb`
+- `soluciones.ipynb`
 
-## 💡 Idea central
+## Como leer el codigo de esta clase
 
-Un modelo que funciona en el notebook pero falla en producciÃ³n es inÃºtil. Los pipelines garantizan que el preprocesamiento en producciÃ³n sea idÃ©ntico al del entrenamiento.
+- Cada bloque debe responder una pregunta concreta.
+- Los comentarios deben explicar que hace el bloque y para que sirve.
+- Antes de pasar al siguiente paso, verifica que entiendes la salida.
 
-## 🔑 Conceptos clave
+## Idea fuerza
 
-| Concepto | DescripciÃ³n |
-|---|---|
-| Overfitting | El modelo memoriza en lugar de generalizar |
-| Underfitting | El modelo es demasiado simple para los datos |
-| Cross-validation | Evaluar en mÃºltiples particiones del dataset |
-| K-fold | Dividir datos en K grupos para validaciÃ³n cruzada |
-| Pipeline | Encadenar pasos de preprocesamiento y modelo |
-| StandardScaler | Normaliza variables a media 0 y desv. estÃ¡ndar 1 |
-| GridSearchCV | Probar combinaciones de hiperparÃ¡metros sistemÃ¡ticamente |
-| Curva de aprendizaje | DiagnÃ³stico de overfitting/underfitting |
+Pasar de un modelo que parece funcionar a un flujo de evaluacion mas confiable.
 
-## 👩‍🏫 Nota para el docente
+## Nota para el docente
 
-Usar ejemplos concretos de cÃ³mo el data leakage (filtraciÃ³n de datos del futuro al entrenamiento) distorsiona los resultados y cÃ³mo el Pipeline lo evita automÃ¡ticamente.
+Cuando aparezca un numero bueno, pregunta de inmediato: "como se obtuvo ese numero".

@@ -1,19 +1,19 @@
-# 🧪 Ejercicios â€” Clase 02
+# Ejercicios - Clase 02: Pandas y limpieza de datos
 
-> 🧪 Practica guiada para trabajar en clase y consolidar el aprendizaje.
+## Antes de empezar
 
+- Lee la consigna completa antes de escribir codigo.
+- Comenta los bloques que no sean obvios.
+- Explica para que sirve cada transformacion relevante.
 
-## 🧪 Ejercicio 1
-Carga el archivo `ventas_tienda.csv`.
+## Trabajo guiado
 
-## 🧪 Ejercicio 2
-Muestra las primeras 5 filas del dataset.
+1. Resume con tus palabras la pregunta principal del modulo.
+2. Ejecuta o revisa el bloque principal y explica la salida.
+3. Realiza una variacion pequena y anota que cambio y por que.
 
-## 🧪 Ejercicio 3
-Selecciona solo las columnas `sucursal`, `categoria` y `unidades`.
+## Criterios de autocorreccion
 
-## 🧪 Ejercicio 4
-Filtra las ventas de la sucursal `Centro`.
-
-## 🧪 Ejercicio 5
-Calcula un resumen de unidades vendidas por categorÃ­a.
+- El resultado responde a la pregunta planteada.
+- El codigo esta ordenado y comentado en los puntos clave.
+- La salida se puede explicar con lenguaje simple.

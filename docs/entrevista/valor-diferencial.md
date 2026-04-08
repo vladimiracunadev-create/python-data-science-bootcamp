@@ -1,4 +1,4 @@
-# ✨ Valor diferencial del enfoque
+# Valor diferencial del enfoque
 
 Este repositorio demuestra una combinacion de tres capas:
 

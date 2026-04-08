@@ -10,6 +10,7 @@ from flask import Flask, jsonify, render_template, request
 from .content_loader import (
     list_classes,
     list_notebook_templates,
+    load_class_quiz,
     load_notebook_template,
     read_class_markdown,
     save_notebook,
@@ -87,10 +88,11 @@ def api_class_detail(slug: str):
         return jsonify({"error": "slug inválido"}), 400
     try:
         data = read_class_markdown(slug)
+        quiz = load_class_quiz(slug)
     except FileNotFoundError:
         return jsonify({"error": "clase no encontrada"}), 404
     html = {name: markdown.markdown(text, extensions=["fenced_code", "tables"]) for name, text in data.items()}
-    return jsonify({"slug": slug, "html": html, "raw": data})
+    return jsonify({"slug": slug, "html": html, "raw": data, "quiz": quiz})
 
 
 @app.get("/api/notebooks")

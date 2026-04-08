@@ -1,4 +1,4 @@
-# 🧱 Catalogo del producto
+# Catalogo del producto
 
 Documento fuente de verdad para distinguir:
 
@@ -7,7 +7,7 @@ Documento fuente de verdad para distinguir:
 - que es una ruta documental;
 - y que partes siguen siendo evolucion futura.
 
-## 🧭 1. Definiciones
+## 1. Definiciones
 
 ### Superficie
 
@@ -25,7 +25,7 @@ Documento canonico que ordena, explica o limita el producto.
 
 Capacidad proyectada, pero no operativa hoy como pieza principal del sistema.
 
-## 🧱 2. Matriz canonica de superficies
+## 2. Matriz canonica de superficies
 
 | Superficie | Tipo | Estado | Audiencia | Que entrega hoy |
 |---|---|---|---|---|
@@ -34,11 +34,11 @@ Capacidad proyectada, pero no operativa hoy como pieza principal del sistema.
 | App Android (`mobile/`) | distribucion movil | listo para build | alumno en movimiento | lectura de contenido, codigo documentado, apertura directa en Google Colab |
 | Portal del alumno (`site/`) | superficie publica | operativo | alumno | enlace oficial, ruta, recursos, reglas de uso de tecnologia |
 | Vista institucional (`site/product/`) | superficie publica | operativo | institucion / evaluador | narrativa de producto, alcance, arquitectura, operacion y crecimiento |
-| Curriculum modular (`classes/`) | base pedagogica | operativo | docente | 12 clases con notebooks profusamente documentados, ejercicios, tareas y soluciones |
+| Curriculum modular (`classes/`) | base pedagogica | operativo | docente | clase 0 diagnostica + 12 clases con notebooks profusamente documentados, ejercicios, tareas y soluciones |
 | Kit documental (`docs/`) | capa editorial | operativo | docente / stakeholder / repo | metodologia, implementacion, evaluacion, seguridad y entrevista |
 | PDFs (`docs/pdfs/`) | artefacto de apoyo | operativo | entrevista / presentacion | piezas imprimibles y de muestra |
 
-## ⚙ 3. Funcionalidad real por superficie
+## 3. Funcionalidad real por superficie
 
 | Capacidad | Laboratorio Flask | Instalador Windows | App Android | Portal alumno | Vista institucional |
 |---|---|---|---|---|---|
@@ -52,7 +52,7 @@ Capacidad proyectada, pero no operativa hoy como pieza principal del sistema.
 | Operar sin internet | si | si | si (contenido) | no | no |
 | Instalar sin Python | no | si | si | no | no |
 
-## 📦 4. Artefactos oficiales de apoyo
+## 4. Artefactos oficiales de apoyo
 
 | Artefacto | Rol | Estado |
 |---|---|---|
@@ -61,7 +61,7 @@ Capacidad proyectada, pero no operativa hoy como pieza principal del sistema.
 | `docs/pdfs/entrevista-skillnest-presentacion-v2.pdf` | presentacion breve | vigente |
 | `scripts/generar_pdf_documento.py` | generacion reproducible de PDFs | vigente |
 
-## 🗣 5. Reglas de comunicacion
+## 5. Reglas de comunicacion
 
 ### Lo que si se puede afirmar
 
@@ -79,7 +79,7 @@ Capacidad proyectada, pero no operativa hoy como pieza principal del sistema.
 - el instalador Windows no es una app de escritorio nueva: es el mismo laboratorio Flask empaquetado;
 - el runner local no debe presentarse como SaaS expuesto a internet.
 
-## 🏫 6. Version inicial recomendada para colegio
+## 6. Version inicial recomendada para colegio
 
 La primera implementacion no necesita usar todo el catalogo.
 
@@ -92,6 +92,6 @@ La V1 recomendable es:
 5. mini proyecto guiado;
 6. presentacion breve de hallazgos.
 
-## 📌 7. Regla de prioridad
+## 7. Regla de prioridad
 
 Si alguna presentacion, README o landing contradice esta matriz, este documento tiene prioridad.

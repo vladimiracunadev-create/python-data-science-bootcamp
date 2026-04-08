@@ -1,0 +1,398 @@
+{
+  "id": "class-0-diagnostic",
+  "title": "Diagnostico inicial del bootcamp",
+  "description": "30 preguntas de opcion multiple para estimar el nivel de entrada en 15 minutos.",
+  "duration": "15 min",
+  "questions": [
+    {
+      "id": "q01",
+      "category": "Python",
+      "prompt": "¿Qué imprime `print(2 + 3)`?",
+      "options": [
+        "23",
+        "5",
+        "2 + 3",
+        "Error"
+      ],
+      "correctIndex": 1,
+      "explanation": "`+` suma ambos enteros antes de imprimir."
+    },
+    {
+      "id": "q02",
+      "category": "Python",
+      "prompt": "¿Qué tipo de dato es `[1, 2, 3]`?",
+      "options": [
+        "Diccionario",
+        "Tupla",
+        "Lista",
+        "Cadena"
+      ],
+      "correctIndex": 2,
+      "explanation": "Los corchetes crean una lista."
+    },
+    {
+      "id": "q03",
+      "category": "Python",
+      "prompt": "¿Qué devuelve `len([10, 20, 30])`?",
+      "options": [
+        "2",
+        "3",
+        "30",
+        "Error"
+      ],
+      "correctIndex": 1,
+      "explanation": "`len()` cuenta elementos."
+    },
+    {
+      "id": "q04",
+      "category": "Python",
+      "prompt": "Si `x = 4`, ¿qué imprime `if x > 5: print(\"A\") else: print(\"B\")`?",
+      "options": [
+        "A",
+        "B",
+        "A y B",
+        "Error"
+      ],
+      "correctIndex": 1,
+      "explanation": "Como `4 > 5` es falso, entra al `else`."
+    },
+    {
+      "id": "q05",
+      "category": "Python",
+      "prompt": "¿Cómo accedes a `nombre` en `{\"nombre\": \"Ana\"}`?",
+      "options": [
+        "`dato.nombre`",
+        "`dato[\"nombre\"]`",
+        "`nombre[dato]`",
+        "`dato(\"nombre\")`"
+      ],
+      "correctIndex": 1,
+      "explanation": "En diccionarios se accede por clave."
+    },
+    {
+      "id": "q06",
+      "category": "Python",
+      "prompt": "¿Qué imprime `for n in range(3): print(n)`?",
+      "options": [
+        "1, 2, 3",
+        "0, 1, 2",
+        "0, 1, 2, 3",
+        "Nada"
+      ],
+      "correctIndex": 1,
+      "explanation": "`range(3)` produce 0, 1 y 2."
+    },
+    {
+      "id": "q07",
+      "category": "Python",
+      "prompt": "¿Para qué sirve una función?",
+      "options": [
+        "Solo para gráficos",
+        "Para reutilizar lógica",
+        "Para borrar archivos",
+        "Para crear CSV"
+      ],
+      "correctIndex": 1,
+      "explanation": "Una función encapsula una tarea reutilizable."
+    },
+    {
+      "id": "q08",
+      "category": "Python",
+      "prompt": "¿Qué hace `#` en Python?",
+      "options": [
+        "Crea una lista",
+        "Marca un comentario",
+        "Define un bucle",
+        "Convierte texto"
+      ],
+      "correctIndex": 1,
+      "explanation": "Todo lo que sigue a `#` no se ejecuta."
+    },
+    {
+      "id": "q09",
+      "category": "Datos",
+      "prompt": "¿Qué hace `pd.read_csv(\"archivo.csv\")`?",
+      "options": [
+        "Dibuja un gráfico",
+        "Carga un CSV en un DataFrame",
+        "Borra nulos",
+        "Convierte fechas"
+      ],
+      "correctIndex": 1,
+      "explanation": "Es la forma estándar de abrir un CSV en pandas."
+    },
+    {
+      "id": "q10",
+      "category": "Datos",
+      "prompt": "Un valor nulo suele indicar que:",
+      "options": [
+        "Todo está roto",
+        "Falta información",
+        "La fila sobra siempre",
+        "La tabla no sirve"
+      ],
+      "correctIndex": 1,
+      "explanation": "Un nulo indica ausencia de dato, no necesariamente error fatal."
+    },
+    {
+      "id": "q11",
+      "category": "Datos",
+      "prompt": "¿Qué muestra `df.head()`?",
+      "options": [
+        "Últimas filas",
+        "Primeras filas",
+        "Solo columnas",
+        "Solo tipos"
+      ],
+      "correctIndex": 1,
+      "explanation": "Sirve para inspeccionar el inicio de la tabla."
+    },
+    {
+      "id": "q12",
+      "category": "Datos",
+      "prompt": "¿Para qué sirve `groupby()`?",
+      "options": [
+        "Ordenar alfabéticamente",
+        "Agrupar y resumir por categoría",
+        "Crear gráficos",
+        "Renombrar columnas"
+      ],
+      "correctIndex": 1,
+      "explanation": "Agrupa filas para resumirlas por segmento."
+    },
+    {
+      "id": "q13",
+      "category": "Datos",
+      "prompt": "¿Qué hace `dropna()`?",
+      "options": [
+        "Duplica nulos",
+        "Elimina filas o columnas con nulos",
+        "Pone cero automáticamente",
+        "Convierte nulos en texto"
+      ],
+      "correctIndex": 1,
+      "explanation": "Elimina datos incompletos cuando esa decisión tiene sentido."
+    },
+    {
+      "id": "q14",
+      "category": "Datos",
+      "prompt": "¿Qué representa la mediana?",
+      "options": [
+        "El valor más repetido",
+        "El valor central al ordenar",
+        "La mitad de la suma",
+        "El valor máximo"
+      ],
+      "correctIndex": 1,
+      "explanation": "La mediana es el centro de la distribución ordenada."
+    },
+    {
+      "id": "q15",
+      "category": "Datos",
+      "prompt": "Si quieres quedarte solo con ventas mayores a 100, primero debes:",
+      "options": [
+        "Filtrar filas",
+        "Agrupar por categoría",
+        "Renombrar columnas",
+        "Resetear índices"
+      ],
+      "correctIndex": 0,
+      "explanation": "Antes de resumir, seleccionas solo las filas relevantes."
+    },
+    {
+      "id": "q16",
+      "category": "Visualizacion",
+      "prompt": "¿Qué gráfico suele servir mejor para comparar categorías?",
+      "options": [
+        "Barras",
+        "Mapa de calor",
+        "Boxplot",
+        "Dispersión"
+      ],
+      "correctIndex": 0,
+      "explanation": "Las barras comparan magnitudes entre grupos discretos."
+    },
+    {
+      "id": "q17",
+      "category": "Visualizacion",
+      "prompt": "¿Qué gráfico suele servir mejor para una evolución en el tiempo?",
+      "options": [
+        "Línea",
+        "Torta",
+        "Histograma",
+        "Tabla"
+      ],
+      "correctIndex": 0,
+      "explanation": "La línea ayuda a seguir tendencia en series temporales."
+    },
+    {
+      "id": "q18",
+      "category": "Visualizacion",
+      "prompt": "¿Para qué sirve un histograma?",
+      "options": [
+        "Para mapas",
+        "Para ver distribución de una variable numérica",
+        "Para jerarquías",
+        "Para tablas"
+      ],
+      "correctIndex": 1,
+      "explanation": "Resume frecuencias por rangos."
+    },
+    {
+      "id": "q19",
+      "category": "Visualizacion",
+      "prompt": "¿Qué relación comunica mejor un gráfico de dispersión?",
+      "options": [
+        "Dos variables numéricas",
+        "Carpetas del proyecto",
+        "Errores de sintaxis",
+        "Colores"
+      ],
+      "correctIndex": 0,
+      "explanation": "El scatter plot muestra relación entre dos variables numéricas."
+    },
+    {
+      "id": "q20",
+      "category": "Visualizacion",
+      "prompt": "¿Qué mejora la lectura de un gráfico?",
+      "options": [
+        "Quitar etiquetas",
+        "Agregar título y ejes claros",
+        "Usar todos los colores posibles",
+        "Evitar leyendas siempre"
+      ],
+      "correctIndex": 1,
+      "explanation": "El contexto visual ayuda a interpretar rápido."
+    },
+    {
+      "id": "q21",
+      "category": "Modelado",
+      "prompt": "En ML supervisado, el target es:",
+      "options": [
+        "La variable a predecir",
+        "El archivo CSV",
+        "La librería",
+        "La fecha"
+      ],
+      "correctIndex": 0,
+      "explanation": "El target es la salida esperada."
+    },
+    {
+      "id": "q22",
+      "category": "Modelado",
+      "prompt": "¿Por qué se separan train y test?",
+      "options": [
+        "Para usar menos memoria",
+        "Para medir generalización",
+        "Para graficar más",
+        "Para ordenar datos"
+      ],
+      "correctIndex": 1,
+      "explanation": "Si pruebas con train, la evaluación engaña."
+    },
+    {
+      "id": "q23",
+      "category": "Modelado",
+      "prompt": "¿Qué describe mejor el overfitting?",
+      "options": [
+        "Falla en train y test",
+        "Memoriza train y falla fuera de muestra",
+        "Usa pocas columnas",
+        "Entrena muy rápido"
+      ],
+      "correctIndex": 1,
+      "explanation": "Overfitting es aprender demasiado el entrenamiento."
+    },
+    {
+      "id": "q24",
+      "category": "Modelado",
+      "prompt": "¿Para qué sirve un pipeline?",
+      "options": [
+        "Para dashboards",
+        "Para encadenar preprocesamiento y modelo sin leakage",
+        "Para guardar CSV",
+        "Para traducir errores"
+      ],
+      "correctIndex": 1,
+      "explanation": "Organiza el flujo y evita mezclar información."
+    },
+    {
+      "id": "q25",
+      "category": "Modelado",
+      "prompt": "Si el MAE baja, normalmente significa que:",
+      "options": [
+        "El modelo empeoró",
+        "El error promedio disminuyó",
+        "Se borraron filas",
+        "Cambió el target"
+      ],
+      "correctIndex": 1,
+      "explanation": "En métricas de error, menor suele ser mejor."
+    },
+    {
+      "id": "q26",
+      "category": "Trabajo",
+      "prompt": "Antes de escribir código, conviene:",
+      "options": [
+        "Entender la pregunta y revisar datos",
+        "Elegir colores",
+        "Instalar más librerías",
+        "Copiar una solución"
+      ],
+      "correctIndex": 0,
+      "explanation": "Sin una pregunta clara, el análisis se desordena."
+    },
+    {
+      "id": "q27",
+      "category": "Trabajo",
+      "prompt": "Si usas IA o internet en clase, la mejor práctica es:",
+      "options": [
+        "Pegar sin leer",
+        "Verificar, adaptar y explicar",
+        "Cambiar colores",
+        "Ocultarlo"
+      ],
+      "correctIndex": 1,
+      "explanation": "La herramienta ayuda, pero el criterio sigue siendo humano."
+    },
+    {
+      "id": "q28",
+      "category": "Trabajo",
+      "prompt": "¿Qué describe un buen comentario educativo?",
+      "options": [
+        "Repite la línea",
+        "Explica qué hace el bloque y por qué se usa",
+        "Oculta errores",
+        "Reemplaza pruebas"
+      ],
+      "correctIndex": 1,
+      "explanation": "Un comentario útil agrega contexto, no ruido."
+    },
+    {
+      "id": "q29",
+      "category": "Trabajo",
+      "prompt": "Si un gráfico se ve raro, primero revisa:",
+      "options": [
+        "Columnas, tipos y orden del código",
+        "Cerrar el notebook",
+        "Cambiar la paleta",
+        "Eliminar el dataset"
+      ],
+      "correctIndex": 0,
+      "explanation": "Muchos errores visuales nacen de datos o pasos mal elegidos."
+    },
+    {
+      "id": "q30",
+      "category": "Trabajo",
+      "prompt": "¿Cuál es el objetivo principal del bootcamp?",
+      "options": [
+        "Memorizar comandos",
+        "Leer problemas, trabajar con datos y explicar resultados",
+        "Solo aprobar pruebas",
+        "Usar muchas librerías"
+      ],
+      "correctIndex": 1,
+      "explanation": "El foco es criterio aplicado, no solo sintaxis."
+    }
+  ]
+}

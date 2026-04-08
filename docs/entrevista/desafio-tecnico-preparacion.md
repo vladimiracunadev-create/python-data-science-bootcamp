@@ -1,4 +1,4 @@
-# 🧪 Preparacion para desafio tecnico
+# Preparacion para desafio tecnico
 
 Guia integral para preparar el desafio tecnico sin caer en la trampa de querer demostrar complejidad por encima de criterio. Este documento cruza contenido tecnico, explicacion, despliegue, seguridad y transferencia pedagogica.
 
@@ -23,12 +23,12 @@ Vale menos:
 
 ```mermaid
 flowchart TD
-    A["Python"] --> B["Datos"]
-    B --> C["Visualizacion"]
-    C --> D["App y API"]
-    D --> E["Calidad"]
-    E --> F["Seguridad y despliegue"]
-    F --> G["Traduccion pedagogica"]
+A["Python"] --> B["Datos"]
+B --> C["Visualizacion"]
+C --> D["App y API"]
+D --> E["Calidad"]
+E --> F["Seguridad y despliegue"]
+F --> G["Traduccion pedagogica"]
 ```
 
 ## 3. Contenido tecnico base
@@ -115,7 +115,7 @@ Si te piden un cambio, la respuesta fuerte no es solo escribir codigo. Es mostra
 
 ### Pregunta que puede aparecer
 
-"Si esto creciera, que haria falta?"
+"Si esto creciera, que haria falta"
 
 Respuesta esperable:
 
@@ -138,19 +138,19 @@ Respuesta esperable:
 
 ## 8. Preguntas marco que debes poder contestar
 
-### "Por que elegiste esta solucion?"
+### "Por que elegiste esta solucion"
 
 "Porque resuelve bien el problema real con una base clara, verificable y mantenible. Si el contexto despues pide mas complejidad, la escalo sobre una solucion sana."
 
-### "Por que no usaste algo mas avanzado?"
+### "Por que no usaste algo mas avanzado"
 
 "Porque primero quise asegurar una solucion correcta y entendible. La complejidad adicional solo vale si agrega valor real."
 
-### "Como lo ensenarias?"
+### "Como lo ensenarias"
 
 "Lo dividiria en objetivo visible, ejemplo guiado, practica corta y cierre con interpretacion."
 
-### "Que riesgo ves aqui?"
+### "Que riesgo ves aqui"
 
 "El principal riesgo es confundir una demo local con una aplicacion lista para internet abierta. Si esto se expusiera mas, pisaria primero proxy, TLS, auth y limites."
 

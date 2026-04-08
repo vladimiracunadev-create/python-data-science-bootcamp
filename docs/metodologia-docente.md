@@ -1,4 +1,4 @@
-# 🧠 Metodologia docente
+# Metodologia docente
 
 > Audiencia: docente, coordinacion academica, evaluador pedagogico.
 

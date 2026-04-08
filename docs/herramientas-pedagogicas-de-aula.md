@@ -1,8 +1,8 @@
-# 🧰 Herramientas pedagogicas de aula
+# Herramientas pedagogicas de aula
 
 Playbook de mediacion para mostrar en entrevista, usar en clase de prueba y operar el bootcamp con criterio. El objetivo de este documento es bajar la pedagogia a decisiones concretas, observables y reutilizables.
 
-## 💡 1. Idea fuerza
+## 1. Idea fuerza
 
 Una buena clase tecnica no se mide solo por si el codigo corre. Se mide por si el estudiante:
 
@@ -11,15 +11,15 @@ Una buena clase tecnica no se mide solo por si el codigo corre. Se mide por si e
 - puede variar una parte del ejercicio;
 - interpreta el resultado con sus palabras.
 
-## 🧱 2. Secuencia didactica base
+## 2. Secuencia didactica base
 
 ```mermaid
 flowchart LR
-    A["Objetivo visible"] --> B["Activacion breve"]
-    B --> C["Demostracion guiada"]
-    C --> D["Practica acompanada"]
-    D --> E["Chequeo de comprension"]
-    E --> F["Cierre con interpretacion"]
+A["Objetivo visible"] --> B["Activacion breve"]
+B --> C["Demostracion guiada"]
+C --> D["Practica acompanada"]
+D --> E["Chequeo de comprension"]
+E --> F["Cierre con interpretacion"]
 ```
 
 Esta secuencia funciona bien en clases cortas, medias y en talleres de prueba porque:
@@ -28,7 +28,7 @@ Esta secuencia funciona bien en clases cortas, medias y en talleres de prueba po
 - evita explicar demasiado antes de hacer;
 - deja evidencia de comprension antes del cierre.
 
-## 🛠 3. Caja de herramientas por momento de la clase
+## 3. Caja de herramientas por momento de la clase
 
 ### Apertura
 
@@ -74,7 +74,7 @@ Herramientas:
 - pregunta de transferencia;
 - mini recapitulacion de error comun y solucion.
 
-## 📋 4. Matriz de intervencion docente
+## 4. Matriz de intervencion docente
 
 | Situacion | Senal observable | Intervencion recomendada | Error a evitar |
 |---|---|---|---|
@@ -85,7 +85,7 @@ Herramientas:
 | baja participacion | responden siempre los mismos | usar parejas, sondeos cortos y microcierres | convertir la clase en monologo |
 | dependencia de tecnologia | consulta todo antes de pensar | volver al objetivo y pedir hipotesis previa | prohibir la herramienta sin mediar su uso |
 
-## ✨ 5. Como dar valor frente a cualquier tecnologia
+## 5. Como dar valor frente a cualquier tecnologia
 
 El valor docente no esta en competir con asistentes, buscadores o plataformas. Esta en ordenar la experiencia de aprendizaje.
 
@@ -112,7 +112,7 @@ El valor docente no esta en competir con asistentes, buscadores o plataformas. E
 4. adaptar;
 5. explicar.
 
-## 👥 6. Herramientas para grupos con ritmos distintos
+## 6. Herramientas para grupos con ritmos distintos
 
 | Perfil del estudiante | Necesidad | Respuesta docente |
 |---|---|---|
@@ -122,14 +122,14 @@ El valor docente no esta en competir con asistentes, buscadores o plataformas. E
 
 La clave no es hacer tres clases distintas. La clave es sostener un minimo comun visible y capas de extension bien dosificadas.
 
-## 📌 7. Indicaciones pedagogicas que conviene declarar
+## 7. Indicaciones pedagogicas que conviene declarar
 
 - el error es parte del trabajo, no una senal de incapacidad;
 - primero se entiende la pregunta, despues la herramienta;
 - se valora justificar, no solo acertar;
 - la tecnologia se usa con criterio, no como reemplazo del proceso.
 
-## 🚨 8. Problemas reales que pueden aparecer en clase
+## 8. Problemas reales que pueden aparecer en clase
 
 ### Problema: no entienden para que sirve el contenido
 
@@ -163,14 +163,14 @@ Respuesta:
 - separar errores de sintaxis, datos y logica;
 - mostrar una correccion y luego devolver la tarea al estudiante.
 
-## ✅ 9. Senales de una buena clase tecnica
+## 9. Senales de una buena clase tecnica
 
 - el grupo puede nombrar el objetivo de la sesion;
 - al menos una parte del curso se resuelve con autonomia;
 - los errores sirven para aprender y no solo para frenar;
 - el cierre incluye interpretacion y no solo "terminamos".
 
-## 🎤 10. Frases utiles para entrevista o clase de prueba
+## 10. Frases utiles para entrevista o clase de prueba
 
 ### Sobre enfoque
 
@@ -184,7 +184,7 @@ Respuesta:
 
 "Trabajo con un minimo comun claro, apoyo a quien se bloquea y retos breves para quien avanza mas rapido."
 
-## 🔗 11. Relacion con otros documentos
+## 11. Relacion con otros documentos
 
 - [metodologia-docente.md](metodologia-docente.md)
 - [instructor-guide.md](instructor-guide.md)

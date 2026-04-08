@@ -1,4 +1,4 @@
-# 📚 Syllabus - Bootcamp Python para Data Science
+# Syllabus - Bootcamp Python para Data Science
 
 ## Proposito general
 

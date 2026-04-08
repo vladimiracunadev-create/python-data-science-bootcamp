@@ -1,4 +1,4 @@
-# 🎤 Preparacion para entrevista Skillnest
+# Preparacion para entrevista Skillnest
 
 ## Contexto
 
@@ -25,7 +25,7 @@ Entrevista agendada para el jueves 9 de abril de 2026 a las 15:30. El objetivo n
 
 ## Preguntas que probablemente te haran
 
-## "Como adaptarias esto a estudiantes de colegio?"
+## "Como adaptarias esto a estudiantes de colegio"
 
 Respuesta corta:
 
@@ -34,7 +34,7 @@ Respuesta corta:
 - priorizaria practica guiada y ejercicios simples;
 - dejaria ML para una segunda etapa.
 
-## "Como manejas grupos con niveles distintos?"
+## "Como manejas grupos con niveles distintos"
 
 Respuesta corta:
 
@@ -43,7 +43,7 @@ Respuesta corta:
 - desafio opcional para quienes avanzan mas rapido;
 - cierre colectivo para consolidar.
 
-## "Por que este repositorio te representa bien como docente?"
+## "Por que este repositorio te representa bien como docente"
 
 Respuesta corta:
 
@@ -51,7 +51,7 @@ Respuesta corta:
 - no es solo teoria ni solo codigo;
 - demuestra como transformo contenido tecnico en una experiencia de aprendizaje usable.
 
-## "Que harias en la primera semana?"
+## "Que harias en la primera semana"
 
 Respuesta corta:
 
@@ -60,7 +60,7 @@ Respuesta corta:
 - primer contacto con CSV y pandas;
 - una victoria rapida para que el grupo no pierda confianza.
 
-## "Que necesitarias para ejecutar bien el programa?"
+## "Que necesitarias para ejecutar bien el programa"
 
 Respuesta corta:
 
@@ -72,14 +72,14 @@ Respuesta corta:
 
 ## Preguntas que tu debes hacer
 
-1. Cuantas y cuales son las horas reales por semana: 180 minutos, 270 minutos o 2 bloques de 3 horas?
-2. Cuantos estudiantes son y de que nivel o especialidad vienen?
-3. El programa ya esta adjudicado o aun estan cerrando la propuesta con el colegio?
-4. Esperan clases, adaptacion curricular, evaluaciones y materiales personalizados dentro del mismo pago?
-5. Como se paga la preparacion, traslado presencial, horas administrativas y correccion?
-6. Quien es duenio del material adaptado: queda como muestra tuya, licencia compartida o cesion total?
-7. Esperan una clase de prueba? Si si, es pagada o no pagada, y de que duracion exacta?
-8. Que equipamiento tiene la sala: internet, computadores, proyector, cuentas y permisos?
+1. Cuantas y cuales son las horas reales por semana: 180 minutos, 270 minutos o 2 bloques de 3 horas
+2. Cuantos estudiantes son y de que nivel o especialidad vienen
+3. El programa ya esta adjudicado o aun estan cerrando la propuesta con el colegio
+4. Esperan clases, adaptacion curricular, evaluaciones y materiales personalizados dentro del mismo pago
+5. Como se paga la preparacion, traslado presencial, horas administrativas y correccion
+6. Quien es duenio del material adaptado: queda como muestra tuya, licencia compartida o cesion total
+7. Esperan una clase de prueba Si si, es pagada o no pagada, y de que duracion exacta
+8. Que equipamiento tiene la sala: internet, computadores, proyector, cuentas y permisos
 
 ## Limites sanos para que no se aprovechen
 

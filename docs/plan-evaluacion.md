@@ -1,8 +1,8 @@
-# 📏 Plan de evaluacion
+# Plan de evaluacion
 
 Plan de evaluacion continua para una implementacion inicial del bootcamp. Esta propuesta busca medir comprension, aplicacion, interpretacion y progresion, no solo resultado final.
 
-## 🧭 1. Principios de evaluacion
+## 1. Principios de evaluacion
 
 - se evalua proceso y producto;
 - la evidencia se recoge en clase, notebooks y mini proyectos;
@@ -10,23 +10,23 @@ Plan de evaluacion continua para una implementacion inicial del bootcamp. Esta p
 - usar tecnologia no invalida el trabajo si existe criterio y explicacion;
 - la evaluacion tiene que ser legible para estudiantes y para institucion.
 
-## ❓ 2. Pregunta central
+## 2. Pregunta central
 
 La pregunta no es "quien termino primero". La pregunta es:
 
 > quien esta construyendo comprension reutilizable y quien aun necesita mediacion mas guiada.
 
-## 🔁 3. Ciclo de evaluacion
+## 3. Ciclo de evaluacion
 
 ```mermaid
 flowchart LR
-    A["Objetivo de aprendizaje"] --> B["Actividad observable"]
-    B --> C["Evidencia"]
-    C --> D["Retroalimentacion"]
-    D --> E["Ajuste para la siguiente clase"]
+A["Objetivo de aprendizaje"] --> B["Actividad observable"]
+B --> C["Evidencia"]
+C --> D["Retroalimentacion"]
+D --> E["Ajuste para la siguiente clase"]
 ```
 
-## ⚖ 4. Propuesta de ponderacion
+## 4. Propuesta de ponderacion
 
 | Componente | Ponderacion | Que se observa |
 |---|---|---|
@@ -36,7 +36,7 @@ flowchart LR
 | mini proyecto integrador | 25% | aplicacion de herramientas sobre una pregunta concreta |
 | presentacion o reflexion final | 10% | capacidad de explicar hallazgos y decisiones |
 
-## 📋 5. Evidencias por tipo de actividad
+## 5. Evidencias por tipo de actividad
 
 ### En clase
 
@@ -59,7 +59,7 @@ flowchart LR
 - tabla, resumen o grafico coherente;
 - conclusion clara.
 
-## 📏 6. Rubrica simple y reusable
+## 6. Rubrica simple y reusable
 
 | Criterio | Logrado | En desarrollo | Inicial |
 |---|---|---|---|
@@ -69,7 +69,7 @@ flowchart LR
 | autonomia | puede variar una parte del ejercicio | progresa con apoyo cercano | se bloquea si cambia la consigna |
 | comunicacion | explica con lenguaje claro | explica parcialmente | le cuesta expresar que hizo |
 
-## 💻 7. Como evaluar el uso de tecnologia
+## 7. Como evaluar el uso de tecnologia
 
 Usar asistentes, buscadores o ayudas externas no debe medirse como trampa por defecto. Debe medirse como parte del proceso de trabajo.
 
@@ -87,7 +87,7 @@ Usar asistentes, buscadores o ayudas externas no debe medirse como trampa por de
 - usa una solucion que resuelve otra pregunta;
 - se salta el objetivo pedagogico de la actividad.
 
-## 💬 8. Retroalimentacion recomendada
+## 8. Retroalimentacion recomendada
 
 Buena retroalimentacion en este bootcamp responde a cuatro preguntas:
 
@@ -96,7 +96,7 @@ Buena retroalimentacion en este bootcamp responde a cuatro preguntas:
 3. cual es el ajuste minimo que lo haria avanzar;
 4. que extension podria intentar si va mas adelantado.
 
-## 🚨 9. Senales de alerta temprana
+## 9. Senales de alerta temprana
 
 | Senal | Interpretacion posible | Accion sugerida |
 |---|---|---|
@@ -105,7 +105,7 @@ Buena retroalimentacion en este bootcamp responde a cuatro preguntas:
 | mezcla conceptos entre clases | sobrecarga cognitiva | reforzar objetivo y usar ejemplos mas pequenos |
 | no logra cerrar una actividad | falta de practica guiada | dividir la tarea y hacer checkpoint intermedio |
 
-## 🧾 10. Propuesta de reportabilidad para institucion
+## 10. Propuesta de reportabilidad para institucion
 
 Si la institucion pide seguimiento, conviene reportar en un formato breve:
 
@@ -117,11 +117,11 @@ Si la institucion pide seguimiento, conviene reportar en un formato breve:
 
 Eso comunica mejor que una nota aislada y es mas coherente con una primera implementacion escolar.
 
-## 📌 11. Regla operativa para una V1
+## 11. Regla operativa para una V1
 
 La evaluacion de la primera version debe ser simple, clara y sostenible. Si el docente necesita un sistema excesivamente complejo para medir, la implementacion pierde foco.
 
-## 🔗 12. Relacion con otros documentos
+## 12. Relacion con otros documentos
 
 - [metodologia-docente.md](metodologia-docente.md)
 - [herramientas-pedagogicas-de-aula.md](herramientas-pedagogicas-de-aula.md)

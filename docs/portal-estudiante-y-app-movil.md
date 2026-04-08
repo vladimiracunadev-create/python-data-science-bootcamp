@@ -1,4 +1,4 @@
-# 📱 Portal del alumno y ruta hacia app movil
+# Portal del alumno y ruta hacia app movil
 
 Documento de producto para explicar por que existe una superficie publica separada del laboratorio local, cual es el enlace oficial para estudiantes y como evoluciona esta base hacia una experiencia movil sin sobredimensionar la madurez actual.
 
@@ -33,11 +33,11 @@ Ese es el enlace que conviene compartir por correo, QR, sala virtual o material 
 
 ```mermaid
 flowchart LR
-    A["Alumno"] --> B["GitHub Pages / site/"]
-    C["Docente"] --> D["Laboratorio local / app/"]
-    B --> E["Ruta, recursos, normas"]
-    D --> F["Clases, notebooks, runner"]
-    B -. futura integracion .-> G["Experiencia movil"]
+A["Alumno"] --> B["GitHub Pages / site/"]
+C["Docente"] --> D["Laboratorio local / app/"]
+B --> E["Ruta, recursos, normas"]
+D --> F["Clases, notebooks, runner"]
+B -. futura integracion .-> G["Experiencia movil"]
 ```
 
 ## 5. Que queda en GitHub Pages

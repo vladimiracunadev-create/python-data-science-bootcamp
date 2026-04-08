@@ -1,4 +1,4 @@
-# 🗣 Guion breve para la reunion
+# Guion breve para la reunion
 
 ## Mensaje principal
 

@@ -1,4 +1,4 @@
-# 🏆 Estandar alto del portafolio
+# Estandar alto del portafolio
 
 ## Alcance
 

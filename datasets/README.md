@@ -1,155 +1,139 @@
-# 🗂 Diccionario de Datasets â€” Bootcamp Python Data Science
+# Diccionario de datasets del Bootcamp Python Data Science
 
-> 🗂 Catalogo de datasets sinteticos y su uso dentro del bootcamp.
+> Catalogo de datasets sinteticos y su uso dentro del bootcamp.
 
-
-Este directorio contiene los datasets utilizados en las clases del bootcamp. Todos los datos son **sintÃ©ticos con contexto realista** generados para fines educativos.
-
----
+Este directorio contiene los datasets base usados en las clases. Todos los datos son sinteticos con contexto realista y fueron preparados para practicar lectura, limpieza, analisis, visualizacion y modelado inicial.
 
 ## 1. ventas_tienda.csv
 
-**DescripciÃ³n:** Registro de transacciones de una tienda de tecnologÃ­a con varias sucursales. Dataset principal del bootcamp.
+**Descripcion:** Registro de ventas de una tienda con varias sucursales, categorias y medios de pago. Es el dataset principal del recorrido.
 
 **Clases que lo usan:** 01, 02, 03, 04, 05, 07, 09, 11
 
-| Columna | Tipo | DescripciÃ³n | Ejemplo |
+| Columna | Tipo | Descripcion | Ejemplo |
 |---|---|---|---|
-| `id_venta` | str | Identificador Ãºnico de la transacciÃ³n | `V-00123` |
-| `fecha_venta` | date | Fecha de la transacciÃ³n (YYYY-MM-DD) | `2024-03-15` |
-| `sucursal` | str | Nombre de la sucursal | `Norte`, `Sur`, `Centro`, `Oriente` |
-| `vendedor` | str | Nombre del vendedor | `FernÃ¡ndez, Ana` |
-| `categoria` | str | CategorÃ­a del producto | `PerifÃ©ricos`, `ComputaciÃ³n`, `Audio` |
-| `producto` | str | Nombre del producto vendido | `Teclado mecÃ¡nico RGB` |
-| `precio_unitario` | float | Precio antes del descuento ($) | `45990.0` |
-| `unidades_vendidas` | int | Cantidad vendida | `3` |
-| `descuento_pct` | float | Porcentaje de descuento aplicado (0â€“100) | `10.0` |
+| `fecha` | date | Fecha de la venta | `2026-01-03` |
+| `sucursal` | str | Sede donde se realizo la venta | `Centro` |
+| `categoria` | str | Familia del producto | `Accesorios` |
+| `producto` | str | Producto vendido | `Mouse` |
+| `unidades` | int | Cantidad vendida | `12` |
+| `precio_unitario` | float | Precio por unidad en CLP | `8990` |
+| `descuento_pct` | float | Descuento expresado entre `0` y `1` | `0.10` |
+| `vendedor` | str | Responsable de la venta | `Ana` |
+| `medio_pago` | str | Medio de pago registrado | `Debito` |
 
 **Columnas derivadas sugeridas:**
-- `total_bruto = precio_unitario Ã— unidades_vendidas`
-- `total_neto = total_bruto Ã— (1 - descuento_pct / 100)`
-- `mes`, `dia_semana` (desde `fecha_venta`)
+- `total_bruto = unidades * precio_unitario`
+- `total_neto = total_bruto * (1 - descuento_pct)`
+- `mes` y `dia_semana` a partir de `fecha`
 
 **Notas:**
-- Los precios estÃ¡n en pesos chilenos (CLP).
-- El descuento mÃ¡ximo es 30%.
-- No hay valores nulos en el dataset base.
-
----
+- Sirve para practicar agrupaciones, metricas comerciales y graficos comparativos.
+- El descuento ya viene normalizado como proporcion, no como porcentaje entero.
 
 ## 2. retencion_clientes.csv
 
-**DescripciÃ³n:** Indicadores de retenciÃ³n de clientes a lo largo del tiempo. Ãštil para anÃ¡lisis de series temporales y storytelling.
+**Descripcion:** Serie mensual para analizar actividad de clientes, perdidas, altas y valor economico promedio.
 
 **Clases que lo usan:** 03, 08, 10
 
-| Columna | Tipo | DescripciÃ³n | Ejemplo |
+| Columna | Tipo | Descripcion | Ejemplo |
 |---|---|---|---|
-| `periodo` | str | Mes-AÃ±o del registro | `2024-01`, `2024-06` |
-| `clientes_inicio` | int | Clientes activos al inicio del periodo | `1250` |
-| `clientes_nuevos` | int | Nuevos clientes captados | `180` |
-| `clientes_perdidos` | int | Clientes que cancelaron o no renovaron | `95` |
-| `tasa_retencion` | float | % de clientes retenidos vs. periodo anterior | `87.5` |
-| `nps_promedio` | float | Net Promoter Score promedio (0â€“100) | `62.3` |
+| `mes` | str | Periodo mensual en formato `YYYY-MM` | `2026-01` |
+| `clientes_activos` | int | Base activa al cierre del periodo | `120` |
+| `clientes_perdidos` | int | Clientes que dejaron de operar | `9` |
+| `nuevos_clientes` | int | Altas del periodo | `18` |
+| `ingreso_promedio` | float | Ingreso promedio por cliente | `41.2` |
 
 **Columnas derivadas sugeridas:**
-- `clientes_fin = clientes_inicio + clientes_nuevos - clientes_perdidos`
-- `tasa_churn = clientes_perdidos / clientes_inicio Ã— 100`
+- `saldo_clientes = nuevos_clientes - clientes_perdidos`
+- `churn_pct = clientes_perdidos / clientes_activos * 100`
+- `crecimiento_pct` respecto del mes anterior
 
 **Notas:**
-- 12 filas: un registro por mes del aÃ±o 2024.
-- NPS > 50 se considera "bueno", > 70 "excelente".
-
----
+- Es util para series temporales simples y storytelling de negocio.
+- Funciona bien para ejercicios de tendencia, comparacion mensual y riesgo.
 
 ## 3. soporte_tickets.csv
 
-**DescripciÃ³n:** Registro de tickets de soporte tÃ©cnico. Permite analizar tiempos de resoluciÃ³n, categorÃ­as y satisfacciÃ³n del usuario.
+**Descripcion:** Tickets de soporte clasificados por categoria, prioridad, canal y tiempo de resolucion.
 
 **Clases que lo usan:** 02, 06
 
-| Columna | Tipo | DescripciÃ³n | Ejemplo |
+| Columna | Tipo | Descripcion | Ejemplo |
 |---|---|---|---|
-| `id_ticket` | str | Identificador Ãºnico del ticket | `TK-0045` |
-| `fecha_apertura` | datetime | Fecha y hora de apertura | `2024-05-12 09:30` |
-| `fecha_cierre` | datetime | Fecha y hora de cierre (nulo si abierto) | `2024-05-13 14:20` |
-| `categoria` | str | Tipo de problema | `Hardware`, `Software`, `Red`, `Otro` |
-| `prioridad` | str | Nivel de urgencia | `Baja`, `Media`, `Alta`, `CrÃ­tica` |
-| `agente` | str | TÃ©cnico asignado | `Rodrigo Morales` |
-| `satisfaccion` | int | CalificaciÃ³n del usuario (1â€“5) | `4` |
+| `ticket_id` | str | Identificador del ticket | `T-1001` |
+| `categoria` | str | Tipo de incidencia | `Acceso` |
+| `prioridad` | str | Nivel de urgencia | `Alta` |
+| `horas_resolucion` | float | Tiempo de resolucion en horas | `2.1` |
+| `satisfaccion` | float | Nota del usuario | `4.5` |
+| `canal` | str | Canal por el que entro el ticket | `Correo` |
 
 **Columnas derivadas sugeridas:**
-- `horas_resolucion = (fecha_cierre - fecha_apertura).dt.total_seconds() / 3600`
-- `ticket_abierto = fecha_cierre.isnull()`
+- `resuelto_rapido = horas_resolucion <= 4`
+- `satisfaccion_redondeada = satisfaccion.round()`
+- `prioridad_orden` para ordenar tableros
 
 **Notas:**
-- Algunos tickets no tienen `fecha_cierre` (siguen abiertos).
-- La columna `satisfaccion` puede tener nulos (cliente no respondiÃ³ la encuesta).
-
----
+- Permite contrastar velocidad, calidad de servicio y mezcla de canales.
+- Es un buen set para filtrar, recodificar texto y resumir indicadores.
 
 ## 4. transporte.csv
 
-**DescripciÃ³n:** Datos operacionales de un sistema de transporte pÃºblico. Permite anÃ¡lisis de demanda, eficiencia y patrones temporales.
+**Descripcion:** Registro de viajes con origen, destino, pasajeros, retraso y contexto operativo.
 
 **Clases que lo usan:** 04, 06
 
-| Columna | Tipo | DescripciÃ³n | Ejemplo |
+| Columna | Tipo | Descripcion | Ejemplo |
 |---|---|---|---|
-| `fecha` | date | Fecha del registro | `2024-06-01` |
-| `linea` | str | LÃ­nea de transporte | `L1`, `L2`, `L5` |
-| `estacion` | str | Nombre de la estaciÃ³n | `Baquedano`, `Las Condes` |
-| `hora_pico` | str | Franja horaria | `07-09`, `13-15`, `18-20` |
-| `pasajeros_subida` | int | Pasajeros que suben en la estaciÃ³n | `1234` |
-| `pasajeros_bajada` | int | Pasajeros que bajan | `987` |
-| `tiempo_espera_min` | float | Tiempo de espera promedio (minutos) | `4.5` |
-| `incidencias` | int | NÃºmero de incidencias registradas | `0` |
-| `temperatura_c` | float | Temperatura ambiental en Â°C | `18.5` |
+| `id_viaje` | int | Identificador del viaje | `1` |
+| `linea` | str | Linea o servicio | `L1` |
+| `origen` | str | Punto de salida | `Centro` |
+| `destino` | str | Punto de llegada | `Norte` |
+| `duracion_min` | int | Duracion del viaje en minutos | `35` |
+| `pasajeros` | int | Carga de pasajeros | `120` |
+| `retraso_min` | int | Retraso acumulado | `4` |
+| `dia_semana` | str | Dia del viaje | `Lunes` |
+| `lluvia` | str | Indicador simple de clima | `No` |
 
 **Columnas derivadas sugeridas:**
-- `flujo_neto = pasajeros_subida - pasajeros_bajada`
-- `dia_semana` (desde `fecha`)
+- `puntual = retraso_min <= 5`
+- `tramo = origen + '-' + destino`
+- `carga_por_min = pasajeros / duracion_min`
 
 **Notas:**
-- El anÃ¡lisis de temperatura vs. demanda es especialmente interesante.
-- Las incidencias estÃ¡n correlacionadas con el tiempo de espera.
-
----
+- Ayuda a practicar comparaciones por categoria y lectura de contexto operativo.
+- Tambien sirve para ejemplos de variables binarias y mezcla de tipos.
 
 ## 5. estudiantes.csv
 
-**DescripciÃ³n:** Registro acadÃ©mico de estudiantes para anÃ¡lisis educativo. Permite practicar regresiÃ³n y clasificaciÃ³n con variables claras e interpretables.
+**Descripcion:** Registro academico sintetico para analizar desempeno, asistencia y estado del alumno.
 
 **Clases que lo usan:** 04, 09, 10
 
-| Columna | Tipo | DescripciÃ³n | Ejemplo |
+| Columna | Tipo | Descripcion | Ejemplo |
 |---|---|---|---|
-| `id_estudiante` | str | Identificador Ãºnico | `EST-001` |
-| `nombre` | str | Nombre (anonimizado) | `Estudiante_42` |
-| `edad` | int | Edad en aÃ±os | `24` |
-| `horas_estudio_semana` | float | Horas de estudio semanal | `12.5` |
-| `nota_prueba_1` | float | Nota de la primera prueba (0â€“100) | `72.0` |
-| `nota_prueba_2` | float | Nota de la segunda prueba (0â€“100) | `68.5` |
-| `asistencia_pct` | float | Porcentaje de asistencia (0â€“100) | `85.0` |
-| `trabaja` | bool | Si trabaja mientras estudia | `True` |
-| `nota_final` | float | Nota final del curso (0â€“100) | `70.2` |
+| `id_estudiante` | int | Identificador del estudiante | `1` |
+| `nombre` | str | Nombre visible en el ejemplo | `Valentina` |
+| `edad` | int | Edad del estudiante | `19` |
+| `curso` | str | Cohorte o grupo | `Bootcamp A` |
+| `asistencia_pct` | int | Asistencia acumulada | `92` |
+| `evaluacion_python` | int | Resultado en Python | `78` |
+| `evaluacion_pandas` | int | Resultado en pandas | `74` |
+| `entrega_proyecto` | str | Si entrego el proyecto | `Si` |
+| `situacion` | str | Estado academico resumido | `Regular` |
 
 **Columnas derivadas sugeridas:**
-- `aprobado = (nota_final >= 60).astype(int)`
-- `promedio_pruebas = (nota_prueba_1 + nota_prueba_2) / 2`
-
-**Variable objetivo para ML:**
-- RegresiÃ³n: `nota_final`
-- ClasificaciÃ³n: `aprobado`
+- `promedio_tecnico = (evaluacion_python + evaluacion_pandas) / 2`
+- `riesgo = asistencia_pct < 75 or entrega_proyecto == 'No'`
+- `cumplimiento = situacion == 'Regular'`
 
 **Notas:**
-- La correlaciÃ³n `horas_estudio_semana` â†’ `nota_final` es intencionalmente fuerte.
-- Los estudiantes que trabajan tienen mayor variabilidad en sus notas.
+- Es util para clasificacion basica, lectura de cohortes y segmentacion.
+- Conviene revisar relaciones entre asistencia, evaluaciones y entrega final.
 
----
+## Origen y licencia
 
-## ⚖ Origen y licencia
+Todos los datasets son datos sinteticos generados para uso educativo dentro del bootcamp. No representan personas ni organizaciones reales.
 
-Todos los datasets son **datos sintÃ©ticos** generados con Python para uso exclusivamente educativo en este bootcamp. No contienen datos reales de personas, empresas o entidades.
-
-Licencia: MIT â€” libre uso educativo con atribuciÃ³n.
+Licencia: MIT para uso educativo y de demostracion con atribucion.

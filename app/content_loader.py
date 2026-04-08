@@ -80,10 +80,20 @@ def read_class_markdown(slug: str) -> dict[str, str]:
     if not class_dir.exists():
         raise FileNotFoundError(slug)
     result = {}
-    for name in ["README.md", "slides.md", "ejercicios.md", "homework.md"]:
+    for name in ["README.md", "teoria.md", "slides.md", "ejercicios.md", "homework.md"]:
         path = class_dir / name
         result[name] = path.read_text(encoding="utf-8") if path.exists() else ""
     return result
+
+
+def load_class_quiz(slug: str) -> dict[str, Any] | None:
+    if not SAFE_NAME_RE.match(slug):
+        raise ValueError(f"Slug inválido: {slug}")
+    class_dir = _safe_resolve(CLASS_DIR, slug)
+    quiz_path = class_dir / "quiz.json"
+    if not quiz_path.exists():
+        return None
+    return json.loads(quiz_path.read_text(encoding="utf-8"))
 
 
 def list_notebook_templates() -> list[dict[str, str]]:

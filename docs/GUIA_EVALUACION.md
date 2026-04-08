@@ -1,4 +1,4 @@
-# 🧾 Guia de evaluacion rapida
+# Guia de evaluacion rapida
 
 > Audiencia: institucion, recruiter, evaluador tecnico y personas que necesitan entender el valor del repositorio sin leer todo el codigo.
 

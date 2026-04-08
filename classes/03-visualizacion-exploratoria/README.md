@@ -1,29 +1,53 @@
-# 📘 Clase 03 â€” VisualizaciÃ³n exploratoria e interpretaciÃ³n
+# Clase 03: Visualizacion exploratoria
 
-> 🎯 Ficha de clase con objetivo, materiales y foco de aprendizaje.
+> Ficha de clase con objetivo, materiales y foco de aprendizaje.
 
+## Objetivo
 
-## 🎯 Objetivo
+Usar visualizaciones exploratorias para describir patrones y abrir nuevas preguntas de analisis.
 
-Construir grÃ¡ficos bÃ¡sicos y leer hallazgos a partir de datos resumidos.
+## Duracion sugerida
 
-## ⏱ DuraciÃ³n sugerida
+90 min
 
-90 minutos
+## Dataset base
 
-## ✅ Resultados esperados
+- `datasets/ventas_tienda.csv`
+- `datasets/soporte_tickets.csv`
 
-Al finalizar, el estudiante podrÃ¡:
+## Resultados esperados
 
-- crear grÃ¡ficos simples con matplotlib;
-- elegir un tipo de grÃ¡fico razonable;
-- describir patrones observados;
-- conectar nÃºmeros con una conclusiÃ³n.
+- Elegir un grafico inicial adecuado.
+- Comparar categorias.
+- Describir hallazgos sin exagerar.
 
-## 🧰 Materiales
+## Temas clave
 
-- `notebook.ipynb`
+- Barras
+- Histogramas
+- Series temporales basicas
+- Lectura de patrones
+
+## Materiales del modulo
+
+- `README.md`
 - `slides.md`
+- `teoria.md`
 - `ejercicios.md`
 - `homework.md`
+- `notebook.ipynb`
 - `soluciones.ipynb`
+
+## Como leer el codigo de esta clase
+
+- Cada bloque debe responder una pregunta concreta.
+- Los comentarios deben explicar que hace el bloque y para que sirve.
+- Antes de pasar al siguiente paso, verifica que entiendes la salida.
+
+## Idea fuerza
+
+La visualizacion exploratoria ayuda a mirar y preguntar mejor.
+
+## Nota para el docente
+
+Haz completar la frase: "este grafico sugiere..., pero aun debo verificar...".

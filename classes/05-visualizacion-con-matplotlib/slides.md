@@ -1,23 +1,28 @@
-# 🖥 Pauta de clase
+# Slides - Clase 05: Visualizacion con matplotlib
 
-> 🖥 Guion visual breve para conducir la sesion sin sobrecargar la clase.
+## Apertura
 
+- Objetivo visible: Crear graficos mas controlados con matplotlib y mejorar su legibilidad.
+- Mensaje central: Pasar de la grafica funcional a la grafica comunicable.
 
-## 🎬 Apertura
-- Recordatorio de la clase anterior.
-- QuÃ© pregunta queremos responder hoy.
+## Ruta de la sesion
 
-## 🧩 Desarrollo
-- ExplicaciÃ³n breve.
-- DemostraciÃ³n guiada.
-- Ejercicio de prÃ¡ctica.
-- DiscusiÃ³n de resultados.
+| Tramo | Tiempo sugerido | Enfoque | Evidencia |
+|---|---|---|---|
+| Inicio | 10 min | Activar conocimientos previos | Pregunta inicial respondida |
+| Desarrollo 1 | 20 min | Conceptos y demostracion guiada | Primer bloque entendido |
+| Desarrollo 2 | 25 min | Codigo comentado y lectura de salida | Resultado explicado |
+| Practica | 25 min | Ejercicios o quiz segun el modulo | Entregable corto |
+| Cierre | 10 min | Conclusion y siguiente paso | Autoevaluacion breve |
 
-## 💡 Idea clave
+## Puntos que deben quedar claros
 
-El foco de esta clase es **barras, lÃ­neas, etiquetas y lectura visual** usando `datasets/retencion_clientes.csv`.
+- Figure y Axes
+- Titulos y ejes
+- Subplots
+- Anotaciones
 
-## ✅ Cierre
-- Error frecuente a evitar.
-- QuÃ© habilidad se consolida hoy.
-- CÃ³mo conecta con la siguiente clase.
+## Cierre esperado
+
+- Una conclusion breve conectada con evidencia.
+- Un siguiente paso explicito: La clase 06 amplia el repertorio con texto y fechas.

@@ -1,4 +1,4 @@
-# Ejercicios - Clase 07: Mini proyecto guiado
+# Ejercicios - Clase 0: Diagnostico inicial y orientacion
 
 ## Antes de empezar
 

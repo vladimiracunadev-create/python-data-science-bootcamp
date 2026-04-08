@@ -1,4 +1,4 @@
-# 🛡 Despliegue seguro y operacion del bootcamp
+# Despliegue seguro y operacion del bootcamp
 
 Documento de postura tecnica para explicar como se opera este repositorio hoy, que controles existen, que CI/CD ya esta disponible y que cambios harian falta para escenarios mas expuestos.
 
@@ -26,12 +26,12 @@ Este proyecto no debe venderse hoy como plataforma multiusuario expuesta a inter
 
 ```mermaid
 flowchart LR
-    A["GitHub Actions"] --> B["Deploy Pages"]
-    A --> C["CI"]
-    A --> D["Security"]
-    E["Docente / operador"] --> F["Docker o Python local"]
-    F --> G["Flask app"]
-    G --> H["Classes + datasets + notebooks"]
+A["GitHub Actions"] --> B["Deploy Pages"]
+A --> C["CI"]
+A --> D["Security"]
+E["Docente / operador"] --> F["Docker o Python local"]
+F --> G["Flask app"]
+G --> H["Classes + datasets + notebooks"]
 ```
 
 ## 4. Controles actuales

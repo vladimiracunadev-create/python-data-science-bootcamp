@@ -1,4 +1,4 @@
-# 📋 Rubrica para clase de prueba
+# Rubrica para clase de prueba
 
 ## Proposito
 

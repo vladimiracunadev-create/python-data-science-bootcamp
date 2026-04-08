@@ -1,38 +1,28 @@
-# 🖥 Diapositivas sugeridas â€” Clase 01
+# Slides - Clase 01: Python fundamentos
 
-> 🖥 Guion visual breve para conducir la sesion sin sobrecargar la clase.
+## Apertura
 
+- Objetivo visible: Comprender los bloques basicos de Python y usarlos en tareas pequenas con datos.
+- Mensaje central: Construir confianza en la sintaxis y conectar cada estructura con un uso real.
 
-## 1. Bienvenida
-- QuÃ© veremos hoy
-- Para quÃ© sirve Python en un bootcamp de datos
+## Ruta de la sesion
 
-## 2. Variables
-- guardar informaciÃ³n
-- nombres claros
-- ejemplos con precios, unidades y nombres
+| Tramo | Tiempo sugerido | Enfoque | Evidencia |
+|---|---|---|---|
+| Inicio | 10 min | Activar conocimientos previos | Pregunta inicial respondida |
+| Desarrollo 1 | 20 min | Conceptos y demostracion guiada | Primer bloque entendido |
+| Desarrollo 2 | 25 min | Codigo comentado y lectura de salida | Resultado explicado |
+| Practica | 25 min | Ejercicios o quiz segun el modulo | Entregable corto |
+| Cierre | 10 min | Conclusion y siguiente paso | Autoevaluacion breve |
 
-## 3. Tipos de datos
-- texto
-- enteros
-- decimales
-- booleanos
+## Puntos que deben quedar claros
 
-## 4. Estructuras
-- listas
-- diccionarios
+- Variables y tipos
+- Listas y diccionarios
+- Funciones
+- Control de flujo
 
-## 5. Control de flujo
-- `if`
-- `for`
+## Cierre esperado
 
-## 6. Funciones
-- por quÃ© agrupan lÃ³gica
-- ejemplo simple: calcular total
-
-## 7. Ejercicio guiado
-- calcular totales de una lista de ventas
-
-## 8. Cierre
-- quÃ© aprendimos
-- quÃ© veremos en la prÃ³xima clase
+- Una conclusion breve conectada con evidencia.
+- Un siguiente paso explicito: La clase 02 traslada estas bases a tablas con pandas.

@@ -1,9 +1,9 @@
-# Slides - Clase 03: Visualizacion exploratoria
+# Slides - Clase 0: Diagnostico inicial y orientacion
 
 ## Apertura
 
-- Objetivo visible: Usar visualizaciones exploratorias para describir patrones y abrir nuevas preguntas de analisis.
-- Mensaje central: La visualizacion exploratoria ayuda a mirar y preguntar mejor.
+- Objetivo visible: Estimar el punto de partida del grupo antes de iniciar la ruta formal.
+- Mensaje central: Diagnostico breve, correccion inmediata y acuerdo sobre la ruta de aprendizaje.
 
 ## Ruta de la sesion
 
@@ -17,12 +17,13 @@
 
 ## Puntos que deben quedar claros
 
-- Barras
-- Histogramas
-- Series temporales basicas
-- Lectura de patrones
+- Python basico
+- Lectura de tablas
+- Graficos
+- Modelado inicial
+- Habitos de trabajo
 
 ## Cierre esperado
 
 - Una conclusion breve conectada con evidencia.
-- Un siguiente paso explicito: La clase 04 profundiza con medidas descriptivas.
+- Un siguiente paso explicito: La siguiente parada es Clase 01: Python fundamentos.

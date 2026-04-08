@@ -54,6 +54,7 @@ export default function HomeScreen({ navigation }) {
   const completedCount = completedIds.size;
   const totalClasses = CLASSES.length;
   const progressPercent = totalClasses > 0 ? (completedCount / totalClasses) * 100 : 0;
+  const nextClass = CLASSES.find((item) => !completedIds.has(item.id));
 
   /**
    * Navega a la pantalla de detalle de una clase.
@@ -78,9 +79,9 @@ export default function HomeScreen({ navigation }) {
   const renderHeader = () => (
     <View style={styles.headerContainer}>
       {/* Titulo principal */}
-      <Text style={styles.mainTitle}>🐍 Bootcamp Python DS</Text>
+      <Text style={styles.mainTitle}>Bootcamp Python DS</Text>
       <Text style={styles.subtitle}>
-        Python para Data Science · 12 clases modulares
+        Clase 0 diagnostica + 12 clases troncales
       </Text>
 
       {/* Barra de progreso */}
@@ -102,18 +103,18 @@ export default function HomeScreen({ navigation }) {
 
         <Text style={styles.progressHint}>
           {completedCount === 0
-            ? 'Comienza con la Clase 1'
+            ? 'Comienza con la Clase 0'
             : completedCount === totalClasses
-            ? '¡Bootcamp completado!'
-            : `Siguiente: Clase ${completedCount + 1}`}
+            ? 'Bootcamp completado'
+            : `Siguiente: Clase ${nextClass?.number ?? 0}`}
         </Text>
       </View>
 
       {/* Nota de uso */}
       <View style={styles.tipBox}>
         <Text style={styles.tipText}>
-          💡 Toca una clase para leer el contenido. Usa el botón{' '}
-          <Text style={styles.tipAccent}>▶ Colab</Text> para ejecutar el código en Google Colab.
+          Toca una clase para leer teoria, materiales y codigo documentado. Si el modulo tiene
+          notebook, usa <Text style={styles.tipAccent}>Abrir en Colab</Text> para practicarlo.
         </Text>
       </View>
     </View>

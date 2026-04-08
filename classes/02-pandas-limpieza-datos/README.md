@@ -1,30 +1,53 @@
-# 📘 Clase 02 â€” IntroducciÃ³n a pandas y limpieza bÃ¡sica
+# Clase 02: Pandas y limpieza de datos
 
-> 🎯 Ficha de clase con objetivo, materiales y foco de aprendizaje.
+> Ficha de clase con objetivo, materiales y foco de aprendizaje.
 
+## Objetivo
 
-## 🎯 Objetivo
+Usar pandas para cargar, inspeccionar y limpiar tablas antes de analizarlas.
 
-Aprender a cargar un archivo CSV, inspeccionarlo y responder preguntas simples usando pandas.
+## Duracion sugerida
 
-## ⏱ DuraciÃ³n sugerida
+90 min
 
-90 minutos
+## Dataset base
 
-## ✅ Resultados esperados
+- `datasets/estudiantes.csv`
+- `datasets/ventas_tienda.csv`
 
-Al finalizar, el estudiante podrÃ¡:
+## Resultados esperados
 
-- usar `pd.read_csv`;
-- revisar estructura con `head`, `info` y `describe`;
-- seleccionar columnas;
-- aplicar filtros simples;
-- construir una tabla resumen bÃ¡sica.
+- Cargar un CSV.
+- Detectar problemas de calidad.
+- Aplicar limpiezas justificadas.
 
-## 🧰 Materiales
+## Temas clave
 
-- `notebook.ipynb`
+- DataFrame
+- head/info
+- Nulos
+- Renombrado de columnas
+
+## Materiales del modulo
+
+- `README.md`
 - `slides.md`
+- `teoria.md`
 - `ejercicios.md`
 - `homework.md`
+- `notebook.ipynb`
 - `soluciones.ipynb`
+
+## Como leer el codigo de esta clase
+
+- Cada bloque debe responder una pregunta concreta.
+- Los comentarios deben explicar que hace el bloque y para que sirve.
+- Antes de pasar al siguiente paso, verifica que entiendes la salida.
+
+## Idea fuerza
+
+Instalar la idea de que no se analiza una tabla sin revisarla primero.
+
+## Nota para el docente
+
+Pide siempre explicar por que una decision de limpieza tiene sentido para la pregunta.

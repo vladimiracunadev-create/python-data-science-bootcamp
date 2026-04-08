@@ -1,4 +1,4 @@
-# 🧭 Proceso de seleccion Skillnest
+# Proceso de seleccion Skillnest
 
 Mapa de lectura para enfrentar el proceso completo sin improvisar ni regalar trabajo innecesario. Este documento conecta cada etapa con la evidencia real que ya existe en el repositorio.
 
@@ -11,9 +11,9 @@ Mapa de lectura para enfrentar el proceso completo sin improvisar ni regalar tra
 
 ```mermaid
 flowchart LR
-    A["Entrevista inicial"] --> B["Clase de prueba"]
-    B --> C["Desafio tecnico"]
-    C --> D["Test psicolaboral"]
+A["Entrevista inicial"] --> B["Clase de prueba"]
+B --> C["Desafio tecnico"]
+C --> D["Test psicolaboral"]
 ```
 
 ## 2. Que mira cada etapa

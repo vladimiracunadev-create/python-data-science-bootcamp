@@ -64,6 +64,18 @@ def test_api_class_detail_valid():
     data = response.get_json()
     assert "html" in data
     assert "README.md" in data["html"]
+    assert "teoria.md" in data["html"]
+    assert data["quiz"] is None
+
+
+def test_api_class_detail_includes_quiz_for_class_zero():
+    client = _client()
+    response = client.get("/api/class/00-diagnostico-inicial")
+    assert response.status_code == 200
+    data = response.get_json()
+    assert data["quiz"] is not None
+    assert data["quiz"]["id"] == "class-0-diagnostic"
+    assert len(data["quiz"]["questions"]) == 30
 
 
 def test_api_class_detail_invalid_slug():

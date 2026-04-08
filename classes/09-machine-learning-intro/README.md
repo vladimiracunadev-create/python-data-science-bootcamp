@@ -1,55 +1,53 @@
-# 📘 Clase 09 â€” IntroducciÃ³n al Machine Learning con scikit-learn
+# Clase 09: Introduccion a machine learning
 
-> 🎯 Ficha de clase con objetivo, materiales y foco de aprendizaje.
+> Ficha de clase con objetivo, materiales y foco de aprendizaje.
 
+## Objetivo
 
-## 🎯 Objetivo
+Comprender que es un modelo supervisado y construir una primera regresion simple con scikit-learn.
 
-Comprender quÃ© es el machine learning, cuÃ¡ndo aplicarlo y construir el primer modelo predictivo simple usando scikit-learn.
+## Duracion sugerida
 
-## ⏱ DuraciÃ³n sugerida
+90 min
 
-90 minutos
+## Dataset base
 
-## 🗂 Dataset base
+- `datasets/ventas_tienda.csv`
+- `datasets/estudiantes.csv`
 
-`datasets/ventas_tienda.csv` Â· `datasets/estudiantes.csv`
+## Resultados esperados
 
-## ✅ Resultados esperados
+- Identificar X e y.
+- Separar train y test.
+- Leer una metrica de error inicial.
 
-Al finalizar, el estudiante podrÃ¡:
+## Temas clave
 
-- explicar la diferencia entre aprendizaje supervisado y no supervisado;
-- identificar variables predictoras (features) y variable objetivo (target);
-- entrenar un modelo de regresiÃ³n lineal simple con scikit-learn;
-- dividir datos en conjunto de entrenamiento y prueba;
-- interpretar el error del modelo (MAE, RMSE).
+- Aprendizaje supervisado
+- Features y target
+- train/test split
+- Regresion lineal
 
-## 🧰 Materiales
+## Materiales del modulo
 
-- `notebook.ipynb` â€” prÃ¡ctica guiada paso a paso
-- `slides.md` â€” pauta de la clase
-- `ejercicios.md` â€” ejercicios progresivos
-- `homework.md` â€” tarea
-- `soluciones.ipynb` â€” soluciones comentadas
-- `teoria.md` â€” documento teÃ³rico completo (base para PDF)
+- `README.md`
+- `slides.md`
+- `teoria.md`
+- `ejercicios.md`
+- `homework.md`
+- `notebook.ipynb`
+- `soluciones.ipynb`
 
-## 💡 Idea central
+## Como leer el codigo de esta clase
 
-Machine learning no es magia: es encontrar patrones en datos histÃ³ricos para predecir lo que aÃºn no ha ocurrido. El primer paso es siempre entender el problema antes de elegir el modelo.
+- Cada bloque debe responder una pregunta concreta.
+- Los comentarios deben explicar que hace el bloque y para que sirve.
+- Antes de pasar al siguiente paso, verifica que entiendes la salida.
 
-## 🔑 Conceptos clave
+## Idea fuerza
 
-| Concepto | DescripciÃ³n |
-|---|---|
-| Supervisado | Aprende de ejemplos con etiqueta conocida |
-| No supervisado | Encuentra estructura sin etiqueta |
-| Feature | Variable de entrada del modelo |
-| Target | Variable que queremos predecir |
-| Train/Test split | DivisiÃ³n para evaluar sin hacer trampa |
-| MAE | Error absoluto medio |
-| RMSE | RaÃ­z del error cuadrÃ¡tico medio |
+Mostrar machine learning como extension del analisis, no como magia negra.
 
-## 👩‍🏫 Nota para el docente
+## Nota para el docente
 
-Enfatizar que un modelo simple bien entendido es mÃ¡s valioso que un modelo complejo mal interpretado. No avanzar a modelos complejos sin que el estudiante entienda la regresiÃ³n lineal.
+Insiste en que un modelo simple bien entendido vale mas que uno complejo sin interpretacion.

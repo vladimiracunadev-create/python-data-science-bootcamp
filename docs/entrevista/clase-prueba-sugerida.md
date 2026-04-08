@@ -1,4 +1,4 @@
-# 🎯 Propuesta de clase de prueba
+# Propuesta de clase de prueba
 
 ## Tema recomendado
 **Introduccion a pandas con un CSV simple**
@@ -15,12 +15,12 @@
 2. Cargar CSV con pandas.
 3. Mostrar `head()`, `info()` y `describe()`.
 4. Hacer una pregunta simple:
-   - ?que sucursal vende mas?
-   - ?que categoria recauda mas?
+- que sucursal vende mas
+- que categoria recauda mas
 5. Mostrar agrupacion basica.
 6. Cerrar con una visualizacion simple y una interpretacion.
 
 ## Mensaje pedagogico importante
 
-La clase de prueba no necesita mostrar todo lo que sabes.  
+La clase de prueba no necesita mostrar todo lo que sabes.
 Necesita demostrar que sabes ensenar con orden, criterio y foco.

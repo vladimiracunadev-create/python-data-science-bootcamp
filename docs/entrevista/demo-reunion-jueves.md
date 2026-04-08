@@ -1,4 +1,4 @@
-# 🎬 Demo sugerida para la reunion
+# Demo sugerida para la reunion
 
 ## Objetivo de la demo
 
@@ -7,18 +7,18 @@ Mostrar que el repositorio ya esta pensado como una base docente real, no solo c
 ## Recorrido recomendado (5 a 7 minutos)
 
 1. **README.md**
-   - Explicar que el repositorio combina planificacion, clases y practica.
+- Explicar que el repositorio combina planificacion, clases y practica.
 2. **docs/syllabus.md**
-   - Mostrar la progresion del bootcamp y la logica pedagogica.
+- Mostrar la progresion del bootcamp y la logica pedagogica.
 3. **classes/01-python-fundamentos/**
-   - Abrir el notebook y comentar la estructura.
+- Abrir el notebook y comentar la estructura.
 4. **classes/02-pandas-limpieza-datos/**
-   - Mostrar continuidad entre fundamentos y analisis aplicado.
+- Mostrar continuidad entre fundamentos y analisis aplicado.
 5. **app/**
-   - Ejecutar `python -m app.app` o `python run_bootcamp.py`.
-   - Mostrar vista de clases, notebook por celdas y runner.
+- Ejecutar `python -m app.app` o `python run_bootcamp.py`.
+- Mostrar vista de clases, notebook por celdas y runner.
 6. **mini_project/desafio.md**
-   - Cerrar mostrando evaluacion y aplicacion real.
+- Cerrar mostrando evaluacion y aplicacion real.
 
 ## Mensaje sugerido
 

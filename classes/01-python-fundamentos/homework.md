@@ -1,12 +1,17 @@
-# 📝 Tarea â€” Clase 01
+# Homework - Clase 01: Python fundamentos
 
-> 📝 Trabajo autonomo para consolidar lo visto y practicar con mas calma.
+## Encargo
 
+Deja una version corta y ordenada del trabajo de este modulo, incluyendo una conclusion breve y comentarios en los bloques clave.
 
-1. Crear una lista con al menos 5 ventas simples.
-2. Calcular el total bruto de cada venta.
-3. Indicar cuÃ¡l venta tuvo el mayor monto.
-4. Explicar en 3 lÃ­neas quÃ© diferencia viste entre lista y diccionario.
+## Entregables
 
-## ✨ DesafÃ­o opcional
-Agregar un porcentaje de descuento y calcular total neto.
+- Codigo o desarrollo ordenado.
+- Conclusion breve conectada con evidencia.
+- Comentarios que expliquen que hace y para que sirve cada bloque importante.
+
+## Autoevaluacion final
+
+- Entendi la pregunta del modulo
+- Puedo explicar la salida sin leer el codigo completo
+- Deje comentarios utiles en los pasos clave

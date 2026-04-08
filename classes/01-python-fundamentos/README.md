@@ -1,34 +1,52 @@
-# 📘 Clase 01 â€” Fundamentos de Python aplicados a datos
+# Clase 01: Python fundamentos
 
-> 🎯 Ficha de clase con objetivo, materiales y foco de aprendizaje.
+> Ficha de clase con objetivo, materiales y foco de aprendizaje.
 
+## Objetivo
 
-## 🎯 Objetivo
+Comprender los bloques basicos de Python y usarlos en tareas pequenas con datos.
 
-Comprender los elementos bÃ¡sicos de Python y aplicarlos a pequeÃ±os ejemplos relacionados con datos simples.
+## Duracion sugerida
 
-## ⏱ DuraciÃ³n sugerida
+90 min
 
-90 minutos
+## Dataset base
 
-## ✅ Resultados esperados
+- `datasets/estudiantes.csv`
 
-Al finalizar, el estudiante podrÃ¡:
+## Resultados esperados
 
-- crear variables;
-- identificar tipos de datos comunes;
-- usar listas y diccionarios;
-- aplicar `if`, `for` y funciones simples;
-- leer pequeÃ±os registros y generar resultados bÃ¡sicos.
+- Crear variables claras.
+- Usar listas y diccionarios.
+- Escribir funciones simples.
 
-## 🧰 Materiales
+## Temas clave
 
-- `notebook.ipynb`
+- Variables y tipos
+- Listas y diccionarios
+- Funciones
+- Control de flujo
+
+## Materiales del modulo
+
+- `README.md`
 - `slides.md`
+- `teoria.md`
 - `ejercicios.md`
 - `homework.md`
+- `notebook.ipynb`
 - `soluciones.ipynb`
 
-## 💡 Idea central
+## Como leer el codigo de esta clase
 
-Python no se presenta aquÃ­ como teorÃ­a abstracta, sino como una herramienta para organizar y transformar informaciÃ³n.
+- Cada bloque debe responder una pregunta concreta.
+- Los comentarios deben explicar que hace el bloque y para que sirve.
+- Antes de pasar al siguiente paso, verifica que entiendes la salida.
+
+## Idea fuerza
+
+Construir confianza en la sintaxis y conectar cada estructura con un uso real.
+
+## Nota para el docente
+
+Modela en voz alta como leer un error simple y convertirlo en una accion concreta.

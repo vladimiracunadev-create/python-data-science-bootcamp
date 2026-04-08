@@ -1,4 +1,4 @@
-# 💬 Aula, tecnologia y problemas frecuentes en clase
+# Aula, tecnologia y problemas frecuentes en clase
 
 ## Valor docente en una era de herramientas cada vez mas accesibles
 
@@ -74,7 +74,7 @@ Respuesta docente:
 Respuesta docente:
 
 - pedir siempre una conclusion en lenguaje simple;
-- usar preguntas tipo "que observas?" y "que decision tomarias con esto?";
+- usar preguntas tipo "que observas" y "que decision tomarias con esto";
 - cerrar con hallazgos, no solo con celdas corridas.
 
 ## 5. Una herramienta entrega una respuesta incorrecta o fuera de nivel

@@ -1,4 +1,4 @@
-# 🏗 Arquitectura del producto
+# Arquitectura del producto
 
 > Vista de alto nivel del bootcamp, sus superficies, sus limites operativos y la relacion entre contenido, laboratorio y publicacion.
 
@@ -14,51 +14,51 @@ El producto se organiza en tres capas coordinadas:
 
 ```mermaid
 graph LR
-    INST["Institucion / evaluador"] --> PRODUCT["Vista institucional<br/>site/product/"]
-    ALUM["Alumno"] --> PORTAL["Portal del alumno<br/>site/"]
-    DOC["Docente"] --> LAB["Laboratorio local<br/>app/"]
+INST["Institucion / evaluador"] --> PRODUCT["Vista institucional<br/>site/product/"]
+ALUM["Alumno"] --> PORTAL["Portal del alumno<br/>site/"]
+DOC["Docente"] --> LAB["Laboratorio local<br/>app/"]
 
-    PRODUCT --> DOCS["Documentacion canonica<br/>docs/"]
-    PORTAL --> DOCS
-    LAB --> CONTENT["Clases y materiales<br/>classes/"]
-    LAB --> NOTEBOOKS["Notebooks base<br/>app/notebooks/"]
-    LAB --> SAVED["Notebooks guardados<br/>app/saved_notebooks/"]
-    LAB --> DATA["Datasets<br/>datasets/"]
+PRODUCT --> DOCS["Documentacion canonica<br/>docs/"]
+PORTAL --> DOCS
+LAB --> CONTENT["Clases y materiales<br/>classes/"]
+LAB --> NOTEBOOKS["Notebooks base<br/>app/notebooks/"]
+LAB --> SAVED["Notebooks guardados<br/>app/saved_notebooks/"]
+LAB --> DATA["Datasets<br/>datasets/"]
 
-    DOCS --> PDFS["PDFs de apoyo<br/>docs/pdfs/"]
-    PORTAL -. crecimiento .-> MOBILE["Ruta futura movil"]
+DOCS --> PDFS["PDFs de apoyo<br/>docs/pdfs/"]
+PORTAL -. crecimiento .-> MOBILE["Ruta futura movil"]
 ```
 
 ## Flujo funcional del laboratorio
 
 ```mermaid
 graph TD
-    USER["Docente o estudiante guiado"] --> UI["Interfaz Flask"]
-    UI --> CLASSAPI["API de clases"]
-    UI --> NBAPI["API de notebooks"]
-    UI --> EXECAPI["API de ejecucion"]
+USER["Docente o estudiante guiado"] --> UI["Interfaz Flask"]
+UI --> CLASSAPI["API de clases"]
+UI --> NBAPI["API de notebooks"]
+UI --> EXECAPI["API de ejecucion"]
 
-    CLASSAPI --> LOADER["content_loader.py"]
-    LOADER --> CLASSES["classes/"]
-    NBAPI --> TEMPLATES["app/notebooks/"]
-    EXECAPI --> ENGINE["execution_engine.py"]
-    ENGINE --> SESSION["Sesion en memoria"]
-    NBAPI --> SAVED["app/saved_notebooks/"]
-    EXECAPI --> FIGS["Salida, errores e imagenes"]
+CLASSAPI --> LOADER["content_loader.py"]
+LOADER --> CLASSES["classes/"]
+NBAPI --> TEMPLATES["app/notebooks/"]
+EXECAPI --> ENGINE["execution_engine.py"]
+ENGINE --> SESSION["Sesion en memoria"]
+NBAPI --> SAVED["app/saved_notebooks/"]
+EXECAPI --> FIGS["Salida, errores e imagenes"]
 ```
 
 ## Publicacion y despliegue
 
 ```mermaid
 graph LR
-    REPO["Repositorio GitHub"] --> CI["CI y security workflows"]
-    REPO --> PAGES["Workflow Pages"]
-    PAGES --> SITE["site/ publicado en GitHub Pages"]
+REPO["Repositorio GitHub"] --> CI["CI y security workflows"]
+REPO --> PAGES["Workflow Pages"]
+PAGES --> SITE["site/ publicado en GitHub Pages"]
 
-    LOCAL["Maquina del docente"] --> VENV["Entorno virtual"]
-    LOCAL --> DOCKER["Docker compose"]
-    VENV --> LAB["app/ en localhost"]
-    DOCKER --> LAB
+LOCAL["Maquina del docente"] --> VENV["Entorno virtual"]
+LOCAL --> DOCKER["Docker compose"]
+VENV --> LAB["app/ en localhost"]
+DOCKER --> LAB
 ```
 
 ## Fronteras importantes

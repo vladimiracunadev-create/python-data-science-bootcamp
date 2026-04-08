@@ -1,4 +1,4 @@
-# 📦 Bootcamp Python para Data Science
+# Bootcamp Python para Data Science
 
 ## Muestra de producto
 
@@ -10,7 +10,7 @@ Este repositorio no es solo una coleccion de archivos. Es una base de capacitaci
 
 ## Que incluye hoy
 
-- 12 clases modulares de 90 minutos;
+- clase 0 diagnostica + 12 clases modulares de 90 minutos;
 - notebooks, ejercicios, tareas y soluciones;
 - datasets sinteticos listos para usar;
 - documentacion docente y metodologica;

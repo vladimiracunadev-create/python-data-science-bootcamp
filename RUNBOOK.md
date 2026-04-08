@@ -1,10 +1,10 @@
-﻿# 🛠 RUNBOOK
+# RUNBOOK
 
 > Guia de operacion diaria, smoke checks y recuperacion basica para `python-data-science-bootcamp`.
 
-## ▶ Arranque estandar
+## Arranque estandar
 
-### 🐍 Entorno virtual
+### Entorno virtual
 
 ```powershell
 python -m venv .venv
@@ -13,45 +13,45 @@ pip install -r requirements.txt
 python run_bootcamp.py
 ```
 
-### 🐳 Docker Compose
+### Docker Compose
 
 ```powershell
 docker compose up --build
 ```
 
-### 🛡 Compose endurecido
+### Compose endurecido
 
 ```powershell
 docker compose -f docker-compose.prod.yml up -d --build
 ```
 
-## ✅ Smoke checks minimos
+## Smoke checks minimos
 
-### ❤️ Health
+### Health
 
 ```powershell
 Invoke-WebRequest -UseBasicParsing http://127.0.0.1:8000/health
 ```
 
-### 🟢 Readiness
+### Readiness
 
 ```powershell
 Invoke-WebRequest -UseBasicParsing http://127.0.0.1:8000/ready
 ```
 
-### 📚 Clase disponible
+### Clase disponible
 
 ```powershell
 Invoke-WebRequest -UseBasicParsing http://127.0.0.1:8000/api/classes
 ```
 
-### ⚙ Ejecucion basica
+### Ejecucion basica
 
 ```powershell
 Invoke-WebRequest -UseBasicParsing -Method Post -ContentType 'application/json' -Body '{"notebook_id":"smoke","code":"2+2"}' http://127.0.0.1:8000/api/execute
 ```
 
-## 🔁 Validaciones de repo
+## Validaciones de repo
 
 ```powershell
 .\.venv\Scripts\python.exe -m pytest
@@ -59,7 +59,7 @@ Invoke-WebRequest -UseBasicParsing -Method Post -ContentType 'application/json' 
 .\.venv\Scripts\python.exe -m ruff check .
 ```
 
-## 🚨 Incidentes comunes
+## Incidentes comunes
 
 | Incidente | Que revisar |
 |---|---|
@@ -69,20 +69,20 @@ Invoke-WebRequest -UseBasicParsing -Method Post -ContentType 'application/json' 
 | Docker expone mal el puerto | confirmar mapeo `127.0.0.1:8000:8000` |
 | GitHub Pages no se publica | confirmar que el workflow corre sobre `master` o `main` y que `site/` existe |
 
-## ⏹ Apagado
+## Apagado
 
-### 💻 Proceso local
+### Proceso local
 
 Detener la terminal donde corre `python run_bootcamp.py`.
 
-### 🐳 Docker
+### Docker
 
 ```powershell
 docker compose down
 docker compose -f docker-compose.prod.yml down
 ```
 
-## 🧯 Recuperacion basica
+## Recuperacion basica
 
 - si el runner queda en estado inconsistente, reiniciar la sesion del notebook o reiniciar la app;
 - si el contenido guardado en `app/saved_notebooks` no se necesita, eliminarlo manualmente;

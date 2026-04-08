@@ -1,29 +1,28 @@
-# 🖥 Diapositivas sugeridas â€” Clase 02
+# Slides - Clase 02: Pandas y limpieza de datos
 
-> 🖥 Guion visual breve para conducir la sesion sin sobrecargar la clase.
+## Apertura
 
+- Objetivo visible: Usar pandas para cargar, inspeccionar y limpiar tablas antes de analizarlas.
+- Mensaje central: Instalar la idea de que no se analiza una tabla sin revisarla primero.
 
-## 1. QuÃ© es pandas
-- tabla de datos
-- DataFrame y Series
+## Ruta de la sesion
 
-## 2. Carga de datos
-- `read_csv`
-- revisiÃ³n rÃ¡pida
+| Tramo | Tiempo sugerido | Enfoque | Evidencia |
+|---|---|---|---|
+| Inicio | 10 min | Activar conocimientos previos | Pregunta inicial respondida |
+| Desarrollo 1 | 20 min | Conceptos y demostracion guiada | Primer bloque entendido |
+| Desarrollo 2 | 25 min | Codigo comentado y lectura de salida | Resultado explicado |
+| Practica | 25 min | Ejercicios o quiz segun el modulo | Entregable corto |
+| Cierre | 10 min | Conclusion y siguiente paso | Autoevaluacion breve |
 
-## 3. ExploraciÃ³n inicial
-- `head()`
-- `info()`
-- `describe()`
+## Puntos que deben quedar claros
 
-## 4. SelecciÃ³n y filtros
-- columnas
-- filas
-- condiciones
+- DataFrame
+- head/info
+- Nulos
+- Renombrado de columnas
 
-## 5. Preguntas simples
-- quÃ© sucursal vende mÃ¡s
-- quÃ© categorÃ­a aparece mÃ¡s
+## Cierre esperado
 
-## 6. Cierre
-- del CSV a los primeros hallazgos
+- Una conclusion breve conectada con evidencia.
+- Un siguiente paso explicito: La clase 03 usa tablas limpias para explorar patrones visuales.

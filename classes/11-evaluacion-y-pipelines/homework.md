@@ -1,35 +1,17 @@
-# 📝 Tarea â€” Clase 11: EvaluaciÃ³n robusta y Pipelines de ML
+# Homework - Clase 11: Evaluacion y pipelines
 
-> 📝 Trabajo autonomo para consolidar lo visto y practicar con mas calma.
+## Encargo
 
+Deja una version corta y ordenada del trabajo de este modulo, incluyendo una conclusion breve y comentarios en los bloques clave.
 
-## 🎯 Consigna
+## Entregables
 
-Construye un Pipeline completo para predecir el **descuento aplicado** (regresiÃ³n) o la **sucursal con mayor renta** (clasificaciÃ³n) usando `ventas_tienda.csv`.
+- Codigo o desarrollo ordenado.
+- Conclusion breve conectada con evidencia.
+- Comentarios que expliquen que hace y para que sirve cada bloque importante.
 
-## ✅ Pasos requeridos
+## Autoevaluacion final
 
-1. **ExploraciÃ³n**
-   - Identifica columnas numÃ©ricas y categÃ³ricas.
-   - Â¿Hay valores nulos? Decide cÃ³mo imputarlos dentro del Pipeline.
-
-2. **Pipeline**
-   - Usa `ColumnTransformer` para preprocesar por separado numÃ©ricas y categÃ³ricas.
-   - Incluye `SimpleImputer` en la etapa numÃ©rica.
-   - Incluye el modelo al final del Pipeline.
-
-3. **EvaluaciÃ³n robusta**
-   - Aplica validaciÃ³n cruzada con k=5.
-   - Reporta media y desviaciÃ³n estÃ¡ndar del score.
-
-4. **BÃºsqueda de hiperparÃ¡metros**
-   - Usa `GridSearchCV` con al menos 2 hiperparÃ¡metros y 3 valores cada uno.
-   - Muestra los mejores parÃ¡metros.
-
-5. **ConclusiÃ³n**
-   - Â¿El Pipeline mejorÃ³ el resultado respecto a la clase anterior?
-   - Â¿QuÃ© hiperparÃ¡metro tuvo mÃ¡s impacto?
-
-## 📦 Entrega
-
-Notebook `.ipynb` con todas las celdas ejecutadas, incluyendo la tabla de resultados del GridSearchCV.
+- Entendi la pregunta del modulo
+- Puedo explicar la salida sin leer el codigo completo
+- Deje comentarios utiles en los pasos clave
