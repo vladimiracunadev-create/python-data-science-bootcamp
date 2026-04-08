@@ -4,7 +4,7 @@
 [![Security](https://github.com/vladimiracunadev-create/python-data-science-bootcamp/actions/workflows/security.yml/badge.svg?branch=master)](https://github.com/vladimiracunadev-create/python-data-science-bootcamp/actions/workflows/security.yml)
 ![Python](https://img.shields.io/badge/python-3.10%20%7C%203.11%20%7C%203.12-informational.svg)
 ![Flask](https://img.shields.io/badge/runtime-Flask-blue.svg)
-![Pages](https://img.shields.io/badge/public-surface-GitHub%20Pages-0a7ea4.svg)
+![Pages](https://img.shields.io/badge/public--surface-GitHub%20Pages-0a7ea4.svg)
 ![Status](https://img.shields.io/badge/status-base%20operativa-2e8b57.svg)
 
 Base de capacitación técnica para Python y Data Science orientada a clases reales, laboratorios guiados y despliegue progresivo en contexto educativo.
