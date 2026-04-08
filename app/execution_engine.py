@@ -91,9 +91,12 @@ def _execute_with_timeout(code: str, session_namespace: dict, stdout_buffer: Str
         with redirect_stdout(stdout_buffer):
             if body:
                 module = ast.Module(body=body, type_ignores=[])
-                exec(compile(module, "<bootcamp-cell>", "exec"), session_namespace)
+                # El runner de laboratorio necesita ejecutar codigo arbitrario del alumno.
+                # Esta excepcion de Bandit es intencional y esta documentada en SECURITY.md.
+                exec(compile(module, "<bootcamp-cell>", "exec"), session_namespace)  # nosec
             if last_expr is not None:
-                result = eval(compile(last_expr, "<bootcamp-cell>", "eval"), session_namespace)
+                # Se evalua solo la ultima expresion para emular un notebook local de aula.
+                result = eval(compile(last_expr, "<bootcamp-cell>", "eval"), session_namespace)  # nosec
                 if result is not None:
                     response["result"] = repr(result)
 
@@ -114,7 +117,8 @@ def execute_code(session_id: str, code: str) -> dict[str, Any]:
     plt.close("all")
 
     if not session.namespace.get("_bootcamp_preloaded"):
-        exec(COMMON_PRELOAD, session.namespace)
+        # Precarga controlada de ayudas comunes para el laboratorio local. Ver SECURITY.md.
+        exec(COMMON_PRELOAD, session.namespace)  # nosec
         session.namespace["_bootcamp_preloaded"] = True
 
     response: dict[str, Any] = {"stdout": "", "result": None, "error": None, "images": []}

@@ -55,6 +55,12 @@ Este repositorio esta pensado para uso local, docente y de laboratorio. La app i
 - el timeout reduce riesgo de bloqueos, pero no reemplaza un sandbox real;
 - el proyecto prioriza facilidad de uso en laboratorio por sobre postura multiusuario endurecida.
 
+## Nota sobre analisis estatico
+
+- el archivo `app/execution_engine.py` contiene usos intencionales de `exec` y `eval` para emular una experiencia tipo notebook en laboratorio local;
+- esas lineas estan marcadas de forma localizada para Bandit, no porque el riesgo no exista, sino porque es una capacidad central del producto;
+- la mitigacion real no es "eliminar exec", sino mantener el runner en entorno controlado, con localhost por defecto, timeout, limites de payload y sin exposicion abierta.
+
 ## Reporte responsable
 
 Si detectas una vulnerabilidad:
