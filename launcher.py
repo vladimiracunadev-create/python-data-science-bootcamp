@@ -14,14 +14,14 @@ Uso:
 """
 
 import os
-import sys
-import time
 import signal
 import socket
-import webbrowser
+import sys
 import threading
-import urllib.request
+import time
 import urllib.error
+import urllib.request
+import webbrowser
 
 # ---------------------------------------------------------------------------
 # CONFIGURACION
