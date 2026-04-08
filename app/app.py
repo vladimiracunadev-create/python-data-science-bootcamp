@@ -29,12 +29,45 @@ def add_security_headers(response):
     response.headers.setdefault("X-Frame-Options", "SAMEORIGIN")
     response.headers.setdefault("Referrer-Policy", "no-referrer")
     response.headers.setdefault("Permissions-Policy", "camera=(), microphone=(), geolocation=()")
+    response.headers.setdefault(
+        "Content-Security-Policy",
+        (
+            "default-src 'self'; "
+            "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; "
+            "font-src 'self' https://fonts.gstatic.com data:; "
+            "img-src 'self' data:; "
+            "script-src 'self'; "
+            "connect-src 'self'; "
+            "frame-ancestors 'self'; "
+            "base-uri 'self'; "
+            "form-action 'self'"
+        ),
+    )
     return response
 
 
 @app.get("/")
 def index():
     return render_template("index.html", classes=list_classes(), templates=list_notebook_templates())
+
+
+@app.get("/health")
+def health():
+    return jsonify({"status": "ok", "service": "python-data-science-bootcamp"})
+
+
+@app.get("/ready")
+def ready():
+    classes = list_classes()
+    templates = list_notebook_templates()
+    return jsonify(
+        {
+            "status": "ready",
+            "service": "python-data-science-bootcamp",
+            "classes": len(classes),
+            "notebooks": len(templates),
+        }
+    )
 
 
 @app.get("/api/classes")

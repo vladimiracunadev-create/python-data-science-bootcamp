@@ -1,188 +1,166 @@
 # Python Data Science Bootcamp
 
-Repositorio completo de un **bootcamp de Python para Data Science** de 12 clases, con entorno interactivo local, materiales pedagógicos detallados, datasets listos para usar y modelos de Machine Learning.
+Base de capacitacion tecnica para Python y Data Science orientada a clases reales, laboratorios guiados y despliegue progresivo en contexto educativo.
 
----
+No es solo un repo de materiales. Reune curriculum modular, app interactiva, portal del alumno, documentacion de operacion y una superficie institucional para presentar el producto sin depender solo de Markdown.
 
-## ¿Qué incluye?
+## Estado del producto
 
-### 12 Clases completas
+Este repositorio esta listo para:
 
-Cada clase incluye: README con objetivos, slides/pauta, ejercicios (3 niveles), tarea, notebook ejecutable, soluciones y **documento teórico completo con tablas y ejemplos** (base para PDF).
+- demos locales y entrevistas de producto educativo;
+- bootcamps presenciales o guiados por docente;
+- publicacion del portal del alumno via GitHub Pages;
+- crecimiento posterior hacia una experiencia mas completa, incluyendo app movil.
 
-| # | Clase | Herramientas |
+No esta pensado todavia para exponer el runner a internet abierta sin autenticacion, proxy y hardening adicional.
+
+## Rutas por audiencia
+
+### Alumno
+
+- portal publico: `site/`
+- URL esperada: `https://vladimiracunadev-create.github.io/python-data-science-bootcamp/`
+
+### Institucion / stakeholder
+
+- presentacion visual del producto: `site/product/`
+- muestra PDF: `docs/pdfs/muestra-producto-para-skillnest.pdf`
+
+### Docente / implementacion
+
+- propuesta inicial: `docs/implementacion-v1-skillnest-san-nicolas.md`
+- herramientas de aula: `docs/herramientas-pedagogicas-de-aula.md`
+- problemas frecuentes y uso de IA: `docs/aula-ia-y-problemas-frecuentes.md`
+
+### Operacion / repo
+
+- postura de seguridad: `SECURITY.md`
+- runbook operativo: `RUNBOOK.md`
+- analisis de estandar alto: `docs/portfolio-high-standard.md`
+- gap especifico de este repo: `docs/estandar-alto-gap-bootcamp.md`
+
+## Superficies del producto
+
+| Superficie | Rol | Estado |
 |---|---|---|
-| 01 | Fundamentos de Python aplicados a datos | Python básico |
-| 02 | Pandas y limpieza de datos | pandas |
-| 03 | Visualización exploratoria | matplotlib |
-| 04 | Estadística descriptiva | pandas, statistics |
-| 05 | Visualización avanzada con Matplotlib | matplotlib |
-| 06 | Texto, fechas y transformaciones | pandas, re |
-| 07 | Mini proyecto guiado | Integrador |
-| 08 | Presentación de hallazgos | Storytelling |
-| 09 | Introducción al Machine Learning | scikit-learn |
-| 10 | Modelos supervisados — Clasificación | scikit-learn |
-| 11 | Evaluación robusta y Pipelines de ML | scikit-learn |
-| 12 | Proyecto final y cierre | Integrador |
+| App Flask (`app/`) | laboratorio interactivo para clases, notebooks y runner | operativa |
+| Portal del alumno (`site/`) | enlace oficial y capa publica simple para estudiantes | operativo |
+| Vista institucional (`site/product/`) | presentacion del producto para entrevista o evaluacion externa | operativa |
+| Material pedagogico (`classes/`, `docs/`) | contenido reusable de clases, metodologia y apoyo | operativo |
 
-### App interactiva local
+## Que incluye hoy
 
-Entorno tipo Colab/Jupyter integrado con el contenido del bootcamp. Sin necesidad de instalar Jupyter.
+### Curriculum
 
-- Ejecución de código Python en el navegador
-- Auto-guardado de notebooks (30 s de inactividad)
-- `Ctrl+Enter` para ejecutar celdas
-- Captura de gráficos matplotlib, print y errores
-- Indicador visual de ejecución en progreso
+- 12 clases modulares;
+- ejercicios, tareas, notebooks y soluciones;
+- datasets sinteticos para practica;
+- guias de instructor, metodologia y evaluacion.
 
-### Generador de PDFs
+### Laboratorio interactivo
 
-```bash
-python scripts/generar_pdfs.py          # genera PDF de todas las clases
-python scripts/generar_pdfs.py --clase 09   # solo clase 9
-```
+- app Flask con visualizacion de clases;
+- carga de notebooks base;
+- ejecucion de codigo Python en navegador;
+- guardado de notebooks de practica;
+- endpoints de salud para smoke checks.
 
-PDFs profesionales con portada, tablas formateadas, bloques de código y colores del bootcamp. Guardados en `docs/pdfs/`.
+### Publicacion y presentacion
 
----
+- landing publica para estudiantes en GitHub Pages;
+- presentacion institucional HTML separada del portal del alumno;
+- PDFs listos para preparacion personal y muestra del producto.
 
-## Inicio rápido
+## Inicio rapido
 
-### Opción 1: Entorno virtual (recomendado)
+### Entorno virtual
 
 ```bash
 python -m venv .venv
-source .venv/bin/activate        # Windows: .venv\Scripts\activate
+.venv\Scripts\activate
 pip install -r requirements.txt
 python run_bootcamp.py
 ```
 
-Luego abrir [http://localhost:8000](http://localhost:8000)
+Abrir `http://127.0.0.1:8000`.
 
-### Opción 2: Docker
+### Docker local
 
 ```bash
 docker compose up --build
 ```
 
-### Opción 3: Make
+### Perfil mas endurecido
 
 ```bash
-make install && make run
+docker compose -f docker-compose.prod.yml up -d --build
 ```
 
----
-
-## Estructura del repositorio
-
-```
-python-data-science-bootcamp/
-├── classes/                  ← 12 clases con todos sus materiales
-│   ├── 01-python-fundamentos/
-│   │   ├── README.md         ← objetivos, duración, resultados esperados
-│   │   ├── slides.md         ← pauta de la clase para el docente
-│   │   ├── ejercicios.md     ← ejercicios en 3 niveles
-│   │   ├── homework.md       ← tarea para casa
-│   │   ├── notebook.ipynb    ← notebook ejecutable
-│   │   ├── soluciones.ipynb  ← soluciones comentadas
-│   │   └── teoria.md         ← documento teórico completo (base PDF)
-│   └── ...
-├── datasets/
-│   ├── README.md             ← diccionario de datos
-│   ├── ventas_tienda.csv
-│   ├── retencion_clientes.csv
-│   ├── soporte_tickets.csv
-│   ├── transporte.csv
-│   └── estudiantes.csv
-├── app/                      ← aplicación Flask interactiva
-│   ├── app.py
-│   ├── execution_engine.py   ← ejecución con timeout y evicción de sesiones
-│   ├── content_loader.py     ← carga de clases y notebooks con validación
-│   ├── notebooks/            ← plantillas de notebooks interactivos
-│   ├── templates/index.html
-│   └── static/               ← CSS y JS del frontend
-├── docs/
-│   ├── pdfs/                 ← PDFs generados por clase
-│   ├── syllabus.md
-│   ├── metodologia-docente.md
-│   ├── instructor-guide.md
-│   └── ...
-├── scripts/
-│   └── generar_pdfs.py       ← generador de PDFs desde teoria.md
-├── src/
-│   ├── utils.py
-│   └── data_checks.py
-├── tests/                    ← suite de tests (cobertura ~70%)
-├── mini_project/
-├── examples/
-├── Dockerfile
-├── docker-compose.yml
-├── Makefile
-├── pyproject.toml
-└── requirements.txt
-```
-
----
-
-## Tests
+## Validacion
 
 ```bash
-pytest                          # ejecutar todos los tests
-pytest -v                       # con detalle
-pytest --cov=app --cov=src      # con cobertura
+pytest
+pip install ruff
+ruff check .
 ```
 
-La suite cubre: endpoints de la app, motor de ejecución, utilidades de datos y validaciones.
+Endpoints utiles:
 
----
+- `GET /health`
+- `GET /ready`
+- `GET /api/classes`
 
-## Seguridad
+## CI/CD visible
 
-El entorno de ejecución está diseñado para **uso local y docente**:
+Este repo ya deja visible una base de validacion continua:
 
-- Timeout de 30 segundos por ejecución (evita bucles infinitos)
-- Evicción automática de sesiones (máx. 100 sesiones activas, TTL 1 hora)
-- Validación de tamaño de payload y longitud de código
-- Protección contra path traversal en carga de archivos
-- **No exponer a internet sin autenticación adicional**
+- `.github/workflows/ci.yml`
+- `.github/workflows/security.yml`
+- `.github/workflows/deploy-pages.yml`
 
----
+Eso cubre:
 
-## Metodología pedagógica
+- lint;
+- tests;
+- build de contenedor;
+- auditoria basica de dependencias;
+- escaneo estatico de seguridad;
+- despliegue del portal del alumno a GitHub Pages.
 
-- Clases de 90 minutos con estructura: **mostrar → practicar → reflexionar**
-- Ejercicios en 3 niveles: guiados, independientes y desafíos opcionales
-- Datasets con contexto empresarial chileno (ventas, soporte, transporte)
-- Documento teórico completo por clase (con tablas, código y ejemplos)
-- Evaluación continua con rúbricas explícitas
+## Seguridad y limites
 
-Ver `docs/metodologia-docente.md` para el enfoque pedagógico completo.
+Protecciones actuales:
 
----
+- validacion de entradas;
+- limites de payload y longitud de codigo;
+- timeout por ejecucion;
+- eviction de sesiones antiguas;
+- headers HTTP de seguridad;
+- defaults locales por `127.0.0.1`.
 
-## Materiales de presentacion
+Limites actuales:
 
-- `docs/entrevista-skillnest-presentacion-v2.md`
-- `docs/demo-capacitaciones-escalable.md`
-- `docs/aula-ia-y-problemas-frecuentes.md`
-- `docs/entrevista-skillnest-preparacion.md`
-- `docs/implementacion-v1-skillnest-san-nicolas.md`
-- `docs/proceso-seleccion-skillnest.md`
-- `docs/desafio-tecnico-preparacion.md`
-- `docs/herramientas-pedagogicas-de-aula.md`
-- `docs/despliegue-seguro-y-operacion.md`
-- `docs/portal-estudiante-y-app-movil.md`
+- no hay autenticacion integrada;
+- no hay sandbox fuerte para codigo no confiable;
+- no hay rate limiting de red;
+- no hay TLS nativo.
 
----
+Ver detalle en `SECURITY.md`.
 
-## Portal del Alumno
+## Estructura principal
 
-- Landing publica en GitHub Pages: `site/`
-- Workflow de publicacion: `.github/workflows/deploy-pages.yml`
-- URL esperada: `https://vladimiracunadev-create.github.io/python-data-science-bootcamp/`
+```text
+app/                  aplicacion Flask y runner
+classes/              clases del bootcamp
+datasets/             datos de practica
+docs/                 metodologia, propuesta, entrevista y PDFs
+site/                 portal del alumno + vista institucional
+tests/                suite automatizada
+SECURITY.md           postura actual y riesgos aceptados
+RUNBOOK.md            operacion diaria y smoke checks
+```
 
----
+## Idea fuerza
 
-## Licencia
-
-MIT — libre uso educativo y comercial con atribución.
+El valor de este proyecto no depende de competir contra una tecnologia puntual. Su valor esta en traducir herramientas a aprendizaje real, con secuencia pedagogica, criterio docente y una base que puede crecer sin rehacerse desde cero.

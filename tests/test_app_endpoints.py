@@ -31,6 +31,32 @@ def test_api_classes_returns_list():
     assert "title" in data[0]
 
 
+def test_health_endpoint():
+    client = _client()
+    response = client.get("/health")
+    assert response.status_code == 200
+    assert response.get_json()["status"] == "ok"
+
+
+def test_ready_endpoint():
+    client = _client()
+    response = client.get("/ready")
+    data = response.get_json()
+    assert response.status_code == 200
+    assert data["status"] == "ready"
+    assert data["classes"] > 0
+    assert data["notebooks"] > 0
+
+
+def test_security_headers_present():
+    client = _client()
+    response = client.get("/")
+    assert response.headers["X-Content-Type-Options"] == "nosniff"
+    assert response.headers["X-Frame-Options"] == "SAMEORIGIN"
+    assert response.headers["Referrer-Policy"] == "no-referrer"
+    assert "default-src 'self'" in response.headers["Content-Security-Policy"]
+
+
 def test_api_class_detail_valid():
     client = _client()
     response = client.get("/api/class/01-python-fundamentos")

@@ -2,5 +2,10 @@
 __pycache__/
 .ipynb_checkpoints/
 .pytest_cache/
+.ruff_cache/
 *.pyc
 .DS_Store
+.env
+.env.*
+!/.env.example
+app/saved_notebooks/*.json
