@@ -1,29 +1,28 @@
-# Slides - Clase 0: Diagnostico inicial y orientacion
+# 🖥️ Diapositivas sugeridas — Clase 00
 
-## Apertura
+> 🖥️ Guion visual breve para conducir la sesión sin sobrecargar la clase.
 
-- Objetivo visible: Estimar el punto de partida del grupo antes de iniciar la ruta formal.
-- Mensaje central: Diagnostico breve, correccion inmediata y acuerdo sobre la ruta de aprendizaje.
+## 🚪 Apertura
 
-## Ruta de la sesion
+- Presentar el objetivo y la pregunta central del módulo.
+- Conectar la sesión con el recorrido general del bootcamp.
+
+## 🛤️ Ruta de la sesión
 
 | Tramo | Tiempo sugerido | Enfoque | Evidencia |
 |---|---|---|---|
-| Inicio | 10 min | Activar conocimientos previos | Pregunta inicial respondida |
-| Desarrollo 1 | 20 min | Conceptos y demostracion guiada | Primer bloque entendido |
-| Desarrollo 2 | 25 min | Codigo comentado y lectura de salida | Resultado explicado |
-| Practica | 25 min | Ejercicios o quiz segun el modulo | Entregable corto |
-| Cierre | 10 min | Conclusion y siguiente paso | Autoevaluacion breve |
+| Inicio | 3 min | Contexto del diagnóstico | Criterio entendido |
+| Resolución | 10 min | Responder el quiz | Diagnóstico completo |
+| Cierre | 2 min | Retroalimentación inicial | Foco de mejora definido |
 
-## Puntos que deben quedar claros
+## 📌 Puntos que deben quedar claros
 
-- Python basico
+- Python básico
 - Lectura de tablas
-- Graficos
+- Gráficos
 - Modelado inicial
-- Habitos de trabajo
+- Hábitos de trabajo
 
-## Cierre esperado
+## 🏁 Cierre esperado
 
-- Una conclusion breve conectada con evidencia.
-- Un siguiente paso explicito: La siguiente parada es Clase 01: Python fundamentos.
+La siguiente parada es la clase 01: Fundamentos de Python aplicados a datos.

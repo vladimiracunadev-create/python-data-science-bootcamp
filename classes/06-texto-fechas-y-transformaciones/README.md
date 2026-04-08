@@ -1,34 +1,35 @@
-# Clase 06: Texto, fechas y transformaciones
+# 🗓️ Clase 06: Texto, fechas y transformaciones
 
-> Ficha de clase con objetivo, materiales y foco de aprendizaje.
+> 🎯 Ficha de clase con objetivo, materiales y foco de aprendizaje.
 
-## Objetivo
+## 🎯 Objetivo
 
-Transformar columnas de texto y fecha para volverlas utiles en analisis y modelado inicial.
+Transformar columnas de texto y fecha para volverlas útiles en análisis y modelado inicial.
 
-## Duracion sugerida
+## ⏱️ Duración sugerida
 
-90 min
+90 minutos
 
-## Dataset base
+## 📦 Dataset base
 
-- `datasets/soporte_tickets.csv`
-- `datasets/transporte.csv`
+- `datasets/ventas_tienda.csv`
 
-## Resultados esperados
+## ✅ Resultados esperados
 
-- Normalizar texto.
-- Convertir fechas.
-- Crear columnas derivadas utiles.
+Al finalizar, el estudiante podrá:
 
-## Temas clave
+- Convertir una columna a fecha real.
+- Crear variables derivadas con sentido analítico.
+- Normalizar texto para evitar duplicados de categoría.
 
-- Strings con pandas
-- to_datetime
-- Componentes de fecha
-- Variables derivadas
+## 🧭 Temas clave
 
-## Materiales del modulo
+- Fechas
+- Texto
+- Columnas derivadas
+- Normalización
+
+## 🧰 Materiales del módulo
 
 - `README.md`
 - `slides.md`
@@ -38,16 +39,16 @@ Transformar columnas de texto y fecha para volverlas utiles en analisis y modela
 - `notebook.ipynb`
 - `soluciones.ipynb`
 
-## Como leer el codigo de esta clase
+## 💻 Cómo leer el código de esta clase
 
 - Cada bloque debe responder una pregunta concreta.
-- Los comentarios deben explicar que hace el bloque y para que sirve.
+- Los comentarios deben explicar qué hace el bloque y para qué sirve.
 - Antes de pasar al siguiente paso, verifica que entiendes la salida.
 
-## Idea fuerza
+## 💡 Idea central
 
 Muchas preguntas nuevas aparecen cuando una columna se transforma bien.
 
-## Nota para el docente
+## 👩‍🏫 Nota para el docente
 
-Repite la pregunta: "esta transformacion ayuda a responder algo mejor".
+Pide siempre que el grupo diga para qué sirve la nueva columna antes de crearla.

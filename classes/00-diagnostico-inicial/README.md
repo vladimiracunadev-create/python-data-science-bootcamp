@@ -1,34 +1,36 @@
-# Clase 0: Diagnostico inicial y orientacion
+# 🧭 Clase 00: Diagnóstico inicial y orientación
 
-> Ficha de clase con objetivo, materiales y foco de aprendizaje.
+> 🎯 Ficha de clase con objetivo, materiales y foco de aprendizaje.
 
-## Objetivo
+## 🎯 Objetivo
 
-Estimar el punto de partida del grupo antes de iniciar la ruta formal.
+Estimar el punto de partida del grupo antes de iniciar la ruta formal del bootcamp.
 
-## Duracion sugerida
+## ⏱️ Duración sugerida
 
-15 min
+15 minutos
 
-## Dataset base
+## 📦 Dataset base
 
 - `No requiere dataset.`
 
-## Resultados esperados
+## ✅ Resultados esperados
+
+Al finalizar, el estudiante podrá:
 
 - Identificar fortalezas iniciales.
-- Detectar vacios de apoyo.
+- Detectar vacíos de apoyo.
 - Alinear expectativas del recorrido.
 
-## Temas clave
+## 🧭 Temas clave
 
-- Python basico
+- Python básico
 - Lectura de tablas
-- Graficos
+- Gráficos
 - Modelado inicial
-- Habitos de trabajo
+- Hábitos de trabajo
 
-## Materiales del modulo
+## 🧰 Materiales del módulo
 
 - `README.md`
 - `slides.md`
@@ -37,16 +39,16 @@ Estimar el punto de partida del grupo antes de iniciar la ruta formal.
 - `homework.md`
 - `quiz.json`
 
-## Como leer el codigo de esta clase
+## 💻 Cómo leer el código de esta clase
 
 - Cada bloque debe responder una pregunta concreta.
-- Los comentarios deben explicar que hace el bloque y para que sirve.
+- Los comentarios deben explicar qué hace el bloque y para qué sirve.
 - Antes de pasar al siguiente paso, verifica que entiendes la salida.
 
-## Idea fuerza
+## 💡 Idea central
 
-Diagnostico breve, correccion inmediata y acuerdo sobre la ruta de aprendizaje.
+Diagnóstico breve, retroalimentación inmediata y acuerdo sobre la ruta de aprendizaje.
 
-## Nota para el docente
+## 👩‍🏫 Nota para el docente
 
 Usa el resultado para ajustar ritmo, apoyos y ejemplos de las primeras clases.

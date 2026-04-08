@@ -26,7 +26,7 @@ const colors = {
 };
 
 const LEVEL_COLORS = {
-  Diagnostico: "#38bdf8",
+  Diagnóstico: "#38bdf8",
   Basico: "#22c55e",
   Intermedio: "#f59e0b",
   "Intermedio-Avanzado": "#8b5cf6",
@@ -63,7 +63,7 @@ export default function ClassScreen({ route }) {
 
     Alert.alert(
       "No se pudo abrir Colab",
-      "Verifica que tengas conexion a internet y un navegador disponible.",
+      "Verifica que tengas conexión a internet y un navegador disponible.",
       [{ text: "OK" }]
     );
   };
@@ -82,7 +82,7 @@ export default function ClassScreen({ route }) {
   const TheoryTab = () => (
     <ScrollView style={styles.tabContent} showsVerticalScrollIndicator={false}>
       <View style={styles.card}>
-        <Text style={styles.cardTitle}>Enfoque del modulo</Text>
+        <Text style={styles.cardTitle}>Enfoque del módulo</Text>
         <Text style={styles.cardText}>{classData.theory}</Text>
       </View>
 
@@ -107,7 +107,7 @@ export default function ClassScreen({ route }) {
       </View>
 
       <View style={styles.card}>
-        <Text style={styles.cardTitle}>Materiales del modulo</Text>
+        <Text style={styles.cardTitle}>Materiales del módulo</Text>
         <View style={styles.materialsWrap}>
           {classData.materials.map((item) => (
             <View key={item} style={styles.materialChip}>
@@ -136,8 +136,8 @@ export default function ClassScreen({ route }) {
       ) : (
         <View style={styles.card}>
           <Text style={styles.cardText}>
-            Este modulo pone el foco en lectura, diagnostico o planificacion. Revisa la teoria y el
-            diagnostico para interpretar el contenido.
+            Este módulo pone el foco en lectura, diagnóstico o planificación. Revisa la teoría y el
+            diagnóstico para interpretar el contenido.
           </Text>
         </View>
       )}
@@ -149,10 +149,10 @@ export default function ClassScreen({ route }) {
   const ExercisesTab = () => (
     <ScrollView style={styles.tabContent} showsVerticalScrollIndicator={false}>
       <View style={styles.card}>
-        <Text style={styles.cardTitle}>Como practicar</Text>
+        <Text style={styles.cardTitle}>Cómo practicar</Text>
         <Text style={styles.cardText}>
-          Lee la pregunta del modulo, ejecuta o revisa el bloque principal y deja comentarios breves
-          sobre que hace cada paso y para que sirve.
+          Lee la pregunta del módulo, ejecuta o revisa el bloque principal y deja comentarios breves
+          sobre qué hace cada paso y para qué sirve.
         </Text>
       </View>
 
@@ -171,7 +171,7 @@ export default function ClassScreen({ route }) {
       ) : (
         <View style={styles.card}>
           <Text style={styles.cardText}>
-            En esta clase la practica principal esta en el tab Diagnostico. Responde todo el quiz y
+            En esta clase la práctica principal está en la pestaña Diagnóstico. Responde todo el quiz y
             revisa por pregunta donde acertaste y donde necesitas refuerzo.
           </Text>
         </View>
@@ -202,7 +202,7 @@ export default function ClassScreen({ route }) {
               <View
                 style={[
                   styles.levelBadge,
-                  { backgroundColor: LEVEL_COLORS[classData.level] ?? colors.accent },
+                  { backgroundColor: LEVEL_COLORS[normalizeLevel(classData.level)] ?? colors.accent },
                 ]}
               >
                 <Text style={styles.levelBadgeText}>{classData.level}</Text>
@@ -221,7 +221,7 @@ export default function ClassScreen({ route }) {
           onPress={() => setActiveTab("theory")}
         >
           <Text style={[styles.tabButtonText, activeTab === "theory" && styles.tabButtonTextActive]}>
-            Teoria
+            Teoría
           </Text>
         </TouchableOpacity>
 
@@ -232,7 +232,7 @@ export default function ClassScreen({ route }) {
           <Text
             style={[styles.tabButtonText, activeTab === "exercises" && styles.tabButtonTextActive]}
           >
-            Practica
+            Práctica
           </Text>
         </TouchableOpacity>
 
@@ -242,7 +242,7 @@ export default function ClassScreen({ route }) {
             onPress={() => setActiveTab("quiz")}
           >
             <Text style={[styles.tabButtonText, activeTab === "quiz" && styles.tabButtonTextActive]}>
-              Diagnostico
+              Diagnóstico
             </Text>
           </TouchableOpacity>
         ) : null}

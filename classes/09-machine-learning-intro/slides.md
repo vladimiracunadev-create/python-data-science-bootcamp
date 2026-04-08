@@ -1,28 +1,29 @@
-# Slides - Clase 09: Introduccion a machine learning
+# 🖥️ Diapositivas sugeridas — Clase 09
 
-## Apertura
+> 🖥️ Guion visual breve para conducir la sesión sin sobrecargar la clase.
 
-- Objetivo visible: Comprender que es un modelo supervisado y construir una primera regresion simple con scikit-learn.
-- Mensaje central: Mostrar machine learning como extension del analisis, no como magia negra.
+## 🚪 Apertura
 
-## Ruta de la sesion
+- Presentar el objetivo y la pregunta central del módulo.
+- Conectar la sesión con el recorrido general del bootcamp.
+
+## 🛤️ Ruta de la sesión
 
 | Tramo | Tiempo sugerido | Enfoque | Evidencia |
 |---|---|---|---|
-| Inicio | 10 min | Activar conocimientos previos | Pregunta inicial respondida |
-| Desarrollo 1 | 20 min | Conceptos y demostracion guiada | Primer bloque entendido |
-| Desarrollo 2 | 25 min | Codigo comentado y lectura de salida | Resultado explicado |
-| Practica | 25 min | Ejercicios o quiz segun el modulo | Entregable corto |
-| Cierre | 10 min | Conclusion y siguiente paso | Autoevaluacion breve |
+| Inicio | 10 min | Activar contexto y objetivo | Pregunta inicial visible |
+| Desarrollo 1 | 20 min | Demostración guiada | Primer bloque entendido |
+| Desarrollo 2 | 25 min | Lectura de código y explicación | Salida interpretada |
+| Práctica | 25 min | Ejercicio o quiz del módulo | Entregable corto |
+| Cierre | 10 min | Síntesis y siguiente paso | Autoevaluación breve |
 
-## Puntos que deben quedar claros
+## 📌 Puntos que deben quedar claros
 
-- Aprendizaje supervisado
-- Features y target
-- train/test split
-- Regresion lineal
+- X e y
+- Train/test split
+- Regresión
+- Predicción
 
-## Cierre esperado
+## 🏁 Cierre esperado
 
-- Una conclusion breve conectada con evidencia.
-- Un siguiente paso explicito: La clase 10 compara modelos supervisados y metricas segun el objetivo.
+La clase 10 compara modelos supervisados y sus métricas más comunes.

@@ -1,34 +1,35 @@
-# Clase 10: Modelos supervisados
+# 🌳 Clase 10: Modelos supervisados
 
-> Ficha de clase con objetivo, materiales y foco de aprendizaje.
+> 🎯 Ficha de clase con objetivo, materiales y foco de aprendizaje.
 
-## Objetivo
+## 🎯 Objetivo
 
-Comparar modelos supervisados basicos y elegir metricas segun el tipo de problema.
+Comparar modelos supervisados básicos y elegir métricas según el tipo de problema.
 
-## Duracion sugerida
+## ⏱️ Duración sugerida
 
-90 min
+90 minutos
 
-## Dataset base
+## 📦 Dataset base
 
-- `datasets/ventas_tienda.csv`
-- `datasets/retencion_clientes.csv`
+- `datasets/estudiantes.csv`
 
-## Resultados esperados
+## ✅ Resultados esperados
 
-- Diferenciar familias de problema.
-- Entrenar un modelo simple.
-- Interpretar metricas clave.
+Al finalizar, el estudiante podrá:
 
-## Temas clave
+- Transformar un problema en una etiqueta supervisada.
+- Entrenar un clasificador simple e interpretable.
+- Relacionar modelo y métrica con la pregunta del problema.
 
-- Regresion vs clasificacion
-- Arboles
-- Regresion logistica
-- Metricas
+## 🧭 Temas clave
 
-## Materiales del modulo
+- Clasificación
+- Árboles
+- Etiquetas
+- Métricas
+
+## 🧰 Materiales del módulo
 
 - `README.md`
 - `slides.md`
@@ -38,16 +39,16 @@ Comparar modelos supervisados basicos y elegir metricas segun el tipo de problem
 - `notebook.ipynb`
 - `soluciones.ipynb`
 
-## Como leer el codigo de esta clase
+## 💻 Cómo leer el código de esta clase
 
 - Cada bloque debe responder una pregunta concreta.
-- Los comentarios deben explicar que hace el bloque y para que sirve.
+- Los comentarios deben explicar qué hace el bloque y para qué sirve.
 - Antes de pasar al siguiente paso, verifica que entiendes la salida.
 
-## Idea fuerza
+## 💡 Idea central
 
-Elegir modelo y metrica por la pregunta, no por popularidad.
+El modelo y la métrica se eligen por la pregunta, no por popularidad.
 
-## Nota para el docente
+## 👩‍🏫 Nota para el docente
 
-Haz explicitar el costo del error: no es lo mismo equivocarse en churn que en un precio aproximado.
+Pide que cada estudiante diga qué error sería más costoso antes de hablar de métricas.

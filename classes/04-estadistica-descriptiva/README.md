@@ -1,33 +1,35 @@
-# Clase 04: Estadistica descriptiva
+# 📐 Clase 04: Estadística descriptiva
 
-> Ficha de clase con objetivo, materiales y foco de aprendizaje.
+> 🎯 Ficha de clase con objetivo, materiales y foco de aprendizaje.
 
-## Objetivo
+## 🎯 Objetivo
 
 Interpretar medidas descriptivas simples y relacionarlas con preguntas reales.
 
-## Duracion sugerida
+## ⏱️ Duración sugerida
 
-90 min
+90 minutos
 
-## Dataset base
+## 📦 Dataset base
 
-- `datasets/retencion_clientes.csv`
+- `datasets/estudiantes.csv`
 
-## Resultados esperados
+## ✅ Resultados esperados
 
-- Calcular resumenes utiles.
-- Comparar segmentos.
-- Explicar que aporta cada medida.
+Al finalizar, el estudiante podrá:
 
-## Temas clave
+- Calcular medidas de tendencia central.
+- Leer una dispersión básica sin perder contexto.
+- Evitar conclusiones apoyadas en un solo número.
 
-- Media y mediana
-- Conteos
-- Dispersion simple
-- Resumen por grupo
+## 🧭 Temas clave
 
-## Materiales del modulo
+- Media
+- Mediana
+- Dispersión
+- Interpretación
+
+## 🧰 Materiales del módulo
 
 - `README.md`
 - `slides.md`
@@ -37,16 +39,16 @@ Interpretar medidas descriptivas simples y relacionarlas con preguntas reales.
 - `notebook.ipynb`
 - `soluciones.ipynb`
 
-## Como leer el codigo de esta clase
+## 💻 Cómo leer el código de esta clase
 
 - Cada bloque debe responder una pregunta concreta.
-- Los comentarios deben explicar que hace el bloque y para que sirve.
+- Los comentarios deben explicar qué hace el bloque y para qué sirve.
 - Antes de pasar al siguiente paso, verifica que entiendes la salida.
 
-## Idea fuerza
+## 💡 Idea central
 
-Pasar de mirar valores sueltos a resumir poblaciones con una pregunta clara.
+La estadística descriptiva resume poblaciones, pero siempre debe volver a una pregunta concreta.
 
-## Nota para el docente
+## 👩‍🏫 Nota para el docente
 
-Invita a justificar por que elegir media o mediana segun la distribucion observada.
+Haz que el grupo compare media y mediana con lenguaje simple antes de pasar a fórmulas.

@@ -1,34 +1,35 @@
-# Clase 09: Introduccion a machine learning
+# 🤖 Clase 09: Introducción a machine learning
 
-> Ficha de clase con objetivo, materiales y foco de aprendizaje.
+> 🎯 Ficha de clase con objetivo, materiales y foco de aprendizaje.
 
-## Objetivo
+## 🎯 Objetivo
 
-Comprender que es un modelo supervisado y construir una primera regresion simple con scikit-learn.
+Comprender qué es un modelo supervisado y construir una primera regresión simple con scikit-learn.
 
-## Duracion sugerida
+## ⏱️ Duración sugerida
 
-90 min
+90 minutos
 
-## Dataset base
+## 📦 Dataset base
 
-- `datasets/ventas_tienda.csv`
 - `datasets/estudiantes.csv`
 
-## Resultados esperados
+## ✅ Resultados esperados
 
-- Identificar X e y.
-- Separar train y test.
-- Leer una metrica de error inicial.
+Al finalizar, el estudiante podrá:
 
-## Temas clave
+- Distinguir variables de entrada y objetivo.
+- Construir un train/test split reproducible.
+- Entrenar una regresión simple y revisar sus predicciones.
 
-- Aprendizaje supervisado
-- Features y target
-- train/test split
-- Regresion lineal
+## 🧭 Temas clave
 
-## Materiales del modulo
+- X e y
+- Train/test split
+- Regresión
+- Predicción
+
+## 🧰 Materiales del módulo
 
 - `README.md`
 - `slides.md`
@@ -38,16 +39,16 @@ Comprender que es un modelo supervisado y construir una primera regresion simple
 - `notebook.ipynb`
 - `soluciones.ipynb`
 
-## Como leer el codigo de esta clase
+## 💻 Cómo leer el código de esta clase
 
 - Cada bloque debe responder una pregunta concreta.
-- Los comentarios deben explicar que hace el bloque y para que sirve.
+- Los comentarios deben explicar qué hace el bloque y para qué sirve.
 - Antes de pasar al siguiente paso, verifica que entiendes la salida.
 
-## Idea fuerza
+## 💡 Idea central
 
-Mostrar machine learning como extension del analisis, no como magia negra.
+Machine learning se presenta como una extensión del análisis, no como magia negra.
 
-## Nota para el docente
+## 👩‍🏫 Nota para el docente
 
-Insiste en que un modelo simple bien entendido vale mas que uno complejo sin interpretacion.
+Vuelve siempre a la pregunta predictiva antes de mencionar el modelo.

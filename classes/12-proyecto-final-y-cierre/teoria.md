@@ -1,22 +1,24 @@
-# Documento teorico - Clase 12: Proyecto final y cierre
+# 🧠 Documento teórico — Clase 12: Proyecto final y cierre
 
-> Base conceptual para preparar, reforzar o profundizar lo visto en clase.
+> 🧠 Base conceptual para preparar, reforzar o profundizar lo visto en clase.
 
-## Idea central
+## 💡 Idea central
 
-Cerrar con evidencia de aprendizaje integrado, no con una lista de tecnicas desconectadas.
+El cierre del bootcamp debe mostrar integración, criterio y claridad de comunicación.
 
-## Por que importa este modulo
+## ❓ Por qué importa este módulo
 
-Integrar las habilidades del bootcamp en un proyecto final acotado y defendible.
+El proyecto final permite ver si el estudiante integra análisis, código y comunicación con una lógica completa.
 
-## Bloque de codigo documentado
+## 💻 Bloque de código documentado
 
-### Esqueleto del proyecto final
+### Esqueleto inicial del proyecto final
 
-El codigo organiza el proyecto por etapas para que otra persona siga el razonamiento sin perderse.
+Organizar el proyecto por etapas hace que otra persona pueda seguir el razonamiento sin perderse.
 
-**Que hace:** contexto -> carga -> analisis -> conclusion
+**Qué hace:** contexto → carga → análisis → conclusión
+
+**Para qué sirve:** Sirve para modelar una estructura mínima que haga legible el trabajo final ante docentes y compañeros.
 
 ```python
 import pandas as pd
@@ -24,18 +26,27 @@ import pandas as pd
 # 1. Cargar datos y dejar una copia de trabajo.
 df = pd.read_csv("datasets/ventas_tienda.csv")
 trabajo = df.copy()
+trabajo["total_neto"] = trabajo["unidades"] * trabajo["precio_unitario"] * (1 - trabajo["descuento_pct"])
 
-# 2. Formular una pregunta visible antes de seguir.
-pregunta = "Que categoria conviene reforzar en la proxima campana"
+# 2. Formular la pregunta antes de seguir.
+pregunta = "¿Qué sucursal conviene reforzar en la próxima campaña?"
 print(pregunta)
+
+# 3. Generar una evidencia inicial.
+resumen = (
+    trabajo.groupby("sucursal", as_index=False)["total_neto"]
+    .sum()
+    .sort_values("total_neto", ascending=False)
+)
+print(resumen.head())
 ```
 
-## Errores frecuentes a vigilar
+## ⚠️ Errores frecuentes a vigilar
 
-- Saltar al codigo sin aclarar la pregunta.
+- Saltar al código sin aclarar la pregunta.
 - Ejecutar bloques sin leer la salida.
-- Dejar bloques importantes sin comentarios o sin explicacion oral.
+- Dejar bloques importantes sin comentarios o sin explicación oral.
 
-## Conexion con el siguiente modulo
+## 🔗 Conexión con el siguiente módulo
 
-Despues del cierre, el estudiante deberia tener un siguiente paso de aprendizaje claro.
+Después del cierre, el estudiante debería salir con un siguiente paso de aprendizaje claro.

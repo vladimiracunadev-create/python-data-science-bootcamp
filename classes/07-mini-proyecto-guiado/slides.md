@@ -1,28 +1,29 @@
-# Slides - Clase 07: Mini proyecto guiado
+# 🖥️ Diapositivas sugeridas — Clase 07
 
-## Apertura
+> 🖥️ Guion visual breve para conducir la sesión sin sobrecargar la clase.
 
-- Objetivo visible: Integrar las habilidades vistas hasta ahora en un mini proyecto guiado de principio a fin.
-- Mensaje central: Dejar de pensar la clase como tecnicas sueltas y verla como un proceso coherente.
+## 🚪 Apertura
 
-## Ruta de la sesion
+- Presentar el objetivo y la pregunta central del módulo.
+- Conectar la sesión con el recorrido general del bootcamp.
+
+## 🛤️ Ruta de la sesión
 
 | Tramo | Tiempo sugerido | Enfoque | Evidencia |
 |---|---|---|---|
-| Inicio | 10 min | Activar conocimientos previos | Pregunta inicial respondida |
-| Desarrollo 1 | 20 min | Conceptos y demostracion guiada | Primer bloque entendido |
-| Desarrollo 2 | 25 min | Codigo comentado y lectura de salida | Resultado explicado |
-| Practica | 25 min | Ejercicios o quiz segun el modulo | Entregable corto |
-| Cierre | 10 min | Conclusion y siguiente paso | Autoevaluacion breve |
+| Inicio | 10 min | Activar contexto y objetivo | Pregunta inicial visible |
+| Desarrollo 1 | 20 min | Demostración guiada | Primer bloque entendido |
+| Desarrollo 2 | 25 min | Lectura de código y explicación | Salida interpretada |
+| Práctica | 25 min | Ejercicio o quiz del módulo | Entregable corto |
+| Cierre | 10 min | Síntesis y siguiente paso | Autoevaluación breve |
 
-## Puntos que deben quedar claros
+## 📌 Puntos que deben quedar claros
 
-- Pregunta analitica
-- Flujo reproducible
-- Seleccion de variables
-- Conclusiones
+- Pregunta de análisis
+- Recorte
+- Secuencia de trabajo
+- Evidencia
 
-## Cierre esperado
+## 🏁 Cierre esperado
 
-- Una conclusion breve conectada con evidencia.
-- Un siguiente paso explicito: La clase 08 convierte ese trabajo en presentacion de hallazgos.
+La clase 08 convierte ese trabajo en una presentación breve de hallazgos.

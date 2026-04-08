@@ -1,17 +1,19 @@
-# Homework - Clase 01: Python fundamentos
+# 📝 Tarea — Clase 01
 
-## Encargo
+> 📝 Trabajo autónomo para consolidar lo visto y practicar con más calma.
 
-Deja una version corta y ordenada del trabajo de este modulo, incluyendo una conclusion breve y comentarios en los bloques clave.
+## 🎯 Encargo
 
-## Entregables
+Deja una versión corta y ordenada del trabajo de este módulo, incluyendo una conclusión breve y comentarios en los bloques clave.
 
-- Codigo o desarrollo ordenado.
-- Conclusion breve conectada con evidencia.
-- Comentarios que expliquen que hace y para que sirve cada bloque importante.
+## 📦 Entregables
 
-## Autoevaluacion final
+- Código o desarrollo ordenado.
+- Conclusión breve conectada con evidencia.
+- Comentarios que expliquen qué hace y para qué sirve cada bloque importante.
 
-- Entendi la pregunta del modulo
-- Puedo explicar la salida sin leer el codigo completo
-- Deje comentarios utiles en los pasos clave
+## 🔍 Autoevaluación final
+
+- Entendí la pregunta del módulo.
+- Puedo explicar la salida sin leer el código completo.
+- Dejé comentarios útiles en los pasos clave.

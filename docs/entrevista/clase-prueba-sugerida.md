@@ -1,12 +1,12 @@
-# Propuesta de clase de prueba
+# 🎯 Propuesta de clase de prueba
 
 ## Tema recomendado
-**Introduccion a pandas con un CSV simple**
+**Introducción a pandas con un CSV simple**
 
 ## Por que conviene
 - tiene alto valor para un bootcamp de Data Science;
 - permite demostrar claridad conceptual;
-- muestra codigo, interpretacion y contexto;
+- muestra código, interpretacion y contexto;
 - se puede resolver en poco tiempo con un dataset amigable.
 
 ## Estructura sugerida (15 a 20 minutos)
@@ -15,12 +15,12 @@
 2. Cargar CSV con pandas.
 3. Mostrar `head()`, `info()` y `describe()`.
 4. Hacer una pregunta simple:
-- que sucursal vende mas
-- que categoria recauda mas
-5. Mostrar agrupacion basica.
-6. Cerrar con una visualizacion simple y una interpretacion.
+   - ?que sucursal vende más?
+   - ?que categoría recauda más?
+5. Mostrar agrupacion básica.
+6. Cerrar con una visualización simple y una interpretacion.
 
-## Mensaje pedagogico importante
+## Mensaje pedagógico importante
 
-La clase de prueba no necesita mostrar todo lo que sabes.
-Necesita demostrar que sabes ensenar con orden, criterio y foco.
+La clase de prueba no necesita mostrar todo lo que sabes.  
+Necesita demostrar que sabes enseñar con orden, criterio y foco.

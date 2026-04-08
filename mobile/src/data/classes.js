@@ -2,22 +2,22 @@ export const CLASSES = [
   {
     "id": "00-diagnostico-inicial",
     "number": 0,
-    "title": "Diagnostico inicial y orientacion",
-    "description": "Prueba corta de 30 preguntas para medir base tecnica y ordenar el arranque del bootcamp.",
+    "title": "Diagnóstico inicial y orientación",
+    "description": "Prueba diagnóstica de 30 preguntas para estimar la base técnica del grupo y ordenar el arranque del bootcamp.",
     "duration": "15 min",
-    "level": "Diagnostico",
+    "level": "Diagnóstico",
     "colabUrl": null,
     "topics": [
-      "Python basico",
+      "Python básico",
       "Lectura de tablas",
-      "Graficos",
+      "Gráficos",
       "Modelado inicial",
-      "Habitos de trabajo"
+      "Hábitos de trabajo"
     ],
-    "theory": "Diagnostico breve, correccion inmediata y acuerdo sobre la ruta de aprendizaje. Estimar el punto de partida del grupo antes de iniciar la ruta formal.",
+    "theory": "Diagnóstico breve, retroalimentación inmediata y acuerdo sobre la ruta de aprendizaje. Estimar el punto de partida del grupo antes de iniciar la ruta formal del bootcamp.",
     "outcomes": [
       "Identificar fortalezas iniciales.",
-      "Detectar vacios de apoyo.",
+      "Detectar vacíos de apoyo.",
       "Alinear expectativas del recorrido."
     ],
     "materials": [
@@ -31,8 +31,8 @@ export const CLASSES = [
     "codeExamples": [],
     "quiz": {
       "id": "class-0-diagnostic",
-      "title": "Diagnostico inicial del bootcamp",
-      "description": "30 preguntas de opcion multiple para estimar el nivel de entrada en 15 minutos.",
+      "title": "Diagnóstico inicial del bootcamp",
+      "description": "30 preguntas de opción múltiple para estimar el nivel de entrada en 15 minutos.",
       "duration": "15 min",
       "questions": [
         {
@@ -311,7 +311,7 @@ export const CLASSES = [
         {
           "id": "q22",
           "category": "Modelado",
-          "prompt": "¿Por qué se separan train y test?",
+          "prompt": "¿Por qué se separan train y testá",
           "options": [
             "Para usar menos memoria",
             "Para medir generalización",
@@ -431,10 +431,10 @@ export const CLASSES = [
   {
     "id": "01-python-fundamentos",
     "number": 1,
-    "title": "Python fundamentos",
-    "description": "Variables, tipos, colecciones y control de flujo aplicados a datos simples.",
+    "title": "Fundamentos de Python aplicados a datos",
+    "description": "Variables, tipos, estructuras y control de flujo aplicados a datos simples.",
     "duration": "90 min",
-    "level": "Basico",
+    "level": "Básico",
     "colabUrl": "https://colab.research.google.com/github/vladimiracunadev-create/python-data-science-bootcamp/blob/master/classes/01-python-fundamentos/notebook.ipynb",
     "topics": [
       "Variables y tipos",
@@ -442,11 +442,11 @@ export const CLASSES = [
       "Funciones",
       "Control de flujo"
     ],
-    "theory": "Construir confianza en la sintaxis y conectar cada estructura con un uso real. Comprender los bloques basicos de Python y usarlos en tareas pequenas con datos.",
+    "theory": "Python se presenta como herramienta para ordenar y transformar información, no como teoría abstracta. Comprender los elementos básicos de Python y aplicarlos a ejemplos pequeños relacionados con datos.",
     "outcomes": [
-      "Crear variables claras.",
-      "Usar listas y diccionarios.",
-      "Escribir funciones simples."
+      "Crear variables claras y expresivas.",
+      "Usar listas y diccionarios para representar información.",
+      "Escribir funciones simples con propósito evidente."
     ],
     "materials": [
       "README.md",
@@ -460,11 +460,11 @@ export const CLASSES = [
     "codeExamples": [
       {
         "id": "01-python-fundamentos-code",
-        "title": "Funcion con validacion simple",
-        "explanation": "La funcion encapsula una tarea reutilizable y evita errores con una validacion minima.",
-        "schema": "entrada -> validar -> calcular -> devolver",
+        "title": "Función para calcular ingreso bruto",
+        "explanation": "Encapsular una operación en una función evita repetir lógica y facilita explicar cada paso.",
+        "schema": "entrada → calcular → devolver → reutilizar",
         "language": "python",
-        "code": "def calcular_promedio(notas):\n    # Evitamos dividir por cero si la lista esta vacia.\n    if len(notas) == 0:\n        return 0\n\n    total = sum(notas)\n    return total / len(notas)\n\nprint(calcular_promedio([6.0, 6.5, 7.0]))"
+        "code": "def calcular_total_bruto(unidades, precio_unitario):\n    # Multiplicamos cantidad por precio para estimar el ingreso bruto.\n    return unidades * precio_unitario\n\n\nventas = [\n    {\"producto\": \"Mouse\", \"unidades\": 3, \"precio_unitario\": 8990},\n    {\"producto\": \"Teclado\", \"unidades\": 2, \"precio_unitario\": 15990},\n]\n\ntotales = [calcular_total_bruto(v[\"unidades\"], v[\"precio_unitario\"]) for v in ventas]\nprint(totales)"
       }
     ],
     "quiz": null
@@ -473,21 +473,21 @@ export const CLASSES = [
     "id": "02-pandas-limpieza-datos",
     "number": 2,
     "title": "Pandas y limpieza de datos",
-    "description": "Carga de CSV, inspeccion inicial y limpieza de tablas para preparar analisis confiables.",
+    "description": "Carga de CSV, inspección inicial y limpieza de tablas para preparar análisis confiables.",
     "duration": "90 min",
-    "level": "Basico",
+    "level": "Básico",
     "colabUrl": "https://colab.research.google.com/github/vladimiracunadev-create/python-data-science-bootcamp/blob/master/classes/02-pandas-limpieza-datos/notebook.ipynb",
     "topics": [
       "DataFrame",
-      "head/info",
+      "Inspección inicial",
       "Nulos",
-      "Renombrado de columnas"
+      "Estandarización básica"
     ],
-    "theory": "Instalar la idea de que no se analiza una tabla sin revisarla primero. Usar pandas para cargar, inspeccionar y limpiar tablas antes de analizarlas.",
+    "theory": "No se analiza una tabla seria sin inspeccionarla y documentar primero sus problemas. Usar pandas para cargar, inspeccionar y limpiar tablas antes de analizarlas.",
     "outcomes": [
-      "Cargar un CSV.",
-      "Detectar problemas de calidad.",
-      "Aplicar limpiezas justificadas."
+      "Cargar un CSV y revisar su estructura.",
+      "Detectar problemas simples de calidad.",
+      "Aplicar limpiezas justificadas y documentadas."
     ],
     "materials": [
       "README.md",
@@ -501,11 +501,11 @@ export const CLASSES = [
     "codeExamples": [
       {
         "id": "02-pandas-limpieza-datos-code",
-        "title": "Carga e inspeccion de un CSV",
-        "explanation": "Primero abrimos el archivo y luego lo inspeccionamos para saber si podemos confiar en su estructura.",
-        "schema": "cargar -> mirar forma -> revisar columnas",
+        "title": "Carga e inspección de un CSV",
+        "explanation": "El primer paso no es graficar: es entender qué columnas existen, cómo vienen escritas y si podemos confiar en ellas.",
+        "schema": "cargar → inspeccionar → limpiar → verificar",
         "language": "python",
-        "code": "import pandas as pd\n\n# Cargamos el CSV en un DataFrame para trabajar por columnas.\ndf = pd.read_csv(\"datasets/ventas_tienda.csv\")\n\nprint(df.head())\nprint(df.shape)\nprint(df.info())"
+        "code": "import pandas as pd\n\ndf = pd.read_csv(\"datasets/ventas_tienda.csv\")\n\n# Revisamos primeras filas, tipos y valores faltantes antes de seguir.\nprint(df.head())\nprint(df.info())\nprint(df.isna().sum())\n\n# Ejemplo simple de limpieza visible.\ndf[\"medio_pago\"] = df[\"medio_pago\"].str.strip()"
       }
     ],
     "quiz": null
@@ -513,22 +513,22 @@ export const CLASSES = [
   {
     "id": "03-visualizacion-exploratoria",
     "number": 3,
-    "title": "Visualizacion exploratoria",
-    "description": "Graficos iniciales para detectar patrones y abrir preguntas nuevas a partir de una tabla limpia.",
+    "title": "Visualización exploratoria",
+    "description": "Gráficos iniciales para describir patrones, comparar categorías y abrir preguntas de análisis.",
     "duration": "90 min",
-    "level": "Basico",
+    "level": "Básico",
     "colabUrl": "https://colab.research.google.com/github/vladimiracunadev-create/python-data-science-bootcamp/blob/master/classes/03-visualizacion-exploratoria/notebook.ipynb",
     "topics": [
+      "Agrupación",
       "Barras",
-      "Histogramas",
-      "Series temporales basicas",
-      "Lectura de patrones"
+      "Lectura visual",
+      "Preguntas exploratorias"
     ],
-    "theory": "La visualizacion exploratoria ayuda a mirar y preguntar mejor. Usar visualizaciones exploratorias para describir patrones y abrir nuevas preguntas de analisis.",
+    "theory": "La visualización exploratoria ayuda a mirar mejor y a formular preguntas más útiles. Usar visualizaciones exploratorias para describir patrones y abrir nuevas preguntas de análisis.",
     "outcomes": [
-      "Elegir un grafico inicial adecuado.",
-      "Comparar categorias.",
-      "Describir hallazgos sin exagerar."
+      "Construir un resumen por categoría o sucursal.",
+      "Elegir un gráfico simple y legible.",
+      "Explicar qué pregunta responde la visualización."
     ],
     "materials": [
       "README.md",
@@ -542,11 +542,11 @@ export const CLASSES = [
     "codeExamples": [
       {
         "id": "03-visualizacion-exploratoria-code",
-        "title": "Ventas por categoria",
-        "explanation": "Agrupamos antes de graficar porque queremos comparar categorias, no filas sueltas.",
-        "schema": "agrupar -> ordenar -> graficar",
+        "title": "Ventas netas por categoría",
+        "explanation": "Antes de graficar conviene preparar un resumen que reduzca el ruido de filas individuales.",
+        "schema": "calcular métrica → agrupar → ordenar → graficar",
         "language": "python",
-        "code": "import pandas as pd\nimport matplotlib.pyplot as plt\n\ndf = pd.read_csv(\"datasets/ventas_tienda.csv\")\nresumen = df.groupby(\"categoria\", as_index=False)[\"total_neto\"].sum()\nresumen = resumen.sort_values(\"total_neto\", ascending=False)\n\nresumen.plot.bar(x=\"categoria\", y=\"total_neto\", legend=False)\nplt.title(\"Ventas netas por categoria\")\nplt.tight_layout()"
+        "code": "import pandas as pd\nimport matplotlib.pyplot as plt\n\ndf = pd.read_csv(\"datasets/ventas_tienda.csv\")\ndf[\"total_neto\"] = df[\"unidades\"] * df[\"precio_unitario\"] * (1 - df[\"descuento_pct\"])\n\nresumen = (\n    df.groupby(\"categoria\", as_index=False)[\"total_neto\"]\n    .sum()\n    .sort_values(\"total_neto\", ascending=False)\n)\n\nplt.figure(figsize=(8, 4))\nplt.bar(resumen[\"categoria\"], resumen[\"total_neto\"])\nplt.title(\"Ventas netas por categoría\")\nplt.ylabel(\"CLP\")\nplt.xticks(rotation=20)\nplt.tight_layout()"
       }
     ],
     "quiz": null
@@ -554,22 +554,22 @@ export const CLASSES = [
   {
     "id": "04-estadistica-descriptiva",
     "number": 4,
-    "title": "Estadistica descriptiva",
-    "description": "Medidas de tendencia central y dispersion para apoyar decisiones iniciales.",
+    "title": "Estadística descriptiva",
+    "description": "Medidas descriptivas para resumir variables y sostener interpretaciones básicas.",
     "duration": "90 min",
-    "level": "Intermedio",
+    "level": "Básico",
     "colabUrl": "https://colab.research.google.com/github/vladimiracunadev-create/python-data-science-bootcamp/blob/master/classes/04-estadistica-descriptiva/notebook.ipynb",
     "topics": [
-      "Media y mediana",
-      "Conteos",
-      "Dispersion simple",
-      "Resumen por grupo"
+      "Media",
+      "Mediana",
+      "Dispersión",
+      "Interpretación"
     ],
-    "theory": "Pasar de mirar valores sueltos a resumir poblaciones con una pregunta clara. Interpretar medidas descriptivas simples y relacionarlas con preguntas reales.",
+    "theory": "La estadística descriptiva resume poblaciones, pero siempre debe volver a una pregunta concreta. Interpretar medidas descriptivas simples y relacionarlas con preguntas reales.",
     "outcomes": [
-      "Calcular resumenes utiles.",
-      "Comparar segmentos.",
-      "Explicar que aporta cada medida."
+      "Calcular medidas de tendencia central.",
+      "Leer una dispersión básica sin perder contexto.",
+      "Evitar conclusiones apoyadas en un solo número."
     ],
     "materials": [
       "README.md",
@@ -583,11 +583,11 @@ export const CLASSES = [
     "codeExamples": [
       {
         "id": "04-estadistica-descriptiva-code",
-        "title": "Resumen general de una columna",
-        "explanation": "Usamos varias medidas juntas para no depender de un unico numero.",
-        "schema": "seleccionar variable -> calcular resumen -> interpretar",
+        "title": "Resumen de asistencia del curso",
+        "explanation": "Usar varias medidas a la vez evita depender de un único número y mejora la interpretación.",
+        "schema": "seleccionar variable → calcular resumen → interpretar",
         "language": "python",
-        "code": "import pandas as pd\n\ndf = pd.read_csv(\"datasets/retencion_clientes.csv\")\ncolumna = df[\"clientes_activos\"]\n\nprint(\"Media:\", columna.mean())\nprint(\"Mediana:\", columna.median())\nprint(\"Desv. estandar:\", columna.std())"
+        "code": "import pandas as pd\n\ndf = pd.read_csv(\"datasets/estudiantes.csv\")\nasistencia = df[\"asistencia_pct\"]\n\nprint(\"Media:\", asistencia.mean())\nprint(\"Mediana:\", asistencia.median())\nprint(\"Desviación estándar:\", asistencia.std())\nprint(asistencia.describe())"
       }
     ],
     "quiz": null
@@ -595,22 +595,22 @@ export const CLASSES = [
   {
     "id": "05-visualizacion-con-matplotlib",
     "number": 5,
-    "title": "Visualizacion con matplotlib",
-    "description": "Graficos mas controlados con titulos, ejes y anotaciones pensadas para comunicar.",
+    "title": "Visualización con matplotlib",
+    "description": "Construcción de gráficos más controlados y legibles usando matplotlib.",
     "duration": "90 min",
     "level": "Intermedio",
     "colabUrl": "https://colab.research.google.com/github/vladimiracunadev-create/python-data-science-bootcamp/blob/master/classes/05-visualizacion-con-matplotlib/notebook.ipynb",
     "topics": [
-      "Figure y Axes",
-      "Titulos y ejes",
-      "Subplots",
-      "Anotaciones"
+      "Figure y axes",
+      "Rotulado",
+      "Legibilidad",
+      "Ajuste visual"
     ],
-    "theory": "Pasar de la grafica funcional a la grafica comunicable. Crear graficos mas controlados con matplotlib y mejorar su legibilidad.",
+    "theory": "No basta con que el gráfico funcione: debe poder leerse sin fricción. Crear gráficos más controlados con matplotlib y mejorar su legibilidad.",
     "outcomes": [
-      "Construir figuras manualmente.",
-      "Rotular con sentido.",
-      "Comparar paneles sin ruido."
+      "Crear una figura explícita con tamaño controlado.",
+      "Rotular ejes y títulos con intención.",
+      "Mejorar la lectura visual de un gráfico temporal."
     ],
     "materials": [
       "README.md",
@@ -624,11 +624,11 @@ export const CLASSES = [
     "codeExamples": [
       {
         "id": "05-visualizacion-con-matplotlib-code",
-        "title": "Grafico de linea legible",
-        "explanation": "Creamos una figura explicita para controlar tamano, titulo y ejes.",
-        "schema": "crear figure -> dibujar -> rotular",
+        "title": "Serie temporal de clientes activos",
+        "explanation": "Crear una figura explícita permite controlar tamaño, etiquetas y orden visual con intención.",
+        "schema": "crear figura → dibujar → rotular → ajustar",
         "language": "python",
-        "code": "import pandas as pd\nimport matplotlib.pyplot as plt\n\ndf = pd.read_csv(\"datasets/transporte.csv\")\nresumen = df.groupby(\"mes\", as_index=False)[\"pasajeros\"].sum()\n\nfig, ax = plt.subplots(figsize=(10, 4))\nax.plot(resumen[\"mes\"], resumen[\"pasajeros\"], marker=\"o\")\nax.set_title(\"Pasajeros por mes\")\nax.set_xlabel(\"Mes\")\nax.set_ylabel(\"Pasajeros\")\nplt.tight_layout()"
+        "code": "import pandas as pd\nimport matplotlib.pyplot as plt\n\ndf = pd.read_csv(\"datasets/retencion_clientes.csv\")\n\nfig, ax = plt.subplots(figsize=(9, 4))\nax.plot(df[\"mes\"], df[\"clientes_activos\"], marker=\"o\", linewidth=2)\nax.set_title(\"Clientes activos por mes\")\nax.set_xlabel(\"Mes\")\nax.set_ylabel(\"Clientes activos\")\nax.tick_params(axis=\"x\", rotation=45)\nax.grid(alpha=0.2)\nplt.tight_layout()"
       }
     ],
     "quiz": null
@@ -637,21 +637,21 @@ export const CLASSES = [
     "id": "06-texto-fechas-y-transformaciones",
     "number": 6,
     "title": "Texto, fechas y transformaciones",
-    "description": "Limpieza de texto, manejo de fechas y variables derivadas para enriquecer analisis.",
+    "description": "Transformación de columnas de texto y fecha para hacerlas útiles en análisis y modelado inicial.",
     "duration": "90 min",
     "level": "Intermedio",
     "colabUrl": "https://colab.research.google.com/github/vladimiracunadev-create/python-data-science-bootcamp/blob/master/classes/06-texto-fechas-y-transformaciones/notebook.ipynb",
     "topics": [
-      "Strings con pandas",
-      "to_datetime",
-      "Componentes de fecha",
-      "Variables derivadas"
+      "Fechas",
+      "Texto",
+      "Columnas derivadas",
+      "Normalización"
     ],
-    "theory": "Muchas preguntas nuevas aparecen cuando una columna se transforma bien. Transformar columnas de texto y fecha para volverlas utiles en analisis y modelado inicial.",
+    "theory": "Muchas preguntas nuevas aparecen cuando una columna se transforma bien. Transformar columnas de texto y fecha para volverlas útiles en análisis y modelado inicial.",
     "outcomes": [
-      "Normalizar texto.",
-      "Convertir fechas.",
-      "Crear columnas derivadas utiles."
+      "Convertir una columna a fecha real.",
+      "Crear variables derivadas con sentido analítico.",
+      "Normalizar texto para evitar duplicados de categoría."
     ],
     "materials": [
       "README.md",
@@ -665,11 +665,11 @@ export const CLASSES = [
     "codeExamples": [
       {
         "id": "06-texto-fechas-y-transformaciones-code",
-        "title": "Conversion de fechas y variables derivadas",
-        "explanation": "Convertir a fecha habilita nuevas preguntas como comportamiento por mes o dia de semana.",
-        "schema": "convertir fecha -> extraer componente -> usar",
+        "title": "Fechas y texto listos para analizar",
+        "explanation": "Convertir y normalizar columnas no es maquillaje: cambia lo que se puede preguntar después.",
+        "schema": "convertir → derivar → normalizar → reutilizar",
         "language": "python",
-        "code": "import pandas as pd\n\ntickets = pd.read_csv(\"datasets/soporte_tickets.csv\")\ntickets[\"fecha_creacion\"] = pd.to_datetime(tickets[\"fecha_creacion\"])\n\n# Creamos columnas nuevas para responder preguntas posteriores.\ntickets[\"mes\"] = tickets[\"fecha_creacion\"].dt.month\ntickets[\"dia_semana\"] = tickets[\"fecha_creacion\"].dt.day_name()\n\nprint(tickets[[\"fecha_creacion\", \"mes\", \"dia_semana\"]].head())"
+        "code": "import pandas as pd\n\ndf = pd.read_csv(\"datasets/ventas_tienda.csv\")\ndf[\"fecha\"] = pd.to_datetime(df[\"fecha\"])\n\n# Creamos columnas nuevas para responder preguntas posteriores.\ndf[\"mes\"] = df[\"fecha\"].dt.to_period(\"M\").astype(str)\ndf[\"dia_semana\"] = df[\"fecha\"].dt.day_name()\ndf[\"producto_normalizado\"] = df[\"producto\"].str.strip().str.lower()\n\nprint(df[[\"fecha\", \"mes\", \"dia_semana\", \"producto_normalizado\"]].head())"
       }
     ],
     "quiz": null
@@ -678,21 +678,21 @@ export const CLASSES = [
     "id": "07-mini-proyecto-guiado",
     "number": 7,
     "title": "Mini proyecto guiado",
-    "description": "Primer flujo completo: definir pregunta, limpiar, analizar, visualizar y concluir.",
+    "description": "Integración guiada de lectura, limpieza, análisis y comunicación en una sola secuencia corta.",
     "duration": "90 min",
-    "level": "Intermedio",
+    "level": "Integrador",
     "colabUrl": "https://colab.research.google.com/github/vladimiracunadev-create/python-data-science-bootcamp/blob/master/classes/07-mini-proyecto-guiado/notebook.ipynb",
     "topics": [
-      "Pregunta analitica",
-      "Flujo reproducible",
-      "Seleccion de variables",
-      "Conclusiones"
+      "Pregunta de análisis",
+      "Recorte",
+      "Secuencia de trabajo",
+      "Evidencia"
     ],
-    "theory": "Dejar de pensar la clase como tecnicas sueltas y verla como un proceso coherente. Integrar las habilidades vistas hasta ahora en un mini proyecto guiado de principio a fin.",
+    "theory": "El proyecto ordena técnicas sueltas dentro de un proceso con sentido. Integrar las habilidades vistas hasta ahora en un mini proyecto guiado de principio a fin.",
     "outcomes": [
-      "Definir una pregunta acotada.",
-      "Organizar un flujo claro.",
-      "Cerrar con evidencia."
+      "Formular una pregunta concreta de proyecto.",
+      "Armar una base de trabajo con columnas útiles.",
+      "Seguir una secuencia coherente de análisis."
     ],
     "materials": [
       "README.md",
@@ -706,11 +706,11 @@ export const CLASSES = [
     "codeExamples": [
       {
         "id": "07-mini-proyecto-guiado-code",
-        "title": "Pregunta y recorte de trabajo",
-        "explanation": "Antes de calcular, recortamos columnas y dejamos visible la pregunta del proyecto.",
-        "schema": "pregunta -> columnas utiles -> base de trabajo",
+        "title": "Definición de pregunta y base de trabajo",
+        "explanation": "Antes de calcular, conviene dejar escrita la pregunta y recortar solo las columnas necesarias.",
+        "schema": "pregunta → recorte → base de trabajo → análisis",
         "language": "python",
-        "code": "import pandas as pd\n\ndf = pd.read_csv(\"datasets/ventas_tienda.csv\")\n\n# Pregunta del proyecto: ¿que categorias concentran mayor venta neta?\ncolumnas = [\"fecha\", \"categoria\", \"region\", \"total_neto\"]\nproyecto = df[columnas].copy()\nprint(proyecto.head())"
+        "code": "import pandas as pd\n\ndf = pd.read_csv(\"datasets/ventas_tienda.csv\")\ndf[\"total_neto\"] = df[\"unidades\"] * df[\"precio_unitario\"] * (1 - df[\"descuento_pct\"])\n\npregunta = \"¿Qué categoría concentra mayor ingreso neto?\"\ncolumnas = [\"fecha\", \"sucursal\", \"categoria\", \"producto\", \"medio_pago\", \"total_neto\"]\nproyecto = df[columnas].copy()\n\nprint(pregunta)\nprint(proyecto.head())"
       }
     ],
     "quiz": null
@@ -718,10 +718,10 @@ export const CLASSES = [
   {
     "id": "08-presentacion-de-hallazgos",
     "number": 8,
-    "title": "Presentacion de hallazgos",
-    "description": "Conversion de analisis en mensajes claros y defendibles para otras personas.",
+    "title": "Presentación de hallazgos",
+    "description": "Traducción de resultados técnicos a mensajes cortos, claros y defendibles.",
     "duration": "90 min",
-    "level": "Intermedio",
+    "level": "Integrador",
     "colabUrl": "https://colab.research.google.com/github/vladimiracunadev-create/python-data-science-bootcamp/blob/master/classes/08-presentacion-de-hallazgos/notebook.ipynb",
     "topics": [
       "Storytelling con datos",
@@ -729,11 +729,11 @@ export const CLASSES = [
       "Mensajes clave",
       "Visuales de apoyo"
     ],
-    "theory": "La calidad del analisis tambien depende de como se explica y a quien se dirige. Transformar resultados tecnicos en una historia corta, clara y defendible.",
+    "theory": "La calidad del análisis también depende de cómo se explica y a quién se dirige. Transformar resultados técnicos en una historia corta, clara y defendible.",
     "outcomes": [
-      "Ordenar una historia de analisis.",
+      "Ordenar una historia de análisis.",
       "Elegir visuales que sostengan un mensaje.",
-      "Escribir conclusiones ejecutivas."
+      "Escribir conclusiones ejecutivas sin perder rigor."
     ],
     "materials": [
       "README.md",
@@ -747,11 +747,11 @@ export const CLASSES = [
     "codeExamples": [
       {
         "id": "08-presentacion-de-hallazgos-code",
-        "title": "Resumen ejecutivo en pocas lineas",
-        "explanation": "Aunque no sea un grafico, este bloque muestra como traducir el analisis a una salida legible.",
-        "schema": "hallazgo -> importancia -> recomendacion",
+        "title": "Resumen ejecutivo en tres líneas",
+        "explanation": "No todo hallazgo se comunica con un gráfico; a veces conviene escribir un mensaje breve y accionable.",
+        "schema": "hallazgo → evidencia → recomendación",
         "language": "python",
-        "code": "hallazgo = \"La region norte concentra la mayor venta neta del periodo.\"\nimportancia = \"Esto sugiere una oportunidad para profundizar disponibilidad y promocion.\"\nrecomendacion = \"Comparar margen y stock antes de escalar la decision.\"\n\nprint(hallazgo)\nprint(importancia)\nprint(recomendacion)"
+        "code": "hallazgo = \"La categoría Accesorios concentra el mayor ingreso neto del periodo.\"\nevidencia = \"El resumen por categoría la ubica en el primer lugar del ranking.\"\nrecomendacion = \"Conviene revisar margen, stock y campañas antes de ampliar la oferta.\"\n\nprint(hallazgo)\nprint(evidencia)\nprint(recomendacion)"
       }
     ],
     "quiz": null
@@ -759,22 +759,22 @@ export const CLASSES = [
   {
     "id": "09-machine-learning-intro",
     "number": 9,
-    "title": "Introduccion a machine learning",
-    "description": "Primer modelo predictivo con scikit-learn para entender features, target y evaluacion inicial.",
+    "title": "Introducción a machine learning",
+    "description": "Primer acercamiento a aprendizaje supervisado usando un problema de regresión simple.",
     "duration": "90 min",
-    "level": "Intermedio",
+    "level": "Intermedio avanzado",
     "colabUrl": "https://colab.research.google.com/github/vladimiracunadev-create/python-data-science-bootcamp/blob/master/classes/09-machine-learning-intro/notebook.ipynb",
     "topics": [
-      "Aprendizaje supervisado",
-      "Features y target",
-      "train/test split",
-      "Regresion lineal"
+      "X e y",
+      "Train/test split",
+      "Regresión",
+      "Predicción"
     ],
-    "theory": "Mostrar machine learning como extension del analisis, no como magia negra. Comprender que es un modelo supervisado y construir una primera regresion simple con scikit-learn.",
+    "theory": "Machine learning se presenta como una extensión del análisis, no como magia negra. Comprender qué es un modelo supervisado y construir una primera regresión simple con scikit-learn.",
     "outcomes": [
-      "Identificar X e y.",
-      "Separar train y test.",
-      "Leer una metrica de error inicial."
+      "Distinguir variables de entrada y objetivo.",
+      "Construir un train/test split reproducible.",
+      "Entrenar una regresión simple y revisar sus predicciones."
     ],
     "materials": [
       "README.md",
@@ -788,11 +788,11 @@ export const CLASSES = [
     "codeExamples": [
       {
         "id": "09-machine-learning-intro-code",
-        "title": "Preparacion de variables y split",
-        "explanation": "Definimos columnas de entrada y la variable objetivo antes de entrenar.",
-        "schema": "problema -> X / y -> train/test",
+        "title": "Primera regresión con variables académicas",
+        "explanation": "Antes de entrenar, conviene declarar con claridad qué queremos predecir y qué datos usaremos como entrada.",
+        "schema": "problema → X / y → split → entrenar → predecir",
         "language": "python",
-        "code": "import pandas as pd\nfrom sklearn.model_selection import train_test_split\n\ndf = pd.read_csv(\"datasets/ventas_tienda.csv\")\nX = df[[\"precio_unitario\", \"unidades_vendidas\", \"descuento_pct\"]]\ny = df[\"total_neto\"]\n\nX_train, X_test, y_train, y_test = train_test_split(\n    X, y, test_size=0.2, random_state=42\n)"
+        "code": "import pandas as pd\nfrom sklearn.linear_model import LinearRegression\nfrom sklearn.model_selection import train_test_split\n\ndf = pd.read_csv(\"datasets/estudiantes.csv\")\nX = df[[\"asistencia_pct\", \"evaluacion_python\", \"edad\"]]\ny = df[\"evaluacion_pandas\"]\n\nX_train, X_test, y_train, y_test = train_test_split(\n    X, y, test_size=0.2, random_state=42\n)\n\nmodelo = LinearRegression()\nmodelo.fit(X_train, y_train)\npredicciones = modelo.predict(X_test)\nprint(predicciones[:5])"
       }
     ],
     "quiz": null
@@ -801,21 +801,21 @@ export const CLASSES = [
     "id": "10-modelos-supervisados",
     "number": 10,
     "title": "Modelos supervisados",
-    "description": "Comparacion inicial entre regresion y clasificacion, con metricas acordes al problema.",
+    "description": "Comparación de modelos supervisados básicos y elección de métricas según el problema.",
     "duration": "90 min",
-    "level": "Intermedio-Avanzado",
+    "level": "Intermedio avanzado",
     "colabUrl": "https://colab.research.google.com/github/vladimiracunadev-create/python-data-science-bootcamp/blob/master/classes/10-modelos-supervisados/notebook.ipynb",
     "topics": [
-      "Regresion vs clasificacion",
-      "Arboles",
-      "Regresion logistica",
-      "Metricas"
+      "Clasificación",
+      "Árboles",
+      "Etiquetas",
+      "Métricas"
     ],
-    "theory": "Elegir modelo y metrica por la pregunta, no por popularidad. Comparar modelos supervisados basicos y elegir metricas segun el tipo de problema.",
+    "theory": "El modelo y la métrica se eligen por la pregunta, no por popularidad. Comparar modelos supervisados básicos y elegir métricas según el tipo de problema.",
     "outcomes": [
-      "Diferenciar familias de problema.",
-      "Entrenar un modelo simple.",
-      "Interpretar metricas clave."
+      "Transformar un problema en una etiqueta supervisada.",
+      "Entrenar un clasificador simple e interpretable.",
+      "Relacionar modelo y métrica con la pregunta del problema."
     ],
     "materials": [
       "README.md",
@@ -829,11 +829,11 @@ export const CLASSES = [
     "codeExamples": [
       {
         "id": "10-modelos-supervisados-code",
-        "title": "Clasificacion basica con arbol",
-        "explanation": "Convertimos un problema en una etiqueta binaria y entrenamos un modelo simple e interpretable.",
-        "schema": "crear etiqueta -> entrenar -> predecir",
+        "title": "Clasificación binaria con árbol",
+        "explanation": "Primero definimos una etiqueta supervisada simple y luego entrenamos un modelo interpretable.",
+        "schema": "crear etiqueta → separar variables → entrenar → revisar",
         "language": "python",
-        "code": "import pandas as pd\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.tree import DecisionTreeClassifier\n\ndf = pd.read_csv(\"datasets/ventas_tienda.csv\")\ndf[\"venta_alta\"] = (df[\"total_neto\"] >= df[\"total_neto\"].median()).astype(int)\n\nX = df[[\"precio_unitario\", \"unidades_vendidas\", \"descuento_pct\"]]\ny = df[\"venta_alta\"]\nX_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)\n\narbol = DecisionTreeClassifier(max_depth=4, random_state=42)\narbol.fit(X_train, y_train)"
+        "code": "import pandas as pd\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.tree import DecisionTreeClassifier\n\ndf = pd.read_csv(\"datasets/estudiantes.csv\")\ndf[\"alto_desempeno\"] = (\n    (df[\"evaluacion_python\"] >= 75) & (df[\"evaluacion_pandas\"] >= 75)\n).astype(int)\n\nX = df[[\"asistencia_pct\", \"evaluacion_python\", \"edad\"]]\ny = df[\"alto_desempeno\"]\n\nX_train, X_test, y_train, y_test = train_test_split(\n    X, y, test_size=0.2, random_state=42\n)\n\nmodelo = DecisionTreeClassifier(max_depth=3, random_state=42)\nmodelo.fit(X_train, y_train)\nprint(modelo.predict(X_test[:5]))"
       }
     ],
     "quiz": null
@@ -841,22 +841,22 @@ export const CLASSES = [
   {
     "id": "11-evaluacion-y-pipelines",
     "number": 11,
-    "title": "Evaluacion y pipelines",
-    "description": "Validacion cruzada, pipeline y busqueda de hiperparametros para medir modelos con mas rigor.",
+    "title": "Evaluación y pipelines",
+    "description": "Evaluación más rigurosa de modelos y uso de pipelines para evitar fugas y pasos inconsistentes.",
     "duration": "90 min",
-    "level": "Avanzado",
+    "level": "Intermedio avanzado",
     "colabUrl": "https://colab.research.google.com/github/vladimiracunadev-create/python-data-science-bootcamp/blob/master/classes/11-evaluacion-y-pipelines/notebook.ipynb",
     "topics": [
-      "Cross-validation",
-      "Overfitting",
+      "Validación cruzada",
       "Pipelines",
-      "GridSearchCV"
+      "Leakage",
+      "Comparación de score"
     ],
-    "theory": "Pasar de un modelo que parece funcionar a un flujo de evaluacion mas confiable. Evaluar modelos con mayor rigor y evitar leakage o sobreajuste.",
+    "theory": "Pasar de un modelo que parece funcionar a un flujo de evaluación más confiable. Evaluar modelos con mayor rigor y evitar leakage o sobreajuste.",
     "outcomes": [
-      "Detectar overfitting inicial.",
-      "Aplicar validacion cruzada.",
-      "Construir un pipeline simple."
+      "Explicar por qué un score único puede ser frágil.",
+      "Usar un pipeline con preprocesamiento y modelo.",
+      "Leer un score medio de validación cruzada con más criterio."
     ],
     "materials": [
       "README.md",
@@ -870,11 +870,11 @@ export const CLASSES = [
     "codeExamples": [
       {
         "id": "11-evaluacion-y-pipelines-code",
-        "title": "Pipeline con validacion cruzada",
-        "explanation": "El pipeline encapsula escalado y modelo, y la validacion cruzada entrega una medida menos fragil.",
-        "schema": "pipeline -> CV -> score medio",
+        "title": "Pipeline con validación cruzada",
+        "explanation": "El pipeline encapsula el preprocesamiento junto con el modelo y evita pasos manuales inconsistentes.",
+        "schema": "preprocesar + modelar → validar → comparar",
         "language": "python",
-        "code": "import pandas as pd\nfrom sklearn.model_selection import cross_val_score\nfrom sklearn.pipeline import Pipeline\nfrom sklearn.preprocessing import StandardScaler\nfrom sklearn.linear_model import LogisticRegression\n\ndf = pd.read_csv(\"datasets/retencion_clientes.csv\")\nX = df[[\"clientes_activos\", \"clientes_perdidos\"]]\ny = (df[\"clientes_perdidos\"] > df[\"clientes_perdidos\"].median()).astype(int)\n\npipe = Pipeline([(\"scaler\", StandardScaler()), (\"model\", LogisticRegression(max_iter=300))])\nscores = cross_val_score(pipe, X, y, cv=5, scoring=\"f1\")\nprint(scores.mean())"
+        "code": "import pandas as pd\nfrom sklearn.linear_model import LogisticRegression\nfrom sklearn.model_selection import cross_val_score\nfrom sklearn.pipeline import Pipeline\nfrom sklearn.preprocessing import StandardScaler\n\ndf = pd.read_csv(\"datasets/estudiantes.csv\")\ndf[\"alto_desempeno\"] = (\n    (df[\"evaluacion_python\"] >= 75) & (df[\"evaluacion_pandas\"] >= 75)\n).astype(int)\n\nX = df[[\"asistencia_pct\", \"evaluacion_python\", \"evaluacion_pandas\", \"edad\"]]\ny = df[\"alto_desempeno\"]\n\npipeline = Pipeline(\n    [(\"scaler\", StandardScaler()), (\"model\", LogisticRegression(max_iter=300))]\n)\nscores = cross_val_score(pipeline, X, y, cv=5, scoring=\"f1\")\nprint(scores.mean())"
       }
     ],
     "quiz": null
@@ -883,21 +883,21 @@ export const CLASSES = [
     "id": "12-proyecto-final-y-cierre",
     "number": 12,
     "title": "Proyecto final y cierre",
-    "description": "Integracion de todo el bootcamp en un caso final con entregable claro, defensa breve y proyeccion.",
+    "description": "Integración final del recorrido con un proyecto breve, defendible y bien estructurado.",
     "duration": "90 min",
     "level": "Integrador",
     "colabUrl": "https://colab.research.google.com/github/vladimiracunadev-create/python-data-science-bootcamp/blob/master/classes/12-proyecto-final-y-cierre/notebook.ipynb",
     "topics": [
+      "Estructura del notebook",
       "Pregunta final",
-      "Flujo completo",
-      "Entregable integrador",
-      "Defensa breve"
+      "Evidencia",
+      "Cierre de aprendizaje"
     ],
-    "theory": "Cerrar con evidencia de aprendizaje integrado, no con una lista de tecnicas desconectadas. Integrar las habilidades del bootcamp en un proyecto final acotado y defendible.",
+    "theory": "El cierre del bootcamp debe mostrar integración, criterio y claridad de comunicación. Integrar las habilidades del bootcamp en un proyecto final acotado y defendible.",
     "outcomes": [
-      "Definir una pregunta final realista.",
-      "Ordenar notebook y entregables.",
-      "Justificar decisiones tecnicas."
+      "Formular una pregunta final defendible.",
+      "Ordenar el notebook por etapas comprensibles.",
+      "Cerrar con evidencia de aprendizaje integrado."
     ],
     "materials": [
       "README.md",
@@ -911,11 +911,11 @@ export const CLASSES = [
     "codeExamples": [
       {
         "id": "12-proyecto-final-y-cierre-code",
-        "title": "Esqueleto del proyecto final",
-        "explanation": "El codigo organiza el proyecto por etapas para que otra persona siga el razonamiento sin perderse.",
-        "schema": "contexto -> carga -> analisis -> conclusion",
+        "title": "Esqueleto inicial del proyecto final",
+        "explanation": "Organizar el proyecto por etapas hace que otra persona pueda seguir el razonamiento sin perderse.",
+        "schema": "contexto → carga → análisis → conclusión",
         "language": "python",
-        "code": "import pandas as pd\n\n# 1. Cargar datos y dejar una copia de trabajo.\ndf = pd.read_csv(\"datasets/ventas_tienda.csv\")\ntrabajo = df.copy()\n\n# 2. Formular una pregunta visible antes de seguir.\npregunta = \"¿Que categoria conviene reforzar en la proxima campana?\"\nprint(pregunta)"
+        "code": "import pandas as pd\n\n# 1. Cargar datos y dejar una copia de trabajo.\ndf = pd.read_csv(\"datasets/ventas_tienda.csv\")\ntrabajo = df.copy()\ntrabajo[\"total_neto\"] = trabajo[\"unidades\"] * trabajo[\"precio_unitario\"] * (1 - trabajo[\"descuento_pct\"])\n\n# 2. Formular la pregunta antes de seguir.\npregunta = \"¿Qué sucursal conviene reforzar en la próxima campaña?\"\nprint(pregunta)\n\n# 3. Generar una evidencia inicial.\nresumen = (\n    trabajo.groupby(\"sucursal\", as_index=False)[\"total_neto\"]\n    .sum()\n    .sort_values(\"total_neto\", ascending=False)\n)\nprint(resumen.head())"
       }
     ],
     "quiz": null

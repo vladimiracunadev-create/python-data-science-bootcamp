@@ -1,30 +1,30 @@
-# Syllabus - Bootcamp Python para Data Science
+# 📚 Syllabus - Bootcamp Python para Data Science
 
 ## Proposito general
 
-Introducir Python como herramienta practica para el analisis de datos, con foco en comprension progresiva, practica guiada y resolucion de problemas sencillos con datasets reales o simulados.
+Introducir Python como herramienta práctica para el análisis de datos, con foco en comprensión progresiva, práctica guiada y resolución de problemas sencillos con datasets reales o simulados.
 
 ## Perfil de entrada
 
 - Personas sin experiencia previa o con base muy inicial en programacion.
-- Estudiantes que manejan conceptos computacionales basicos, pero necesitan conectar logica con datos.
-- Participantes que valoran ejemplos concretos y retroalimentacion continua.
+- Estudiantes que manejan conceptos computacionales básicos, pero necesitan conectar lógica con datos.
+- Participantes que valoran ejemplos concretos y retroalimentación continua.
 
 ## Perfil de salida esperado
 
 Al finalizar, la persona podra:
 
-1. leer y escribir codigo basico en Python;
+1. leer y escribir código básico en Python;
 2. usar estructuras fundamentales para resolver problemas simples;
 3. cargar archivos CSV y explorarlos con pandas;
 4. limpiar datos sencillos;
-5. construir graficos basicos e interpretar resultados;
+5. construir gráficos básicos e interpretar resultados;
 6. desarrollar un mini proyecto con preguntas guiadas;
-7. utilizar un entorno de practica por celdas dentro del mismo curso.
+7. utilizar un entorno de práctica por celdas dentro del mismo curso.
 
 ## Propuesta modular ampliada
 
-### Modulo 1 - Fundamentos de Python
+### Módulo 1 - Fundamentos de Python
 - variables
 - tipos de datos
 - listas y diccionarios
@@ -32,60 +32,60 @@ Al finalizar, la persona podra:
 - bucles
 - funciones
 
-### Modulo 2 - Primer acercamiento a datos
+### Módulo 2 - Primer acercamiento a datos
 - archivos CSV
 - estructura tabular
 - lectura de datos con pandas
 - exploracion inicial
 
-### Modulo 3 - Limpieza y transformacion
+### Módulo 3 - Limpieza y transformación
 - seleccion de columnas
 - filtros
 - nulos
 - calculos derivados
 - agrupacion simple
 
-### Modulo 4 - Estadistica descriptiva basica
+### Módulo 4 - Estadistica descriptiva básica
 - conteos
 - promedios
 - medianas
 - percentiles simples
 - interpretacion inicial
 
-### Modulo 5 - Visualizacion e interpretacion
-- graficos de barras
-- lineas y dispersion
+### Módulo 5 - Visualización e interpretacion
+- gráficos de barras
+- líneas y dispersion
 - lectura de patrones
 - preguntas de negocio o contexto
 
-### Modulo 6 - Transformacion de texto y fechas
+### Módulo 6 - Transformación de texto y fechas
 - columnas temporales
 - particion de texto
 - estandarizacion
 
-### Modulo 7 - Mini proyecto integrador
-- analisis guiado
+### Módulo 7 - Mini proyecto integrador
+- análisis guiado
 - interpretacion de resultados
-- comunicacion de conclusiones
+- comunicación de conclusiones
 
-### Modulo 8 - Presentacion y cierre
+### Módulo 8 - Presentación y cierre
 - narrativa con datos
 - exposicion breve
-- retroalimentacion final
+- retroalimentación final
 
-## Metodologia resumida
+## Metodología resumida
 
-- explicacion breve;
+- explicación breve;
 - ejemplo guiado;
-- practica acompanada;
+- práctica acompanada;
 - ejercicio individual o en parejas;
-- cierre con retroalimentacion.
+- cierre con retroalimentación.
 
 ## Evidencias de aprendizaje
 
 - ejercicios de clase;
 - tareas cortas;
-- participacion;
+- participación;
 - mini proyecto final;
 - exposicion breve de resultados.
 
@@ -97,11 +97,11 @@ Al finalizar, la persona podra:
 - pandas
 - matplotlib
 
-## Criterio de diseno del material
+## Criterio de diseño del material
 
-El diseno del bootcamp privilegia:
+El diseño del bootcamp privilegia:
 - claridad antes que complejidad;
-- comprension progresiva;
+- comprensión progresiva;
 - datasets faciles de explicar;
 - actividades que se puedan ejecutar en el mismo ambiente del curso;
 - flexibilidad para modalidad presencial con apoyo digital.

@@ -1,33 +1,35 @@
-# Clase 01: Python fundamentos
+# 📘 Clase 01: Fundamentos de Python aplicados a datos
 
-> Ficha de clase con objetivo, materiales y foco de aprendizaje.
+> 🎯 Ficha de clase con objetivo, materiales y foco de aprendizaje.
 
-## Objetivo
+## 🎯 Objetivo
 
-Comprender los bloques basicos de Python y usarlos en tareas pequenas con datos.
+Comprender los elementos básicos de Python y aplicarlos a ejemplos pequeños relacionados con datos.
 
-## Duracion sugerida
+## ⏱️ Duración sugerida
 
-90 min
+90 minutos
 
-## Dataset base
+## 📦 Dataset base
 
-- `datasets/estudiantes.csv`
+- `datasets/ventas_tienda.csv`
 
-## Resultados esperados
+## ✅ Resultados esperados
 
-- Crear variables claras.
-- Usar listas y diccionarios.
-- Escribir funciones simples.
+Al finalizar, el estudiante podrá:
 
-## Temas clave
+- Crear variables claras y expresivas.
+- Usar listas y diccionarios para representar información.
+- Escribir funciones simples con propósito evidente.
+
+## 🧭 Temas clave
 
 - Variables y tipos
 - Listas y diccionarios
 - Funciones
 - Control de flujo
 
-## Materiales del modulo
+## 🧰 Materiales del módulo
 
 - `README.md`
 - `slides.md`
@@ -37,16 +39,16 @@ Comprender los bloques basicos de Python y usarlos en tareas pequenas con datos.
 - `notebook.ipynb`
 - `soluciones.ipynb`
 
-## Como leer el codigo de esta clase
+## 💻 Cómo leer el código de esta clase
 
 - Cada bloque debe responder una pregunta concreta.
-- Los comentarios deben explicar que hace el bloque y para que sirve.
+- Los comentarios deben explicar qué hace el bloque y para qué sirve.
 - Antes de pasar al siguiente paso, verifica que entiendes la salida.
 
-## Idea fuerza
+## 💡 Idea central
 
-Construir confianza en la sintaxis y conectar cada estructura con un uso real.
+Python se presenta como herramienta para ordenar y transformar información, no como teoría abstracta.
 
-## Nota para el docente
+## 👩‍🏫 Nota para el docente
 
-Modela en voz alta como leer un error simple y convertirlo en una accion concreta.
+Modela en voz alta cómo leer un error simple y convertirlo en una acción concreta.

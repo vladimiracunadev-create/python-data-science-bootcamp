@@ -1,34 +1,35 @@
-# Clase 05: Visualizacion con matplotlib
+# 🎨 Clase 05: Visualización con matplotlib
 
-> Ficha de clase con objetivo, materiales y foco de aprendizaje.
+> 🎯 Ficha de clase con objetivo, materiales y foco de aprendizaje.
 
-## Objetivo
+## 🎯 Objetivo
 
-Crear graficos mas controlados con matplotlib y mejorar su legibilidad.
+Crear gráficos más controlados con matplotlib y mejorar su legibilidad.
 
-## Duracion sugerida
+## ⏱️ Duración sugerida
 
-90 min
+90 minutos
 
-## Dataset base
+## 📦 Dataset base
 
-- `datasets/ventas_tienda.csv`
-- `datasets/transporte.csv`
+- `datasets/retencion_clientes.csv`
 
-## Resultados esperados
+## ✅ Resultados esperados
 
-- Construir figuras manualmente.
-- Rotular con sentido.
-- Comparar paneles sin ruido.
+Al finalizar, el estudiante podrá:
 
-## Temas clave
+- Crear una figura explícita con tamaño controlado.
+- Rotular ejes y títulos con intención.
+- Mejorar la lectura visual de un gráfico temporal.
 
-- Figure y Axes
-- Titulos y ejes
-- Subplots
-- Anotaciones
+## 🧭 Temas clave
 
-## Materiales del modulo
+- Figure y axes
+- Rotulado
+- Legibilidad
+- Ajuste visual
+
+## 🧰 Materiales del módulo
 
 - `README.md`
 - `slides.md`
@@ -38,16 +39,16 @@ Crear graficos mas controlados con matplotlib y mejorar su legibilidad.
 - `notebook.ipynb`
 - `soluciones.ipynb`
 
-## Como leer el codigo de esta clase
+## 💻 Cómo leer el código de esta clase
 
 - Cada bloque debe responder una pregunta concreta.
-- Los comentarios deben explicar que hace el bloque y para que sirve.
+- Los comentarios deben explicar qué hace el bloque y para qué sirve.
 - Antes de pasar al siguiente paso, verifica que entiendes la salida.
 
-## Idea fuerza
+## 💡 Idea central
 
-Pasar de la grafica funcional a la grafica comunicable.
+No basta con que el gráfico funcione: debe poder leerse sin fricción.
 
-## Nota para el docente
+## 👩‍🏫 Nota para el docente
 
-Compara dos versiones de una misma grafica: una descuidada y otra bien rotulada.
+Haz comparar un gráfico improvisado con otro bien rotulado para que la mejora sea visible.

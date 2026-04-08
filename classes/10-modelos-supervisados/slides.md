@@ -1,28 +1,29 @@
-# Slides - Clase 10: Modelos supervisados
+# 🖥️ Diapositivas sugeridas — Clase 10
 
-## Apertura
+> 🖥️ Guion visual breve para conducir la sesión sin sobrecargar la clase.
 
-- Objetivo visible: Comparar modelos supervisados basicos y elegir metricas segun el tipo de problema.
-- Mensaje central: Elegir modelo y metrica por la pregunta, no por popularidad.
+## 🚪 Apertura
 
-## Ruta de la sesion
+- Presentar el objetivo y la pregunta central del módulo.
+- Conectar la sesión con el recorrido general del bootcamp.
+
+## 🛤️ Ruta de la sesión
 
 | Tramo | Tiempo sugerido | Enfoque | Evidencia |
 |---|---|---|---|
-| Inicio | 10 min | Activar conocimientos previos | Pregunta inicial respondida |
-| Desarrollo 1 | 20 min | Conceptos y demostracion guiada | Primer bloque entendido |
-| Desarrollo 2 | 25 min | Codigo comentado y lectura de salida | Resultado explicado |
-| Practica | 25 min | Ejercicios o quiz segun el modulo | Entregable corto |
-| Cierre | 10 min | Conclusion y siguiente paso | Autoevaluacion breve |
+| Inicio | 10 min | Activar contexto y objetivo | Pregunta inicial visible |
+| Desarrollo 1 | 20 min | Demostración guiada | Primer bloque entendido |
+| Desarrollo 2 | 25 min | Lectura de código y explicación | Salida interpretada |
+| Práctica | 25 min | Ejercicio o quiz del módulo | Entregable corto |
+| Cierre | 10 min | Síntesis y siguiente paso | Autoevaluación breve |
 
-## Puntos que deben quedar claros
+## 📌 Puntos que deben quedar claros
 
-- Regresion vs clasificacion
-- Arboles
-- Regresion logistica
-- Metricas
+- Clasificación
+- Árboles
+- Etiquetas
+- Métricas
 
-## Cierre esperado
+## 🏁 Cierre esperado
 
-- Una conclusion breve conectada con evidencia.
-- Un siguiente paso explicito: La clase 11 endurece la evaluacion con validacion cruzada y pipelines.
+La clase 11 endurece la evaluación con validación cruzada y pipelines.

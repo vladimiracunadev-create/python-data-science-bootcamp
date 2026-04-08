@@ -1,7 +1,7 @@
 {
   "id": "class-0-diagnostic",
-  "title": "Diagnostico inicial del bootcamp",
-  "description": "30 preguntas de opcion multiple para estimar el nivel de entrada en 15 minutos.",
+  "title": "Diagnóstico inicial del bootcamp",
+  "description": "30 preguntas de opción múltiple para estimar el nivel de entrada en 15 minutos.",
   "duration": "15 min",
   "questions": [
     {
@@ -280,7 +280,7 @@
     {
       "id": "q22",
       "category": "Modelado",
-      "prompt": "¿Por qué se separan train y test?",
+      "prompt": "¿Por qué se separan train y testá",
       "options": [
         "Para usar menos memoria",
         "Para medir generalización",

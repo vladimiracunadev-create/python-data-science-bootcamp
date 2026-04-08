@@ -1,4 +1,4 @@
-# Revision de otros repos e insights aplicables a este bootcamp
+# 🔎 Revision de otros repos e insights aplicables a este bootcamp
 
 ## Repos revisados
 
@@ -8,19 +8,19 @@
 - `C:/dev/rootcause-landing`
 - `C:/dev/portal_python`
 
-## Insight 1: documentacion orientada por perfil
+## Insight 1: documentación orientada por perfil
 
 Visto con fuerza en `gabysql` y `langgraph-realworld`.
 
 Lo valioso:
 
-- rutas recomendadas segun tipo de lector;
+- rutas recomendadas según tipo de lector;
 - mapa documental claro;
-- documentos separados para seguridad, operacion, troubleshooting y roadmap.
+- documentos separados para seguridad, operación, troubleshooting y roadmap.
 
 Aplicacion a este repo:
 
-- dejar materiales distintos para entrevista, desafio tecnico, despliegue y aula;
+- dejar materiales distintos para entrevista, desafío técnico, despliegue y aula;
 - no depender de un README unico para todo.
 
 ## Insight 2: seguridad explicita y honesta
@@ -38,7 +38,7 @@ Aplicacion a este repo:
 
 - host y puerto configurables por entorno;
 - Docker local enlazado a `127.0.0.1`;
-- headers de seguridad basicos en Flask;
+- headers de seguridad básicos en Flask;
 - documentar posture actual y siguiente capa de hardening.
 
 ## Insight 3: visuales con intencion
@@ -49,15 +49,15 @@ Lo valioso:
 
 - narrativa visual clara;
 - tablas y diagramas que ordenan la lectura;
-- lenguaje de producto y de operacion, no solo de codigo.
+- lenguaje de producto y de operación, no solo de código.
 
 Aplicacion a este repo:
 
-- presentaciones mas limpias;
+- presentaciones más limpias;
 - diagramas del proceso de seleccion;
-- docs con tablas de decisiones y rutas segun objetivo.
+- docs con tablas de decisiones y rutas según objetivo.
 
-## Insight 4: operacion realista
+## Insight 4: operación realista
 
 Visto con fuerza en `gabysql` y `ferremarket`.
 
@@ -66,7 +66,7 @@ Lo valioso:
 - runbooks;
 - health checks;
 - separacion entre quickstart y produccion;
-- observabilidad y validaciones minimas.
+- observabilidad y validaciónes minimas.
 
 Aplicacion a este repo:
 
@@ -86,17 +86,17 @@ Aplicacion a este repo:
 
 Aplicacion a este repo:
 
-- no dejar secretos en codigo;
+- no dejar secretos en código;
 - usar defaults locales seguros;
-- evitar exponer la app con configuracion abierta;
-- presentar siempre los limites reales del entorno.
+- evitar exponer la app con configuración abierta;
+- presentar siempre los límites reales del entorno.
 
 ## Conclusion
 
-La mejor evolucion de este bootcamp no es solo agregar mas clases. Es adoptar el estandar que ya se ve en tus mejores repos:
+La mejor evolución de este bootcamp no es solo agregar más clases. Es adoptar el estandar que ya se ve en tus mejores repos:
 
-- documentacion por capas;
+- documentación por capas;
 - narrativa visual clara;
 - seguridad explicita;
 - despliegue local seguro por defecto;
-- operacion y limites bien comunicados.
+- operación y límites bien comunicados.

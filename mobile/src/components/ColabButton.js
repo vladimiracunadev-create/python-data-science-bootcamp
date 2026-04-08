@@ -29,7 +29,7 @@ const ColabButton = ({ url, style, compact = false }) => {
     if (!url) {
       Alert.alert(
         'Notebook no disponible',
-        'El enlace a este notebook no esta configurado aun.',
+        'El enlace a este notebook no está configurado aún.',
         [{ text: 'OK' }]
       );
       return;
@@ -46,14 +46,14 @@ const ColabButton = ({ url, style, compact = false }) => {
       } else {
         Alert.alert(
           'No se puede abrir',
-          'No se pudo abrir Google Colab. Asegurate de tener conexion a internet.',
+          'No se pudo abrir Google Colab. Asegúrate de tener conexión a internet.',
           [{ text: 'OK' }]
         );
       }
     } catch (error) {
       Alert.alert(
         'Error',
-        'Ocurrio un error al intentar abrir Colab. Intenta de nuevo.',
+        'Ocurrió un error al intentar abrir Colab. Intenta de nuevo.',
         [{ text: 'OK' }]
       );
       console.error('Error al abrir Colab:', error);
@@ -73,7 +73,7 @@ const ColabButton = ({ url, style, compact = false }) => {
         {loading ? (
           <ActivityIndicator size="small" color="#000" />
         ) : (
-          <Text style={styles.compactIcon}>▶</Text>
+          <Text style={styles.compactIcon}>{">"}</Text>
         )}
       </TouchableOpacity>
     );
@@ -89,7 +89,7 @@ const ColabButton = ({ url, style, compact = false }) => {
       {loading ? (
         <ActivityIndicator size="small" color="#000" />
       ) : (
-        <Text style={styles.buttonText}>▶  Abrir en Colab</Text>
+        <Text style={styles.buttonText}>{">"} Abrir en Colab</Text>
       )}
     </TouchableOpacity>
   );

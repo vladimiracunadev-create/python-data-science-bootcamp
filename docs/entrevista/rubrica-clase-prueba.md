@@ -1,37 +1,37 @@
-# Rubrica para clase de prueba
+# 📋 Rubrica para clase de prueba
 
 ## Proposito
 
-Evaluar una clase breve no solo desde el dominio tecnico, sino tambien desde la claridad pedagogica y la capacidad de conducir aprendizaje.
+Evaluar una clase breve no solo desde el dominio técnico, sino también desde la claridad pedagógica y la capacidad de conducir aprendizaje.
 
 ## Criterios
 
-### 1. Claridad de la explicacion
+### 1. Claridad de la explicación
 - Excelente: explica con orden, lenguaje claro y ejemplos pertinentes.
-- Adecuado: la explicacion es entendible, con algunas mejoras posibles.
-- Inicial: la explicacion es confusa o excesivamente tecnica.
+- Adecuado: la explicación es entendible, con algunas mejoras posibles.
+- Inicial: la explicación es confusa o excesivamente técnica.
 
 ### 2. Estructura y secuencia
 - Excelente: introduce, desarrolla y cierra con coherencia.
 - Adecuado: mantiene estructura general con algunos saltos.
-- Inicial: avanza sin un hilo pedagogico claro.
+- Inicial: avanza sin un hilo pedagógico claro.
 
 ### 3. Pertinencia del ejemplo
 - Excelente: el ejemplo conecta muy bien con el objetivo.
 - Adecuado: el ejemplo es util, aunque mejorable.
 - Inicial: el ejemplo distrae o no ayuda a comprender.
 
-### 4. Relacion teoria-practica
-- Excelente: vincula concepto y ejecucion de manera natural.
-- Adecuado: logra la relacion de forma parcial.
-- Inicial: la practica aparece desconectada.
+### 4. Relación teoría-práctica
+- Excelente: vincula concepto y ejecución de manera natural.
+- Adecuado: logra la relación de forma parcial.
+- Inicial: la práctica aparece desconectada.
 
 ### 5. Manejo del tiempo
-- Excelente: administra bien la sesion.
+- Excelente: administra bien la sesión.
 - Adecuado: cumple con ligeros desajustes.
 - Inicial: se desordena o no alcanza a cerrar.
 
-### 6. Interaccion pedagogica
-- Excelente: genera participacion y contencion.
-- Adecuado: mantiene interaccion basica.
+### 6. Interaccion pedagógica
+- Excelente: genera participación y contencion.
+- Adecuado: mantiene interaccion básica.
 - Inicial: exposicion demasiado unilateral.

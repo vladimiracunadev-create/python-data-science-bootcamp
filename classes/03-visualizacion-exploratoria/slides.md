@@ -1,28 +1,29 @@
-# Slides - Clase 03: Visualizacion exploratoria
+# 🖥️ Diapositivas sugeridas — Clase 03
 
-## Apertura
+> 🖥️ Guion visual breve para conducir la sesión sin sobrecargar la clase.
 
-- Objetivo visible: Usar visualizaciones exploratorias para describir patrones y abrir nuevas preguntas de analisis.
-- Mensaje central: La visualizacion exploratoria ayuda a mirar y preguntar mejor.
+## 🚪 Apertura
 
-## Ruta de la sesion
+- Presentar el objetivo y la pregunta central del módulo.
+- Conectar la sesión con el recorrido general del bootcamp.
+
+## 🛤️ Ruta de la sesión
 
 | Tramo | Tiempo sugerido | Enfoque | Evidencia |
 |---|---|---|---|
-| Inicio | 10 min | Activar conocimientos previos | Pregunta inicial respondida |
-| Desarrollo 1 | 20 min | Conceptos y demostracion guiada | Primer bloque entendido |
-| Desarrollo 2 | 25 min | Codigo comentado y lectura de salida | Resultado explicado |
-| Practica | 25 min | Ejercicios o quiz segun el modulo | Entregable corto |
-| Cierre | 10 min | Conclusion y siguiente paso | Autoevaluacion breve |
+| Inicio | 10 min | Activar contexto y objetivo | Pregunta inicial visible |
+| Desarrollo 1 | 20 min | Demostración guiada | Primer bloque entendido |
+| Desarrollo 2 | 25 min | Lectura de código y explicación | Salida interpretada |
+| Práctica | 25 min | Ejercicio o quiz del módulo | Entregable corto |
+| Cierre | 10 min | Síntesis y siguiente paso | Autoevaluación breve |
 
-## Puntos que deben quedar claros
+## 📌 Puntos que deben quedar claros
 
+- Agrupación
 - Barras
-- Histogramas
-- Series temporales basicas
-- Lectura de patrones
+- Lectura visual
+- Preguntas exploratorias
 
-## Cierre esperado
+## 🏁 Cierre esperado
 
-- Una conclusion breve conectada con evidencia.
-- Un siguiente paso explicito: La clase 04 profundiza con medidas descriptivas.
+La clase 04 profundiza en cómo resumir datos con medidas descriptivas.

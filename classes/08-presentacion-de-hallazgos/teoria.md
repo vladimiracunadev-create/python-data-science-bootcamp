@@ -1,39 +1,41 @@
-# Documento teorico - Clase 08: Presentacion de hallazgos
+# 🧠 Documento teórico — Clase 08: Presentación de hallazgos
 
-> Base conceptual para preparar, reforzar o profundizar lo visto en clase.
+> 🧠 Base conceptual para preparar, reforzar o profundizar lo visto en clase.
 
-## Idea central
+## 💡 Idea central
 
-La calidad del analisis tambien depende de como se explica y a quien se dirige.
+La calidad del análisis también depende de cómo se explica y a quién se dirige.
 
-## Por que importa este modulo
+## ❓ Por qué importa este módulo
 
-Transformar resultados tecnicos en una historia corta, clara y defendible.
+Sin una traducción clara, un buen análisis pierde impacto frente a docentes, alumnos o stakeholders.
 
-## Bloque de codigo documentado
+## 💻 Bloque de código documentado
 
-### Resumen ejecutivo en pocas lineas
+### Resumen ejecutivo en tres líneas
 
-Aunque no sea un grafico, este bloque muestra como traducir el analisis a una salida legible.
+No todo hallazgo se comunica con un gráfico; a veces conviene escribir un mensaje breve y accionable.
 
-**Que hace:** hallazgo -> importancia -> recomendacion
+**Qué hace:** hallazgo → evidencia → recomendación
+
+**Para qué sirve:** Sirve para entrenar una salida ejecutiva que conecte el dato con una decisión posible.
 
 ```python
-hallazgo = "La region norte concentra la mayor venta neta del periodo."
-importancia = "Esto sugiere una oportunidad para profundizar disponibilidad y promocion."
-recomendacion = "Comparar margen y stock antes de escalar la decision."
+hallazgo = "La categoría Accesorios concentra el mayor ingreso neto del periodo."
+evidencia = "El resumen por categoría la ubica en el primer lugar del ranking."
+recomendacion = "Conviene revisar margen, stock y campañas antes de ampliar la oferta."
 
 print(hallazgo)
-print(importancia)
+print(evidencia)
 print(recomendacion)
 ```
 
-## Errores frecuentes a vigilar
+## ⚠️ Errores frecuentes a vigilar
 
-- Saltar al codigo sin aclarar la pregunta.
+- Saltar al código sin aclarar la pregunta.
 - Ejecutar bloques sin leer la salida.
-- Dejar bloques importantes sin comentarios o sin explicacion oral.
+- Dejar bloques importantes sin comentarios o sin explicación oral.
 
-## Conexion con el siguiente modulo
+## 🔗 Conexión con el siguiente módulo
 
-La clase 09 introduce modelado predictivo como extension de este trabajo.
+La clase 09 introduce modelado predictivo como extensión del análisis.

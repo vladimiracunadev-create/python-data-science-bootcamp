@@ -1,40 +1,45 @@
-# Documento teorico - Clase 07: Mini proyecto guiado
+# 🧠 Documento teórico — Clase 07: Mini proyecto guiado
 
-> Base conceptual para preparar, reforzar o profundizar lo visto en clase.
+> 🧠 Base conceptual para preparar, reforzar o profundizar lo visto en clase.
 
-## Idea central
+## 💡 Idea central
 
-Dejar de pensar la clase como tecnicas sueltas y verla como un proceso coherente.
+El proyecto ordena técnicas sueltas dentro de un proceso con sentido.
 
-## Por que importa este modulo
+## ❓ Por qué importa este módulo
 
-Integrar las habilidades vistas hasta ahora en un mini proyecto guiado de principio a fin.
+Este módulo ayuda a unir análisis, limpieza y visualización en un flujo coherente y comunicable.
 
-## Bloque de codigo documentado
+## 💻 Bloque de código documentado
 
-### Pregunta y recorte de trabajo
+### Definición de pregunta y base de trabajo
 
-Antes de calcular, recortamos columnas y dejamos visible la pregunta del proyecto.
+Antes de calcular, conviene dejar escrita la pregunta y recortar solo las columnas necesarias.
 
-**Que hace:** pregunta -> columnas utiles -> base de trabajo
+**Qué hace:** pregunta → recorte → base de trabajo → análisis
+
+**Para qué sirve:** Sirve para evitar notebooks dispersos y para mostrar que el proyecto comienza delimitando el problema.
 
 ```python
 import pandas as pd
 
 df = pd.read_csv("datasets/ventas_tienda.csv")
+df["total_neto"] = df["unidades"] * df["precio_unitario"] * (1 - df["descuento_pct"])
 
-# Pregunta del proyecto: que categorias concentran mayor venta neta
-columnas = ["fecha", "categoria", "region", "total_neto"]
+pregunta = "¿Qué categoría concentra mayor ingreso neto?"
+columnas = ["fecha", "sucursal", "categoria", "producto", "medio_pago", "total_neto"]
 proyecto = df[columnas].copy()
+
+print(pregunta)
 print(proyecto.head())
 ```
 
-## Errores frecuentes a vigilar
+## ⚠️ Errores frecuentes a vigilar
 
-- Saltar al codigo sin aclarar la pregunta.
+- Saltar al código sin aclarar la pregunta.
 - Ejecutar bloques sin leer la salida.
-- Dejar bloques importantes sin comentarios o sin explicacion oral.
+- Dejar bloques importantes sin comentarios o sin explicación oral.
 
-## Conexion con el siguiente modulo
+## 🔗 Conexión con el siguiente módulo
 
-La clase 08 convierte ese trabajo en presentacion de hallazgos.
+La clase 08 convierte ese trabajo en una presentación breve de hallazgos.

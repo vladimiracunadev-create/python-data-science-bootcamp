@@ -1,6 +1,6 @@
 let notebookState = {
   notebookId: "python_basics_lab",
-  title: "Notebook de practica",
+  title: "Notebook de práctica",
   description: "",
   cells: [],
 };
@@ -60,7 +60,7 @@ function renderQuizSection() {
     ? buildQuizSummary(result)
     : `
         <div class="quiz-summary-box">
-          <strong>Diagnostico de entrada</strong>
+          <strong>Diagnóstico de entrada</strong>
           <p>${escapeHtml(quiz.description)}</p>
           <p>Respondidas: ${answeredCount}/${quiz.questions.length}</p>
         </div>
@@ -75,7 +75,7 @@ function renderQuizSection() {
       <div class="quiz-header">
         <div>
           <h3>${escapeHtml(quiz.title)}</h3>
-          <p class="muted">Duracion sugerida: ${escapeHtml(quiz.duration)}</p>
+          <p class="muted">Duración sugerida: ${escapeHtml(quiz.duration)}</p>
         </div>
         <div class="actions">
           <button onclick="submitQuiz()">Enviar respuestas</button>
@@ -109,7 +109,7 @@ function buildQuizSummary(result) {
       <table class="quiz-summary-table">
         <thead>
           <tr>
-            <th>Categoria</th>
+            <th>Categoría</th>
             <th>Correctas</th>
             <th>Total</th>
           </tr>
@@ -155,7 +155,7 @@ function buildQuizQuestion(question, index, selectedIndex, submitted) {
 
   const feedbackHtml = submitted
     ? buildQuizFeedback(question, selectedIndex)
-    : '<p class="quiz-feedback muted">Selecciona una alternativa y envia el quiz para ver la correccion.</p>';
+    : '<p class="quiz-feedback muted">Selecciona una alternativa y envía el quiz para ver la corrección.</p>';
 
   return `
     <article class="quiz-question-card">
@@ -243,7 +243,7 @@ function submitQuiz() {
 
   quizState.submitted = true;
   renderQuizSection();
-  showToast("Diagnostico corregido. Revisa aciertos y errores por pregunta.");
+  showToast("Diagnóstico corregido. Revisa aciertos y errores por pregunta.");
 }
 
 function resetQuiz() {
@@ -282,7 +282,7 @@ async function loadClass(slug) {
 
     container.innerHTML = `
       <div class="class-section markdown-body">${data.html["README.md"] || ""}</div>
-      ${buildClassSection("Base teorica", data.html["teoria.md"], { open: true })}
+      ${buildClassSection("Base teórica", data.html["teoria.md"], { open: true })}
       ${buildClassSection("Slides y pauta", data.html["slides.md"], { open: true })}
       ${buildClassSection("Ejercicios", data.html["ejercicios.md"], { open: true })}
       ${buildClassSection("Homework", data.html["homework.md"])}
@@ -313,7 +313,7 @@ function createCellElement(cell, index) {
     </div>
     <div class="cell-body">
       <textarea data-index="${index}" spellcheck="false" rows="6">${escapeHtml(cell.code || "")}</textarea>
-      <div id="cell-output-${index}" class="cell-output">${cell.lastOutput || '<span class="muted">Sin salida aun.</span>'}</div>
+      <div id="cell-output-${index}" class="cell-output">${cell.lastOutput || '<span class="muted">Sin salida aún.</span>'}</div>
     </div>
   `;
 
@@ -346,7 +346,7 @@ function syncCellsFromDom() {
 
 function addCell() {
   syncCellsFromDom();
-  notebookState.cells.push({ code: "# Escribe tu codigo aqui\n", lastOutput: "" });
+  notebookState.cells.push({ code: "# Escribe tu código aquí\n", lastOutput: "" });
   renderCells();
 }
 
@@ -386,7 +386,7 @@ function formatOutput(data) {
   }
   if (data.images) {
     data.images.forEach((image) => {
-      html += `<img class="output-image" src="data:image/png;base64,${image}" alt="grafico">`;
+      html += `<img class="output-image" src="data:image/png;base64,${image}" alt="gráfico">`;
     });
   }
   return html;

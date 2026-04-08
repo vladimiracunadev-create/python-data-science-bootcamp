@@ -1,42 +1,45 @@
-# Documento teorico - Clase 06: Texto, fechas y transformaciones
+# 🧠 Documento teórico — Clase 06: Texto, fechas y transformaciones
 
-> Base conceptual para preparar, reforzar o profundizar lo visto en clase.
+> 🧠 Base conceptual para preparar, reforzar o profundizar lo visto en clase.
 
-## Idea central
+## 💡 Idea central
 
 Muchas preguntas nuevas aparecen cuando una columna se transforma bien.
 
-## Por que importa este modulo
+## ❓ Por qué importa este módulo
 
-Transformar columnas de texto y fecha para volverlas utiles en analisis y modelado inicial.
+Las transformaciones abren preguntas más útiles y preparan mejor la base de trabajo.
 
-## Bloque de codigo documentado
+## 💻 Bloque de código documentado
 
-### Conversion de fechas y variables derivadas
+### Fechas y texto listos para analizar
 
-Convertir a fecha habilita nuevas preguntas como comportamiento por mes o dia de semana.
+Convertir y normalizar columnas no es maquillaje: cambia lo que se puede preguntar después.
 
-**Que hace:** convertir fecha -> extraer componente -> usar
+**Qué hace:** convertir → derivar → normalizar → reutilizar
+
+**Para qué sirve:** Sirve para preparar columnas que luego alimentan gráficos, filtros o variables de modelado.
 
 ```python
 import pandas as pd
 
-tickets = pd.read_csv("datasets/soporte_tickets.csv")
-tickets["fecha_creacion"] = pd.to_datetime(tickets["fecha_creacion"])
+df = pd.read_csv("datasets/ventas_tienda.csv")
+df["fecha"] = pd.to_datetime(df["fecha"])
 
 # Creamos columnas nuevas para responder preguntas posteriores.
-tickets["mes"] = tickets["fecha_creacion"].dt.month
-tickets["dia_semana"] = tickets["fecha_creacion"].dt.day_name()
+df["mes"] = df["fecha"].dt.to_period("M").astype(str)
+df["dia_semana"] = df["fecha"].dt.day_name()
+df["producto_normalizado"] = df["producto"].str.strip().str.lower()
 
-print(tickets[["fecha_creacion", "mes", "dia_semana"]].head())
+print(df[["fecha", "mes", "dia_semana", "producto_normalizado"]].head())
 ```
 
-## Errores frecuentes a vigilar
+## ⚠️ Errores frecuentes a vigilar
 
-- Saltar al codigo sin aclarar la pregunta.
+- Saltar al código sin aclarar la pregunta.
 - Ejecutar bloques sin leer la salida.
-- Dejar bloques importantes sin comentarios o sin explicacion oral.
+- Dejar bloques importantes sin comentarios o sin explicación oral.
 
-## Conexion con el siguiente modulo
+## 🔗 Conexión con el siguiente módulo
 
-La clase 07 usa estas habilidades en un mini proyecto guiado.
+La clase 07 usa estas habilidades dentro de un mini proyecto guiado.

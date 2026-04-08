@@ -2,8 +2,8 @@
  * AppNavigator.js — Configuracion de rutas de la app
  *
  * Rutas disponibles:
- *   Home       → Lista de las 12 clases con progreso
- *   Class      → Detalle de una clase (teoria + ejercicios + Colab)
+ *   Home       → Lista de los 13 módulos con progreso
+ *   Class      → Detalle de una clase (teoría + ejercicios + Colab)
  */
 
 import React from 'react';
@@ -27,7 +27,7 @@ const headerOptions = {
     fontWeight: '700',
     fontSize: 17,
   },
-  headerBackTitleVisible: false,    // ocultar texto "Atras" en iOS
+  headerBackTitleVisible: false,    // ocultar texto "Atrás" en iOS
 };
 
 export default function AppNavigator() {

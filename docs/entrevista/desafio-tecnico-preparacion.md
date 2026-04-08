@@ -1,15 +1,15 @@
-# Preparacion para desafio tecnico
+# 🧪 Preparación para desafío técnico
 
-Guia integral para preparar el desafio tecnico sin caer en la trampa de querer demostrar complejidad por encima de criterio. Este documento cruza contenido tecnico, explicacion, despliegue, seguridad y transferencia pedagogica.
+Guía integral para preparar el desafío técnico sin caer en la trampa de querer demostrar complejidad por encima de criterio. Este documento cruza contenido técnico, explicación, despliegue, seguridad y transferencia pedagógica.
 
 ## 1. Regla principal
 
-En este tipo de desafio vale mas:
+En este tipo de desafío vale más:
 
 - claridad;
 - buen alcance;
-- validacion;
-- explicacion;
+- validación;
+- explicación;
 - decisiones defendibles.
 
 Vale menos:
@@ -17,21 +17,21 @@ Vale menos:
 - complejidad innecesaria;
 - sobreingenieria;
 - mostrar demasiadas herramientas a la vez;
-- una solucion brillante pero dificil de sostener.
+- una solución brillante pero dificil de sostener.
 
 ## 2. Mapa de dominios que debes manejar
 
 ```mermaid
 flowchart TD
-A["Python"] --> B["Datos"]
-B --> C["Visualizacion"]
-C --> D["App y API"]
-D --> E["Calidad"]
-E --> F["Seguridad y despliegue"]
-F --> G["Traduccion pedagogica"]
+    A["Python"] --> B["Datos"]
+    B --> C["Visualizacion"]
+    C --> D["App y API"]
+    D --> E["Calidad"]
+    E --> F["Seguridad y despliegue"]
+    F --> G["Traduccion pedagogica"]
 ```
 
-## 3. Contenido tecnico base
+## 3. Contenido técnico base
 
 ### Python
 
@@ -39,32 +39,32 @@ F --> G["Traduccion pedagogica"]
 - condicionales, bucles y funciones;
 - comprensiones;
 - manejo de errores;
-- imports y modulos;
+- imports y módulos;
 - legibilidad, nombres y descomposicion.
 
-### Analisis de datos
+### Análisis de datos
 
 - `pandas.read_csv`;
 - `head`, `info`, `describe`;
 - seleccion y filtro de columnas;
-- nulos y limpieza basica;
+- nulos y limpieza básica;
 - `groupby`, agregaciones y ordenamiento;
 - columnas derivadas;
 - interpretacion de resultados.
 
-### Visualizacion
+### Visualización
 
-- barras, lineas y dispersion;
-- eleccion de grafico segun pregunta;
-- legibilidad de ejes y titulos;
+- barras, líneas y dispersion;
+- eleccion de gráfico según pregunta;
+- legibilidad de ejes y títulos;
 - lectura de patrones;
-- explicacion de hallazgos.
+- explicación de hallazgos.
 
 ### Estadistica descriptiva
 
 - media, mediana, conteo, porcentaje;
 - distribucion simple;
-- outliers basicos;
+- outliers básicos;
 - diferencia entre descripcion y causalidad.
 
 ### Machine learning introductorio
@@ -74,7 +74,7 @@ Aunque la V1 no dependa de eso, conviene manejar:
 - diferencia entre regresion y clasificacion;
 - train/test split;
 - features y target;
-- overfitting basico;
+- overfitting básico;
 - metricas simples;
 - cuando no conviene usar ML.
 
@@ -84,21 +84,21 @@ Debes poder explicar:
 
 - estructura minima de una app Flask;
 - rutas GET y POST;
-- `request`, `jsonify` y validaciones;
-- separacion entre contenido, logica y ejecucion;
-- manejo de errores y codigos HTTP;
+- `request`, `jsonify` y validaciónes;
+- separacion entre contenido, lógica y ejecución;
+- manejo de errores y códigos HTTP;
 - por que `health` y `ready` ayudan a operar.
 
 ## 5. Calidad, pruebas y disciplina de entrega
 
 En este repo ya existe una base visible. Debes poder hablar de:
 
-- `pytest` como validacion funcional;
+- `pytest` como validación funcional;
 - `ruff` para consistencia y calidad;
 - GitHub Actions para CI;
 - Docker build como verificacion de empaque.
 
-Si te piden un cambio, la respuesta fuerte no es solo escribir codigo. Es mostrar como verificaste que no rompiste lo existente.
+Si te piden un cambio, la respuesta fuerte no es solo escribir código. Es mostrar como verificaste que no rompiste lo existente.
 
 ## 6. Seguridad y despliegue
 
@@ -108,14 +108,14 @@ Si te piden un cambio, la respuesta fuerte no es solo escribir codigo. Es mostra
 - usar `127.0.0.1` como postura segura para local;
 - validar payloads y entradas;
 - bloquear path traversal;
-- limitar longitud de codigo;
-- usar timeouts en ejecucion;
+- limitar longitud de código;
+- usar timeouts en ejecución;
 - mantener secretos fuera del repo;
-- distinguir Pages publico de runner local.
+- distinguir Pages público de runner local.
 
 ### Pregunta que puede aparecer
 
-"Si esto creciera, que haria falta"
+"Si esto creciera, que haría falta?"
 
 Respuesta esperable:
 
@@ -124,44 +124,44 @@ Respuesta esperable:
 - rate limit;
 - observabilidad;
 - mejor aislamiento del runner;
-- politicas de despliegue mas estrictas.
+- politicas de despliegue más estrictas.
 
-## 7. Casos que podrian pedirte
+## 7. Casos que podrían pedirte
 
-| Tipo de desafio | Que podria incluir | Que debes mostrar |
+| Tipo de desafío | Qué podría incluir | Qué debes mostrar |
 |---|---|---|
-| bugfix | corregir una funcion o ruta | reproduccion, fix y verificacion |
+| bugfix | corregir una función o ruta | reproduccion, fix y verificacion |
 | ejercicio de datos | cargar CSV, limpiar y responder preguntas | orden de pasos e interpretacion |
-| mejora de backend | agregar validacion, endpoint o capa | alcance acotado y criterio de riesgo |
+| mejora de backend | agregar validación, endpoint o capa | alcance acotado y criterio de riesgo |
 | revision de despliegue | Docker, CI o seguridad | diferencia entre local, demo y produccion |
-| aterrizaje pedagogico | convertir solucion en actividad | objetivo, secuencia y apoyo al estudiante |
+| aterrizaje pedagógico | convertir solución en actividad | objetivo, secuencia y apoyo al estudiante |
 
 ## 8. Preguntas marco que debes poder contestar
 
-### "Por que elegiste esta solucion"
+### "Por que elegiste esta solución?"
 
-"Porque resuelve bien el problema real con una base clara, verificable y mantenible. Si el contexto despues pide mas complejidad, la escalo sobre una solucion sana."
+"Porque resuelve bien el problema real con una base clara, verificable y mantenible. Si el contexto despues pide más complejidad, la escalo sobre una solución sana."
 
-### "Por que no usaste algo mas avanzado"
+### "Por que no usaste algo más avanzado?"
 
-"Porque primero quise asegurar una solucion correcta y entendible. La complejidad adicional solo vale si agrega valor real."
+"Porque primero quise asegurar una solución correcta y entendible. La complejidad adicional solo vale si agrega valor real."
 
-### "Como lo ensenarias"
+### "Cómo lo enseñarías?"
 
-"Lo dividiria en objetivo visible, ejemplo guiado, practica corta y cierre con interpretacion."
+"Lo dividiria en objetivo visible, ejemplo guiado, práctica corta y cierre con interpretacion."
 
-### "Que riesgo ves aqui"
+### "Qué riesgo ves aquí?"
 
-"El principal riesgo es confundir una demo local con una aplicacion lista para internet abierta. Si esto se expusiera mas, pisaria primero proxy, TLS, auth y limites."
+"El principal riesgo es confundir una demo local con una aplicacion lista para internet abierta. Si esto se expusiera más, pisaria primero proxy, TLS, auth y límites."
 
-## 9. Checklist antes de entregar cualquier desafio
+## 9. Checklist antes de entregar cualquier desafío
 
 1. entender el objetivo exacto;
 2. aclarar supuestos si hay ambiguedad;
 3. definir el minimo correcto;
 4. implementar con orden;
 5. validar;
-6. explicar tradeoffs y limites.
+6. explicar tradeoffs y límites.
 
 ## 10. Entrenamiento recomendado para hoy
 
@@ -169,23 +169,23 @@ Respuesta esperable:
 - explicar `pandas` en voz alta como si fuera una clase;
 - practicar un bugfix pequeno y validar con tests;
 - revisar endpoints, seguridad y despliegue del repo;
-- ensayar el argumento de valor frente a cualquier tecnologia.
+- ensayar el argumento de valor frente a cualquier tecnología.
 
 ## 11. Cruce con el resto del portafolio
 
-Lo que se espera en un estandar alto, mirando tus otros repos, no es solo codigo. Es:
+Lo que se espera en un estandar alto, mirando tus otros repos, no es solo código. Es:
 
-- documentacion clara por audiencia;
+- documentación clara por audiencia;
 - frontera honesta entre demo y produccion;
 - CI/CD visible;
 - seguridad explicita;
-- capacidad de explicar arquitectura y operacion.
+- capacidad de explicar arquitectura y operación.
 
-Este desafio debe responder con esa misma madurez.
+Este desafío debe responder con esa misma madurez.
 
 ## 12. Documentos relacionados
 
-- [../despliegue-seguro-y-operacion.md](../despliegue-seguro-y-operacion.md)
+- [../despliegue-seguro-y-operación.md](../despliegue-seguro-y-operacion.md)
 - [proceso-seleccion-skillnest.md](proceso-seleccion-skillnest.md)
 - [../GUIA_EVALUACION.md](../GUIA_EVALUACION.md)
 - [../ARQUITECTURA_PRODUCTO.md](../ARQUITECTURA_PRODUCTO.md)

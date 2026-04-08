@@ -74,7 +74,11 @@ export const fontWeight = {
 // Mapa de color por nivel de dificultad
 export const levelColor = (level) => {
   if (!level) return colors.textMuted;
-  const l = level.toLowerCase();
+  const l = level
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .replace(/\s+/g, '-');
   if (l === 'diagnostico') return colors.info;
   if (l === 'basico') return colors.levelBasic;
   if (l === 'intermedio') return colors.levelInter;

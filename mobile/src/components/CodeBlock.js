@@ -66,7 +66,7 @@ const CodeBlock = ({ code, language = 'python', title, style }) => {
           activeOpacity={0.7}
         >
           <Text style={[styles.copyButtonText, copied && styles.copyButtonTextSuccess]}>
-            {copied ? '✓ Copiado!' : 'Copiar'}
+            {copied ? 'Copiado' : 'Copiar'}
           </Text>
         </TouchableOpacity>
       </View>

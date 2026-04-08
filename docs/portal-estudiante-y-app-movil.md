@@ -1,16 +1,16 @@
-# Portal del alumno y ruta hacia app movil
+# 📱 Portal del alumno y ruta hacia app móvil
 
-Documento de producto para explicar por que existe una superficie publica separada del laboratorio local, cual es el enlace oficial para estudiantes y como evoluciona esta base hacia una experiencia movil sin sobredimensionar la madurez actual.
+Documento de producto para explicar por que existe una superficie pública separada del laboratorio local, cual es el enlace oficial para estudiantes y como evoluciona esta base hacia una experiencia móvil sin sobredimensionar la madurez actual.
 
 ## 1. Objetivo
 
 Separar claramente tres cosas:
 
-- la experiencia publica del estudiante;
+- la experiencia pública del estudiante;
 - la experiencia operativa del docente;
-- la evolucion futura hacia movilidad y seguimiento.
+- la evolución futura hacia movilidad y seguimiento.
 
-Eso evita mezclar presentacion, aprendizaje y ejecucion de codigo en una sola capa.
+Eso evita mezclar presentación, aprendizaje y ejecución de código en una sola capa.
 
 ## 2. Enlace oficial para estudiantes
 
@@ -20,11 +20,11 @@ Si este repositorio se publica desde `vladimiracunadev-create/python-data-scienc
 
 Ese es el enlace que conviene compartir por correo, QR, sala virtual o material impreso.
 
-## 3. Que problema resuelve el portal del alumno
+## 3. Qué problema resuelve el portal del alumno
 
 | Necesidad | Respuesta del portal |
 |---|---|
-| tener un punto de entrada simple | landing publica con informacion base |
+| tener un punto de entrada simple | landing pública con información base |
 | no depender del laboratorio local para todo | contenido estatico accesible por Pages |
 | revisar desde celular | interfaz ligera y sin backend obligatorio |
 | ordenar recursos y expectativas | ruta, normas y materiales visibles |
@@ -33,35 +33,35 @@ Ese es el enlace que conviene compartir por correo, QR, sala virtual o material 
 
 ```mermaid
 flowchart LR
-A["Alumno"] --> B["GitHub Pages / site/"]
-C["Docente"] --> D["Laboratorio local / app/"]
-B --> E["Ruta, recursos, normas"]
-D --> F["Clases, notebooks, runner"]
-B -. futura integracion .-> G["Experiencia movil"]
+    A["Alumno"] --> B["GitHub Pages / site/"]
+    C["Docente"] --> D["Laboratorio local / app/"]
+    B --> E["Ruta, recursos, normas"]
+    D --> F["Clases, notebooks, runner"]
+    B -. futura integracion .-> G["Experiencia movil"]
 ```
 
-## 5. Que queda en GitHub Pages
+## 5. Qué queda en GitHub Pages
 
-- presentacion del programa;
+- presentación del programa;
 - ruta de aprendizaje;
-- recursos publicos;
+- recursos públicos;
 - reglas de trabajo;
 - enlace oficial del curso;
 - base de lectura en celular.
 
-## 6. Que sigue viviendo en la app Flask
+## 6. Qué sigue viviendo en la app Flask
 
-- catalogo dinamico de clases;
+- catálogo dinamico de clases;
 - notebooks interactivos;
 - guardado de notebooks;
-- ejecucion de codigo;
+- ejecución de código;
 - sesiones y salidas generadas.
 
-## 7. Regla de comunicacion importante
+## 7. Regla de comunicación importante
 
-El portal del alumno no es toda la aplicacion. Es la puerta de entrada oficial para estudiantes. El laboratorio Flask sigue siendo el nucleo local de practica y demostracion.
+El portal del alumno no es toda la aplicacion. Es la puerta de entrada oficial para estudiantes. El laboratorio Flask sigue siendo el núcleo local de práctica y demostracion.
 
-## 8. Ruta movil realista
+## 8. Ruta móvil realista
 
 ### Lo portable con poca friccion
 
@@ -69,26 +69,26 @@ El portal del alumno no es toda la aplicacion. Es la puerta de entrada oficial p
 - detalle de clase;
 - recordatorios;
 - checklist de avances;
-- recursos publicos y avisos.
+- recursos públicos y avisos.
 
 ### Lo que requiere backend y mayor control
 
-- ejecucion de codigo;
+- ejecución de código;
 - guardado persistente por estudiante;
 - progreso individual;
 - sesiones autenticadas;
 - seguimiento docente por alumno.
 
-## 9. Roadmap de evolucion
+## 9. Roadmap de evolución
 
 | Fase | Entregable | Madurez esperada |
 |---|---|---|
 | fase 1 | GitHub Pages para estudiantes | operativa hoy |
-| fase 2 | experiencia web movil con mas contenido y seguimiento | factible sobre la misma base |
-| fase 3 | integracion con backend para funciones interactivas | requiere decisiones de auth y seguridad |
-| fase 4 | app movil dedicada | solo si el programa lo justifica |
+| fase 2 | experiencia web móvil con más contenido y seguimiento | factible sobre la misma base |
+| fase 3 | integración con backend para funciones interactivas | requiere decisiones de auth y seguridad |
+| fase 4 | app móvil dedicada | solo si el programa lo justifica |
 
-## 10. CI/CD de la superficie publica
+## 10. CI/CD de la superficie pública
 
 La capa del portal ya tiene despliegue automatico por GitHub Actions:
 
@@ -98,7 +98,7 @@ La capa del portal ya tiene despliegue automatico por GitHub Actions:
 
 Antes de que ese deploy funcione, el repositorio debe tener GitHub Pages habilitado con `Source: GitHub Actions`.
 
-## 11. Que deben usar los alumnos
+## 11. Qué deben usar los alumnos
 
 El mensaje recomendado para estudiantes es simple:
 
@@ -111,8 +111,8 @@ El mensaje recomendado para estudiantes es simple:
 ## 12. Porque esta separacion agrega valor
 
 - mejora la claridad para el estudiante;
-- evita exponer el runner como si fuera un portal publico mas;
-- permite crecer a movil sin rehacer la experiencia base;
+- evita exponer el runner como si fuera un portal público más;
+- permite crecer a móvil sin rehacer la experiencia base;
 - demuestra criterio de producto y no solo acumulacion de pantallas.
 
 ## 13. Archivos involucrados
@@ -123,8 +123,8 @@ El mensaje recomendado para estudiantes es simple:
 - `site/assets/icon.svg`
 - `.github/workflows/deploy-pages.yml`
 
-## 14. Relacion con otros documentos
+## 14. Relación con otros documentos
 
 - [CATALOGO_PRODUCTO.md](CATALOGO_PRODUCTO.md)
 - [ARQUITECTURA_PRODUCTO.md](ARQUITECTURA_PRODUCTO.md)
-- [despliegue-seguro-y-operacion.md](despliegue-seguro-y-operacion.md)
+- [despliegue-seguro-y-operación.md](despliegue-seguro-y-operacion.md)

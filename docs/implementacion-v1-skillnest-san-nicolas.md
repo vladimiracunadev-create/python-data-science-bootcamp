@@ -1,6 +1,6 @@
-# Implementacion V1 para Skillnest / Colegio San Nicolas de Maipu
+# 🏫 Implementación V1 para Skillnest / Colegio San Nicolas de Maipu
 
-Documento de aterrizaje para convertir este repositorio en una primera implementacion escolar concreta, acotada y defendible. La idea no es prometer "todo el bootcamp completo", sino mostrar que la base ya existe y que sabes recortarla con criterio.
+Documento de aterrizaje para convertir este repositorio en una primera implementación escolar concreta, acotada y defendible. La idea no es prometer "todo el bootcamp completo", sino mostrar que la base ya existe y que sabes recortarla con criterio.
 
 ## 1. Contexto confirmado
 
@@ -9,7 +9,7 @@ Datos entregados por Skillnest:
 - programa: Bootcamp Python para Data Science;
 - modalidad: presencial;
 - establecimiento: Colegio San Nicolas de Maipu;
-- direccion informada: Mateo de Toro y Zambrano 3016, Santiago, Maipu, Region Metropolitana;
+- dirección informada: Mateo de Toro y Zambrano 3016, Santiago, Maipu, Region Metropolitana;
 - inicio: por confirmar;
 - termino informado: 11 de diciembre de 2026;
 - trabajo administrativo: 4 horas semanales.
@@ -20,7 +20,7 @@ Bloques horarios informados:
 - jueves de 09:30 a 10:15;
 - jueves de 10:35 a 11:20.
 
-## 2. Observacion critica sobre la carga horaria
+## 2. Observacion crítica sobre la carga horaria
 
 Los bloques informados suman 180 minutos semanales. Eso equivale a:
 
@@ -36,9 +36,9 @@ Esta inconsistencia debe aclararse en la entrevista. Mientras no exista confirma
 
 ## 3. Lo que ya resuelve el repo para una V1
 
-- clase 0 diagnostica + 12 clases modulares con materiales reutilizables;
+- clase 0 diagnóstica + 12 clases modulares con materiales reutilizables;
 - notebooks, soluciones y datasets;
-- documentacion docente y de evaluacion;
+- documentación docente y de evaluación;
 - laboratorio local para demostracion;
 - portal del alumno y capa institucional;
 - CI/CD y postura operativa visible.
@@ -47,23 +47,23 @@ Eso significa que no partes desde cero. Partes desde una base que se puede recor
 
 ## 4. Criterio de recorte recomendado
 
-Primera implementacion escolar:
+Primera implementación escolar:
 
 - menos temas;
-- mas profundidad en fundamentos;
+- más profundidad en fundamentos;
 - un dataset principal;
-- evaluacion simple y seguimiento visible;
-- tecnologia usada con criterio, no como show.
+- evaluación simple y seguimiento visible;
+- tecnología usada con criterio, no como show.
 
 ## 5. Promesa de aprendizaje para la V1
 
-Al terminar la primera version, el estudiante deberia poder:
+Al terminar la primera versión, el estudiante deberia poder:
 
-- leer y modificar codigo simple en Python;
+- leer y modificar código simple en Python;
 - cargar un CSV con pandas;
-- limpiar datos basicos;
+- limpiar datos básicos;
 - construir una tabla resumen;
-- hacer un grafico sencillo;
+- hacer un gráfico sencillo;
 - explicar un hallazgo con lenguaje claro.
 
 ## 6. Contenido recomendado para mostrar ahora
@@ -71,10 +71,10 @@ Al terminar la primera version, el estudiante deberia poder:
 | Prioridad | Clase | Rol en la V1 |
 |---|---|---|
 | alta | `classes/01-python-fundamentos/` | entrada al lenguaje |
-| alta | `classes/02-pandas-limpieza-datos/` | lectura y manipulacion basica |
+| alta | `classes/02-pandas-limpieza-datos/` | lectura y manipulacion básica |
 | alta | `classes/03-visualizacion-exploratoria/` | primeras conclusiones desde datos |
 | media | `classes/04-estadistica-descriptiva/` | interpretacion simple |
-| alta | `classes/07-mini-proyecto-guiado/` | integracion de habilidades |
+| alta | `classes/07-mini-proyecto-guiado/` | integración de habilidades |
 | alta | `classes/08-presentacion-de-hallazgos/` | cierre comunicable |
 
 ## 7. Contenido que conviene dejar para fase 2
@@ -97,7 +97,7 @@ No porque no sirvan, sino porque en una primera cohorte escolar pueden abrir dem
 Ventajas:
 
 - facil de explicar;
-- sirve para Python, pandas y graficos;
+- sirve para Python, pandas y gráficos;
 - soporta preguntas concretas y hallazgos simples;
 - incluye una sucursal Maipu que ayuda a aterrizar la narrativa.
 
@@ -107,7 +107,7 @@ Ventajas:
 
 Uso recomendado:
 
-- analisis descriptivo;
+- análisis descriptivo;
 - asistencia y seguimiento;
 - no usar como base de ML en la V1 hasta alinear completamente estructura y materiales.
 
@@ -115,60 +115,60 @@ Uso recomendado:
 
 ```mermaid
 flowchart LR
-A["Python base"] --> B["Leer CSV"]
-B --> C["Filtrar y resumir"]
-C --> D["Graficar"]
-D --> E["Mini proyecto"]
-E --> F["Presentar hallazgos"]
+    A["Python base"] --> B["Leer CSV"]
+    B --> C["Filtrar y resumir"]
+    C --> D["Graficar"]
+    D --> E["Mini proyecto"]
+    E --> F["Presentar hallazgos"]
 ```
 
-Esta ruta es suficiente para una primera implementacion creible, medible y ejecutable.
+Esta ruta es suficiente para una primera implementación creible, medible y ejecutable.
 
-## 10. Como usar las horas administrativas
+## 10. Cómo usar las horas administrativas
 
 Las 4 horas administrativas no deberian gastarse en regalar produccion infinita previa. Conviene orientarlas a:
 
-- ajuste final de materiales segun grupo;
+- ajuste final de materiales según grupo;
 - revision de asistencia y evidencias;
-- comunicacion con coordinacion;
-- preparacion de la siguiente sesion;
-- retroalimentacion corta y util.
+- comunicación con coordinacion;
+- preparación de la siguiente sesión;
+- retroalimentación corta y util.
 
 ## 11. Riesgos y mitigaciones
 
 | Riesgo | Impacto | Mitigacion |
 |---|---|---|
 | horas reales no confirmadas | desalineacion del plan | pedir confirmacion antes de cerrar cronograma |
-| grupo con base muy heterogenea | brecha de avance | minimo comun claro y desafio opcional |
+| grupo con base muy heterogenea | brecha de avance | minimo comun claro y desafío opcional |
 | expectativa de demasiado contenido | sobrecarga | presentar V1 como ruta acotada y escalable |
-| uso desordenado de tecnologia | copia sin comprension | reglas de uso, adaptacion y explicacion |
-| pedir mas trabajo previo sin acuerdo | desgaste y devaluacion | mostrar base existente y acotar personalizacion |
+| uso desordenado de tecnología | copia sin comprensión | reglas de uso, adaptación y explicación |
+| pedir más trabajo previo sin acuerdo | desgaste y devaluacion | mostrar base existente y acotar personalización |
 
-## 12. Que demostrar en la reunion
+## 12. Qué demostrar en la reunión
 
-- que sabes convertir un repo amplio en una implementacion viable;
+- que sabes convertir un repo amplio en una implementación viable;
 - que no sobredimensionas la primera entrega;
-- que entiendes ritmo escolar, mediacion y evaluacion;
+- que entiendes ritmo escolar, mediación y evaluación;
 - que sabes diferenciar demo, piloto y despliegue real.
 
-## 13. Que no regalar en la entrevista
+## 13. Qué no regalar en la entrevista
 
 No conviene dejar instalada la idea de que haras, sin cierre formal:
 
-- personalizacion total por colegio;
+- personalización total por colegio;
 - rediseno completo del curriculum;
-- desarrollo movil completo;
+- desarrollo móvil completo;
 - integraciones extras o despliegue abierto del runner.
 
 El mensaje correcto es otro: la base ya existe, la V1 se puede activar con criterio, y el crecimiento posterior se disena con el alcance ya confirmado.
 
 ## 14. Mensaje recomendado para presentar esta V1
 
-"No estoy proponiendo empezar por la version mas grande del repositorio. Estoy proponiendo una primera implementacion escolar, clara y medible, montada sobre una base ya seria. Eso permite comenzar bien, evidenciar resultados y crecer despues sin rehacer el trabajo."
+"No estoy proponiendo empezar por la versión más grande del repositorio. Estoy proponiendo una primera implementación escolar, clara y medible, montada sobre una base ya seria. Eso permite comenzar bien, evidenciar resultados y crecer despues sin rehacer el trabajo."
 
-## 15. Relacion con otros documentos
+## 15. Relación con otros documentos
 
 - [GUIA_EVALUACION.md](GUIA_EVALUACION.md)
-- [plan-evaluacion.md](plan-evaluacion.md)
-- [metodologia-docente.md](metodologia-docente.md)
+- [plan-evaluación.md](plan-evaluacion.md)
+- [metodología-docente.md](metodologia-docente.md)
 - [entrevista/proceso-seleccion-skillnest.md](entrevista/proceso-seleccion-skillnest.md)

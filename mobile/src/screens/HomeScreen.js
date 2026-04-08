@@ -1,9 +1,9 @@
 /**
- * HomeScreen.js — Pantalla principal: lista de 12 clases con progreso
+ * HomeScreen.js — Pantalla principal: lista de 13 módulos con progreso
  *
  * Muestra:
  *   - Header con nombre del bootcamp
- *   - Barra de progreso: X/12 clases completadas
+ *   - Barra de progreso: X/13 módulos completados
  *   - Lista de ClassCards navegables
  *   - Nota de uso al pie
  */
@@ -81,7 +81,7 @@ export default function HomeScreen({ navigation }) {
       {/* Titulo principal */}
       <Text style={styles.mainTitle}>Bootcamp Python DS</Text>
       <Text style={styles.subtitle}>
-        Clase 0 diagnostica + 12 clases troncales
+        Clase 0 diagnóstica + 12 clases troncales
       </Text>
 
       {/* Barra de progreso */}
@@ -113,7 +113,7 @@ export default function HomeScreen({ navigation }) {
       {/* Nota de uso */}
       <View style={styles.tipBox}>
         <Text style={styles.tipText}>
-          Toca una clase para leer teoria, materiales y codigo documentado. Si el modulo tiene
+          Toca una clase para leer teoría, materiales y código documentado. Si el módulo tiene
           notebook, usa <Text style={styles.tipAccent}>Abrir en Colab</Text> para practicarlo.
         </Text>
       </View>
@@ -123,7 +123,7 @@ export default function HomeScreen({ navigation }) {
   const renderFooter = () => (
     <View style={styles.footer}>
       <Text style={styles.footerText}>
-        El contenido esta disponible sin conexion. Google Colab requiere internet.
+        El contenido está disponible sin conexión. Google Colab requiere internet.
       </Text>
     </View>
   );

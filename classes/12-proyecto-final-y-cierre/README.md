@@ -1,33 +1,35 @@
-# Clase 12: Proyecto final y cierre
+# 🏁 Clase 12: Proyecto final y cierre
 
-> Ficha de clase con objetivo, materiales y foco de aprendizaje.
+> 🎯 Ficha de clase con objetivo, materiales y foco de aprendizaje.
 
-## Objetivo
+## 🎯 Objetivo
 
 Integrar las habilidades del bootcamp en un proyecto final acotado y defendible.
 
-## Duracion sugerida
+## ⏱️ Duración sugerida
 
-90 min
+90 minutos
 
-## Dataset base
+## 📦 Dataset base
 
-- `Libre eleccion entre datasets del bootcamp o un caso equivalente validado por el docente.`
+- `datasets/ventas_tienda.csv o el dataset trabajado por el grupo.`
 
-## Resultados esperados
+## ✅ Resultados esperados
 
-- Definir una pregunta final realista.
-- Ordenar notebook y entregables.
-- Justificar decisiones tecnicas.
+Al finalizar, el estudiante podrá:
 
-## Temas clave
+- Formular una pregunta final defendible.
+- Ordenar el notebook por etapas comprensibles.
+- Cerrar con evidencia de aprendizaje integrado.
 
+## 🧭 Temas clave
+
+- Estructura del notebook
 - Pregunta final
-- Flujo completo
-- Entregable integrador
-- Defensa breve
+- Evidencia
+- Cierre de aprendizaje
 
-## Materiales del modulo
+## 🧰 Materiales del módulo
 
 - `README.md`
 - `slides.md`
@@ -37,16 +39,16 @@ Integrar las habilidades del bootcamp en un proyecto final acotado y defendible.
 - `notebook.ipynb`
 - `soluciones.ipynb`
 
-## Como leer el codigo de esta clase
+## 💻 Cómo leer el código de esta clase
 
 - Cada bloque debe responder una pregunta concreta.
-- Los comentarios deben explicar que hace el bloque y para que sirve.
+- Los comentarios deben explicar qué hace el bloque y para qué sirve.
 - Antes de pasar al siguiente paso, verifica que entiendes la salida.
 
-## Idea fuerza
+## 💡 Idea central
 
-Cerrar con evidencia de aprendizaje integrado, no con una lista de tecnicas desconectadas.
+El cierre del bootcamp debe mostrar integración, criterio y claridad de comunicación.
 
-## Nota para el docente
+## 👩‍🏫 Nota para el docente
 
-Ayuda a recortar: un proyecto pequeno y bien explicado vale mas que uno enorme sin defensa.
+Evalúa no solo el resultado final, sino también si el proceso quedó explicado con orden.

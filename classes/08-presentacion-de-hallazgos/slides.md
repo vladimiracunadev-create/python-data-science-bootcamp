@@ -1,28 +1,29 @@
-# Slides - Clase 08: Presentacion de hallazgos
+# 🖥️ Diapositivas sugeridas — Clase 08
 
-## Apertura
+> 🖥️ Guion visual breve para conducir la sesión sin sobrecargar la clase.
 
-- Objetivo visible: Transformar resultados tecnicos en una historia corta, clara y defendible.
-- Mensaje central: La calidad del analisis tambien depende de como se explica y a quien se dirige.
+## 🚪 Apertura
 
-## Ruta de la sesion
+- Presentar el objetivo y la pregunta central del módulo.
+- Conectar la sesión con el recorrido general del bootcamp.
+
+## 🛤️ Ruta de la sesión
 
 | Tramo | Tiempo sugerido | Enfoque | Evidencia |
 |---|---|---|---|
-| Inicio | 10 min | Activar conocimientos previos | Pregunta inicial respondida |
-| Desarrollo 1 | 20 min | Conceptos y demostracion guiada | Primer bloque entendido |
-| Desarrollo 2 | 25 min | Codigo comentado y lectura de salida | Resultado explicado |
-| Practica | 25 min | Ejercicios o quiz segun el modulo | Entregable corto |
-| Cierre | 10 min | Conclusion y siguiente paso | Autoevaluacion breve |
+| Inicio | 10 min | Activar contexto y objetivo | Pregunta inicial visible |
+| Desarrollo 1 | 20 min | Demostración guiada | Primer bloque entendido |
+| Desarrollo 2 | 25 min | Lectura de código y explicación | Salida interpretada |
+| Práctica | 25 min | Ejercicio o quiz del módulo | Entregable corto |
+| Cierre | 10 min | Síntesis y siguiente paso | Autoevaluación breve |
 
-## Puntos que deben quedar claros
+## 📌 Puntos que deben quedar claros
 
 - Storytelling con datos
 - Resumen ejecutivo
 - Mensajes clave
 - Visuales de apoyo
 
-## Cierre esperado
+## 🏁 Cierre esperado
 
-- Una conclusion breve conectada con evidencia.
-- Un siguiente paso explicito: La clase 09 introduce modelado predictivo como extension de este trabajo.
+La clase 09 introduce modelado predictivo como extensión del análisis.

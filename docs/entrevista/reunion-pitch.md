@@ -1,10 +1,10 @@
-# Guion breve para la reunion
+# 🗣 Guion breve para la reunión
 
 ## Mensaje principal
 
-Prepare una base de repositorio docente para un bootcamp de Python orientado a Data Science. Mi objetivo fue mostrar no solo contenidos tecnicos, sino tambien estructura real de ensenanza: syllabus, clases, notebooks, ejercicios, evaluacion y guia docente.
+Prepare una base de repositorio docente para un bootcamp de Python orientado a Data Science. Mi objetivo fue mostrar no solo contenidos tecnicos, sino también estructura real de enseñanza: syllabus, clases, notebooks, ejercicios, evaluación y guía docente.
 
-## Que enfatizar
+## Qué enfatizar
 
 - experiencia previa en relatorias y educacion;
 - capacidad de traducir conceptos tecnicos en actividades claras;
@@ -14,4 +14,4 @@ Prepare una base de repositorio docente para un bootcamp de Python orientado a D
 
 ## Frase sugerida
 
-> Quise traer una muestra concreta de como abordo una capacitacion: con progresion, materiales reutilizables, practica guiada y evaluacion clara, no solo con codigo suelto.
+> Quise traer una muestra concreta de como abordo una capacitación: con progresión, materiales reutilizables, práctica guiada y evaluación clara, no solo con código suelto.

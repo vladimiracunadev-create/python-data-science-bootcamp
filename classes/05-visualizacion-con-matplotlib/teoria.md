@@ -1,44 +1,47 @@
-# Documento teorico - Clase 05: Visualizacion con matplotlib
+# 🧠 Documento teórico — Clase 05: Visualización con matplotlib
 
-> Base conceptual para preparar, reforzar o profundizar lo visto en clase.
+> 🧠 Base conceptual para preparar, reforzar o profundizar lo visto en clase.
 
-## Idea central
+## 💡 Idea central
 
-Pasar de la grafica funcional a la grafica comunicable.
+No basta con que el gráfico funcione: debe poder leerse sin fricción.
 
-## Por que importa este modulo
+## ❓ Por qué importa este módulo
 
-Crear graficos mas controlados con matplotlib y mejorar su legibilidad.
+Matplotlib permite controlar detalle visual y comunicar mejor una conclusión.
 
-## Bloque de codigo documentado
+## 💻 Bloque de código documentado
 
-### Grafico de linea legible
+### Serie temporal de clientes activos
 
-Creamos una figura explicita para controlar tamano, titulo y ejes.
+Crear una figura explícita permite controlar tamaño, etiquetas y orden visual con intención.
 
-**Que hace:** crear figure -> dibujar -> rotular
+**Qué hace:** crear figura → dibujar → rotular → ajustar
+
+**Para qué sirve:** Sirve para pasar de una visualización funcional a una visualización comunicable.
 
 ```python
 import pandas as pd
 import matplotlib.pyplot as plt
 
-df = pd.read_csv("datasets/transporte.csv")
-resumen = df.groupby("mes", as_index=False)["pasajeros"].sum()
+df = pd.read_csv("datasets/retencion_clientes.csv")
 
-fig, ax = plt.subplots(figsize=(10, 4))
-ax.plot(resumen["mes"], resumen["pasajeros"], marker="o")
-ax.set_title("Pasajeros por mes")
+fig, ax = plt.subplots(figsize=(9, 4))
+ax.plot(df["mes"], df["clientes_activos"], marker="o", linewidth=2)
+ax.set_title("Clientes activos por mes")
 ax.set_xlabel("Mes")
-ax.set_ylabel("Pasajeros")
+ax.set_ylabel("Clientes activos")
+ax.tick_params(axis="x", rotation=45)
+ax.grid(alpha=0.2)
 plt.tight_layout()
 ```
 
-## Errores frecuentes a vigilar
+## ⚠️ Errores frecuentes a vigilar
 
-- Saltar al codigo sin aclarar la pregunta.
+- Saltar al código sin aclarar la pregunta.
 - Ejecutar bloques sin leer la salida.
-- Dejar bloques importantes sin comentarios o sin explicacion oral.
+- Dejar bloques importantes sin comentarios o sin explicación oral.
 
-## Conexion con el siguiente modulo
+## 🔗 Conexión con el siguiente módulo
 
-La clase 06 amplia el repertorio con texto y fechas.
+La clase 06 amplía el repertorio con texto, fechas y transformaciones.

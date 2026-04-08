@@ -1,17 +1,19 @@
-# Homework - Clase 0: Diagnostico inicial y orientacion
+# 📝 Tarea — Clase 00
 
-## Encargo
+> 📝 Trabajo autónomo para consolidar lo visto y practicar con más calma.
 
-Deja una version corta y ordenada del trabajo de este modulo, incluyendo una conclusion breve y comentarios en los bloques clave.
+## 🎯 Encargo
 
-## Entregables
+Deja una breve reflexión sobre tu punto de partida y el tipo de apoyo que te ayudaría a avanzar con más seguridad.
 
-- Codigo o desarrollo ordenado.
-- Conclusion breve conectada con evidencia.
-- Comentarios que expliquen que hace y para que sirve cada bloque importante.
+## 📦 Entregables
 
-## Autoevaluacion final
+- Reflexión breve sobre fortalezas y vacíos.
+- Compromiso de trabajo para la clase siguiente.
+- Dudas iniciales que quieras resolver con el docente.
 
-- Entendi la pregunta del modulo
-- Puedo explicar la salida sin leer el codigo completo
-- Deje comentarios utiles en los pasos clave
+## 🔍 Autoevaluación final
+
+- Entendí la lógica general del diagnóstico.
+- Puedo identificar en qué áreas necesito refuerzo.
+- Sé cuál será mi foco de mejora en la clase siguiente.

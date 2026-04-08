@@ -1,29 +1,30 @@
-# Rubrica del mini proyecto
+# 📏 Rúbrica del mini proyecto
 
-> Criterios simples para revisar el mini proyecto con foco en proceso y claridad.
+> 📏 Criterios simples para revisar el mini proyecto con foco en proceso y claridad.
 
-## Criterios
 
-### 1. Preparacion y lectura de datos (20%)
+## 📋 Criterios
+
+### 1. Preparación y lectura de datos — 20%
 - carga correcta;
-- comprension basica de columnas;
-- revision inicial del dataset.
+- comprensión básica de columnas;
+- revisión inicial del dataset.
 
-### 2. Transformacion y analisis (30%)
-- calculo adecuado de metricas;
+### 2. Transformación y análisis — 30%
+- cálculo adecuado de métricas;
 - uso coherente de pandas;
 - agrupaciones o filtros bien aplicados.
 
-### 3. Visualizacion (20%)
-- grafico pertinente;
+### 3. Visualización — 20%
+- gráfico pertinente;
 - legibilidad;
-- coherencia con el analisis.
+- coherencia con el análisis.
 
-### 4. Interpretacion (20%)
+### 4. Interpretación — 20%
 - conclusiones claras;
-- relacion entre numeros y decisiones.
+- relación entre números y decisiones.
 
-### 5. Orden del notebook (10%)
+### 5. Orden del notebook ? 10%
 - estructura comprensible;
 - comentarios o encabezados;
-- presentacion limpia.
+- presentación limpia.

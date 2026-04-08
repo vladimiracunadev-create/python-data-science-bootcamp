@@ -1,6 +1,6 @@
-# Despliegue seguro y operacion del bootcamp
+# 🛡 Despliegue seguro y operación del bootcamp
 
-Documento de postura tecnica para explicar como se opera este repositorio hoy, que controles existen, que CI/CD ya esta disponible y que cambios harian falta para escenarios mas expuestos.
+Documento de postura técnica para explicar como se opera este repositorio hoy, que controles existen, que CI/CD ya esta disponible y que cambios harían falta para escenarios más expuestos.
 
 ## 1. Postura actual
 
@@ -9,16 +9,16 @@ Este proyecto esta preparado para:
 - laboratorio local;
 - demostracion docente;
 - revision institucional;
-- despliegue de la capa publica estatica por GitHub Pages.
+- despliegue de la capa pública estatica por GitHub Pages.
 
-Este proyecto no debe venderse hoy como plataforma multiusuario expuesta a internet abierta. El runner de codigo sigue siendo una superficie local y controlada.
+Este proyecto no debe venderse hoy como plataforma multiusuario expuesta a internet abierta. El runner de código sigue siendo una superficie local y controlada.
 
 ## 2. Modelos de despliegue
 
 | Perfil | Superficie | Estado actual | Riesgo |
 |---|---|---|---|
 | local de aula | `app/` + `classes/` | recomendado | bajo si se usa en red controlada |
-| publico estatico | `site/` | operativo por Pages | bajo |
+| público estatico | `site/` | operativo por Pages | bajo |
 | demo compartida endurecida | contenedor + proxy + auth | posible, no integrada aun | medio |
 | internet abierta con runner | no recomendado hoy | fuera de alcance | alto |
 
@@ -26,28 +26,28 @@ Este proyecto no debe venderse hoy como plataforma multiusuario expuesta a inter
 
 ```mermaid
 flowchart LR
-A["GitHub Actions"] --> B["Deploy Pages"]
-A --> C["CI"]
-A --> D["Security"]
-E["Docente / operador"] --> F["Docker o Python local"]
-F --> G["Flask app"]
-G --> H["Classes + datasets + notebooks"]
+    A["GitHub Actions"] --> B["Deploy Pages"]
+    A --> C["CI"]
+    A --> D["Security"]
+    E["Docente / operador"] --> F["Docker o Python local"]
+    F --> G["Flask app"]
+    G --> H["Classes + datasets + notebooks"]
 ```
 
 ## 4. Controles actuales
 
 ### Aplicacion
 
-- validacion de slugs e identificadores;
+- validación de slugs e identificadores;
 - proteccion contra path traversal;
-- limite de tamano de payload;
-- limite de longitud de codigo;
-- timeout de ejecucion;
+- l?mite de tamano de payload;
+- l?mite de longitud de código;
+- timeout de ejecución;
 - control y rotacion de sesiones;
 - headers HTTP de seguridad;
 - endpoints `GET /health` y `GET /ready`.
 
-### Operacion local
+### Operación local
 
 - host y puerto configurables por entorno;
 - `docker-compose.yml` enlazado a `127.0.0.1`;
@@ -58,7 +58,7 @@ G --> H["Classes + datasets + notebooks"]
 
 - `ci.yml`: lint, tests y build de imagen;
 - `security.yml`: `pip-audit` y `bandit`;
-- `deploy-pages.yml`: publicacion del portal del alumno.
+- `deploy-pages.yml`: publicación del portal del alumno.
 
 ## 5. Quickstart operativo recomendado
 
@@ -76,7 +76,7 @@ python run_bootcamp.py
 docker compose up --build
 ```
 
-### Perfil mas serio con healthcheck
+### Perfil más serio con healthcheck
 
 ```powershell
 docker compose -f docker-compose.prod.yml up -d --build
@@ -96,7 +96,7 @@ Antes de mostrar el producto o correr una clase:
 
 ## 7. CI/CD ya disponible
 
-Esto ya existe en el repo y no es teorico:
+Esto ya existe en el repo y no es teórico:
 
 - pruebas automaticas en `push` y `pull_request`;
 - lint con Ruff;
@@ -104,7 +104,7 @@ Esto ya existe en el repo y no es teorico:
 - escaneo de seguridad recurrente;
 - despliegue de la landing del alumno por GitHub Pages.
 
-Eso no equivale a una plataforma enterprise. Pero si demuestra disciplina de entrega y criterio de operacion.
+Eso no equivale a una plataforma enterprise. Pero si demuestra disciplina de entrega y criterio de operación.
 
 ## 8. Gaps conscientes hacia una exposicion mayor
 
@@ -121,9 +121,9 @@ Eso no equivale a una plataforma enterprise. Pero si demuestra disciplina de ent
 
 El patron consistente en tus repos fuertes se mantiene aqui:
 
-- separar demo de operacion real;
+- separar demo de operación real;
 - defaults locales por seguridad;
-- dejar explicitos los limites actuales;
+- dejar explícitos los límites actuales;
 - documentar hardening en vez de vender humo;
 - usar CI/CD como evidencia de criterio y no como adorno.
 
@@ -132,7 +132,7 @@ El patron consistente en tus repos fuertes se mantiene aqui:
 No hacerlo en directo. La secuencia responsable seria:
 
 1. poner reverse proxy con TLS;
-2. aislar el runner o deshabilitarlo segun escenario;
+2. aislar el runner o deshabilitarlo según escenario;
 3. agregar autenticacion;
 4. aplicar rate limit;
 5. definir logs, monitoreo y retencion;
@@ -142,16 +142,16 @@ No hacerlo en directo. La secuencia responsable seria:
 
 - por que el runner no debe exponerse a internet abierta;
 - que controles existen hoy y cuales no;
-- que diferencia hay entre portal publico y backend local;
-- por que GitHub Pages si puede ser publico mientras el runner no.
+- que diferencia hay entre portal público y backend local;
+- por que GitHub Pages si puede ser público mientras el runner no.
 
 ## 12. Regla final
 
-La madurez tecnica de este repo no se demuestra fingiendo que todo esta listo para produccion. Se demuestra mostrando una base operativa, un pipeline visible y una frontera de seguridad bien comunicada.
+La madurez técnica de este repo no se demuestra fingiendo que todo esta listo para produccion. Se demuestra mostrando una base operativa, un pipeline visible y una frontera de seguridad bien comunicada.
 
-## 13. Relacion con otros documentos
+## 13. Relación con otros documentos
 
 - [../SECURITY.md](../SECURITY.md)
 - [../RUNBOOK.md](../RUNBOOK.md)
 - [ARQUITECTURA_PRODUCTO.md](ARQUITECTURA_PRODUCTO.md)
-- [portal-estudiante-y-app-movil.md](portal-estudiante-y-app-movil.md)
+- [portal-estudiante-y-app-móvil.md](portal-estudiante-y-app-movil.md)

@@ -1,41 +1,46 @@
-# Documento teorico - Clase 01: Python fundamentos
+# 🧠 Documento teórico — Clase 01: Fundamentos de Python aplicados a datos
 
-> Base conceptual para preparar, reforzar o profundizar lo visto en clase.
+> 🧠 Base conceptual para preparar, reforzar o profundizar lo visto en clase.
 
-## Idea central
+## 💡 Idea central
 
-Construir confianza en la sintaxis y conectar cada estructura con un uso real.
+Python se presenta como herramienta para ordenar y transformar información, no como teoría abstracta.
 
-## Por que importa este modulo
+## ❓ Por qué importa este módulo
 
-Comprender los bloques basicos de Python y usarlos en tareas pequenas con datos.
+Es la base para que el estudiante pueda leer, modificar y comentar código con confianza.
 
-## Bloque de codigo documentado
+## 💻 Bloque de código documentado
 
-### Funcion con validacion simple
+### Función para calcular ingreso bruto
 
-La funcion encapsula una tarea reutilizable y evita errores con una validacion minima.
+Encapsular una operación en una función evita repetir lógica y facilita explicar cada paso.
 
-**Que hace:** entrada -> validar -> calcular -> devolver
+**Qué hace:** entrada → calcular → devolver → reutilizar
+
+**Para qué sirve:** Sirve para introducir reutilización, parámetros y retorno usando un ejemplo cercano al análisis de ventas.
 
 ```python
-def calcular_promedio(notas):
-# Evitamos dividir por cero si la lista esta vacia.
-if len(notas) == 0:
-return 0
+def calcular_total_bruto(unidades, precio_unitario):
+    # Multiplicamos cantidad por precio para estimar el ingreso bruto.
+    return unidades * precio_unitario
 
-total = sum(notas)
-return total / len(notas)
 
-print(calcular_promedio([6.0, 6.5, 7.0]))
+ventas = [
+    {"producto": "Mouse", "unidades": 3, "precio_unitario": 8990},
+    {"producto": "Teclado", "unidades": 2, "precio_unitario": 15990},
+]
+
+totales = [calcular_total_bruto(v["unidades"], v["precio_unitario"]) for v in ventas]
+print(totales)
 ```
 
-## Errores frecuentes a vigilar
+## ⚠️ Errores frecuentes a vigilar
 
-- Saltar al codigo sin aclarar la pregunta.
+- Saltar al código sin aclarar la pregunta.
 - Ejecutar bloques sin leer la salida.
-- Dejar bloques importantes sin comentarios o sin explicacion oral.
+- Dejar bloques importantes sin comentarios o sin explicación oral.
 
-## Conexion con el siguiente modulo
+## 🔗 Conexión con el siguiente módulo
 
 La clase 02 traslada estas bases a tablas con pandas.

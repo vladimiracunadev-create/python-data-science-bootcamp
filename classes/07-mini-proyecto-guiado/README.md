@@ -1,34 +1,35 @@
-# Clase 07: Mini proyecto guiado
+# 🧩 Clase 07: Mini proyecto guiado
 
-> Ficha de clase con objetivo, materiales y foco de aprendizaje.
+> 🎯 Ficha de clase con objetivo, materiales y foco de aprendizaje.
 
-## Objetivo
+## 🎯 Objetivo
 
 Integrar las habilidades vistas hasta ahora en un mini proyecto guiado de principio a fin.
 
-## Duracion sugerida
+## ⏱️ Duración sugerida
 
-90 min
+90 minutos
 
-## Dataset base
+## 📦 Dataset base
 
 - `datasets/ventas_tienda.csv`
-- `datasets/retencion_clientes.csv`
 
-## Resultados esperados
+## ✅ Resultados esperados
 
-- Definir una pregunta acotada.
-- Organizar un flujo claro.
-- Cerrar con evidencia.
+Al finalizar, el estudiante podrá:
 
-## Temas clave
+- Formular una pregunta concreta de proyecto.
+- Armar una base de trabajo con columnas útiles.
+- Seguir una secuencia coherente de análisis.
 
-- Pregunta analitica
-- Flujo reproducible
-- Seleccion de variables
-- Conclusiones
+## 🧭 Temas clave
 
-## Materiales del modulo
+- Pregunta de análisis
+- Recorte
+- Secuencia de trabajo
+- Evidencia
+
+## 🧰 Materiales del módulo
 
 - `README.md`
 - `slides.md`
@@ -38,16 +39,16 @@ Integrar las habilidades vistas hasta ahora en un mini proyecto guiado de princi
 - `notebook.ipynb`
 - `soluciones.ipynb`
 
-## Como leer el codigo de esta clase
+## 💻 Cómo leer el código de esta clase
 
 - Cada bloque debe responder una pregunta concreta.
-- Los comentarios deben explicar que hace el bloque y para que sirve.
+- Los comentarios deben explicar qué hace el bloque y para qué sirve.
 - Antes de pasar al siguiente paso, verifica que entiendes la salida.
 
-## Idea fuerza
+## 💡 Idea central
 
-Dejar de pensar la clase como tecnicas sueltas y verla como un proceso coherente.
+El proyecto ordena técnicas sueltas dentro de un proceso con sentido.
 
-## Nota para el docente
+## 👩‍🏫 Nota para el docente
 
-Haz visible el pipeline de trabajo: pregunta -> datos -> limpieza -> analisis -> conclusion.
+Haz visible la pregunta central durante toda la sesión para evitar que el grupo se disperse.

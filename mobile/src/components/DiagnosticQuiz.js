@@ -67,7 +67,7 @@ export default function DiagnosticQuiz({ quiz }) {
         <Text style={styles.title}>{quiz.title}</Text>
         <Text style={styles.description}>{quiz.description}</Text>
         <Text style={styles.meta}>
-          Duracion sugerida: {quiz.duration} · Respondidas: {answeredCount}/{quiz.questions.length}
+          Duración sugerida: {quiz.duration} · Respondidas: {answeredCount}/{quiz.questions.length}
         </Text>
       </View>
 
@@ -160,7 +160,7 @@ export default function DiagnosticQuiz({ quiz }) {
               </Text>
             ) : (
               <Text style={styles.feedbackPending}>
-                Selecciona una alternativa y envia para ver la correccion.
+                Selecciona una alternativa y envía para ver la corrección.
               </Text>
             )}
           </View>

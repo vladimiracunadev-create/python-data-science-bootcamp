@@ -1,34 +1,35 @@
-# Clase 11: Evaluacion y pipelines
+# 🧪 Clase 11: Evaluación y pipelines
 
-> Ficha de clase con objetivo, materiales y foco de aprendizaje.
+> 🎯 Ficha de clase con objetivo, materiales y foco de aprendizaje.
 
-## Objetivo
+## 🎯 Objetivo
 
 Evaluar modelos con mayor rigor y evitar leakage o sobreajuste.
 
-## Duracion sugerida
+## ⏱️ Duración sugerida
 
-90 min
+90 minutos
 
-## Dataset base
+## 📦 Dataset base
 
-- `datasets/retencion_clientes.csv`
-- `datasets/ventas_tienda.csv`
+- `datasets/estudiantes.csv`
 
-## Resultados esperados
+## ✅ Resultados esperados
 
-- Detectar overfitting inicial.
-- Aplicar validacion cruzada.
-- Construir un pipeline simple.
+Al finalizar, el estudiante podrá:
 
-## Temas clave
+- Explicar por qué un score único puede ser frágil.
+- Usar un pipeline con preprocesamiento y modelo.
+- Leer un score medio de validación cruzada con más criterio.
 
-- Cross-validation
-- Overfitting
+## 🧭 Temas clave
+
+- Validación cruzada
 - Pipelines
-- GridSearchCV
+- Leakage
+- Comparación de score
 
-## Materiales del modulo
+## 🧰 Materiales del módulo
 
 - `README.md`
 - `slides.md`
@@ -38,16 +39,16 @@ Evaluar modelos con mayor rigor y evitar leakage o sobreajuste.
 - `notebook.ipynb`
 - `soluciones.ipynb`
 
-## Como leer el codigo de esta clase
+## 💻 Cómo leer el código de esta clase
 
 - Cada bloque debe responder una pregunta concreta.
-- Los comentarios deben explicar que hace el bloque y para que sirve.
+- Los comentarios deben explicar qué hace el bloque y para qué sirve.
 - Antes de pasar al siguiente paso, verifica que entiendes la salida.
 
-## Idea fuerza
+## 💡 Idea central
 
-Pasar de un modelo que parece funcionar a un flujo de evaluacion mas confiable.
+Pasar de un modelo que parece funcionar a un flujo de evaluación más confiable.
 
-## Nota para el docente
+## 👩‍🏫 Nota para el docente
 
-Cuando aparezca un numero bueno, pregunta de inmediato: "como se obtuvo ese numero".
+Haz visible el riesgo de mezclar preprocesamiento y evaluación fuera de un pipeline.

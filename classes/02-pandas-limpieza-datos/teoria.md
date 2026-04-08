@@ -1,40 +1,45 @@
-# Documento teorico - Clase 02: Pandas y limpieza de datos
+# 🧠 Documento teórico — Clase 02: Pandas y limpieza de datos
 
-> Base conceptual para preparar, reforzar o profundizar lo visto en clase.
+> 🧠 Base conceptual para preparar, reforzar o profundizar lo visto en clase.
 
-## Idea central
+## 💡 Idea central
 
-Instalar la idea de que no se analiza una tabla sin revisarla primero.
+No se analiza una tabla seria sin inspeccionarla y documentar primero sus problemas.
 
-## Por que importa este modulo
+## ❓ Por qué importa este módulo
 
-Usar pandas para cargar, inspeccionar y limpiar tablas antes de analizarlas.
+Pandas es la puerta de entrada al trabajo real con datos tabulares y a la toma de decisiones sobre calidad.
 
-## Bloque de codigo documentado
+## 💻 Bloque de código documentado
 
-### Carga e inspeccion de un CSV
+### Carga e inspección de un CSV
 
-Primero abrimos el archivo y luego lo inspeccionamos para saber si podemos confiar en su estructura.
+El primer paso no es graficar: es entender qué columnas existen, cómo vienen escritas y si podemos confiar en ellas.
 
-**Que hace:** cargar -> mirar forma -> revisar columnas
+**Qué hace:** cargar → inspeccionar → limpiar → verificar
+
+**Para qué sirve:** Sirve para instalar una rutina mínima de calidad antes de cualquier análisis o visualización.
 
 ```python
 import pandas as pd
 
-# Cargamos el CSV en un DataFrame para trabajar por columnas.
 df = pd.read_csv("datasets/ventas_tienda.csv")
 
+# Revisamos primeras filas, tipos y valores faltantes antes de seguir.
 print(df.head())
-print(df.shape)
 print(df.info())
+print(df.isna().sum())
+
+# Ejemplo simple de limpieza visible.
+df["medio_pago"] = df["medio_pago"].str.strip()
 ```
 
-## Errores frecuentes a vigilar
+## ⚠️ Errores frecuentes a vigilar
 
-- Saltar al codigo sin aclarar la pregunta.
+- Saltar al código sin aclarar la pregunta.
 - Ejecutar bloques sin leer la salida.
-- Dejar bloques importantes sin comentarios o sin explicacion oral.
+- Dejar bloques importantes sin comentarios o sin explicación oral.
 
-## Conexion con el siguiente modulo
+## 🔗 Conexión con el siguiente módulo
 
-La clase 03 usa tablas limpias para explorar patrones visuales.
+La clase 03 usa tablas más confiables para explorar patrones visuales.

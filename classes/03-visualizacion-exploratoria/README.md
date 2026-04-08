@@ -1,34 +1,35 @@
-# Clase 03: Visualizacion exploratoria
+# 📊 Clase 03: Visualización exploratoria
 
-> Ficha de clase con objetivo, materiales y foco de aprendizaje.
+> 🎯 Ficha de clase con objetivo, materiales y foco de aprendizaje.
 
-## Objetivo
+## 🎯 Objetivo
 
-Usar visualizaciones exploratorias para describir patrones y abrir nuevas preguntas de analisis.
+Usar visualizaciones exploratorias para describir patrones y abrir nuevas preguntas de análisis.
 
-## Duracion sugerida
+## ⏱️ Duración sugerida
 
-90 min
+90 minutos
 
-## Dataset base
+## 📦 Dataset base
 
 - `datasets/ventas_tienda.csv`
-- `datasets/soporte_tickets.csv`
 
-## Resultados esperados
+## ✅ Resultados esperados
 
-- Elegir un grafico inicial adecuado.
-- Comparar categorias.
-- Describir hallazgos sin exagerar.
+Al finalizar, el estudiante podrá:
 
-## Temas clave
+- Construir un resumen por categoría o sucursal.
+- Elegir un gráfico simple y legible.
+- Explicar qué pregunta responde la visualización.
 
+## 🧭 Temas clave
+
+- Agrupación
 - Barras
-- Histogramas
-- Series temporales basicas
-- Lectura de patrones
+- Lectura visual
+- Preguntas exploratorias
 
-## Materiales del modulo
+## 🧰 Materiales del módulo
 
 - `README.md`
 - `slides.md`
@@ -38,16 +39,16 @@ Usar visualizaciones exploratorias para describir patrones y abrir nuevas pregun
 - `notebook.ipynb`
 - `soluciones.ipynb`
 
-## Como leer el codigo de esta clase
+## 💻 Cómo leer el código de esta clase
 
 - Cada bloque debe responder una pregunta concreta.
-- Los comentarios deben explicar que hace el bloque y para que sirve.
+- Los comentarios deben explicar qué hace el bloque y para qué sirve.
 - Antes de pasar al siguiente paso, verifica que entiendes la salida.
 
-## Idea fuerza
+## 💡 Idea central
 
-La visualizacion exploratoria ayuda a mirar y preguntar mejor.
+La visualización exploratoria ayuda a mirar mejor y a formular preguntas más útiles.
 
-## Nota para el docente
+## 👩‍🏫 Nota para el docente
 
-Haz completar la frase: "este grafico sugiere..., pero aun debo verificar...".
+Insiste en que un gráfico no reemplaza la pregunta: la hace visible.

@@ -1,42 +1,52 @@
-# Documento teorico - Clase 03: Visualizacion exploratoria
+# 🧠 Documento teórico — Clase 03: Visualización exploratoria
 
-> Base conceptual para preparar, reforzar o profundizar lo visto en clase.
+> 🧠 Base conceptual para preparar, reforzar o profundizar lo visto en clase.
 
-## Idea central
+## 💡 Idea central
 
-La visualizacion exploratoria ayuda a mirar y preguntar mejor.
+La visualización exploratoria ayuda a mirar mejor y a formular preguntas más útiles.
 
-## Por que importa este modulo
+## ❓ Por qué importa este módulo
 
-Usar visualizaciones exploratorias para describir patrones y abrir nuevas preguntas de analisis.
+El estudiante necesita aprender a comparar categorías y detectar patrones antes de avanzar a análisis más complejos.
 
-## Bloque de codigo documentado
+## 💻 Bloque de código documentado
 
-### Ventas por categoria
+### Ventas netas por categoría
 
-Agrupamos antes de graficar porque queremos comparar categorias, no filas sueltas.
+Antes de graficar conviene preparar un resumen que reduzca el ruido de filas individuales.
 
-**Que hace:** agrupar -> ordenar -> graficar
+**Qué hace:** calcular métrica → agrupar → ordenar → graficar
+
+**Para qué sirve:** Sirve para mostrar cómo un gráfico nace de una decisión previa de agregación y no de un clic automático.
 
 ```python
 import pandas as pd
 import matplotlib.pyplot as plt
 
 df = pd.read_csv("datasets/ventas_tienda.csv")
-resumen = df.groupby("categoria", as_index=False)["total_neto"].sum()
-resumen = resumen.sort_values("total_neto", ascending=False)
+df["total_neto"] = df["unidades"] * df["precio_unitario"] * (1 - df["descuento_pct"])
 
-resumen.plot.bar(x="categoria", y="total_neto", legend=False)
-plt.title("Ventas netas por categoria")
+resumen = (
+    df.groupby("categoria", as_index=False)["total_neto"]
+    .sum()
+    .sort_values("total_neto", ascending=False)
+)
+
+plt.figure(figsize=(8, 4))
+plt.bar(resumen["categoria"], resumen["total_neto"])
+plt.title("Ventas netas por categoría")
+plt.ylabel("CLP")
+plt.xticks(rotation=20)
 plt.tight_layout()
 ```
 
-## Errores frecuentes a vigilar
+## ⚠️ Errores frecuentes a vigilar
 
-- Saltar al codigo sin aclarar la pregunta.
+- Saltar al código sin aclarar la pregunta.
 - Ejecutar bloques sin leer la salida.
-- Dejar bloques importantes sin comentarios o sin explicacion oral.
+- Dejar bloques importantes sin comentarios o sin explicación oral.
 
-## Conexion con el siguiente modulo
+## 🔗 Conexión con el siguiente módulo
 
-La clase 04 profundiza con medidas descriptivas.
+La clase 04 profundiza en cómo resumir datos con medidas descriptivas.

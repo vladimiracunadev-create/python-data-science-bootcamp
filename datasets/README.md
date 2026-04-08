@@ -1,12 +1,12 @@
 # Diccionario de datasets del Bootcamp Python Data Science
 
-> Catalogo de datasets sinteticos y su uso dentro del bootcamp.
+> Catálogo de datasets sinteticos y su uso dentro del bootcamp.
 
-Este directorio contiene los datasets base usados en las clases. Todos los datos son sinteticos con contexto realista y fueron preparados para practicar lectura, limpieza, analisis, visualizacion y modelado inicial.
+Este directorio contiene los datasets base usados en las clases. Todos los datos son sinteticos con contexto realista y fueron preparados para practicar lectura, limpieza, análisis, visualización y modelado inicial.
 
 ## 1. ventas_tienda.csv
 
-**Descripcion:** Registro de ventas de una tienda con varias sucursales, categorias y medios de pago. Es el dataset principal del recorrido.
+**Descripcion:** Registro de ventas de una tienda con varias sucursales, categorías y medios de pago. Es el dataset principal del recorrido.
 
 **Clases que lo usan:** 01, 02, 03, 04, 05, 07, 09, 11
 
@@ -28,7 +28,7 @@ Este directorio contiene los datasets base usados en las clases. Todos los datos
 - `mes` y `dia_semana` a partir de `fecha`
 
 **Notas:**
-- Sirve para practicar agrupaciones, metricas comerciales y graficos comparativos.
+- Sirve para practicar agrupaciones, metricas comerciales y gráficos comparativos.
 - El descuento ya viene normalizado como proporcion, no como porcentaje entero.
 
 ## 2. retencion_clientes.csv
@@ -56,7 +56,7 @@ Este directorio contiene los datasets base usados en las clases. Todos los datos
 
 ## 3. soporte_tickets.csv
 
-**Descripcion:** Tickets de soporte clasificados por categoria, prioridad, canal y tiempo de resolucion.
+**Descripcion:** Tickets de soporte clasificados por categoría, prioridad, canal y tiempo de resolución.
 
 **Clases que lo usan:** 02, 06
 
@@ -65,7 +65,7 @@ Este directorio contiene los datasets base usados en las clases. Todos los datos
 | `ticket_id` | str | Identificador del ticket | `T-1001` |
 | `categoria` | str | Tipo de incidencia | `Acceso` |
 | `prioridad` | str | Nivel de urgencia | `Alta` |
-| `horas_resolucion` | float | Tiempo de resolucion en horas | `2.1` |
+| `horas_resolucion` | float | Tiempo de resolución en horas | `2.1` |
 | `satisfaccion` | float | Nota del usuario | `4.5` |
 | `canal` | str | Canal por el que entro el ticket | `Correo` |
 
@@ -87,7 +87,7 @@ Este directorio contiene los datasets base usados en las clases. Todos los datos
 | Columna | Tipo | Descripcion | Ejemplo |
 |---|---|---|---|
 | `id_viaje` | int | Identificador del viaje | `1` |
-| `linea` | str | Linea o servicio | `L1` |
+| `linea` | str | Línea o servicio | `L1` |
 | `origen` | str | Punto de salida | `Centro` |
 | `destino` | str | Punto de llegada | `Norte` |
 | `duracion_min` | int | Duracion del viaje en minutos | `35` |
@@ -102,8 +102,8 @@ Este directorio contiene los datasets base usados en las clases. Todos los datos
 - `carga_por_min = pasajeros / duracion_min`
 
 **Notas:**
-- Ayuda a practicar comparaciones por categoria y lectura de contexto operativo.
-- Tambien sirve para ejemplos de variables binarias y mezcla de tipos.
+- Ayuda a practicar comparaciones por categoría y lectura de contexto operativo.
+- También sirve para ejemplos de variables binarias y mezcla de tipos.
 
 ## 5. estudiantes.csv
 
@@ -129,7 +129,7 @@ Este directorio contiene los datasets base usados en las clases. Todos los datos
 - `cumplimiento = situacion == 'Regular'`
 
 **Notas:**
-- Es util para clasificacion basica, lectura de cohortes y segmentacion.
+- Es util para clasificacion básica, lectura de cohortes y segmentacion.
 - Conviene revisar relaciones entre asistencia, evaluaciones y entrega final.
 
 ## Origen y licencia

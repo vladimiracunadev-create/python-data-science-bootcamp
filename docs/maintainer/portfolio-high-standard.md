@@ -1,10 +1,10 @@
-# Estandar alto del portafolio
+# 🏆 Estándar alto del portafolio
 
 ## Alcance
 
 Revision comparativa de los proyectos visibles en `C:\dev` al 8 de abril de 2026.
 
-El objetivo no fue solo listar archivos. La idea fue detectar cual es el estandar alto real que ya se repite en tu portafolio cuando un repo se trabaja como producto y no solo como codigo.
+El objetivo no fue solo listar archivos. La idea fue detectar cual es el estandar alto real que ya se repite en tu portafolio cuando un repo se trabaja como producto y no solo como código.
 
 ## Resumen ejecutivo
 
@@ -19,17 +19,17 @@ El estandar alto de tu portafolio ya existe. No esta repartido por igual, pero s
 - `chofyai-studio`
 - `unikernel-labs`
 
-Lo que los hace destacar no es solo la complejidad tecnica. Es una combinacion muy estable de:
+Lo que los hace destacar no es solo la complejidad técnica. Es una combinacion muy estable de:
 
 - identidad de producto;
 - honestidad sobre madurez real;
-- documentacion por audiencia;
+- documentación por audiencia;
 - visuales con intencion;
 - postura de seguridad explicita;
-- operacion reproducible;
+- operación reproducible;
 - CI/CD visible;
 - defaults seguros;
-- taxonomias y catalogos claros.
+- taxonomias y catálogos claros.
 
 ## Ranking transversal
 
@@ -37,12 +37,12 @@ Lo que los hace destacar no es solo la complejidad tecnica. Es una combinacion m
 
 #### `gabysql`
 
-- documentacion muy completa y coherente;
+- documentación muy completa y coherente;
 - `SECURITY.md`, `RUNBOOK.md`, `TROUBLESHOOTING.md`, `INSTALL.md`, `USER_MANUAL.md`;
 - README orientado por perfiles;
-- operacion realista;
+- operación realista;
 - Docker y compose;
-- honestidad sobre limites.
+- honestidad sobre límites.
 
 #### `langgraph-realworld`
 
@@ -57,47 +57,47 @@ Lo que los hace destacar no es solo la complejidad tecnica. Es una combinacion m
 - hardening runtime bien trabajado;
 - supply chain y seguridad visibles;
 - narrativa fuerte de arquitectura;
-- postura operativa mas seria que la media del portafolio.
+- postura operativa más seria que la media del portafolio.
 
 #### `problem-driven-systems-lab`
 
 - executive summary real;
 - rutas por audiencia;
 - claridad sobre que esta operativo y que es scaffold;
-- muy buena mezcla de producto, criterio y honestidad tecnica.
+- muy buena mezcla de producto, criterio y honestidad técnica.
 
 #### `rootcause-windows-inspector`
 
 - identidad de producto muy marcada;
 - storytelling visual;
-- catalogo de producto formalizado;
-- alineacion comercial y tecnica.
+- catálogo de producto formalizado;
+- alineacion comercial y técnica.
 
 ### Tier B: base fuerte pero no totalmente estandarizada
 
 #### `chofyai-studio`
 
-- documentacion de producto y decisiones fuerte;
+- documentación de producto y decisiones fuerte;
 - arquitectura, estado y empaquetado bien explicados;
 - menos visible en runtime security que los Tier A.
 
 #### `unikernel-labs`
 
 - buen quickstart y arquitectura;
-- fuerte en explicacion para Windows/WSL;
-- todavia con menos profundidad transversal en seguridad y operacion.
+- fuerte en explicación para Windows/WSL;
+- todavia con menos profundidad transversal en seguridad y operación.
 
 #### `ferremarket`
 
 - arquitectura, flujos y despliegue fuertes;
 - buena base de observabilidad y sistema;
-- le faltan mas documentos satelite para igualar a Tier A.
+- le faltan más documentos satelite para igualar a Tier A.
 
 #### `rootcause-landing`
 
 - visualmente muy fuerte;
-- excelente como capa publica de presentacion;
-- su rol no es cubrir operacion o seguridad.
+- excelente como capa pública de presentación;
+- su rol no es cubrir operación o seguridad.
 
 #### `python-data-science-bootcamp`
 
@@ -105,7 +105,7 @@ Lo que los hace destacar no es solo la complejidad tecnica. Es una combinacion m
 - ya tiene materiales, app y propuesta modular;
 - todavia venia rezagado en producto visible, CI/CD, seguridad y runbook.
 
-### Tier C: base tecnica o scaffold
+### Tier C: base técnica o scaffold
 
 - `angular-portal`
 - `front-angular`
@@ -122,18 +122,18 @@ En general son semillas, utilitarios, experimentos o proyectos sin capa producto
 
 ## Matriz resumida
 
-| Proyecto | Madurez | Senal mas fuerte | Brecha principal |
+| Proyecto | Madurez | Senal más fuerte | Brecha principal |
 |---|---|---|---|
-| `gabysql` | A | docs, seguridad, operacion | profundizar postura de release |
-| `langgraph-realworld` | A | seguridad, portal, taxonomia | mas observabilidad real |
+| `gabysql` | A | docs, seguridad, operación | profundizar postura de release |
+| `langgraph-realworld` | A | seguridad, portal, taxonomia | más observabilidad real |
 | `social-bot-scheduler` | A | hardening runtime | unificar experiencia documental |
-| `problem-driven-systems-lab` | A | executive summary y rutas | completar mas casos operativos |
-| `rootcause-windows-inspector` | A | identidad y catalogo | mas documentos satelite |
-| `chofyai-studio` | B | docs de producto | seguridad operacional mas visible |
-| `unikernel-labs` | B | quickstart y arquitectura | mas seguridad y runbooks |
+| `problem-driven-systems-lab` | A | executive summary y rutas | completar más casos operativos |
+| `rootcause-windows-inspector` | A | identidad y catálogo | más documentos satelite |
+| `chofyai-studio` | B | docs de producto | seguridad operacional más visible |
+| `unikernel-labs` | B | quickstart y arquitectura | más seguridad y runbooks |
 | `ferremarket` | B | arquitectura y despliegue | docs satelite al nivel A |
-| `rootcause-landing` | B | visuales y marketing tecnico | no cubre operacion por si solo |
-| `python-data-science-bootcamp` | B/C en transicion | base pedagogica y app | producto visible, CI/CD y seguridad |
+| `rootcause-landing` | B | visuales y marketing técnico | no cubre operación por si solo |
+| `python-data-science-bootcamp` | B/C en transicion | base pedagógica y app | producto visible, CI/CD y seguridad |
 
 ## Los 12 pilares del estandar alto
 
@@ -155,7 +155,7 @@ Tus mejores repos distinguen entre:
 - scaffold;
 - roadmap.
 
-### 3. Documentacion por audiencia
+### 3. Documentación por audiencia
 
 El estandar alto separa rutas para:
 
@@ -168,7 +168,7 @@ El estandar alto separa rutas para:
 
 Los mejores usan la capa visual para aclarar el producto, no como adorno.
 
-### 5. Catalogos y taxonomias
+### 5. Catálogos y taxonomias
 
 Cuando el repo crece, necesita una fuente de verdad que evite contradicciones.
 
@@ -176,9 +176,9 @@ Cuando el repo crece, necesita una fuente de verdad que evite contradicciones.
 
 No deja al lector adivinar como levantar el sistema.
 
-### 7. Runbook y operacion
+### 7. Runbook y operación
 
-No solo "como iniciar", sino tambien:
+No solo "como iniciar", sino también:
 
 - como verificar;
 - como diagnosticar;
@@ -205,18 +205,18 @@ Se repite mucho en tus mejores repos:
 
 ### 10. CI/CD visible y con sentido
 
-No solo un workflow generico, sino validaciones alineadas al producto.
+No solo un workflow generico, sino validaciónes alineadas al producto.
 
 ### 11. Capa stakeholder
 
-Los proyectos mas fuertes no dependen solo del README tecnico. Tienen:
+Los proyectos más fuertes no dependen solo del README técnico. Tienen:
 
 - landing;
 - portal;
 - recruiter guide;
-- presentacion ejecutiva o comercial.
+- presentación ejecutiva o comercial.
 
-### 12. Evidencia de validacion
+### 12. Evidencia de validación
 
 El estandar alto muestra:
 
@@ -244,20 +244,20 @@ Se ve con claridad en:
 
 ### Producto sin capa stakeholder
 
-Hay proyectos con codigo interesante pero sin:
+Hay proyectos con código interesante pero sin:
 
 - landing;
 - recruiter guide;
-- presentacion ejecutiva;
+- presentación ejecutiva;
 - taxonomia visible.
 
-### Documentacion solo para quien ya conoce el proyecto
+### Documentación solo para quien ya conoce el proyecto
 
-Eso dificulta mucho la evaluacion externa.
+Eso dificulta mucho la evaluación externa.
 
-### Mezclar demo local con produccion sin explicitar limites
+### Mezclar demo local con produccion sin explicitar límites
 
-Tus mejores repos ya evitan esto. Los mas flojos aun no marcan bien la frontera.
+Tus mejores repos ya evitan esto. Los más flojos aun no marcan bien la frontera.
 
 ## La forma precisa del estandar alto
 
@@ -266,7 +266,7 @@ Cuando un repo tuyo esta en su mejor nivel, casi siempre tiene este paquete:
 1. README con identidad de producto.
 2. Quickstart reproducible.
 3. Rutas por audiencia.
-4. Catalogo o taxonomia.
+4. Catálogo o taxonomia.
 5. Landing o capa visual.
 6. `SECURITY.md` honesto.
 7. `RUNBOOK.md`.
@@ -278,26 +278,26 @@ Cuando un repo tuyo esta en su mejor nivel, casi siempre tiene este paquete:
 
 Un repo tuyo llega a estandar alto cuando responde bien estas preguntas:
 
-1. Que problema real resuelve.
+1. Qué problema real resuelve.
 2. Para quien esta pensado.
-3. Que esta realmente operativo hoy.
-4. Como se levanta rapido.
-5. Como se verifica si esta sano.
-6. Que riesgos tiene si se expone.
-7. Que controles de seguridad ya existen.
-8. Como se despliega o publica.
-9. Como se evalua sin leer todo el codigo.
-10. Como se ve como producto y no solo como repo.
+3. Qué esta realmente operativo hoy.
+4. Cómo se levanta rápido.
+5. Cómo se verifica si está sano.
+6. Qué riesgos tiene si se expone.
+7. Qué controles de seguridad ya existen.
+8. Cómo se despliega o pública.
+9. Cómo se evalúa sin leer todo el código.
+10. Cómo se ve como producto y no solo como repo.
 
 ## Implicancia directa para este bootcamp
 
 Comparado con tus repos de referencia, `python-data-science-bootcamp` necesitaba consolidar:
 
 - una capa stakeholder de mayor nivel visual;
-- una taxonomia mas clara entre demo, portal alumno y laboratorio;
+- una taxonomia más clara entre demo, portal alumno y laboratorio;
 - CI/CD y seguridad visibles;
 - runbook y security posture a nivel repo;
-- una experiencia mas integrada de producto y no solo de materiales.
+- una experiencia más integrada de producto y no solo de materiales.
 
 ## Conclusion
 
@@ -311,4 +311,4 @@ La clave es copiar lo que ya haces mejor:
 - la capa visual de `rootcause-landing`;
 - la identidad de producto de `rootcause-windows-inspector`;
 - la disciplina documental de `chofyai-studio`;
-- la operacion guiada de `unikernel-labs`.
+- la operación guiada de `unikernel-labs`.

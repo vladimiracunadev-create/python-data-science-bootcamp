@@ -1,6 +1,6 @@
-# Bootcamp Python DS  App Android
+# Bootcamp Python DS — App Android
 
-App movil para el Bootcamp de Python Data Science. Permite a los estudiantes explorar la clase 0 y las 12 clases, leer teoria con ejemplos de codigo documentados, rastrear su progreso y abrir cualquier notebook en Google Colab con un tap.
+App móvil para el Bootcamp de Python Data Science. Permite a los estudiantes explorar la clase 0 diagnóstica y las 12 clases troncales, leer teoría con ejemplos de código documentados, rastrear su progreso y abrir cualquier notebook en Google Colab con un tap.
 
 ## Requisitos
 
@@ -46,55 +46,55 @@ El APK se descarga desde el dashboard de expo.dev una vez completado el build.
 
 ```
 mobile/
-App.js                      # Entrada principal: Navigation + SafeAreaProvider
-app.json                    # Configuracion Expo (nombre, slug, android package)
-babel.config.js             # Config Babel para Expo
-package.json                # Dependencias
-src/
-theme.js                # Design system: colores, espaciado, tipografia
-data/
-classes.js          # clase 0 y 12 clases con ejemplos de codigo (embebido, offline)
-navigation/
-AppNavigator.js     # Stack Navigator con rutas Home y Class
-screens/
-HomeScreen.js       # Lista de clases con barra de progreso
-ClassScreen.js      # Detalle de clase: teoria + ejercicios + Colab
-components/
-ClassCard.js        # Tarjeta de clase con badge, topics y boton
-CodeBlock.js        # Bloque de codigo con syntax highlighting y copiar
-ColabButton.js      # Boton para abrir Google Colab
-utils/
-progress.js         # AsyncStorage: guardar/leer/limpiar progreso
-colab.js            # Helpers para generar URLs de Colab
+├── App.js                      # Entrada principal: Navigation + SafeAreaProvider
+├── app.json                    # Configuracion Expo (nombre, slug, android package)
+├── babel.config.js             # Config Babel para Expo
+├── package.json                # Dependencias
+└── src/
+    ├── theme.js                # Design system: colores, espaciado, tipografia
+    ├── data/
+    │   └── classes.js          # Clase 0 + 12 clases con ejemplos de código (embebido, offline)
+    ├── navigation/
+    │   └── AppNavigator.js     # Stack Navigator con rutas Home y Class
+    ├── screens/
+    │   ├── HomeScreen.js       # Lista de clases con barra de progreso
+    │   └── ClassScreen.js      # Detalle de clase: teoría + ejercicios + Colab
+    ├── components/
+    │   ├── ClassCard.js        # Tarjeta de clase con badge, topics y boton
+    │   ├── CodeBlock.js        # Bloque de código con syntax highlighting y copiar
+    │   └── ColabButton.js      # Boton para abrir Google Colab
+    └── utils/
+        ├── progress.js         # AsyncStorage: guardar/leer/limpiar progreso
+        └── colab.js            # Helpers para generar URLs de Colab
 ```
 
 ## Tecnologias
 
-| Libreria | Version | Uso |
+| Libreria | Versión | Uso |
 |---|---|---|
 | Expo | ~51.0.0 | Framework base |
 | React Native | 0.74 | UI nativa |
 | @react-navigation/stack | ~6.4 | Navegacion entre pantallas |
-| react-native-syntax-highlighter | ~2.3 | Coloreado de codigo Python |
+| react-native-syntax-highlighter | ~2.3 | Coloreado de código Python |
 | @react-native-async-storage | 1.23 | Persistencia de progreso |
-| expo-clipboard | ~6.0 | Copiar codigo al portapapeles |
+| expo-clipboard | ~6.0 | Copiar código al portapapeles |
 | expo-linking | ~6.3 | Abrir Google Colab en el navegador |
 
 ## Agregar/modificar contenido
 
-Todo el contenido de las clases esta en `src/data/classes.js`. Para agregar un ejemplo de codigo a una clase:
+Todo el contenido de las clases esta en `src/data/classes.js`. Para agregar un ejemplo de código a una clase:
 
 ```js
 codeExamples: [
-{
-id: 'c01-ex5',          // ID unico
-title: 'Mi ejemplo',
-explanation: 'Descripcion breve de lo que hace el codigo.',
-schema: 'opcional: formula o esquema',
-code: `# Tu codigo aqui
+  {
+    id: 'c01-ex5',          // ID unico
+    title: 'Mi ejemplo',
+    explanation: 'Descripción breve de lo que hace el código.',
+    schema: 'opcional: formula o esquema',
+    code: `# Tu código aquí
 print("Hola mundo")`,
-language: 'python',
-}
+    language: 'python',
+  }
 ]
 ```
 
@@ -104,7 +104,7 @@ language: 'python',
 |---|---|---|
 | `bg` | `#0f0f1a` | Fondo principal |
 | `bgCard` | `#1a1a2e` | Tarjetas y headers |
-| `bgCode` | `#0d1117` | Bloques de codigo |
+| `bgCode` | `#0d1117` | Bloques de código |
 | `accent` | `#22c55e` | Verde: botones, progreso |
 | `accentBlue` | `#3b82f6` | Azul: info, schemas |
 | `text` | `#f1f5f9` | Texto principal |

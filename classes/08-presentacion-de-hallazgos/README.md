@@ -1,33 +1,35 @@
-# Clase 08: Presentacion de hallazgos
+# 🗣️ Clase 08: Presentación de hallazgos
 
-> Ficha de clase con objetivo, materiales y foco de aprendizaje.
+> 🎯 Ficha de clase con objetivo, materiales y foco de aprendizaje.
 
-## Objetivo
+## 🎯 Objetivo
 
-Transformar resultados tecnicos en una historia corta, clara y defendible.
+Transformar resultados técnicos en una historia corta, clara y defendible.
 
-## Duracion sugerida
+## ⏱️ Duración sugerida
 
-90 min
+90 minutos
 
-## Dataset base
+## 📦 Dataset base
 
-- `Reutiliza el dataset del mini proyecto guiado o uno equivalente del bootcamp.`
+- `Reutiliza el dataset del mini proyecto o uno equivalente del bootcamp.`
 
-## Resultados esperados
+## ✅ Resultados esperados
 
-- Ordenar una historia de analisis.
+Al finalizar, el estudiante podrá:
+
+- Ordenar una historia de análisis.
 - Elegir visuales que sostengan un mensaje.
-- Escribir conclusiones ejecutivas.
+- Escribir conclusiones ejecutivas sin perder rigor.
 
-## Temas clave
+## 🧭 Temas clave
 
 - Storytelling con datos
 - Resumen ejecutivo
 - Mensajes clave
 - Visuales de apoyo
 
-## Materiales del modulo
+## 🧰 Materiales del módulo
 
 - `README.md`
 - `slides.md`
@@ -37,16 +39,16 @@ Transformar resultados tecnicos en una historia corta, clara y defendible.
 - `notebook.ipynb`
 - `soluciones.ipynb`
 
-## Como leer el codigo de esta clase
+## 💻 Cómo leer el código de esta clase
 
 - Cada bloque debe responder una pregunta concreta.
-- Los comentarios deben explicar que hace el bloque y para que sirve.
+- Los comentarios deben explicar qué hace el bloque y para qué sirve.
 - Antes de pasar al siguiente paso, verifica que entiendes la salida.
 
-## Idea fuerza
+## 💡 Idea central
 
-La calidad del analisis tambien depende de como se explica y a quien se dirige.
+La calidad del análisis también depende de cómo se explica y a quién se dirige.
 
-## Nota para el docente
+## 👩‍🏫 Nota para el docente
 
-Haz ensayar respuestas a la pregunta: "por que esto importa".
+Haz ensayar respuestas a la pregunta: «¿por qué esto importa?».
