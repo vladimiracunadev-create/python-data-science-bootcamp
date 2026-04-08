@@ -1,4 +1,4 @@
-﻿# 🎓 Guia del instructor
+# 🎓 Guia del instructor
 
 > Audiencia: docente principal, docente apoyo, coordinacion academica.
 

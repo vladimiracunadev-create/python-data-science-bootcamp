@@ -2,13 +2,52 @@ from __future__ import annotations
 
 import json
 import re
+import sys
+import os
 from pathlib import Path
 from typing import Any
 
-BASE_DIR = Path(__file__).resolve().parents[1]
+
+def _resolve_base_dir() -> Path:
+    """
+    Resuelve el directorio raiz del proyecto de forma compatible con
+    ejecucion normal (python launcher.py) y con bundles de PyInstaller.
+
+    PyInstaller congela el codigo en un directorio temporal (sys._MEIPASS)
+    donde coloca las DLLs y los archivos .pyc. Los datas (clases, notebooks,
+    templates) se copian al mismo nivel que sys._MEIPASS en modo onedir.
+
+    Modo normal:
+        BASE_DIR = raiz del repositorio (parents[1] de este archivo)
+
+    Modo PyInstaller (sys.frozen = True):
+        BASE_DIR = sys._MEIPASS  (donde PyInstaller extrae todos los datas)
+    """
+    if getattr(sys, "frozen", False) and hasattr(sys, "_MEIPASS"):
+        # Bundle de PyInstaller: los archivos de datos estan en _MEIPASS
+        return Path(sys._MEIPASS)
+    # Ejecucion normal: subir dos niveles desde app/content_loader.py → raiz
+    return Path(__file__).resolve().parents[1]
+
+
+def _resolve_saved_notebooks_dir() -> Path:
+    """
+    Directorio para los notebooks guardados por alumnos.
+
+    En modo PyInstaller el directorio _MEIPASS es de solo lectura,
+    por lo que los notebooks se guardan junto al ejecutable real.
+    En modo normal se usa la carpeta del repositorio.
+    """
+    if getattr(sys, "frozen", False):
+        # Junto al .exe instalado — es escribible por el usuario
+        return Path(sys.executable).parent / "saved_notebooks"
+    return Path(__file__).resolve().parents[1] / "app" / "saved_notebooks"
+
+
+BASE_DIR = _resolve_base_dir()
 CLASS_DIR = BASE_DIR / "classes"
 NOTEBOOK_TEMPLATES_DIR = BASE_DIR / "app" / "notebooks"
-SAVED_NOTEBOOKS_DIR = BASE_DIR / "app" / "saved_notebooks"
+SAVED_NOTEBOOKS_DIR = _resolve_saved_notebooks_dir()
 
 SAFE_NAME_RE = re.compile(r"^[\w\-]{1,80}$")
 

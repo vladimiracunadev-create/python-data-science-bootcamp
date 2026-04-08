@@ -1,30 +1,30 @@
-﻿# 📚 Syllabus â€” Bootcamp Python para Data Science
+# 📚 Syllabus - Bootcamp Python para Data Science
 
-## PropÃ³sito general
+## Proposito general
 
-Introducir Python como herramienta prÃ¡ctica para el anÃ¡lisis de datos, con foco en comprensiÃ³n progresiva, prÃ¡ctica guiada y resoluciÃ³n de problemas sencillos con datasets reales o simulados.
+Introducir Python como herramienta practica para el analisis de datos, con foco en comprension progresiva, practica guiada y resolucion de problemas sencillos con datasets reales o simulados.
 
 ## Perfil de entrada
 
-- Personas sin experiencia previa o con base muy inicial en programaciÃ³n.
-- Estudiantes que manejan conceptos computacionales bÃ¡sicos, pero necesitan conectar lÃ³gica con datos.
-- Participantes que valoran ejemplos concretos y retroalimentaciÃ³n continua.
+- Personas sin experiencia previa o con base muy inicial en programacion.
+- Estudiantes que manejan conceptos computacionales basicos, pero necesitan conectar logica con datos.
+- Participantes que valoran ejemplos concretos y retroalimentacion continua.
 
 ## Perfil de salida esperado
 
-Al finalizar, la persona podrÃ¡:
+Al finalizar, la persona podra:
 
-1. leer y escribir cÃ³digo bÃ¡sico en Python;
+1. leer y escribir codigo basico en Python;
 2. usar estructuras fundamentales para resolver problemas simples;
 3. cargar archivos CSV y explorarlos con pandas;
 4. limpiar datos sencillos;
-5. construir grÃ¡ficos bÃ¡sicos e interpretar resultados;
+5. construir graficos basicos e interpretar resultados;
 6. desarrollar un mini proyecto con preguntas guiadas;
-7. utilizar un entorno de prÃ¡ctica por celdas dentro del mismo curso.
+7. utilizar un entorno de practica por celdas dentro del mismo curso.
 
 ## Propuesta modular ampliada
 
-### MÃ³dulo 1 â€” Fundamentos de Python
+### Modulo 1 - Fundamentos de Python
 - variables
 - tipos de datos
 - listas y diccionarios
@@ -32,76 +32,76 @@ Al finalizar, la persona podrÃ¡:
 - bucles
 - funciones
 
-### MÃ³dulo 2 â€” Primer acercamiento a datos
+### Modulo 2 - Primer acercamiento a datos
 - archivos CSV
 - estructura tabular
 - lectura de datos con pandas
-- exploraciÃ³n inicial
+- exploracion inicial
 
-### MÃ³dulo 3 â€” Limpieza y transformaciÃ³n
-- selecciÃ³n de columnas
+### Modulo 3 - Limpieza y transformacion
+- seleccion de columnas
 - filtros
 - nulos
-- cÃ¡lculos derivados
-- agrupaciÃ³n simple
+- calculos derivados
+- agrupacion simple
 
-### MÃ³dulo 4 â€” EstadÃ­stica descriptiva bÃ¡sica
+### Modulo 4 - Estadistica descriptiva basica
 - conteos
 - promedios
 - medianas
 - percentiles simples
-- interpretaciÃ³n inicial
+- interpretacion inicial
 
-### MÃ³dulo 5 â€” VisualizaciÃ³n e interpretaciÃ³n
-- grÃ¡ficos de barras
-- lÃ­neas y dispersiÃ³n
+### Modulo 5 - Visualizacion e interpretacion
+- graficos de barras
+- lineas y dispersion
 - lectura de patrones
 - preguntas de negocio o contexto
 
-### MÃ³dulo 6 â€” TransformaciÃ³n de texto y fechas
+### Modulo 6 - Transformacion de texto y fechas
 - columnas temporales
-- particiÃ³n de texto
-- estandarizaciÃ³n
+- particion de texto
+- estandarizacion
 
-### MÃ³dulo 7 â€” Mini proyecto integrador
-- anÃ¡lisis guiado
-- interpretaciÃ³n de resultados
-- comunicaciÃ³n de conclusiones
+### Modulo 7 - Mini proyecto integrador
+- analisis guiado
+- interpretacion de resultados
+- comunicacion de conclusiones
 
-### MÃ³dulo 8 â€” PresentaciÃ³n y cierre
+### Modulo 8 - Presentacion y cierre
 - narrativa con datos
-- exposiciÃ³n breve
-- retroalimentaciÃ³n final
+- exposicion breve
+- retroalimentacion final
 
-## MetodologÃ­a resumida
+## Metodologia resumida
 
-- explicaciÃ³n breve;
+- explicacion breve;
 - ejemplo guiado;
-- prÃ¡ctica acompaÃ±ada;
+- practica acompanada;
 - ejercicio individual o en parejas;
-- cierre con retroalimentaciÃ³n.
+- cierre con retroalimentacion.
 
 ## Evidencias de aprendizaje
 
 - ejercicios de clase;
 - tareas cortas;
-- participaciÃ³n;
+- participacion;
 - mini proyecto final;
-- exposiciÃ³n breve de resultados.
+- exposicion breve de resultados.
 
 ## Herramientas sugeridas
 
 - Python 3.11+
 - Jupyter Notebook
-- aplicaciÃ³n local del bootcamp (`python -m app.app`)
+- aplicacion local del bootcamp (`python -m app.app`)
 - pandas
 - matplotlib
 
-## Criterio de diseÃ±o del material
+## Criterio de diseno del material
 
-El diseÃ±o del bootcamp privilegia:
+El diseno del bootcamp privilegia:
 - claridad antes que complejidad;
-- comprensiÃ³n progresiva;
-- datasets fÃ¡ciles de explicar;
+- comprension progresiva;
+- datasets faciles de explicar;
 - actividades que se puedan ejecutar en el mismo ambiente del curso;
 - flexibilidad para modalidad presencial con apoyo digital.

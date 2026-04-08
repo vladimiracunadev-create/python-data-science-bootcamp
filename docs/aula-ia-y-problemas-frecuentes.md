@@ -1,4 +1,4 @@
-﻿# 💬 Aula, tecnologia y problemas frecuentes en clase
+# 💬 Aula, tecnologia y problemas frecuentes en clase
 
 ## Valor docente en una era de herramientas cada vez mas accesibles
 

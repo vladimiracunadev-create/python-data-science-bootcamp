@@ -14,7 +14,31 @@
       "Bash(pip install:*)",
       "Bash(python -m venv .venv)",
       "Bash(.venv/Scripts/pip install:*)",
-      "Bash(.venv/Scripts/python -m pytest tests/ -v --tb=short)"
+      "Bash(.venv/Scripts/python -m pytest tests/ -v --tb=short)",
+      "Bash(git push:*)",
+      "Bash(grep -v '\\\\\\\\.venv\\\\|\\\\\\\\.git\\\\|__pycache__\\\\|.pytest')",
+      "Bash(grep -E '\\\\.\\(py|txt|yml|yaml|json|sh|md\\)$')",
+      "Bash(ls C:/dev/python-data-science-bootcamp/docs/*.md)",
+      "Bash(git mv:*)",
+      "Bash(ls docs/*.md)",
+      "Bash(python3 -c ':*)",
+      "Bash(python -c \"print\\('ok'\\)\")",
+      "Bash(python -c ':*)",
+      "Bash(python fix_encoding.py)",
+      "Bash(python fix_encoding2.py)",
+      "Bash(grep -rn \"proceso-seleccion-skillnest\\\\|portfolio-high-standard\\\\|estandar-alto-gap\\\\|revision-otros-repos\\\\|valor-diferencial\\\\|rubrica-clase-prueba\\\\|reunion-pitch\\\\|preparacion-entrevista-imprimible\\\\|entrevista-skillnest-preparacion\\\\|muestra-producto\\\\|desafio-tecnico\\\\|demo-reunion\\\\|demo-capacitaciones\" docs/*.md)",
+      "Bash(grep -rn \"\\\\]\\(implementacion-v1\\\\|\\\\]\\(metodologia\\\\|\\\\]\\(instructor-guide\\\\|\\\\]\\(student-guide\\\\|\\\\]\\(plan-evaluacion\\\\|\\\\]\\(herramientas-pedagogicas\\\\|\\\\]\\(GUIA_EVALUACION\\\\|\\\\]\\(ARQUITECTURA\\\\|\\\\]\\(CATALOGO\" docs/entrevista/*.md)",
+      "Bash(grep -rn \"\\\\]\\(implementacion-v1\\\\|\\\\]\\(metodologia\\\\|\\\\]\\(instructor-guide\\\\|\\\\]\\(student-guide\\\\|\\\\]\\(plan-evaluacion\\\\|\\\\]\\(herramientas-pedagogicas\\\\|\\\\]\\(GUIA_EVALUACION\\\\|\\\\]\\(ARQUITECTURA\\\\|\\\\]\\(CATALOGO\\\\|\\\\]\\(despliegue-seguro\\\\|\\\\]\\(portal-estudiante\\\\|\\\\]\\(entorno-interactivo\" docs/entrevista/*.md docs/maintainer/*.md)",
+      "Bash(grep -rn \"\\\\]\\([^.#h][^/]\" docs/entrevista/*.md docs/maintainer/*.md)",
+      "Bash(grep -E \"\\\\.py$\")",
+      "Bash(xargs cat:*)",
+      "Bash(pytest --collect-only)",
+      "Bash(wc -l /c/dev/python-data-science-bootcamp/classes/*/teoria.md)",
+      "Bash(xargs -I {} bash -c 'echo \"File: $\\(basename {}\\)\" && head -20 \"{}\"')",
+      "Bash(ls classes/09-machine-learning-intro/*.ipynb)",
+      "Bash(ls classes/10-modelos-supervisados/*.ipynb)",
+      "Bash(ls classes/11-evaluacion-y-pipelines/*.ipynb)",
+      "Bash(ls classes/12-proyecto-final-y-cierre/*.ipynb)"
     ]
   }
 }

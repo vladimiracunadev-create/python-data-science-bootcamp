@@ -1,4 +1,4 @@
-﻿# 🧪 Preparacion para desafio tecnico
+# 🧪 Preparacion para desafio tecnico
 
 Guia integral para preparar el desafio tecnico sin caer en la trampa de querer demostrar complejidad por encima de criterio. Este documento cruza contenido tecnico, explicacion, despliegue, seguridad y transferencia pedagogica.
 
@@ -185,7 +185,7 @@ Este desafio debe responder con esa misma madurez.
 
 ## 12. Documentos relacionados
 
-- [despliegue-seguro-y-operacion.md](despliegue-seguro-y-operacion.md)
+- [../despliegue-seguro-y-operacion.md](../despliegue-seguro-y-operacion.md)
 - [proceso-seleccion-skillnest.md](proceso-seleccion-skillnest.md)
-- [GUIA_EVALUACION.md](GUIA_EVALUACION.md)
-- [ARQUITECTURA_PRODUCTO.md](ARQUITECTURA_PRODUCTO.md)
+- [../GUIA_EVALUACION.md](../GUIA_EVALUACION.md)
+- [../ARQUITECTURA_PRODUCTO.md](../ARQUITECTURA_PRODUCTO.md)

@@ -1,4 +1,4 @@
-﻿# 🏗 Arquitectura del producto
+# 🏗 Arquitectura del producto
 
 > Vista de alto nivel del bootcamp, sus superficies, sus limites operativos y la relacion entre contenido, laboratorio y publicacion.
 

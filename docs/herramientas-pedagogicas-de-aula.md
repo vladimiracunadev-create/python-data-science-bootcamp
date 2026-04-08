@@ -1,4 +1,4 @@
-﻿# 🧰 Herramientas pedagogicas de aula
+# 🧰 Herramientas pedagogicas de aula
 
 Playbook de mediacion para mostrar en entrevista, usar en clase de prueba y operar el bootcamp con criterio. El objetivo de este documento es bajar la pedagogia a decisiones concretas, observables y reutilizables.
 

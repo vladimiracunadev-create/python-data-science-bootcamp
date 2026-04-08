@@ -1,4 +1,4 @@
-﻿# 🧭 Proceso de seleccion Skillnest
+# 🧭 Proceso de seleccion Skillnest
 
 Mapa de lectura para enfrentar el proceso completo sin improvisar ni regalar trabajo innecesario. Este documento conecta cada etapa con la evidencia real que ya existe en el repositorio.
 
@@ -103,8 +103,8 @@ No se trata de adivinar el perfil perfecto. Se trata de mostrar consistencia.
 
 ## 8. Documentos que debes dominar
 
-- [GUIA_EVALUACION.md](GUIA_EVALUACION.md)
-- [implementacion-v1-skillnest-san-nicolas.md](implementacion-v1-skillnest-san-nicolas.md)
-- [herramientas-pedagogicas-de-aula.md](herramientas-pedagogicas-de-aula.md)
+- [../GUIA_EVALUACION.md](../GUIA_EVALUACION.md)
+- [../implementacion-v1-skillnest-san-nicolas.md](../implementacion-v1-skillnest-san-nicolas.md)
+- [../herramientas-pedagogicas-de-aula.md](../herramientas-pedagogicas-de-aula.md)
 - [desafio-tecnico-preparacion.md](desafio-tecnico-preparacion.md)
-- [despliegue-seguro-y-operacion.md](despliegue-seguro-y-operacion.md)
+- [../despliegue-seguro-y-operacion.md](../despliegue-seguro-y-operacion.md)

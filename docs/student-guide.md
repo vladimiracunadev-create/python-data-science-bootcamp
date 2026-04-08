@@ -1,4 +1,4 @@
-﻿# 🚀 Student Guide
+# 🚀 Student Guide
 
 Guia base para estudiantes que usan el bootcamp por primera vez. Este documento no reemplaza la clase: ordena expectativas, reduce ansiedad y explica como aprovechar el material sin depender de copiar pasos.
 

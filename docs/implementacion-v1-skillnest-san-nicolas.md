@@ -1,4 +1,4 @@
-﻿# 🏫 Implementacion V1 para Skillnest / Colegio San Nicolas de Maipu
+# 🏫 Implementacion V1 para Skillnest / Colegio San Nicolas de Maipu
 
 Documento de aterrizaje para convertir este repositorio en una primera implementacion escolar concreta, acotada y defendible. La idea no es prometer "todo el bootcamp completo", sino mostrar que la base ya existe y que sabes recortarla con criterio.
 
@@ -171,4 +171,4 @@ El mensaje correcto es otro: la base ya existe, la V1 se puede activar con crite
 - [GUIA_EVALUACION.md](GUIA_EVALUACION.md)
 - [plan-evaluacion.md](plan-evaluacion.md)
 - [metodologia-docente.md](metodologia-docente.md)
-- [proceso-seleccion-skillnest.md](proceso-seleccion-skillnest.md)
+- [entrevista/proceso-seleccion-skillnest.md](entrevista/proceso-seleccion-skillnest.md)

@@ -1,4 +1,4 @@
-﻿# 🎤 Preparacion para entrevista Skillnest
+# 🎤 Preparacion para entrevista Skillnest
 
 ## Contexto
 
@@ -10,7 +10,7 @@ Entrevista agendada para el jueves 9 de abril de 2026 a las 15:30. El objetivo n
 
 ## Tres ideas que conviene repetir
 
-1. EnseÃ±as con progresion, no con saturacion.
+1. Ensenas con progresion, no con saturacion.
 2. Ya tienes material reutilizable y no partes de cero.
 3. Sabes recortar la complejidad para un grupo escolar sin perder valor.
 
@@ -18,7 +18,7 @@ Entrevista agendada para el jueves 9 de abril de 2026 a las 15:30. El objetivo n
 
 1. Abrir `README.md` y mostrar que el repo ya es una base docente estructurada.
 2. Abrir `docs/implementacion-v1-skillnest-san-nicolas.md` para evidenciar que ya pensaste la adaptacion especifica.
-3. Mostrar `classes/01-python-fundamentos/README.md` para explicar el arranque pedagÃ³gico.
+3. Mostrar `classes/01-python-fundamentos/README.md` para explicar el arranque pedagogico.
 4. Mostrar `classes/02-pandas-limpieza-datos/README.md` para conectar Python con datos reales.
 5. Mostrar `classes/07-mini-proyecto-guiado/README.md` para cerrar con aplicacion concreta.
 6. Si hay tiempo, ejecutar `python run_bootcamp.py` o mostrar la carpeta `app/` como evidencia de entorno de practica.

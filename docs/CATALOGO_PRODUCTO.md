@@ -1,4 +1,4 @@
-﻿# 🧱 Catalogo del producto
+# 🧱 Catalogo del producto
 
 Documento fuente de verdad para distinguir:
 
@@ -30,24 +30,27 @@ Capacidad proyectada, pero no operativa hoy como pieza principal del sistema.
 | Superficie | Tipo | Estado | Audiencia | Que entrega hoy |
 |---|---|---|---|---|
 | Laboratorio interactivo (`app/`) | nucleo operativo | operativo | docente / estudiante guiado | visualizacion de clases, carga de notebooks, runner y guardado local |
+| Instalador Windows (`launcher.py` + `installer/`) | distribucion de escritorio | listo para build | alumno / docente en aula | empaqueta el laboratorio como .exe instalable, sin Python ni configuracion |
+| App Android (`mobile/`) | distribucion movil | listo para build | alumno en movimiento | lectura de contenido, codigo documentado, apertura directa en Google Colab |
 | Portal del alumno (`site/`) | superficie publica | operativo | alumno | enlace oficial, ruta, recursos, reglas de uso de tecnologia |
 | Vista institucional (`site/product/`) | superficie publica | operativo | institucion / evaluador | narrativa de producto, alcance, arquitectura, operacion y crecimiento |
-| Curriculum modular (`classes/`) | base pedagogica | operativo | docente | clases, ejercicios, notebooks, tareas y soluciones |
+| Curriculum modular (`classes/`) | base pedagogica | operativo | docente | 12 clases con notebooks profusamente documentados, ejercicios, tareas y soluciones |
 | Kit documental (`docs/`) | capa editorial | operativo | docente / stakeholder / repo | metodologia, implementacion, evaluacion, seguridad y entrevista |
 | PDFs (`docs/pdfs/`) | artefacto de apoyo | operativo | entrevista / presentacion | piezas imprimibles y de muestra |
-| Ruta movil | evolucion | planificada | alumno | seguimiento, avisos y progreso individual |
 
 ## ⚙ 3. Funcionalidad real por superficie
 
-| Capacidad | Laboratorio | Portal alumno | Vista institucional | Curriculum | Ruta movil |
+| Capacidad | Laboratorio Flask | Instalador Windows | App Android | Portal alumno | Vista institucional |
 |---|---|---|---|---|---|
-| Ver ruta del bootcamp | parcial | si | si | si | futura |
-| Ejecutar codigo | si | no | no | no | futura |
-| Cargar notebooks base | si | no | no | parcial | futura |
-| Mostrar producto a terceros | parcial | parcial | si | no | no |
-| Presentar arquitectura | no | no | si | no | no |
-| Operar en entorno local | si | no | no | no | futura |
-| Funcionar como base reutilizable | si | si | si | si | futura |
+| Ver contenido de las clases | si | si (embebido) | si (embebido) | no | no |
+| Ejecutar codigo Python | si (runner local) | si (runner local) | via Google Colab | no | no |
+| Leer codigo documentado | si | si | si | no | no |
+| Descargar / abrir en Colab | no | no | si | no | no |
+| Guardar notebooks | si | si | no | no | no |
+| Seguimiento de progreso | no | no | si (local) | no | no |
+| Mostrar producto a terceros | parcial | no | no | parcial | si |
+| Operar sin internet | si | si | si (contenido) | no | no |
+| Instalar sin Python | no | si | si | no | no |
 
 ## 📦 4. Artefactos oficiales de apoyo
 
@@ -72,7 +75,8 @@ Capacidad proyectada, pero no operativa hoy como pieza principal del sistema.
 - el portal del alumno no es todo el producto;
 - la vista institucional no reemplaza el laboratorio;
 - los PDFs no son el producto, son artefactos de apoyo;
-- la ruta movil no debe venderse como funcionalidad actual;
+- la app Android no ejecuta Python de forma nativa: usa Google Colab para la ejecucion;
+- el instalador Windows no es una app de escritorio nueva: es el mismo laboratorio Flask empaquetado;
 - el runner local no debe presentarse como SaaS expuesto a internet.
 
 ## 🏫 6. Version inicial recomendada para colegio

@@ -1,4 +1,4 @@
-﻿# 🔎 Revision de otros repos e insights aplicables a este bootcamp
+# 🔎 Revision de otros repos e insights aplicables a este bootcamp
 
 ## Repos revisados
 

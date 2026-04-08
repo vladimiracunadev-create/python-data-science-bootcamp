@@ -65,9 +65,10 @@ Eso evita leer la carpeta `docs/` como una coleccion plana. La documentacion est
 | Laboratorio interactivo (`app/`) | entorno local de clase, notebooks y runner | operativo |
 | Portal del alumno (`site/`) | punto de entrada oficial para estudiantes | operativo |
 | Vista institucional (`site/product/`) | presentacion visual del producto | operativa |
-| Curriculum modular (`classes/`) | base pedagogica reusable | operativo |
+| Curriculum modular (`classes/`) | base pedagogica reusable — 12 clases con notebooks documentados | operativo |
+| Instalador Windows (`launcher.py` + `bootcamp.spec` + `installer/`) | empaqueta el laboratorio como .exe instalable sin Python | listo para build |
+| App Android (`mobile/`) | app Expo/React Native con contenido embebido + integracion Colab | listo para build |
 | PDFs (`docs/pdfs/`) | apoyo para reunion, evaluacion e impresion | operativo |
-| Ruta movil | evolucion futura | planificada |
 
 La fuente de verdad para esta taxonomia vive en [docs/CATALOGO_PRODUCTO.md](docs/CATALOGO_PRODUCTO.md).
 
@@ -79,14 +80,19 @@ La fuente de verdad para esta taxonomia vive en [docs/CATALOGO_PRODUCTO.md](docs
 graph LR
     INST["Institucion"] --> PRODUCT["site/product/"]
     ALUM["Alumno"] --> PORTAL["site/"]
-    DOC["Docente"] --> LAB["app/"]
+    ALUM --> MOBILE["mobile/ App Android"]
+    DOC["Docente"] --> LAB["app/ Laboratorio Flask"]
+    DOC --> WIN["launcher.py Instalador Windows"]
 
     PRODUCT --> DOCS["docs/"]
     PORTAL --> DOCS
-    LAB --> CLASSES["classes/"]
+    MOBILE --> CLASSES["classes/ 12 clases"]
+    MOBILE --> COLAB["Google Colab"]
+    LAB --> CLASSES
     LAB --> DATA["datasets/"]
     LAB --> NOTEBOOKS["app/notebooks/"]
     LAB --> SAVED["app/saved_notebooks/"]
+    WIN --> LAB
 ```
 
 La arquitectura completa, con flujos y fronteras, esta en [docs/ARQUITECTURA_PRODUCTO.md](docs/ARQUITECTURA_PRODUCTO.md).
@@ -201,20 +207,20 @@ Ver detalle en [SECURITY.md](SECURITY.md).
 
 | Documento | Rol |
 |---|---|
-| [docs/INDEX.md](docs/INDEX.md) | indice principal por audiencia |
+| [docs/INDEX.md](docs/INDEX.md) | indice completo por audiencia y objetivo |
 | [docs/CATALOGO_PRODUCTO.md](docs/CATALOGO_PRODUCTO.md) | fuente de verdad de superficies y artefactos |
-| [docs/ARQUITECTURA_PRODUCTO.md](docs/ARQUITECTURA_PRODUCTO.md) | arquitectura funcional y documental |
+| [docs/ARQUITECTURA_PRODUCTO.md](docs/ARQUITECTURA_PRODUCTO.md) | arquitectura funcional con diagramas |
 | [docs/GUIA_EVALUACION.md](docs/GUIA_EVALUACION.md) | ruta ejecutiva de 10 minutos |
 | [docs/metodologia-docente.md](docs/metodologia-docente.md) | marco pedagogico del producto |
 | [docs/instructor-guide.md](docs/instructor-guide.md) | playbook de ejecucion docente |
 | [docs/student-guide.md](docs/student-guide.md) | guia de onboarding del alumno |
-| [docs/plan-evaluacion.md](docs/plan-evaluacion.md) | criterio de evaluacion y retroalimentacion |
-| [docs/portal-estudiante-y-app-movil.md](docs/portal-estudiante-y-app-movil.md) | separacion entre portal publico, laboratorio y ruta movil |
-| [docs/despliegue-seguro-y-operacion.md](docs/despliegue-seguro-y-operacion.md) | postura tecnica y CI/CD del repo |
+| [docs/plan-evaluacion.md](docs/plan-evaluacion.md) | criterios de evaluacion y retroalimentacion |
+| [docs/portal-estudiante-y-app-movil.md](docs/portal-estudiante-y-app-movil.md) | portal publico, laboratorio y evolucion movil |
+| [docs/despliegue-seguro-y-operacion.md](docs/despliegue-seguro-y-operacion.md) | postura tecnica y CI/CD |
 | [RUNBOOK.md](RUNBOOK.md) | operacion diaria |
-| [SECURITY.md](SECURITY.md) | postura y hardening |
-| [docs/portfolio-high-standard.md](docs/portfolio-high-standard.md) | patron de estandar alto del portafolio |
-| [docs/estandar-alto-gap-bootcamp.md](docs/estandar-alto-gap-bootcamp.md) | brecha puntual de este repo |
+| [SECURITY.md](SECURITY.md) | postura de seguridad y hardening |
+
+> La documentacion de preparacion para entrevista y las notas internas del maintainer viven en `docs/entrevista/` y `docs/maintainer/` respectivamente. Ver [docs/INDEX.md](docs/INDEX.md) para el mapa completo.
 
 ---
 

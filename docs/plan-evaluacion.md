@@ -1,4 +1,4 @@
-﻿# 📏 Plan de evaluacion
+# 📏 Plan de evaluacion
 
 Plan de evaluacion continua para una implementacion inicial del bootcamp. Esta propuesta busca medir comprension, aplicacion, interpretacion y progresion, no solo resultado final.
 
