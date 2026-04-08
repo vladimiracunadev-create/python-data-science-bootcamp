@@ -5,7 +5,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from app.execution_engine import execute_code, reset_session, _SESSIONS
+from app.execution_engine import _SESSIONS, execute_code, reset_session
 
 
 def test_execute_code_keeps_state_between_cells():

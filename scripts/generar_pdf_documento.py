@@ -18,7 +18,6 @@ from pathlib import Path
 
 from fpdf import FPDF
 
-
 COLOR_BG = (15, 23, 42)
 COLOR_PANEL = (17, 24, 39)
 COLOR_ACCENT = (34, 197, 94)

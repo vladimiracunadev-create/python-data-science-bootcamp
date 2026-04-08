@@ -1,8 +1,8 @@
 from __future__ import annotations
 
-from pathlib import Path
-import sys
 import json
+import sys
+from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parents[1]
 sys.path.append(str(BASE_DIR))

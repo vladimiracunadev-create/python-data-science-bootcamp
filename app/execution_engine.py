@@ -4,13 +4,14 @@ import ast
 import base64
 import threading
 import time
+import traceback
 from contextlib import redirect_stdout
 from dataclasses import dataclass, field
 from io import BytesIO, StringIO
 from typing import Any
-import traceback
 
 import matplotlib
+
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 

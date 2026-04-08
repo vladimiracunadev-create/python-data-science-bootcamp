@@ -7,7 +7,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 import pandas as pd
 
-from src.data_checks import required_columns_present, null_report, assert_no_empty_dataframe
+from src.data_checks import assert_no_empty_dataframe, null_report, required_columns_present
 
 
 def test_required_columns_present_detects_all():

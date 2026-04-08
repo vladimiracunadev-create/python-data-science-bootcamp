@@ -4,11 +4,17 @@ import os
 import re
 from pathlib import Path
 
-from flask import Flask, jsonify, render_template, request
 import markdown
+from flask import Flask, jsonify, render_template, request
 
-from .content_loader import list_classes, list_notebook_templates, load_notebook_template, read_class_markdown, save_notebook
-from .execution_engine import execute_code, reset_session, MAX_CODE_LENGTH
+from .content_loader import (
+    list_classes,
+    list_notebook_templates,
+    load_notebook_template,
+    read_class_markdown,
+    save_notebook,
+)
+from .execution_engine import MAX_CODE_LENGTH, execute_code, reset_session
 
 BASE_DIR = Path(__file__).resolve().parents[1]
 app = Flask(__name__, template_folder=str(BASE_DIR / "app" / "templates"), static_folder=str(BASE_DIR / "app" / "static"))

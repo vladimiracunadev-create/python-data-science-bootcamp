@@ -5,7 +5,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from src.utils import load_csv, add_total_column, resumen_por_columna
+from src.utils import add_total_column, load_csv, resumen_por_columna
 
 
 def test_load_csv_returns_dataframe():
