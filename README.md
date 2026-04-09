@@ -100,7 +100,6 @@ PDFs listos para imprimir o compartir en contexto de entrevista, evaluación o p
 | Documento | Descripción |
 |---|---|
 | [muestra-producto-para-skillnest.pdf](docs/pdfs/muestra-producto-para-skillnest.pdf) | Muestra imprimible del producto para contexto de institución o reunión comercial |
-| [preguntas-para-hacer-en-entrevista.pdf](docs/pdfs/preguntas-para-hacer-en-entrevista.pdf) | Preguntas clave que el docente puede hacer al inicio de una entrevista o reunión de cierre |
 | [guia-estudio-repositorio.pdf](docs/pdfs/guia-estudio-repositorio.pdf) | Ruta de lectura rápida del repo para evaluador técnico o reclutador |
 
 **Guía ampliada de estudio**
