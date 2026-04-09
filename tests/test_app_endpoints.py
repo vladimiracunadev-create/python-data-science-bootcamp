@@ -73,8 +73,8 @@ def test_api_class_detail_valid():
     assert "README.md" in data["html"]
     assert "teoria.md" in data["html"]
     assert data["quiz"] is None
-    assert data["assets"]["pdf"]["path"].endswith(".pdf")
-    assert data["assets"]["pptx"]["path"].endswith(".pptx")
+    assert data["assets"]["pdf"]["path"] == "classes/01-python-fundamentos/guia-explicativa.pdf"
+    assert data["assets"]["pptx"]["path"] == "classes/01-python-fundamentos/presentacion.pptx"
 
 
 def test_api_class_detail_includes_quiz_for_class_zero():

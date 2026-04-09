@@ -29,6 +29,8 @@ BASE_DIR = Path(__file__).resolve().parents[1]
 CLASSES_DIR = BASE_DIR / "classes"
 PDF_OUTPUT_DIR = BASE_DIR / "docs" / "pdfs" / "classes"
 PPTX_OUTPUT_DIR = BASE_DIR / "docs" / "presentaciones" / "classes"
+LOCAL_PDF_NAME = "guia-explicativa.pdf"
+LOCAL_PPTX_NAME = "presentacion.pptx"
 
 SOURCE_FILES = [
     ("README.md", "📘 Ficha de clase"),
@@ -605,6 +607,8 @@ def generate_assets(directories: list[Path]) -> None:
     for class_dir in directories:
         pdf_path = PDF_OUTPUT_DIR / f"{class_output_name(class_dir, 'guia-explicativa.pdf')}"
         pptx_path = PPTX_OUTPUT_DIR / f"{class_output_name(class_dir, 'presentacion.pptx')}"
+        local_pdf_path = class_dir / LOCAL_PDF_NAME
+        local_pptx_path = class_dir / LOCAL_PPTX_NAME
 
         markdown = build_class_markdown(class_dir)
         title = extract_h1(read_text(class_dir / "README.md"), class_dir.name)
@@ -616,9 +620,13 @@ def generate_assets(directories: list[Path]) -> None:
             subtitle="Guía construida a partir del contenido real del módulo.",
         )
         create_presentation(class_dir, pptx_path)
+        local_pdf_path.write_bytes(pdf_path.read_bytes())
+        local_pptx_path.write_bytes(pptx_path.read_bytes())
 
         print(f"[OK] {pdf_path.relative_to(BASE_DIR)}")
         print(f"[OK] {pptx_path.relative_to(BASE_DIR)}")
+        print(f"[OK] {local_pdf_path.relative_to(BASE_DIR)}")
+        print(f"[OK] {local_pptx_path.relative_to(BASE_DIR)}")
 
 
 def main() -> None:

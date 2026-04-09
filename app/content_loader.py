@@ -132,9 +132,10 @@ def get_class_assets(slug: str) -> dict[str, dict[str, str]]:
     if not SAFE_NAME_RE.match(slug):
         raise ValueError(f"Slug inválido: {slug}")
 
+    class_dir = _safe_resolve(CLASS_DIR, slug)
     assets = {
-        "pdf": CLASS_PDF_DIR / f"clase-{slug}-guia-explicativa.pdf",
-        "pptx": CLASS_PPTX_DIR / f"clase-{slug}-presentacion.pptx",
+        "pdf": class_dir / "guia-explicativa.pdf",
+        "pptx": class_dir / "presentacion.pptx",
     }
     result: dict[str, dict[str, str]] = {}
 
@@ -142,7 +143,7 @@ def get_class_assets(slug: str) -> dict[str, dict[str, str]]:
         if path.exists():
             result[kind] = {
                 "filename": path.name,
-                "path": str(path.relative_to(BASE_DIR)),
+                "path": path.relative_to(BASE_DIR).as_posix(),
             }
 
     return result
@@ -152,12 +153,13 @@ def resolve_class_asset_path(slug: str, asset_kind: str) -> Path:
     """Resuelve un artefacto derivado de clase y valida que exista.
 
     Qué resuelve:
-        Entrega a la capa HTTP una ruta segura para servir binarios sin
-        exponer accesos arbitrarios fuera de `docs/`.
+        Entrega a la capa HTTP una ruta segura para servir binarios ya
+        existentes dentro de cada módulo, sin depender de generación en runtime.
     """
+    class_dir = _safe_resolve(CLASS_DIR, slug)
     available = {
-        "pdf": CLASS_PDF_DIR / f"clase-{slug}-guia-explicativa.pdf",
-        "pptx": CLASS_PPTX_DIR / f"clase-{slug}-presentacion.pptx",
+        "pdf": class_dir / "guia-explicativa.pdf",
+        "pptx": class_dir / "presentacion.pptx",
     }
     if asset_kind not in available:
         raise ValueError(f"Tipo de asset inválido: {asset_kind}")
