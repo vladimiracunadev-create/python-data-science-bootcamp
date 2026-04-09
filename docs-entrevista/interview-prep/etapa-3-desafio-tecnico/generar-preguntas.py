@@ -667,6 +667,6 @@ while len(todas_las_preguntas) < 1000:
 with open("1000_preguntas_python.json", "w", encoding="utf-8") as f:
     json.dump(todas_las_preguntas[:1000], f, ensure_ascii=False, indent=2)
 
-print(f"[OK] 1000 preguntas generadas: 1000_preguntas_python.json")
+print("[OK] 1000 preguntas generadas: 1000_preguntas_python.json")
 print(f"Categorías: {set(p['categoria'] for p in todas_las_preguntas[:1000])}")
 print(f"Dificultades: {set(p['dificultad'] for p in todas_las_preguntas[:1000])}")

@@ -1,0 +1,183 @@
+================================================================================
+        INTERVIEW PREP — PRESENTACIONES ONLINE (45 MINUTOS)
+================================================================================
+
+BIENVENIDO! Estás a 4-6 horas de estar 100% preparado.
+
+================================================================================
+PASO 1: ENTIENDE TU ENTORNO
+================================================================================
+
+Esta entrevista tiene:
+  ✓ Formato: ONLINE (Zoom, Meet, etc.)
+  ✓ Evaluador: Alguien observando cómo enseñas
+  ✓ Duración: 45 minutos exactos
+  ✓ Opción: TÚ ELIGES de 3 clases
+
+El evaluador ve:
+  • Claridad (¿explicas bien?)
+  • Conocimiento (¿dominas el tema?)
+  • Manejo online (¿profesionalismo?)
+  • Timing (¿respetas 45 min?)
+  • Engagement (¿mantienes interés?)
+
+================================================================================
+PASO 2: LEE ESTAS 2 GUÍAS (30 MINUTOS)
+================================================================================
+
+1. README_3_OPCIONES.md
+   → Compara las 3 clases disponibles
+   → Elige la que mejor domines
+   
+2. PRESENTACION_ONLINE_CON_EVALUADOR.md
+   → Técnica para presentaciones online
+   → Timing, trucos, setup técnico
+   → Qué hace el evaluador
+   → Preguntas frecuentes y respuestas
+
+TIEMPO: ~30 minutos de lectura
+
+================================================================================
+PASO 3: ELIGE TU OPCIÓN (5 MINUTOS)
+================================================================================
+
+OPCIÓN 1: Visualización (Clase 6)
+  • Dificultad: Media
+  • Código: Matplotlib (gráficos bonitos)
+  • Ventaja: Visual, fácil de seguir
+  • Carpeta: opcion-1-visualizacion/
+
+OPCIÓN 2: ML Intro (Clase 9)
+  • Dificultad: Media-Alta
+  • Código: Regresión Lineal, train/test
+  • Ventaja: Conceptos fundamentales
+  • Carpeta: opcion-2-ml-intro/
+
+OPCIÓN 3: Pipelines (Clase 11)
+  • Dificultad: Alta
+  • Código: GridSearchCV, Pipeline
+  • Ventaja: Profundidad técnica
+  • Carpeta: opcion-3-pipelines/
+
+RECOMENDACIÓN: Elige la que te deje MÁS confiado.
+(No la más difícil, sino la que domines mejor.)
+
+================================================================================
+PASO 4: ABRE TU CARPETA (2 MINUTOS)
+================================================================================
+
+Dentro de tu carpeta elegida encontrarás:
+  ✓ doc/
+      └── [PPTX con 8 slides listos para presentar]
+  ✓ README.md
+      → Guía específica para tu clase
+  ✓ guia-rapida.txt
+      → Resumen en 1 página
+
+ABRE EL PPTX Y FAMILIARÍZATE
+
+================================================================================
+PASO 5: PREPÁRATE (3-5 HORAS)
+================================================================================
+
+DÍA 1:
+  □ Lee README de tu opción (1 hora)
+  □ Lee PRESENTACION_ONLINE_CON_EVALUADOR.md (30 min)
+  □ Abre la presentación y recorre los slides (30 min)
+  □ CARRERA 1: Presentación COMPLETA de 45 min (45 min)
+     (Aunque no salga perfecta, hazla entera)
+
+DÍA 2:
+  □ CARRERA 2: Presentación completa, mejorado (45 min)
+  □ Enfócate en timing (no menos de 43, no más de 47)
+  □ Si hay código: practica ejecutarlo 5 veces
+
+DÍA 3 (Opcional, pero recomendado):
+  □ CARRERA 3: Presentación final, "como si fuera en serio" (45 min)
+  □ Grábate (vídeo en el teléfono)
+  □ Mírate y detecta mejoras
+
+DÍA DE LA ENTREVISTA:
+  □ Revisa checklist técnico (15 min antes)
+  □ Respira profundo 3 veces
+  □ Confía: YA ESTÁS PREPARADO
+  □ GO! 🚀
+
+================================================================================
+ARCHIVOS CLAVE
+================================================================================
+
+README_3_OPCIONES.md
+  → Comparativa de las 3 opciones (LEER PRIMERO)
+
+PRESENTACION_ONLINE_CON_EVALUADOR.md
+  → Guía completa para presentaciones online (ESENCIAL)
+
+opcion-1-visualizacion/doc/*.pptx
+opcion-2-ml-intro/doc/*.pptx
+opcion-3-pipelines/doc/*.pptx
+  → Las presentaciones (8 slides, 45 min cada una)
+
+================================================================================
+TIPS DE ORO
+================================================================================
+
+✓ NO memorices. Entiende y habla naturalmente.
+✓ Practica EN VOZ ALTA (sí, así de raro).
+✓ Domina el código. Ejecútalo 10+ veces.
+✓ Dibuja en pizarra si puedes (curvas, gráficos, diagramas).
+✓ Controla timing con reloj (cada 2 min, furtivo).
+✓ Si algo falla: reconócelo, intenta de nuevo, continúa.
+✓ El evaluador NO es tu enemigo. Quiere que tengas éxito.
+
+================================================================================
+RESUMEN RÁPIDO
+================================================================================
+
+→ Hoy: Lee las 2 guías (30 min) + elige opción (5 min)
+→ Mañana: 3-5 horas de preparación intensiva
+→ Día de entrevista: Confía y presenta
+
+TOTAL: ~6-7 horas de inversión → 90%+ probabilidad de éxito
+
+================================================================================
+PREGUNTAS FRECUENTES
+================================================================================
+
+P: "¿Si fallo una carrera de ensayo, qué hago?"
+R: Eso es NORMAL. Aprende de lo que salió mal. Próximo ensayo mejor.
+
+P: "¿Puedo usar notas?"
+R: Sí, pero mira la cámara. Las notas son backup, no lectura.
+
+P: "¿Y si me pongo nervioso?"
+R: Normal. Todos se ponen. Respira. El evaluador lo entiende.
+
+P: "¿Tengo que memorizar el PPTX?"
+R: No. Solo domina los conceptos. Las slides son guía.
+
+P: "¿Y si no sé responder una pregunta?"
+R: "Excelente pregunta. No lo sé de memoria, pero buscaría [X].
+   La próxima vez lo traería." → Honestidad > guessing.
+
+================================================================================
+¡ÉXITO!
+================================================================================
+
+Estás preparado/a. Has estudiado. Ahora confía.
+
+El evaluador va a ver a alguien que:
+  ✓ Conoce el tema
+  ✓ Sabe comunicar
+  ✓ Es profesional
+  ✓ Maneja presión
+
+Que es EXACTAMENTE lo que buscan.
+
+¡Adelante! 🚀
+
+================================================================================
+Preparado por: Vladimir Acuña
+Bootcamp Python para Data Science
+2026-04-09
+================================================================================

@@ -4,13 +4,13 @@ Generador de PDF: Guía de Preparación para enseñar Clase 11
 Contiene todo lo que necesitas saber para dar la clase exitosamente
 """
 
-from reportlab.lib.pagesizes import letter, A4
-from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
-from reportlab.lib.units import inch
-from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, PageBreak, Table, TableStyle, PageTemplate, Frame
-from reportlab.lib import colors
-from reportlab.pdfgen import canvas
 import datetime
+
+from reportlab.lib import colors
+from reportlab.lib.pagesizes import letter
+from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
+from reportlab.lib.units import inch
+from reportlab.platypus import PageBreak, Paragraph, SimpleDocTemplate, Spacer
 
 # ============================================================================
 # CONFIGURACIÓN
@@ -83,7 +83,7 @@ contenido = [
     Spacer(1, 0.5 * inch),
     Paragraph("Demostración Pedagógica — Etapa 2", styles['Normal']),
     Spacer(1, 0.3 * inch),
-    Paragraph(f"Preparado por: Vladimir Acuña", styles['Normal']),
+    Paragraph("Preparado por: Vladimir Acuña", styles['Normal']),
     Paragraph(f"Fecha: {CREATED}", styles['Normal']),
     PageBreak(),
 

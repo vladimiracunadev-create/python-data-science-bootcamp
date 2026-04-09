@@ -4,12 +4,11 @@ Generador de materiales para Etapa 2 — Presentación de Clase
 Crea PPTX + PDF de preparación para la Clase 11: Evaluación y Pipelines
 """
 
+
 from pptx import Presentation
-from pptx.util import Inches, Pt
-from pptx.enum.text import PP_ALIGN, MSO_ANCHOR
-from pptx.enum.shapes import MSO_SHAPE
 from pptx.dml.color import RGBColor
-import json
+from pptx.enum.shapes import MSO_SHAPE
+from pptx.util import Inches, Pt
 
 # ============================================================================
 # CONFIGURACIÓN DE COLORES
