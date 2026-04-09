@@ -1,38 +1,38 @@
-# 📚 Guía de estudio del repositorio
+# Guia de estudio del repositorio
 
-> 🧠 Documento personal de estudio para preparar entrevista, demo y conversación técnica usando solo el contenido existente del repositorio.
+> Documento personal de estudio para preparar entrevista, demo y conversacion tecnica usando solo el contenido existente del repositorio.
 
-## 🧭 Qué debo dominar del producto
+## Que debo poder explicar con seguridad
 
-Necesito poder explicar con seguridad estas capas:
+Debo poder resumir estas capas sin improvisar:
 
-- qué hace el portal del alumno;
-- qué hace el laboratorio local;
-- qué hace la app Android;
-- qué hace la versión Windows;
-- qué límites tiene hoy la solución;
-- cómo se aterriza a una implementación escolar acotada.
+- que hace el portal del alumno;
+- que hace el laboratorio local;
+- que hace la app Android;
+- que hace la version Windows;
+- que limites tiene hoy la solucion;
+- como se aterriza una implementacion escolar acotada.
 
-## ⚙️ Comandos que debo manejar y poder explicar
+## Comandos que debo dominar
 
-### 🪟 Arranque local del bootcamp
+### Arranque local
 
 - `python run_bootcamp.py`
 - `python launcher.py`
 - `http://127.0.0.1:8000`
 
-### ✅ Validación técnica
+### Validacion tecnica
 
 - `pytest`
-- `ruff check .`
 - `python -m pytest`
+- `ruff check .`
 
-### 🐳 Ejecución con contenedores
+### Docker
 
 - `docker compose up --build`
 - `docker compose -f docker-compose.prod.yml up -d --build`
 
-### 📱 App Android
+### App Android
 
 - `cd mobile`
 - `npm install`
@@ -41,12 +41,12 @@ Necesito poder explicar con seguridad estas capas:
 - `cd android`
 - `gradlew.bat assembleDebug`
 
-### 🪟 Empaque Windows
+### Empaque Windows
 
 - `build_windows.bat`
 - `python -m PyInstaller bootcamp.spec --noconfirm`
 
-## 🧱 Rutas del repo que debo conocer
+## Rutas que debo conocer
 
 - `README.md`
 - `docs/INDEX.md`
@@ -60,139 +60,52 @@ Necesito poder explicar con seguridad estas capas:
 - `site/`
 - `installer/`
 
-## 🎯 Temas teóricos por clase que debo repasar
+## Temas por clase que conviene repasar
 
-### 🧪 Clase 00
+| Clase | Foco de repaso |
+|---|---|
+| 00 | diagnostico inicial, fortalezas, vacios y habitos de trabajo |
+| 01 | variables, tipos, listas, diccionarios, funciones y control de flujo |
+| 02 | lectura de CSV, inspeccion, nulos y limpieza basica |
+| 03 | agrupacion, preguntas exploratorias y lectura de graficos |
+| 04 | media, mediana, dispersion e interpretacion |
+| 05 | construccion y legibilidad de graficos |
+| 06 | texto, fechas y columnas derivadas |
+| 07 | mini proyecto guiado y secuencia de trabajo |
+| 08 | sintesis, hallazgos y comunicacion breve |
+| 09 | idea general de machine learning y primer modelo |
+| 10 | modelos supervisados y lectura de resultados |
+| 11 | evaluacion, metricas y pipelines |
+| 12 | integracion del recorrido y cierre |
 
-- diagnóstico inicial;
-- fortalezas y vacíos;
-- hábitos de trabajo.
+## Practicas que me conviene ensayar
 
-### 🐍 Clase 01
-
-- variables y tipos;
-- listas y diccionarios;
-- funciones;
-- control de flujo.
-
-### 🧹 Clase 02
-
-- `pandas.read_csv`;
-- inspección inicial;
-- nulos;
-- limpieza básica;
-- estandarización.
-
-### 📊 Clase 03
-
-- agrupación;
-- gráficos de barras;
-- lectura visual;
-- preguntas exploratorias.
-
-### 📐 Clase 04
-
-- media;
-- mediana;
-- dispersión;
-- interpretación de resumen estadístico.
-
-### 🎨 Clase 05
-
-- `figure` y `axes`;
-- títulos y ejes;
-- legibilidad;
-- ajuste visual.
-
-### 🗓️ Clase 06
-
-- tratamiento de texto;
-- fechas;
-- columnas derivadas;
-- transformaciones útiles.
-
-### 🧩 Clase 07
-
-- mini proyecto guiado;
-- pregunta analítica;
-- limpieza;
-- visualización;
-- conclusión.
-
-### 🗣️ Clase 08
-
-- lectura de hallazgos;
-- síntesis;
-- storytelling con datos;
-- comunicación breve.
-
-### 🤖 Clase 09
-
-- idea general de machine learning;
-- features y target;
-- entrenamiento inicial;
-- interpretación del primer modelo.
-
-### 🧠 Clase 10
-
-- modelos supervisados;
-- clasificación y regresión;
-- flujo básico de entrenamiento;
-- lectura de resultados.
-
-### 📏 Clase 11
-
-- evaluación;
-- train/test split;
-- métricas;
-- pipelines;
-- comparación de modelos.
-
-### 🏁 Clase 12
-
-- proyecto final;
-- integración del recorrido;
-- cierre de aprendizaje;
-- reflexión final.
-
-## 💻 Ejercicios que me conviene practicar antes de la entrevista
-
-- escribir una función simple y explicarla en voz alta;
+- escribir una funcion simple y explicarla en voz alta;
 - cargar un CSV con pandas y describirlo;
 - detectar nulos y justificar una limpieza;
-- construir un `groupby` con una conclusión simple;
-- hacer un gráfico de barras o línea legible;
-- comparar media y mediana sin caer en teoría abstracta;
-- explicar qué problema resuelve una visualización;
-- describir cuándo un modelo simple sí aporta y cuándo no.
+- construir un `groupby` con una conclusion concreta;
+- hacer un grafico legible y explicar para que sirve;
+- explicar cuando un modelo simple si aporta y cuando no.
 
-## 🔐 Seguridad y despliegue que debo poder defender
+## Puntos tecnicos que debo saber defender
 
-- por qué el laboratorio local escucha en `127.0.0.1`;
-- por qué no conviene presentarlo como SaaS abierto;
-- qué protecciones existen hoy;
-- qué falta si se quisiera exponer a internet;
-- por qué `health` y `ready` ayudan a operación;
-- por qué el runner local no equivale a aislamiento fuerte.
+- por que el laboratorio local escucha en `127.0.0.1`;
+- por que no conviene presentarlo como SaaS abierto;
+- que protecciones existen hoy;
+- que faltaria para exponerlo a internet;
+- que rol cumplen `health` y `ready`;
+- por que el runner local no equivale a aislamiento fuerte.
 
-## 🧪 Pruebas y calidad que debo mencionar
+## Explicacion breve que debo ensayar
 
-- `pytest` para validar comportamiento;
-- `ruff` para calidad base;
-- GitHub Actions para CI;
-- diferencia entre validar backend y validar superficies visuales;
-- necesidad de revisar también la experiencia de app y entregables.
+Este repositorio no es solo contenido. Reune una base docente real con clases, teoria, practica, evaluacion, portal publico, app movil y laboratorio local. La fortaleza esta en la progresion pedagogica y en que la solucion ya puede mostrarse, ejecutarse y adaptarse para una primera implementacion escolar acotada.
 
-## 🎤 Explicación breve que debo ensayar
-
-“Este repositorio no es solo contenido. Reúne una base docente real: clases, teoría, práctica, evaluación, portal público, app móvil y laboratorio local. La fortaleza está en la progresión pedagógica y en que la solución ya puede mostrarse, ejecutarse y adaptarse para una primera implementación escolar acotada.”
-
-## 📝 Checklist personal de repaso
+## Checklist personal
 
 - abrir y recorrer `README.md`;
 - revisar `docs/implementacion-v1-skillnest-san-nicolas.md`;
 - repasar `classes/01` a `classes/07`;
 - volver a mirar `docs/CATALOGO_PRODUCTO.md`;
 - revisar seguridad y despliegue;
-- practicar dos respuestas cortas: una pedagógica y una técnica;
+- practicar una respuesta pedagogica y una tecnica;
 - entrar a la entrevista con preguntas claras sobre alcance y pago.

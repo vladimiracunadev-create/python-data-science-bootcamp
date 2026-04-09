@@ -1,100 +1,67 @@
-# 🖨 Preparación para entrevista Skillnest
+# Preparacion para entrevista Skillnest
 
 ## Datos clave
 
-- Fecha: jueves 9 de abril de 2026.
-- Hora: 15:30.
-- Proceso: entrevista inicial, clase de prueba, desafío técnico y test psicolaboral.
+- Fecha: jueves 9 de abril de 2026
+- Hora: 15:30
+- Proceso: entrevista inicial, clase de prueba, desafio tecnico y test psicolaboral
 
 ## Objetivo personal
 
-Entrar a la reunión mostrando tres cosas:
+Entrar a la reunion mostrando tres cosas:
 
-1. que ya tienes una base real de capacitación;
-2. que sabes enseñar y también disenar programas;
-3. que puedes partir con una versión acotada y escalar despues.
+1. que ya existe una base real de capacitacion;
+2. que sabes ensenar y tambien disenar programas;
+3. que puedes partir con una version acotada y escalar despues.
 
 ## Mensaje central de apertura
 
-"Prepare este repositorio como una muestra concreta de como diseño capacitaciones técnicas. No solo contiene contenido, sino estructura docente: progresión de clases, ejercicios, notebooks, evaluación, guía del instructor y un entorno local para practicar. Para una primera implementación escolar yo no mostraria todo de una vez; lo aterrizaria a una ruta inicial simple, medible y ejecutable. Mi valor no depende de una herramienta puntual, sino de poder traducir tecnología en aprendizaje real, con criterio pedagógico y una base que despues puede crecer."
+Prepare este repositorio como una muestra concreta de como diseno capacitaciones tecnicas. No contiene solo contenido: contiene secuencia docente, ejercicios, notebooks, evaluacion, guia del instructor y un entorno local para practicar. Para una primera implementacion escolar no mostraria todo de una vez; lo aterrizaria a una ruta inicial simple, medible y ejecutable. Mi valor no depende de una herramienta puntual, sino de poder traducir tecnologia en aprendizaje real, con criterio pedagogico y una base que despues puede crecer.
 
-## Lo que debe quedar claro
+## Ideas que deben quedar claras
 
 - no eres alguien improvisando una clase;
 - tienes un sistema de trabajo reusable;
 - puedes adaptarte al contexto escolar sin inflar promesas;
-- tu valor esta en la mediación pedagógica, el criterio y la implementación;
-- sabes poner límites sanos si te piden demasiado antes de contratar.
+- tu valor esta en la mediacion pedagogica, el criterio y la implementacion;
+- sabes poner limites sanos si te piden demasiado antes de contratar.
 
-## Guion rápido de reunión
+## Guion rapido de reunion
 
 ### Inicio
 
-- presentar el repositorio como sistema de capacitación;
+- presentar el repositorio como sistema de capacitacion;
 - mostrar que ya existe material real;
 - explicar por que propones una V1 acotada.
 
 ### Desarrollo
 
 - abrir `README.md`;
-- mostrar `docs/implementación-v1-skillnest-san-nicolas.md`;
-- mostrar `docs/entrevista-skillnest-presentacion-v2.md`;
+- mostrar `docs/implementacion-v1-skillnest-san-nicolas.md`;
+- mostrar `docs/entrevista/entrevista-skillnest-presentacion-v2.md`;
 - si hay tiempo, mostrar `app/` como laboratorio y `site/` como portal del alumno.
 
 ### Cierre
 
-"Me interesa aportar desde una base seria y reusable, no desde una promesa inflada. Si les hace sentido el enfoque, el siguiente paso ideal es confirmar horas reales, perfil del grupo y alcance esperado para ajustar la versión inicial con precision."
+Me interesa aportar desde una base seria y reusable, no desde una promesa inflada. Si les hace sentido el enfoque, el siguiente paso ideal es confirmar horas reales, perfil del grupo y alcance esperado para ajustar la version inicial con precision.
 
-## Clase de prueba: lo minimo que debes mostrar
+## Minimo que debe verse en una clase de prueba
 
 - objetivo claro;
-- explicación corta;
+- explicacion corta;
 - ejemplo guiado;
-- mini práctica;
+- mini practica;
 - cierre con interpretacion.
 
-## Desafío técnico: lo que debes recordar
+## Recordatorio para el desafio tecnico
 
 - entender bien el objetivo antes de codificar;
-- priorizar una solución clara y correcta;
+- priorizar una solucion clara y correcta;
 - explicar decisiones y tradeoffs;
-- validar con una prueba o chequeo rápido;
+- validar con una prueba o chequeo rapido;
 - mostrar criterio de seguridad y despliegue si aparece el tema.
-
-## Contenidos que conviene repasar
-
-- Python base;
-- pandas;
-- visualización;
-- lectura de resultados;
-- Flask y APIs básicas;
-- validaciónes y tests;
-- seguridad local;
-- despliegue seguro por defecto.
-
-## Valor frente a cualquier tecnología
-
-Frase corta:
-
-"La tecnología puede ayudar, pero no reemplaza la secuencia pedagógica, la lectura del grupo, la retroalimentación ni la construcción de confianza. Mi valor esta en convertir herramientas en aprendizaje real."
-
-## Preguntas que debes hacer
-
-1. Cuales son las horas reales por semana.
-2. Cuantos estudiantes son y de que nivel vienen.
-3. Qué esperan exactamente de la clase de prueba.
-4. Qué incluye el pago: clases, preparación, traslado, corrección y adaptación.
-5. Qué nivel de personalización esperan antes de contratar.
-6. Qué equipamiento tendrá la sala.
-
-## Alertas
-
-- si te piden demasiado material previo sin hablar de condiciones;
-- si quieren una clase de prueba extensa no pagada;
-- si mezclan horas lectivas con trabajo administrativo sin aclararlo;
-- si cambian mucho el alcance sin fijar marco de trabajo.
 
 ## Regla final
 
 No necesitas demostrar que puedes hacer todo.
-Necesitas demostrar que sabes pensar, acotar, enseñar, implementar y cuidar tu trabajo.
+Necesitas demostrar que sabes pensar, acotar, ensenar, implementar y cuidar tu trabajo.

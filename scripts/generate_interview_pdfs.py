@@ -59,6 +59,7 @@ def main() -> None:
             output_path=doc["output"],
             title=doc["title"],
             subtitle=doc["subtitle"],
+            style="print",
         )
         print(f"[OK] {doc['output'].relative_to(BASE_DIR)}")
 

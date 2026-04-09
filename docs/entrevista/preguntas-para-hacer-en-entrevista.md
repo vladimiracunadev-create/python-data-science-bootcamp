@@ -1,71 +1,64 @@
-# 🎤 Preguntas para hacer en la entrevista
+# Preguntas para hacer en la entrevista
 
-> 📝 Guía personal para la entrevista del jueves 9 de abril de 2026. El objetivo es aclarar alcance, condiciones y contexto real antes de comprometer trabajo adicional.
+> Guia personal para aclarar alcance, condiciones y contexto real antes de comprometer trabajo adicional.
 
-## 🎯 Qué necesito aclarar sí o sí
+## Prioridades de aclaracion
 
-- carga horaria real por semana;
-- cantidad de estudiantes;
-- edad, nivel o especialidad del grupo;
-- modalidad presencial, híbrida o remota;
-- duración total del programa;
-- fecha esperada de inicio.
+Antes de avanzar conviene salir de la reunion con claridad sobre:
 
-## 💼 Preguntas sobre alcance y trabajo docente
+- horas reales de trabajo;
+- perfil y cantidad de estudiantes;
+- modalidad de las clases;
+- alcance de la primera version;
+- condiciones de pago;
+- propiedad del material.
 
-1. ¿Qué esperan exactamente de la primera versión: clases, materiales, evaluaciones o adaptación curricular completa?
-2. ¿Esperan una implementación inicial acotada o un programa ya totalmente personalizado?
-3. ¿Qué porcentaje del trabajo consideran clase directa y qué porcentaje preparación o coordinación?
-4. ¿Quieren que yo adapte el material a su contexto escolar desde el inicio o después de una etapa piloto?
+## Preguntas sobre alcance
 
-## 💰 Preguntas sobre pago y condiciones
+1. Que esperan exactamente de la primera etapa: clases, materiales, evaluaciones o adaptacion curricular completa.
+2. Esperan una implementacion inicial acotada o una version ya totalmente personalizada.
+3. Que porcentaje del trabajo consideran clases y que porcentaje consideran preparacion, coordinacion y seguimiento.
+4. Quieren una etapa piloto breve antes de una implementacion mayor.
 
-1. ¿Cómo se pagan las horas de preparación, corrección, coordinación y seguimiento?
-2. ¿Hay diferencia entre hora de clase, hora de diseño y trabajo administrativo?
-3. ¿Cómo se considera el traslado si las clases son presenciales?
-4. ¿Esperan una clase de prueba? Si la respuesta es sí, ¿es pagada o forma parte del proceso sin pago?
-5. ¿Qué presupuesto o marco de contratación tienen pensado para esta etapa?
+## Preguntas sobre condiciones y pago
 
-## 🧾 Preguntas sobre propiedad del material
+1. Como se pagan las horas de preparacion, correccion, coordinacion y seguimiento.
+2. Existe diferencia entre hora de clase, hora de diseno y trabajo administrativo.
+3. Si la modalidad es presencial, como se trata el traslado.
+4. Si esperan una clase de prueba, es pagada o forma parte del proceso sin pago.
+5. Que presupuesto o marco de contratacion tienen pensado para esta etapa.
 
-1. ¿Quién mantiene la propiedad del material adaptado o creado durante la implementación?
-2. ¿Esperan exclusividad sobre contenidos o una licencia de uso en el contexto del colegio?
-3. ¿Puedo seguir usando el repositorio como muestra de portafolio después del trabajo?
+## Preguntas sobre el contexto escolar
 
-## 🏫 Preguntas sobre el contexto escolar
+1. Que equipamiento real tiene la sala.
+2. Hay restricciones institucionales sobre instalacion de software o plataformas externas.
+3. Que autonomia digital tienen hoy los estudiantes.
+4. Como se evalua normalmente a los alumnos en ese programa.
 
-1. ¿Qué equipamiento real tiene la sala: computadores, proyector, internet, cuentas, permisos?
-2. ¿Hay restricciones institucionales sobre software, instalación o acceso a plataformas externas?
-3. ¿Qué nivel de autonomía digital tienen hoy los estudiantes?
-4. ¿Cómo se evalúa normalmente a los alumnos en ese programa?
+## Preguntas sobre propiedad del material
 
-## 🧠 Preguntas para afinar la propuesta pedagógica
+1. Quien mantiene la propiedad del material adaptado o creado durante la implementacion.
+2. Esperan exclusividad o una licencia de uso para el contexto del colegio.
+3. Puedo seguir mostrando la base del trabajo como parte de mi portafolio.
 
-1. ¿Qué resultados esperan ver al final del proceso?
-2. ¿Prefieren una ruta orientada a fundamentos, análisis de datos o proyecto aplicado?
-3. ¿Qué tan importante es que los estudiantes salgan con un entregable visible?
-4. ¿Buscan una experiencia introductoria o una ruta que continúe en etapas posteriores?
+## Senales a leer con cuidado
 
-## ⚠️ Señales que debo leer con atención
+- si piden trabajo especifico antes de hablar de condiciones;
+- si mezclan clase, diseno curricular y materiales bajo un solo pago ambiguo;
+- si no distinguen una muestra de trabajo de una implementacion ya contratada;
+- si no tienen clara la carga horaria real.
 
-- si piden mucho trabajo específico antes de hablar de condiciones;
-- si mezclan clase, diseño curricular y materiales dentro de un solo pago ambiguo;
-- si no tienen clara la carga horaria real;
-- si esperan una personalización completa antes de confirmar la contratación;
-- si no distinguen entre demo, propuesta y trabajo ya contratado.
+## Frases utiles para poner limites
 
-## 💬 Frases útiles para poner límites con buen tono
+- Puedo mostrar una muestra breve y clara de enfoque, y con el alcance definido preparo una version ajustada.
+- Me sirve dejar claras desde ahora las horas de clase, preparacion y coordinacion para construir una propuesta realista.
+- Si esperan una clase de prueba o una adaptacion mayor, prefiero acordar antes si eso forma parte de una etapa pagada.
 
-- “Puedo mostrar una muestra breve y clara de enfoque, y una vez definido el alcance preparo una versión más ajustada.”
-- “Me sirve dejar claras desde ahora las horas de clase, preparación y coordinación para construir una propuesta realista.”
-- “Si esperan una clase de prueba o una adaptación mayor, prefiero acordar primero si eso forma parte de una etapa ya pagada.”
+## Resultado minimo esperado al salir
 
-## 🏁 Recordatorio final
+No es necesario cerrar todo en la reunion, pero si conviene salir con cuatro definiciones claras:
 
-No necesito salir de la entrevista con todo cerrado, pero sí con claridad sobre:
-
-- alcance;
-- pago;
-- propiedad del material;
-- horas reales;
-- siguiente paso concreto.
+- siguiente paso concreto;
+- marco de pago;
+- alcance de la etapa inicial;
+- condiciones de trabajo razonables.

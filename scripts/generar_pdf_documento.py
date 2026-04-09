@@ -30,6 +30,15 @@ COLOR_HEADER_BG = (31, 41, 55)
 COLOR_ROW_ALT = (21, 29, 44)
 COLOR_CODE_BG = (2, 6, 23)
 
+PRINT_BG = (255, 255, 255)
+PRINT_PANEL = (245, 247, 250)
+PRINT_ACCENT = (30, 64, 175)
+PRINT_TEXT = (17, 24, 39)
+PRINT_MUTED = (75, 85, 99)
+PRINT_HEADER_BG = (229, 231, 235)
+PRINT_ROW_ALT = (249, 250, 251)
+PRINT_CODE_BG = (243, 244, 246)
+
 FONT_DIR = Path(r"C:\Windows\Fonts")
 FONT_FAMILY = "BootcampSans"
 FONT_REGULAR = FONT_DIR / "arial.ttf"
@@ -390,6 +399,160 @@ class DocumentPDF(FPDF):
         self.ln(3)
 
 
+class PrintDocumentPDF(DocumentPDF):
+    """Plantilla PDF clara y sobria para documentos de entrevista/imprenta."""
+
+    def header(self) -> None:
+        self.set_fill_color(*PRINT_BG)
+        self.rect(0, 0, 210, 297, "F")
+        self.set_fill_color(*PRINT_HEADER_BG)
+        self.rect(0, 0, 210, 12, "F")
+        self.set_font(self.family, "B", 8)
+        self.set_text_color(*PRINT_ACCENT)
+        self.set_y(3.5)
+        self.cell(0, 5, "BOOTCAMP PYTHON - DOSSIER", align="L")
+        self.set_text_color(*PRINT_MUTED)
+        self.cell(0, 5, self.header_title, align="R")
+        self.ln(9)
+
+    def footer(self) -> None:
+        self.set_y(-12)
+        self.set_draw_color(*PRINT_HEADER_BG)
+        self.set_line_width(0.2)
+        self.line(self.l_margin, self.get_y(), self.l_margin + self.epw, self.get_y())
+        self.ln(2)
+        self.set_font(self.family, "", 8)
+        self.set_text_color(*PRINT_MUTED)
+        self.cell(0, 4, f"Página {self.page_no()}", align="C")
+
+    def cover(self, title: str, subtitle: str) -> None:
+        self.add_page()
+        self.set_fill_color(*PRINT_BG)
+        self.rect(0, 0, 210, 297, "F")
+        self.set_fill_color(*PRINT_ACCENT)
+        self.rect(18, 42, 174, 2.4, "F")
+        self.set_fill_color(*PRINT_PANEL)
+        self.rect(18, 54, 174, 36, "F")
+
+        self.set_font(self.family, "B", 22)
+        self.set_text_color(*PRINT_TEXT)
+        self.set_xy(24, 60)
+        self.multi_cell(162, 9, _strip_md_inline(title))
+
+        if subtitle:
+            self.set_font(self.family, "", 11)
+            self.set_text_color(*PRINT_MUTED)
+            self.set_x(24)
+            self.multi_cell(162, 6.5, _strip_md_inline(subtitle))
+
+    def h1(self, text: str) -> None:
+        self.ln(7)
+        self.set_font(self.family, "B", 16)
+        self.set_text_color(*PRINT_TEXT)
+        self.multi_cell(self.epw, 8, _strip_md_inline(text))
+        y = self.get_y()
+        self.set_draw_color(*PRINT_ACCENT)
+        self.set_line_width(0.45)
+        self.line(self.l_margin, y, self.l_margin + 48, y)
+        self.ln(3)
+
+    def h2(self, text: str) -> None:
+        self.ln(5)
+        self.set_font(self.family, "B", 12)
+        self.set_text_color(*PRINT_ACCENT)
+        self.multi_cell(self.epw, 6.5, _strip_md_inline(text))
+        self.ln(1.5)
+
+    def h3(self, text: str) -> None:
+        self.ln(3)
+        self.set_font(self.family, "B", 10.5)
+        self.set_text_color(*PRINT_TEXT)
+        self.multi_cell(self.epw, 5.5, _strip_md_inline(text))
+        self.ln(0.8)
+
+    def text(self, text: str) -> None:
+        self.set_font(self.family, "", 10)
+        self.set_text_color(*PRINT_TEXT)
+        self.multi_cell(self.epw, 5.5, _strip_md_inline(text))
+        self.ln(0.8)
+
+    def bullet(self, text: str) -> None:
+        self.set_font(self.family, "", 10)
+        self.set_text_color(*PRINT_TEXT)
+        self.set_x(self.l_margin + 3)
+        self.cell(5.5, 5.5, "-", align="C")
+        self.multi_cell(self.epw - 9, 5.5, _strip_md_inline(text))
+
+    def numbered(self, text: str, number: int) -> None:
+        self.set_font(self.family, "", 10)
+        self.set_x(self.l_margin + 3)
+        self.set_text_color(*PRINT_ACCENT)
+        self.cell(8, 5.5, f"{number}.", align="L")
+        self.set_text_color(*PRINT_TEXT)
+        self.multi_cell(self.epw - 12, 5.5, _strip_md_inline(text))
+
+    def quote(self, text: str) -> None:
+        clean = _strip_md_inline(text)
+        self.set_fill_color(*PRINT_PANEL)
+        self.set_draw_color(*PRINT_ACCENT)
+        self.set_line_width(0.7)
+        y = self.get_y()
+        self.set_x(self.l_margin + 4)
+        self.set_font(self.family, "I", 10)
+        self.set_text_color(*PRINT_MUTED)
+        self.multi_cell(self.epw - 8, 5.5, clean, fill=True)
+        self.line(self.l_margin, y, self.l_margin, self.get_y())
+        self.ln(1.5)
+
+    def hr(self) -> None:
+        self.ln(3)
+        self.set_draw_color(*PRINT_HEADER_BG)
+        self.set_line_width(0.25)
+        self.line(self.l_margin, self.get_y(), self.l_margin + self.epw, self.get_y())
+        self.ln(3)
+
+    def code(self, code_text: str) -> None:
+        self.ln(2)
+        self.set_fill_color(*PRINT_CODE_BG)
+        self.set_draw_color(*PRINT_HEADER_BG)
+        self.set_line_width(0.25)
+        self.set_font(self.family, "", 8.5)
+        self.set_text_color(*PRINT_TEXT)
+        self.multi_cell(self.epw, 4.5, _strip_md_inline(code_text), fill=True, border=1)
+        self.ln(2)
+
+    def table(self, rows: list[list[str]]) -> None:
+        if not rows:
+            return
+
+        visible_rows = [row for row in rows if not all(set(cell.strip()) <= set("-: ") for cell in row)]
+        if not visible_rows:
+            return
+
+        col_count = max(len(row) for row in visible_rows)
+        col_width = self.epw / col_count
+        row_height = 6
+        self.ln(2)
+
+        for row_index, row in enumerate(visible_rows):
+            values = row + [""] * (col_count - len(row))
+            if row_index == 0:
+                self.set_fill_color(*PRINT_HEADER_BG)
+                self.set_text_color(*PRINT_TEXT)
+                self.set_font(self.family, "B", 8)
+            else:
+                self.set_fill_color(*(PRINT_ROW_ALT if row_index % 2 == 0 else PRINT_BG))
+                self.set_text_color(*PRINT_TEXT)
+                self.set_font(self.family, "", 8)
+
+            for cell in values:
+                text = _strip_md_inline(cell)
+                self.cell(col_width, row_height, text[:42], border=1, fill=True)
+            self.ln()
+
+        self.ln(2)
+
+
 def extract_title(markdown_text: str, fallback: str) -> str:
     """Obtiene el primer H1 del markdown para reutilizarlo como cabecera."""
     for block in parse_markdown(markdown_text):
@@ -398,9 +561,16 @@ def extract_title(markdown_text: str, fallback: str) -> str:
     return _strip_md_inline(fallback)
 
 
-def render_markdown_text(markdown_text: str, output_path: Path, title: str, subtitle: str = "") -> None:
+def render_markdown_text(
+    markdown_text: str,
+    output_path: Path,
+    title: str,
+    subtitle: str = "",
+    style: str = "dark",
+) -> None:
     """Convierte un string Markdown a PDF usando la plantilla visual del repo."""
-    pdf = DocumentPDF(header_title=extract_title(markdown_text, title))
+    pdf_class = PrintDocumentPDF if style == "print" else DocumentPDF
+    pdf = pdf_class(header_title=extract_title(markdown_text, title))
     pdf.cover(title=title, subtitle=subtitle)
     pdf.start_body()
 
@@ -444,13 +614,20 @@ def render_markdown_text(markdown_text: str, output_path: Path, title: str, subt
     pdf.output(str(output_path))
 
 
-def render_markdown(input_path: Path, output_path: Path, title: str, subtitle: str = "") -> None:
+def render_markdown(
+    input_path: Path,
+    output_path: Path,
+    title: str,
+    subtitle: str = "",
+    style: str = "dark",
+) -> None:
     """Lee un Markdown desde disco y lo renderiza a PDF."""
     render_markdown_text(
         markdown_text=input_path.read_text(encoding="utf-8"),
         output_path=output_path,
         title=title,
         subtitle=subtitle,
+        style=style,
     )
 
 
@@ -461,6 +638,7 @@ def main() -> None:
     parser.add_argument("--output", required=True, help="Ruta del PDF de salida.")
     parser.add_argument("--title", required=True, help="Título de portada.")
     parser.add_argument("--subtitle", default="", help="Subtítulo de portada.")
+    parser.add_argument("--style", default="dark", choices=["dark", "print"], help="Estilo visual del PDF.")
     args = parser.parse_args()
 
     render_markdown(
@@ -468,6 +646,7 @@ def main() -> None:
         output_path=Path(args.output),
         title=args.title,
         subtitle=args.subtitle,
+        style=args.style,
     )
     print(f"PDF generado: {args.output}")
 
