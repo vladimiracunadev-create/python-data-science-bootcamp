@@ -22,6 +22,15 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
+# Límites del motor de ejecución — cada valor responde a una restricción concreta:
+#   MAX_SESSIONS=100      : techo para evitar OOM si muchas pestañas crean sesiones
+#                           y las abandonan; 100 namespaces en RAM es razonable.
+#   SESSION_TTL_SECONDS   : 1 hora cubre el tiempo de una clase; las sesiones más
+#                           antiguas se expulsan automáticamente en el siguiente ciclo.
+#   EXECUTION_TIMEOUT     : 30 s es suficiente para ejercicios docentes; corta loops
+#                           infinitos del alumno sin bloquear el lab indefinidamente.
+#   MAX_CODE_LENGTH=20 KB : límite razonable para el contenido de una celda de clase;
+#                           rechaza payloads anómalos antes de llegar al exec().
 MAX_SESSIONS = 100
 SESSION_TTL_SECONDS = 3600  # 1 hora
 EXECUTION_TIMEOUT_SECONDS = 30
@@ -45,6 +54,11 @@ _SESSIONS: dict[str, RuntimeSession] = {}
 _SESSIONS_LOCK = threading.Lock()
 
 
+# Se precargan las librerías más usadas en el bootcamp para dos fines:
+#   1. Reducir el tiempo de primera ejecución: importar pandas y matplotlib
+#      en frío puede tardar varios segundos, lo que genera confusión en clase.
+#   2. Evitar que el alumno tenga que escribir los imports en cada celda,
+#      replicando la experiencia de un entorno Jupyter ya inicializado.
 COMMON_PRELOAD = """
 import math
 import statistics
@@ -130,17 +144,24 @@ def _execute_with_timeout(
         tree = ast.parse(code, mode="exec")
         body = tree.body
         last_expr = None
+        # Truco AST para emular el comportamiento Out[n] de Jupyter:
+        # si la última sentencia es una expresión (no una asignación ni un
+        # statement), se extrae del árbol y se evalúa con `eval` en lugar de
+        # `exec`, lo que permite capturar su valor de retorno y mostrarlo
+        # como resultado de celda sin necesidad de un `print()` explícito.
         if body and isinstance(body[-1], ast.Expr):
             last_expr = ast.Expression(body.pop().value)
 
         with redirect_stdout(stdout_buffer):
             if body:
                 module = ast.Module(body=body, type_ignores=[])
-                # El laboratorio necesita ejecutar código arbitrario del alumno.
-                # Esta excepción está documentada en SECURITY.md.
+                # Riesgo aceptado y documentado: esta app es local-only; no existe
+                # un atacante remoto que pueda enviar código. El alumno ejecuta
+                # su propio código en su propia máquina, igual que con Jupyter.
                 exec(compile(module, "<bootcamp-cell>", "exec"), session_namespace)  # nosec
             if last_expr is not None:
-                # Emulamos el comportamiento de un notebook evaluando la última expresión.
+                # `eval` sobre la última expresión captura el valor de retorno
+                # sin imprimirlo, replicando la salida Out[n] de los notebooks.
                 result = eval(compile(last_expr, "<bootcamp-cell>", "eval"), session_namespace)  # nosec
                 if result is not None:
                     response["result"] = repr(result)

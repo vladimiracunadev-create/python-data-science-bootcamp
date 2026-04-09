@@ -60,5 +60,8 @@ def test_null_report_percentage():
     df = pd.DataFrame({"col": [None, None, 1, 1]})
     report = null_report(df)
     row = report[report["columna"] == "col"].iloc[0]
-    # porcentaje_nulos se expresa como fracción: 0.5 equivale a 50%.
+    # porcentaje_nulos se expresa como fracción (0.0–1.0), no como porcentaje (0–100).
+    # 2 nulos de 4 filas → 0.5, no 50. Este contrato es importante porque las clases
+    # que consumen el reporte aplican filtros del tipo "if pct > 0.3: drop_column",
+    # y usar la escala equivocada descartaría todas las columnas (50 > 0.3 siempre).
     assert abs(row["porcentaje_nulos"] - 0.5) < 0.01

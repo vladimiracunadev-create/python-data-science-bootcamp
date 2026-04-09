@@ -14,3 +14,7 @@ dist/
 release_artifacts/
 mobile/.expo/
 mobile/node_modules/
+
+# Mobile build artifacts
+mobile/android/app/src/main/assets/index.android.bundle
+mobile/android/app/src/main/res/drawable-*/node_modules_*

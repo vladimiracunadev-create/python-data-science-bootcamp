@@ -1,5 +1,9 @@
 """Genera los 3 PDFs de release para el bootcamp Python para Data Science."""
 
+# Uso: python scripts/generate_release_pdfs.py
+# Salida: release_artifacts/{portal-alumno,guia-rapida,temario}-*.pdf
+# Requiere: pip install reportlab
+
 from pathlib import Path
 
 from reportlab.lib import colors
@@ -18,6 +22,8 @@ from reportlab.platypus import (
 )
 
 # ── Paleta ──────────────────────────────────────────────────────────────────
+# Paleta visual alineada con el theme del portal GitHub Pages (site/styles.css).
+# Mantener coherencia entre la web y los PDFs imprimibles.
 TEAL       = colors.HexColor("#0f766e")
 TEAL_DARK  = colors.HexColor("#0b4f4a")
 TEAL_LIGHT = colors.HexColor("#ccfbf1")
@@ -39,6 +45,8 @@ W, H       = A4   # 595 x 842 pts
 
 # ── Estilos comunes ──────────────────────────────────────────────────────────
 def make_styles():
+    # Devuelve un dict de estilos reutilizados por los 3 PDFs para garantizar
+    # coherencia tipográfica entre portal, guía rápida y temario.
     return {
         "title": ParagraphStyle("title",
             fontName="Helvetica-Bold", fontSize=26,
@@ -85,7 +93,12 @@ def make_styles():
 
 
 def footer_cb(canvas, doc):
-    """Pie de página en cada hoja."""
+    """Pie de página en cada hoja.
+
+    Al registrarse como callback de SimpleDocTemplate (onFirstPage/onLaterPages),
+    ReportLab lo ejecuta automáticamente en cada página sin necesidad de llamarlo
+    de forma explícita desde el story.
+    """
     canvas.saveState()
     canvas.setFont("Helvetica", 7.5)
     canvas.setFillColor(INK_SOFT)
@@ -98,6 +111,8 @@ def footer_cb(canvas, doc):
 
 
 # ── Datos de las clases ──────────────────────────────────────────────────────
+# Fuente de verdad para los 3 PDFs. Si cambia el temario del bootcamp,
+# se actualiza aquí y los PDFs generados reflejan el cambio automáticamente.
 CLASSES = [
     {
         "num": "00", "icon": "◎", "title": "Diagnóstico inicial",
@@ -184,6 +199,10 @@ CLASSES = [
 # PDF 1 — PORTAL DEL ALUMNO
 # ════════════════════════════════════════════════════════════════════════════
 def build_portal_alumno():
+    # Produce: portal-alumno-bootcamp.pdf (~3 páginas).
+    # Audiencia: alumno que recibe el PDF al inicio del bootcamp.
+    # Propósito: punto de entrada oficial con temario completo, metodología y
+    # recursos; complementa la versión web del portal GitHub Pages.
     path = OUT_DIR / "portal-alumno-bootcamp.pdf"
     doc = SimpleDocTemplate(
         str(path), pagesize=A4,

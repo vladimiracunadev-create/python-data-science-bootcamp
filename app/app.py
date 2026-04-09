@@ -5,6 +5,10 @@ expone APIs para clases y notebooks, y conecta la ejecución de código con el
 contenido docente almacenado en disco.
 """
 
+# Arquitectura: esta app Flask es local-first. No expone internet.
+# El laboratorio, el portal del alumno y la presentación institucional
+# conviven en el mismo proceso para simplificar el instalador Windows.
+
 from __future__ import annotations
 
 import os
@@ -30,12 +34,18 @@ from .execution_engine import MAX_CODE_LENGTH, execute_code, reset_session
 
 def _get_base_dir() -> Path:
     """Devuelve la raíz del proyecto tanto en desarrollo como en bundle PyInstaller."""
+    # `sys.frozen` lo inyecta PyInstaller cuando empaqueta la app en un ejecutable
+    # `.exe`. En ese modo, `sys._MEIPASS` apunta al directorio temporal donde el
+    # runtime desempaqueta los archivos, reemplazando la estructura normal del repo.
     if getattr(sys, "frozen", False) and hasattr(sys, "_MEIPASS"):
         return Path(sys._MEIPASS)
     return Path(__file__).resolve().parents[1]
 
 
 BASE_DIR = _get_base_dir()
+# Se pasan `template_folder` y `static_folder` como rutas absolutas porque en el
+# bundle PyInstaller `__file__` no apunta al directorio del repo sino al `.exe`;
+# Flask no puede resolver rutas relativas correctamente en ese contexto.
 app = Flask(
     __name__,
     template_folder=str(BASE_DIR / "app" / "templates"),
@@ -43,6 +53,9 @@ app = Flask(
 )
 
 MAX_PAYLOAD_BYTES = 1_000_000  # 1 MB
+# Primera línea de defensa contra path traversal: sólo permite letras, dígitos,
+# guiones y guiones bajos. Descarta cualquier intento de usar "../" u otros
+# caracteres que podrían salir del directorio de contenido docente.
 SLUG_RE = re.compile(r"^[\w\-]{1,80}$")
 DEFAULT_HOST = os.getenv("BOOTCAMP_HOST", "127.0.0.1")
 DEFAULT_PORT = int(os.getenv("BOOTCAMP_PORT", "8000"))
@@ -65,6 +78,9 @@ def add_security_headers(response):
     response.headers.setdefault("X-Frame-Options", "SAMEORIGIN")
     response.headers.setdefault("Referrer-Policy", "no-referrer")
     response.headers.setdefault("Permissions-Policy", "camera=(), microphone=(), geolocation=()")
+    # El CSP no incluye fuentes externas (Google Fonts, CDNs) de forma intencional:
+    # la app funciona offline, por lo que todo recurso debe estar servido localmente.
+    # Ampliar este header para incluir dominios externos rompería el modo sin red.
     response.headers.setdefault(
         "Content-Security-Policy",
         (
@@ -144,6 +160,11 @@ def api_class_detail(slug: str):
         }
         for kind, meta in assets.items()
     }
+    # Estructura del payload devuelto:
+    #   html    – texto ya renderizado a HTML, listo para insertar en el DOM
+    #   raw     – markdown original, útil si la UI necesita re-renderizar o buscar
+    #   quiz    – lista de preguntas/opciones para el componente de autoevaluación
+    #   assets  – metadatos + URLs de descarga del PDF y el PPTX de la clase
     return jsonify({"slug": slug, "html": html, "raw": data, "quiz": quiz, "assets": asset_payload})
 
 
@@ -165,6 +186,10 @@ def download_class_asset(slug: str, asset_kind: str):
     except FileNotFoundError:
         return jsonify({"error": "archivo no encontrado"}), 404
 
+    # El mimetype explícito es necesario para que el navegador decida correctamente
+    # cómo manejar el archivo: los PDFs se renderizan inline (visor integrado) y
+    # los PPTX se descargan. Sin este header algunos navegadores los tratan como
+    # `application/octet-stream` y siempre fuerzan descarga, rompiendo la preview.
     mimetype = {
         "pdf": "application/pdf",
         "pptx": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
@@ -196,6 +221,10 @@ def api_notebook_save():
         return jsonify({"error": "payload demasiado grande"}), 413
 
     payload = request.get_json(force=True, silent=True) or {}
+    # Se sanitiza `name` antes de usarlo como nombre de archivo: `re.sub` reemplaza
+    # cualquier carácter fuera del conjunto seguro [a-z0-9_-] con guión bajo, y el
+    # slice [:80] limita la longitud para evitar nombres de archivo exageradamente
+    # largos que podrían causar problemas en algunos sistemas de archivos Windows.
     name = re.sub(r"[^a-z0-9_\-]", "_", str(payload.get("name", "mi_notebook"))[:80])
     path = save_notebook(name, payload)
     return jsonify({"ok": True, "saved_to": str(path.relative_to(BASE_DIR))})
@@ -208,6 +237,9 @@ def api_execute():
         return jsonify({"error": "payload demasiado grande"}), 413
 
     payload = request.get_json(force=True, silent=True) or {}
+    # `notebook_id` identifica la sesión de ejecución, no al usuario.
+    # En un entorno local multi-tab, cada pestaña usa su propio ID para
+    # mantener namespaces separados; no hay autenticación involucrada.
     notebook_id = str(payload.get("notebook_id", "default"))[:80]
     code = str(payload.get("code", ""))
     if len(code) > MAX_CODE_LENGTH:

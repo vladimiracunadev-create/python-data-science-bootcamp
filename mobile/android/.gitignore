@@ -15,3 +15,5 @@ app/debug.keystore
 
 # Bundle artifacts
 *.jsbundle
+app/src/main/assets/index.android.bundle
+app/src/main/res/drawable-*/node_modules_*
