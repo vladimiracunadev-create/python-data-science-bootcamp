@@ -73,6 +73,8 @@ def test_api_class_detail_valid():
     assert "README.md" in data["html"]
     assert "teoria.md" in data["html"]
     assert data["quiz"] is None
+    assert data["assets"]["pdf"]["path"].endswith(".pdf")
+    assert data["assets"]["pptx"]["path"].endswith(".pptx")
 
 
 def test_api_class_detail_includes_quiz_for_class_zero():
@@ -83,6 +85,30 @@ def test_api_class_detail_includes_quiz_for_class_zero():
     assert data["quiz"] is not None
     assert data["quiz"]["id"] == "class-0-diagnostic"
     assert len(data["quiz"]["questions"]) == 30
+    assert data["assets"]["pdf"]["url"].endswith("/downloads/class/00-diagnostico-inicial/pdf")
+
+
+def test_download_class_pdf():
+    client = _client()
+    response = client.get("/downloads/class/01-python-fundamentos/pdf")
+    assert response.status_code == 200
+    assert response.mimetype == "application/pdf"
+
+
+def test_download_class_pptx():
+    client = _client()
+    response = client.get("/downloads/class/01-python-fundamentos/pptx")
+    assert response.status_code == 200
+    assert (
+        response.mimetype
+        == "application/vnd.openxmlformats-officedocument.presentationml.presentation"
+    )
+
+
+def test_download_class_asset_rejects_invalid_kind():
+    client = _client()
+    response = client.get("/downloads/class/01-python-fundamentos/docx")
+    assert response.status_code == 400
 
 
 def test_api_class_detail_invalid_slug():

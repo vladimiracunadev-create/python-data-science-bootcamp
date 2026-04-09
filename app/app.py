@@ -13,14 +13,16 @@ import sys
 from pathlib import Path
 
 import markdown
-from flask import Flask, jsonify, render_template, request
+from flask import Flask, jsonify, render_template, request, send_file, url_for
 
 from .content_loader import (
+    get_class_assets,
     list_classes,
     list_notebook_templates,
     load_class_quiz,
     load_notebook_template,
     read_class_markdown,
+    resolve_class_asset_path,
     save_notebook,
 )
 from .execution_engine import MAX_CODE_LENGTH, execute_code, reset_session
@@ -127,6 +129,7 @@ def api_class_detail(slug: str):
     try:
         data = read_class_markdown(slug)
         quiz = load_class_quiz(slug)
+        assets = get_class_assets(slug)
     except FileNotFoundError:
         return jsonify({"error": "clase no encontrada"}), 404
 
@@ -134,7 +137,39 @@ def api_class_detail(slug: str):
         name: markdown.markdown(text, extensions=["fenced_code", "tables"])
         for name, text in data.items()
     }
-    return jsonify({"slug": slug, "html": html, "raw": data, "quiz": quiz})
+    asset_payload = {
+        kind: {
+            **meta,
+            "url": url_for("download_class_asset", slug=slug, asset_kind=kind),
+        }
+        for kind, meta in assets.items()
+    }
+    return jsonify({"slug": slug, "html": html, "raw": data, "quiz": quiz, "assets": asset_payload})
+
+
+@app.get("/downloads/class/<slug>/<asset_kind>")
+def download_class_asset(slug: str, asset_kind: str):
+    """Sirve guías PDF y presentaciones PPTX derivadas de una clase.
+
+    Qué resuelve:
+        Permite abrir o descargar desde la interfaz los materiales listos para
+        compartir, sin obligar al usuario a buscar los archivos dentro del repo.
+    """
+    if not _valid_slug(slug):
+        return jsonify({"error": "slug inválido"}), 400
+    if asset_kind not in {"pdf", "pptx"}:
+        return jsonify({"error": "tipo de archivo inválido"}), 400
+
+    try:
+        path = resolve_class_asset_path(slug, asset_kind)
+    except FileNotFoundError:
+        return jsonify({"error": "archivo no encontrado"}), 404
+
+    mimetype = {
+        "pdf": "application/pdf",
+        "pptx": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+    }[asset_kind]
+    return send_file(path, mimetype=mimetype, as_attachment=False, download_name=path.name)
 
 
 @app.get("/api/notebooks")

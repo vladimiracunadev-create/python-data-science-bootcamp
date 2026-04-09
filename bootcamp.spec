@@ -54,6 +54,10 @@ a = Analysis(
         # Datasets sinteticos para las practicas
         (str(ROOT / "datasets"),            "datasets"),
 
+        # Materiales derivados por clase y apoyo imprimible
+        (str(ROOT / "docs" / "pdfs"),       "docs/pdfs"),
+        (str(ROOT / "docs" / "presentaciones"), "docs/presentaciones"),
+
         # Portal publico del alumno (HTML/CSS/JS estatico)
         (str(ROOT / "site"),                "site"),
 

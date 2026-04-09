@@ -46,6 +46,48 @@ function buildClassSection(title, body, { open = false } = {}) {
   `;
 }
 
+function buildAssetSection(assets) {
+  const entries = Object.entries(assets || {}).filter(([, asset]) => asset?.url);
+  if (!entries.length) {
+    return "";
+  }
+
+  const labels = {
+    pdf: "Abrir guia PDF",
+    pptx: "Descargar presentacion PPTX",
+  };
+
+  const descriptions = {
+    pdf: "Guia completa derivada del contenido real del modulo.",
+    pptx: "Presentacion editable lista para exponer la clase.",
+  };
+
+  const items = entries
+    .map(
+      ([kind, asset]) => `
+        <a class="asset-link-card" href="${escapeHtml(asset.url)}" target="_blank" rel="noopener">
+          <span class="asset-link-kind">${escapeHtml(kind.toUpperCase())}</span>
+          <strong>${escapeHtml(labels[kind] || asset.filename)}</strong>
+          <span class="asset-link-description">${escapeHtml(descriptions[kind] || asset.path)}</span>
+          <span class="asset-link-path">${escapeHtml(asset.path)}</span>
+        </a>
+      `
+    )
+    .join("");
+
+  return `
+    <section class="class-section class-assets-panel">
+      <div class="class-assets-header">
+        <div>
+          <h3>Materiales derivados de esta clase</h3>
+          <p class="muted">Estos archivos salen del contenido real del modulo y quedan listos para compartir o presentar.</p>
+        </div>
+      </div>
+      <div class="class-assets-grid">${items}</div>
+    </section>
+  `;
+}
+
 function renderQuizSection() {
   const host = document.getElementById("quiz-host");
   if (!host || !quizState.quiz) {
@@ -282,6 +324,7 @@ async function loadClass(slug) {
 
     container.innerHTML = `
       <div class="class-section markdown-body">${data.html["README.md"] || ""}</div>
+      ${buildAssetSection(data.assets)}
       ${buildClassSection("Base teórica", data.html["teoria.md"], { open: true })}
       ${buildClassSection("Slides y pauta", data.html["slides.md"], { open: true })}
       ${buildClassSection("Ejercicios", data.html["ejercicios.md"], { open: true })}

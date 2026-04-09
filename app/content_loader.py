@@ -42,6 +42,8 @@ BASE_DIR = _resolve_base_dir()
 CLASS_DIR = BASE_DIR / "classes"
 NOTEBOOK_TEMPLATES_DIR = BASE_DIR / "app" / "notebooks"
 SAVED_NOTEBOOKS_DIR = _resolve_saved_notebooks_dir()
+CLASS_PDF_DIR = BASE_DIR / "docs" / "pdfs" / "classes"
+CLASS_PPTX_DIR = BASE_DIR / "docs" / "presentaciones" / "classes"
 
 SAFE_NAME_RE = re.compile(r"^[\w\-]{1,80}$")
 
@@ -118,6 +120,54 @@ def load_class_quiz(slug: str) -> dict[str, Any] | None:
     if not quiz_path.exists():
         return None
     return json.loads(quiz_path.read_text(encoding="utf-8"))
+
+
+def get_class_assets(slug: str) -> dict[str, dict[str, str]]:
+    """Devuelve los archivos derivados disponibles para una clase.
+
+    Qué resuelve:
+        Expone la guía PDF y la presentación PPTX generadas desde cada módulo
+        para que README, app web y app de escritorio apunten al mismo material.
+    """
+    if not SAFE_NAME_RE.match(slug):
+        raise ValueError(f"Slug inválido: {slug}")
+
+    assets = {
+        "pdf": CLASS_PDF_DIR / f"clase-{slug}-guia-explicativa.pdf",
+        "pptx": CLASS_PPTX_DIR / f"clase-{slug}-presentacion.pptx",
+    }
+    result: dict[str, dict[str, str]] = {}
+
+    for kind, path in assets.items():
+        if path.exists():
+            result[kind] = {
+                "filename": path.name,
+                "path": str(path.relative_to(BASE_DIR)),
+            }
+
+    return result
+
+
+def resolve_class_asset_path(slug: str, asset_kind: str) -> Path:
+    """Resuelve un artefacto derivado de clase y valida que exista.
+
+    Qué resuelve:
+        Entrega a la capa HTTP una ruta segura para servir binarios sin
+        exponer accesos arbitrarios fuera de `docs/`.
+    """
+    available = {
+        "pdf": CLASS_PDF_DIR / f"clase-{slug}-guia-explicativa.pdf",
+        "pptx": CLASS_PPTX_DIR / f"clase-{slug}-presentacion.pptx",
+    }
+    if asset_kind not in available:
+        raise ValueError(f"Tipo de asset inválido: {asset_kind}")
+    if not SAFE_NAME_RE.match(slug):
+        raise ValueError(f"Slug inválido: {slug}")
+
+    path = available[asset_kind]
+    if not path.exists():
+        raise FileNotFoundError(path.name)
+    return path
 
 
 def list_notebook_templates() -> list[dict[str, str]]:

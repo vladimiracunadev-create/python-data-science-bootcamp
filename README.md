@@ -69,6 +69,40 @@ La fuente de verdad de esta taxonomía vive en [docs/CATALOGO_PRODUCTO.md](docs/
 
 ---
 
+## 📚 Materiales listos para usar
+
+### Material por clase
+
+Estos archivos se generan desde el contenido real de cada carpeta en `classes/` y quedan accesibles desde el entorno local de clase y desde este `README`.
+
+| Clase | Guía PDF | Presentación PPTX |
+|---|---|---|
+| Clase 00 | [docs/pdfs/classes/clase-00-diagnostico-inicial-guia-explicativa.pdf](docs/pdfs/classes/clase-00-diagnostico-inicial-guia-explicativa.pdf) | [docs/presentaciones/classes/clase-00-diagnostico-inicial-presentacion.pptx](docs/presentaciones/classes/clase-00-diagnostico-inicial-presentacion.pptx) |
+| Clase 01 | [docs/pdfs/classes/clase-01-python-fundamentos-guia-explicativa.pdf](docs/pdfs/classes/clase-01-python-fundamentos-guia-explicativa.pdf) | [docs/presentaciones/classes/clase-01-python-fundamentos-presentacion.pptx](docs/presentaciones/classes/clase-01-python-fundamentos-presentacion.pptx) |
+| Clase 02 | [docs/pdfs/classes/clase-02-pandas-limpieza-datos-guia-explicativa.pdf](docs/pdfs/classes/clase-02-pandas-limpieza-datos-guia-explicativa.pdf) | [docs/presentaciones/classes/clase-02-pandas-limpieza-datos-presentacion.pptx](docs/presentaciones/classes/clase-02-pandas-limpieza-datos-presentacion.pptx) |
+| Clase 03 | [docs/pdfs/classes/clase-03-visualizacion-exploratoria-guia-explicativa.pdf](docs/pdfs/classes/clase-03-visualizacion-exploratoria-guia-explicativa.pdf) | [docs/presentaciones/classes/clase-03-visualizacion-exploratoria-presentacion.pptx](docs/presentaciones/classes/clase-03-visualizacion-exploratoria-presentacion.pptx) |
+| Clase 04 | [docs/pdfs/classes/clase-04-estadistica-descriptiva-guia-explicativa.pdf](docs/pdfs/classes/clase-04-estadistica-descriptiva-guia-explicativa.pdf) | [docs/presentaciones/classes/clase-04-estadistica-descriptiva-presentacion.pptx](docs/presentaciones/classes/clase-04-estadistica-descriptiva-presentacion.pptx) |
+| Clase 05 | [docs/pdfs/classes/clase-05-visualizacion-con-matplotlib-guia-explicativa.pdf](docs/pdfs/classes/clase-05-visualizacion-con-matplotlib-guia-explicativa.pdf) | [docs/presentaciones/classes/clase-05-visualizacion-con-matplotlib-presentacion.pptx](docs/presentaciones/classes/clase-05-visualizacion-con-matplotlib-presentacion.pptx) |
+| Clase 06 | [docs/pdfs/classes/clase-06-texto-fechas-y-transformaciones-guia-explicativa.pdf](docs/pdfs/classes/clase-06-texto-fechas-y-transformaciones-guia-explicativa.pdf) | [docs/presentaciones/classes/clase-06-texto-fechas-y-transformaciones-presentacion.pptx](docs/presentaciones/classes/clase-06-texto-fechas-y-transformaciones-presentacion.pptx) |
+| Clase 07 | [docs/pdfs/classes/clase-07-mini-proyecto-guiado-guia-explicativa.pdf](docs/pdfs/classes/clase-07-mini-proyecto-guiado-guia-explicativa.pdf) | [docs/presentaciones/classes/clase-07-mini-proyecto-guiado-presentacion.pptx](docs/presentaciones/classes/clase-07-mini-proyecto-guiado-presentacion.pptx) |
+| Clase 08 | [docs/pdfs/classes/clase-08-presentacion-de-hallazgos-guia-explicativa.pdf](docs/pdfs/classes/clase-08-presentacion-de-hallazgos-guia-explicativa.pdf) | [docs/presentaciones/classes/clase-08-presentacion-de-hallazgos-presentacion.pptx](docs/presentaciones/classes/clase-08-presentacion-de-hallazgos-presentacion.pptx) |
+| Clase 09 | [docs/pdfs/classes/clase-09-machine-learning-intro-guia-explicativa.pdf](docs/pdfs/classes/clase-09-machine-learning-intro-guia-explicativa.pdf) | [docs/presentaciones/classes/clase-09-machine-learning-intro-presentacion.pptx](docs/presentaciones/classes/clase-09-machine-learning-intro-presentacion.pptx) |
+| Clase 10 | [docs/pdfs/classes/clase-10-modelos-supervisados-guia-explicativa.pdf](docs/pdfs/classes/clase-10-modelos-supervisados-guia-explicativa.pdf) | [docs/presentaciones/classes/clase-10-modelos-supervisados-presentacion.pptx](docs/presentaciones/classes/clase-10-modelos-supervisados-presentacion.pptx) |
+| Clase 11 | [docs/pdfs/classes/clase-11-evaluacion-y-pipelines-guia-explicativa.pdf](docs/pdfs/classes/clase-11-evaluacion-y-pipelines-guia-explicativa.pdf) | [docs/presentaciones/classes/clase-11-evaluacion-y-pipelines-presentacion.pptx](docs/presentaciones/classes/clase-11-evaluacion-y-pipelines-presentacion.pptx) |
+| Clase 12 | [docs/pdfs/classes/clase-12-proyecto-final-y-cierre-guia-explicativa.pdf](docs/pdfs/classes/clase-12-proyecto-final-y-cierre-guia-explicativa.pdf) | [docs/presentaciones/classes/clase-12-proyecto-final-y-cierre-presentacion.pptx](docs/presentaciones/classes/clase-12-proyecto-final-y-cierre-presentacion.pptx) |
+
+### PDFs de entrevista y estudio
+
+Estos documentos no dependen de la navegación por clase. Deben existir en carpeta y se acceden directo desde `docs/pdfs/`.
+
+- [docs/pdfs/muestra-producto-para-skillnest.pdf](docs/pdfs/muestra-producto-para-skillnest.pdf)
+- [docs/pdfs/preguntas-para-hacer-en-entrevista.pdf](docs/pdfs/preguntas-para-hacer-en-entrevista.pdf)
+- [docs/pdfs/guia-estudio-repositorio.pdf](docs/pdfs/guia-estudio-repositorio.pdf)
+- [docs/pdfs/preparacion-entrevista-imprimible.pdf](docs/pdfs/preparacion-entrevista-imprimible.pdf)
+- [docs/pdfs/entrevista-skillnest-presentacion-v2.pdf](docs/pdfs/entrevista-skillnest-presentacion-v2.pdf)
+
+---
+
 ## Arquitectura en una mirada
 
 ```mermaid
