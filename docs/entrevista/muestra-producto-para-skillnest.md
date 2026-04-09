@@ -1,97 +1,104 @@
-# 📦 Bootcamp Python para Data Science
+# 🎤 Muestra del portal y del producto para entrevista
 
-## Muestra de producto
+> 📘 Documento breve para explicar, en una reunión, qué hace hoy el portal del bootcamp y cómo se conecta con el resto del sistema.
 
-### Base de capacitación adaptable para colegios
+## 🧭 Qué es este portal dentro del producto
 
-## Resumen
+El portal no es solo una landing decorativa. Es la puerta de entrada pública del bootcamp y cumple una función concreta:
 
-Este repositorio no es solo una colección de archivos. Es una base de capacitación pensada para enseñanza real: combina contenidos, progresión pedagógica, práctica guiada, evaluación y un entorno de trabajo local.
+- orientar al estudiante;
+- mostrar la ruta del programa;
+- centralizar recursos públicos;
+- comunicar reglas de uso y expectativas;
+- abrir una experiencia de curso que luego se profundiza en el laboratorio local, la app Android y el instalador Windows.
 
-## Qué incluye hoy
+## 🧱 Qué superficies existen hoy
 
-- clase 0 diagnóstica + 12 clases modulares de 90 minutos;
-- notebooks, ejercicios, tareas y soluciones;
-- datasets sinteticos listos para usar;
-- documentación docente y metodologica;
-- app local para exploracion y práctica;
-- portal público del alumno para GitHub Pages.
+### 🌐 Portal del alumno (`site/`)
 
-## Dos superficies complementarias
+Superficie pública y simple de compartir.
 
-### 1. Portal del alumno
+Entrega hoy:
 
-Landing pública, simple y facil de compartir con estudiantes.
+- acceso rápido al programa;
+- navegación por contenidos;
+- marco general del bootcamp;
+- punto de entrada claro para estudiantes y terceros.
 
-Rol:
+### 🧪 Laboratorio interactivo (`app/`)
 
-- punto de entrada oficial del curso;
-- ruta del programa;
-- recursos públicos;
-- uso responsable de tecnología;
-- base para evolución futura a móvil.
+Entorno local de práctica guiada.
 
-### 2. Portal interactivo de laboratorio
+Entrega hoy:
 
-Aplicacion Flask para trabajo guiado.
+- visualización de clases;
+- lectura de teoría, slides, ejercicios y tareas;
+- carga de notebooks;
+- ejecución local de código;
+- guardado de trabajo del alumno.
 
-Rol:
+### 🪟 App de escritorio Windows
 
-- ver clases;
-- cargar notebooks;
-- ejecutar código;
-- guardar práctica;
-- mantener el trabajo del bootcamp dentro del mismo entorno.
+Empaqueta el laboratorio para uso en aula sin depender de Python instalado ni de configuración manual.
 
-## Enfoque de valor
+Entrega hoy:
 
-La propuesta no compite contra una tecnología especifica. Su valor esta en:
+- experiencia portable o instalable para computadores Windows;
+- apertura simplificada para docente y estudiante;
+- el mismo contenido de clases dentro de una distribución lista para usar.
 
-- traducir tecnología a aprendizaje real;
-- secuenciar bien la dificultad;
-- combinar teoría, práctica e interpretacion;
-- reducir friccion para estudiantes que recien comienzan;
-- dejar una base reusable para siguientes cohortes.
+### 📱 App Android
 
-## Versión inicial recomendada para colegio
+Superficie móvil de consulta y apoyo.
 
-Para una primera implementación escolar, la propuesta se acota a:
+Entrega hoy:
 
-1. fundamentos de Python;
-2. lectura de CSV con pandas;
-3. filtros y tablas resumen;
-4. visualización básica;
-5. mini proyecto guiado;
-6. presentación breve de hallazgos.
+- lectura del contenido del bootcamp;
+- código documentado;
+- acceso a la clase 0 diagnóstica;
+- apertura directa de notebooks en Google Colab.
 
-## Postura de despliegue y seguridad
+## ✅ Qué resuelve este portal para un contexto escolar
 
-El entorno interactivo esta pensado para uso local y docente.
+- baja la fricción de entrada para el estudiante;
+- hace visible la progresión del curso;
+- separa la superficie pública de la práctica guiada;
+- permite mostrar el producto a una institución sin abrir todavía toda la operación técnica;
+- deja una base clara para crecer sin rehacer el sistema.
 
-Hoy ya contempla:
+## 🧠 Qué valor demuestra en entrevista
 
-- validación de entradas;
-- límites de payload y de código;
-- control de sesiones y timeout;
-- headers de seguridad básicos;
-- despliegue local por defecto;
-- `docker-compose` enlazado a `127.0.0.1`.
+Este portal permite mostrar que la propuesta no se limita a “dar clases de Python”. También demuestra:
 
-Si en algun momento se expusiera fuera de entorno controlado, la siguiente capa recomendada es:
+- criterio pedagógico;
+- secuencia de contenidos;
+- organización documental;
+- visión de producto;
+- capacidad de convertir material técnico en una experiencia de uso comprensible.
 
-- reverse proxy con TLS;
-- autenticacion adicional;
-- rate limiting;
-- observabilidad y operación más formal.
+## 🎬 Recorrido recomendado de demo
 
-## Escalabilidad
+1. Abrir `README.md` para mostrar el mapa general del producto.
+2. Abrir `site/` o la versión publicada para enseñar la cara pública del bootcamp.
+3. Mostrar `docs/CATALOGO_PRODUCTO.md` para explicar qué hace cada superficie.
+4. Entrar a `classes/01-python-fundamentos/README.md` para aterrizar la propuesta en una clase real.
+5. Si hay tiempo, abrir el laboratorio local con `python run_bootcamp.py`.
 
-Esta base puede crecer en tres direcciones:
+## 📌 Qué conviene decir explícitamente
 
-- más profundidad técnica;
-- adaptaciónes por institución o perfil;
-- evolución a experiencia móvil conectada al backend del curso.
+- El portal es la entrada pública, no toda la experiencia del curso.
+- El laboratorio local es donde ocurre la práctica guiada.
+- La app Android sirve para lectura y continuidad, no para ejecutar Python nativamente.
+- La versión Windows facilita instalación y uso en aula.
+- La base ya está lista para una implementación inicial acotada.
 
-## Cierre
+## ⚠️ Qué no conviene sobrerrepresentar
 
-La fortaleza de este producto no es solo el contenido técnico. Es que ya muestra una forma de hacer capacitaciones con criterio pedagógico, estructura operacional y espacio real para crecer.
+- No presentar el portal como si fuera una plataforma LMS completa.
+- No vender la app Android como si reemplazara el laboratorio.
+- No confundir una demo local con una plataforma endurecida para internet abierta.
+- No prometer personalización total antes de cerrar alcance y condiciones.
+
+## 🏁 Cierre sugerido
+
+La fuerza de este portal está en que ordena la experiencia del bootcamp y la vuelve presentable, compartible y escalable. No vive aislado: forma parte de un sistema que ya integra clases, práctica guiada, documentación y una ruta real de implementación.

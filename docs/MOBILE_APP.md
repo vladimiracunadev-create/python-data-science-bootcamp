@@ -1,4 +1,4 @@
-# Guía: App Móvil Android
+# 📱 Guía: App Móvil Android
 
 App React Native (Expo) standalone para que los alumnos lean el contenido del bootcamp, vean los ejemplos de código con resaltado de sintaxis y abran los notebooks directamente en Google Colab desde su celular.
 
@@ -15,7 +15,7 @@ ALUMNO
   ├── [Detalle de clase]
   │     - Pestaña "Teoría": contenido con esquemas y explicaciones
   │     - Pestaña "Ejercicios": código documentado para practicar
-  ?     - Pestaña "Diagnóstico": quiz con corrección inmediata cuando aplica
+  |     - Pestaña "Diagnóstico": quiz con corrección inmediata cuando aplica
   │
   ├── [Bloques de código]
   │     - Resaltado de sintaxis Python (tema oscuro)
@@ -74,7 +74,7 @@ La app móvil NO ejecuta Python directamente. El flujo es:
                                  (el alumno puede modificarlo y ejecutar celda a celda)
 ```
 
-### Por qué este enfoque?
+### ¿Por qué este enfoque?
 
 | Alternativa | Problema |
 |---|---|

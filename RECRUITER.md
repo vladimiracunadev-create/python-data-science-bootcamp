@@ -1,4 +1,4 @@
-# Para reclutadores y evaluadores técnicos
+# 🎯 Para reclutadores y evaluadores técnicos
 
 > Evidencia técnica en 5 minutos. Sin lectura extensa.
 

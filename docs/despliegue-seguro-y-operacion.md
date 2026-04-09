@@ -40,8 +40,8 @@ flowchart LR
 
 - validación de slugs e identificadores;
 - proteccion contra path traversal;
-- l?mite de tamano de payload;
-- l?mite de longitud de código;
+- límite de tamaño de payload;
+- límite de longitud de código;
 - timeout de ejecución;
 - control y rotacion de sesiones;
 - headers HTTP de seguridad;

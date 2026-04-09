@@ -1,4 +1,4 @@
-# Diccionario de datasets del Bootcamp Python Data Science
+# 📦 Diccionario de datasets del Bootcamp Python Data Science
 
 > Catálogo de datasets sinteticos y su uso dentro del bootcamp.
 

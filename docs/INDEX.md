@@ -1,4 +1,4 @@
-# Índice de documentación
+# 🧭 Índice de documentación
 
 > Punto de entrada canónico para navegar la documentación del bootcamp por audiencia y objetivo.
 >
@@ -60,6 +60,8 @@ Documentos que viven en la raíz del repositorio y forman la capa de entrada pri
 | [entorno-interactivo.md](entorno-interactivo.md) | El laboratorio Flask — modos, API, motor de ejecución |
 | [despliegue-seguro-y-operacion.md](despliegue-seguro-y-operacion.md) | CI/CD, Docker y hardening técnico |
 | [portal-estudiante-y-app-movil.md](portal-estudiante-y-app-movil.md) | Portal público, laboratorio y app móvil |
+| [pdfs/](pdfs/) | PDFs de entrevista, estudio y guías de clase |
+| [presentaciones/](presentaciones/) | Presentaciones `.pptx` listas para exposición |
 
 ### Documentos pedagógicos
 
@@ -101,13 +103,15 @@ Documentos de uso personal para el proceso de selección con Skillnest / Colegio
 | [entrevista/entrevista-skillnest-presentacion-v2.md](entrevista/entrevista-skillnest-presentacion-v2.md) | Guion de presentación (versión final) |
 | [entrevista/entrevista-skillnest-presentacion.md](entrevista/entrevista-skillnest-presentacion.md) | Guion de presentación (versión anterior) |
 | [entrevista/muestra-producto-para-skillnest.md](entrevista/muestra-producto-para-skillnest.md) | Muestra escrita del producto para el evaluador |
+| [entrevista/preguntas-para-hacer-en-entrevista.md](entrevista/preguntas-para-hacer-en-entrevista.md) | Preguntas clave para aclarar alcance y condiciones |
+| [entrevista/guia-estudio-repositorio.md](entrevista/guia-estudio-repositorio.md) | Guía de estudio con comandos, teoría y práctica |
 | [entrevista/reunion-pitch.md](entrevista/reunion-pitch.md) | Pitch para la reunión |
 | [entrevista/demo-reunion-jueves.md](entrevista/demo-reunion-jueves.md) | Demo específica para la reunión del jueves |
 | [entrevista/demo-capacitaciones-escalable.md](entrevista/demo-capacitaciones-escalable.md) | Demo del modelo de capacitaciones escalable |
 | [entrevista/valor-diferencial.md](entrevista/valor-diferencial.md) | Diferenciadores para el contexto escolar |
 | [entrevista/rubrica-clase-prueba.md](entrevista/rubrica-clase-prueba.md) | Rúbrica para clase de prueba |
 | [entrevista/clase-prueba-sugerida.md](entrevista/clase-prueba-sugerida.md) | Clase de prueba sugerida |
-| [pdfs/](pdfs/) | PDFs generados para imprimir o compartir en reunión |
+| [pdfs/](pdfs/) | PDFs generados para imprimir, estudiar o compartir en reunión |
 
 ---
 

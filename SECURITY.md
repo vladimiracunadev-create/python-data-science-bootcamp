@@ -1,4 +1,4 @@
-# SECURITY
+# 🔐 SECURITY
 
 > Postura de seguridad actual y hardening recomendado para `python-data-science-bootcamp`.
 

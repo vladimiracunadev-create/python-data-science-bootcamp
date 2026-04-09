@@ -3,7 +3,7 @@
 ## Tema recomendado
 **Introducción a pandas con un CSV simple**
 
-## Por que conviene
+## Por qué conviene
 - tiene alto valor para un bootcamp de Data Science;
 - permite demostrar claridad conceptual;
 - muestra código, interpretacion y contexto;
@@ -11,12 +11,12 @@
 
 ## Estructura sugerida (15 a 20 minutos)
 
-1. Presentar el problema: "Tenemos datos de ventas y queremos entender que ocurrio".
+1. Presentar el problema: "Tenemos datos de ventas y queremos entender qué ocurrió".
 2. Cargar CSV con pandas.
 3. Mostrar `head()`, `info()` y `describe()`.
 4. Hacer una pregunta simple:
-   - ?que sucursal vende más?
-   - ?que categoría recauda más?
+   - ¿qué sucursal vende más?
+   - ¿qué categoría recauda más?
 5. Mostrar agrupacion básica.
 6. Cerrar con una visualización simple y una interpretacion.
 

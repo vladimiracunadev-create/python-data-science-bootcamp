@@ -1,4 +1,4 @@
-# Roadmap
+# 🗺️ Roadmap
 
 > Dirección futura del Bootcamp Python DS. No es un compromiso de fechas — es un mapa de intención técnica y pedagógica.
 

@@ -25,7 +25,7 @@ Entrevista agendada para el jueves 9 de abril de 2026 a las 15:30. El objetivo n
 
 ## Preguntas que probablemente te haran
 
-## "Cómo adaptarías esto a estudiantes de colegio?"
+## "¿Cómo adaptarías esto a estudiantes de colegio?"
 
 Respuesta corta:
 
@@ -34,7 +34,7 @@ Respuesta corta:
 - priorizaria práctica guiada y ejercicios simples;
 - dejaria ML para una segunda etapa.
 
-## "Cómo manejas grupos con niveles distintos?"
+## "¿Cómo manejas grupos con niveles distintos?"
 
 Respuesta corta:
 
@@ -43,7 +43,7 @@ Respuesta corta:
 - desafío opcional para quienes avanzan más rápido;
 - cierre colectivo para consolidar.
 
-## "Por que este repositorio te representa bien como docente?"
+## "¿Por qué este repositorio te representa bien como docente?"
 
 Respuesta corta:
 
@@ -51,7 +51,7 @@ Respuesta corta:
 - no es solo teoría ni solo código;
 - demuestra como transformo contenido técnico en una experiencia de aprendizaje usable.
 
-## "Qué harías en la primera semana?"
+## "¿Qué harías en la primera semana?"
 
 Respuesta corta:
 
@@ -60,7 +60,7 @@ Respuesta corta:
 - primer contacto con CSV y pandas;
 - una victoria rápida para que el grupo no pierda confianza.
 
-## "Qué necesitarías para ejecutar bien el programa?"
+## "¿Qué necesitarías para ejecutar bien el programa?"
 
 Respuesta corta:
 
@@ -72,23 +72,23 @@ Respuesta corta:
 
 ## Preguntas que tu debes hacer
 
-1. Cuantas y cuales son las horas reales por semana: 180 minutos, 270 minutos o 2 bloques de 3 horas?
-2. Cuantos estudiantes son y de que nivel o especialidad vienen?
-3. El programa ya esta adjudicado o aun estan cerrando la propuesta con el colegio?
+1. ¿Cuántas y cuáles son las horas reales por semana: 180 minutos, 270 minutos o 2 bloques de 3 horas?
+2. ¿Cuántos estudiantes son y de qué nivel o especialidad vienen?
+3. ?El programa ya est? adjudicado o a?n est?n cerrando la propuesta con el colegio?
 4. Esperan clases, adaptación curricular, evaluaciones y materiales personalizados dentro del mismo pago?
 5. Cómo se paga la preparación, traslado presencial, horas administrativas y corrección?
-6. Quien es duenio del material adaptado: queda como muestra tuya, licencia compartida o cesion total?
-7. Esperan una clase de prueba? Si si, es pagada o no pagada, y de que duracion exacta?
+6. ?Qui?n es due?o del material adaptado: queda como muestra tuya, licencia compartida o cesi?n total?
+7. ¿Esperan una clase de prueba? Si sí, ¿es pagada o no pagada, y de qué duración exacta?
 8. Qué equipamiento tiene la sala: internet, computadores, proyector, cuentas y permisos?
 
-## L?mites sanos para que no se aprovechen
+## Límites sanos para que no se aprovechen
 
 - Puedes mostrar una muestra concreta y bien pensada.
 - No necesitas entregar una planificacion completa a medida antes de acordar condiciones.
 - No necesitas producir varios PDFs, evaluaciones, rubricas y una clase demo larga sin definir si es parte pagada del proceso.
 - Si te piden una clase de prueba extensa o una adaptación curricular completa, conviene mover la conversacion a una etapa pagada o acotada por escrito.
 
-## Frases utiles para poner l?mite con buen tono
+## Frases útiles para poner límite con buen tono
 
 "Puedo mostrar una muestra breve y bien adaptada para que vean mi enfoque. Si quieren una versión ya cerrada para implementación, feliz la preparo una vez definido el alcance y la contratacion."
 

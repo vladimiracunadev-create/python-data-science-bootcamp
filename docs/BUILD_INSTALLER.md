@@ -1,4 +1,4 @@
-# Guía: Build Windows — App de Escritorio
+# 🪟 Guía: Build Windows — App de Escritorio
 
 Genera el ejecutable Windows del Bootcamp Python DS como **aplicación de escritorio nativa**.
 No se abre ningún navegador. La ventana es una app real de Windows.

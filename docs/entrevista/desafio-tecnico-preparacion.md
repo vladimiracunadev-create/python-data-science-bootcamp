@@ -115,7 +115,7 @@ Si te piden un cambio, la respuesta fuerte no es solo escribir código. Es mostr
 
 ### Pregunta que puede aparecer
 
-"Si esto creciera, que haría falta?"
+"Si esto creciera, ¿qué haría falta?"
 
 Respuesta esperable:
 
@@ -138,19 +138,19 @@ Respuesta esperable:
 
 ## 8. Preguntas marco que debes poder contestar
 
-### "Por que elegiste esta solución?"
+### "¿Por qué elegiste esta solución?"
 
 "Porque resuelve bien el problema real con una base clara, verificable y mantenible. Si el contexto despues pide más complejidad, la escalo sobre una solución sana."
 
-### "Por que no usaste algo más avanzado?"
+### "¿Por qué no usaste algo más avanzado?"
 
 "Porque primero quise asegurar una solución correcta y entendible. La complejidad adicional solo vale si agrega valor real."
 
-### "Cómo lo enseñarías?"
+### "¿Cómo lo enseñarías?"
 
 "Lo dividiria en objetivo visible, ejemplo guiado, práctica corta y cierre con interpretacion."
 
-### "Qué riesgo ves aquí?"
+### "¿Qué riesgo ves aquí?"
 
 "El principal riesgo es confundir una demo local con una aplicacion lista para internet abierta. Si esto se expusiera más, pisaria primero proxy, TLS, auth y límites."
 

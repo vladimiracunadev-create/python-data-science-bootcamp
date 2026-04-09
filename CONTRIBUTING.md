@@ -1,4 +1,4 @@
-# Cómo contribuir
+# 🤝 Cómo contribuir
 
 Gracias por tu interés en mejorar el Bootcamp Python DS.
 

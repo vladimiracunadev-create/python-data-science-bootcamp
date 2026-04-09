@@ -24,7 +24,7 @@
 - conclusiones claras;
 - relación entre números y decisiones.
 
-### 5. Orden del notebook ? 10%
+### 5. Orden del notebook — 10%
 - estructura comprensible;
 - comentarios o encabezados;
 - presentación limpia.

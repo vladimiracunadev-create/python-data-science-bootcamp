@@ -1,4 +1,4 @@
-# Entorno interactivo del Bootcamp
+# 🧪 Entorno interactivo del Bootcamp
 
 > Descripción técnica del laboratorio local: modos de ejecución, componentes, sesiones y límites operativos.
 

@@ -8,7 +8,7 @@ Traducir la metodología del bootcamp a decisiones concretas antes, durante y de
 
 ## Checklist previo a cada sesión
 
-| ?rea | Qué revisar |
+| Área | Qué revisar |
 |---|---|
 | Contenido | objetivo de la sesión, notebook, ejercicios, variaciones |
 | Entorno | app local, datasets, runner y notebooks base |

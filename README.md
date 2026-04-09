@@ -1,4 +1,4 @@
-# Python Data Science Bootcamp
+# 🧭 Python Data Science Bootcamp
 
 [![CI](https://github.com/vladimiracunadev-create/python-data-science-bootcamp/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/vladimiracunadev-create/python-data-science-bootcamp/actions/workflows/ci.yml)
 [![Security](https://github.com/vladimiracunadev-create/python-data-science-bootcamp/actions/workflows/security.yml/badge.svg?branch=master)](https://github.com/vladimiracunadev-create/python-data-science-bootcamp/actions/workflows/security.yml)
@@ -62,7 +62,8 @@ La documentación está pensada como sistema, no como inventario de archivos.
 | Curriculum modular (`classes/`) | clase 0 diagnóstica + 12 clases con notebooks, ejercicios, slides, tareas y soluciones | operativo |
 | App de escritorio Windows (`launcher.py` + `bootcamp.spec` + `installer/`) | ventana nativa con Edge WebView2 — sin navegador, sin Python en el PC del alumno | v1.0.0 publicada |
 | App Android (`mobile/`) | Expo/React Native con contenido embebido + integración Google Colab | v1.0.0 publicada |
-| PDFs (`docs/pdfs/`) | apoyo para reunión, evaluación e impresión | operativo |
+| PDFs (`docs/pdfs/`) | apoyo para reunión, evaluación, estudio e impresión | operativo |
+| Presentaciones (`docs/presentaciones/`) | decks `.pptx` listos para exposición por clase | operativo |
 
 La fuente de verdad de esta taxonomía vive en [docs/CATALOGO_PRODUCTO.md](docs/CATALOGO_PRODUCTO.md).
 

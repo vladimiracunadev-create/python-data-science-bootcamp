@@ -36,7 +36,8 @@ Capacidad proyectada, pero no operativa hoy como pieza principal del sistema.
 | Vista institucional (`site/product/`) | superficie pública | operativo | institución / evaluador | narrativa de producto, alcance, arquitectura, operación y crecimiento |
 | Curriculum modular (`classes/`) | base pedagógica | operativo | docente | clase 0 diagnóstica + 12 clases troncales con notebooks profusamente documentados, ejercicios, tareas y soluciones |
 | Kit documental (`docs/`) | capa editorial | operativo | docente / stakeholder / repo | metodología, implementación, evaluación, seguridad y entrevista |
-| PDFs (`docs/pdfs/`) | artefacto de apoyo | operativo | entrevista / presentación | piezas imprimibles y de muestra |
+| PDFs (`docs/pdfs/`) | artefacto de apoyo | operativo | entrevista / presentación | piezas imprimibles, guías de estudio y apoyo de clase |
+| Presentaciones (`docs/presentaciones/`) | artefacto de apoyo | operativo | docente / entrevista | decks `.pptx` listos para exposición por clase |
 
 ## ⚙ 3. Funcionalidad real por superficie
 
@@ -59,7 +60,13 @@ Capacidad proyectada, pero no operativa hoy como pieza principal del sistema.
 | `docs/pdfs/preparacion-entrevista-imprimible.pdf` | apoyo personal para reunión y proceso | vigente |
 | `docs/pdfs/muestra-producto-para-skillnest.pdf` | muestra imprimible del producto | vigente |
 | `docs/pdfs/entrevista-skillnest-presentacion-v2.pdf` | presentación breve | vigente |
+| `docs/pdfs/preguntas-para-hacer-en-entrevista.pdf` | guía personal para aclarar alcance y condiciones | vigente |
+| `docs/pdfs/guia-estudio-repositorio.pdf` | resumen de estudio con comandos, temas y práctica | vigente |
+| `docs/pdfs/classes/` | guías explicativas PDF por clase | vigente |
+| `docs/presentaciones/classes/` | presentaciones PowerPoint por clase | vigente |
 | `scripts/generar_pdf_documento.py` | generacion reproducible de PDFs | vigente |
+| `scripts/generate_class_assets.py` | generación reproducible de PDF y PPTX por clase | vigente |
+| `scripts/generate_interview_pdfs.py` | regeneración de PDFs de entrevista y estudio | vigente |
 
 ## 🗣 5. Reglas de comunicación
 

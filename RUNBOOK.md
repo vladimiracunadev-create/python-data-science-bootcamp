@@ -1,4 +1,4 @@
-# RUNBOOK
+# 🛠️ RUNBOOK
 
 > Guía de operación diaria, smoke checks y recuperación básica para `python-data-science-bootcamp`.
 

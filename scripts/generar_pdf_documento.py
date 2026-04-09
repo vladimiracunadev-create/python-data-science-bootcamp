@@ -1,13 +1,21 @@
-"""Genera un PDF simple y presentable a partir de un archivo Markdown.
+"""Renderiza documentos Markdown del bootcamp a PDF con una plantilla uniforme.
 
-Este script resuelve un caso puntual de entrega: convertir un documento de texto
-plano en un PDF con portada, jerarquía visual y formato consistente para mostrar
-propuestas, manuales o material docente fuera del navegador.
+Responsabilidades:
+    1. Convertir Markdown simple a un PDF legible y visualmente consistente.
+    2. Soportar títulos, listas, tablas, citas y bloques de código.
+    3. Usar tipografías Unicode del sistema para no romper acentos en español.
+
+Qué resuelve:
+    Permite generar PDFs presentables para clases, entrevistas y material de
+    estudio sin depender de exportes manuales desde otras herramientas.
 """
 
 from __future__ import annotations
 
 import argparse
+import json
+import re
+from dataclasses import dataclass
 from pathlib import Path
 
 from fpdf import FPDF
@@ -18,15 +26,94 @@ COLOR_ACCENT = (34, 197, 94)
 COLOR_TEXT = (203, 213, 225)
 COLOR_MUTED = (148, 163, 184)
 COLOR_WHITE = (248, 250, 252)
+COLOR_HEADER_BG = (31, 41, 55)
+COLOR_ROW_ALT = (21, 29, 44)
+COLOR_CODE_BG = (2, 6, 23)
+
+FONT_DIR = Path(r"C:\Windows\Fonts")
+FONT_FAMILY = "BootcampSans"
+FONT_REGULAR = FONT_DIR / "arial.ttf"
+FONT_BOLD = FONT_DIR / "arialbd.ttf"
+FONT_ITALIC = FONT_DIR / "ariali.ttf"
+FONT_MONO = "Courier"
+
+ICON_MAP = {
+    "🧭": "",
+    "📝": "",
+    "🤝": "",
+    "🗺️": "",
+    "🎯": "",
+    "🛠️": "",
+    "🔐": "",
+    "📦": "",
+    "📱": "",
+    "🏗️": "",
+    "🪟": "",
+    "🧪": "",
+    "🧠": "",
+    "🖥️": "",
+    "📚": "",
+    "🎤": "",
+    "💡": "",
+    "⚙️": "",
+    "🧩": "",
+    "🧱": "",
+    "📌": "",
+    "🏁": "",
+    "🚪": "",
+    "❓": "",
+    "⚠️": "",
+    "🔗": "",
+    "👩‍🏫": "",
+    "🎬": "",
+    "📍": "",
+    "✅": "",
+    "💻": "",
+    "🧰": "",
+    "📖": "",
+    "🔍": "",
+    "🌐": "",
+    "💼": "",
+    "🧾": "",
+    "🏫": "",
+    "🐍": "",
+    "📊": "",
+    "📐": "",
+    "🎨": "",
+    "🗓️": "",
+    "🤖": "",
+    "📏": "",
+    "⏱️": "",
+}
+
+EMOJI_PATTERN = re.compile(r"[\U0001F300-\U0001FAFF\u2600-\u27BF\u2300-\u23FF]")
 
 
-def parse_line(line: str) -> tuple[str, str]:
-    """Clasifica una línea markdown en un tipo simple de bloque.
+@dataclass
+class Block:
+    """Representa una pieza de contenido ya clasificada para el render PDF."""
 
-    Qué resuelve:
-        Reduce el markdown a un conjunto pequeño de piezas para que el render a
-        PDF sea predecible y fácil de mantener.
-    """
+    kind: str
+    value: str
+
+
+def _strip_md_inline(text: str) -> str:
+    """Limpia formato inline para dejar el texto visible listo para PDF."""
+    clean = text
+    clean = re.sub(r"\[(.+?)\]\(.+?\)", r"\1", clean)
+    clean = re.sub(r"`(.+?)`", r"\1", clean)
+    clean = re.sub(r"\*\*(.+?)\*\*", r"\1", clean)
+    clean = re.sub(r"\*(.+?)\*", r"\1", clean)
+    for icon, replacement in ICON_MAP.items():
+        clean = clean.replace(icon, replacement)
+    clean = EMOJI_PATTERN.sub("", clean)
+    clean = clean.replace("\u200d", "")
+    clean = clean.replace("\ufe0f", "")
+    return clean.strip()
+
+
+def _parse_line(line: str) -> tuple[str, str]:
+    """Clasifica una línea markdown simple en una categoría de render."""
     stripped = line.strip()
     if stripped.startswith("# "):
         return "h1", stripped[2:]
@@ -34,8 +121,16 @@ def parse_line(line: str) -> tuple[str, str]:
         return "h2", stripped[3:]
     if stripped.startswith("### "):
         return "h3", stripped[4:]
-    if stripped.startswith("- "):
+    if stripped.startswith("```"):
+        return "code_fence", stripped
+    if stripped.startswith("|"):
+        return "table_row", stripped
+    if stripped.startswith("- ") or stripped.startswith("* "):
         return "bullet", stripped[2:]
+    if re.match(r"^\d+\. ", stripped):
+        return "numbered", re.sub(r"^\d+\. ", "", stripped)
+    if stripped.startswith("> "):
+        return "blockquote", stripped[2:]
     if stripped == "---":
         return "hr", ""
     if stripped == "":
@@ -43,20 +138,86 @@ def parse_line(line: str) -> tuple[str, str]:
     return "text", stripped
 
 
+def _parse_table_row(line: str) -> list[str]:
+    """Divide una fila markdown en celdas limpias."""
+    line = line.strip().strip("|")
+    return [_strip_md_inline(cell.strip()) for cell in line.split("|")]
+
+
+def parse_markdown(markdown_text: str) -> list[Block]:
+    """Convierte el markdown en bloques lineales fáciles de renderizar."""
+    blocks: list[Block] = []
+    in_code = False
+    code_lines: list[str] = []
+    table_rows: list[list[str]] = []
+
+    for line in markdown_text.splitlines():
+        kind, value = _parse_line(line)
+
+        if kind == "code_fence":
+            if not in_code:
+                in_code = True
+                code_lines = []
+            else:
+                blocks.append(Block("code", "\n".join(code_lines).rstrip()))
+                code_lines = []
+                in_code = False
+            continue
+
+        if in_code:
+            code_lines.append(line.rstrip())
+            continue
+
+        if kind == "table_row":
+            table_rows.append(_parse_table_row(value))
+            continue
+
+        if table_rows:
+            blocks.append(Block("table", json.dumps(table_rows, ensure_ascii=False)))
+            table_rows = []
+
+        if kind == "blank":
+            blocks.append(Block("blank", ""))
+        else:
+            blocks.append(Block(kind, value))
+
+    if table_rows:
+        blocks.append(Block("table", json.dumps(table_rows, ensure_ascii=False)))
+    if code_lines:
+        blocks.append(Block("code", "\n".join(code_lines).rstrip()))
+
+    return blocks
+
+
 class DocumentPDF(FPDF):
-    """Plantilla PDF con identidad visual simple para documentos del bootcamp."""
+    """Plantilla PDF visual del bootcamp con soporte Unicode."""
 
     def __init__(self, header_title: str):
         super().__init__()
-        self.header_title = header_title
-        self.set_auto_page_break(auto=True, margin=20)
+        self.header_title = _strip_md_inline(header_title)
+        self.set_auto_page_break(auto=True, margin=18)
         self.set_margins(left=18, top=18, right=18)
+        self._using_unicode_fonts = False
+        self._register_fonts()
 
-    def header(self):
-        """Dibuja una barra superior con marca y título del documento."""
+    def _register_fonts(self) -> None:
+        """Configura las fuentes disponibles para acentos y texto largo."""
+        if FONT_REGULAR.exists() and FONT_BOLD.exists() and FONT_ITALIC.exists():
+            self.add_font(FONT_FAMILY, "", str(FONT_REGULAR))
+            self.add_font(FONT_FAMILY, "B", str(FONT_BOLD))
+            self.add_font(FONT_FAMILY, "I", str(FONT_ITALIC))
+            self._using_unicode_fonts = True
+
+    @property
+    def family(self) -> str:
+        """Devuelve la familia tipográfica activa."""
+        return FONT_FAMILY if self._using_unicode_fonts else "Helvetica"
+
+    def header(self) -> None:
+        """Dibuja la banda superior con marca del documento."""
         self.set_fill_color(*COLOR_PANEL)
         self.rect(0, 0, 210, 14, "F")
-        self.set_font("Helvetica", "B", 8)
+        self.set_font(self.family, "B", 8)
         self.set_text_color(*COLOR_ACCENT)
         self.set_y(4)
         self.cell(0, 6, "BOOTCAMP PYTHON - DATA SCIENCE", align="L")
@@ -64,133 +225,224 @@ class DocumentPDF(FPDF):
         self.cell(0, 6, self.header_title, align="R")
         self.ln(8)
 
-    def footer(self):
-        """Dibuja el pie de página con numeración."""
+    def footer(self) -> None:
+        """Dibuja pie de página con paginación."""
         self.set_y(-14)
         self.set_fill_color(*COLOR_PANEL)
         self.rect(0, 283, 210, 14, "F")
-        self.set_font("Helvetica", "", 8)
+        self.set_font(self.family, "", 8)
         self.set_text_color(*COLOR_MUTED)
         self.cell(0, 6, f"Página {self.page_no()}", align="C")
 
-    def cover(self, title: str, subtitle: str):
-        """Crea una portada breve para contextualizar el documento."""
+    def cover(self, title: str, subtitle: str) -> None:
+        """Crea una portada simple con identidad visual consistente."""
         self.add_page()
         self.set_fill_color(*COLOR_BG)
         self.rect(0, 0, 210, 297, "F")
         self.set_fill_color(*COLOR_ACCENT)
         self.rect(0, 80, 210, 4, "F")
 
-        self.set_font("Helvetica", "B", 24)
+        self.set_font(self.family, "B", 24)
         self.set_text_color(*COLOR_WHITE)
         self.set_xy(18, 92)
-        self.multi_cell(174, 10, title)
+        self.multi_cell(174, 10, _strip_md_inline(title))
 
         if subtitle:
-            self.set_font("Helvetica", "", 12)
+            self.set_font(self.family, "", 12)
             self.set_text_color(*COLOR_MUTED)
             self.set_x(18)
-            self.multi_cell(174, 7, subtitle)
+            self.multi_cell(174, 7, _strip_md_inline(subtitle))
 
-    def start_body(self):
-        """Inicia el cuerpo del documento con el fondo visual del tema."""
+    def start_body(self) -> None:
+        """Inicia el cuerpo del PDF con fondo oscuro uniforme."""
         self.add_page()
         self.set_fill_color(*COLOR_BG)
         self.rect(0, 0, 210, 297, "F")
 
-    def h1(self, text: str):
-        """Renderiza un encabezado principal con línea de apoyo."""
+    def h1(self, text: str) -> None:
+        """Renderiza un título principal de sección."""
         self.ln(8)
-        self.set_font("Helvetica", "B", 16)
+        self.set_font(self.family, "B", 16)
         self.set_text_color(*COLOR_WHITE)
-        self.multi_cell(self.epw, 8, text)
+        self.multi_cell(self.epw, 8, _strip_md_inline(text))
         y = self.get_y()
         self.set_draw_color(*COLOR_ACCENT)
         self.set_line_width(0.5)
         self.line(self.l_margin, y, self.l_margin + self.epw, y)
         self.ln(4)
 
-    def h2(self, text: str):
-        """Renderiza un subtítulo destacado en color de acento."""
+    def h2(self, text: str) -> None:
+        """Renderiza un subtítulo con color de acento."""
         self.ln(6)
-        self.set_font("Helvetica", "B", 13)
+        self.set_font(self.family, "B", 13)
         self.set_text_color(*COLOR_ACCENT)
-        self.multi_cell(self.epw, 7, text)
+        self.multi_cell(self.epw, 7, _strip_md_inline(text))
         self.ln(2)
 
-    def h3(self, text: str):
-        """Renderiza un subtítulo menor para secciones internas."""
+    def h3(self, text: str) -> None:
+        """Renderiza un subtítulo menor para bloques internos."""
         self.ln(4)
-        self.set_font("Helvetica", "B", 11)
+        self.set_font(self.family, "B", 11)
         self.set_text_color(*COLOR_WHITE)
-        self.multi_cell(self.epw, 6, text)
+        self.multi_cell(self.epw, 6, _strip_md_inline(text))
         self.ln(1)
 
-    def text(self, text: str):
-        """Renderiza un párrafo de texto corrido."""
-        self.set_font("Helvetica", "", 10)
+    def text(self, text: str) -> None:
+        """Renderiza un párrafo corrido."""
+        self.set_font(self.family, "", 10)
         self.set_text_color(*COLOR_TEXT)
-        self.multi_cell(self.epw, 5.5, text)
+        self.multi_cell(self.epw, 5.5, _strip_md_inline(text))
         self.ln(1)
 
-    def bullet(self, text: str):
-        """Renderiza un bullet simple para listas de apoyo."""
-        self.set_font("Helvetica", "", 10)
+    def bullet(self, text: str) -> None:
+        """Renderiza un bullet simple."""
+        self.set_font(self.family, "", 10)
         self.set_text_color(*COLOR_TEXT)
         self.set_x(self.l_margin + 4)
         self.cell(6, 5.5, "-", align="C")
-        self.multi_cell(self.epw - 10, 5.5, text)
+        self.multi_cell(self.epw - 10, 5.5, _strip_md_inline(text))
 
-    def hr(self):
-        """Dibuja una separación horizontal entre secciones."""
+    def numbered(self, text: str, number: int) -> None:
+        """Renderiza listas numeradas manteniendo jerarquía visual."""
+        self.set_font(self.family, "", 10)
+        self.set_x(self.l_margin + 4)
+        self.set_text_color(*COLOR_ACCENT)
+        self.cell(8, 5.5, f"{number}.", align="L")
+        self.set_text_color(*COLOR_TEXT)
+        self.multi_cell(self.epw - 12, 5.5, _strip_md_inline(text))
+
+    def quote(self, text: str) -> None:
+        """Resalta una cita o nota importante."""
+        clean = _strip_md_inline(text)
+        self.set_fill_color(*COLOR_PANEL)
+        self.set_draw_color(*COLOR_ACCENT)
+        self.set_line_width(0.8)
+        y = self.get_y()
+        self.set_x(self.l_margin + 4)
+        self.set_font(self.family, "I", 10)
+        self.set_text_color(*COLOR_MUTED)
+        self.multi_cell(self.epw - 8, 5.5, clean, fill=True)
+        self.line(self.l_margin, y, self.l_margin, self.get_y())
+        self.ln(2)
+
+    def hr(self) -> None:
+        """Dibuja una separación horizontal suave."""
         self.ln(4)
         self.set_draw_color(*COLOR_PANEL)
         self.set_line_width(0.3)
         self.line(self.l_margin, self.get_y(), self.l_margin + self.epw, self.get_y())
         self.ln(4)
 
+    def code(self, code_text: str) -> None:
+        """Renderiza un bloque de código con fuente monoespaciada."""
+        self.ln(3)
+        self.set_fill_color(*COLOR_CODE_BG)
+        self.set_draw_color(*COLOR_PANEL)
+        self.set_line_width(0.3)
+        self.set_font(self.family, "", 8)
+        self.set_text_color(*COLOR_TEXT)
+        self.multi_cell(self.epw, 4.5, _strip_md_inline(code_text), fill=True, border=1)
+        self.ln(3)
 
-def extract_title(markdown: str, fallback: str) -> str:
-    """Obtiene el primer H1 del markdown para usarlo como cabecera."""
-    for line in markdown.splitlines():
-        kind, value = parse_line(line)
-        if kind == "h1":
-            return value
-    return fallback
+    def table(self, rows: list[list[str]]) -> None:
+        """Renderiza tablas markdown simples con cabecera y bandas alternas."""
+        if not rows:
+            return
+
+        visible_rows = [row for row in rows if not all(set(cell.strip()) <= set("-: ") for cell in row)]
+        if not visible_rows:
+            return
+
+        col_count = max(len(row) for row in visible_rows)
+        col_width = self.epw / col_count
+        row_height = 6
+        self.ln(3)
+
+        for row_index, row in enumerate(visible_rows):
+            values = row + [""] * (col_count - len(row))
+            if row_index == 0:
+                self.set_fill_color(*COLOR_HEADER_BG)
+                self.set_text_color(*COLOR_ACCENT)
+                self.set_font(self.family, "B", 8)
+            else:
+                self.set_fill_color(*(COLOR_ROW_ALT if row_index % 2 == 0 else COLOR_PANEL))
+                self.set_text_color(*COLOR_TEXT)
+                self.set_font(self.family, "", 8)
+
+            for cell in values:
+                text = _strip_md_inline(cell)
+                self.cell(col_width, row_height, text[:42], border=1, fill=True)
+            self.ln()
+
+        self.ln(3)
 
 
-def render_markdown(input_path: Path, output_path: Path, title: str, subtitle: str):
-    """Convierte un markdown simple a PDF usando la plantilla `DocumentPDF`."""
-    markdown_text = input_path.read_text(encoding="utf-8")
-    header_title = extract_title(markdown_text, title)
+def extract_title(markdown_text: str, fallback: str) -> str:
+    """Obtiene el primer H1 del markdown para reutilizarlo como cabecera."""
+    for block in parse_markdown(markdown_text):
+        if block.kind == "h1":
+            return _strip_md_inline(block.value)
+    return _strip_md_inline(fallback)
 
-    pdf = DocumentPDF(header_title=header_title)
+
+def render_markdown_text(markdown_text: str, output_path: Path, title: str, subtitle: str = "") -> None:
+    """Convierte un string Markdown a PDF usando la plantilla visual del repo."""
+    pdf = DocumentPDF(header_title=extract_title(markdown_text, title))
     pdf.cover(title=title, subtitle=subtitle)
     pdf.start_body()
 
-    for line in markdown_text.splitlines():
-        kind, value = parse_line(line)
-        if kind == "h1":
-            pdf.h1(value)
-        elif kind == "h2":
-            pdf.h2(value)
-        elif kind == "h3":
-            pdf.h3(value)
-        elif kind == "bullet":
-            pdf.bullet(value)
-        elif kind == "text":
-            pdf.text(value)
-        elif kind == "hr":
+    numbered_counter = 0
+    for block in parse_markdown(markdown_text):
+        if block.kind == "h1":
+            numbered_counter = 0
+            pdf.h1(block.value)
+        elif block.kind == "h2":
+            numbered_counter = 0
+            pdf.h2(block.value)
+        elif block.kind == "h3":
+            numbered_counter = 0
+            pdf.h3(block.value)
+        elif block.kind == "text":
+            numbered_counter = 0
+            pdf.text(block.value)
+        elif block.kind == "bullet":
+            numbered_counter = 0
+            pdf.bullet(block.value)
+        elif block.kind == "numbered":
+            numbered_counter += 1
+            pdf.numbered(block.value, numbered_counter)
+        elif block.kind == "blockquote":
+            numbered_counter = 0
+            pdf.quote(block.value)
+        elif block.kind == "hr":
+            numbered_counter = 0
             pdf.hr()
-        elif kind == "blank":
+        elif block.kind == "code":
+            numbered_counter = 0
+            pdf.code(block.value)
+        elif block.kind == "table":
+            numbered_counter = 0
+            pdf.table(json.loads(block.value))
+        elif block.kind == "blank":
+            numbered_counter = 0
             pdf.ln(2)
 
     output_path.parent.mkdir(parents=True, exist_ok=True)
     pdf.output(str(output_path))
 
 
+def render_markdown(input_path: Path, output_path: Path, title: str, subtitle: str = "") -> None:
+    """Lee un Markdown desde disco y lo renderiza a PDF."""
+    render_markdown_text(
+        markdown_text=input_path.read_text(encoding="utf-8"),
+        output_path=output_path,
+        title=title,
+        subtitle=subtitle,
+    )
+
+
 def main() -> None:
-    """Parsea argumentos CLI y genera el PDF solicitado."""
+    """Permite usar el renderer desde la línea de comandos."""
     parser = argparse.ArgumentParser(description="Genera un PDF a partir de un archivo Markdown.")
     parser.add_argument("--input", required=True, help="Ruta del archivo Markdown de entrada.")
     parser.add_argument("--output", required=True, help="Ruta del PDF de salida.")

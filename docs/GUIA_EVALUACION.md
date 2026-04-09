@@ -17,7 +17,7 @@ No es un SaaS multiusuario terminado ni pretende vender madurez que todavia no e
 
 ## Lo que demuestra hoy
 
-| ?rea | Evidencia visible |
+| Área | Evidencia visible |
 |---|---|
 | Diseño pedagógico | `classes/`, `metodologia-docente.md`, `herramientas-pedagogicas-de-aula.md` |
 | Producto navegable | `site/` y `site/product/` |
