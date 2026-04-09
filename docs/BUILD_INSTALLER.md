@@ -118,7 +118,17 @@ Compress-Archive -Path "dist\BootcampPythonDS\*" `
   -DestinationPath "release_artifacts\BootcampPythonDS_windows_portable_v1.0.0.zip" -Force
 
 # Paso 4: Compilar el instalador (requiere Inno Setup instalado)
+# Ruta estándar (instalación oficial de jrsoftware.org):
 "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" installer\setup.iss
+
+# Ruta alternativa (Inno Setup vía node_modules / Antigravity / electron-builder):
+"%LOCALAPPDATA%\Programs\Antigravity\resources\app\node_modules\innosetup\bin\ISCC.exe" installer\setup.iss
+
+# Si no sabes cuál tienes instalada, busca con:
+where ISCC
+# o si no está en PATH:
+where /R "%ProgramFiles(x86)%" ISCC.exe
+where /R "%LOCALAPPDATA%" ISCC.exe
 ```
 
 ---
@@ -187,7 +197,7 @@ Ver sección `[UninstallDelete]` en `installer/setup.iss` para cambiar este comp
 | Pantalla de carga no avanza | Error en Flask interno | Ejecutar `python run_bootcamp.py` para ver el error |
 | Error 500 al cargar clases | Falta archivo de datos en el bundle | Revisar sección `datas` en `bootcamp.spec` |
 | `ModuleNotFoundError` al buildear | Dependencia no detectada por PyInstaller | Agregar a `hiddenimports` en `bootcamp.spec` |
-| Inno Setup no encontrado | Ruta incorrecta | Ajustar `INNO_SETUP` en `build_windows.bat` |
+| Inno Setup no encontrado | Ruta incorrecta o instalación no estándar | Buscar con `where /R "%LOCALAPPDATA%" ISCC.exe` y ajustar `INNO_SETUP` en `build_windows.bat`. Ver rutas alternativas en la sección de instalación manual. |
 | `collect_all('webview')` falla | pywebview no instalado en el entorno de build | `pip install pywebview` |
 
 ---
