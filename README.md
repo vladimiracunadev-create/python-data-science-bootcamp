@@ -93,17 +93,21 @@ Estos archivos se generan desde el contenido real de cada carpeta en `classes/` 
 
 ### PDFs de entrevista y estudio
 
-Estos son los PDFs base de entrevista y preparación. No dependen de la navegación por clase y viven en `docs/pdfs/`.
+PDFs listos para imprimir o compartir en contexto de entrevista, evaluación o preparación docente. Viven en `docs/pdfs/` y son independientes del flujo de clases.
 
 **PDFs canónicos de entrevista**
 
-- [docs/pdfs/muestra-producto-para-skillnest.pdf](docs/pdfs/muestra-producto-para-skillnest.pdf)
-- [docs/pdfs/preguntas-para-hacer-en-entrevista.pdf](docs/pdfs/preguntas-para-hacer-en-entrevista.pdf)
-- [docs/pdfs/guia-estudio-repositorio.pdf](docs/pdfs/guia-estudio-repositorio.pdf)
+| Documento | Descripción |
+|---|---|
+| [muestra-producto-para-skillnest.pdf](docs/pdfs/muestra-producto-para-skillnest.pdf) | Muestra imprimible del producto para contexto de institución o reunión comercial |
+| [preguntas-para-hacer-en-entrevista.pdf](docs/pdfs/preguntas-para-hacer-en-entrevista.pdf) | Preguntas clave que el docente puede hacer al inicio de una entrevista o reunión de cierre |
+| [guia-estudio-repositorio.pdf](docs/pdfs/guia-estudio-repositorio.pdf) | Ruta de lectura rápida del repo para evaluador técnico o reclutador |
 
 **Guía ampliada de estudio**
 
-- [docs/pdfs/guia-total-python-data-science.pdf](docs/pdfs/guia-total-python-data-science.pdf)
+| Documento | Descripción |
+|---|---|
+| [guia-total-python-data-science.pdf](docs/pdfs/guia-total-python-data-science.pdf) | Guía de estudio extendida para el docente o alumno avanzado: Python, pandas, visualización y ML |
 
 ---
 
