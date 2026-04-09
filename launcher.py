@@ -1,171 +1,209 @@
-"""Launcher local para la app del bootcamp en Windows.
+"""Launcher de escritorio para el Bootcamp Python DS — Windows.
 
-Responsabilidades:
-    1. Detectar si ya existe una instancia corriendo en el puerto configurado.
-    2. Arrancar el servidor Flask en un hilo separado.
-    3. Esperar el endpoint `/health` antes de abrir el navegador.
-    4. Mantener el proceso vivo con un menú mínimo de consola.
-    5. Cerrar la aplicación de forma limpia al salir.
+Abre una ventana nativa de Windows usando pywebview + Edge WebView2.
+Flask corre internamente en un puerto libre elegido automáticamente.
+El usuario nunca ve localhost, no se abre ningún navegador externo.
 
-Este archivo resuelve la experiencia de uso más amigable para docentes o
-estudiantes que quieren abrir el sistema local sin pelear con comandos largos.
+Requisitos:
+    pip install pywebview
+    Windows 10 (1803+) o Windows 11 con Edge WebView2 Runtime instalado.
+    (Edge WebView2 viene preinstalado en Windows 10 20H2+ y en todo Windows 11.)
 """
 
 from __future__ import annotations
 
 import os
-import signal
 import socket
 import sys
 import threading
 import time
 import urllib.request
-import webbrowser
+from pathlib import Path
 
-# Dirección de escucha: siempre local para que la app no quede expuesta en red.
-HOST = os.environ.get("BOOTCAMP_HOST", "127.0.0.1")
-# Puerto configurable para evitar conflictos con otros servicios locales.
-PORT = int(os.environ.get("BOOTCAMP_PORT", "8000"))
-STARTUP_TIMEOUT = 30
-POLL_INTERVAL = 0.5
-BASE_URL = f"http://{HOST}:{PORT}"
+APP_TITLE = "Bootcamp Python — Data Science"
+WIN_W, WIN_H = 1280, 800
+MIN_W, MIN_H = 960, 620
+STARTUP_TIMEOUT = 45  # segundos esperando que Flask responda
 
 
-def puerto_en_uso(host: str, port: int) -> bool:
-    """Comprueba si ya existe un proceso escuchando en `host:port`.
+# ---------------------------------------------------------------------------
+# Utilidades de red
+# ---------------------------------------------------------------------------
 
-    Qué resuelve:
-        Evita abrir una segunda instancia de la app y permite reutilizar la ya
-        existente en lugar de fallar con un error de puerto ocupado.
-    """
-    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
-        sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        sock.settimeout(1)
-        try:
-            sock.connect((host, port))
-            return True
-        except (ConnectionRefusedError, socket.timeout, OSError):
-            return False
+def _find_free_port() -> int:
+    """Pide al sistema operativo un puerto libre en loopback."""
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+        s.bind(("127.0.0.1", 0))
+        return s.getsockname()[1]
 
 
-def esperar_servidor(url: str, timeout: int) -> bool:
-    """Hace polling a `/health` hasta que el servidor responde correctamente.
-
-    Qué resuelve:
-        Sin esta espera, el navegador podría abrirse antes de que Flask esté
-        listo y el usuario vería una página caída al iniciar el sistema.
-    """
+def _wait_for_server(url: str, timeout: int) -> bool:
+    """Hace polling en /health hasta que Flask responde 200 o se acaba el tiempo."""
     deadline = time.time() + timeout
     while time.time() < deadline:
         try:
-            with urllib.request.urlopen(url, timeout=2) as response:
-                if response.status == 200:
+            with urllib.request.urlopen(url, timeout=2) as r:
+                if r.status == 200:
                     return True
         except Exception:
             pass
-        time.sleep(POLL_INTERVAL)
+        time.sleep(0.3)
     return False
 
 
-def imprimir_banner() -> None:
-    """Muestra en consola el contexto básico de la sesión actual."""
-    print()
-    print("=" * 60)
-    print("  BOOTCAMP PYTHON PARA DATA SCIENCE")
-    print("  Entorno local de aprendizaje interactivo")
-    print("=" * 60)
-    print(f"  URL: {BASE_URL}")
-    print("=" * 60)
-    print()
+# ---------------------------------------------------------------------------
+# Inicio de Flask
+# ---------------------------------------------------------------------------
 
-
-def imprimir_menu() -> None:
-    """Presenta los comandos mínimos disponibles para el usuario."""
-    print()
-    print("  Opciones:")
-    print("  [Enter]  Reabrir el navegador")
-    print("  [q]      Apagar el servidor y salir")
-    print()
-
-
-def arrancar_flask() -> None:
-    """Importa y levanta la app Flask dentro de un hilo daemon.
+def _start_flask(host: str, port: int) -> None:
+    """Arranca la app Flask en un hilo daemon.
 
     Qué resuelve:
-        Mantiene libre el hilo principal para mostrar estado, esperar `/health`
-        y responder a comandos del usuario mientras el servidor sigue vivo.
+        El servidor corre en segundo plano. La ventana de pywebview se crea
+        en el hilo principal, que es el requisito de la mayoría de los
+        toolkits gráficos de Windows.
     """
-    base_dir = os.path.dirname(os.path.abspath(__file__))
+    base_dir = str(Path(__file__).resolve().parent)
     if base_dir not in sys.path:
         sys.path.insert(0, base_dir)
 
-    os.environ.setdefault("BOOTCAMP_HOST", HOST)
-    os.environ.setdefault("BOOTCAMP_PORT", str(PORT))
+    # Inyectamos las variables de entorno antes del import de Flask para que
+    # app.py las lea correctamente al construir la instancia.
+    os.environ["BOOTCAMP_HOST"] = host
+    os.environ["BOOTCAMP_PORT"] = str(port)
 
-    # El import ocurre aquí para que PyInstaller detecte dependencias y para no
-    # cargar Flask si el launcher descubre una instancia ya corriendo.
-    from app.app import app
+    from app.app import app as flask_app  # noqa: PLC0415
+    flask_app.run(
+        host=host,
+        port=port,
+        debug=False,
+        use_reloader=False,
+        threaded=True,
+    )
 
-    app.run(host=HOST, port=PORT, debug=False, use_reloader=False)
 
+# ---------------------------------------------------------------------------
+# HTML de estados internos (carga y error)
+# ---------------------------------------------------------------------------
+
+_LOADING_HTML = """<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Iniciando…</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #0f172a; color: #94a3b8;
+      font-family: 'Segoe UI', system-ui, Arial, sans-serif;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      height: 100vh; text-align: center; padding: 32px;
+    }
+    .spinner {
+      width: 52px; height: 52px;
+      border: 3px solid #1e293b;
+      border-top-color: #22c55e;
+      border-radius: 50%;
+      animation: spin 0.9s linear infinite;
+      margin-bottom: 28px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    h2 { color: #f1f5f9; font-size: 1.35rem; margin-bottom: 10px; font-weight: 600; }
+    p  { font-size: 0.9rem; line-height: 1.6; }
+  </style>
+</head>
+<body>
+  <div class="spinner"></div>
+  <h2>Iniciando Bootcamp Python DS</h2>
+  <p>Preparando el entorno de aprendizaje…</p>
+</body>
+</html>"""
+
+
+def _error_html(detail: str) -> str:
+    return f"""<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Error — Bootcamp Python DS</title>
+  <style>
+    * {{ box-sizing: border-box; margin: 0; padding: 0; }}
+    body {{
+      background: #0f172a; color: #f1f5f9;
+      font-family: 'Segoe UI', system-ui, Arial, sans-serif;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      height: 100vh; text-align: center; padding: 40px;
+    }}
+    .icon {{ font-size: 3rem; margin-bottom: 20px; }}
+    h2 {{ color: #ef4444; font-size: 1.4rem; margin-bottom: 12px; font-weight: 600; }}
+    p  {{ color: #94a3b8; max-width: 500px; line-height: 1.7; font-size: 0.95rem; }}
+    .detail {{
+      margin-top: 20px; background: #1e293b;
+      border: 1px solid #334155; border-radius: 10px;
+      padding: 14px 18px; color: #fca5a5;
+      font-size: 0.85rem; max-width: 540px; text-align: left;
+    }}
+  </style>
+</head>
+<body>
+  <div class="icon">⚠️</div>
+  <h2>No se pudo iniciar el Bootcamp</h2>
+  <p>El servidor interno no respondió a tiempo. Cierra esta ventana y vuelve a abrir la aplicación.</p>
+  <div class="detail">{detail}</div>
+</body>
+</html>"""
+
+
+# ---------------------------------------------------------------------------
+# Punto de entrada principal
+# ---------------------------------------------------------------------------
 
 def main() -> None:
-    """Coordina arranque, apertura de navegador y cierre limpio del sistema."""
-    imprimir_banner()
+    host = "127.0.0.1"
+    port = _find_free_port()
+    url = f"http://{host}:{port}"
 
-    if puerto_en_uso(HOST, PORT):
-        print(f"  Ya hay una instancia corriendo en {BASE_URL}")
-        print("  Abriendo el navegador...")
-        webbrowser.open(BASE_URL)
-        return
+    # Inicia Flask antes de crear la ventana para aprovechar el tiempo de
+    # inicialización del runtime de WebView2.
+    flask_thread = threading.Thread(
+        target=_start_flask,
+        args=(host, port),
+        daemon=True,
+        name="flask-server",
+    )
+    flask_thread.start()
 
-    print("  Iniciando el servidor Flask...")
-    hilo_flask = threading.Thread(target=arrancar_flask, daemon=True, name="flask-server")
-    hilo_flask.start()
+    import webview  # noqa: PLC0415  — import tardío para que PyInstaller lo detecte
 
-    health_url = f"{BASE_URL}/health"
-    print(f"  Esperando que el servidor responda en {health_url} ...")
-    listo = esperar_servidor(health_url, STARTUP_TIMEOUT)
-    if not listo:
-        print()
-        print("  ERROR: El servidor no respondió en el tiempo esperado.")
-        print("  Revisa que el puerto no esté bloqueado por el firewall.")
-        print(f"  Intenta abrir manualmente: {BASE_URL}")
-        sys.exit(1)
+    window = webview.create_window(
+        title=APP_TITLE,
+        html=_LOADING_HTML,
+        width=WIN_W,
+        height=WIN_H,
+        min_size=(MIN_W, MIN_H),
+        resizable=True,
+        text_select=True,
+        zoomable=True,
+    )
 
-    print("  Servidor listo.")
-    print(f"  Abriendo {BASE_URL} en el navegador...")
-    webbrowser.open(BASE_URL)
-    imprimir_menu()
+    def _load_when_ready() -> None:
+        """Callback que corre en hilo separado mientras webview.start() espera."""
+        ok = _wait_for_server(f"{url}/health", STARTUP_TIMEOUT)
+        if ok:
+            window.load_url(url)
+        else:
+            window.load_html(
+                _error_html(
+                    f"Timeout: el servidor en {url} no respondió en "
+                    f"{STARTUP_TIMEOUT} segundos."
+                )
+            )
 
-    def manejador_sigint(sig: int, frame: object) -> None:
-        """Cierra el proceso cuando el usuario presiona Ctrl+C."""
-        del sig, frame
-        print("\n\n  Apagando el servidor...")
-        sys.exit(0)
-
-    signal.signal(signal.SIGINT, manejador_sigint)
-
-    while True:
-        try:
-            entrada = input("  > ").strip().lower()
-        except EOFError:
-            # Si la consola se cierra pero el proceso sigue vivo, esperamos al
-            # hilo para no matar abruptamente el servidor.
-            hilo_flask.join()
-            break
-
-        if entrada in ("q", "quit", "exit", "salir"):
-            print("  Apagando el servidor...")
-            break
-        if entrada == "":
-            print(f"  Reabriendo {BASE_URL}...")
-            webbrowser.open(BASE_URL)
-            continue
-
-        print("  Comando no reconocido. Usa [Enter] o [q].")
-
-    sys.exit(0)
+    # debug=False oculta DevTools en producción.
+    # El callback se ejecuta en un hilo de pywebview, no en el principal.
+    webview.start(_load_when_ready, debug=False)
 
 
 if __name__ == "__main__":

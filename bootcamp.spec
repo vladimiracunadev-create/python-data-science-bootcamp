@@ -2,7 +2,7 @@
 #
 # Genera un directorio dist/BootcampPythonDS/ con el ejecutable y todos los datos.
 # Uso:
-#   pip install pyinstaller
+#   pip install pyinstaller pywebview
 #   pyinstaller bootcamp.spec
 #
 # El resultado en dist/BootcampPythonDS/BootcampPythonDS.exe es el ejecutable
@@ -11,28 +11,34 @@
 import os
 from pathlib import Path
 
+# collect_all recoge datas, binaries e hiddenimports de un paquete completo.
+# Es necesario para pywebview porque incluye WebView2Loader.dll y hooks .NET.
+from PyInstaller.utils.hooks import collect_all, collect_data_files  # noqa: E402
+
 # ---------------------------------------------------------------------------
 # DIRECTORIO RAIZ DEL PROYECTO
 # ---------------------------------------------------------------------------
-# Definido en tiempo de spec para que los paths sean absolutos y portables.
 ROOT = Path(SPECPATH)  # noqa: F821 — PyInstaller inyecta SPECPATH
+
+# ---------------------------------------------------------------------------
+# RECOLECTAR PYWEBVIEW COMPLETO
+# Incluye: WebView2Loader.dll, hooks de pythonnet, JS internos, etc.
+# ---------------------------------------------------------------------------
+wv_datas, wv_binaries, wv_hiddenimports = collect_all("webview")
 
 # ---------------------------------------------------------------------------
 # ANALISIS DE DEPENDENCIAS
 # ---------------------------------------------------------------------------
 a = Analysis(
-    # Script de entrada: el launcher que arranca Flask y abre el navegador
+    # Script de entrada: launcher que levanta Flask y abre la ventana nativa
     scripts=[str(ROOT / "launcher.py")],
 
-    # Directorios donde PyInstaller busca modulos importados
     pathex=[str(ROOT)],
 
-    # DLLs y extensiones binarias adicionales que PyInstaller no detecta solo
-    # numpy, pandas y scikit-learn incluyen extensiones C compiladas (.pyd/.so)
-    binaries=[],
+    binaries=wv_binaries,
 
     # ---------------------------------------------------------------------------
-    # DATOS (archivos no-Python que el ejecutable necesita en runtime)
+    # DATOS
     # ---------------------------------------------------------------------------
     datas=[
         # Plantillas HTML y CSS/JS del laboratorio Flask
@@ -50,11 +56,16 @@ a = Analysis(
 
         # Portal publico del alumno (HTML/CSS/JS estatico)
         (str(ROOT / "site"),                "site"),
+
+        # Datos internos de pywebview (JS, recursos WebView2)
+        *wv_datas,
     ],
 
-    # Imports que PyInstaller no detecta por ser dinamicos o condicionales
+    # ---------------------------------------------------------------------------
+    # HIDDEN IMPORTS
+    # ---------------------------------------------------------------------------
     hiddenimports=[
-        # Flask y sus extensiones internas
+        # Flask y werkzeug
         "flask",
         "flask.templating",
         "flask.json",
@@ -64,7 +75,7 @@ a = Analysis(
         "werkzeug.serving",
         "werkzeug.routing",
 
-        # Procesamiento de Markdown (usado en app.py)
+        # Markdown
         "markdown",
         "markdown.extensions.fenced_code",
         "markdown.extensions.tables",
@@ -72,43 +83,47 @@ a = Analysis(
 
         # Ciencia de datos
         "pandas",
-        "pandas.core.arrays.masked",   # extension interna necesaria en algunos builds
+        "pandas.core.arrays.masked",
         "numpy",
         "numpy.core._multiarray_umath",
         "matplotlib",
-        "matplotlib.backends.backend_agg",  # backend no-interactivo usado por el runner
+        "matplotlib.backends.backend_agg",
         "sklearn",
         "sklearn.utils._cython_blas",
         "sklearn.neighbors._partition_nodes",
         "sklearn.tree._utils",
 
-        # Formato de notebooks
+        # Notebooks
         "nbformat",
+
+        # pywebview — detectados por collect_all pero los declaramos explicitamente
+        *wv_hiddenimports,
+
+        # pythonnet / clr (necesario para el backend winforms de pywebview en Windows)
+        "clr",
+        "pythonnet",
     ],
 
-    # Modulos a excluir para reducir el tamano del bundle
+    # Excluir lo que no se usa
     excludes=[
-        "tkinter",       # GUI toolkit de Python — no se usa
-        "PyQt5",         # Otro toolkit GUI
-        "wx",            # wxPython GUI
-        "IPython",       # Solo necesario para Jupyter interactivo, no para el runner
+        "tkinter",
+        "PyQt5",
+        "PyQt6",
+        "wx",
+        "IPython",
         "jupyter_client",
-        "notebook",      # El servidor Jupyter completo no es necesario
-        "test",          # Tests de la stdlib de Python
+        "notebook",
+        "test",
     ],
 
-    # No empaquetar en un solo archivo (modo onedir es mas rapido de arrancar)
-    # onefile=True ralentiza el inicio porque descomprime todo en un temp dir
     win_no_prefer_redirects=False,
     win_private_assemblies=False,
-
-    # Cache del analisis (acelera recompilaciones)
     cipher=None,
     noarchive=False,
 )
 
 # ---------------------------------------------------------------------------
-# ARCHIVOS OBJETO COMPILADOS (PYC)
+# ARCHIVOS OBJETO COMPILADOS
 # ---------------------------------------------------------------------------
 pyz = PYZ(a.pure, a.zipped_data, cipher=None)  # noqa: F821
 
@@ -120,31 +135,26 @@ exe = EXE(  # noqa: F821
     a.scripts,
     [],
 
-    # NO incluir todo en un solo .exe — modo onedir es obligatorio
-    # para que los datas (templates, clases, datasets) sean accesibles
     exclude_binaries=True,
 
-    # Nombre del ejecutable final (sin extension .exe)
     name="BootcampPythonDS",
 
-    # Informacion del ejecutable
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
 
-    # No mostrar la consola negra al ejecutar en Windows
-    # Cambiar a console=True para debug — la consola muestra los logs de Flask
-    console=True,  # True para que el usuario vea el menu y los logs
+    # Sin consola negra — la app muestra una ventana nativa
+    # Cambiar a True solo para depuracion
+    console=False,
 
-    # Icono del ejecutable (debe existir como .ico)
-    # icon=str(ROOT / "installer" / "icon.ico"),
+    # Icono del ejecutable (si existe el .ico)
+    icon=str(ROOT / "installer" / "icon.ico") if (ROOT / "installer" / "icon.ico").exists() else None,
 
-    # Manifesto de Windows para solicitar permisos de usuario normal (no admin)
     uac_admin=False,
 )
 
 # ---------------------------------------------------------------------------
-# DIRECTORIO FINAL DE DISTRIBUCION
+# DIRECTORIO FINAL
 # ---------------------------------------------------------------------------
 coll = COLLECT(  # noqa: F821
     exe,
@@ -152,11 +162,9 @@ coll = COLLECT(  # noqa: F821
     a.zipfiles,
     a.datas,
 
-    # No comprimir — inicio mas rapido a costa de mas espacio en disco
     strip=False,
-    upx=False,               # UPX comprime pero puede ser detectado como virus
+    upx=False,
     upx_exclude=[],
 
-    # Nombre del directorio en dist/
     name="BootcampPythonDS",
 )

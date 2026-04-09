@@ -30,7 +30,7 @@ Capacidad proyectada, pero no operativa hoy como pieza principal del sistema.
 | Superficie | Tipo | Estado | Audiencia | Qué entrega hoy |
 |---|---|---|---|---|
 | Laboratorio interactivo (`app/`) | núcleo operativo | operativo | docente / estudiante guiado | visualización de clases, carga de notebooks, runner y guardado local |
-| Instalador Windows (`launcher.py` + `installer/`) | distribucion de escritorio | listo para build | alumno / docente en aula | empaqueta el laboratorio como .exe instalable, sin Python ni configuración |
+| App de escritorio Windows (`launcher.py` + `installer/`) | distribución de escritorio | listo para build | alumno / docente en aula | app nativa con ventana propia (pywebview + Edge WebView2), sin navegador, sin Python, sin configuración |
 | App Android (`mobile/`) | distribucion móvil | listo para build | alumno en movimiento | lectura de contenido, código documentado, apertura directa en Google Colab |
 | Portal del alumno (`site/`) | superficie pública | operativo | alumno | enlace oficial, ruta, recursos, reglas de uso de tecnología |
 | Vista institucional (`site/product/`) | superficie pública | operativo | institución / evaluador | narrativa de producto, alcance, arquitectura, operación y crecimiento |
@@ -76,7 +76,7 @@ Capacidad proyectada, pero no operativa hoy como pieza principal del sistema.
 - la vista institucional no reemplaza el laboratorio;
 - los PDFs no son el producto, son artefactos de apoyo;
 - la app Android no ejecuta Python de forma nativa: usa Google Colab para la ejecución;
-- el instalador Windows no es una app de escritorio nueva: es el mismo laboratorio Flask empaquetado;
+- el instalador Windows es una app de escritorio real con ventana nativa (no abre el navegador); el backend Flask corre internamente de forma transparente para el usuario;
 - el runner local no debe presentarse como SaaS expuesto a internet.
 
 ## 🏫 6. Versión inicial recomendada para colegio

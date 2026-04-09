@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import os
 import re
+import sys
 from pathlib import Path
 
 import markdown
@@ -24,7 +25,15 @@ from .content_loader import (
 )
 from .execution_engine import MAX_CODE_LENGTH, execute_code, reset_session
 
-BASE_DIR = Path(__file__).resolve().parents[1]
+
+def _get_base_dir() -> Path:
+    """Devuelve la raíz del proyecto tanto en desarrollo como en bundle PyInstaller."""
+    if getattr(sys, "frozen", False) and hasattr(sys, "_MEIPASS"):
+        return Path(sys._MEIPASS)
+    return Path(__file__).resolve().parents[1]
+
+
+BASE_DIR = _get_base_dir()
 app = Flask(
     __name__,
     template_folder=str(BASE_DIR / "app" / "templates"),
@@ -58,8 +67,8 @@ def add_security_headers(response):
         "Content-Security-Policy",
         (
             "default-src 'self'; "
-            "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; "
-            "font-src 'self' https://fonts.gstatic.com data:; "
+            "style-src 'self' 'unsafe-inline'; "
+            "font-src 'self' data:; "
             "img-src 'self' data:; "
             "script-src 'self'; "
             "connect-src 'self'; "

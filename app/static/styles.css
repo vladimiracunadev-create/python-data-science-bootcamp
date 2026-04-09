@@ -17,7 +17,7 @@
 
 /* ── Reset ────────────────────────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; }
-body { margin: 0; font-family: 'Inter', 'Segoe UI', Arial, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+body { margin: 0; font-family: 'Segoe UI', system-ui, -apple-system, Arial, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
 button, input, textarea, select { font: inherit; }
 a { color: var(--accent); }
 

@@ -146,7 +146,7 @@ Filename: "taskkill.exe"; Parameters: "/F /IM BootcampPythonDS.exe"; Flags: runh
 [Messages]
 ; Mensaje en la pagina de bienvenida
 WelcomeLabel1=Bienvenido al instalador del%nBootcamp Python para Data Science
-WelcomeLabel2=Este asistente instalara el Bootcamp Python DS en tu computador.%n%nEl Bootcamp incluye:%n  - 12 clases de Python y Data Science%n  - Laboratorio interactivo local%n  - Datasets de practica%n  - Guias y materiales de clase%n%nNo se requiere conexion a internet para usar el Bootcamp.
+WelcomeLabel2=Este asistente instalara el Bootcamp Python DS en tu computador.%n%nEl Bootcamp incluye:%n  - 12 clases de Python y Data Science%n  - Laboratorio interactivo local%n  - Datasets de practica%n  - Guias y materiales de clase%n%nNo se requiere conexion a internet.%nAbre una ventana de escritorio nativa (no un navegador).
 
 ; ---------------------------------------------------------------------------
 ; CODIGO PASCAL (logica personalizada)
