@@ -1,3 +1,36 @@
 MIT License
 
-Copyright (c) 2026 Vladimir Acuña
+Copyright (c) 2026 Vladimir Acuña (vladimiracunadev-create)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+---
+
+This license applies to all source code, documentation, scripts, and
+configuration files in this repository, with the following clarifications:
+
+- The curriculum content (classes/, datasets/) is included under this license
+  and may be adapted for educational use with attribution.
+- The bundled Windows executable (release_artifacts/) includes third-party
+  libraries (Flask, pandas, numpy, matplotlib, scikit-learn, pywebview and
+  their dependencies) which retain their own respective licenses.
+- The Android APK (release_artifacts/) includes Expo/React Native and its
+  ecosystem; those components retain their own licenses.
+- Third-party license texts are not bundled in this repository but are
+  available from their respective package registries (PyPI, npm).

@@ -1,70 +1,123 @@
-﻿# 🔐 SECURITY
+# SECURITY
 
 > Postura de seguridad actual y hardening recomendado para `python-data-science-bootcamp`.
 
-## 🧭 Estado actual
+---
 
-Este repositorio esta pensado para uso local, docente y de laboratorio. La app interactiva permite ejecutar código Python, por lo que hoy su postura de seguridad es adecuada para entornos controlados, demos guiadas y maquinas administradas por el docente, pero no para exposicion abierta a internet sin capas adicionales.
+## Estado actual
 
-## 🧾 Versiones soportadas
+Este repositorio está pensado para uso local, docente y de laboratorio. La app interactiva permite ejecutar código Python, por lo que su postura de seguridad es adecuada para entornos controlados, demos guiadas y máquinas administradas por el docente, pero **no para exposición abierta a internet sin capas adicionales**.
 
-| Línea | Estado |
+---
+
+## Versiones soportadas
+
+| Versión | Estado |
 |---|---|
-| `2.x` | soportada |
-| `1.x` | sin soporte activo |
+| `v1.0.0` (rama `master`) | soportada activamente |
+| versiones anteriores al tag v1.0.0 | sin soporte |
 
-## 🛡 Protecciones que existen hoy
+---
 
-- validación de `slug` e identificadores para evitar rutas arbitrarias;
-- l?mite de payload por request;
-- l?mite de longitud de código por ejecución;
-- timeout por celda y reinicio de sesión ante ejecuciones colgadas;
-- recoleccion y eviction de sesiones antiguas;
-- headers de seguridad básicos (`CSP`, `X-Frame-Options`, `Referrer-Policy`, `nosniff`);
-- defaults de arranque local via `127.0.0.1`;
-- `docker-compose` enlazado a `127.0.0.1`.
+## Superficies de ataque por modo de ejecución
 
-## 🚧 Lo que no existe todavia
+| Modo | Superficie expuesta | Nivel de riesgo |
+|---|---|---|
+| App de escritorio Windows (`BootcampPythonDS.exe`) | loopback interno, no accesible desde la red | bajo (local) |
+| Modo desarrollo (`python run_bootcamp.py`) | `http://127.0.0.1:8000`, vinculado a loopback | bajo si no se cambia HOST |
+| Docker Compose (`docker-compose.yml`) | `127.0.0.1:8000`, mapeado a loopback | bajo por configuración |
+| Docker Compose endurecido (`docker-compose.prod.yml`) | igual, con configuración adicional | bajo |
+| Expuesto a red o internet sin proxy | cualquier superficie | alto — no recomendado sin hardening adicional |
 
-- autenticacion de usuarios;
-- aislamiento fuerte por estudiante;
+---
+
+## Protecciones que existen hoy
+
+### Validación de entrada
+
+- validación de `slug` e identificadores con regex `^[\w\-]{1,80}$` — previene path traversal;
+- todos los slugs pasan por `_safe_resolve()` que verifica que la ruta resuelta permanezca dentro del directorio permitido;
+- nombres de notebooks saneados con `re.sub` antes de escribir a disco.
+
+### Límites de carga
+
+- límite de payload por request: 1 MB (`MAX_PAYLOAD_BYTES`);
+- límite de longitud de código por celda: 20 KB (`MAX_CODE_LENGTH`).
+
+### Ejecución de código
+
+- timeout por celda: 30 segundos (`EXECUTION_TIMEOUT_SECONDS`);
+- reinicio automático de sesión si una celda supera el timeout;
+- máximo 100 sesiones concurrentes (`MAX_SESSIONS`);
+- TTL de sesión: 1 hora (`SESSION_TTL_SECONDS`);
+- eviction automática de sesiones antiguas.
+
+### Headers HTTP
+
+- `Content-Security-Policy`: default-src 'self', sin dependencias CDN externas, sin Google Fonts;
+- `X-Content-Type-Options: nosniff`;
+- `X-Frame-Options: SAMEORIGIN`;
+- `Referrer-Policy: no-referrer`;
+- `Permissions-Policy: camera=(), microphone=(), geolocation=()`.
+
+### Configuración de red
+
+- defaults de arranque en `127.0.0.1` tanto en Flask como en Docker Compose;
+- en modo app de escritorio Windows, Flask usa un puerto efímero interno no accesible desde la red;
+- en Docker, el binding es explícitamente `127.0.0.1:8000:8000`.
+
+### Análisis estático
+
+- Bandit integrado en CI (`security.yml`);
+- los únicos `# nosec` presentes son B310 y B110 en los polling loops de `launcher.py` y `run_bootcamp.py` — justificados porque la URL es siempre `http://127.0.0.1:{port}/health` construida internamente, sin input de usuario;
+- los usos de `exec` y `eval` en `execution_engine.py` son intencionales y necesarios para la funcionalidad tipo notebook; están mitigados por timeout, límites de payload y la restricción de uso local.
+
+---
+
+## Lo que no existe todavía
+
+- autenticación de usuarios;
+- aislamiento fuerte por estudiante (sandbox de OS);
 - rate limiting por cliente;
 - TLS nativo;
-- auditoria estructurada;
-- sandbox de sistema operativo para ejecución de código no confiable.
+- auditoría estructurada de accesos;
+- separación de procesos por sesión.
 
-## 🔒 Recomendaciones de hardening
+---
 
-### 🏫 Para uso local y docente
+## Recomendaciones de hardening
 
-- mantener `BOOTCAMP_HOST=127.0.0.1`;
-- ejecutar en maquina controlada por el docente;
-- limpiar notebooks guardados antes de compartir el repo o una imagen.
+### Para uso local y docente
 
-### 🌐 Si se publica fuera del equipo local
+- mantener `BOOTCAMP_HOST=127.0.0.1` (por defecto);
+- ejecutar en máquina controlada por el docente;
+- limpiar `app/saved_notebooks/` antes de compartir el repo o una imagen;
+- usar la app de escritorio Windows en lugar del modo desarrollo cuando sea posible (no expone puerto).
 
-- poner la app detras de un reverse proxy con TLS;
-- exigir autenticacion externa antes de abrir el runner;
+### Si se publica fuera del equipo local
+
+- poner la app detrás de un reverse proxy con TLS (nginx, Caddy);
+- exigir autenticación externa antes de abrir el runner (OAuth, Basic Auth a nivel de proxy);
 - aplicar rate limiting en proxy o gateway;
 - registrar accesos y errores en logs centralizados;
 - separar entorno demo de cualquier entorno con usuarios reales.
 
-## ⚠ Riesgos aceptados
+---
+
+## Riesgos aceptados
 
 - el runner ejecuta código Python del usuario dentro del proceso de la app;
 - el timeout reduce riesgo de bloqueos, pero no reemplaza un sandbox real;
-- el proyecto prioriza facilidad de uso en laboratorio por sobre postura multiusuario endurecida.
+- el proyecto prioriza facilidad de uso en laboratorio por sobre postura multiusuario endurecida;
+- estos riesgos están documentados explícitamente y son conscientes, no accidentales.
 
-## 🔎 Nota sobre análisis estatico
+---
 
-- el archivo `app/execution_engine.py` contiene usos intencionales de `exec` y `eval` para emular una experiencia tipo notebook en laboratorio local;
-- esas líneas estan marcadas de forma localizada para Bandit, no porque el riesgo no exista, sino porque es una capacidad central del producto;
-- la mitigacion real no es "eliminar exec", sino mantener el runner en entorno controlado, con localhost por defecto, timeout, límites de payload y sin exposicion abierta.
-
-## 📬 Reporte responsable
+## Reporte responsable
 
 Si detectas una vulnerabilidad:
 
-1. no publiques secretos ni pasos destructivos;
-2. reporta el hallazgo al mantenedor con versión, entorno y pasos de reproduccion;
-3. si involucra ejecución remota o exposicion de datos, coordina primero una divulgacion privada.
+1. no publiques secretos ni pasos destructivos en issues públicos;
+2. reporta el hallazgo al mantenedor con versión, entorno y pasos de reproducción;
+3. si involucra ejecución remota o exposición de datos, coordina una divulgación privada antes de publicar;
+4. las correcciones serán incorporadas en la versión `master` y documentadas en [CHANGELOG.md](CHANGELOG.md).
