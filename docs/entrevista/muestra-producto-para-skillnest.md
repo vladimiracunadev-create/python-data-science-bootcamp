@@ -1,56 +1,115 @@
-# Muestra del portal y del producto para entrevista
+# Muestra del producto y enfoque docente
 
-> Documento breve para explicar, en una reunion, que hace hoy el portal del bootcamp y como se conecta con el resto del sistema.
+> Documento de presentación breve para explicar qué resuelve este repositorio, cómo enseñas tú y por qué la estructura del proyecto refleja esa forma de enseñar.
 
-## Resumen ejecutivo
+## Qué es este repositorio
 
-El portal es la entrada publica del bootcamp. No es una landing decorativa ni pretende reemplazar toda la experiencia de aprendizaje. Su funcion es ordenar la entrada al programa, mostrar la ruta general y conectar al estudiante con el resto de las superficies del sistema.
+Este repositorio no es una colección suelta de notebooks. Es una base de capacitación completa para un bootcamp de Python orientado a Data Science, diseñada para usarse en contexto educativo real.
 
-## Que rol cumple dentro del producto
+Su valor está en tres capas trabajando juntas:
 
-El portal resuelve cinco necesidades concretas:
+- contenido pedagógico reusable;
+- superficies técnicas operativas;
+- documentación pensada por audiencia.
 
-- dar una entrada clara al estudiante;
-- explicar el recorrido general del bootcamp;
-- centralizar informacion publica y recursos iniciales;
-- separar la cara visible del producto de la operacion local de aula;
-- permitir una presentacion institucional sin abrir todavia la capa tecnica completa.
+## Qué problema resuelve
 
-## Superficies disponibles hoy
+En muchos contextos educativos aparece el mismo problema: hay interés en enseñar programación o datos, pero no existe una base ordenada que una contenido, práctica, evaluación, operación y presentación institucional.
 
-| Superficie | Funcion principal | Valor visible |
-|---|---|---|
-| Portal del alumno (`site/`) | entrada publica y navegacion general | muestra ruta, contexto y acceso inicial |
-| Laboratorio local (`app/`) | practica guiada y lectura de clase | teoria, ejercicios, notebooks y ejecucion de codigo |
-| App Windows | distribucion local lista para usar | baja friccion de instalacion en aula |
-| App Android | consulta y continuidad de contenido | lectura movil y acceso a Colab |
-| Documentacion (`docs/`) | explicacion de producto, operacion y seguridad | da marco, criterio y evidencia |
+Este repositorio responde a ese vacío con una solución concreta:
 
-## Que demuestra en una entrevista
+- clases con progresión clara;
+- práctica guiada y material de apoyo;
+- laboratorio local para usar en aula;
+- app Windows y app Android como superficies de distribución;
+- documentación que explica alcance, límites y ruta de implementación.
 
-Este portal permite mostrar que la propuesta no es solo un conjunto de clases. Tambien demuestra:
+## Mi manera de enseñar
 
-- criterio de producto;
-- secuencia pedagogica;
-- organizacion documental;
-- capacidad de implementacion;
-- una base reusable para una primera version escolar.
+Este proyecto sigue una pauta pedagógica clara. Mi forma de enseñar se sostiene en estos principios:
 
-## Que conviene mostrar en vivo
+1. contexto antes que tecnicismo;
+2. progresión antes que saturación;
+3. práctica guiada antes que complejidad;
+4. interpretación antes que ejecución mecánica;
+5. cierre con evidencia y lenguaje claro.
 
-1. `README.md` para dar contexto general.
-2. `site/` o la version publicada para mostrar la cara publica.
-3. `docs/CATALOGO_PRODUCTO.md` para explicar las superficies.
-4. una clase real de `classes/` para aterrizar la propuesta.
-5. el laboratorio local solo si el tiempo alcanza.
+## Cómo se ve esa pauta dentro del repositorio
 
-## Que no conviene sobrerrepresentar
+La metodología no está escrita solo como discurso. Está materializada en la estructura del proyecto.
 
-- no presentar el portal como LMS completo;
-- no vender la app Android como reemplazo del laboratorio;
-- no confundir una demo local con una plataforma endurecida para internet abierta;
-- no prometer personalizacion total antes de cerrar alcance.
+### En `classes/`
 
-## Mensaje de cierre sugerido
+Cada clase tiene:
 
-La fortaleza del portal esta en que ordena la experiencia del bootcamp y la vuelve compartible, presentable y escalable. Su valor no esta aislado: forma parte de un sistema que ya integra contenido, practica guiada, documentacion y una ruta real de implementacion.
+- objetivo;
+- teoría;
+- guion de diapositivas;
+- ejercicios;
+- tarea;
+- notebook;
+- solución;
+- PDF y PPTX listos para usar.
+
+Eso permite que la experiencia de aula tenga continuidad y no dependa de improvisación.
+
+### En `docs/`
+
+La documentación separa audiencias:
+
+- README para entrada general;
+- catálogo para entender superficies;
+- arquitectura para explicar capas y límites;
+- metodología docente para justificar cómo se enseña;
+- guía de evaluación y runbook para operación.
+
+### En `app/`, `site/`, `mobile/` y Windows
+
+El contenido no queda detenido en Markdown. Se proyecta en superficies reales:
+
+- laboratorio local para práctica guiada;
+- portal del alumno para entrada pública;
+- app móvil para consulta;
+- app Windows para distribución simple en aula.
+
+## Qué demuestra esto sobre ti como docente
+
+Este repositorio demuestra que no partes de cero ni improvisas desde una sola clase. También demuestra:
+
+- que sabes construir progresión pedagógica;
+- que puedes convertir contenido técnico en una experiencia usable;
+- que entiendes implementación, no solo explicación;
+- que sabes recortar una V1 sin perder coherencia.
+
+## Qué conviene mostrar en una reunión
+
+Si el tiempo es corto, la secuencia más efectiva es:
+
+1. abrir `README.md`;
+2. mostrar `docs/CATALOGO_PRODUCTO.md`;
+3. mostrar una clase real, por ejemplo `classes/01-python-fundamentos/README.md`;
+4. mostrar una clase integradora, por ejemplo `classes/07-mini-proyecto-guiado/README.md`;
+5. si alcanza, abrir la app local o la app Windows.
+
+## Qué valor tiene para una primera implementación escolar
+
+No es necesario desplegar todo el repositorio en la etapa inicial. La base ya permite proponer una V1 acotada y defendible, centrada en:
+
+- fundamentos de Python;
+- lectura de datos con pandas;
+- visualización básica;
+- mini proyecto guiado;
+- comunicación de hallazgos.
+
+## Qué no conviene sobrerrepresentar
+
+Este documento también ayuda a comunicar con honestidad:
+
+- el portal no es un LMS completo;
+- la app Android no reemplaza el laboratorio;
+- el runner local no debe presentarse como plataforma abierta a internet;
+- la fuerza del proyecto está en la base pedagógica y operativa, no en prometer de más.
+
+## Cierre sugerido
+
+Mi propuesta no depende de una herramienta aislada. Lo que traigo es una base seria para enseñar con criterio, adaptar con orden y ejecutar una primera versión escolar sin improvisar. Este repositorio refleja esa manera de trabajar: progresión, práctica, claridad y capacidad de implementación.

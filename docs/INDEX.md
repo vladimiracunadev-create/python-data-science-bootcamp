@@ -96,15 +96,16 @@ Documentos de uso personal para el proceso de selección con Skillnest / Colegio
 
 | Documento | Rol |
 |---|---|
-| [entrevista/entrevista-skillnest-preparacion.md](entrevista/entrevista-skillnest-preparacion.md) | Preparación personal: pitch, Q&A, límites sanos |
-| [entrevista/preparacion-entrevista-imprimible.md](entrevista/preparacion-entrevista-imprimible.md) | Versión para imprimir o leer antes de entrar |
-| [entrevista/desafio-tecnico-preparacion.md](entrevista/desafio-tecnico-preparacion.md) | Dominios técnicos a repasar para el desafío |
+| [entrevista/muestra-producto-para-skillnest.md](entrevista/muestra-producto-para-skillnest.md) | Documento canónico: muestra del producto y enfoque docente |
+| [entrevista/preguntas-para-hacer-en-entrevista.md](entrevista/preguntas-para-hacer-en-entrevista.md) | Documento canónico: preguntas para aclarar alcance, condiciones y riesgos |
+| [entrevista/guia-estudio-repositorio.md](entrevista/guia-estudio-repositorio.md) | Documento canónico: guía maestra para estudiar el repositorio a profundidad |
+| [entrevista/guia-total-python-data-science.md](entrevista/guia-total-python-data-science.md) | Guía ampliada: mapa completo de Python con Data Science apoyado en fuentes oficiales |
+| [entrevista/entrevista-skillnest-preparacion.md](entrevista/entrevista-skillnest-preparacion.md) | Nota personal de pitch, Q&A y límites sanos |
+| [entrevista/desafio-tecnico-preparacion.md](entrevista/desafio-tecnico-preparacion.md) | Nota de estudio para desafío técnico |
 | [entrevista/proceso-seleccion-skillnest.md](entrevista/proceso-seleccion-skillnest.md) | Contexto del proceso y sus etapas |
-| [entrevista/entrevista-skillnest-presentacion-v2.md](entrevista/entrevista-skillnest-presentacion-v2.md) | Guion de presentación (versión final) |
-| [entrevista/entrevista-skillnest-presentacion.md](entrevista/entrevista-skillnest-presentacion.md) | Guion de presentación (versión anterior) |
-| [entrevista/muestra-producto-para-skillnest.md](entrevista/muestra-producto-para-skillnest.md) | Muestra escrita del producto para el evaluador |
-| [entrevista/preguntas-para-hacer-en-entrevista.md](entrevista/preguntas-para-hacer-en-entrevista.md) | Preguntas clave para aclarar alcance y condiciones |
-| [entrevista/guia-estudio-repositorio.md](entrevista/guia-estudio-repositorio.md) | Guía de estudio con comandos, teoría y práctica |
+| [entrevista/preparacion-entrevista-imprimible.md](entrevista/preparacion-entrevista-imprimible.md) | Nota breve de apoyo previo a la reunión |
+| [entrevista/entrevista-skillnest-presentacion-v2.md](entrevista/entrevista-skillnest-presentacion-v2.md) | Guion corto de presentación |
+| [entrevista/entrevista-skillnest-presentacion.md](entrevista/entrevista-skillnest-presentacion.md) | Guion de presentación anterior |
 | [entrevista/reunion-pitch.md](entrevista/reunion-pitch.md) | Pitch para la reunión |
 | [entrevista/demo-reunion-jueves.md](entrevista/demo-reunion-jueves.md) | Demo específica para la reunión del jueves |
 | [entrevista/demo-capacitaciones-escalable.md](entrevista/demo-capacitaciones-escalable.md) | Demo del modelo de capacitaciones escalable |
@@ -112,6 +113,8 @@ Documentos de uso personal para el proceso de selección con Skillnest / Colegio
 | [entrevista/rubrica-clase-prueba.md](entrevista/rubrica-clase-prueba.md) | Rúbrica para clase de prueba |
 | [entrevista/clase-prueba-sugerida.md](entrevista/clase-prueba-sugerida.md) | Clase de prueba sugerida |
 | [pdfs/](pdfs/) | PDFs generados para imprimir, estudiar o compartir en reunión |
+
+Los PDFs finales de este territorio son cuatro: tres canónicos de entrevista y una guía ampliada de estudio. Las otras notas permanecen como material editable de preparación personal.
 
 ---
 

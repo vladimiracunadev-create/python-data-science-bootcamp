@@ -93,13 +93,17 @@ Estos archivos se generan desde el contenido real de cada carpeta en `classes/` 
 
 ### PDFs de entrevista y estudio
 
-Estos documentos no dependen de la navegación por clase. Deben existir en carpeta y se acceden directo desde `docs/pdfs/`.
+Estos son los PDFs base de entrevista y preparación. No dependen de la navegación por clase y viven en `docs/pdfs/`.
+
+**PDFs canónicos de entrevista**
 
 - [docs/pdfs/muestra-producto-para-skillnest.pdf](docs/pdfs/muestra-producto-para-skillnest.pdf)
 - [docs/pdfs/preguntas-para-hacer-en-entrevista.pdf](docs/pdfs/preguntas-para-hacer-en-entrevista.pdf)
 - [docs/pdfs/guia-estudio-repositorio.pdf](docs/pdfs/guia-estudio-repositorio.pdf)
-- [docs/pdfs/preparacion-entrevista-imprimible.pdf](docs/pdfs/preparacion-entrevista-imprimible.pdf)
-- [docs/pdfs/entrevista-skillnest-presentacion-v2.pdf](docs/pdfs/entrevista-skillnest-presentacion-v2.pdf)
+
+**Guía ampliada de estudio**
+
+- [docs/pdfs/guia-total-python-data-science.pdf](docs/pdfs/guia-total-python-data-science.pdf)
 
 ---
 

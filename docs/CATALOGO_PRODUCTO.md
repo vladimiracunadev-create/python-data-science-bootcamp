@@ -57,16 +57,16 @@ Capacidad proyectada, pero no operativa hoy como pieza principal del sistema.
 
 | Artefacto | Rol | Estado |
 |---|---|---|
-| `docs/pdfs/preparacion-entrevista-imprimible.pdf` | apoyo personal para reunión y proceso | vigente |
-| `docs/pdfs/muestra-producto-para-skillnest.pdf` | muestra imprimible del producto | vigente |
-| `docs/pdfs/entrevista-skillnest-presentacion-v2.pdf` | presentación breve | vigente |
-| `docs/pdfs/preguntas-para-hacer-en-entrevista.pdf` | guía personal para aclarar alcance y condiciones | vigente |
-| `docs/pdfs/guia-estudio-repositorio.pdf` | resumen de estudio con comandos, temas y práctica | vigente |
+| `docs/pdfs/muestra-producto-para-skillnest.pdf` | dossier breve del producto y del enfoque docente | vigente |
+| `docs/pdfs/preguntas-para-hacer-en-entrevista.pdf` | guía personal para aclarar alcance, condiciones y riesgos | vigente |
+| `docs/pdfs/guia-estudio-repositorio.pdf` | guía maestra de estudio del repositorio a profundidad | vigente |
+| `docs/pdfs/guia-total-python-data-science.pdf` | guía ampliada, investigada con fuentes oficiales, para estudiar Python con Data Science en profundidad | vigente |
 | `docs/pdfs/classes/` | guías explicativas PDF por clase | vigente |
 | `docs/presentaciones/classes/` | presentaciones PowerPoint por clase | vigente |
 | `scripts/generar_pdf_documento.py` | generacion reproducible de PDFs | vigente |
 | `scripts/generate_class_assets.py` | generación reproducible de PDF y PPTX por clase | vigente |
 | `scripts/generate_interview_pdfs.py` | regeneración de PDFs de entrevista y estudio | vigente |
+| `scripts/generate_extended_study_pdf.py` | regeneración reproducible de la guía ampliada de Python con Data Science | vigente |
 
 ## 🗣 5. Reglas de comunicación
 
