@@ -42,10 +42,10 @@ def _wait_for_server(url: str, timeout: int) -> bool:
     deadline = time.time() + timeout
     while time.time() < deadline:
         try:
-            with urllib.request.urlopen(url, timeout=2) as r:
+            with urllib.request.urlopen(url, timeout=2) as r:  # nosec B310 — URL is always http://127.0.0.1
                 if r.status == 200:
                     return True
-        except Exception:
+        except Exception:  # nosec B110 — intentional: server not ready yet, keep polling
             pass
         time.sleep(0.3)
     return False
