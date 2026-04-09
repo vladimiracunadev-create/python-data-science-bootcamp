@@ -1,301 +1,381 @@
 # Guía total de estudio: Python con Data Science
 
-> Documento ampliado de estudio personal, construido con el contenido del repositorio y contrastado el 9 de abril de 2026 con documentación oficial de Python, NumPy, pandas, Matplotlib, seaborn, SciPy, scikit-learn y Jupyter, además de programas formales de formación en Data Science con Python.
+> Manual ampliado de estudio personal. Este documento no resume solo un curso ni una ruta mínima. Su propósito es darte una visión amplia, ordenada y seria de lo que significa formarse en Python con orientación a Data Science: lenguaje, herramientas, bibliotecas, estadística, análisis, machine learning, comunicación, buenas prácticas y ecosistema profesional.
 
-## Qué es este documento
+## Cómo leer esta guía
 
-Este PDF no reemplaza las clases del repositorio. Su función es distinta: darte un mapa completo, profundo y ordenado de todo lo que deberías saber si quieres defender con seguridad una formación orientada a Python con Data Science.
+No la leas como una lista para memorizar. Léela como mapa. Python con Data Science no es un tema único: es un campo compuesto por capas que se apoyan entre sí. Si te quedas solo con la sintaxis, no podrás analizar. Si te quedas solo con bibliotecas, no podrás razonar. Si te quedas solo con gráficos, no podrás defender una conclusión. Si te quedas solo con modelos, no podrás explicar de dónde salió el dato ni por qué el resultado merece confianza.
 
-Está pensado como manual de estudio. La idea es que te permita revisar desde fundamentos hasta temas avanzados, sin perder la lógica pedagógica del propio repositorio.
+Esta guía está organizada con una lógica acumulativa. Primero se entiende qué papel juega Python. Luego se revisan los entornos y herramientas. Después se construyen los fundamentos del lenguaje. Más adelante aparecen las bibliotecas numéricas y tabulares, la visualización, la estadística, el machine learning, la comunicación y las capas más amplias del ecosistema.
 
-## Cómo estudiarlo
+## Parte 1. Qué es realmente Data Science y por qué Python ocupa un lugar central
 
-No intentes memorizarlo de una vez. Úsalo en tres niveles:
+Data Science no es una sola disciplina. Es una práctica que combina preguntas, datos, programación, estadística, visualización, modelado y comunicación. En contextos reales también incorpora documentación, control de versiones, criterios éticos y, muchas veces, despliegue o automatización.
 
-1. para construir una visión completa del campo;
-2. para identificar vacíos concretos;
-3. para practicar explicación técnica y pedagógica.
+Python ocupa un lugar central porque permite transitar varias capas del trabajo con una misma base:
 
-## Parte 1. Mapa general de un curso serio de Python con Data Science
+- sirve para programar;
+- sirve para leer y transformar datos;
+- sirve para visualizar;
+- sirve para construir modelos;
+- sirve para automatizar procesos;
+- sirve para conectar con bases de datos, APIs y aplicaciones.
 
-Una ruta formativa robusta debería cubrir como mínimo estos territorios:
+Su fuerza no está solo en la sintaxis. Está en su ecosistema. Alrededor del lenguaje existe una red enorme de bibliotecas y herramientas que hacen posible pasar desde un CSV simple hasta un pipeline de entrenamiento, una aplicación de visualización o un cuaderno reproducible.
 
-- fundamentos de Python;
-- entorno de trabajo y notebooks;
-- computación numérica con NumPy;
-- manipulación y limpieza de datos con pandas;
-- visualización con Matplotlib y bibliotecas estadísticas;
-- estadística descriptiva e inferencial básica;
-- exploración, interpretación y comunicación de hallazgos;
-- machine learning con evaluación seria;
-- buenas prácticas de código, documentación y reproducibilidad;
-- proyecto final o integración aplicada.
+## Parte 2. El entorno de trabajo: dónde y cómo se aprende
 
-Si falta una de estas capas, el curso queda incompleto.
+Antes de hablar de modelos, conviene entender con qué herramientas se trabaja.
 
-## Parte 2. Fundamentos de Python que debes dominar de verdad
+### Scripts, terminal y proyectos
 
-### 2.1 Sintaxis y modelo mental del lenguaje
+Un script de Python es un archivo `.py` ejecutable. Trabajar con scripts enseña orden, modularidad y separación de responsabilidades. Un proyecto bien organizado suele tener carpetas, dependencias, tests, documentación y comandos reproducibles.
 
-Debes sentirte cómodo con:
+La terminal importa porque permite ejecutar el proyecto, instalar paquetes, correr pruebas y entender cómo funciona el entorno más allá de un botón gráfico.
 
-- variables y asignación;
-- tipos básicos (`int`, `float`, `str`, `bool`);
-- listas, tuplas, conjuntos y diccionarios;
+### Jupyter Notebook y JupyterLab
+
+La documentación oficial de Jupyter explica que un notebook combina código, texto, visualizaciones y resultados en un mismo documento. Esa combinación lo vuelve especialmente útil para enseñanza, exploración, prototipado y análisis narrado.
+
+¿Por qué importa tanto en Data Science?
+
+Porque el análisis de datos no consiste solo en producir un resultado final. También consiste en mostrar el camino. Un notebook bien trabajado deja visible:
+
+- la pregunta;
+- la carga de datos;
+- la limpieza;
+- la transformación;
+- la evidencia visual;
+- la interpretación.
+
+JupyterLab amplía esa experiencia con una interfaz más completa: paneles, archivos, terminal, visores y trabajo multipestaña.
+
+### Visual Studio Code
+
+VS Code es especialmente fuerte cuando quieres pasar desde exploración a proyecto. Su valor en una ruta de Python con Data Science está en que combina:
+
+- editor de scripts;
+- notebooks integrados;
+- terminal;
+- extensiones de Python y Jupyter;
+- navegación de archivos;
+- depuración;
+- integración con Git.
+
+La documentación oficial de VS Code para Data Science muestra precisamente ese puente entre notebook, exploración y proyecto reproducible.
+
+### Google Colab
+
+Colab es una variante muy útil cuando quieres empezar rápido, compartir notebooks o evitar una instalación local. Está basado en notebooks alojados y permite ejecutar código desde el navegador. En formación inicial tiene ventajas evidentes:
+
+- cero instalación local;
+- facilidad para compartir;
+- acceso simple desde múltiples dispositivos;
+- buen punto de entrada para estudiantes.
+
+Sin embargo, también conviene entender sus límites: depende de conectividad, del entorno alojado y de una sesión externa que no siempre controla el usuario.
+
+### Entornos virtuales y dependencias
+
+La documentación oficial de Python sobre `venv` es clave para entender por qué no conviene instalar todo globalmente. Un entorno virtual aísla dependencias y permite que un proyecto tenga su propia combinación de paquetes.
+
+Los comandos mínimos son estos:
+
+```bash
+python -m venv .venv
+.venv\Scripts\activate
+pip install -r requirements.txt
+```
+
+Esto no es burocracia. Es una forma de mantener orden y reproducibilidad. Si no gestionas tus entornos, tarde o temprano un proyecto deja de funcionar porque una versión cambió o porque mezclaste dependencias incompatibles.
+
+## Parte 3. Fundamentos del lenguaje Python que debes dominar
+
+Una formación seria en Data Science no puede saltarse la base del lenguaje. Quien intenta aprender solo funciones de bibliotecas sin entender Python termina copiando sin criterio.
+
+### Variables, nombres y modelo mental
+
+Una variable es un nombre que referencia un valor. Esta idea parece simple, pero instala la base del pensamiento programático: dar nombre, manipular, transformar y volver a usar.
+
+Los nombres importan. Un nombre como `ventas_totales` comunica más que `x`. La legibilidad importa porque el código será leído muchas más veces de las que será escrito, como recuerda PEP 8.
+
+### Tipos de datos
+
+Los tipos básicos son `int`, `float`, `str` y `bool`. A eso se suman estructuras más ricas como listas, tuplas, conjuntos y diccionarios.
+
+¿Por qué esto importa en Data Science? Porque casi todos los errores de análisis pasan por tipos mal interpretados:
+
+- números leídos como texto;
+- fechas leídas como cadenas;
+- categorías mezcladas con valores nulos;
+- variables binarias mal representadas.
+
+Quien domina tipos domina mejor la limpieza y la transformación.
+
+### Estructuras de datos básicas
+
+Las listas almacenan secuencias ordenadas. Los diccionarios almacenan pares clave-valor. Las tuplas representan agrupaciones inmutables. Los conjuntos ayudan con operaciones de membresía y unicidad.
+
+Estas estructuras son importantes incluso cuando luego se trabaja con pandas. No desaparecen. Siguen apareciendo en configuración, recorridos, transformaciones intermedias, parámetros y lógica auxiliar.
+
+### Condicionales
+
+Los condicionales permiten tomar decisiones. En un análisis real, esto aparece en reglas simples como:
+
+- marcar un estudiante en riesgo si la asistencia cae bajo cierto umbral;
+- etiquetar una venta como alta si supera un monto;
+- decidir qué tratamiento aplicar a un valor faltante.
+
+No se trata solo de aprender `if` y `else`. Se trata de entender cómo una regla se vuelve código.
+
+### Bucles
+
+Los bucles `for` y `while` enseñan repetición y control. En Data Science muchas operaciones pueden vectorizarse, y de hecho eso suele ser preferible. Pero comprender el bucle sigue siendo valioso porque construye intuición sobre iteración, recorrido y acumulación.
+
+### Funciones
+
+La función es una de las unidades más importantes de la programación. Encapsula comportamiento y reduce repetición. En un trabajo de datos, una función puede servir para:
+
+- limpiar un campo;
+- calcular una métrica;
+- validar una tabla;
+- transformar fechas;
+- empaquetar un pequeño proceso reutilizable.
+
+Dominar funciones ayuda a pasar de notebooks improvisados a análisis con más estructura.
+
+### Módulos y paquetes
+
+Un módulo es un archivo de Python con funciones, clases o variables. Un paquete es una agrupación de módulos. Entender imports, rutas y organización del código es clave para construir proyectos sostenibles.
+
+### Manejo de errores
+
+La documentación oficial de Python sobre errores y excepciones recuerda una idea central: los programas no solo deben funcionar cuando todo sale bien; también deben responder razonablemente cuando algo falla.
+
+En Data Science esto importa muchísimo. Los errores comunes incluyen:
+
+- archivos no encontrados;
+- columnas ausentes;
+- conversiones fallidas;
+- valores inválidos;
+- divisiones por cero;
+- modelos entrenados con entradas mal formadas.
+
+Aprender `try`, `except` y una lectura correcta de tracebacks vuelve al estudiante más autónomo.
+
+### Archivos, rutas y datos externos
+
+Trabajar con datos exige leer y escribir archivos. Aquí aparecen `pathlib`, CSV, JSON, Excel y, en escenarios más amplios, bases de datos o APIs.
+
+Quien entiende archivos y rutas entiende mejor cómo entra el dato al sistema.
+
+## Parte 4. Reglas de programación que hacen una diferencia real
+
+Python con Data Science no debería enseñarse como si cualquier código bastara. Hay reglas de oficio que mejoran muchísimo la calidad del trabajo.
+
+### PEP 8 y legibilidad
+
+PEP 8 no es una ley absoluta, pero sí una referencia muy útil. Lo más valioso del documento no es recordar números exactos, sino su idea central: escribir código legible y consistente.
+
+Eso implica, por ejemplo:
+
+- nombres claros;
+- espacios consistentes;
+- imports ordenados;
+- funciones y módulos con nombres comprensibles;
+- comentarios que no contradigan el código.
+
+### Docstrings y documentación
+
+PEP 257 formaliza buenas prácticas para docstrings. En un proyecto de datos, una docstring puede explicar:
+
+- qué hace una función;
+- qué parámetros recibe;
+- qué devuelve;
+- qué supuestos tiene.
+
+Esto no solo mejora mantenimiento. También mejora aprendizaje, porque obliga a pensar qué se espera realmente de un bloque de código.
+
+### Comentarios útiles versus comentarios inútiles
+
+Un mal comentario repite lo obvio. Un buen comentario explica intención, motivo o criterio.
+
+Ejemplo malo:
+
+```python
+x = x + 1  # suma 1
+```
+
+Ejemplo mejor:
+
+```python
+x = x + 1  # Compensamos el desfase del índice de origen.
+```
+
+### Testing y validación
+
+No todo proyecto educativo necesita una infraestructura de pruebas complejísima, pero sí conviene enseñar que validar es parte del oficio. Incluso un test pequeño puede proteger contra errores de transformación o supuestos rotos.
+
+### Linting
+
+Herramientas como `ruff` ayudan a detectar errores frecuentes, imports innecesarios, problemas de estilo y otras señales tempranas. No reemplazan pensamiento, pero sí refuerzan disciplina.
+
+### Git y control de versiones
+
+La documentación oficial de Git explica la lógica de importar un proyecto, cambiar archivos y compartir cambios. En una formación moderna, Git importa porque:
+
+- permite volver atrás;
+- deja historia de cambios;
+- favorece colaboración;
+- obliga a pensar en unidades de trabajo.
+
+Los comandos mínimos que conviene conocer son:
+
+```bash
+git status
+git add .
+git commit -m "mensaje"
+git push
+```
+
+No se trata de convertir Git en tema central del curso, pero sí de entenderlo como parte del trabajo profesional.
+
+## Parte 5. El núcleo numérico: NumPy
+
+`NumPy` es una de las bases del ecosistema científico de Python. Su importancia no está solo en ofrecer arreglos más rápidos que las listas. Está en proporcionar una estructura eficiente para cálculo numérico y servir de soporte a muchas otras bibliotecas.
+
+### Qué es un array
+
+Un `ndarray` es una estructura homogénea y multidimensional. Homogénea significa que sus elementos comparten tipo. Multidimensional significa que puede representar vectores, matrices o tensores más generales.
+
+### Conceptos fundamentales
+
+Los conceptos más importantes son:
+
+- `shape`, que describe dimensiones;
+- `dtype`, que describe el tipo interno;
 - indexación y slicing;
-- operadores aritméticos, lógicos y relacionales;
-- condicionales;
-- bucles `for` y `while`;
-- comprensiones;
-- funciones;
-- alcance de variables;
-- módulos e imports;
-- manejo de errores con `try` y `except`.
-
-### 2.2 Lo que importa para Data Science
-
-No basta con “saber Python”. Debes poder explicar por qué estos fundamentos importan para datos:
-
-- una función evita repetir lógica de limpieza o cálculo;
-- una lista o diccionario ayuda a modelar registros intermedios;
-- un `for` puede servir para iterar, pero muchas veces conviene vectorizar;
-- una excepción bien manejada evita romper un pipeline entero;
-- nombres claros y comentarios precisos hacen el análisis más auditable.
-
-### 2.3 Temas que elevan el nivel
-
-Además de lo básico, conviene estudiar:
-
-- `lambda`;
-- funciones de orden superior;
-- iteradores y generadores;
-- `pathlib`;
-- `datetime`;
-- `collections`;
-- lectura y escritura de archivos;
-- serialización simple (`json`, `csv`);
-- ambientes virtuales y dependencias.
-
-## Parte 3. Entorno de trabajo profesional
-
-### 3.1 Jupyter y notebooks
-
-Un curso serio de Python con Data Science debe incluir trabajo con notebooks porque permiten combinar:
-
-- código;
-- texto;
-- salidas;
-- gráficos;
-- explicación.
-
-Debes poder explicar:
-
-- qué es un notebook;
-- cómo documentar una celda;
-- cuándo conviene usar notebook y cuándo script;
-- por qué un notebook mal ordenado se vuelve ilegible.
-
-### 3.2 Entornos y dependencias
-
-Debes saber:
-
-- crear un entorno virtual;
-- instalar dependencias;
-- fijar versiones cuando el proyecto lo exige;
-- distinguir entorno local, contenedor y build empaquetado.
-
-### 3.3 Flujo de trabajo mínimo
-
-Un curso serio debería entrenarte en este flujo:
-
-1. preparar entorno;
-2. abrir notebook o proyecto;
-3. cargar datos;
-4. explorar;
-5. limpiar;
-6. analizar;
-7. visualizar;
-8. interpretar;
-9. guardar evidencia;
-10. validar.
-
-## Parte 4. NumPy: el corazón numérico
-
-La documentación oficial de NumPy pone énfasis en:
-
-- creación de arrays;
-- tipos de datos;
-- indexación;
+- operaciones vectorizadas;
 - broadcasting;
-- copias y vistas;
-- entrada y salida;
-- operaciones vectorizadas.
+- diferencia entre copia y vista.
 
-### 4.1 Conceptos que debes entender
+### Por qué NumPy es importante
 
-- array multidimensional;
-- `dtype`;
-- shape;
-- axis;
-- vectorización;
-- broadcasting;
-- copia versus vista.
+NumPy permite expresar operaciones matemáticas sobre conjuntos completos de datos sin depender de bucles explícitos en Python puro. Esa vectorización suele ser más clara y eficiente.
 
-### 4.2 Qué deberías poder hacer
+### Broadcasting
 
-- crear arrays desde listas o rangos;
-- seleccionar subconjuntos;
-- aplicar operaciones element-wise;
-- combinar arrays compatibles;
-- usar máscaras booleanas;
-- resumir con medias, sumas y agregaciones;
-- entender cuándo NumPy es mejor que un bucle puro de Python.
+La guía oficial de NumPy sobre broadcasting es especialmente importante porque enseña cómo operar entre arreglos de formas compatibles. Esta idea reaparece constantemente, incluso cuando el estudiante no la nombra explícitamente.
 
-### 4.3 Por qué importa
+### Cuándo aparece en la práctica
 
-NumPy no es solo una librería más. Es la base numérica sobre la que se apoyan muchas herramientas del ecosistema, incluidas pandas, SciPy y partes de scikit-learn.
+Aunque muchos principiantes entren por pandas, NumPy sigue apareciendo debajo de muchas operaciones. También importa en álgebra lineal, simulación, procesamiento numérico, preparación de matrices y modelado.
 
-## Parte 5. pandas: manipulación real de datos tabulares
+## Parte 6. El corazón del trabajo tabular: pandas
 
-La guía oficial de pandas cubre como áreas centrales:
+Si NumPy es el núcleo numérico, `pandas` suele ser la puerta de entrada al trabajo cotidiano con datos estructurados.
 
-- estructuras `Series` y `DataFrame`;
-- IO;
-- selección e indexación;
-- `merge`, `join`, `concat`;
-- `groupby`;
-- tablas pivote;
-- datos faltantes;
-- texto;
-- fechas y series temporales;
-- categóricos;
-- visualización;
-- escalamiento a datos más grandes.
+### Series y DataFrame
 
-### 5.1 Conceptos esenciales
+Una `Series` representa una secuencia indexada de valores. Un `DataFrame` representa una tabla bidimensional con índice y columnas. Entender estas estructuras es fundamental porque casi toda la limpieza y exploración inicial se apoya en ellas.
 
-- `Series`;
-- `DataFrame`;
-- índice;
-- columna;
-- filtro;
-- dato faltante;
-- columna derivada;
-- agregación;
-- transformación;
-- reshaping.
+### Carga y lectura de datos
 
-### 5.2 Operaciones mínimas que debes dominar
+La guía oficial de pandas cubre múltiples formas de entrada y salida: CSV, Excel, parquet, SQL y más. En una primera etapa de estudio conviene dominar bien CSV y luego entender que el ecosistema real es mucho más amplio.
 
-- `read_csv`;
-- `head`, `tail`, `sample`;
-- `info`, `describe`;
-- selección por columnas;
-- filtros booleanos;
-- `loc` y `iloc`;
-- `isna`, `fillna`, `dropna`;
-- `astype`;
-- `sort_values`;
-- `groupby`;
-- `merge`;
-- `pivot_table`;
-- trabajo con texto;
-- trabajo con fechas.
+### Selección e indexación
 
-### 5.3 Nivel intermedio obligatorio
+Saber usar `loc`, `iloc`, selección por columnas y filtros booleanos no es detalle menor. Es la forma concreta de preguntar sobre la tabla.
 
-Si quieres ir más allá de lo introductorio, también deberías revisar:
+### Valores faltantes
 
-- `apply` y cuándo evitarlo;
-- funciones vectorizadas;
-- operaciones window;
-- `MultiIndex`;
-- datos categóricos;
-- rendimiento;
-- lectura y escritura de múltiples formatos.
+Los valores faltantes son uno de los temas más delicados del análisis. No basta con detectarlos. Hay que decidir qué hacer con ellos:
 
-### 5.4 Error clásico
+- eliminarlos;
+- imputarlos;
+- señalarlos;
+- cambiar el tipo de análisis;
+- volver al origen del dato si es posible.
 
-Muchos creen que usar pandas es “hacer cosas con CSV”. No. Usar pandas bien implica construir una disciplina de inspección, limpieza, transformación y validación.
+Una decisión incorrecta sobre faltantes puede distorsionar todo el resultado.
 
-## Parte 6. Limpieza, calidad y preparación de datos
+### Transformación y limpieza
 
-Una formación seria debe enseñarte a detectar y tratar:
+Aquí aparecen tareas comunes como:
 
-- nulos;
-- duplicados;
-- categorías inconsistentes;
-- fechas mal parseadas;
-- tipos incorrectos;
-- valores extremos;
-- columnas inútiles;
-- unidades mezcladas;
-- sesgos introducidos por limpieza mal hecha.
+- renombrar columnas;
+- corregir tipos;
+- estandarizar texto;
+- convertir fechas;
+- reemplazar categorías;
+- derivar nuevas variables.
 
-### 6.1 Preguntas que siempre debes hacerte
+### GroupBy, merge y pivot
 
-- ¿Qué representa cada fila?
-- ¿Qué representa cada columna?
-- ¿Qué falta?
-- ¿Qué está duplicado?
-- ¿Qué está mal tipado?
-- ¿Qué transformación es legítima y cuál sería una manipulación engañosa?
+Estas operaciones representan saltos conceptuales importantes.
 
-### 6.2 Buen criterio
+- `groupby` permite resumir por grupos;
+- `merge` permite combinar tablas;
+- `pivot_table` permite reorganizar resúmenes y comparaciones.
 
-Limpiar no es borrar por reflejo. Limpiar bien significa justificar cada decisión y poder explicarla.
+Quien domina estas tres familias ya puede resolver una enorme cantidad de problemas reales de análisis.
 
-## Parte 7. Visualización de datos
+### Texto, categorías y fechas
 
-### 7.1 Matplotlib
+Una formación madura en pandas no se limita a columnas numéricas. También debe cubrir:
 
-La documentación oficial de Matplotlib insiste en:
+- operaciones con cadenas;
+- tipos categóricos;
+- parsing de fechas;
+- series temporales básicas.
 
-- la relación entre `figure` y `axes`;
-- control explícito de elementos visuales;
-- gráficos de líneas, barras, dispersión, histogramas y más;
-- formato, escalas, leyendas y anotaciones.
+Eso amplía radicalmente el tipo de preguntas que pueden abordarse.
 
-Debes poder explicar:
+## Parte 7. Visualización: hacer visible lo que el dato sugiere
 
-- qué pregunta responde cada tipo de gráfico;
-- cómo etiquetar correctamente;
-- cómo evitar gráficos decorativos pero inútiles.
+Una buena formación no enseña gráficos como decoración. Enseña visualización como herramienta de pensamiento y de comunicación.
 
-### 7.2 seaborn y visualización estadística
+### Matplotlib
 
-La documentación oficial de seaborn enfatiza:
+La documentación oficial de Matplotlib pone mucho énfasis en la relación entre `figure` y `axes`, además de mostrar cómo construir gráficos de línea, dispersión, barras, histogramas y más.
 
-- relaciones entre variables;
+Su fuerza está en el control explícito. Permite ajustar detalles de formato, escalas, anotaciones, tamaños, paneles y exportación.
+
+### Seaborn
+
+`seaborn` ofrece una capa de visualización estadística de alto nivel sobre Matplotlib. Suele ser muy útil para:
+
+- comparaciones categóricas;
 - distribuciones;
-- comparación por categorías;
-- estimación estadística visual;
-- elección del gráfico según la pregunta.
+- relaciones entre variables;
+- visualización más rápida de patrones comunes.
 
-Debes conocer al menos:
+Su valor está en simplificar tareas frecuentes y ofrecer defaults más agradables, pero sin reemplazar la necesidad de comprender qué se está mostrando.
 
-- histogramas;
-- KDE con criterio;
-- boxplot;
-- violinplot;
-- scatterplot;
-- lineplot;
-- barplot;
-- countplot;
-- gráficas con `hue`.
+### Plotly y visualización interactiva
 
-### 7.3 Qué significa visualizar bien
+Cuando el foco cambia desde análisis local a presentación interactiva, `plotly` se vuelve relevante. Permite gráficos navegables, tooltips, zoom y experiencias más cercanas a dashboard.
 
-Visualizar bien no es “hacer un gráfico bonito”. Es:
+No siempre es la primera biblioteca a enseñar, pero sí conviene conocerla porque ocupa un lugar importante en comunicación de resultados.
 
-- elegir el gráfico correcto;
-- reducir ruido;
-- dejar claro el mensaje;
-- permitir interpretación.
+### Qué hace bueno a un gráfico
 
-## Parte 8. Estadística que no puede faltar
+Un gráfico bueno responde con honestidad a una pregunta. Eso supone:
 
-Una ruta seria de Data Science con Python debe incluir estadística. No necesariamente matemática pesada desde el inicio, pero sí:
+- escoger el tipo correcto;
+- no exagerar diferencias;
+- rotular ejes;
+- poner contexto;
+- evitar colorido innecesario;
+- distinguir exploración de comunicación final.
+
+## Parte 8. Estadística: el puente entre dato y argumento
+
+Data Science sin estadística se vuelve superficial. Estadística sin contexto se vuelve abstracta. Lo importante es la conexión entre ambas.
+
+### Estadística descriptiva
+
+La primera capa incluye:
 
 - media;
 - mediana;
@@ -304,477 +384,427 @@ Una ruta seria de Data Science con Python debe incluir estadística. No necesari
 - varianza;
 - desviación estándar;
 - percentiles;
-- outliers;
-- distribuciones;
-- muestreo;
-- correlación;
-- intervalos de confianza;
-- pruebas de hipótesis básicas.
+- distribuciones.
 
-### 8.1 Qué deberías poder explicar
+Estas medidas sirven para describir, comparar y empezar a interpretar.
 
-- diferencia entre media y mediana;
-- por qué un outlier importa;
-- diferencia entre correlación y causalidad;
-- por qué una muestra puede engañar;
-- qué significa una distribución sesgada;
-- para qué sirve una prueba básica.
+### Probabilidad y muestreo
 
-### 8.2 Herramientas
+Más adelante conviene comprender conceptos como:
 
-La documentación de SciPy y SciPy Stats muestra que el ecosistema Python también cubre:
+- evento;
+- probabilidad;
+- independencia;
+- distribución;
+- muestra versus población;
+- error estándar.
 
-- distribuciones de probabilidad;
-- estimación;
-- pruebas estadísticas;
-- KDE;
-- estadística descriptiva y funciones de frecuencia.
+Sin esta base es muy difícil entender inferencia o evaluación rigurosa.
 
-## Parte 9. Exploración y pensamiento analítico
+### Inferencia y pruebas
 
-Muchos cursos enseñan funciones. Un curso serio enseña además a pensar preguntas.
+Una ruta más completa debería tocar, al menos conceptualmente:
 
-### 9.1 Flujo de análisis
-
-1. definir la pregunta;
-2. revisar los datos;
-3. limpiar lo necesario;
-4. construir métricas;
-5. comparar;
-6. visualizar;
-7. interpretar;
-8. comunicar.
-
-### 9.2 Qué debes practicar
-
-- formular preguntas concretas;
-- distinguir descripción de explicación;
-- justificar qué métrica usas;
-- no sobreinterpretar un gráfico;
-- cerrar con hallazgo y evidencia.
-
-## Parte 10. Machine Learning que sí debe formar parte del recorrido
-
-La guía oficial de scikit-learn cubre un campo muy amplio. Un curso orientado a Python con Data Science no necesita enseñar todo el catálogo, pero sí estas bases:
-
-- diferencia entre aprendizaje supervisado y no supervisado;
-- features y target;
-- train, validation y test;
-- regresión;
-- clasificación;
-- métricas;
-- overfitting;
-- pipelines;
-- validación cruzada;
-- búsqueda de hiperparámetros.
-
-### 10.1 Conceptos que debes poder explicar
-
-- `train_test_split`;
-- generalización;
-- fuga de información o leakage;
-- pipeline;
-- métrica apropiada;
-- baseline;
-- tuning;
-- sesgo-varianza.
-
-### 10.2 Modelos mínimos que conviene conocer
-
-- regresión lineal;
-- regresión logística;
-- árboles;
-- random forest;
-- KNN;
-- SVM a nivel conceptual;
-- clustering básico como tema adicional.
-
-### 10.3 Evaluación seria
-
-La documentación oficial de scikit-learn sobre cross-validation es especialmente importante porque recuerda una idea crítica:
-
-entrenar y evaluar sobre los mismos datos es un error metodológico.
-
-Debes poder explicar:
-
-- por qué se separan datos;
-- por qué la validación cruzada ayuda;
-- por qué un pipeline evita problemas de preprocesamiento fuera de lugar.
-
-## Parte 11. Ingeniería de características y preprocesamiento
-
-Un curso serio no puede quedarse solo en “entrena el modelo”. También debe cubrir:
-
-- escalado;
-- codificación categórica;
-- imputación;
-- selección de variables;
-- columnas derivadas;
-- tratamiento de texto;
-- fechas como features;
-- pipelines de preprocesamiento.
-
-### 11.1 Qué deberías poder decir
-
-- una buena variable puede importar más que un modelo más complejo;
-- una mala transformación puede introducir fuga o ruido;
-- preprocesamiento y modelado conviene mantenerlos juntos.
-
-## Parte 12. Comunicación de resultados
-
-Un curso bueno no termina en una métrica. Debe enseñarte a traducir resultados a lenguaje útil.
-
-Debes practicar:
-
-- resumen ejecutivo;
-- hallazgo con evidencia;
-- recomendación;
-- explicación oral breve;
-- estructura de notebook o informe;
-- defensa de decisiones.
-
-### Fórmula útil
-
-hallazgo → evidencia → interpretación → recomendación
-
-## Parte 13. Buenas prácticas de código y proyecto
-
-Una formación madura debe incluir:
-
-- comentarios útiles;
-- nombres claros;
-- separación de funciones;
-- estructura de carpetas;
-- control de versiones;
-- tests básicos;
-- linting;
-- documentación;
-- reproducibilidad.
-
-### Lo mínimo que debes saber defender
-
-- por qué comentas qué hace y para qué sirve un bloque importante;
-- por qué pruebas antes de afirmar que algo funciona;
-- por qué una estructura clara importa incluso en proyectos educativos;
-- por qué documentación y código no deben contradecirse.
-
-## Parte 14. Temas avanzados que conviene conocer, aunque no todos sean núcleo de una V1
-
-Si el curso quiere ser realmente amplio, conviene que al menos mencione o abra puertas hacia:
-
-- NLP o text mining;
-- análisis de redes;
-- series de tiempo;
-- geodatos;
-- SQL y bases de datos;
-- dashboards;
-- despliegue y APIs;
-- cloud;
-- MLOps;
-- ética de datos;
-- privacidad;
-- fairness y sesgo algorítmico.
-
-### Regla importante
-
-No todos estos temas deben entrar en una primera implementación escolar. Pero sí es valioso saber que forman parte del ecosistema ampliado de Data Science con Python.
-
-## Parte 15. Cómo aterriza esto en tu propio repositorio
-
-Tu repositorio ya cubre una parte importante de esta ruta:
-
-- fundamentos de Python;
-- pandas y limpieza;
-- visualización;
-- estadística descriptiva;
-- mini proyecto;
-- comunicación de hallazgos;
-- introducción a ML;
-- modelos supervisados;
-- evaluación y pipelines;
-- proyecto final;
-- documentación;
-- superficies de uso real.
-
-Eso significa que tu base no es liviana. Ya tiene estructura suficiente para una propuesta seria.
-
-## Parte 16. Qué deberías poder explicar en una entrevista después de estudiar esta guía
-
-- qué hace cada superficie del repositorio;
-- cómo se enseña dentro de esta base;
-- qué temas incluye una ruta seria de Python con Data Science;
-- qué temas mostrarías en una V1 y cuáles dejarías para fase 2;
-- por qué tu propuesta no es solo enseñar sintaxis;
-- qué límites técnicos reconoces hoy;
-- cómo conviertes contenido técnico en aprendizaje real.
-
-## Parte 17. Plan sugerido de estudio profundo
-
-### Día 1
-
-- `README.md`
-- `docs/CATALOGO_PRODUCTO.md`
-- `docs/ARQUITECTURA_PRODUCTO.md`
-
-### Día 2
-
-- fundamentos de Python;
-- clase 01;
-- parte 2 de esta guía.
-
-### Día 3
-
-- NumPy y pandas;
-- clases 02 y 06;
-- parte 4 y parte 5.
-
-### Día 4
-
-- visualización y estadística;
-- clases 03, 04, 05 y 08;
-- parte 7 y parte 8.
-
-### Día 5
-
-- machine learning;
-- clases 09, 10 y 11;
-- parte 10 y parte 11.
-
-### Día 6
-
-- proyecto final, comunicación y operación;
-- clase 12;
-- parte 12, 13 y 15.
-
-## Parte 18. Fuentes oficiales y formales revisadas
-
-Estas fuentes fueron consultadas el 9 de abril de 2026 para construir esta guía:
-
-- [Python Tutorial - Python Docs](https://docs.python.org/3/tutorial/index.html?lang=en)
-- [Python Documentation Index - Python.org](https://www.python.org/doc/)
-- [NumPy User Guide](https://numpy.org/doc/stable/user/)
-- [pandas User Guide](https://pandas.pydata.org/docs/user_guide/)
-- [Matplotlib Quick Start Guide](https://matplotlib.org/3.7.5/tutorials/introductory/quick_start.html)
-- [seaborn Categorical Data Tutorial](https://seaborn.pydata.org/archive/0.12/tutorial/categorical.html)
-- [SciPy Statistics Tutorial](https://docs.scipy.org/doc/scipy/tutorial/stats.html)
-- [SciPy Statistical Functions Reference](https://docs.scipy.org/doc/scipy/reference/stats.html)
-- [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html)
-- [scikit-learn Cross-validation Guide](https://scikit-learn.org/stable/modules/cross_validation.html)
-- [Project Jupyter Documentation](https://docs.jupyter.org/en/stable/index.html)
-- [Project Jupyter Home](https://jupyter.org/)
-- [University of Michigan - Introduction to Data Science in Python](https://online.umich.edu/courses/introduction-to-data-science-in-python/)
-- [University of Michigan - Applied Data Science with Python](https://online.umich.edu/series/applied-data-science-with-python/)
-
-## Anexo A. Probabilidad y estadística inferencial que conviene dominar
-
-Un curso serio de Python con Data Science no debería quedarse solo en estadística descriptiva. También conviene construir base en:
-
-- probabilidad básica;
-- eventos y reglas elementales;
-- distribuciones comunes;
-- muestreo;
-- error estándar;
 - intervalos de confianza;
 - pruebas de hipótesis;
 - valor p;
-- correlación versus causalidad.
+- error tipo I y tipo II;
+- tamaño de efecto.
 
-### Conceptos que debes poder explicar con palabras simples
+No para convertir cada estudiante en especialista estadístico, sino para evitar una cultura de análisis basada solo en "miré el promedio y listo".
 
-- una muestra no es toda la población;
-- una media puede moverse por valores extremos;
-- correlación no prueba causalidad;
-- una diferencia observada puede ser ruido;
-- una prueba estadística ayuda a estimar si una señal merece atención, no a reemplazar el criterio.
+### SciPy y statsmodels
 
-### Qué deberías practicar
+`SciPy` aporta funciones estadísticas, distribuciones y utilidades numéricas más amplias. `statsmodels` aporta herramientas muy valiosas cuando el foco está en inferencia, modelos estadísticos clásicos y diagnósticos de regresión.
 
-- construir tablas resumen;
-- comparar grupos;
-- interpretar dispersión;
-- leer distribuciones;
-- justificar cuándo conviene usar mediana en vez de media;
-- explicar por qué un gráfico puede apoyar, pero no reemplazar, una interpretación estadística.
+Conocer estas bibliotecas amplía mucho la idea de lo que Python puede hacer más allá del stack introductorio.
 
-## Anexo B. SQL y acceso a datos
+## Parte 9. Exploratory Data Analysis: pensar antes de modelar
 
-Aunque este repositorio se concentra sobre todo en Python, una formación robusta de Data Science suele incluir al menos una capa básica de SQL porque en la práctica muchos datos viven en bases relacionales.
+El análisis exploratorio de datos, o EDA, es una fase donde el objetivo no es predecir todavía, sino entender.
 
-### Mínimos que deberías conocer
+### Qué preguntas se hacen en EDA
+
+- ¿qué representa cada fila?;
+- ¿qué representa cada columna?;
+- ¿qué falta?;
+- ¿qué está duplicado?;
+- ¿qué distribuciones aparecen?;
+- ¿qué outliers merecen revisión?;
+- ¿qué relaciones parecen relevantes?;
+- ¿qué problemas de calidad impiden avanzar?
+
+### Qué evita un buen EDA
+
+Evita modelar a ciegas. Evita construir conclusiones sobre datos mal entendidos. Evita usar métricas sin contexto.
+
+### Qué produce un buen EDA
+
+Produce hipótesis mejores, limpieza más justificada, visualizaciones más informativas y decisiones de modelado mejor orientadas.
+
+## Parte 10. Machine Learning: cuándo y cómo entra de verdad
+
+No todo problema de datos necesita machine learning. Pero una formación orientada a Data Science sí debería enseñar cuándo empieza a tener sentido.
+
+### Supervised y unsupervised
+
+La primera gran distinción es entre aprendizaje supervisado y no supervisado.
+
+- En el supervisado existe una variable objetivo.
+- En el no supervisado se buscan estructuras, grupos o relaciones sin etiqueta final explícita.
+
+En una ruta inicial suele entrar primero el supervisado porque es más fácil de conectar con preguntas concretas de predicción.
+
+### Framing del problema
+
+Antes de elegir algoritmo, hay que formular bien el problema:
+
+- ¿qué quieres predecir?;
+- ¿con qué variables?;
+- ¿para qué decisión?;
+- ¿con qué costo de error?;
+- ¿qué significa éxito aquí?
+
+Sin ese encuadre, elegir modelo es casi azar.
+
+### Preprocesamiento
+
+Aquí entran tareas como:
+
+- imputación;
+- escalado;
+- codificación categórica;
+- selección de variables;
+- creación de features.
+
+Una gran parte del trabajo útil ocurre antes del modelo.
+
+### Modelos básicos que conviene conocer
+
+En una primera formación seria conviene entender al menos:
+
+- regresión lineal;
+- regresión logística;
+- árboles de decisión;
+- random forest;
+- KNN;
+- SVM a nivel conceptual;
+- clustering básico como extensión.
+
+No necesitas dominarlos todos con la misma profundidad, pero sí reconocer qué problemas intentan resolver y qué trade-offs tienen.
+
+### Métricas
+
+Una métrica correcta depende del problema.
+
+Para regresión conviene comprender ideas como:
+
+- MAE;
+- MSE;
+- RMSE;
+- R².
+
+Para clasificación conviene comprender:
+
+- accuracy;
+- precision;
+- recall;
+- F1;
+- matriz de confusión;
+- ROC-AUC en contextos más avanzados.
+
+### Validación cruzada y generalización
+
+La documentación oficial de scikit-learn sobre cross-validation es una referencia obligada. Enseña una idea central: un modelo no vale por lo bien que recuerda los datos vistos, sino por lo bien que generaliza.
+
+### Leakage
+
+La fuga de información es uno de los errores más dañinos y más subestimados. Si preprocesas con información del conjunto completo antes de separar, o si una variable revela indirectamente la respuesta, la evaluación deja de ser confiable.
+
+### Pipelines
+
+Los pipelines ayudan a encapsular preprocesamiento y modelo dentro de una misma estructura reproducible. Son pedagógicamente valiosos porque enseñan que el flujo analítico serio no termina en un `fit()`.
+
+## Parte 11. Deep Learning y el ecosistema ampliado
+
+Una guía total no puede fingir que Data Science termina en scikit-learn.
+
+### TensorFlow y PyTorch
+
+Cuando el problema escala hacia redes neuronales, visión computacional profunda, procesamiento de lenguaje a gran escala o secuencias más complejas, suelen aparecer marcos como `TensorFlow` y `PyTorch`.
+
+No todos los cursos introductorios deben incluirlos como núcleo, pero sí conviene saber por qué existen:
+
+- modelan arquitecturas neuronales complejas;
+- aprovechan aceleración en GPU;
+- se usan muchísimo en aprendizaje profundo.
+
+### NLP
+
+El procesamiento de lenguaje natural en Python puede apoyarse en bibliotecas como:
+
+- `spaCy`;
+- `NLTK`;
+- ecosistemas de transformadores más recientes.
+
+Aquí entran tareas como tokenización, lematización, clasificación de texto, extracción de entidades y embeddings.
+
+### Visión por computador
+
+Bibliotecas como `OpenCV` y marcos de deep learning permiten trabajar con imágenes, detección, clasificación y segmentación. Esto ensancha enormemente el campo de Data Science más allá de tablas.
+
+## Parte 12. Big Data y escalamiento
+
+Cuando los datos crecen demasiado para una sola máquina o para flujos simples en memoria, aparecen herramientas de otra escala.
+
+### Dask y PySpark
+
+`Dask` permite paralelizar y escalar ciertos flujos en Python manteniendo una sintaxis cercana al ecosistema conocido. `PySpark` conecta con el mundo de Apache Spark para trabajo distribuido, DataFrames a gran escala y pipelines más robustos.
+
+No son herramientas de entrada para un principiante absoluto, pero sí forman parte del mapa que conviene conocer si alguien quiere entender el mundo completo de Python con Data Science.
+
+## Parte 13. Bases de datos, SQL y acceso a datos
+
+Un error común en formación muy centrada en notebooks es olvidar que gran parte del dato real no vive en CSV.
+
+### SQL
+
+Aunque SQL no sea "Python", forma parte del trabajo de muchos perfiles de datos. Conviene conocer:
 
 - `SELECT`;
 - `WHERE`;
-- `ORDER BY`;
 - `GROUP BY`;
-- `COUNT`, `SUM`, `AVG`;
+- `ORDER BY`;
 - `JOIN`;
-- subconsultas simples;
-- diferencias entre tablas, filas y columnas.
+- funciones de agregación.
+
+### Bibliotecas y conectores
+
+En Python pueden aparecer bibliotecas como:
+
+- `sqlalchemy` para conexión y modelado de acceso a bases;
+- conectores específicos de PostgreSQL, MySQL o SQLite;
+- `requests` para trabajar con APIs.
+
+Esto amplía el tipo de fuentes de datos que puedes integrar.
+
+## Parte 14. Comunicación, dashboards y productos ligeros de datos
+
+Data Science no termina cuando termina el análisis. Muchas veces recién ahí empieza la parte más visible.
+
+### Streamlit
+
+`Streamlit` se volvió popular porque permite construir aplicaciones ligeras de datos escribiendo Python casi como si fuera un script normal. Es especialmente útil para prototipos, demostraciones, paneles simples y productos internos.
+
+### Dash y ecosistemas interactivos
+
+El ecosistema de `Plotly` también permite construir visualizaciones y aplicaciones interactivas más elaboradas.
+
+### Qué hace buena a una salida comunicable
+
+Una buena salida final no depende solo de lo "bonito". Depende de:
+
+- claridad;
+- foco;
+- capacidad de responder una pregunta;
+- relación honesta entre evidencia y conclusión;
+- facilidad para ser entendida por otra audiencia.
+
+## Parte 15. Reproducibilidad, calidad y trabajo profesional
+
+Una formación moderna debería incluir algo más que análisis puntual. También debería enseñar cómo sostener ese trabajo.
+
+### Reproducibilidad
+
+Reproducir significa que otra persona pueda seguir el proceso y llegar razonablemente al mismo resultado. Para eso ayudan:
+
+- entornos virtuales;
+- dependencias declaradas;
+- notebooks ordenados;
+- scripts reutilizables;
+- control de versiones;
+- documentación.
+
+### Testing y validación
+
+No todo análisis necesita una suite grande de tests, pero sí conviene cultivar una cultura de comprobación. Esto puede incluir:
+
+- tests de funciones auxiliares;
+- validación de supuestos sobre columnas;
+- chequeos de integridad del dato;
+- revisión de resultados esperados.
+
+### Documentación
+
+La documentación no es un adorno final. Es parte del producto intelectual. Un buen analista documenta no solo qué corrió, sino también por qué decidió limpiar, agrupar, modelar o descartar ciertas rutas.
+
+## Parte 16. Ética, sesgo y criterio profesional
+
+Una guía seria no puede omitir esta capa.
 
 ### Por qué importa
 
-- no todos los datos llegan en CSV;
-- muchas consultas se deben resolver antes de pasar a pandas;
-- saber SQL te permite entender mejor el origen del dato y no trabajar siempre con exportes manuales.
+Trabajar con datos implica trabajar con representaciones incompletas del mundo. Esos datos pueden contener sesgos de origen, problemas de medición, vacíos importantes o variables sensibles.
 
-## Anexo C. Diseño de ejercicios y práctica deliberada
+### Preguntas que siempre conviene hacer
 
-Si fueras a enseñar este contenido, no basta con cubrir temas. También debes saber convertirlos en ejercicios con progresión.
+- ¿de dónde salió el dato?;
+- ¿qué población representa y cuál deja fuera?;
+- ¿qué sesgos puede arrastrar?;
+- ¿qué impacto tiene un error aquí?;
+- ¿qué daño puede causar una clasificación incorrecta?;
+- ¿qué variables son sensibles o delicadas?
 
-### Un buen ejercicio introductorio suele tener
+### IA y automatización
 
-- objetivo pequeño;
-- datos o contexto reconocible;
-- instrucción precisa;
-- resultado verificable;
-- espacio para error recuperable.
+Hoy es fácil usar asistentes, generación automática de código y herramientas de apoyo. Eso puede ser útil, pero no reemplaza criterio. Una formación sana debería enseñar a usar ayuda externa sin abdicar del razonamiento.
 
-### Un buen ejercicio intermedio añade
+## Parte 17. Qué bibliotecas de Python conviene al menos reconocer por familias
 
-- interpretación;
-- justificación de decisiones;
-- combinación de dos o más técnicas;
-- una pequeña reflexión final.
+No necesitas dominar todas estas herramientas de inmediato, pero sí conviene saber qué lugar ocupan.
 
-### Un buen mini proyecto añade
+### Núcleo científico y análisis
 
-- pregunta inicial;
-- recorte del problema;
-- limpieza y análisis;
-- visualización;
-- cierre con hallazgo.
+- `numpy`: cálculo numérico y arrays;
+- `pandas`: datos tabulares;
+- `scipy`: funciones científicas y estadísticas;
+- `statsmodels`: inferencia, modelos estadísticos y diagnósticos.
 
-## Anexo D. Evaluación de aprendizaje
+### Visualización
 
-Un curso completo necesita medir más que memoria. Conviene evaluar:
+- `matplotlib`: control explícito de gráficos;
+- `seaborn`: visualización estadística de alto nivel;
+- `plotly`: visualización interactiva.
 
-- comprensión conceptual;
-- ejecución técnica;
-- interpretación;
-- comunicación;
-- autonomía progresiva.
+### Machine learning
 
-### Formatos útiles
+- `scikit-learn`: modelos clásicos, evaluación, preprocessing y pipelines.
 
-- quiz diagnóstico;
-- ejercicios guiados;
-- entregas cortas;
-- mini proyecto;
-- exposición breve;
-- rúbrica simple de proceso y resultado.
+### Deep learning
 
-### Error frecuente
+- `tensorflow`;
+- `pytorch`.
 
-Evaluar solo si el código “corre” es insuficiente. También hay que mirar si la solución tiene sentido, si está explicada y si responde a la pregunta inicial.
+### NLP
 
-## Anexo E. Ética, privacidad y criterio profesional
+- `spacy`;
+- `nltk`.
 
-Hoy no alcanza con enseñar herramientas. También conviene incorporar una conversación mínima sobre:
+### Visión
 
-- privacidad;
-- datos sensibles;
-- sesgo;
-- representatividad;
-- consentimiento;
-- límites de automatización;
-- uso responsable de IA.
+- `opencv`.
 
-### Qué deberías poder decir
+### Apps de datos y visualización operativa
 
-- no todo dato disponible debería usarse;
-- un dataset puede arrastrar sesgos del mundo real;
-- una visualización puede confundir si exagera diferencias;
-- un modelo con buena métrica igual puede ser inapropiado en ciertos contextos.
+- `streamlit`;
+- `dash`.
 
-## Anexo F. Despliegue, ciclo de vida y madurez de producto
+### Escalamiento y big data
 
-En una ruta más avanzada, Data Science deja de ser solo análisis exploratorio y empieza a convivir con operación.
+- `dask`;
+- `pyspark`.
 
-### Temas que conviene al menos reconocer
+### Acceso a datos y servicios
 
-- versionado de código;
-- versionado de datos;
-- reproducibilidad;
-- entornos;
-- automatización;
-- empaquetado;
-- monitoreo;
-- documentación técnica;
-- mantenimiento.
+- `sqlalchemy`;
+- conectores SQL;
+- `requests`.
 
-### Por qué importa para ti
+### Calidad y desarrollo
 
-Este repositorio precisamente demuestra un paso más allá del notebook aislado: convierte contenido educativo en una base operativa con app local, app Windows, app Android, portal y documentación por audiencia.
+- `pytest`;
+- `ruff`.
 
-## Anexo G. Portafolio, proyecto final y demostración de dominio
+## Parte 18. Qué deberías saber explicar después de estudiar esta guía
 
-Si quieres mostrar dominio real, conviene poder construir o explicar un proyecto con esta estructura:
+Si estudias esta guía a fondo, deberías poder explicar con claridad:
 
-1. contexto y problema;
-2. datos disponibles;
-3. limpieza y criterios;
-4. exploración;
-5. visualización;
-6. modelado, si aplica;
-7. evaluación;
-8. conclusión;
-9. límites;
-10. próximos pasos.
+- qué es Data Science más allá de una moda;
+- por qué Python es tan relevante en el área;
+- qué función cumple cada entorno de trabajo;
+- cómo se relacionan scripts, notebooks y proyectos;
+- qué problema resuelven NumPy, pandas, Matplotlib, seaborn y scikit-learn;
+- por qué la estadística no puede omitirse;
+- por qué limpiar datos no es un paso trivial;
+- por qué modelar sin validación es metodológicamente frágil;
+- qué bibliotecas amplían el campo hacia NLP, visión, dashboards o escalamiento;
+- qué hábitos vuelven reproducible y profesional un trabajo de datos.
 
-### Qué hace fuerte un proyecto final
+## Parte 19. Ruta sugerida de estudio profundo
 
-- que responde una pregunta real;
-- que no oculta problemas del dato;
-- que usa visualizaciones legibles;
-- que justifica las decisiones;
-- que diferencia resultado, interpretación y recomendación;
-- que está documentado de manera que otra persona pueda seguirlo.
+### Semana 1: base técnica
 
-## Anexo H. Glosario mínimo de términos que deberías manejar con naturalidad
+1. sintaxis y fundamentos de Python;
+2. tipos de datos, funciones, errores y archivos;
+3. entornos virtuales y flujo de trabajo básico;
+4. notebooks y VS Code.
 
-- variable;
-- observación;
-- feature;
-- target;
-- nulo;
-- duplicado;
-- agregación;
-- distribución;
-- correlación;
-- outlier;
-- escalado;
-- imputación;
-- leakage;
-- baseline;
-- overfitting;
-- generalización;
-- pipeline;
-- reproducibilidad;
-- métrica;
-- validación cruzada.
+### Semana 2: análisis tabular
 
-## Anexo I. Ruta sugerida de estudio intensivo en dos semanas
+1. NumPy;
+2. pandas;
+3. limpieza;
+4. groupby, merge y pivot;
+5. fechas y texto.
 
-### Semana 1
+### Semana 3: estadística y visualización
 
-1. fundamentos de Python;
-2. estructuras de datos;
-3. funciones y archivos;
-4. NumPy;
-5. pandas;
-6. limpieza y validación;
-7. visualización.
+1. estadística descriptiva;
+2. muestreo y nociones inferenciales;
+3. Matplotlib;
+4. seaborn;
+5. lectura crítica de gráficos.
 
-### Semana 2
+### Semana 4: modelado y evaluación
 
-1. estadística descriptiva e inferencial básica;
-2. storytelling con datos;
-3. machine learning introductorio;
-4. evaluación y pipelines;
-5. ética, límites y criterio;
-6. revisión del repositorio propio;
-7. simulación de entrevista técnica y pedagógica.
+1. framing del problema;
+2. modelos supervisados básicos;
+3. métricas;
+4. validación cruzada;
+5. leakage y pipelines.
+
+### Semana 5: ecosistema ampliado
+
+1. statsmodels y SciPy;
+2. SQL y acceso a datos;
+3. Streamlit y comunicación;
+4. PyTorch o TensorFlow a nivel conceptual;
+5. PySpark o Dask a nivel conceptual.
+
+### Semana 6: integración
+
+1. construir o revisar un mini proyecto completo;
+2. documentar el proceso;
+3. preparar una explicación oral del flujo;
+4. identificar vacíos concretos para la siguiente etapa.
+
+## Parte 20. Fuentes oficiales y formales consultadas
+
+Estas fuentes fueron revisadas el 9 de abril de 2026 para construir esta guía ampliada:
+
+- [Python Tutorial - Python Docs](https://docs.python.org/3/tutorial/index.html?lang=en)
+- [Errors and Exceptions - Python Docs](https://docs.python.org/3.10/tutorial/errors.html)
+- [Entornos virtuales y paquetes - Python Docs](https://docs.python.org/es/dev/tutorial/venv.html)
+- [PEP 8 - Style Guide for Python Code](https://peps.python.org/pep-0008/)
+- [PEP 257 - Docstring Conventions](https://peps.python.org/pep-0257/)
+- [Project Jupyter Documentation](https://docs.jupyter.org/en/latest/index.html)
+- [VS Code Data Science Tutorial](https://code.visualstudio.com/docs/datascience/data-science-tutorial)
+- [Google Colab FAQ](https://research.google.com/colaboratory/faq.html?hl=es)
+- [NumPy User Guide](https://numpy.org/doc/stable/user/)
+- [pandas User Guide](https://pandas.pydata.org/docs/user_guide/)
+- [Matplotlib Quick Start Guide](https://matplotlib.org/3.7.5/tutorials/introductory/quick_start.html)
+- [seaborn tutorial](https://seaborn.pydata.org/archive/0.11/tutorial/categorical.html)
+- [SciPy Statistical Functions Reference](https://docs.scipy.org/doc/scipy/reference/stats.html)
+- [statsmodels Getting Started](https://www.statsmodels.org/v0.12.2/gettingstarted.html)
+- [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html)
+- [scikit-learn Cross-validation Guide](https://scikit-learn.org/stable/modules/cross_validation.html)
+- [Streamlit Main Concepts](https://docs.streamlit.io/get-started/fundamentals/main-concepts)
+- [Git Tutorial - git-scm](https://git-scm.com/docs/gittutorial/2.8.6)
+- [University of Michigan - Introduction to Data Science in Python](https://online.umich.edu/courses/introduction-to-data-science-in-python/)
+- [University of Michigan - Applied Data Science with Python](https://online.umich.edu/series/applied-data-science-with-python/)
 
 ## Cierre
 
-Si estudias esta guía bien, no solo vas a poder decir que sabes Python con Data Science. Vas a poder explicar qué contenidos debe tener una formación seria, qué ya cubre tu repositorio, qué podrías ampliar y cómo defender pedagógica y técnicamente esa propuesta.
+Python con Data Science no es una colección de comandos. Es un campo de trabajo que une razonamiento, herramientas y criterio. El lenguaje es importante, pero no alcanza. Las bibliotecas son poderosas, pero no piensan por ti. Los modelos son útiles, pero no reemplazan comprensión del dato. Los dashboards comunican, pero no convierten una mala inferencia en una buena conclusión.
+
+Estudiar este campo en serio significa aprender a pasar desde una pregunta hasta una respuesta defendible, con técnicas adecuadas, herramientas bien escogidas, lectura crítica y un nivel de documentación suficiente para que el trabajo tenga valor más allá de la ejecución inmediata.

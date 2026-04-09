@@ -32,8 +32,11 @@ DOCUMENTS = [
     {
         "input": INTERVIEW_DIR / "guia-estudio-repositorio.md",
         "output": PDF_DIR / "guia-estudio-repositorio.pdf",
-        "title": "Guía maestra de estudio del repositorio",
-        "subtitle": "Documento principal para estudiar producto, pedagogía, arquitectura y contenidos a profundidad.",
+        "title": "Guía integrada de estudio del programa",
+        "subtitle": (
+            "Manual unificado para estudiar los contenidos reales del bootcamp: "
+            "Python, datos, visualización, estadística y machine learning introductorio."
+        ),
     },
 ]
 
