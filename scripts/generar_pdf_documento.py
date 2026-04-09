@@ -214,7 +214,16 @@ class DocumentPDF(FPDF):
         return FONT_FAMILY if self._using_unicode_fonts else "Helvetica"
 
     def header(self) -> None:
-        """Dibuja la banda superior con marca del documento."""
+        """Dibuja fondo y cabecera en cada página del PDF.
+
+        Qué resuelve:
+            Cuando FPDF agrega páginas automáticas por salto de contenido,
+            esta rutina vuelve a pintar el fondo completo. Así evitamos que
+            solo la portada o la primera página del cuerpo tengan identidad
+            visual y el resto quede en blanco.
+        """
+        self.set_fill_color(*COLOR_BG)
+        self.rect(0, 0, 210, 297, "F")
         self.set_fill_color(*COLOR_PANEL)
         self.rect(0, 0, 210, 14, "F")
         self.set_font(self.family, "B", 8)
@@ -254,10 +263,14 @@ class DocumentPDF(FPDF):
             self.multi_cell(174, 7, _strip_md_inline(subtitle))
 
     def start_body(self) -> None:
-        """Inicia el cuerpo del PDF con fondo oscuro uniforme."""
+        """Inicia el cuerpo del PDF.
+
+        Qué resuelve:
+            La plantilla ya pinta el fondo desde `header()`, así que aquí solo
+            abrimos la primera página del cuerpo para mantener consistencia con
+            las páginas agregadas automáticamente después.
+        """
         self.add_page()
-        self.set_fill_color(*COLOR_BG)
-        self.rect(0, 0, 210, 297, "F")
 
     def h1(self, text: str) -> None:
         """Renderiza un título principal de sección."""

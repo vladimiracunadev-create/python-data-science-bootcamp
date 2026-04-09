@@ -61,6 +61,14 @@ def _safe_resolve(base: Path, name: str) -> Path:
     return resolved
 
 
+def _class_asset_filenames(slug: str) -> dict[str, str]:
+    """Compone los nombres estables de PDF y PPTX por clase."""
+    return {
+        "pdf": f"clase-{slug}-guia-explicativa.pdf",
+        "pptx": f"clase-{slug}-presentacion.pptx",
+    }
+
+
 def list_classes() -> list[dict[str, str]]:
     """Construye el catálogo de clases visibles para la app.
 
@@ -133,9 +141,10 @@ def get_class_assets(slug: str) -> dict[str, dict[str, str]]:
         raise ValueError(f"Slug inválido: {slug}")
 
     class_dir = _safe_resolve(CLASS_DIR, slug)
+    names = _class_asset_filenames(slug)
     assets = {
-        "pdf": class_dir / "guia-explicativa.pdf",
-        "pptx": class_dir / "presentacion.pptx",
+        kind: class_dir / filename
+        for kind, filename in names.items()
     }
     result: dict[str, dict[str, str]] = {}
 
@@ -157,9 +166,10 @@ def resolve_class_asset_path(slug: str, asset_kind: str) -> Path:
         existentes dentro de cada módulo, sin depender de generación en runtime.
     """
     class_dir = _safe_resolve(CLASS_DIR, slug)
+    names = _class_asset_filenames(slug)
     available = {
-        "pdf": class_dir / "guia-explicativa.pdf",
-        "pptx": class_dir / "presentacion.pptx",
+        kind: class_dir / filename
+        for kind, filename in names.items()
     }
     if asset_kind not in available:
         raise ValueError(f"Tipo de asset inválido: {asset_kind}")

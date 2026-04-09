@@ -29,8 +29,6 @@ BASE_DIR = Path(__file__).resolve().parents[1]
 CLASSES_DIR = BASE_DIR / "classes"
 PDF_OUTPUT_DIR = BASE_DIR / "docs" / "pdfs" / "classes"
 PPTX_OUTPUT_DIR = BASE_DIR / "docs" / "presentaciones" / "classes"
-LOCAL_PDF_NAME = "guia-explicativa.pdf"
-LOCAL_PPTX_NAME = "presentacion.pptx"
 
 SOURCE_FILES = [
     ("README.md", "📘 Ficha de clase"),
@@ -40,12 +38,15 @@ SOURCE_FILES = [
     ("homework.md", "📝 Tarea y cierre"),
 ]
 
-COLOR_BG = RGBColor(15, 23, 42)
-COLOR_PANEL = RGBColor(17, 24, 39)
+COLOR_BG = RGBColor(248, 250, 252)
+COLOR_PANEL = RGBColor(255, 255, 255)
+COLOR_PANEL_BORDER = RGBColor(203, 213, 225)
+COLOR_HEADER_BAR = RGBColor(15, 23, 42)
 COLOR_ACCENT = RGBColor(34, 197, 94)
-COLOR_TEXT = RGBColor(241, 245, 249)
-COLOR_MUTED = RGBColor(148, 163, 184)
-COLOR_CODE = RGBColor(2, 6, 23)
+COLOR_TEXT = RGBColor(15, 23, 42)
+COLOR_MUTED = RGBColor(71, 85, 105)
+COLOR_CODE = RGBColor(15, 23, 42)
+COLOR_CODE_TEXT = RGBColor(248, 250, 252)
 
 EMOJI_RE = re.compile(r"[\U0001F300-\U0001FAFF\u2600-\u27BF\u2300-\u23FF]")
 
@@ -346,8 +347,8 @@ def add_background(slide) -> None:
         Inches(0.45),
     )
     top_bar.fill.solid()
-    top_bar.fill.fore_color.rgb = COLOR_PANEL
-    top_bar.line.color.rgb = COLOR_PANEL
+    top_bar.fill.fore_color.rgb = COLOR_HEADER_BAR
+    top_bar.line.color.rgb = COLOR_HEADER_BAR
 
     accent_bar = slide.shapes.add_shape(
         MSO_AUTO_SHAPE_TYPE.RECTANGLE,
@@ -361,6 +362,48 @@ def add_background(slide) -> None:
     accent_bar.line.color.rgb = COLOR_ACCENT
 
 
+def add_panel(slide, x, y, width, height, fill_color=COLOR_PANEL):
+    """Dibuja un panel claro con borde suave para mejorar legibilidad."""
+    panel = slide.shapes.add_shape(
+        MSO_AUTO_SHAPE_TYPE.ROUNDED_RECTANGLE,
+        x,
+        y,
+        width,
+        height,
+    )
+    panel.fill.solid()
+    panel.fill.fore_color.rgb = fill_color
+    panel.line.color.rgb = COLOR_PANEL_BORDER
+    panel.line.width = Pt(1.2)
+    return panel
+
+
+def style_paragraph(
+    paragraph,
+    *,
+    font_name: str,
+    font_size: int,
+    color: RGBColor,
+    bold: bool = False,
+) -> None:
+    """Aplica estilo de forma explícita al párrafo y a sus runs.
+
+    Qué resuelve:
+        Algunos visores de PowerPoint ignoran parte del estilo cuando queda
+        solo al nivel del párrafo. Esta rutina replica el formato en los runs
+        reales para asegurar contraste y legibilidad.
+    """
+    paragraph.font.name = font_name
+    paragraph.font.size = Pt(font_size)
+    paragraph.font.color.rgb = color
+    paragraph.font.bold = bold
+    for run in paragraph.runs:
+        run.font.name = font_name
+        run.font.size = Pt(font_size)
+        run.font.color.rgb = color
+        run.font.bold = bold
+
+
 def add_title(slide, title: str, subtitle: str = "") -> None:
     """Dibuja encabezado consistente para todos los slides."""
     add_background(slide)
@@ -372,9 +415,13 @@ def add_title(slide, title: str, subtitle: str = "") -> None:
     frame.vertical_anchor = MSO_ANCHOR.MIDDLE
     paragraph = frame.paragraphs[0]
     paragraph.text = title
-    paragraph.font.name = "Segoe UI Semibold"
-    paragraph.font.size = Pt(23)
-    paragraph.font.color.rgb = COLOR_TEXT
+    style_paragraph(
+        paragraph,
+        font_name="Segoe UI Semibold",
+        font_size=23,
+        color=COLOR_TEXT,
+        bold=True,
+    )
 
     if subtitle:
         subtitle_box = slide.shapes.add_textbox(Inches(0.72), Inches(1.42), Inches(11.9), Inches(0.55))
@@ -383,14 +430,18 @@ def add_title(slide, title: str, subtitle: str = "") -> None:
         subtitle_frame.word_wrap = True
         paragraph = subtitle_frame.paragraphs[0]
         paragraph.text = subtitle
-        paragraph.font.name = "Segoe UI"
-        paragraph.font.size = Pt(11)
-        paragraph.font.color.rgb = COLOR_MUTED
+        style_paragraph(
+            paragraph,
+            font_name="Segoe UI",
+            font_size=11,
+            color=COLOR_MUTED,
+        )
 
 
 def add_bullet_slide(slide, title: str, bullets: list[str], subtitle: str = "") -> None:
     """Agrega una slide de bullets basada en contenido del repo."""
     add_title(slide, title, subtitle)
+    add_panel(slide, Inches(0.8), Inches(1.95), Inches(11.7), Inches(4.9))
     box = slide.shapes.add_textbox(Inches(0.8), Inches(2.0), Inches(11.7), Inches(4.7))
     frame = box.text_frame
     frame.clear()
@@ -398,12 +449,15 @@ def add_bullet_slide(slide, title: str, bullets: list[str], subtitle: str = "") 
 
     for index, bullet in enumerate(bullets):
         paragraph = frame.paragraphs[0] if index == 0 else frame.add_paragraph()
-        paragraph.text = clean_text(bullet)
+        paragraph.text = f"• {clean_text(bullet)}"
         paragraph.level = 0
         paragraph.space_after = Pt(10)
-        paragraph.font.name = "Segoe UI"
-        paragraph.font.size = Pt(20 if len(bullets) <= 4 else 18)
-        paragraph.font.color.rgb = COLOR_TEXT
+        style_paragraph(
+            paragraph,
+            font_name="Segoe UI",
+            font_size=18 if len(bullets) <= 4 else 16,
+            color=COLOR_TEXT,
+        )
 
 
 def add_two_column_slide(slide, title: str, left_title: str, left_values: list[str], right_title: str, right_values: list[str], subtitle: str = "") -> None:
@@ -414,25 +468,20 @@ def add_two_column_slide(slide, title: str, left_title: str, left_values: list[s
         (Inches(0.8), left_title, left_values),
         (Inches(6.8), right_title, right_values),
     ]:
-        panel = slide.shapes.add_shape(
-            MSO_AUTO_SHAPE_TYPE.ROUNDED_RECTANGLE,
-            x,
-            Inches(1.95),
-            Inches(5.1),
-            Inches(4.5),
-        )
-        panel.fill.solid()
-        panel.fill.fore_color.rgb = COLOR_PANEL
-        panel.line.color.rgb = COLOR_PANEL
+        add_panel(slide, x, Inches(1.95), Inches(5.1), Inches(4.5))
 
         header_box = slide.shapes.add_textbox(x + Inches(0.2), Inches(2.15), Inches(4.7), Inches(0.4))
         header_frame = header_box.text_frame
         header_frame.clear()
         paragraph = header_frame.paragraphs[0]
         paragraph.text = header
-        paragraph.font.name = "Segoe UI Semibold"
-        paragraph.font.size = Pt(16)
-        paragraph.font.color.rgb = COLOR_ACCENT
+        style_paragraph(
+            paragraph,
+            font_name="Segoe UI Semibold",
+            font_size=16,
+            color=COLOR_ACCENT,
+            bold=True,
+        )
 
         body_box = slide.shapes.add_textbox(x + Inches(0.2), Inches(2.6), Inches(4.7), Inches(3.5))
         body_frame = body_box.text_frame
@@ -440,10 +489,13 @@ def add_two_column_slide(slide, title: str, left_title: str, left_values: list[s
         body_frame.word_wrap = True
         for index, value in enumerate(values):
             paragraph = body_frame.paragraphs[0] if index == 0 else body_frame.add_paragraph()
-            paragraph.text = clean_text(value)
-            paragraph.font.name = "Segoe UI"
-            paragraph.font.size = Pt(17)
-            paragraph.font.color.rgb = COLOR_TEXT
+            paragraph.text = f"• {clean_text(value)}"
+            style_paragraph(
+                paragraph,
+                font_name="Segoe UI",
+                font_size=15,
+                color=COLOR_TEXT,
+            )
             paragraph.space_after = Pt(8)
 
 
@@ -451,16 +503,17 @@ def add_code_slide(slide, title: str, intro: str, code: str) -> None:
     """Agrega un slide de código basado en el bloque real de teoría."""
     add_title(slide, title, intro)
 
-    code_panel = slide.shapes.add_shape(
-        MSO_AUTO_SHAPE_TYPE.ROUNDED_RECTANGLE,
+    code_panel = add_panel(
+        slide,
         Inches(0.8),
         Inches(2.0),
         Inches(11.7),
         Inches(4.7),
+        fill_color=COLOR_CODE,
     )
     code_panel.fill.solid()
     code_panel.fill.fore_color.rgb = COLOR_CODE
-    code_panel.line.color.rgb = COLOR_PANEL
+    code_panel.line.color.rgb = COLOR_HEADER_BAR
 
     code_box = slide.shapes.add_textbox(Inches(1.0), Inches(2.22), Inches(11.2), Inches(4.2))
     frame = code_box.text_frame
@@ -469,9 +522,12 @@ def add_code_slide(slide, title: str, intro: str, code: str) -> None:
     frame.vertical_anchor = MSO_ANCHOR.TOP
     paragraph = frame.paragraphs[0]
     paragraph.text = code
-    paragraph.font.name = "Courier New"
-    paragraph.font.size = Pt(12)
-    paragraph.font.color.rgb = COLOR_TEXT
+    style_paragraph(
+        paragraph,
+        font_name="Courier New",
+        font_size=12,
+        color=COLOR_CODE_TEXT,
+    )
 
 
 def create_presentation(class_dir: Path, output_path: Path) -> None:
@@ -487,22 +543,30 @@ def create_presentation(class_dir: Path, output_path: Path) -> None:
     subtitle_parts = [ctx["duration"], ctx["dataset"]]
     subtitle = " | ".join(part for part in subtitle_parts if part)
     add_title(slide, str(ctx["title"]), subtitle)
+    add_panel(slide, Inches(0.8), Inches(1.95), Inches(11.7), Inches(3.9))
     intro_box = slide.shapes.add_textbox(Inches(0.8), Inches(2.12), Inches(11.7), Inches(3.2))
     intro_frame = intro_box.text_frame
     intro_frame.clear()
     intro_frame.word_wrap = True
     paragraph = intro_frame.paragraphs[0]
     paragraph.text = str(ctx["objective"])
-    paragraph.font.name = "Segoe UI Semibold"
-    paragraph.font.size = Pt(27)
-    paragraph.font.color.rgb = COLOR_TEXT
+    style_paragraph(
+        paragraph,
+        font_name="Segoe UI Semibold",
+        font_size=24,
+        color=COLOR_TEXT,
+        bold=True,
+    )
     paragraph.space_after = Pt(18)
     if ctx["idea"]:
         paragraph = intro_frame.add_paragraph()
         paragraph.text = str(ctx["idea"])
-        paragraph.font.name = "Segoe UI"
-        paragraph.font.size = Pt(18)
-        paragraph.font.color.rgb = COLOR_MUTED
+        style_paragraph(
+            paragraph,
+            font_name="Segoe UI",
+            font_size=16,
+            color=COLOR_MUTED,
+        )
 
     slide = prs.slides.add_slide(blank)
     add_two_column_slide(
@@ -605,10 +669,12 @@ def class_directories(selected_class: str | None) -> list[Path]:
 def generate_assets(directories: list[Path]) -> None:
     """Genera PDF y PPTX para las clases indicadas."""
     for class_dir in directories:
-        pdf_path = PDF_OUTPUT_DIR / f"{class_output_name(class_dir, 'guia-explicativa.pdf')}"
-        pptx_path = PPTX_OUTPUT_DIR / f"{class_output_name(class_dir, 'presentacion.pptx')}"
-        local_pdf_path = class_dir / LOCAL_PDF_NAME
-        local_pptx_path = class_dir / LOCAL_PPTX_NAME
+        pdf_filename = class_output_name(class_dir, "guia-explicativa.pdf")
+        pptx_filename = class_output_name(class_dir, "presentacion.pptx")
+        pdf_path = PDF_OUTPUT_DIR / pdf_filename
+        pptx_path = PPTX_OUTPUT_DIR / pptx_filename
+        local_pdf_path = class_dir / pdf_filename
+        local_pptx_path = class_dir / pptx_filename
 
         markdown = build_class_markdown(class_dir)
         title = extract_h1(read_text(class_dir / "README.md"), class_dir.name)
