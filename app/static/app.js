@@ -279,7 +279,7 @@ function submitQuiz() {
   }
 
   if (Object.keys(quizState.answers).length < quizState.quiz.questions.length) {
-    showToast("Responde las 30 preguntas antes de enviar.");
+    showToast(`Responde las ${quizState.quiz.questions.length} preguntas antes de enviar.`);
     return;
   }
 
