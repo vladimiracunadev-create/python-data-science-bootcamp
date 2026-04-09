@@ -1,10 +1,10 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="es">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Bootcamp Python para Data Science | Portal del Alumno</title>
-  <meta name="description" content="Portal del alumno para el bootcamp de Python para Data Science. Reúne ruta, recursos, reglas de uso de tecnología y acceso oficial al programa.">
+  <meta name="description" content="Portal oficial del alumno para el bootcamp de Python para Data Science. Ruta completa, 13 clases, recursos y laboratorio interactivo.">
   <meta name="theme-color" content="#0f3d3e">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,108 +15,275 @@
 <body>
   <header class="hero">
     <nav class="topbar">
-      <a class="brand" href="#inicio">Python Data Science</a>
+      <a class="brand" href="#inicio">
+        <svg width="20" height="20" viewBox="0 0 100 100" style="vertical-align:middle;margin-right:6px"><text y=".9em" font-size="90">🐍</text></svg>
+        Python Data Science
+      </a>
       <div class="toplinks">
-        <a href="#ruta">Ruta</a>
+        <a href="#clases">Clases</a>
+        <a href="#metodologia">Metodología</a>
         <a href="#recursos">Recursos</a>
-        <a href="#tecnología">Tecnología</a>
-        <a href="#móvil">Móvil</a>
+        <a href="#tecnologia">Tecnología</a>
         <a href="product/">Institución</a>
       </div>
     </nav>
 
     <section id="inicio" class="hero-grid">
       <div class="hero-copy">
-        <p class="eyebrow">Portal del alumno</p>
-        <h1>Tu punto de entrada oficial al bootcamp</h1>
+        <p class="eyebrow">📚 Portal oficial del alumno</p>
+        <h1>Tu punto de entrada al bootcamp</h1>
         <p class="hero-text">
-          Este sitio concentra lo que debes usar como estudiante: ruta del curso, forma de trabajo,
-          recursos base, reglas de uso de tecnología y el enlace oficial del programa.
+          13 clases modulares de Python aplicado a datos. Aquí encontrarás el temario completo,
+          los recursos de cada sesión y el enlace oficial del programa.
         </p>
         <div class="hero-actions">
-          <a class="btn btn-primary" href="#enlace-oficial">Usar este enlace</a>
-          <a class="btn btn-secondary" href="#recursos">Ver recursos</a>
-          <a class="btn btn-secondary" href="product/">Ver producto</a>
+          <a class="btn btn-primary" href="#clases">Ver las 13 clases</a>
+          <a class="btn btn-secondary" href="#recursos">Recursos</a>
+          <a class="btn btn-secondary" href="product/">Vista institucional</a>
         </div>
       </div>
 
       <aside class="hero-card" id="enlace-oficial">
-        <p class="card-label">Enlace oficial del alumno</p>
+        <p class="card-label">🔗 Enlace oficial del alumno</p>
         <div class="link-box">
           <code id="studentLink">https://vladimiracunadev-create.github.io/python-data-science-bootcamp/</code>
           <button id="copyLinkBtn" class="copy-btn" type="button">Copiar</button>
         </div>
         <p class="card-note">
-          Si eres estudiante, este es el enlace que debes guardar y revisar. Aquí se centraliza la información
-          pública del curso. El entorno interactivo de laboratorio se comparte en clase cuando corresponda.
+          Guarda este enlace. Aquí se centraliza la información pública del curso.
+          El laboratorio interactivo se comparte en clase cuando corresponda.
         </p>
+        <div class="quick-stats">
+          <div class="stat">
+            <strong>13</strong>
+            <span>clases</span>
+          </div>
+          <div class="stat">
+            <strong>12</strong>
+            <span>notebooks</span>
+          </div>
+          <div class="stat">
+            <strong>1</strong>
+            <span>proyecto final</span>
+          </div>
+        </div>
       </aside>
     </section>
   </header>
 
   <main>
-    <section class="section">
+
+    <!-- ── CLASES ───────────────────────────────────────────────────────── -->
+    <section id="clases" class="section">
       <div class="section-head">
-        <p class="eyebrow">Dos accesos</p>
-        <h2>Una entrada para alumnos y otra para la institución</h2>
+        <p class="eyebrow">Temario completo</p>
+        <h2>Las 13 clases del bootcamp</h2>
+        <p class="section-desc">
+          El programa parte con un diagnóstico inicial y avanza desde los fundamentos de Python
+          hasta un proyecto final integrador con machine learning.
+        </p>
       </div>
-      <div class="card-grid">
-        <article class="info-card">
-          <h3>Portal del alumno</h3>
-          <p>Este sitio es el enlace oficial que deben usar los estudiantes para seguir la ruta, los recursos y las reglas de trabajo.</p>
+
+      <div class="classes-grid">
+
+        <article class="class-card class-card-diag">
+          <div class="class-num">00</div>
+          <div class="class-body">
+            <div class="class-icon">🧭</div>
+            <h3>Diagnóstico inicial</h3>
+            <p>Quiz de entrada para estimar el punto de partida del grupo y orientar el ritmo del bootcamp.</p>
+            <ul class="class-topics">
+              <li>Quiz diagnóstico de 30 preguntas</li>
+              <li>Presentación del programa y herramientas</li>
+              <li>Configuración del entorno</li>
+            </ul>
+          </div>
         </article>
-        <article class="info-card">
-          <h3>Presentación del producto</h3>
-          <p>La vista institucional muestra el bootcamp como propuesta formativa, con alcance inicial, valor pedagógico y plan de crecimiento.</p>
-          <p><a href="product/">Abrir vista institucional</a></p>
+
+        <article class="class-card">
+          <div class="class-num">01</div>
+          <div class="class-body">
+            <div class="class-icon">🐍</div>
+            <h3>Fundamentos de Python</h3>
+            <p>Variables, tipos, estructuras de control y funciones aplicadas a datos desde el primer día.</p>
+            <ul class="class-topics">
+              <li>Variables y tipos de dato</li>
+              <li>Listas, diccionarios, loops</li>
+              <li>Funciones básicas</li>
+            </ul>
+          </div>
         </article>
-        <article class="info-card">
-          <h3>Laboratorio interactivo</h3>
-          <p>La aplicación principal sigue siendo el entorno de práctica guiada para notebooks, ejecución de código y trabajo en clase.</p>
+
+        <article class="class-card">
+          <div class="class-num">02</div>
+          <div class="class-body">
+            <div class="class-icon">🗂️</div>
+            <h3>Pandas y limpieza de datos</h3>
+            <p>Carga, inspección, limpieza y transformación de DataFrames con pandas.</p>
+            <ul class="class-topics">
+              <li>DataFrames y Series</li>
+              <li>Valores nulos y duplicados</li>
+              <li>Filtros y selección de columnas</li>
+            </ul>
+          </div>
         </article>
-        <article class="info-card">
-          <h3>Ruta móvil futura</h3>
-          <p>La capa pública vive hoy en GitHub Pages y deja lista una base clara para una app móvil orientada al seguimiento del alumno.</p>
+
+        <article class="class-card">
+          <div class="class-num">03</div>
+          <div class="class-body">
+            <div class="class-icon">📊</div>
+            <h3>Visualización exploratoria</h3>
+            <p>Gráficos para entender distribuciones, relaciones y anomalías en los datos.</p>
+            <ul class="class-topics">
+              <li>Histogramas y boxplots</li>
+              <li>Scatter plots</li>
+              <li>Interpretación visual de datos</li>
+            </ul>
+          </div>
         </article>
+
+        <article class="class-card">
+          <div class="class-num">04</div>
+          <div class="class-body">
+            <div class="class-icon">📐</div>
+            <h3>Estadística descriptiva</h3>
+            <p>Media, mediana, desviación estándar, correlaciones y cómo leerlas correctamente.</p>
+            <ul class="class-topics">
+              <li>Medidas de tendencia central</li>
+              <li>Dispersión y varianza</li>
+              <li>Correlación e interpretación</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="class-card">
+          <div class="class-num">05</div>
+          <div class="class-body">
+            <div class="class-icon">📈</div>
+            <h3>Visualización con Matplotlib</h3>
+            <p>Control preciso de gráficos: títulos, ejes, colores, múltiples subplots.</p>
+            <ul class="class-topics">
+              <li>Figure y Axes</li>
+              <li>Personalización de gráficos</li>
+              <li>Subplots y layouts</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="class-card">
+          <div class="class-num">06</div>
+          <div class="class-body">
+            <div class="class-icon">🔤</div>
+            <h3>Texto, fechas y transformaciones</h3>
+            <p>Procesamiento de strings, manejo de fechas y transformaciones avanzadas de columnas.</p>
+            <ul class="class-topics">
+              <li>Operaciones con strings</li>
+              <li>Parsing y cálculo de fechas</li>
+              <li>Apply y funciones lambda</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="class-card">
+          <div class="class-num">07</div>
+          <div class="class-body">
+            <div class="class-icon">🔬</div>
+            <h3>Mini proyecto guiado</h3>
+            <p>Análisis completo de un dataset real: desde carga hasta conclusiones documentadas.</p>
+            <ul class="class-topics">
+              <li>Pipeline end-to-end</li>
+              <li>Limpieza, análisis y gráficos</li>
+              <li>Redacción de conclusiones</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="class-card">
+          <div class="class-num">08</div>
+          <div class="class-body">
+            <div class="class-icon">🎤</div>
+            <h3>Presentación de hallazgos</h3>
+            <p>Cómo comunicar resultados a audiencias no técnicas con claridad y evidencia.</p>
+            <ul class="class-topics">
+              <li>Narrativa de datos</li>
+              <li>Selección de gráficos para presentar</li>
+              <li>Práctica de exposición</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="class-card class-card-ml">
+          <div class="class-num">09</div>
+          <div class="class-body">
+            <div class="class-icon">🤖</div>
+            <h3>Machine Learning — Intro</h3>
+            <p>Qué es ML, cómo dividir datos y entrenar un primer modelo de regresión lineal.</p>
+            <ul class="class-topics">
+              <li>Conceptos: train/test split</li>
+              <li>LinearRegression con sklearn</li>
+              <li>Métricas: MAE, RMSE, R²</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="class-card class-card-ml">
+          <div class="class-num">10</div>
+          <div class="class-body">
+            <div class="class-icon">🌳</div>
+            <h3>Modelos supervisados</h3>
+            <p>Clasificación con árboles de decisión y regresión logística. Evaluación y métricas.</p>
+            <ul class="class-topics">
+              <li>DecisionTree y LogisticRegression</li>
+              <li>Matriz de confusión</li>
+              <li>Precision, recall, F1</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="class-card class-card-ml">
+          <div class="class-num">11</div>
+          <div class="class-body">
+            <div class="class-icon">⚙️</div>
+            <h3>Evaluación y Pipelines</h3>
+            <p>Validación cruzada, Pipelines de sklearn y búsqueda de hiperparámetros con GridSearchCV.</p>
+            <ul class="class-topics">
+              <li>cross_val_score</li>
+              <li>Pipeline: preproceso + modelo</li>
+              <li>GridSearchCV</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="class-card class-card-final">
+          <div class="class-num">12</div>
+          <div class="class-body">
+            <div class="class-icon">🏁</div>
+            <h3>Proyecto final y cierre</h3>
+            <p>Análisis integrador con dataset real: exploración, modelo y presentación de resultados.</p>
+            <ul class="class-topics">
+              <li>Dataset a elección del alumno</li>
+              <li>Pipeline completo end-to-end</li>
+              <li>Presentación y defensa</li>
+            </ul>
+          </div>
+        </article>
+
       </div>
     </section>
 
-    <section class="section section-soft">
+    <!-- ── METODOLOGÍA ──────────────────────────────────────────────────── -->
+    <section id="metodologia" class="section section-soft">
       <div class="section-head">
-        <p class="eyebrow">Qué encuentras aquí</p>
-        <h2>Un portal pensado para estudiantes, no solo para docentes</h2>
-      </div>
-      <div class="card-grid">
-        <article class="info-card">
-          <h3>Ruta del curso</h3>
-          <p>Qué se aprende primero, qué se practica después y cómo se ve el progreso semana a semana.</p>
-        </article>
-        <article class="info-card">
-          <h3>Recursos base</h3>
-          <p>Datasets, notas, recordatorios y materiales para que no dependas de un solo formato.</p>
-        </article>
-        <article class="info-card">
-          <h3>Uso responsable de tecnología</h3>
-          <p>Cómo apoyarte en herramientas digitales sin reemplazar comprensión, criterio ni práctica.</p>
-        </article>
-        <article class="info-card">
-          <h3>Escalamiento a móvil</h3>
-          <p>Una experiencia que puede vivir en web hoy y crecer después a una app móvil para seguimiento.</p>
-        </article>
-      </div>
-    </section>
-
-    <section id="ruta" class="section">
-      <div class="section-head">
-        <p class="eyebrow">Ruta</p>
-        <h2>Cómo trabajaremos durante el bootcamp</h2>
+        <p class="eyebrow">Metodología</p>
+        <h2>Cómo trabajamos en cada clase</h2>
+        <p class="section-desc">Cada sesión sigue el mismo ciclo de cuatro pasos para que el aprendizaje sea sólido y no solo mecánico.</p>
       </div>
       <div class="timeline">
         <article class="timeline-step">
           <span class="step-number">01</span>
           <div>
             <h3>Entender</h3>
-            <p>Se presenta el objetivo del bloque y por qué sirve en un problema real.</p>
+            <p>Se presenta el objetivo del bloque y por qué sirve en un problema real de datos.</p>
           </div>
         </article>
         <article class="timeline-step">
@@ -130,7 +297,7 @@
           <span class="step-number">03</span>
           <div>
             <h3>Interpretar</h3>
-            <p>El resultado no se deja solo en código: se traduce a una conclusión clara.</p>
+            <p>El resultado no se deja solo en código: se traduce a una conclusión clara y comunicable.</p>
           </div>
         </article>
         <article class="timeline-step">
@@ -143,6 +310,7 @@
       </div>
     </section>
 
+    <!-- ── RECURSOS ─────────────────────────────────────────────────────── -->
     <section id="recursos" class="section section-accent">
       <div class="section-head">
         <p class="eyebrow">Recursos</p>
@@ -150,95 +318,79 @@
       </div>
       <div class="resource-grid">
         <article class="resource-card">
+          <div class="resource-icon">📁</div>
           <h3>Repositorio del curso</h3>
-          <p>Materiales, clases, datasets y estructura general del bootcamp.</p>
-          <a href="https://github.com/vladimiracunadev-create/python-data-science-bootcamp" target="_blank" rel="noreferrer">Abrir repositorio</a>
+          <p>Materiales, clases, datasets y estructura general del bootcamp. Todo versionado y accesible.</p>
+          <a href="https://github.com/vladimiracunadev-create/python-data-science-bootcamp" target="_blank" rel="noreferrer">Abrir repositorio →</a>
         </article>
         <article class="resource-card">
+          <div class="resource-icon">📦</div>
           <h3>Datasets de práctica</h3>
-          <p>Casos sintéticos para trabajar Python, pandas, gráficos e interpretación.</p>
-          <a href="https://github.com/vladimiracunadev-create/python-data-science-bootcamp/tree/master/datasets" target="_blank" rel="noreferrer">Ver datasets</a>
+          <p>Casos sintéticos para trabajar Python, pandas, gráficos e interpretación en cada clase.</p>
+          <a href="https://github.com/vladimiracunadev-create/python-data-science-bootcamp/tree/master/datasets" target="_blank" rel="noreferrer">Ver datasets →</a>
         </article>
         <article class="resource-card">
-          <h3>Materiales de clase</h3>
-          <p>Clases, notebooks, ejercicios y guias que el docente va liberando y usando en sala.</p>
-          <a href="https://github.com/vladimiracunadev-create/python-data-science-bootcamp/tree/master/classes" target="_blank" rel="noreferrer">Ver clases</a>
+          <div class="resource-icon">📓</div>
+          <h3>Notebooks y clases</h3>
+          <p>Clases, notebooks, ejercicios y guías que el docente va liberando y usando en sala.</p>
+          <a href="https://github.com/vladimiracunadev-create/python-data-science-bootcamp/tree/master/classes" target="_blank" rel="noreferrer">Ver clases →</a>
         </article>
         <article class="resource-card">
+          <div class="resource-icon">🏛️</div>
           <h3>Vista institucional</h3>
-          <p>Resumen del producto, implementación inicial y forma de crecer hacia una experiencia más completa.</p>
-          <a href="product/">Abrir presentación</a>
+          <p>Resumen del producto educativo, implementación y hoja de ruta del bootcamp.</p>
+          <a href="product/">Abrir presentación →</a>
         </article>
       </div>
     </section>
 
-    <section id="tecnología" class="section">
+    <!-- ── TECNOLOGÍA ───────────────────────────────────────────────────── -->
+    <section id="tecnologia" class="section">
       <div class="section-head">
-        <p class="eyebrow">Tecnología</p>
+        <p class="eyebrow">Uso de tecnología</p>
         <h2>Cómo usar herramientas digitales sin perder aprendizaje</h2>
+        <p class="section-desc">Las herramientas digitales ayudan. No reemplazan el razonamiento ni la práctica.</p>
       </div>
       <div class="rule-grid">
         <article class="rule-card">
+          <div class="rule-icon">💭</div>
           <h3>Piensa primero</h3>
-          <p>Antes de buscar una respuesta, intenta formular tu propia idea o hipótesis.</p>
+          <p>Antes de buscar una respuesta, intenta formular tu propia idea o hipótesis sobre el problema.</p>
         </article>
         <article class="rule-card">
+          <div class="rule-icon">🔍</div>
           <h3>Consulta después</h3>
           <p>Usa herramientas digitales para comparar, aclarar o depurar, no para reemplazar todo el proceso.</p>
         </article>
         <article class="rule-card">
+          <div class="rule-icon">✅</div>
           <h3>Verifica siempre</h3>
           <p>Si una herramienta te entrega código o una explicación, revisa si responde al objetivo real del ejercicio.</p>
         </article>
         <article class="rule-card">
+          <div class="rule-icon">🗣️</div>
           <h3>Explica al final</h3>
           <p>Si no puedes explicar lo que hiciste con tus palabras, aún no está realmente aprendido.</p>
         </article>
       </div>
     </section>
 
-    <section id="móvil" class="section section-soft">
-      <div class="section-head">
-        <p class="eyebrow">Móvil</p>
-        <h2>Lo que puede crecer hacia una app móvil</h2>
-      </div>
-      <div class="mobile-grid">
-        <article class="mobile-card">
-          <h3>Lo portable hoy</h3>
-          <ul>
-            <li>catalogo de clases y temario;</li>
-            <li>recordatorios y avisos;</li>
-            <li>checklists de tareas;</li>
-            <li>acceso rápido a datasets y enlaces.</li>
-          </ul>
-        </article>
-        <article class="mobile-card">
-          <h3>Lo que requiere backend</h3>
-          <ul>
-            <li>runner de código;</li>
-            <li>guardado de notebooks;</li>
-            <li>estado por estudiante;</li>
-            <li>seguimiento personalizado.</li>
-          </ul>
-        </article>
-        <article class="mobile-card">
-          <h3>Ruta recomendada</h3>
-          <p>
-            Empezar con esta landing en GitHub Pages como canal oficial del alumno y luego evolucionar a una
-            app móvil conectada al backend del bootcamp, cuando el proyecto necesite cuentas, progreso y uso individual.
-          </p>
-        </article>
-      </div>
-    </section>
   </main>
 
   <footer class="footer">
-    <p>Bootcamp Python para Data Science</p>
-    <p>Canal oficial del alumno: <a href="https://vladimiracunadev-create.github.io/python-data-science-bootcamp/">vladimiracunadev-create.github.io/python-data-science-bootcamp</a></p>
-    <p>Vista institucional: <a href="product/">product/</a></p>
+    <div class="footer-inner">
+      <div>
+        <strong>Bootcamp Python para Data Science</strong>
+        <p>Canal oficial del alumno</p>
+      </div>
+      <div class="footer-links">
+        <a href="https://vladimiracunadev-create.github.io/python-data-science-bootcamp/">Portal del alumno</a>
+        <a href="product/">Vista institucional</a>
+        <a href="https://github.com/vladimiracunadev-create/python-data-science-bootcamp" target="_blank" rel="noreferrer">GitHub</a>
+      </div>
+    </div>
   </footer>
 
   <script src="app.js"></script>
 </body>
 </html>
-
