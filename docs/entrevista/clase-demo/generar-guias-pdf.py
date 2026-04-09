@@ -5,6 +5,7 @@ Cubre: conocimiento, Q&A, timing, evaluador, todo lo que necesitas saber
 """
 
 import datetime
+
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import letter
 from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet

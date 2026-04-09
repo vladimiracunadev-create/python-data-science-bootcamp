@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """Genera PDF legible con las 1000 preguntas Python"""
 import json
-from pathlib import Path
 
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import letter
