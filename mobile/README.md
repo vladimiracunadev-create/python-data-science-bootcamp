@@ -75,7 +75,7 @@ mobile/
 | Expo | ~51.0.0 | Framework base |
 | React Native | 0.74 | UI nativa |
 | @react-navigation/stack | ~6.4 | Navegacion entre pantallas |
-| react-native-syntax-highlighter | ~2.3 | Coloreado de código Python |
+| react-native-syntax-highlighter | ~2.1 | Coloreado de código Python |
 | @react-native-async-storage | 1.23 | Persistencia de progreso |
 | expo-clipboard | ~6.0 | Copiar código al portapapeles |
 | expo-linking | ~6.3 | Abrir Google Colab en el navegador |

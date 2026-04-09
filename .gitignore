@@ -9,3 +9,8 @@ __pycache__/
 .env.*
 !/.env.example
 app/saved_notebooks/*.json
+build/
+dist/
+release_artifacts/
+mobile/.expo/
+mobile/node_modules/
