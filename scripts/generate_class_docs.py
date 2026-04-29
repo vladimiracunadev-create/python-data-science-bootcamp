@@ -4,6 +4,7 @@ del bootcamp Python Data Science.
 """
 import os
 import re
+import traceback
 from pathlib import Path
 
 BASE = Path(__file__).parent.parent
@@ -139,15 +140,14 @@ try:
 
 except Exception as e:
     print(f'PDF generation error: {e}')
-    import traceback; traceback.print_exc()
+    traceback.print_exc()
 
 
 # ─── PPTX GENERATION ─────────────────────────────────────────────────────────
 try:
     from pptx import Presentation
-    from pptx.util import Inches, Pt, Emu
     from pptx.dml.color import RGBColor
-    from pptx.enum.text import PP_ALIGN
+    from pptx.util import Inches, Pt
 
     TEAL      = RGBColor(0x0F, 0x3D, 0x3E)
     TEAL_LIGHT= RGBColor(0xE6, 0xF5, 0xF5)
@@ -328,6 +328,6 @@ try:
 
 except Exception as e:
     print(f'PPTX generation error: {e}')
-    import traceback; traceback.print_exc()
+    traceback.print_exc()
 
 print('\nAll done.')
