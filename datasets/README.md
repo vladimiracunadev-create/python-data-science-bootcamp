@@ -132,6 +132,34 @@ Este directorio contiene los datasets base usados en las clases. Todos los datos
 - Es util para clasificacion básica, lectura de cohortes y segmentacion.
 - Conviene revisar relaciones entre asistencia, evaluaciones y entrega final.
 
+## 6. comentarios_productos.csv
+
+**Descripcion:** Reseñas de productos en español con etiqueta de sentimiento. Dataset sintético para practicar procesamiento de texto y clasificación NLP.
+
+**Clases que lo usan:** 26
+
+| Columna | Tipo | Descripcion | Ejemplo |
+|---|---|---|---|
+| `id` | int | Identificador de la reseña | `1` |
+| `producto` | str | Nombre del producto reseñado | `Auriculares Bluetooth` |
+| `categoria` | str | Categoría del producto | `Electronica` |
+| `comentario` | str | Texto libre de la reseña | `El sonido es increible...` |
+| `sentimiento` | str | Etiqueta de sentimiento | `Positivo` |
+
+**Valores de sentimiento:** `Positivo`, `Negativo`, `Neutro`
+
+**Categorías disponibles:** Electronica, Ropa, Deportes, Hogar
+
+**Columnas derivadas sugeridas:**
+- `largo_comentario = len(comentario)`
+- `tiene_exclamacion = '!' in comentario`
+- Vectorización con CountVectorizer o TfidfVectorizer
+
+**Notas:**
+- 100 registros sintéticos con variedad de productos y opiniones reales.
+- Útil para practicar preprocesamiento de texto, bag of words, TF-IDF y clasificación de sentimientos.
+- La distribución de sentimientos es aproximadamente 60% Positivo, 30% Negativo, 10% Neutro.
+
 ## Origen y licencia
 
 Todos los datasets son datos sinteticos generados para uso educativo dentro del bootcamp. No representan personas ni organizaciones reales.

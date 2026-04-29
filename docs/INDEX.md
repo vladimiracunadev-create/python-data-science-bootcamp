@@ -88,11 +88,9 @@ Documentos que viven en la raíz del repositorio y forman la capa de entrada pri
 
 ---
 
-## Territorio 2: Preparación para entrevista
+## Territorio 2: Materiales históricos del proceso de selección
 
-Documentos de uso personal para el proceso de selección con Skillnest / Colegio San Nicolás de Maipú. No son parte del producto en sí: son instrumentos de preparación, pitch y venta.
-
-> Entrevista: jueves 9 de abril de 2026, 15:30.
+Documentos generados durante el proceso de selección con Skillnest. Se conservan como referencia histórica y como evidencia del proceso pedagógico. El producto ya pasó esa etapa y ahora se desarrolla como recurso personal de aprendizaje y enseñanza.
 
 | Documento | Rol |
 |---|---|

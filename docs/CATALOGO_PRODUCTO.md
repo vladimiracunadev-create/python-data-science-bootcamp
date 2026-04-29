@@ -34,7 +34,7 @@ Capacidad proyectada, pero no operativa hoy como pieza principal del sistema.
 | App Android (`mobile/`) | distribucion móvil | listo para build | alumno en movimiento | lectura de contenido, código documentado, apertura directa en Google Colab |
 | Portal del alumno (`site/`) | superficie pública | operativo | alumno | enlace oficial, ruta, recursos, reglas de uso de tecnología |
 | Vista institucional (`site/product/`) | superficie pública | operativo | institución / evaluador | narrativa de producto, alcance, arquitectura, operación y crecimiento |
-| Curriculum modular (`classes/`) | base pedagógica | operativo | docente | clase 0 diagnóstica + 12 clases troncales con notebooks profusamente documentados, ejercicios, tareas y soluciones |
+| Curriculum modular (`classes/`) | base pedagógica | operativo | docente / alumno | clase 0 diagnóstica + 30 clases en 13 módulos: Python, NumPy, SQL, visualización (matplotlib + seaborn), estadística descriptiva e inferencial, feature engineering, ML supervisado (regresión, árboles, RF, GBM), ML no supervisado (clustering, PCA, anomalías), series de tiempo, NLP, redes neuronales, despliegue y ética. Cada clase incluye README, slides, teoría, ejercicios, tarea, preguntas, tecnologías, guía de código, notebook y soluciones. |
 | Kit documental (`docs/`) | capa editorial | operativo | docente / stakeholder / repo | metodología, implementación, evaluación, seguridad y entrevista |
 | PDFs (`docs/pdfs/`) | artefacto de apoyo | operativo | entrevista / presentación | piezas imprimibles, guías de estudio y apoyo de clase |
 | Presentaciones (`docs/presentaciones/`) | artefacto de apoyo | operativo | docente / entrevista | decks `.pptx` listos para exposición por clase |

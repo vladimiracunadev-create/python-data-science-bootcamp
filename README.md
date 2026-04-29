@@ -59,7 +59,7 @@ La documentación está pensada como sistema, no como inventario de archivos.
 | Laboratorio interactivo (`app/`) | entorno local de clase — notebooks, runner, ejecución Python | operativo |
 | Portal del alumno (`site/`) | punto de entrada oficial para estudiantes | operativo |
 | Vista institucional (`site/product/`) | presentación visual del producto | operativa |
-| Curriculum modular (`classes/`) | clase 0 diagnóstica + 12 clases con notebooks, ejercicios, slides, tareas y soluciones | operativo |
+| Curriculum modular (`classes/`) | clase 0 diagnóstica + 30 clases (13 módulos: Python, NumPy, SQL, visualización, estadística, ML, clustering, PCA, series de tiempo, NLP, anomalías, redes neuronales, despliegue, ética) | operativo |
 | App de escritorio Windows (`launcher.py` + `bootcamp.spec` + `installer/`) | ventana nativa con Edge WebView2 — sin navegador, sin Python en el PC del alumno | v1.0.0 publicada |
 | App Android (`mobile/`) | Expo/React Native con contenido embebido + integración Google Colab | v1.0.0 publicada |
 | PDFs (`docs/pdfs/`) | apoyo para reunión, evaluación, estudio e impresión | operativo |
@@ -90,6 +90,24 @@ Estos archivos se generan desde el contenido real de cada carpeta en `classes/` 
 | Clase 10 | [classes/10-modelos-supervisados/clase-10-modelos-supervisados-guia-explicativa.pdf](classes/10-modelos-supervisados/clase-10-modelos-supervisados-guia-explicativa.pdf) | [classes/10-modelos-supervisados/clase-10-modelos-supervisados-presentacion.pptx](classes/10-modelos-supervisados/clase-10-modelos-supervisados-presentacion.pptx) |
 | Clase 11 | [classes/11-evaluacion-y-pipelines/clase-11-evaluacion-y-pipelines-guia-explicativa.pdf](classes/11-evaluacion-y-pipelines/clase-11-evaluacion-y-pipelines-guia-explicativa.pdf) | [classes/11-evaluacion-y-pipelines/clase-11-evaluacion-y-pipelines-presentacion.pptx](classes/11-evaluacion-y-pipelines/clase-11-evaluacion-y-pipelines-presentacion.pptx) |
 | Clase 12 | [classes/12-proyecto-final-y-cierre/clase-12-proyecto-final-y-cierre-guia-explicativa.pdf](classes/12-proyecto-final-y-cierre/clase-12-proyecto-final-y-cierre-guia-explicativa.pdf) | [classes/12-proyecto-final-y-cierre/clase-12-proyecto-final-y-cierre-presentacion.pptx](classes/12-proyecto-final-y-cierre/clase-12-proyecto-final-y-cierre-presentacion.pptx) |
+| Clase 13 | [classes/13-que-es-la-ciencia-de-datos/clase-13-que-es-la-ciencia-de-datos-guia-explicativa.pdf](classes/13-que-es-la-ciencia-de-datos/clase-13-que-es-la-ciencia-de-datos-guia-explicativa.pdf) | [classes/13-que-es-la-ciencia-de-datos/clase-13-que-es-la-ciencia-de-datos-presentacion.pptx](classes/13-que-es-la-ciencia-de-datos/clase-13-que-es-la-ciencia-de-datos-presentacion.pptx) |
+| Clase 14 | [classes/14-numpy-arrays-y-calculo/clase-14-numpy-arrays-y-calculo-guia-explicativa.pdf](classes/14-numpy-arrays-y-calculo/clase-14-numpy-arrays-y-calculo-guia-explicativa.pdf) | [classes/14-numpy-arrays-y-calculo/clase-14-numpy-arrays-y-calculo-presentacion.pptx](classes/14-numpy-arrays-y-calculo/clase-14-numpy-arrays-y-calculo-presentacion.pptx) |
+| Clase 15 | [classes/15-sql-basico-con-python/clase-15-sql-basico-con-python-guia-explicativa.pdf](classes/15-sql-basico-con-python/clase-15-sql-basico-con-python-guia-explicativa.pdf) | [classes/15-sql-basico-con-python/clase-15-sql-basico-con-python-presentacion.pptx](classes/15-sql-basico-con-python/clase-15-sql-basico-con-python-presentacion.pptx) |
+| Clase 16 | [classes/16-seaborn-visualizacion-estadistica/clase-16-seaborn-visualizacion-estadistica-guia-explicativa.pdf](classes/16-seaborn-visualizacion-estadistica/clase-16-seaborn-visualizacion-estadistica-guia-explicativa.pdf) | [classes/16-seaborn-visualizacion-estadistica/clase-16-seaborn-visualizacion-estadistica-presentacion.pptx](classes/16-seaborn-visualizacion-estadistica/clase-16-seaborn-visualizacion-estadistica-presentacion.pptx) |
+| Clase 17 | [classes/17-estadistica-inferencial/clase-17-estadistica-inferencial-guia-explicativa.pdf](classes/17-estadistica-inferencial/clase-17-estadistica-inferencial-guia-explicativa.pdf) | [classes/17-estadistica-inferencial/clase-17-estadistica-inferencial-presentacion.pptx](classes/17-estadistica-inferencial/clase-17-estadistica-inferencial-presentacion.pptx) |
+| Clase 18 | [classes/18-feature-engineering/clase-18-feature-engineering-guia-explicativa.pdf](classes/18-feature-engineering/clase-18-feature-engineering-guia-explicativa.pdf) | [classes/18-feature-engineering/clase-18-feature-engineering-presentacion.pptx](classes/18-feature-engineering/clase-18-feature-engineering-presentacion.pptx) |
+| Clase 19 | [classes/19-regresion-lineal-y-multiple/clase-19-regresion-lineal-y-multiple-guia-explicativa.pdf](classes/19-regresion-lineal-y-multiple/clase-19-regresion-lineal-y-multiple-guia-explicativa.pdf) | [classes/19-regresion-lineal-y-multiple/clase-19-regresion-lineal-y-multiple-presentacion.pptx](classes/19-regresion-lineal-y-multiple/clase-19-regresion-lineal-y-multiple-presentacion.pptx) |
+| Clase 20 | [classes/20-arboles-y-random-forest/clase-20-arboles-y-random-forest-guia-explicativa.pdf](classes/20-arboles-y-random-forest/clase-20-arboles-y-random-forest-guia-explicativa.pdf) | [classes/20-arboles-y-random-forest/clase-20-arboles-y-random-forest-presentacion.pptx](classes/20-arboles-y-random-forest/clase-20-arboles-y-random-forest-presentacion.pptx) |
+| Clase 21 | [classes/21-gradient-boosting/clase-21-gradient-boosting-guia-explicativa.pdf](classes/21-gradient-boosting/clase-21-gradient-boosting-guia-explicativa.pdf) | [classes/21-gradient-boosting/clase-21-gradient-boosting-presentacion.pptx](classes/21-gradient-boosting/clase-21-gradient-boosting-presentacion.pptx) |
+| Clase 22 | [classes/22-clustering-y-segmentacion/clase-22-clustering-y-segmentacion-guia-explicativa.pdf](classes/22-clustering-y-segmentacion/clase-22-clustering-y-segmentacion-guia-explicativa.pdf) | [classes/22-clustering-y-segmentacion/clase-22-clustering-y-segmentacion-presentacion.pptx](classes/22-clustering-y-segmentacion/clase-22-clustering-y-segmentacion-presentacion.pptx) |
+| Clase 23 | [classes/23-reduccion-dimensionalidad-pca/clase-23-reduccion-dimensionalidad-pca-guia-explicativa.pdf](classes/23-reduccion-dimensionalidad-pca/clase-23-reduccion-dimensionalidad-pca-guia-explicativa.pdf) | [classes/23-reduccion-dimensionalidad-pca/clase-23-reduccion-dimensionalidad-pca-presentacion.pptx](classes/23-reduccion-dimensionalidad-pca/clase-23-reduccion-dimensionalidad-pca-presentacion.pptx) |
+| Clase 24 | [classes/24-series-de-tiempo/clase-24-series-de-tiempo-guia-explicativa.pdf](classes/24-series-de-tiempo/clase-24-series-de-tiempo-guia-explicativa.pdf) | [classes/24-series-de-tiempo/clase-24-series-de-tiempo-presentacion.pptx](classes/24-series-de-tiempo/clase-24-series-de-tiempo-presentacion.pptx) |
+| Clase 25 | [classes/25-ajuste-de-hiperparametros/clase-25-ajuste-de-hiperparametros-guia-explicativa.pdf](classes/25-ajuste-de-hiperparametros/clase-25-ajuste-de-hiperparametros-guia-explicativa.pdf) | [classes/25-ajuste-de-hiperparametros/clase-25-ajuste-de-hiperparametros-presentacion.pptx](classes/25-ajuste-de-hiperparametros/clase-25-ajuste-de-hiperparametros-presentacion.pptx) |
+| Clase 26 | [classes/26-nlp-texto-como-datos/clase-26-nlp-texto-como-datos-guia-explicativa.pdf](classes/26-nlp-texto-como-datos/clase-26-nlp-texto-como-datos-guia-explicativa.pdf) | [classes/26-nlp-texto-como-datos/clase-26-nlp-texto-como-datos-presentacion.pptx](classes/26-nlp-texto-como-datos/clase-26-nlp-texto-como-datos-presentacion.pptx) |
+| Clase 27 | [classes/27-deteccion-de-anomalias/clase-27-deteccion-de-anomalias-guia-explicativa.pdf](classes/27-deteccion-de-anomalias/clase-27-deteccion-de-anomalias-guia-explicativa.pdf) | [classes/27-deteccion-de-anomalias/clase-27-deteccion-de-anomalias-presentacion.pptx](classes/27-deteccion-de-anomalias/clase-27-deteccion-de-anomalias-presentacion.pptx) |
+| Clase 28 | [classes/28-etica-sesgo-y-privacidad/clase-28-etica-sesgo-y-privacidad-guia-explicativa.pdf](classes/28-etica-sesgo-y-privacidad/clase-28-etica-sesgo-y-privacidad-guia-explicativa.pdf) | [classes/28-etica-sesgo-y-privacidad/clase-28-etica-sesgo-y-privacidad-presentacion.pptx](classes/28-etica-sesgo-y-privacidad/clase-28-etica-sesgo-y-privacidad-presentacion.pptx) |
+| Clase 29 | [classes/29-redes-neuronales-intro/clase-29-redes-neuronales-intro-guia-explicativa.pdf](classes/29-redes-neuronales-intro/clase-29-redes-neuronales-intro-guia-explicativa.pdf) | [classes/29-redes-neuronales-intro/clase-29-redes-neuronales-intro-presentacion.pptx](classes/29-redes-neuronales-intro/clase-29-redes-neuronales-intro-presentacion.pptx) |
+| Clase 30 | [classes/30-despliegue-basico-de-modelos/clase-30-despliegue-basico-de-modelos-guia-explicativa.pdf](classes/30-despliegue-basico-de-modelos/clase-30-despliegue-basico-de-modelos-guia-explicativa.pdf) | [classes/30-despliegue-basico-de-modelos/clase-30-despliegue-basico-de-modelos-presentacion.pptx](classes/30-despliegue-basico-de-modelos/clase-30-despliegue-basico-de-modelos-presentacion.pptx) |
 
 ### PDFs de entrevista y estudio
 
@@ -139,12 +157,12 @@ La arquitectura completa, con flujos y fronteras, está en [docs/ARQUITECTURA_PR
 
 ### Curriculum y pedagogía
 
-- clase 0 diagnóstica (quiz de 30 preguntas) + 12 clases modulares;
-- `teoria.md`, `slides.md`, `ejercicios.md`, `homework.md` por clase;
+- clase 0 diagnóstica (quiz de 30 preguntas) + 30 clases modulares (01–30);
+- `teoria.md`, `slides.md`, `ejercicios.md`, `homework.md`, `preguntas.md`, `tecnologias.md`, `guia-codigo.md` por clase;
 - notebooks Jupyter para el alumno + soluciones para el instructor;
-- 5 datasets sintéticos para práctica;
-- guías de instructor, metodología y criterios de evaluación;
-- ruta inicial acotada documentada para contexto escolar.
+- 6 datasets sintéticos para práctica (ventas, clientes, soporte, transporte, estudiantes, comentarios);
+- guías de instructor, metodología, ética y criterios de evaluación;
+- currículo organizado en 13 módulos temáticos: fundamentos, datos, visualización, estadística, ML supervisado y no supervisado, series de tiempo, NLP, redes neuronales, despliegue y ética.
 
 ### Laboratorio interactivo
 

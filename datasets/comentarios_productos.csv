@@ -1,0 +1,101 @@
+id,producto,categoria,comentario,sentimiento
+1,Auriculares Bluetooth,Electronica,El sonido es increible, se escucha muy claro y la bateria dura bastante,Positivo
+2,Mouse Gamer,Electronica,Muy buena precision y comodidad al usarlo todo el dia,Positivo
+3,Silla de escritorio,Hogar,Me duele la espalda despues de usarla por horas, no la recomiendo,Negativo
+4,Zapatillas deportivas,Ropa,Son comodas para correr pero se manchan facilmente,Neutro
+5,Laptop ultrabook,Electronica,Excelente rendimiento y muy liviana para llevar al trabajo,Positivo
+6,Mochila escolar,Ropa,El cierre se rompio a los dos meses, mala calidad,Negativo
+7,Pelota de futbol,Deportes,Buena calidad y rebota bien en cualquier superficie,Positivo
+8,Auriculares Bluetooth,Electronica,La conexion se corta seguido, es muy frustrante,Negativo
+9,Teclado mecanico,Electronica,Las teclas suenan perfecto y responden muy rapido,Positivo
+10,Ropa deportiva,Ropa,La tela es comoda pero los colores se decoloran rapidamente,Negativo
+11,Monitor LED,Electronica,Pantalla nitida y brillo excelente, muy facil de configurar,Positivo
+12,Bicicleta de montana,Deportes,Solida y aguanta caminos dificiles, vale cada peso,Positivo
+13,Mesa de cocina,Hogar,Muy difícil de armar, las instrucciones son confusas,Negativo
+14,Zapatos de cuero,Ropa,Me llegaron con una costura mal hecha, tuve que devolverlos,Negativo
+15,Parlante portatil,Electronica,Sonido potente para su tamano, resistente al agua como promete,Positivo
+16,Colchon ortopedico,Hogar,Durme mucho mejor desde que lo use, muy recomendable,Positivo
+17,Auriculares Bluetooth,Electronica,El precio es justo para la calidad que ofrece,Neutro
+18,Camisa formal,Ropa,Tela fresca y corte elegante, perfecta para la oficina,Positivo
+19,Raqueta de padel,Deportes,Control y potencia increibles, llevo meses usandola sin problemas,Positivo
+20,Lampara de escritorio,Hogar,La luz es muy amarilla y cansa la vista, no la compren,Negativo
+21,Mouse Gamer,Electronica,Un poco pesado para sesiones largas pero funciona bien,Neutro
+22,Short deportivo,Ropa,Muy comodo para entrenar, la tela no raspa ni en verano,Positivo
+23,Pesas de gimnasio,Deportes,El agarre es bueno pero el recubrimiento se pela rapido,Neutro
+24,Aspiradora robot,Hogar,Limpia bastante bien pero hace mucho ruido de noche,Neutro
+25,Tablet grafica,Electronica,Precision increible para dibujar, los drivers funcionan perfecto,Positivo
+26,Pantalon de trekking,Ropa,Material resistente y muchos bolsillos utiles, excelente compra,Positivo
+27,Cuerda de saltar,Deportes,Liviana y facil de llevar, ideal para calentar antes de entrenar,Positivo
+28,Sofa de dos plazas,Hogar,Comodo al principio pero pierde forma rapido con el uso,Negativo
+29,Teclado mecanico,Electronica,El RGB no funciono desde el primer dia, decepcionante,Negativo
+30,Camiseta de entrenamiento,Ropa,Absorbe bien el sudor y seca rapido, perfecta para deporte,Positivo
+31,Parlante portatil,Electronica,La bateria dura menos de lo que dice la caja,Negativo
+32,Estante metalico,Hogar,Resistente y facil de armar, aguanta mucho peso sin doblarse,Positivo
+33,Zapatillas running,Ropa,Perfectas para largas distancias, amortiguan muy bien el impacto,Positivo
+34,Disco duro externo,Electronica,Rapido y confiable, ideal para guardar archivos grandes,Positivo
+35,Cuna de madera,Hogar,La pintura huele fuerte y el manual es muy confuso,Negativo
+36,Guantes de boxeo,Deportes,Buena proteccion y se adaptan bien a la mano,Positivo
+37,Mouse Gamer,Electronica,Se calienta mucho despues de una hora, es incomodo,Negativo
+38,Pantalon de yoga,Ropa,Muy elastico y bonito, lo uso para entrenar y para salir,Positivo
+39,Bicicleta estatica,Deportes,Hace ruido al pedalear, molesta en departamentos,Negativo
+40,Cafetera italiana,Hogar,El cafe que hace es delicioso, facil de usar y limpiar,Positivo
+41,Auriculares gamer,Electronica,La cancelacion de ruido funciona muy bien para gaming,Positivo
+42,Chaqueta impermeable,Ropa,Funciona bien con lluvia moderada pero no con lluvia fuerte,Neutro
+43,Colchoneta de yoga,Deportes,Antideslizante y comoda, perfecta para sesiones largas,Positivo
+44,Televisor 4K,Electronica,Imagen espectacular y muy facil de conectar al wifi,Positivo
+45,Estanteria flotante,Hogar,Aguanta bastante peso y queda muy prolija en la pared,Positivo
+46,Camisa deportiva,Ropa,Se deforma en el primer lavado, no recomiendo,Negativo
+47,Saco de boxeo,Deportes,Solido y bien relleno, ideal para entrenamiento en casa,Positivo
+48,Freidora de aire,Hogar,Excelente para cocinar sin aceite, resultados rapidos y sanos,Positivo
+49,Laptop ultrabook,Electronica,Se calienta mucho y el ventilador hace ruido constante,Negativo
+50,Zapatillas de lona,Ropa,Muy comodas y livianas para el dia a dia, buen precio,Positivo
+51,Bicicleta de montana,Deportes,Los frenos no responden bien al inicio, hay que ajustarlos,Neutro
+52,Olla a presion,Hogar,Cocina rapido y facil, ahorra mucho tiempo en la cocina,Positivo
+53,Teclado inalambrico,Electronica,La conexion bluetooth es estable y la bateria dura meses,Positivo
+54,Campera de invierno,Ropa,Abriga muy bien pero el cierre se traba seguido,Neutro
+55,Mancuernas ajustables,Deportes,Practicas y compactas, excelente para entrenamiento en casa,Positivo
+56,Estacion de trabajo,Hogar,El diseño es bonito pero la madera raspa al tacto,Negativo
+57,Parlante portatil,Electronica,Bateria dura muchisimo y se conecta rapido por bluetooth,Positivo
+58,Vestido veraniego,Ropa,El color es diferente al de la foto, me decepciono,Negativo
+59,Raqueta de tenis,Deportes,Muy buena relacion calidad precio para jugadores intermedios,Positivo
+60,Aspiradora de mano,Hogar,Liviana y potente para limpiar el auto o muebles rapidamente,Positivo
+61,Disco duro externo,Electronica,Se desconecto y perdi datos, horrible experiencia,Negativo
+62,Remera termica,Ropa,Abriga bien sin sumar volumen, perfecta para capas en invierno,Positivo
+63,Pelota de basquet,Deportes,Buen agarre y rebote correcto en cancha de cemento,Positivo
+64,Sillon reclinable,Hogar,Muy comodo para ver television o leer libros por horas,Positivo
+65,Monitor curvo,Electronica,La curvatura mejora mucho la experiencia de trabajo y gaming,Positivo
+66,Short de natacion,Ropa,El elastico se solto despues de tres usos, muy mala calidad,Negativo
+67,Cuerda para trepar,Deportes,Buen grosor y resistencia, ideal para rutinas de funcional,Positivo
+68,Estanteria de bambu,Hogar,Muy bonita y sencilla de armar, ideal para decorar cualquier ambiente,Positivo
+69,Teclado mecanico,Electronica,La retroiluminacion es espectacular y las teclas responden perfecto,Positivo
+70,Calza deportiva,Ropa,Elastica y comoda, no se baja al entrenar ni correr,Positivo
+71,Bicicleta BMX,Deportes,Resistente y agil, perfecta para practicar trucos en la plaza,Positivo
+72,Cajonera de plastico,Hogar,Los cajones se atoran seguido, el plastico es muy delgado,Negativo
+73,Audifonos con cable,Electronica,Sonido limpio y cable resistente, excelente para musica en el metro,Positivo
+74,Campera de cuero,Ropa,El acabado es de buena calidad pero el talle es mas chico de lo normal,Neutro
+75,Guantes de ciclismo,Deportes,Protegen bien las manos y no resbalan en el manillar,Positivo
+76,Escritorio plegable,Hogar,Practico y solido, ideal para espacios pequenos o home office,Positivo
+77,Camara web HD,Electronica,Imagen clara y enfoque automatico excelente para videollamadas,Positivo
+78,Medias de compresion,Ropa,Ayudan mucho en caminatas largas, no cansen las piernas,Positivo
+79,Tabla de surf,Deportes,Buena estabilidad para principiantes, el forro protege bien,Positivo
+80,Sillon de oficina,Hogar,Muy comodo para jornadas largas, el soporte lumbar es excelente,Positivo
+81,Mouse inalambrico,Electronica,La pila dura meses y la conexion es muy estable y precisa,Positivo
+82,Remera de algodon,Ropa,Tela suave pero encoje bastante en el primer lavado,Negativo
+83,Palo de golf,Deportes,Buen equilibrio y precision para nivel intermedio, recomendable,Positivo
+84,Mueble de bano,Hogar,El color se despintó a los dos meses con la humedad,Negativo
+85,Impresora laser,Electronica,Rapida y silenciosa, los cartuchos duran mucho mas que la anterior,Positivo
+86,Parka impermeable,Ropa,Aguanta lluvia intensa y mantiene el calor en dias frios,Positivo
+87,Patines en linea,Deportes,Buenos frenos y rodamientos fluidos, ideales para principiantes,Positivo
+88,Alfombra de sala,Hogar,Suave al tacto y el color no se desvanece con el paso del tiempo,Positivo
+89,Laptop gaming,Electronica,Potente para jugar pero la bateria dura solo dos horas,Neutro
+90,Shorts de playa,Ropa,Secan muy rapido y no irritan la piel con la arena ni el sol,Positivo
+91,Trampolín de rebote,Deportes,Divertido para entrenar en casa pero ocupa bastante espacio,Neutro
+92,Ropero de madera,Hogar,Muy solido y bien terminado, las puertas corren perfecto,Positivo
+93,Parlante inteligente,Electronica,Se integra bien con todos los dispositivos, sonido claro y potente,Positivo
+94,Pantalon de invierno,Ropa,Muy abrigador pero el bolsillo se descosio a las dos semanas,Negativo
+95,Kayak inflable,Deportes,Facil de inflar y estable en el agua, perfecto para explorar lagos,Positivo
+96,Cajonera de madera,Hogar,Muy bien armada y los cajones se deslizan sin esfuerzo,Positivo
+97,Router wifi 6,Electronica,Cobertura excelente en toda la casa y velocidad muy estable,Positivo
+98,Gorra deportiva,Ropa,Protege bien del sol y ventila bien, comoda para correr,Positivo
+99,Saco de dormir,Deportes,Muy abrigador para temperaturas bajas, liviano y facil de enrollar,Positivo
+100,Espejo con luz,Hogar,La iluminacion es perfecta para maquillarse y el armazon es solido,Positivo
