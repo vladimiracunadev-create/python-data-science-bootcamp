@@ -6,49 +6,47 @@
 
 ---
 
-## Territorios de esta documentación
+## 🗂️ Territorios de esta documentación
 
 | Territorio | Carpeta / ubicación | Para quién |
 |---|---|---|
-| Producto del bootcamp | `docs/` (raíz) + archivos raíz (`README`, `RUNBOOK`, `SECURITY`, etc.) | Instituciones, docentes, alumnos, evaluadores técnicos |
-| Preparación para entrevista | `docs/entrevista/` | Uso personal del autor en proceso de contratación |
-| Notas internas del maintainer | `docs/maintainer/` | Solo el autor, para análisis de portafolio y mejora continua |
+| 📦 Producto del bootcamp | `docs/` (raíz) + archivos raíz (`README`, `RUNBOOK`, `SECURITY`, etc.) | Docentes, alumnos, evaluadores técnicos, cualquier persona interesada |
+| 🗂️ Proceso de selección (histórico) | `docs/entrevista/` | Archivo personal del autor — contexto del proceso con Skillnest |
+| 🔧 Notas internas del maintainer | `docs/maintainer/` | Solo el autor, para análisis de portafolio y mejora continua |
 
 ---
 
-## Territorio 1: Archivos raíz del producto
-
-Documentos que viven en la raíz del repositorio y forman la capa de entrada principal.
+## 📦 Territorio 1: Archivos raíz del producto
 
 | Archivo | Audiencia | Contenido |
 |---|---|---|
-| [../README.md](../README.md) | todos | Portada del producto, rutas por perfil, inicio rápido |
+| [../README.md](../README.md) | todos | Portada del producto, estado actual, rutas por perfil, inicio rápido |
 | [../RECRUITER.md](../RECRUITER.md) | reclutadores / evaluadores técnicos | Evidencia técnica en 5 minutos, stack, estado real |
 | [../CHANGELOG.md](../CHANGELOG.md) | maintainers / contribuidores | Historial de cambios por versión |
 | [../CONTRIBUTING.md](../CONTRIBUTING.md) | contribuidores | Cómo contribuir al proyecto |
 | [../ROADMAP.md](../ROADMAP.md) | todos | Dirección futura del producto |
 | [../RUNBOOK.md](../RUNBOOK.md) | operación | Arranque, smoke checks, incidentes y apagado |
 | [../SECURITY.md](../SECURITY.md) | seguridad / todos | Postura de seguridad, riesgos aceptados, hardening |
-| [../LICENSE](../LICENSE) | legal | Términos de uso MIT con clarificaciones |
+| [../LICENSE](../LICENSE) | legal | Términos de uso MIT |
 
 ---
 
-## Territorio 1: Documentos del producto en `docs/`
+## 📂 Territorio 1: Documentos del producto en `docs/`
 
-### Lectura recomendada por perfil
+### 🔎 Lectura recomendada por perfil
 
 | Perfil | Documento de entrada | Qué obtiene |
 |---|---|---|
-| Institución / evaluador | [GUIA_EVALUACION.md](GUIA_EVALUACION.md) | Valor del producto, evidencias y límites reales |
-| Reclutador técnico | [../RECRUITER.md](../RECRUITER.md) | Evidencia rápida sin lectura extensa |
-| Stakeholder técnico | [ARQUITECTURA_PRODUCTO.md](ARQUITECTURA_PRODUCTO.md) | Capas, flujos, fronteras y evolución |
-| Producto / fuente de verdad | [CATALOGO_PRODUCTO.md](CATALOGO_PRODUCTO.md) | Superficies, artefactos y reglas de comunicación |
-| Docente / implementación | [herramientas-pedagogicas-de-aula.md](herramientas-pedagogicas-de-aula.md) | Mediación en clase, problemas frecuentes, ritmo |
-| Alumno | [student-guide.md](student-guide.md) | Cómo usar los materiales, ruta y expectativas |
-| Operación | [../RUNBOOK.md](../RUNBOOK.md) | Arranque, smoke checks, verificación y apagado |
-| Seguridad | [../SECURITY.md](../SECURITY.md) | Postura actual, riesgos aceptados y hardening |
+| 🎓 Alumno | [student-guide.md](student-guide.md) | Cómo usar los materiales, ruta y expectativas |
+| 👩‍🏫 Docente | [instructor-guide.md](instructor-guide.md) | Playbook para impartir el bootcamp |
+| 🏫 Institución / evaluador | [GUIA_EVALUACION.md](GUIA_EVALUACION.md) | Valor del producto, evidencias y límites reales |
+| 💼 Reclutador técnico | [../RECRUITER.md](../RECRUITER.md) | Evidencia rápida sin lectura extensa |
+| 🏗️ Stakeholder técnico | [ARQUITECTURA_PRODUCTO.md](ARQUITECTURA_PRODUCTO.md) | Capas, flujos, fronteras y evolución |
+| 📦 Producto / fuente de verdad | [CATALOGO_PRODUCTO.md](CATALOGO_PRODUCTO.md) | Superficies, artefactos y reglas de comunicación |
+| ⚙️ Operación | [../RUNBOOK.md](../RUNBOOK.md) | Arranque, smoke checks, verificación y apagado |
+| 🔒 Seguridad | [../SECURITY.md](../SECURITY.md) | Postura actual, riesgos aceptados y hardening |
 
-### Mapa documental técnico
+### 🗺️ Mapa documental técnico
 
 | Documento | Rol |
 |---|---|
@@ -60,13 +58,15 @@ Documentos que viven en la raíz del repositorio y forman la capa de entrada pri
 | [entorno-interactivo.md](entorno-interactivo.md) | El laboratorio Flask — modos, API, motor de ejecución |
 | [despliegue-seguro-y-operacion.md](despliegue-seguro-y-operacion.md) | CI/CD, Docker y hardening técnico |
 | [portal-estudiante-y-app-movil.md](portal-estudiante-y-app-movil.md) | Portal público, laboratorio y app móvil |
-| [pdfs/](pdfs/) | PDFs de entrevista, estudio y guías de clase |
-| [presentaciones/](presentaciones/) | Presentaciones `.pptx` listas para exposición |
+| [pdfs/](pdfs/) | 31 guías explicativas por clase + PDFs de estudio |
+| [presentaciones/](presentaciones/) | 31 presentaciones `.pptx` listas para exposición |
 
-### Documentos pedagógicos
+### 📖 Documentos pedagógicos
 
 | Documento | Rol |
 |---|---|
+| [syllabus.md](syllabus.md) | Currículo completo: 31 clases, 13 módulos, perfil de salida |
+| [cronograma-referencial.md](cronograma-referencial.md) | Distribución temporal: modalidades intensiva, estándar y parte-tiempo |
 | [metodologia-docente.md](metodologia-docente.md) | Marco pedagógico del producto |
 | [instructor-guide.md](instructor-guide.md) | Playbook para quien imparte el bootcamp |
 | [student-guide.md](student-guide.md) | Guía de onboarding del alumno |
@@ -74,11 +74,8 @@ Documentos que viven en la raíz del repositorio y forman la capa de entrada pri
 | [herramientas-pedagogicas-de-aula.md](herramientas-pedagogicas-de-aula.md) | Estrategias de mediación y problemas de aula |
 | [aula-ia-y-problemas-frecuentes.md](aula-ia-y-problemas-frecuentes.md) | Uso de IA y manejo de dificultades frecuentes |
 | [perfil-estudiantes.md](perfil-estudiantes.md) | Perfil de entrada y consideraciones del grupo |
-| [syllabus.md](syllabus.md) | Visión general del programa |
-| [cronograma-referencial.md](cronograma-referencial.md) | Distribución temporal de clases |
-| [implementacion-v1-skillnest-san-nicolas.md](implementacion-v1-skillnest-san-nicolas.md) | Ruta inicial acotada para contexto escolar |
 
-### Regla de lectura rápida (10 minutos)
+### ⚡ Regla de lectura rápida (10 minutos)
 
 1. [../README.md](../README.md)
 2. [../RECRUITER.md](../RECRUITER.md)
@@ -88,37 +85,25 @@ Documentos que viven en la raíz del repositorio y forman la capa de entrada pri
 
 ---
 
-## Territorio 2: Materiales históricos del proceso de selección
+## 🗂️ Territorio 2: Proceso de selección (histórico)
 
-Documentos generados durante el proceso de selección con Skillnest. Se conservan como referencia histórica y como evidencia del proceso pedagógico. El producto ya pasó esa etapa y ahora se desarrolla como recurso personal de aprendizaje y enseñanza.
+Documentos generados durante el proceso de selección con Skillnest. Se conservan como referencia histórica y como evidencia del proceso pedagógico. **El producto ya superó esa etapa** — ahora se desarrolla como recurso personal de aprendizaje y enseñanza, abierto a cualquier persona.
 
 | Documento | Rol |
 |---|---|
-| [entrevista/muestra-producto-para-skillnest.md](entrevista/muestra-producto-para-skillnest.md) | Documento canónico: muestra del producto y enfoque docente |
-| [entrevista/preguntas-para-hacer-en-entrevista.md](entrevista/preguntas-para-hacer-en-entrevista.md) | Documento canónico: preguntas para aclarar alcance, condiciones y riesgos |
-| [entrevista/guia-estudio-repositorio.md](entrevista/guia-estudio-repositorio.md) | Documento canónico: guía maestra para estudiar el repositorio a profundidad |
-| [entrevista/guia-total-python-data-science.md](entrevista/guia-total-python-data-science.md) | Guía ampliada: mapa completo de Python con Data Science apoyado en fuentes oficiales |
-| [entrevista/entrevista-skillnest-preparacion.md](entrevista/entrevista-skillnest-preparacion.md) | Nota personal de pitch, Q&A y límites sanos |
-| [entrevista/desafio-tecnico-preparacion.md](entrevista/desafio-tecnico-preparacion.md) | Nota de estudio para desafío técnico |
-| [entrevista/proceso-seleccion-skillnest.md](entrevista/proceso-seleccion-skillnest.md) | Contexto del proceso y sus etapas |
-| [entrevista/preparacion-entrevista-imprimible.md](entrevista/preparacion-entrevista-imprimible.md) | Nota breve de apoyo previo a la reunión |
-| [entrevista/entrevista-skillnest-presentacion-v2.md](entrevista/entrevista-skillnest-presentacion-v2.md) | Guion corto de presentación |
-| [entrevista/entrevista-skillnest-presentacion.md](entrevista/entrevista-skillnest-presentacion.md) | Guion de presentación anterior |
-| [entrevista/reunion-pitch.md](entrevista/reunion-pitch.md) | Pitch para la reunión |
-| [entrevista/demo-reunion-jueves.md](entrevista/demo-reunion-jueves.md) | Demo específica para la reunión del jueves |
-| [entrevista/demo-capacitaciones-escalable.md](entrevista/demo-capacitaciones-escalable.md) | Demo del modelo de capacitaciones escalable |
-| [entrevista/valor-diferencial.md](entrevista/valor-diferencial.md) | Diferenciadores para el contexto escolar |
-| [entrevista/rubrica-clase-prueba.md](entrevista/rubrica-clase-prueba.md) | Rúbrica para clase de prueba |
-| [entrevista/clase-prueba-sugerida.md](entrevista/clase-prueba-sugerida.md) | Clase de prueba sugerida |
-| [pdfs/](pdfs/) | PDFs generados para imprimir, estudiar o compartir en reunión |
-
-Los PDFs finales de este territorio son cuatro: tres canónicos de entrevista y una guía ampliada de estudio. Las otras notas permanecen como material editable de preparación personal.
+| [entrevista/muestra-producto-para-skillnest.md](entrevista/muestra-producto-para-skillnest.md) | Muestra del producto y enfoque docente |
+| [entrevista/preguntas-para-hacer-en-entrevista.md](entrevista/preguntas-para-hacer-en-entrevista.md) | Preguntas para aclarar alcance, condiciones y riesgos |
+| [entrevista/guia-estudio-repositorio.md](entrevista/guia-estudio-repositorio.md) | Guía maestra para estudiar el repositorio a profundidad |
+| [entrevista/guia-total-python-data-science.md](entrevista/guia-total-python-data-science.md) | Mapa completo de Python con Data Science apoyado en fuentes oficiales |
+| [entrevista/entrevista-skillnest-preparacion.md](entrevista/entrevista-skillnest-preparacion.md) | Notas personales de pitch, Q&A y límites |
+| [entrevista/desafio-tecnico-preparacion.md](entrevista/desafio-tecnico-preparacion.md) | Notas de estudio para desafío técnico |
+| [pdfs/](pdfs/) | PDFs generados como artefactos del proceso |
 
 ---
 
-## Territorio 3: Notas internas del maintainer
+## 🔧 Territorio 3: Notas internas del maintainer
 
-Documentos de autoevaluación y mejora continua. No forman parte del producto ni de la propuesta al colegio.
+Documentos de autoevaluación y mejora continua. No forman parte del producto público.
 
 | Documento | Rol |
 |---|---|

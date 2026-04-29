@@ -7,19 +7,22 @@
 ![Version](https://img.shields.io/badge/release-v1.0.0-2e8b57.svg)
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
 
-Base de capacitación técnica para Python y Data Science orientada a clases reales, laboratorios guiados y despliegue progresivo en contexto educativo.
+Curso completo de Python y Data Science — desde fundamentos hasta despliegue de modelos en producción.
 
-No es solo un repo de materiales. Reúne curriculum modular, laboratorio interactivo local, portal del alumno, presentación institucional, app de escritorio nativa para Windows, app Android y una familia documental que separa producto, operación, seguridad y audiencias.
+> **31 clases · 13 módulos · 30 notebooks · 6 datasets · PDF + PPTX por clase**
+
+Integra curriculum modular, laboratorio interactivo local, portal del alumno, app de escritorio nativa para Windows y app Android. Una familia documental que separa producto, operación, seguridad y audiencias. Sirve para aprender, enseñar y enseñar a otros.
 
 ---
 
 ## Estado actual del producto
 
-> **Versión:** v1.0.0 — primera versión operativa  
-> **Superficies públicas:** portal del alumno + vista institucional en GitHub Pages  
-> **App de escritorio:** ventana nativa Windows con Edge WebView2 (sin navegador)  
-> **Laboratorio:** 13 clases, 6 notebooks interactivos, ejecución Python en tiempo real  
-> **Postura de despliegue:** local-first, no internet abierta sin capas adicionales
+> **Versión:** v1.0.0  
+> **Clases:** 31 (clase 00 diagnóstica + 30 de contenido, organizadas en 13 módulos)  
+> **Materiales por clase:** README · slides · teoría · ejercicios · tarea · notebook · soluciones · PDF · PPTX (clases 13–30 también incluyen preguntas, tecnologías y guía de código)  
+> **Laboratorio:** Flask local con ejecución Python en tiempo real, captura de gráficos y guardado de notebooks  
+> **Distribución:** app de escritorio Windows (Edge WebView2, sin navegador) + app Android (Expo/React Native)  
+> **Postura:** local-first — no internet abierta sin capas adicionales
 
 ---
 
@@ -46,7 +49,7 @@ Si no sabes por donde entrar, usa [docs/INDEX.md](docs/INDEX.md).
 |---|---|---|
 | 5 minutos | `README` → `RECRUITER.md` | evidencia rápida de qué funciona hoy |
 | 15 minutos | `README` → `docs/GUIA_EVALUACION.md` → `docs/CATALOGO_PRODUCTO.md` | entender superficies, arquitectura y criterio de operación |
-| 30 minutos | secuencia anterior + `docs/implementacion-v1-skillnest-san-nicolas.md` + `docs/ARQUITECTURA_PRODUCTO.md` | ver cómo aterriza en colegio, con límites y growth path |
+| 30 minutos | secuencia anterior + `docs/syllabus.md` + `docs/ARQUITECTURA_PRODUCTO.md` | entender el currículo completo, capas y growth path |
 
 La documentación está pensada como sistema, no como inventario de archivos.
 
@@ -109,22 +112,14 @@ Estos archivos se generan desde el contenido real de cada carpeta en `classes/` 
 | Clase 29 | [classes/29-redes-neuronales-intro/clase-29-redes-neuronales-intro-guia-explicativa.pdf](classes/29-redes-neuronales-intro/clase-29-redes-neuronales-intro-guia-explicativa.pdf) | [classes/29-redes-neuronales-intro/clase-29-redes-neuronales-intro-presentacion.pptx](classes/29-redes-neuronales-intro/clase-29-redes-neuronales-intro-presentacion.pptx) |
 | Clase 30 | [classes/30-despliegue-basico-de-modelos/clase-30-despliegue-basico-de-modelos-guia-explicativa.pdf](classes/30-despliegue-basico-de-modelos/clase-30-despliegue-basico-de-modelos-guia-explicativa.pdf) | [classes/30-despliegue-basico-de-modelos/clase-30-despliegue-basico-de-modelos-presentacion.pptx](classes/30-despliegue-basico-de-modelos/clase-30-despliegue-basico-de-modelos-presentacion.pptx) |
 
-### PDFs de entrevista y estudio
+### 📄 PDFs de estudio adicionales
 
-PDFs listos para imprimir o compartir en contexto de entrevista, evaluación o preparación docente. Viven en `docs/pdfs/` y son independientes del flujo de clases.
-
-**PDFs canónicos de entrevista**
+PDFs listos para imprimir o compartir. Viven en `docs/pdfs/` y son independientes del flujo de clases.
 
 | Documento | Descripción |
 |---|---|
-| [muestra-producto-para-skillnest.pdf](docs/pdfs/muestra-producto-para-skillnest.pdf) | Muestra imprimible del producto para contexto de institución o reunión comercial |
-| [guia-estudio-repositorio.pdf](docs/pdfs/guia-estudio-repositorio.pdf) | Ruta de lectura rápida del repo para evaluador técnico o reclutador |
-
-**Guía ampliada de estudio**
-
-| Documento | Descripción |
-|---|---|
-| [guia-total-python-data-science.pdf](docs/pdfs/guia-total-python-data-science.pdf) | Guía de estudio extendida para el docente o alumno avanzado: Python, pandas, visualización y ML |
+| [guia-estudio-repositorio.pdf](docs/pdfs/guia-estudio-repositorio.pdf) | Ruta de lectura rápida del repo para evaluador o reclutador |
+| [guia-total-python-data-science.pdf](docs/pdfs/guia-total-python-data-science.pdf) | Guía ampliada de Python con Data Science investigada con fuentes oficiales |
 
 ---
 
@@ -140,10 +135,10 @@ graph LR
 
     PRODUCT --> DOCS["docs/\nDocumentación canónica"]
     PORTAL --> DOCS
-    MOBILE --> CLASSES["classes/\nClase 0 + 12 clases"]
+    MOBILE --> CLASSES["classes/\n31 clases · 13 módulos"]
     MOBILE --> COLAB["Google Colab\n(ejecución de código)"]
     LAB --> CLASSES
-    LAB --> DATA["datasets/\n5 CSV sintéticos"]
+    LAB --> DATA["datasets/\n6 CSV sintéticos"]
     LAB --> NOTEBOOKS["app/notebooks/\n6 labs interactivos"]
     LAB --> SAVED["app/saved_notebooks/\nTrabajo del alumno"]
     WIN --> LAB
@@ -155,38 +150,46 @@ La arquitectura completa, con flujos y fronteras, está en [docs/ARQUITECTURA_PR
 
 ## Capacidades actuales
 
-### Curriculum y pedagogía
+### 📚 Curriculum y pedagogía
 
-- clase 0 diagnóstica (quiz de 30 preguntas) + 30 clases modulares (01–30);
-- `teoria.md`, `slides.md`, `ejercicios.md`, `homework.md`, `preguntas.md`, `tecnologias.md`, `guia-codigo.md` por clase;
-- notebooks Jupyter para el alumno + soluciones para el instructor;
-- 6 datasets sintéticos para práctica (ventas, clientes, soporte, transporte, estudiantes, comentarios);
-- guías de instructor, metodología, ética y criterios de evaluación;
-- currículo organizado en 13 módulos temáticos: fundamentos, datos, visualización, estadística, ML supervisado y no supervisado, series de tiempo, NLP, redes neuronales, despliegue y ética.
+- **31 clases** — clase 00 diagnóstica + 30 de contenido en 13 módulos temáticos;
+- **módulos:** fundamentos Python, NumPy, SQL, visualización (Matplotlib + Seaborn), estadística descriptiva e inferencial, feature engineering, regresión, árboles/Random Forest, Gradient Boosting, clustering, PCA, series de tiempo, ajuste de hiperparámetros, NLP, detección de anomalías, ética/sesgo, redes neuronales, despliegue con Flask;
+- cada clase incluye `teoria.md`, `slides.md`, `ejercicios.md`, `homework.md`, `notebook.ipynb`, `soluciones.ipynb`, PDF y PPTX;
+- clases 13–30 además incluyen `preguntas.md`, `tecnologias.md` y `guia-codigo.md`;
+- **6 datasets** sintéticos: ventas_tienda, retencion_clientes, soporte_tickets, transporte, estudiantes, comentarios_productos;
+- guías de instructor, metodología, criterios de evaluación y ética de datos.
 
-### Laboratorio interactivo
+### 🧪 Laboratorio interactivo
 
-- app Flask con visualización de las 13 clases;
-- 6 notebooks interactivos precargados (básicos → ML → pipelines);
+- app Flask con acceso a las 31 clases desde interfaz web;
+- notebooks interactivos precargados con celdas editables y ejecutables;
 - ejecución de código Python por celdas con persistencia de sesión;
 - captura de gráficos matplotlib como PNG inline;
-- guardado de notebooks en JSON;
+- guardado de notebooks en JSON local (`app/saved_notebooks/`);
 - endpoints `GET /health` y `GET /ready` para healthchecks.
 
-### App de escritorio Windows (v1.0.0)
+### 🖥️ App de escritorio Windows (v1.0.0)
 
-- ventana nativa con Edge WebView2 — **sin abrir el navegador**;
+- ventana nativa con Edge WebView2 — **sin abrir el navegador del sistema**;
 - Flask corre internamente en un puerto libre elegido automáticamente;
 - pantalla de carga animada mientras el entorno inicia;
 - portable (ZIP) + instalador (Inno Setup) disponibles;
 - sin dependencias en el PC del usuario final.
 
-### Presentación y evaluación
+### 📱 App Android (v1.0.0)
 
-- landing pública para alumnos en GitHub Pages;
-- vista institucional HTML con narrativa de producto;
-- PDFs listos para preparación personal y muestra del producto;
-- guía de evaluación rápida para entrevista o revisión externa.
+- Expo/React Native con contenido de las 31 clases embebido;
+- integración con Google Colab para ejecución de código sin Python local;
+- seguimiento de progreso local con AsyncStorage;
+- APK debug disponible — producción en roadmap.
+
+### 📊 Presentación y distribución de materiales
+
+- **31 PDFs guía-explicativa** en `docs/pdfs/classes/` y dentro de cada clase;
+- **31 PPTXs presentación** en `docs/presentaciones/classes/` y dentro de cada clase;
+- landing pública para alumnos en GitHub Pages (`site/`);
+- vista institucional HTML con narrativa de producto (`site/product/`);
+- PDFs adicionales de estudio en `docs/pdfs/`.
 
 ---
 

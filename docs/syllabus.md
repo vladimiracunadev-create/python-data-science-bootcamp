@@ -1,16 +1,20 @@
-# 📚 Syllabus - Bootcamp Python para Data Science
+# 📚 Syllabus — Bootcamp Python para Data Science
 
-## Propósito general
+> **31 clases · 13 módulos · ~46 horas · 30 notebooks · 6 datasets · 2 proyectos integradores**
+
+---
+
+## 🎯 Propósito general
 
 Construir una base sólida y progresiva en Ciencia de Datos usando Python como herramienta principal. El programa cubre desde los fundamentos de programación hasta machine learning avanzado, procesamiento de texto, series de tiempo, ética en IA y despliegue de modelos. Está diseñado para ser accesible a cualquier edad y nivel de entrada, con ejemplos concretos, práctica guiada y proyectos reales.
 
-## Perfil de entrada
+## 👥 Perfil de entrada
 
 - Personas sin experiencia previa o con base muy inicial en programación.
 - Estudiantes de cualquier edad: desde secundaria hasta universitarios y profesionales.
 - Participantes que valoran ejemplos concretos, retroalimentación continua y aprendizaje progresivo.
 
-## Perfil de salida esperado
+## 🏁 Perfil de salida esperado
 
 Al finalizar, la persona podrá:
 
@@ -27,7 +31,7 @@ Al finalizar, la persona podrá:
 
 ---
 
-## Estructura modular del programa
+## 🗂️ Estructura modular del programa
 
 ### Módulo 0 — Orientación y diagnóstico
 | # | Clase | Duración |
@@ -118,20 +122,23 @@ Al finalizar, la persona podrá:
 
 ---
 
-## Resumen
+## 📊 Resumen
 
 | Indicador | Valor |
 |---|---|
-| Total de clases | 31 (00 a 30) |
-| Horas de contacto estimadas | ~46 horas |
-| Datasets de práctica | 6 (ventas, clientes, soporte, transporte, estudiantes, comentarios) |
-| Notebooks por alumno | 30 |
-| Notebooks con soluciones | 30 |
-| Proyectos integradores | 2 (clase 07 + clase 12) |
+| 📌 Total de clases | 31 (00 a 30) |
+| 🗂️ Módulos temáticos | 13 |
+| ⏱️ Horas de contacto estimadas | ~46 horas |
+| 🗃️ Datasets de práctica | 6 (ventas, clientes, soporte, transporte, estudiantes, comentarios) |
+| 📓 Notebooks por alumno | 30 |
+| ✅ Notebooks con soluciones | 30 |
+| 📄 PDFs guía-explicativa | 31 |
+| 📊 Presentaciones PPTX | 31 |
+| 🏆 Proyectos integradores | 2 (clase 07 + clase 12) |
 
 ---
 
-## Metodología resumida
+## 🎓 Metodología resumida
 
 - explicación breve con metáforas y contexto;
 - ejemplo guiado con código comentado;
@@ -139,7 +146,7 @@ Al finalizar, la persona podrá:
 - ejercicio individual o en parejas;
 - cierre con retroalimentación y pregunta integradora.
 
-## Herramientas del programa
+## 🛠️ Herramientas del programa
 
 - Python 3.10+
 - Jupyter Notebook
@@ -150,7 +157,7 @@ Al finalizar, la persona podrá:
 - flask
 - joblib
 
-## Criterio de diseño
+## 💡 Criterio de diseño
 
 El programa privilegia:
 - claridad antes que complejidad;
