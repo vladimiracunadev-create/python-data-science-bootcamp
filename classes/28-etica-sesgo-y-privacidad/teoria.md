@@ -55,8 +55,8 @@ No basta con evaluar la precisi처n global. Un modelo puede tener 90% de precisi�
 ```python
 for grupo in df['curso'].unique():
     subset = df[df['curso'] == grupo]
-    precision = (subset['prediccion'] == subset['aprobado']).mean()
-    print(f"Curso {grupo}: precisi처n = {precision:.2%}")
+    precisi처n = (subset['predicci처n'] == subset['aprobado']).mean()
+    print(f"Curso {grupo}: precisi처n = {precisi처n:.2%}")
 ```
 
 ### Paso 3: Mide el impacto dispar

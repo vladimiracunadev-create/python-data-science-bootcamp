@@ -47,7 +47,7 @@ df.head()
 `read_csv` es la función más usada para cargar datos porque el CSV es el formato más común en ciencia de datos. Usar `.head()` al inicio es una práctica clave: antes de analizar cualquier dataset, siempre hay que "echar un vistazo" para entender qué columnas hay y cómo lucen los datos.
 
 **Resultado esperado:**
-Una tabla con las primeras 5 filas mostrando columnas como `fecha`, `producto`, `ventas`, `categoria`, entre otras. El `shape` podría ser algo como `(500, 6)`.
+Una tabla con las primeras 5 filas mostrando columnas como `fecha`, `producto`, `ventas`, `categoría`, entre otras. El `shape` podría ser algo como `(500, 6)`.
 
 ---
 
@@ -101,14 +101,14 @@ Valores nulos por columna:
 fecha         0
 producto      0
 ventas        3
-categoria     1
+categoría     1
 dtype: int64
 
 Porcentaje de nulos (%):
 fecha        0.00
 producto     0.00
 ventas       0.60
-categoria    0.20
+categoría    0.20
 ```
 
 ---

@@ -20,9 +20,9 @@
 
 ## 🧪 Preguntas de código
 
-1. Carga `ventas_tienda.csv`, convierte la columna `fecha` a datetime y ponla como índice. Resamplea a frecuencia mensual (suma) y grafica la serie temporal resultante con título y etiquetas de ejes.
+1. Carga `ventas_tienda.csv`, convierte la columna `fecha` a datetime y ponla como índice. Resamplea a frecuencia mensual (suma) y gráfica la serie temporal resultante con título y etiquetas de ejes.
 2. Sobre la serie mensual de ventas, calcula una media móvil de 3 meses (`rolling(3).mean()`) y grafícala junto a la serie original en el mismo plot. ¿Qué patrón hace más visible la media móvil?
-3. Aplica `seasonal_decompose` a la serie de ventas con `model='additive'` y `period=12`. Grafica la descomposición completa. ¿Qué mes tiene el pico estacional más alto?
+3. Aplica `seasonal_decompose` a la serie de ventas con `model='additive'` y `period=12`. gráfica la descomposición completa. ¿Qué mes tiene el pico estacional más alto?
 
 ## 🎯 Pregunta integradora
 

@@ -75,7 +75,7 @@ segundo_semestre = df['2023-07':'2023-12']
 
 ---
 
-## Diapositiva 6 — Paso 3: Resample — agregar por periodo
+## Diapositiva 6 — Paso 3: Resample — agregar por período
 ## Como un groupby para tiempo
 - En lugar de sumar por "mes" (que es un número), usamos `resample`
 - `resample('M')` → agrupa por mes
@@ -169,7 +169,7 @@ Esto produce 4 gráficas:
 |--------|-------------|-------------|
 | Último valor | Siguiente = último observado | Serie estable |
 | Media histórica | Siguiente = promedio de toda la serie | Sin tendencia |
-| Promedio móvil | Siguiente = media de los últimos K periodos | Con ruido |
+| Promedio móvil | Siguiente = media de los últimos K períodos | Con ruido |
 | Seasonal naive | Siguiente = mismo período del año anterior | Con estacionalidad |
 
 ```python
@@ -184,7 +184,7 @@ print(f'Pronóstico próximo mes: ${ultimo_pronostico:,.0f}')
 ## Lo que aprendimos hoy
 - Una serie de tiempo es una secuencia de valores **ordenados en el tiempo**
 - `pd.to_datetime()` convierte texto a fechas que pandas puede procesar
-- `resample()` agrega datos por periodo (mes, semana, año)
+- `resample()` agrega datos por período (mes, semana, año)
 - `rolling()` calcula promedios móviles para suavizar tendencias
 - La **tendencia** y la **estacionalidad** son los patrones más importantes a identificar
 - `seasonal_decompose` separa una serie en tendencia + estacional + residuo
@@ -194,7 +194,7 @@ print(f'Pronóstico próximo mes: ${ultimo_pronostico:,.0f}')
 ## Diapositiva 13 — Tarea para casa
 ## Homework — Clase 24
 - Analiza las ventas de `ventas_tienda.csv` por mes durante el año disponible
-- Calcula y grafica el promedio móvil de 3 meses
+- Calcula y gráfica el promedio móvil de 3 meses
 - Identifica el mes con más ventas y el de menos ventas
 - Aplica `seasonal_decompose` y explica qué muestra cada componente
 - Genera un pronóstico simple para el siguiente mes y justifícalo

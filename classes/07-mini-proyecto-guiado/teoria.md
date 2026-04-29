@@ -29,7 +29,7 @@ df = pd.read_csv("datasets/ventas_tienda.csv")
 df["total_neto"] = df["unidades"] * df["precio_unitario"] * (1 - df["descuento_pct"])
 
 pregunta = "¿Qué categoría concentra mayor ingreso neto?"
-columnas = ["fecha", "sucursal", "categoria", "producto", "medio_pago", "total_neto"]
+columnas = ["fecha", "sucursal", "categoría", "producto", "medio_pago", "total_neto"]
 proyecto = df[columnas].copy()
 
 print(pregunta)

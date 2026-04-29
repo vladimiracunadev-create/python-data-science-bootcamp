@@ -17,7 +17,7 @@
 
 - **Documentación oficial**: https://scikit-learn.org/stable/modules/ensemble.html#forests-of-randomized-trees
 - **Tutorial recomendado**: "Random Forest in Python" — Towards Data Science (buscar en Medium/TDS)
-- **Concepto clave para buscar**: "bias-variance tradeoff decision trees" — para entender por qué árboles profundos sobreajustan
+- **Concepto clave para buscar**: "bias-variance tradeoff decisión trees" — para entender por qué árboles profundos sobreajustan
 
 ## 🚀 Próximos pasos sugeridos
 

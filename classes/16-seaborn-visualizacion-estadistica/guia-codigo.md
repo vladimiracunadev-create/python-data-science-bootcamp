@@ -21,7 +21,7 @@ axes[0].set_xlabel("Ventas (unidades)")
 axes[0].set_ylabel("Frecuencia")
 
 # Panel derecho: KDE separado por categoría
-sns.kdeplot(data=df, x="ventas", hue="categoria", ax=axes[1])
+sns.kdeplot(data=df, x="ventas", hue="categoría", ax=axes[1])
 axes[1].set_title("Densidad de Ventas por Categoría")
 axes[1].set_xlabel("Ventas (unidades)")
 
@@ -33,7 +33,7 @@ plt.show()
 - `sns.set_theme(style="whitegrid")`: aplica un tema visual global a todos los gráficos de la sesión. `"whitegrid"` pone un fondo blanco con líneas de cuadrícula grises.
 - `plt.subplots(1, 2, figsize=(14, 5))`: crea una figura con 1 fila y 2 columnas de paneles (subgráficos), de 14×5 pulgadas de ancho total.
 - `sns.histplot(..., bins=20, kde=True)`: dibuja un histograma dividiendo los datos en 20 intervalos de igual ancho. `kde=True` superpone la curva de densidad estimada (una versión suavizada de la distribución).
-- `hue="categoria"`: colorea una curva diferente por cada valor único en `categoria`.
+- `hue="categoría"`: colorea una curva diferente por cada valor único en `categoría`.
 - `plt.tight_layout()`: ajusta automáticamente los márgenes para que los paneles no se superpongan.
 
 **¿Por qué se escribe así y no de otra forma?**
@@ -52,7 +52,7 @@ fig, axes = plt.subplots(1, 2, figsize=(14, 6))
 # Boxplot: muestra Q1, mediana, Q3 y outliers
 sns.boxplot(
     data=df,
-    x="categoria",
+    x="categoría",
     y="ventas",
     palette="Set2",
     ax=axes[0]
@@ -65,7 +65,7 @@ axes[0].tick_params(axis='x', rotation=45)
 # Violinplot: misma info + forma completa de la distribución
 sns.violinplot(
     data=df,
-    x="categoria",
+    x="categoría",
     y="ventas",
     palette="Set2",
     inner="box",      # muestra el boxplot compacto dentro del violín
@@ -80,7 +80,7 @@ plt.show()
 ```
 
 **¿Qué hace este bloque?**
-- `sns.boxplot(x="categoria", y="ventas")`: crea un boxplot por cada categoría. Muestra: la caja (del cuartil 1 al cuartil 3), la línea horizontal dentro de la caja (la mediana), los bigotes (rango sin outliers) y puntos separados (valores atípicos u outliers).
+- `sns.boxplot(x="categoría", y="ventas")`: crea un boxplot por cada categoría. Muestra: la caja (del cuartil 1 al cuartil 3), la línea horizontal dentro de la caja (la mediana), los bigotes (rango sin outliers) y puntos separados (valores atípicos u outliers).
 - `palette="Set2"`: usa una paleta de colores predefinida de Seaborn. Otras opciones populares: `"pastel"`, `"muted"`, `"tab10"`.
 - `inner="box"` en el violinplot: dibuja un boxplot compacto dentro del violín para ver medianas y cuartiles sin perder la información de forma.
 - `tick_params(axis='x', rotation=45)`: rota las etiquetas del eje X 45 grados para que no se superpongan cuando son largas.
@@ -100,12 +100,12 @@ Dos paneles. En el boxplot: cajas rectangulares con bigotes, la línea de median
 numericas = df.select_dtypes(include='number')
 
 # Calcular la matriz de correlación de Pearson
-correlacion = numericas.corr()
+correlación = numericas.corr()
 
 # Crear el heatmap
 plt.figure(figsize=(10, 8))
 sns.heatmap(
-    correlacion,
+    correlación,
     annot=True,          # escribe el valor numérico en cada celda
     fmt=".2f",           # formato: 2 decimales
     cmap="coolwarm",     # paleta divergente: azul=negativo, rojo=positivo
@@ -141,7 +141,7 @@ sns.scatterplot(
     data=df,
     x="precio",
     y="ventas",
-    hue="categoria",    # color por categoría (dimensión 3)
+    hue="categoría",    # color por categoría (dimensión 3)
     size="descuento",   # tamaño del punto por variable numérica (dimensión 4)
     alpha=0.7,          # transparencia para ver puntos superpuestos
     palette="tab10"
@@ -155,7 +155,7 @@ plt.show()
 ```
 
 **¿Qué hace este bloque?**
-- `hue="categoria"`: asigna un color diferente a cada valor único en `categoria`. Seaborn genera la leyenda automáticamente.
+- `hue="categoría"`: asigna un color diferente a cada valor único en `categoría`. Seaborn genera la leyenda automáticamente.
 - `size="descuento"`: varía el tamaño de cada punto proporcionalmente al valor de `descuento`. Permite visualizar 4 dimensiones en un gráfico 2D: eje X, eje Y, color y tamaño.
 - `alpha=0.7`: aplica 70% de opacidad a los puntos. Cuando muchos puntos se superponen, la transparencia permite ver la densidad (zonas más oscuras = más puntos).
 - `bbox_to_anchor=(1.05, 1)`: posiciona la leyenda fuera del área del gráfico (a la derecha) para no tapar los datos.

@@ -11,7 +11,7 @@
 | `catboost` | Gradient boosting de Yandex, maneja variables categóricas automáticamente | Intermedio |
 | `sklearn.model_selection.GridSearchCV` | Búsqueda de hiperparámetros óptimos (learning_rate, n_estimators, max_depth) | Intermedio |
 | `optuna` | Búsqueda de hiperparámetros bayesiana, más eficiente que GridSearch | Avanzado |
-| `sklearn.metrics.classification_report` | Muestra precision, recall y F1 por clase para evaluar el modelo completo | Básico |
+| `sklearn.metrics.classification_report` | Muestra precisión, recall y F1 por clase para evaluar el modelo completo | Básico |
 
 ## 🌐 Recursos recomendados
 

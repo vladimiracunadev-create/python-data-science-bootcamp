@@ -30,13 +30,13 @@ df = pd.read_csv("datasets/ventas_tienda.csv")
 df["total_neto"] = df["unidades"] * df["precio_unitario"] * (1 - df["descuento_pct"])
 
 resumen = (
-    df.groupby("categoria", as_index=False)["total_neto"]
+    df.groupby("categoría", as_index=False)["total_neto"]
     .sum()
     .sort_values("total_neto", ascending=False)
 )
 
 plt.figure(figsize=(8, 4))
-plt.bar(resumen["categoria"], resumen["total_neto"])
+plt.bar(resumen["categoría"], resumen["total_neto"])
 plt.title("Ventas netas por categoría")
 plt.ylabel("CLP")
 plt.xticks(rotation=20)

@@ -203,7 +203,7 @@ plt.show()
 Usando los mejores hiperparámetros encontrados en los ejercicios anteriores:
 
 1. Entrena el modelo final con `best_params_` sobre todos los datos de entrenamiento.
-2. Evalúa en el test set con accuracy, precision, recall y f1-score.
+2. Evalúa en el test set con accuracy, precisión, recall y f1-score.
 3. Compara el accuracy del modelo base vs el modelo optimizado.
 4. ¿Cuánto mejoraste en porcentaje?
 

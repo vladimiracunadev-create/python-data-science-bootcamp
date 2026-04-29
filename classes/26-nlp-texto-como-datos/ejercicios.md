@@ -238,11 +238,11 @@ plt.show()
 def predecir_sentimiento(texto, vectorizer, modelo):
     texto_limpio = preprocesar_texto(texto)
     X = vectorizer.transform([texto_limpio])
-    prediccion = modelo.predict(X)[0]
+    predicción = modelo.predict(X)[0]
     probabilidades = modelo.predict_proba(X)[0]
     
     print(f"Comentario: '{texto}'")
-    print(f"Sentimiento predicho: {prediccion}")
+    print(f"Sentimiento predicho: {predicción}")
     print("Probabilidades por clase:")
     for clase, prob in zip(modelo.classes_, probabilidades):
         print(f"  {clase}: {prob:.2%}")

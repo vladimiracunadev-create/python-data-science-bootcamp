@@ -230,7 +230,7 @@ Esto nos da interpretabilidad: podemos explicar por qué el modelo clasifica un 
 Para texto con múltiples clases (Positivo, Negativo, Neutro), usamos `classification_report`:
 
 ```
-              precision    recall  f1-score   support
+              precisión    recall  f1-score   support
 
     Negativo       0.82      0.79      0.80        28
       Neutro       0.71      0.65      0.68        20
@@ -239,9 +239,9 @@ Para texto con múltiples clases (Positivo, Negativo, Neutro), usamos `classific
     accuracy                           0.83       100
 ```
 
-- **Precision:** De los que predije como Positivo, ¿cuántos realmente lo son?
+- **Precisión:** De los que predije como Positivo, ¿cuántos realmente lo son?
 - **Recall:** De los que son realmente Positivos, ¿cuántos encontré?
-- **F1-score:** Media armónica entre precision y recall.
+- **F1-score:** Media armónica entre precisión y recall.
 
 ---
 

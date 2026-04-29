@@ -71,7 +71,7 @@ f) Selecciona el elemento en la posición fila 2, columna 1 (índice 0-based)
 Normaliza el array de precios unitarios para que todos los valores queden entre 0 y 1, usando la fórmula **min-max**:
 
 ```
-valor_normalizado = (valor - minimo) / (maximo - minimo)
+valor_normalizado = (valor - mínimo) / (máximo - mínimo)
 ```
 
 Comprueba que el resultado mínimo sea 0.0 y el máximo sea 1.0.

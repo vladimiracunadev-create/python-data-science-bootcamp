@@ -54,7 +54,7 @@ print(df.index.min(), '→', df.index.max())
 
 ---
 
-## Ejercicio 3 — Resample: ventas por periodo
+## Ejercicio 3 — Resample: ventas por período
 **Nivel: Básico**
 
 ```python
@@ -70,7 +70,7 @@ print(ventas_mensuales)
 **Tareas:**
 1. Calcula también las ventas semanales con `.resample('W').sum()`
 2. Calcula el promedio mensual de ventas
-3. Grafica las ventas mensuales como gráfico de barras:
+3. gráfica las ventas mensuales como gráfico de barras:
 ```python
 ventas_mensuales.plot(kind='bar', figsize=(12, 4), color='steelblue')
 plt.title('Ventas totales por mes')
@@ -171,8 +171,8 @@ from statsmodels.tsa.seasonal import seasonal_decompose
 # Si el dataset es más corto, ajusta el period
 serie_limpia = ventas_mensuales.dropna()
 
-periodo = min(12, len(serie_limpia) // 2)
-resultado = seasonal_decompose(serie_limpia, model='additive', period=periodo)
+período = min(12, len(serie_limpia) // 2)
+resultado = seasonal_decompose(serie_limpia, model='additive', period=período)
 
 fig = resultado.plot()
 fig.set_size_inches(12, 10)
@@ -193,7 +193,7 @@ plt.show()
 
 ```python
 # Comparar varios métodos de pronóstico simple
-ultimo = ventas_mensuales.iloc[-1]
+último = ventas_mensuales.iloc[-1]
 promedio_historico = ventas_mensuales.mean()
 promedio_3meses = ventas_mensuales.tail(3).mean()
 
@@ -201,7 +201,7 @@ if len(ventas_mensuales) >= 13:
     seasonal_naive = ventas_mensuales.iloc[-12]
     print(f'Seasonal naive (hace 12 meses):  ${seasonal_naive:,.0f}')
 
-print(f'Método naive (último valor):      ${ultimo:,.0f}')
+print(f'Método naive (último valor):      ${último:,.0f}')
 print(f'Promedio histórico:               ${promedio_historico:,.0f}')
 print(f'Promedio 3 últimos meses:         ${promedio_3meses:,.0f}')
 
@@ -224,11 +224,11 @@ print(df_ret.dtypes)
 ```
 
 **Pasos:**
-1. Identifica la columna de tiempo (puede llamarse `mes`, `fecha`, `periodo`)
+1. Identifica la columna de tiempo (puede llamarse `mes`, `fecha`, `período`)
 2. Conviértela a datetime si es necesario
 3. Ponla como índice
-4. Grafica la tasa de retención a lo largo del tiempo
-5. Calcula y grafica el promedio móvil de 3 meses
+4. gráfica la tasa de retención a lo largo del tiempo
+5. Calcula y gráfica el promedio móvil de 3 meses
 6. ¿Hay algún mes donde la retención cayó notablemente? ¿A qué podría deberse?
 
 **Entrega:** Un gráfico y un párrafo de análisis en una celda Markdown.

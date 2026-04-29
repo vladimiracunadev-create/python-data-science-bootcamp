@@ -8,7 +8,7 @@
 
 Un sistema de capacitación en Python y Data Science que integra:
 
-- **curriculum modular** (13 clases, notebooks, ejercicios, soluciones);
+- **curriculum modular** (31 clases · 13 módulos · 30 notebooks · 6 datasets · PDF + PPTX por clase);
 - **laboratorio interactivo** (Flask + ejecución Python en tiempo real, matplotlib, pandas);
 - **app de escritorio nativa para Windows** (pywebview + Edge WebView2, sin navegador);
 - **app Android** (Expo/React Native, contenido embebido + Google Colab);
@@ -23,7 +23,7 @@ Un sistema de capacitación en Python y Data Science que integra:
 |---|---|---|
 | Backend Flask | operativo | 10 rutas, tests automatizados, CI en GitHub Actions |
 | Ejecución de código Python | operativo | pandas, matplotlib (gráficos), scikit-learn, timeout 30s |
-| 13 clases con contenido | operativo | `/api/classes` → 13 clases, `/api/class/{slug}` → HTML + quiz |
+| 31 clases con contenido | operativo | `/api/classes` → 31 clases, `/api/class/{slug}` → HTML + quiz |
 | 6 notebooks interactivos | operativo | `/api/notebooks` → 6 templates, ejecución por celda |
 | App de escritorio Windows | v1.0.0 | pywebview 6.1 + PyInstaller 6.19, ZIP portable 92MB |
 | Instalador Windows | v1.0.0 | Inno Setup — sin Python requerido en el PC del usuario |

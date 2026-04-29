@@ -41,7 +41,7 @@ Convierte la columna `fecha` a datetime. Luego crea estas columnas:
 ---
 
 ### Ejercicio 4 — Codificación one-hot
-Aplica `pd.get_dummies` a la columna `categoria` del dataset de ventas.
+Aplica `pd.get_dummies` a la columna `categoría` del dataset de ventas.
 
 1. ¿Cuántas columnas nuevas se crearon?
 2. ¿Por qué en la práctica se elimina una de esas columnas (la primera o la última)?

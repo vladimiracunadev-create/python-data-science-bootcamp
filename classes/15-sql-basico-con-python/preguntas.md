@@ -19,9 +19,9 @@
 ## 🧪 Preguntas de código
 
 1. Escribe el código Python completo para crear una conexión SQLite, cargar el DataFrame `df` en una tabla llamada `ventas`, y luego ejecutar una consulta que devuelva las primeras 10 filas ordenadas por ventas de mayor a menor.
-2. Escribe una consulta SQL que calcule el total y el promedio de ventas por `categoria`, mostrando solo las categorías con más de 100 registros, ordenadas por total de mayor a menor.
+2. Escribe una consulta SQL que calcule el total y el promedio de ventas por `categoría`, mostrando solo las categorías con más de 100 registros, ordenadas por total de mayor a menor.
 3. Escribe la consulta SQL equivalente a este código pandas: `df[df['precio'] > 50].groupby('ciudad')['ventas'].sum()`.
 
 ## 🎯 Pregunta integradora
 
-Tienes una base de datos SQLite con dos tablas: `ventas` (con columnas `id`, `fecha`, `producto_id`, `cantidad`, `precio_unitario`, `ciudad`) y `productos` (con columnas `id`, `nombre`, `categoria`). Escribe las consultas SQL necesarias para responder estas tres preguntas de negocio: (1) ¿Cuál es el ingreso total por categoría de producto? (2) ¿Qué ciudad generó más ingresos este año? (3) ¿Qué productos tienen más de 50 ventas registradas? Explica el razonamiento detrás de cada consulta, incluyendo por qué usas `JOIN`, `GROUP BY` o `HAVING` en cada caso.
+Tienes una base de datos SQLite con dos tablas: `ventas` (con columnas `id`, `fecha`, `producto_id`, `cantidad`, `precio_unitario`, `ciudad`) y `productos` (con columnas `id`, `nombre`, `categoría`). Escribe las consultas SQL necesarias para responder estas tres preguntas de negocio: (1) ¿Cuál es el ingreso total por categoría de producto? (2) ¿Qué ciudad generó más ingresos este año? (3) ¿Qué productos tienen más de 50 ventas registradas? Explica el razonamiento detrás de cada consulta, incluyendo por qué usas `JOIN`, `GROUP BY` o `HAVING` en cada caso.

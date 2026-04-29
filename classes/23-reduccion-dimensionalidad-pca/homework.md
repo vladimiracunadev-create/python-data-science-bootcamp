@@ -33,7 +33,7 @@ plt.show()
 ## Parte 2 — Scree Plot y elección de componentes (2 puntos)
 
 1. Aplica PCA completo (sin especificar `n_components`)
-2. Grafica el **Scree Plot** con varianza individual Y acumulada (como en el ejercicio 3)
+2. gráfica el **Scree Plot** con varianza individual Y acumulada (como en el ejercicio 3)
 3. Crea una tabla:
 
 | n_componentes | Varianza explicada acumulada |

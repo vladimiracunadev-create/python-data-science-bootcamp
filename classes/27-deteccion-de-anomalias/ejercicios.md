@@ -199,20 +199,20 @@ print(df_transporte.nsmallest(5, 'lof_score')[['retraso_min', 'lof_score', 'anom
 
 ```python
 # Reunir todos los resultados en una tabla comparativa
-comparacion = pd.DataFrame({
+comparación = pd.DataFrame({
     'total_neto': df_ventas['total_neto'],
     'IQR': df_ventas['outlier_iqr'].astype(int),
     'Z-score': df_ventas['outlier_zscore'].astype(int),
     'Isolation Forest': (df_ventas['anomalia_iso'] == -1).astype(int)
 })
 
-comparacion['total_metodos'] = comparacion[['IQR', 'Z-score', 'Isolation Forest']].sum(axis=1)
+comparación['total_metodos'] = comparación[['IQR', 'Z-score', 'Isolation Forest']].sum(axis=1)
 
 print("Anomalías por método:")
-print(comparacion[['IQR', 'Z-score', 'Isolation Forest']].sum())
+print(comparación[['IQR', 'Z-score', 'Isolation Forest']].sum())
 
 print("\nPuntos marcados por los 3 métodos a la vez:")
-print(comparacion[comparacion['total_metodos'] == 3])
+print(comparación[comparación['total_metodos'] == 3])
 ```
 
 **Preguntas:**

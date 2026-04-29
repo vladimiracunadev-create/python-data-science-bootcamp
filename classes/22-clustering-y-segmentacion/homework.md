@@ -24,7 +24,7 @@ La tienda quiere entender mejor a sus vendedores. El gerente sospecha que hay di
 
 ## Parte 2 — Elegir el número de clusters (3 puntos)
 
-1. Grafica el **Método del Codo** para K de 1 a 10
+1. gráfica el **Método del Codo** para K de 1 a 10
 2. Calcula el **Silhouette Score** para K de 2 a 8
 3. Crea una tabla comparativa:
 

@@ -83,12 +83,12 @@ un_dia = df['2023-06-15']
 
 ---
 
-## 3. Resample: agregar datos por periodo
+## 3. Resample: agregar datos por período
 
-`resample()` es el equivalente de `groupby()` para datos temporales. En lugar de agrupar por una categoría, agrupas por periodos de tiempo.
+`resample()` es el equivalente de `groupby()` para datos temporales. En lugar de agrupar por una categoría, agrupas por períodos de tiempo.
 
 ### Alias de frecuencia más comunes:
-| Alias | Periodo |
+| Alias | Período |
 |-------|---------|
 | `'D'` | Día |
 | `'W'` | Semana |
@@ -235,7 +235,7 @@ pronostico_naive = ultimo_valor
 # Método 2: promedio histórico
 pronostico_promedio = serie.mean()
 
-# Método 3: promedio móvil de los últimos K periodos
+# Método 3: promedio móvil de los últimos K períodos
 k = 3
 pronostico_ma = serie.tail(k).mean()
 
@@ -259,7 +259,7 @@ print(f'Pronóstico seasonal: {pronostico_seasonal:,.0f}')
 | Serie de tiempo | Secuencia de valores ordenados por tiempo |
 | `pd.to_datetime()` | Convierte texto en fechas que pandas entiende |
 | `set_index()` | Pone la fecha como índice para operaciones temporales |
-| `resample()` | Agrega datos por periodo (mes, semana, año) |
+| `resample()` | Agrega datos por período (mes, semana, año) |
 | `rolling()` | Calcula estadísticas sobre una ventana deslizante |
 | Tendencia | Dirección general de largo plazo de la serie |
 | Estacionalidad | Patrón repetitivo en ciclos regulares |

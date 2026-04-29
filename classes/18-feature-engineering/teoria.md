@@ -69,8 +69,8 @@ print(ventas[["fecha", "mes", "dia_semana", "es_fin_semana"]].head())
 **Para qué sirve:** La mayoría de los modelos solo aceptan variables numéricas. `pd.get_dummies` automatiza esta transformación.
 
 ```python
-# Codificación one-hot de la columna "categoria"
-dummies_categoria = pd.get_dummies(ventas["categoria"], prefix="cat")
+# Codificación one-hot de la columna "categoría"
+dummies_categoria = pd.get_dummies(ventas["categoría"], prefix="cat")
 
 # Agregar las nuevas columnas al dataframe
 ventas = pd.concat([ventas, dummies_categoria], axis=1)

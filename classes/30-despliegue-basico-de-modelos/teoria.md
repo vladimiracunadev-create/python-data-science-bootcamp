@@ -87,7 +87,7 @@ scaler_prod = joblib.load('scaler.pkl')
 # Nuevos datos -> normalizar con EL MISMO scaler -> predecir
 X_nuevo = [[7.5, 6.8, 0.90, 23]]
 X_nuevo_sc = scaler_prod.transform(X_nuevo)  # fit_transform en producción sería un error
-prediccion = modelo_prod.predict(X_nuevo_sc)
+predicción = modelo_prod.predict(X_nuevo_sc)
 ```
 
 **Nota crítica:** En producción siempre usa `.transform()`, nunca `.fit_transform()`. El scaler debe estar calibrado con los datos de entrenamiento y solo transformar los datos nuevos.
@@ -124,11 +124,11 @@ def predecir_estudiante(nota_matematicas, nota_lengua, asistencia, edad):
     X = np.array([[nota_matematicas, nota_lengua, asistencia, edad]])
     X_scaled = scaler.transform(X)
     
-    prediccion = modelo.predict(X_scaled)[0]
+    predicción = modelo.predict(X_scaled)[0]
     probabilidad = modelo.predict_proba(X_scaled)[0][1]
     
     return {
-        'aprobado': bool(prediccion),
+        'aprobado': bool(predicción),
         'probabilidad': round(float(probabilidad), 3)
     }
 
@@ -219,13 +219,13 @@ def predict():
         ]])
         
         X_scaled = scaler.transform(X)
-        prediccion = modelo.predict(X_scaled)[0]
+        predicción = modelo.predict(X_scaled)[0]
         probabilidad = modelo.predict_proba(X_scaled)[0][1]
         
         return jsonify({
-            'aprobado': bool(prediccion),
+            'aprobado': bool(predicción),
             'probabilidad': round(float(probabilidad), 3),
-            'mensaje': 'Aprobado' if prediccion else 'Reprobado'
+            'mensaje': 'Aprobado' if predicción else 'Reprobado'
         })
     
     except Exception as e:

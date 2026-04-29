@@ -81,12 +81,12 @@ print(f"Random Forest — Test accuracy: {rf.score(X_test, y_test):.4f}")
 
 # Extraer y graficar importancia de variables
 importancias = rf.feature_importances_
-indices = np.argsort(importancias)  # ordenar de menor a mayor
+índices = np.argsort(importancias)  # ordenar de menor a mayor
 
 plt.figure(figsize=(8, 4))
 plt.barh(
-    [features[i] for i in indices],
-    importancias[indices],
+    [features[i] for i in índices],
+    importancias[índices],
     color="steelblue"
 )
 plt.xlabel("Importancia (Gini promedio)")

@@ -24,7 +24,7 @@ e) Un director escolar pregunta: "¿Cuáles fueron los promedios por materia est
 
 Para cada columna del dataset `ventas_tienda.csv`, indica el tipo de dato (numérico, categórico, texto, serie de tiempo) y explica por qué.
 
-Pistas de columnas que pueden aparecer: `fecha`, `producto`, `categoria`, `precio_unitario`, `unidades`, `total_venta`, `region`.
+Pistas de columnas que pueden aparecer: `fecha`, `producto`, `categoría`, `precio_unitario`, `unidades`, `total_venta`, `region`.
 
 Carga el dataset con el siguiente código y observa la salida de `df.info()`:
 

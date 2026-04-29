@@ -33,7 +33,7 @@ resumen = df.resample('M').agg({col_ventas: ['sum', 'mean', 'max', 'count']})
 
 ## Parte 2 — Visualización de la serie de tiempo (3 puntos)
 
-1. Grafica las ventas diarias (o en la frecuencia disponible) con matplotlib
+1. gráfica las ventas diarias (o en la frecuencia disponible) con matplotlib
 2. Superpón encima el promedio móvil de 7 días Y el de 30 días con colores distintos
 3. El gráfico debe tener:
    - Título descriptivo

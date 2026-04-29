@@ -76,12 +76,12 @@ y = df["estado"]
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-arbol = DecisionTreeClassifier(max_depth=3, random_state=42)
-arbol.fit(X_train, y_train)
-print("Accuracy árbol:", round(arbol.score(X_test, y_test), 3))
+árbol = DecisionTreeClassifier(max_depth=3, random_state=42)
+árbol.fit(X_train, y_train)
+print("Accuracy árbol:", round(árbol.score(X_test, y_test), 3))
 
 fig, ax = plt.subplots(figsize=(12, 5))
-plot_tree(arbol, feature_names=X.columns, class_names=["En Riesgo", "Aprobado"],
+plot_tree(árbol, feature_names=X.columns, class_names=["En Riesgo", "Aprobado"],
           filled=True, ax=ax, fontsize=9)
 plt.tight_layout()
 plt.show()

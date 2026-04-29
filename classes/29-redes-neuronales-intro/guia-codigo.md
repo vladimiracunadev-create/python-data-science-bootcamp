@@ -108,7 +108,7 @@ print(f"Pérdida final: {mlp.loss_curve_[-1]:.4f}")
 print(f"Reducción total: {(1 - mlp.loss_curve_[-1]/mlp.loss_curve_[0]) * 100:.1f}%")
 ```
 
-**¿Qué hace este bloque?** Grafica la curva de pérdida almacenada en `loss_curve_`, que registra el valor de la función de pérdida al final de cada época de entrenamiento. Muestra cómo la red "aprende" progresivamente a hacer mejores predicciones.
+**¿Qué hace este bloque?** gráfica la curva de pérdida almacenada en `loss_curve_`, que registra el valor de la función de pérdida al final de cada época de entrenamiento. Muestra cómo la red "aprende" progresivamente a hacer mejores predicciones.
 
 **¿Por qué se escribe así?** La curva de pérdida es el diagnóstico más básico de una red neuronal. Una curva que decrece suavemente y se estabiliza indica un entrenamiento saludable. Una curva que oscila mucho puede indicar tasa de aprendizaje muy alta. Una curva que no baja puede indicar que los datos no están escalados, la red es muy pequeña, o hay un problema en los datos.
 

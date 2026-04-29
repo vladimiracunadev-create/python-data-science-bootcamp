@@ -27,9 +27,9 @@ plt.xlabel("Tiempo (minutos)")
 plt.show()
 
 # Realizar la prueba t de Student para dos muestras independientes
-estadistico, p_valor = stats.ttest_ind(grupo_bus, grupo_metro)
+estadístico, p_valor = stats.ttest_ind(grupo_bus, grupo_metro)
 
-print(f"Estadístico t: {estadistico:.4f}")
+print(f"Estadístico t: {estadístico:.4f}")
 print(f"P-valor:       {p_valor:.4f}")
 
 # Interpretar el resultado automáticamente

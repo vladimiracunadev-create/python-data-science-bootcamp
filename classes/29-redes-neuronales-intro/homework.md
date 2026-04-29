@@ -87,7 +87,7 @@ Presenta los resultados en una tabla ordenada de mayor a menor precisión.
 
 Con la mejor configuración de MLP que encontraste:
 
-1. Grafica la `loss_curve_` del modelo
+1. gráfica la `loss_curve_` del modelo
 2. Describe en 2-3 oraciones qué muestra el gráfico
 3. Responde: ¿El modelo convergió? ¿Cómo lo sabes?
 

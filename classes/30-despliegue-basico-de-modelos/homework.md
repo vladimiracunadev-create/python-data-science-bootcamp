@@ -85,7 +85,7 @@ Crea un archivo `app.py` con una API que tenga los siguientes endpoints:
 
 **GET `/health`**
 ```json
-Respuesta: {"status": "ok", "modelo": "...", "version": "1.0"}
+Respuesta: {"status": "ok", "modelo": "...", "versión": "1.0"}
 ```
 
 **POST `/predict`**

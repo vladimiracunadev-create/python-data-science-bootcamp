@@ -120,13 +120,13 @@ print(f"Registros que cumplen la condición: {len(resultado)}")
 # Total de ventas por categoría
 query = """
     SELECT
-        categoria,
+        categoría,
         COUNT(*)            AS cantidad_registros,
         SUM(unidades)       AS total_unidades,
         AVG(precio_unitario) AS precio_promedio,
         MAX(precio_unitario) AS precio_maximo
     FROM ventas
-    GROUP BY categoria
+    GROUP BY categoría
     ORDER BY total_unidades DESC
 """
 resultado = pd.read_sql(query, conn)

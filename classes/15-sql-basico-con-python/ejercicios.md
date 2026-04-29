@@ -30,7 +30,7 @@ Usando `pd.read_sql()` y la conexión `conn`, escribe consultas SQL que responda
 a) Muestra las primeras 10 filas de la tabla, con todas las columnas
 b) Selecciona solo las columnas `producto`, `precio_unitario` y `unidades` para los primeros 15 registros
 c) Cuenta el total de registros en la tabla con `SELECT COUNT(*) FROM ventas`
-d) Muestra todos los valores únicos de la columna `categoria` usando `SELECT DISTINCT`
+d) Muestra todos los valores únicos de la columna `categoría` usando `SELECT DISTINCT`
 
 ### Ejercicio 2: WHERE — filtrar con condiciones
 
@@ -59,7 +59,7 @@ e) Muestra las categorías ordenadas de mayor a menor por suma de unidades
 Para cada una de estas operaciones, escribe **primero la versión pandas** y **luego la versión SQL** que produzcan el mismo resultado:
 
 a) Filtrar registros donde `precio_unitario > 50`
-b) Calcular el promedio de `precio_unitario` por `categoria`
+b) Calcular el promedio de `precio_unitario` por `categoría`
 c) Ordenar todos los registros por `precio_unitario` de mayor a menor y mostrar los 5 primeros
 
 Compara los resultados de ambas versiones para verificar que son equivalentes.
@@ -67,7 +67,7 @@ Compara los resultados de ambas versiones para verificar que son equivalentes.
 ### Ejercicio 5 (desafío): Consulta combinada
 
 Escribe una sola consulta SQL que:
-- Agrupe por `categoria`
+- Agrupe por `categoría`
 - Calcule: total de unidades, promedio de precio unitario, y total de ingresos (`SUM(precio_unitario * unidades)`)
 - Filtre solo las categorías con más de 5 registros (pista: esto requiere `HAVING COUNT(*) > 5`)
 - Ordene el resultado por total de ingresos de mayor a menor

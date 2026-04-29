@@ -76,7 +76,7 @@ scaler = joblib.load('scaler.pkl')
 # Nuevos datos
 nuevos_datos = [[7.5, 6.8, 0.90, 23]]
 nuevos_datos_scaled = scaler.transform(nuevos_datos)
-prediccion = modelo.predict(nuevos_datos_scaled)
+predicción = modelo.predict(nuevos_datos_scaled)
 ```
 
 ---
@@ -139,11 +139,11 @@ def predict():
     ]])
     
     X_scaled = scaler.transform(X)
-    prediccion = modelo.predict(X_scaled)[0]
+    predicción = modelo.predict(X_scaled)[0]
     probabilidad = modelo.predict_proba(X_scaled)[0][1]
     
     return jsonify({
-        'aprobado': bool(prediccion),
+        'aprobado': bool(predicción),
         'probabilidad': round(float(probabilidad), 3)
     })
 

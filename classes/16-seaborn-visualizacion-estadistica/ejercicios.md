@@ -19,7 +19,7 @@ Modifica el gráfico para usar 20 bins y un color diferente al predeterminado. A
 ---
 
 ### Ejercicio 2 — Boxplot por categoría
-Crea un `boxplot` que muestre la distribución de `total_venta` para cada `categoria` de producto.
+Crea un `boxplot` que muestre la distribución de `total_venta` para cada `categoría` de producto.
 
 Luego responde:
 - ¿Qué categoría tiene el rango más amplio de ventas?
@@ -50,7 +50,7 @@ Luego responde:
 Con el dataset `ventas_tienda.csv`, crea un `scatterplot` con:
 - Eje X: `unidades`
 - Eje Y: `total_venta`
-- Hue: `categoria`
+- Hue: `categoría`
 
 Responde:
 - ¿La relación entre unidades y total de venta es lineal en todas las categorías?

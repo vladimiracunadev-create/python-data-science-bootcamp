@@ -19,7 +19,7 @@
 ## 🧪 Preguntas de código
 
 1. Dado un DataFrame `df` con una columna `fecha_venta` de tipo string, escribe el código completo para convertirla a datetime y extraer el año, mes, día de la semana (número), nombre del día, si es fin de semana (0 o 1) y el trimestre.
-2. Escribe el código para aplicar one-hot encoding a la columna `categoria` de `df`, descartando la primera categoría para evitar multicolinealidad, y usando enteros (0/1) en lugar de booleanos.
+2. Escribe el código para aplicar one-hot encoding a la columna `categoría` de `df`, descartando la primera categoría para evitar multicolinealidad, y usando enteros (0/1) en lugar de booleanos.
 3. Escribe el código completo para aplicar `StandardScaler` a las columnas numéricas de un DataFrame, recuperando el resultado como DataFrame con nombres de columna originales más el sufijo `_scaled`.
 
 ## 🎯 Pregunta integradora

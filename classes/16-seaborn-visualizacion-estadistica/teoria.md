@@ -57,7 +57,7 @@ plt.show()
 ```python
 # Ventas por categoría de producto
 plt.figure(figsize=(10, 5))
-sns.boxplot(data=ventas, x="categoria", y="total_venta", palette="Set2")
+sns.boxplot(data=ventas, x="categoría", y="total_venta", palette="Set2")
 plt.title("Distribución de ventas por categoría")
 plt.xlabel("Categoría de producto")
 plt.ylabel("Total de venta")
@@ -105,7 +105,7 @@ plt.show()
 # Relación entre unidades vendidas y total de venta, coloreado por categoría
 plt.figure(figsize=(9, 5))
 sns.scatterplot(data=ventas, x="unidades", y="total_venta",
-                hue="categoria", size="descuento", sizes=(20, 200), alpha=0.7)
+                hue="categoría", size="descuento", sizes=(20, 200), alpha=0.7)
 plt.title("Unidades vs Total de venta por categoría")
 plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left')
 plt.tight_layout()
@@ -121,11 +121,11 @@ plt.show()
 numericas = ventas.select_dtypes(include="number")
 
 # Calcular la matriz de correlación
-correlacion = numericas.corr()
+correlación = numericas.corr()
 
 # Visualizar como heatmap
 plt.figure(figsize=(8, 6))
-sns.heatmap(correlacion, annot=True, fmt=".2f", cmap="coolwarm", center=0,
+sns.heatmap(correlación, annot=True, fmt=".2f", cmap="coolwarm", center=0,
             linewidths=0.5, square=True)
 plt.title("Matriz de correlación — Ventas")
 plt.tight_layout()

@@ -40,7 +40,7 @@ param_grid_knn = {
 
 ## Tarea 2 — Curva de aprendizaje propia (obligatoria)
 
-Genera y grafica la curva de aprendizaje del RandomForest optimizado (con los `best_params_` de clase).
+Genera y gráfica la curva de aprendizaje del RandomForest optimizado (con los `best_params_` de clase).
 
 ```python
 from sklearn.model_selection import learning_curve
@@ -56,7 +56,7 @@ train_sizes, train_scores, val_scores = learning_curve(
     n_jobs=-1
 )
 
-# Grafica train_scores.mean(axis=1) y val_scores.mean(axis=1) vs train_sizes
+# Gráfica train_scores.mean(axis=1) y val_scores.mean(axis=1) vs train_sizes
 ```
 
 **Preguntas para responder en comentarios del código:**

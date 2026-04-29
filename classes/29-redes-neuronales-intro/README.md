@@ -14,7 +14,7 @@ Entender qué es una red neuronal, cómo aprende y cuándo usarla. Al terminar e
 
 ## ✅ Resultados esperados
 Al finalizar, el estudiante podrá:
-- Explicar qué es una neurona artificial y cómo se conectan en capas, entrenar un MLPClassifier de scikit-learn con distintas configuraciones, comparar el rendimiento de MLP vs Decision Tree vs Random Forest en el mismo dataset
+- Explicar qué es una neurona artificial y cómo se conectan en capas, entrenar un MLPClassifier de scikit-learn con distintas configuraciones, comparar el rendimiento de MLP vs Decisión Tree vs Random Forest en el mismo dataset
 
 ## 🧭 Temas clave
 - Neurona artificial: pesos, bias, función de activación

@@ -122,10 +122,10 @@ casos = [
     (3.8, 4.1, 0.60, 31, 'estudiante en riesgo'),
 ]
 
-for nota_m, nota_l, asist, edad, descripcion in casos:
+for nota_m, nota_l, asist, edad, descripción in casos:
     resultado = predecir_estudiante(nota_m, nota_l, asist, edad,
                                      modelo=modelo_prod, scaler=scaler_prod)
-    print(f'{descripcion}: {resultado}')
+    print(f'{descripción}: {resultado}')
 ```
 
 ---
@@ -178,13 +178,13 @@ def predict():
         X_scaled = scaler.transform(X)
         
         # Predecir
-        prediccion = int(modelo.predict(X_scaled)[0])
+        predicción = int(modelo.predict(X_scaled)[0])
         probabilidad = float(modelo.predict_proba(X_scaled)[0][1])
         
         return jsonify({
-            'aprobado': bool(prediccion),
+            'aprobado': bool(predicción),
             'probabilidad': round(probabilidad, 3),
-            'mensaje': 'El estudiante aprobará' if prediccion else 'El estudiante está en riesgo'
+            'mensaje': 'El estudiante aprobará' if predicción else 'El estudiante está en riesgo'
         })
     
     except Exception as e:
@@ -277,14 +277,14 @@ def validar_datos(datos):
         ('edad', 15, 80),
     ]
     
-    for campo, minimo, maximo in validaciones:
+    for campo, mínimo, máximo in validaciones:
         valor = datos.get(campo)
         if valor is None:
             return f'Campo faltante: {campo}'
         if not isinstance(valor, (int, float)):
             return f'{campo} debe ser un número'
-        if valor < minimo or valor > maximo:
-            return f'{campo} debe estar entre {minimo} y {maximo}'
+        if valor < mínimo or valor > máximo:
+            return f'{campo} debe estar entre {mínimo} y {máximo}'
     
     return None  # Todo válido
 

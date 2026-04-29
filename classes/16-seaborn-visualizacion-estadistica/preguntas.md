@@ -19,7 +19,7 @@
 ## 🧪 Preguntas de código
 
 1. Escribe el código para crear un histograma de la columna `ventas` del DataFrame `df` con 20 intervalos y una línea KDE superpuesta, con título y etiquetas en los ejes.
-2. ¿Cómo crearías un boxplot que compare la distribución de `ventas` para cada valor único en la columna `categoria`? Incluye el código completo con configuración del tamaño de figura.
+2. ¿Cómo crearías un boxplot que compare la distribución de `ventas` para cada valor único en la columna `categoría`? Incluye el código completo con configuración del tamaño de figura.
 3. Dado un DataFrame `df` con varias columnas numéricas, escribe el código para crear un heatmap de correlación con los valores numéricos anotados en cada celda, usando la paleta `"coolwarm"`.
 
 ## 🎯 Pregunta integradora

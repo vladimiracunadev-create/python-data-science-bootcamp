@@ -170,7 +170,7 @@ Adam (Adaptive Moment Estimation) es el algoritmo de optimización estándar par
 
 ## 7. Comparación: MLP vs árboles
 
-| Aspecto | MLP | Decision Tree | Random Forest |
+| Aspecto | MLP | Decisión Tree | Random Forest |
 |---------|-----|---------------|---------------|
 | Necesita muchos datos | Sí | No | No |
 | Interpreta features | Difícil | Sí | Parcialmente |

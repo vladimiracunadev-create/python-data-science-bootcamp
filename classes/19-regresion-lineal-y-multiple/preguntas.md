@@ -21,9 +21,9 @@
 ## 🧪 Preguntas de código
 
 1. Dado el dataset `ventas_tienda.csv` con columnas `publicidad` y `ventas`, entrena un modelo de regresión lineal y muestra el coeficiente, intercepto y R². Luego predice las ventas para una inversión publicitaria de 500.
-2. Crea un gráfico de residuales: calcula `y_pred = model.predict(X_test)`, luego grafica `y_test - y_pred` contra `y_pred`. ¿Qué patrón esperarías ver en un modelo bien ajustado?
+2. Crea un gráfico de residuales: calcula `y_pred = model.predict(X_test)`, luego gráfica `y_test - y_pred` contra `y_pred`. ¿Qué patrón esperarías ver en un modelo bien ajustado?
 3. Usando `estudiantes.csv`, entrena una regresión múltiple con al menos 3 variables (por ejemplo, `horas_estudio`, `ausencias`, `promedio_anterior`) para predecir la calificación final. Calcula el RMSE del modelo en el conjunto de prueba.
 
 ## 🎯 Pregunta integradora
 
-Tienes el dataset `ventas_tienda.csv` con columnas: `publicidad_tv`, `publicidad_radio`, `publicidad_redes`, `descuento_porcentaje` y `ventas`. Entrena una regresión múltiple, interpreta el coeficiente de cada variable (¿qué canal de publicidad tiene más impacto por unidad invertida?), calcula R² y RMSE, grafica los residuales y concluye: ¿el modelo es adecuado para predecir ventas? ¿Qué cambios harías para mejorarlo?
+Tienes el dataset `ventas_tienda.csv` con columnas: `publicidad_tv`, `publicidad_radio`, `publicidad_redes`, `descuento_porcentaje` y `ventas`. Entrena una regresión múltiple, interpreta el coeficiente de cada variable (¿qué canal de publicidad tiene más impacto por unidad invertida?), calcula R² y RMSE, gráfica los residuales y concluye: ¿el modelo es adecuado para predecir ventas? ¿Qué cambios harías para mejorarlo?

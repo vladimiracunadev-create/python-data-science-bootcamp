@@ -20,7 +20,7 @@
 
 ## 🧪 Preguntas de código
 
-1. Aplica K-Means con k=2, 3, 4, 5, 6 sobre `ventas_tienda.csv`. Para cada k, calcula la inercia y grafica la curva del codo. ¿Cuántos clusters elegirías?
+1. Aplica K-Means con k=2, 3, 4, 5, 6 sobre `ventas_tienda.csv`. Para cada k, calcula la inercia y gráfica la curva del codo. ¿Cuántos clusters elegirías?
 2. Calcula el `silhouette_score` para k=2, 3, 4, 5 y encuentra el k que maximiza el score. ¿Coincide con el método del codo?
 3. Aplica DBSCAN con `eps=0.5` y `min_samples=5` sobre `estudiantes.csv` (normaliza primero con `StandardScaler`). ¿Cuántos clusters encontró? ¿Cuántos puntos marcó como ruido?
 

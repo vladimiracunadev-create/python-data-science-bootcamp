@@ -29,7 +29,7 @@
 ### Ejercicio 4 — Random Forest
 1. Entrena un `RandomForestClassifier` con `n_estimators=100` y `max_depth=5`.
 2. Compara su accuracy con el mejor árbol simple del ejercicio anterior.
-3. Grafica la importancia de variables. ¿Cuál variable parece más útil para predecir el estado?
+3. gráfica la importancia de variables. ¿Cuál variable parece más útil para predecir el estado?
 
 ### Ejercicio 5 — Predicción individual
 1. Crea un DataFrame con tres estudiantes hipotéticos con distintos niveles de asistencia y notas.

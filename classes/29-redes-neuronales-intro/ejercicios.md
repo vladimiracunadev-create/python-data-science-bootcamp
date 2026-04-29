@@ -181,7 +181,7 @@ for nombre, capas in arquitecturas.items():
 
 ---
 
-## Ejercicio 5: MLP vs Decision Tree vs Random Forest
+## Ejercicio 5: MLP vs Decisión Tree vs Random Forest
 
 ```python
 from sklearn.tree import DecisionTreeClassifier
@@ -194,10 +194,10 @@ mlp = MLPClassifier(hidden_layer_sizes=(100, 50), max_iter=300, random_state=42)
 mlp.fit(X_train_scaled, y_train)
 resultados['MLP (100, 50)'] = accuracy_score(y_test, mlp.predict(X_test_scaled))
 
-# Decision Tree (no necesita escalado)
+# Decisión Tree (no necesita escalado)
 tree = DecisionTreeClassifier(max_depth=5, random_state=42)
 tree.fit(X_train, y_train)
-resultados['Decision Tree'] = accuracy_score(y_test, tree.predict(X_test))
+resultados['Decisión Tree'] = accuracy_score(y_test, tree.predict(X_test))
 
 # Random Forest (no necesita escalado)
 rf = RandomForestClassifier(n_estimators=100, random_state=42)

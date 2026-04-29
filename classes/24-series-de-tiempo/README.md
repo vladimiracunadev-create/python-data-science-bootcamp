@@ -3,7 +3,7 @@
 > 🎯 Ficha de clase con objetivo, materiales y foco de aprendizaje.
 
 ## 🎯 Objetivo
-Aprender a trabajar con datos que cambian con el tiempo: convertir columnas de fecha, indexar por tiempo, agregar por periodos con resample, suavizar tendencias con ventanas móviles y visualizar la evolución temporal de las ventas. Al final de la clase el alumno podrá detectar tendencias y estacionalidad en una serie de tiempo real y generar un pronóstico simple.
+Aprender a trabajar con datos que cambian con el tiempo: convertir columnas de fecha, indexar por tiempo, agregar por períodos con resample, suavizar tendencias con ventanas móviles y visualizar la evolución temporal de las ventas. Al final de la clase el alumno podrá detectar tendencias y estacionalidad en una serie de tiempo real y generar un pronóstico simple.
 
 ## ⏱️ Duración sugerida
 90 minutos
@@ -21,7 +21,7 @@ Al finalizar, el estudiante podrá:
 ## 🧭 Temas clave
 - Qué es una serie de tiempo y ejemplos reales
 - `pd.to_datetime()` y `set_index()` con fechas
-- `resample('M').sum()` y `resample('W').mean()` para agregar por periodo
+- `resample('M').sum()` y `resample('W').mean()` para agregar por período
 - `rolling(7).mean()` — promedio móvil para suavizar ruido
 - Graficar series de tiempo con matplotlib
 - Identificar tendencia y estacionalidad visualmente

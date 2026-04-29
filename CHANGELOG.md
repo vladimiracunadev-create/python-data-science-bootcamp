@@ -7,6 +7,42 @@ El versionado sigue [Semantic Versioning](https://semver.org/lang/es/).
 
 ---
 
+## [v1.1.0] — 2026-04-28
+
+Expansión del curriculum de 13 a 31 clases. El producto pasa de un curso introductorio a un programa completo de Data Science.
+
+### Añadido
+
+**Curriculum:**
+- 18 nuevas clases (13–30) en 10 módulos adicionales: ¿Qué es la Ciencia de Datos?, NumPy, SQL básico, Seaborn, estadística inferencial, feature engineering, regresión lineal, árboles/Random Forest, Gradient Boosting, clustering, PCA, series de tiempo, ajuste de hiperparámetros, NLP, detección de anomalías, ética/sesgo/privacidad, redes neuronales, despliegue con Flask
+- Cada nueva clase incluye: README, slides, teoria, ejercicios, homework, notebook, soluciones, preguntas, tecnologias, guia-codigo, PDF guía-explicativa, PPTX presentación
+- `preguntas.md`, `tecnologias.md` y `guia-codigo.md` añadidos retroactivamente a clases 00–12
+
+**Datasets:**
+- `datasets/comentarios_productos.csv` — 100 reseñas sintéticas en español con etiqueta de sentimiento (Positivo/Negativo/Neutro), para clase 26 (NLP)
+
+**Materiales generados:**
+- 31 PDFs guía-explicativa en `docs/pdfs/classes/` y dentro de cada carpeta de clase
+- 31 PPTXs presentación en `docs/presentaciones/classes/` y dentro de cada carpeta de clase
+- `scripts/generate_class_docs.py` — generación reproducible de PDFs y PPTXs para clases 13–30
+
+**Documentación:**
+- `docs/syllabus.md` — currículo completo 31 clases, 13 módulos, perfil de salida actualizado
+- `docs/cronograma-referencial.md` — 31 sesiones con modalidades intensiva, estándar y parte-tiempo
+- `docs/CATALOGO_PRODUCTO.md` — superficies y artefactos actualizados a 31 clases
+- `docs/ARQUITECTURA_PRODUCTO.md` — diagramas y tablas actualizados, tabla de módulos y datasets
+- `docs/GUIA_EVALUACION.md` — reescrita con inventario real, walkthrough de 10 min y señales de madurez
+- `docs/INDEX.md` — iconos por perfil, territorio 2 renombrado a "proceso de selección histórico"
+- `site/index.html` — 31 class cards, stats actualizados
+- `README.md`, `RECRUITER.md` — conteos actualizados, sección Android añadida
+
+### Cambiado
+
+- El producto deja de estar orientado exclusivamente a un perfil escolar — ahora cubre el recorrido completo de un Data Scientist, accesible para cualquier edad y nivel de entrada
+- Referencias a Skillnest neutralizadas en documentación pública; materiales del proceso de selección movidos a `docs/entrevista/` como archivo histórico
+
+---
+
 ## [v1.0.0] — 2026-04-09
 
 Primera versión operativa y publicada como release oficial.

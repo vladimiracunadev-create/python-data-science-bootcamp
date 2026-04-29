@@ -38,7 +38,7 @@ plt.tight_layout()
 plt.show()
 ```
 
-**¿Qué hace?** Prueba K-Means con distintos valores de k y grafica la inercia (suma de distancias al centroide más cercano). El codo visual indica el k óptimo.
+**¿Qué hace?** Prueba K-Means con distintos valores de k y gráfica la inercia (suma de distancias al centroide más cercano). El codo visual indica el k óptimo.
 
 **¿Por qué así?** Normalizar con `StandardScaler` es obligatorio antes de K-Means: sin esto, una variable en miles (ej: ventas) domina completamente sobre una en unidades (ej: frecuencia).
 

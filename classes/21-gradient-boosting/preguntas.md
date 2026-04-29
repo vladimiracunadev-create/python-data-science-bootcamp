@@ -26,4 +26,4 @@
 
 ## 🎯 Pregunta integradora
 
-Con el dataset `retencion_clientes.csv`, entrena los 4 modelos comparados en clase. Para cada modelo: calcula accuracy, precision, recall y F1-score (usa `classification_report`). Dado que el objetivo de negocio es identificar clientes que van a irse antes de que ocurra (recall alto es crítico), ¿qué modelo elegirías y por qué? ¿Qué hiperparámetros del GBM o XGBoost ajustarías para mejorar el recall sin sacrificar demasiado la precision?
+Con el dataset `retencion_clientes.csv`, entrena los 4 modelos comparados en clase. Para cada modelo: calcula accuracy, precisión, recall y F1-score (usa `classification_report`). Dado que el objetivo de negocio es identificar clientes que van a irse antes de que ocurra (recall alto es crítico), ¿qué modelo elegirías y por qué? ¿Qué hiperparámetros del GBM o XGBoost ajustarías para mejorar el recall sin sacrificar demasiado la precisión?
