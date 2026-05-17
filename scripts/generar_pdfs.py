@@ -83,7 +83,7 @@ class ProgramPDF(FPDF):
         self.set_font("Helvetica", "B", 8)
         self.set_text_color(*COLOR_ACCENT)
         self.set_y(4)
-        self.cell(0, 6, "BOOTCAMP PYTHON - DATA SCIENCE", align="L")
+        self.cell(0, 6, "PYTHON DATA SCIENCE PROGRAM", align="L")
         self.set_text_color(*COLOR_MUTED)
         self.cell(0, 6, self.clase_titulo, align="R")
         self.ln(8)

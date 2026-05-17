@@ -199,11 +199,11 @@ CLASSES = [
 # PDF 1 — PORTAL DEL ALUMNO
 # ════════════════════════════════════════════════════════════════════════════
 def build_portal_alumno():
-    # Produce: portal-alumno-bootcamp.pdf (~3 páginas).
+    # Produce: portal-alumno.pdf (~3 páginas).
     # Audiencia: alumno que recibe el PDF al inicio del programa.
     # Propósito: punto de entrada oficial con temario completo, metodología y
     # recursos; complementa la versión web del portal GitHub Pages.
-    path = OUT_DIR / "portal-alumno-bootcamp.pdf"
+    path = OUT_DIR / "portal-alumno.pdf"
     doc = SimpleDocTemplate(
         str(path), pagesize=A4,
         leftMargin=20*mm, rightMargin=20*mm,
@@ -396,7 +396,7 @@ def build_guia_rapida():
 
     # Banner
     banner = Table([[
-        Paragraph("BOOTCAMP PYTHON PARA DATA SCIENCE", ParagraphStyle(
+        Paragraph("PYTHON DATA SCIENCE PROGRAM", ParagraphStyle(
             "bh", fontName="Helvetica-Bold", fontSize=13, textColor=WHITE, leading=16)),
         Paragraph("GUÍA RÁPIDA DEL ALUMNO", ParagraphStyle(
             "bsub", fontName="Helvetica", fontSize=9, textColor=colors.HexColor("#ccfbf1"), leading=12, alignment=TA_RIGHT)),
@@ -542,7 +542,7 @@ def build_temario():
 
     # Portada de sección
     cover_data = [[
-        Paragraph("BOOTCAMP PYTHON PARA DATA SCIENCE", ParagraphStyle(
+        Paragraph("PYTHON DATA SCIENCE PROGRAM", ParagraphStyle(
             "ch", fontName="Helvetica-Bold", fontSize=11, textColor=colors.HexColor("#ccfbf1"), leading=14)),
         "",
     ], [

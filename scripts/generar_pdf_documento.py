@@ -40,7 +40,7 @@ PRINT_ROW_ALT = (249, 250, 251)
 PRINT_CODE_BG = (243, 244, 246)
 
 FONT_DIR = Path(r"C:\Windows\Fonts")
-FONT_FAMILY = "BootcampSans"
+FONT_FAMILY = "ProgramSans"
 FONT_REGULAR = FONT_DIR / "arial.ttf"
 FONT_BOLD = FONT_DIR / "arialbd.ttf"
 FONT_ITALIC = FONT_DIR / "ariali.ttf"
@@ -238,7 +238,7 @@ class DocumentPDF(FPDF):
         self.set_font(self.family, "B", 8)
         self.set_text_color(*COLOR_ACCENT)
         self.set_y(4)
-        self.cell(0, 6, "BOOTCAMP PYTHON - DATA SCIENCE", align="L")
+        self.cell(0, 6, "PYTHON DATA SCIENCE PROGRAM", align="L")
         self.set_text_color(*COLOR_MUTED)
         self.cell(0, 6, self.header_title, align="R")
         self.ln(8)
@@ -410,7 +410,7 @@ class PrintDocumentPDF(DocumentPDF):
         self.set_font(self.family, "B", 8)
         self.set_text_color(*PRINT_ACCENT)
         self.set_y(3.5)
-        self.cell(0, 5, "BOOTCAMP PYTHON - DOSSIER", align="L")
+        self.cell(0, 5, "PYTHON DATA SCIENCE PROGRAM - DOSSIER", align="L")
         self.set_text_color(*PRINT_MUTED)
         self.cell(0, 5, self.header_title, align="R")
         self.ln(9)
