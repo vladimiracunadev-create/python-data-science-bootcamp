@@ -10,9 +10,25 @@
 
 </div>
 
-> 📖 Fuente: pauta derivada de *Hands-On Machine Learning* (Géron, 3ª ed.) + *Python Data Science Handbook* (VanderPlas) + *Designing ML Systems* (Huyen) + *ISLP* (James et al) + *Fairness and Machine Learning* (Barocas/Hardt/Narayanan).
+> 📖 Pauta derivada de cinco libros referentes — ver [§ Fuentes y pauta](#-fuentes-y-pauta) para qué aporta cada uno.
 >
 > 🧭 Índice navegable completo: [classes/README.md](../classes/README.md)
+
+---
+
+## 📚 Fuentes y pauta
+
+> Cuando decimos que el currículo está *derivado* de estas fuentes, queremos decir que cada parte del temario se construyó tomando explícitamente la secuencia, los énfasis y las decisiones pedagógicas de uno o más de estos libros. No se copia contenido — se respetan sus criterios técnicos y se adaptan a notebooks, datasets y ejercicios propios.
+
+| 📘 Libro / autor | Aporte concreto al currículo |
+|---|---|
+| **🧠 Hands-On Machine Learning with Scikit-Learn, Keras & TensorFlow** — Aurélien Géron (3ª ed., O'Reilly 2022) | Espina dorsal del programa. Define la secuencia de **Parte 1 (ML clásico)** y **Parte 2 (Deep Learning)**: regresión → clasificación → ensembles → reducción dimensional → clustering → MLP → CNN → RNN → transformers → RL → despliegue. Es la referencia más práctica del mercado. |
+| **📊 Python Data Science Handbook** — Jake VanderPlas (O'Reilly, 2ª ed.) | Cubre la **Parte 0 (Prerrequisitos)**: NumPy, pandas, matplotlib, ML clásico introductorio. Su tratamiento de pandas y visualización es el estándar tácito de la comunidad Python para análisis de datos. |
+| **🏭 Designing Machine Learning Systems** — Chip Huyen (O'Reilly 2022) | Define la **Parte 4 (MLOps)** y la mentalidad de "ML como sistema de producción": ciclo de vida real, monitoreo, deriva de datos, fairness, observabilidad. Cierra la brecha entre notebook y servicio en vivo. |
+| **📈 An Introduction to Statistical Learning, Python edition (ISLP)** — James, Witten, Hastie, Tibshirani (Springer 2023) | Refuerza la **Parte 3 (Estadística inferencial)** y aporta rigor matemático a la **Parte 1**. Es el manual estándar para entender por qué los modelos funcionan, no sólo cómo entrenarlos. |
+| **⚖️ Fairness and Machine Learning** — Solon Barocas, Moritz Hardt, Arvind Narayanan (MIT Press 2023) | Funda la **Parte 7 (Ética, fairness, privacidad)**. Plantea el problema de sesgo algorítmico no como anexo moral sino como decisión técnica con métricas, definiciones formales y trade-offs documentables. |
+
+> 🎯 La cobertura de las **Partes 5 (Ingeniería de datos)**, **6 (Recomendadores)** y **8 (Capstones)** se apoya en buenas prácticas comunitarias y documentación oficial de cada herramienta (Spark, Airflow, Surprise, scikit-learn).
 
 ---
 
