@@ -1,6 +1,11 @@
-"""
-Genera PDFs (guia-explicativa) y PPTXs (presentacion) para las clases 13-30
-del bootcamp Python Data Science.
+"""LEGACY v1 — Genera PDFs y PPTXs para las clases 13-30 del currículo v1.
+
+Este script asume la estructura plana de v1 (`classes/NN-tema/`) que ya no
+existe en la rama main. El currículo v1 se conserva en `historicos/classes-v1/`,
+así que para regenerar sus artefactos hay que adaptar las rutas en este script.
+
+Para el currículo v2 (197 clases en 9 partes anidadas en `classes/parte-N/NNN-tema/`)
+todavía no existe un generador equivalente — está pendiente en ROADMAP.
 """
 import os
 import re

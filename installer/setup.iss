@@ -1,6 +1,6 @@
 ; setup.iss — Script de Inno Setup para el Bootcamp Python DS
 ;
-; Genera: BootcampPythonDS_Setup_v1.0.0.exe
+; Genera: BootcampPythonDS_Setup_v2.0.0-scaffold.exe
 ;
 ; Requisitos:
 ;   - Inno Setup 6+ instalado: https://jrsoftware.org/isinfo.php
@@ -20,7 +20,7 @@
 AppName=Bootcamp Python para Data Science
 
 ; Version del producto
-AppVersion=1.0.0
+AppVersion=2.0.0-scaffold
 
 ; Identificador unico de la aplicacion (GUID)
 ; Cambiar si se crea una aplicacion completamente nueva
@@ -40,7 +40,7 @@ DefaultDirName={pf}\BootcampPythonDS
 DefaultGroupName=Bootcamp Python DS
 
 ; Nombre del archivo instalador de salida (sin .exe)
-OutputBaseFilename=BootcampPythonDS_Setup_v1.0.0
+OutputBaseFilename=BootcampPythonDS_Setup_v2.0.0-scaffold
 
 ; Directorio de salida del instalador generado
 OutputDir=..\dist_installer

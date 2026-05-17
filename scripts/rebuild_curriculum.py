@@ -1,8 +1,13 @@
-"""Genera y sincroniza el contenido estructural del plan de clases del bootcamp.
+"""LEGACY v1 — Sincroniza catálogo, markdowns de clase y datos de la app móvil.
 
-Este script resuelve la consistencia entre el catálogo docente, los markdown de
-cada clase y los datos que consume la app móvil. Cuando cambia el plan de
-clases, aquí se actualiza la fuente única para evitar divergencias.
+Este script fue construido contra el currículo v1 (estructura plana
+`classes/NN-tema/`) y genera, entre otros, los datos de `mobile/src/data/classes.js`
+con URLs Colab apuntando a `master/classes/{slug}/notebook.ipynb`. Esos
+supuestos ya no aplican en main: la rama es `main`, la estructura es anidada
+(`classes/parte-N/NNN-tema/`), y los slugs cambiaron.
+
+El generador del currículo v2 vive en `scripts/generate_v2_curriculum.py`.
+La sincronización móvil v2 está pendiente — ver ROADMAP.
 """
 
 from __future__ import annotations

@@ -9,10 +9,10 @@ No se abre ningún navegador. La ventana es una app real de Windows.
 
 ```
 release_artifacts/
-  BootcampPythonDS_windows_portable_v1.0.0.zip   ← portable (descomprimir y ejecutar)
+  BootcampPythonDS_windows_portable_v2.0.0-scaffold.zip   ← portable (descomprimir y ejecutar)
 
 dist_installer/
-  BootcampPythonDS_Setup_v1.0.0.exe              ← instalador para alumno/docente
+  BootcampPythonDS_Setup_v2.0.0-scaffold.exe              ← instalador para alumno/docente
 
 dist/BootcampPythonDS/
   BootcampPythonDS.exe                           ← ejecutable directo
@@ -43,10 +43,10 @@ BootcampPythonDS.exe
     dist/BootcampPythonDS/  (bundle con Python + pywebview embebidos)
 
     ↓ PowerShell Compress-Archive
-    release_artifacts/BootcampPythonDS_windows_portable_v1.0.0.zip
+    release_artifacts/BootcampPythonDS_windows_portable_v2.0.0-scaffold.zip
 
     ↓ Inno Setup (installer/setup.iss)
-    dist_installer/BootcampPythonDS_Setup_v1.0.0.exe
+    dist_installer/BootcampPythonDS_Setup_v2.0.0-scaffold.exe
 ```
 
 **Componentes clave:**
@@ -115,7 +115,7 @@ python -m PyInstaller bootcamp.spec --noconfirm
 
 # Paso 3: Empaquetar portable (PowerShell)
 Compress-Archive -Path "dist\BootcampPythonDS\*" `
-  -DestinationPath "release_artifacts\BootcampPythonDS_windows_portable_v1.0.0.zip" -Force
+  -DestinationPath "release_artifacts\BootcampPythonDS_windows_portable_v2.0.0-scaffold.zip" -Force
 
 # Paso 4: Compilar el instalador (requiere Inno Setup instalado)
 # Ruta estándar (instalación oficial de jrsoftware.org):
@@ -160,12 +160,12 @@ Levanta Flask en `http://127.0.0.1:8000` y abre el navegador automáticamente.
 
 **Opción portable (sin instalador):**
 
-Compartir `release_artifacts/BootcampPythonDS_windows_portable_v1.0.0.zip`.
+Compartir `release_artifacts/BootcampPythonDS_windows_portable_v2.0.0-scaffold.zip`.
 El alumno descomprime y ejecuta `BootcampPythonDS.exe` directamente.
 
 **Opción instalador:**
 
-Compartir `dist_installer/BootcampPythonDS_Setup_v1.0.0.exe`.
+Compartir `dist_installer/BootcampPythonDS_Setup_v2.0.0-scaffold.exe`.
 
 El alumno lo ejecuta como cualquier instalador de Windows:
 1. Doble clic en el .exe

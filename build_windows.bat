@@ -27,7 +27,7 @@ REM ---------------------------------------------------------------------------
 set PYTHON=python
 set PIP=pip
 set APP_NAME=BootcampPythonDS
-set VERSION=1.0.0
+set VERSION=2.0.0-scaffold
 set SPEC_FILE=bootcamp.spec
 set INNO_SETUP="C:\Program Files (x86)\Inno Setup 6\ISCC.exe"
 set INNO_SCRIPT=installer\setup.iss

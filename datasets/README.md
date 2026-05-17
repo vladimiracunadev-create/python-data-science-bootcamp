@@ -4,6 +4,8 @@
 
 Este directorio contiene los datasets base usados en las clases. Todos los datos son sinteticos con contexto realista y fueron preparados para practicar lectura, limpieza, análisis, visualización y modelado inicial.
 
+> **Nota v2:** los campos "Clases que lo usan" abajo aún reflejan la numeración del currículo v1 (clases 00-30) que se conserva como referencia en [`historicos/classes-v1/`](../historicos/classes-v1). La asignación de cada dataset a clases concretas del currículo v2 (197 clases en 9 partes) se actualizará por bloque al desarrollar el contenido pedagógico.
+
 ## 1. ventas_tienda.csv
 
 **Descripcion:** Registro de ventas de una tienda con varias sucursales, categorías y medios de pago. Es el dataset principal del recorrido.

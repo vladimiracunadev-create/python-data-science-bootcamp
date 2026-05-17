@@ -214,9 +214,9 @@ aws ecr get-login-password | docker login --username AWS \
   --password-stdin <account>.dkr.ecr.us-east-1.amazonaws.com
 
 # 2. build y push (usa el Dockerfile existente)
-docker build -t bootcamp-lab:v1.0.0 .
-docker tag bootcamp-lab:v1.0.0 <account>.dkr.ecr.us-east-1.amazonaws.com/bootcamp-lab:v1.0.0
-docker push <account>.dkr.ecr.us-east-1.amazonaws.com/bootcamp-lab:v1.0.0
+docker build -t bootcamp-lab:v2.0.0-scaffold .
+docker tag bootcamp-lab:v2.0.0-scaffold <account>.dkr.ecr.us-east-1.amazonaws.com/bootcamp-lab:v2.0.0-scaffold
+docker push <account>.dkr.ecr.us-east-1.amazonaws.com/bootcamp-lab:v2.0.0-scaffold
 ```
 
 ### Fase 3 — ECS Fargate (1 día)

@@ -3,7 +3,7 @@ pandas>=2.2
 numpy>=1.26
 matplotlib>=3.8
 
-# Machine Learning (clases 09-11)
+# Machine Learning (Parte 1 del currículo v2)
 scikit-learn>=1.4
 joblib>=1.3
 
