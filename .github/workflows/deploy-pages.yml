@@ -2,7 +2,7 @@ name: Deploy Student Landing
 
 on:
   push:
-    branches: ["master", "main"]
+    branches: ["main"]
     paths:
       - "site/**"
       - ".github/workflows/deploy-pages.yml"
