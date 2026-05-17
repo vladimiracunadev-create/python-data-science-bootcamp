@@ -44,4 +44,4 @@ jobs:
         uses: actions/checkout@v5
 
       - name: Build Docker image
-        run: docker build -t python-data-science-bootcamp:ci .
+        run: docker build -t python-data-science-program:ci .

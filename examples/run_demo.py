@@ -1,4 +1,4 @@
-"""Demo rápida del flujo de análisis del bootcamp.
+"""Demo rápida del flujo de análisis del programa.
 
 Este ejemplo resuelve una necesidad concreta de onboarding: mostrar, en pocos
 pasos, cómo cargar datos, calcular métricas útiles y producir una visualización

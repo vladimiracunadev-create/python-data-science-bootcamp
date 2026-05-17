@@ -11,7 +11,7 @@ demo:
 	python examples/run_demo.py
 
 validate:
-	python examples/validate_bootcamp.py
+	python examples/validate_program.py
 
 test:
 	pytest -q

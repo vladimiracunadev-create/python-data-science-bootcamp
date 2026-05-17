@@ -34,4 +34,4 @@ jobs:
       - name: Static security scan
         run: |
           bandit -q -r app src scripts -x app/saved_notebooks
-          bandit -q run_bootcamp.py
+          bandit -q run_program.py

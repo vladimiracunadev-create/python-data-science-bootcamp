@@ -1,4 +1,4 @@
-"""Genera los 3 PDFs de release para el bootcamp Python para Data Science."""
+"""Genera los 3 PDFs de release para el programa Python para Data Science."""
 
 # Uso: python scripts/generate_release_pdfs.py
 # Salida: release_artifacts/{portal-alumno,guia-rapida,temario}-*.pdf
@@ -40,7 +40,7 @@ WHITE      = colors.white
 BORDER     = colors.HexColor("#d8cdbd")
 
 OUT_DIR    = Path("release_artifacts")
-PORTAL_URL = "https://vladimiracunadev-create.github.io/python-data-science-bootcamp/"
+PORTAL_URL = "https://vladimiracunadev-create.github.io/python-data-science-program/"
 W, H       = A4   # 595 x 842 pts
 
 # ── Estilos comunes ──────────────────────────────────────────────────────────
@@ -102,7 +102,7 @@ def footer_cb(canvas, doc):
     canvas.saveState()
     canvas.setFont("Helvetica", 7.5)
     canvas.setFillColor(INK_SOFT)
-    canvas.drawString(20*mm, 12*mm, "Bootcamp Python para Data Science")
+    canvas.drawString(20*mm, 12*mm, "Python Data Science Program")
     canvas.drawRightString(W - 20*mm, 12*mm, PORTAL_URL)
     canvas.setStrokeColor(BORDER)
     canvas.setLineWidth(0.5)
@@ -111,12 +111,12 @@ def footer_cb(canvas, doc):
 
 
 # ── Datos de las clases ──────────────────────────────────────────────────────
-# Fuente de verdad para los 3 PDFs. Si cambia el temario del bootcamp,
+# Fuente de verdad para los 3 PDFs. Si cambia el temario del programa,
 # se actualiza aquí y los PDFs generados reflejan el cambio automáticamente.
 CLASSES = [
     {
         "num": "00", "icon": "◎", "title": "Diagnóstico inicial",
-        "desc": "Quiz de entrada para estimar el punto de partida del grupo y orientar el ritmo del bootcamp.",
+        "desc": "Quiz de entrada para estimar el punto de partida del grupo y orientar el ritmo del programa.",
         "topics": ["Quiz diagnóstico de 30 preguntas", "Presentación del programa y herramientas", "Configuración del entorno"],
         "color": GOLD, "bg": GOLD_LIGHT,
     },
@@ -200,7 +200,7 @@ CLASSES = [
 # ════════════════════════════════════════════════════════════════════════════
 def build_portal_alumno():
     # Produce: portal-alumno-bootcamp.pdf (~3 páginas).
-    # Audiencia: alumno que recibe el PDF al inicio del bootcamp.
+    # Audiencia: alumno que recibe el PDF al inicio del programa.
     # Propósito: punto de entrada oficial con temario completo, metodología y
     # recursos; complementa la versión web del portal GitHub Pages.
     path = OUT_DIR / "portal-alumno-bootcamp.pdf"
@@ -228,7 +228,7 @@ def build_portal_alumno():
     story.append(hero_tbl)
     story.append(Spacer(1, 8))
 
-    story.append(Paragraph("Bootcamp Python para Data Science", S["title"]))
+    story.append(Paragraph("Python Data Science Program", S["title"]))
     story.append(Paragraph(
         "Tu punto de entrada oficial al programa. 13 clases modulares, laboratorio interactivo y recursos por sesión.",
         S["subtitle"]
@@ -257,7 +257,7 @@ def build_portal_alumno():
     # ── Temario ──
     story.append(HRFlowable(width="100%", thickness=1, color=BORDER))
     story.append(Paragraph("TEMARIO COMPLETO", S["eyebrow"]))
-    story.append(Paragraph("Las 13 clases del bootcamp", S["h2"]))
+    story.append(Paragraph("Las 13 clases del programa", S["h2"]))
     story.append(Spacer(1, 6))
 
     for cls in CLASSES:
@@ -326,7 +326,7 @@ def build_portal_alumno():
     story.append(Spacer(1, 6))
 
     resources = [
-        ("Repositorio del curso", "Materiales, clases, datasets y estructura general del bootcamp.", "github.com/vladimiracunadev-create/python-data-science-bootcamp"),
+        ("Repositorio del curso", "Materiales, clases, datasets y estructura general del programa.", "github.com/vladimiracunadev-create/python-data-science-program"),
         ("Datasets de práctica", "Casos sintéticos para trabajar Python, pandas, gráficos e interpretación.", "github.com/.../datasets"),
         ("Notebooks y clases", "Clases, notebooks, ejercicios y guías liberados en sala.", "github.com/.../classes"),
         ("Vista institucional", "Resumen del producto educativo, implementación y hoja de ruta.", PORTAL_URL + "product/"),
@@ -492,7 +492,7 @@ def build_guia_rapida():
     ]))
 
     res_items = [
-        ("Repositorio", "github.com/vladimiracunadev-create/python-data-science-bootcamp"),
+        ("Repositorio", "github.com/vladimiracunadev-create/python-data-science-program"),
         ("Datasets", ".../tree/master/datasets"),
         ("Clases/Notebooks", ".../tree/master/classes"),
         ("Vista institucional", PORTAL_URL + "product/"),
@@ -531,7 +531,7 @@ def build_guia_rapida():
 # PDF 3 — TEMARIO COMPLETO
 # ════════════════════════════════════════════════════════════════════════════
 def build_temario():
-    path = OUT_DIR / "temario-bootcamp-python-ds.pdf"
+    path = OUT_DIR / "temario-python-ds-program.pdf"
     doc = SimpleDocTemplate(
         str(path), pagesize=A4,
         leftMargin=20*mm, rightMargin=20*mm,

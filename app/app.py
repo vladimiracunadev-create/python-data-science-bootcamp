@@ -1,4 +1,4 @@
-"""Aplicación Flask del bootcamp Python para Data Science.
+"""Aplicación Flask del programa Python para Data Science.
 
 Este módulo resuelve la capa HTTP del sistema local: publica la interfaz web,
 expone APIs para clases y notebooks, y conecta la ejecución de código con el
@@ -60,8 +60,8 @@ SLUG_RE = re.compile(r"^[\w\-]{1,80}$")
 # Currículo v2: los slugs de clase incluyen "/" porque viven en parte-N/NNN-tema/.
 # `\w` no matchea ".", por lo que sigue bloqueando intentos de "..".
 CLASS_SLUG_RE = re.compile(r"^[\w\-/]{1,160}$")
-DEFAULT_HOST = os.getenv("BOOTCAMP_HOST", "127.0.0.1")
-DEFAULT_PORT = int(os.getenv("BOOTCAMP_PORT", "8000"))
+DEFAULT_HOST = os.getenv("PROGRAM_HOST", "127.0.0.1")
+DEFAULT_PORT = int(os.getenv("PROGRAM_PORT", "8000"))
 
 
 def _valid_slug(slug: str) -> bool:
@@ -115,7 +115,7 @@ def index():
 @app.get("/health")
 def health():
     """Expone un healthcheck liviano para launcher, tests y monitoreo local."""
-    return jsonify({"status": "ok", "service": "python-data-science-bootcamp"})
+    return jsonify({"status": "ok", "service": "python-data-science-program"})
 
 
 @app.get("/ready")
@@ -126,7 +126,7 @@ def ready():
     return jsonify(
         {
             "status": "ready",
-            "service": "python-data-science-bootcamp",
+            "service": "python-data-science-program",
             "classes": len(classes),
             "notebooks": len(templates),
         }

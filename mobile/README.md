@@ -1,6 +1,6 @@
-# 📱 Bootcamp Python DS — App Android
+# 📱 Python Data Science Program — App Android
 
-App móvil para el Bootcamp de Python Data Science. Permite a los estudiantes explorar la clase 0 diagnóstica y las 12 clases troncales, leer teoría con ejemplos de código documentados, rastrear su progreso y abrir cualquier notebook en Google Colab con un tap.
+App móvil para el Python Data Science Program Data Science. Permite a los estudiantes explorar la clase 0 diagnóstica y las 12 clases troncales, leer teoría con ejemplos de código documentados, rastrear su progreso y abrir cualquier notebook en Google Colab con un tap.
 
 ## Requisitos
 

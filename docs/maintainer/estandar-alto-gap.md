@@ -1,8 +1,8 @@
-# 📐 Estándar alto y brechas del bootcamp
+# 📐 Estándar alto y brechas del programa
 
 ## Contexto
 
-Este documento aterriza el análisis transversal del portafolio a `python-data-science-bootcamp`.
+Este documento aterriza el análisis transversal del portafolio a `python-data-science-program`.
 
 Repos de referencia directa:
 

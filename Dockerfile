@@ -1,8 +1,8 @@
 FROM python:3.11.10-slim
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
-ENV BOOTCAMP_HOST=0.0.0.0
-ENV BOOTCAMP_PORT=8000
+ENV PROGRAM_HOST=0.0.0.0
+ENV PROGRAM_PORT=8000
 WORKDIR /workspace
 RUN addgroup --system appuser && adduser --system --ingroup appuser appuser
 COPY requirements.txt .

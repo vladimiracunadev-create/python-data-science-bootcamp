@@ -1,4 +1,4 @@
-package com.bootcamp.pythonds
+package com.pythondsprogram
 
 import android.os.Build
 import android.os.Bundle

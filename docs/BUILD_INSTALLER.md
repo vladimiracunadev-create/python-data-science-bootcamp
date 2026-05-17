@@ -1,6 +1,6 @@
 # 🪟 Guía: Build Windows — App de Escritorio
 
-Genera el ejecutable Windows del Bootcamp Python DS como **aplicación de escritorio nativa**.
+Genera el ejecutable Windows del Python Data Science Program como **aplicación de escritorio nativa**.
 No se abre ningún navegador. La ventana es una app real de Windows.
 
 ---
@@ -9,13 +9,13 @@ No se abre ningún navegador. La ventana es una app real de Windows.
 
 ```
 release_artifacts/
-  BootcampPythonDS_windows_portable_v2.0.0-scaffold.zip   ← portable (descomprimir y ejecutar)
+  PythonDSProgram_windows_portable_v2.0.0-scaffold.zip   ← portable (descomprimir y ejecutar)
 
 dist_installer/
-  BootcampPythonDS_Setup_v2.0.0-scaffold.exe              ← instalador para alumno/docente
+  PythonDSProgram_Setup_v2.0.0-scaffold.exe              ← instalador para alumno/docente
 
-dist/BootcampPythonDS/
-  BootcampPythonDS.exe                           ← ejecutable directo
+dist/PythonDSProgram/
+  PythonDSProgram.exe                           ← ejecutable directo
   _internal/                                     ← runtime Python + dependencias
   app/templates/
   app/notebooks/
@@ -29,7 +29,7 @@ dist/BootcampPythonDS/
 ## Arquitectura de la app de escritorio
 
 ```
-BootcampPythonDS.exe
+PythonDSProgram.exe
     |
     ├── Busca puerto libre automáticamente (no hay conflictos)
     ├── Arranca Flask interno en hilo daemon
@@ -39,14 +39,14 @@ BootcampPythonDS.exe
          — sin abrir ningún navegador externo
          — sin mostrar ninguna URL localhost al usuario
 
-    ↓ PyInstaller (bootcamp.spec)
-    dist/BootcampPythonDS/  (bundle con Python + pywebview embebidos)
+    ↓ PyInstaller (program.spec)
+    dist/PythonDSProgram/  (bundle con Python + pywebview embebidos)
 
     ↓ PowerShell Compress-Archive
-    release_artifacts/BootcampPythonDS_windows_portable_v2.0.0-scaffold.zip
+    release_artifacts/PythonDSProgram_windows_portable_v2.0.0-scaffold.zip
 
     ↓ Inno Setup (installer/setup.iss)
-    dist_installer/BootcampPythonDS_Setup_v2.0.0-scaffold.exe
+    dist_installer/PythonDSProgram_Setup_v2.0.0-scaffold.exe
 ```
 
 **Componentes clave:**
@@ -54,8 +54,8 @@ BootcampPythonDS.exe
 | Archivo | Rol |
 |---|---|
 | `launcher.py` | Punto de entrada del .exe — pywebview + Flask interno |
-| `run_bootcamp.py` | Modo desarrollo — Flask + abre navegador (solo en repo) |
-| `bootcamp.spec` | Especificación PyInstaller con `collect_all('webview')` |
+| `run_program.py` | Modo desarrollo — Flask + abre navegador (solo en repo) |
+| `program.spec` | Especificación PyInstaller con `collect_all('webview')` |
 | `installer/setup.iss` | Script Inno Setup para el instalador |
 | `build_windows.bat` | Automatiza todo el proceso de build |
 
@@ -111,11 +111,11 @@ pip install -r requirements.txt
 pip install pywebview pyinstaller
 
 # Paso 2: Generar el bundle
-python -m PyInstaller bootcamp.spec --noconfirm
+python -m PyInstaller program.spec --noconfirm
 
 # Paso 3: Empaquetar portable (PowerShell)
-Compress-Archive -Path "dist\BootcampPythonDS\*" `
-  -DestinationPath "release_artifacts\BootcampPythonDS_windows_portable_v2.0.0-scaffold.zip" -Force
+Compress-Archive -Path "dist\PythonDSProgram\*" `
+  -DestinationPath "release_artifacts\PythonDSProgram_windows_portable_v2.0.0-scaffold.zip" -Force
 
 # Paso 4: Compilar el instalador (requiere Inno Setup instalado)
 # Ruta estándar (instalación oficial de jrsoftware.org):
@@ -138,7 +138,7 @@ where /R "%LOCALAPPDATA%" ISCC.exe
 ### Modo app de escritorio (producción)
 
 ```bat
-BootcampPythonDS.exe
+PythonDSProgram.exe
 ```
 
 Abre directamente una ventana nativa de Windows.
@@ -148,7 +148,7 @@ El usuario ve la app y la usa igual que cualquier programa.
 ### Modo desarrollo (desde el repositorio)
 
 ```bat
-python run_bootcamp.py
+python run_program.py
 ```
 
 Levanta Flask en `http://127.0.0.1:8000` y abre el navegador automáticamente.
@@ -160,17 +160,17 @@ Levanta Flask en `http://127.0.0.1:8000` y abre el navegador automáticamente.
 
 **Opción portable (sin instalador):**
 
-Compartir `release_artifacts/BootcampPythonDS_windows_portable_v2.0.0-scaffold.zip`.
-El alumno descomprime y ejecuta `BootcampPythonDS.exe` directamente.
+Compartir `release_artifacts/PythonDSProgram_windows_portable_v2.0.0-scaffold.zip`.
+El alumno descomprime y ejecuta `PythonDSProgram.exe` directamente.
 
 **Opción instalador:**
 
-Compartir `dist_installer/BootcampPythonDS_Setup_v2.0.0-scaffold.exe`.
+Compartir `dist_installer/PythonDSProgram_Setup_v2.0.0-scaffold.exe`.
 
 El alumno lo ejecuta como cualquier instalador de Windows:
 1. Doble clic en el .exe
 2. Siguiente, siguiente, instalar
-3. Al final puede marcar "Iniciar el Bootcamp ahora"
+3. Al final puede marcar "Iniciar el Programa ahora"
 
 No se requiere internet, no se requiere Python, no se requiere ninguna configuración.
 
@@ -181,7 +181,7 @@ No se requiere internet, no se requiere Python, no se requiere ninguna configura
 En modo instalado, los notebooks que el alumno guarda se almacenan junto al ejecutable:
 
 ```
-C:\Program Files\BootcampPythonDS\saved_notebooks\
+C:\Program Files\PythonDSProgram\saved_notebooks\
 ```
 
 Al desinstalar, esta carpeta **no se borra** por defecto para no perder el trabajo del alumno.
@@ -194,9 +194,9 @@ Ver sección `[UninstallDelete]` en `installer/setup.iss` para cambiar este comp
 | Síntoma | Causa probable | Solución |
 |---|---|---|
 | La ventana no abre | Edge WebView2 no instalado | Instalar WebView2 Runtime de Microsoft |
-| Pantalla de carga no avanza | Error en Flask interno | Ejecutar `python run_bootcamp.py` para ver el error |
-| Error 500 al cargar clases | Falta archivo de datos en el bundle | Revisar sección `datas` en `bootcamp.spec` |
-| `ModuleNotFoundError` al buildear | Dependencia no detectada por PyInstaller | Agregar a `hiddenimports` en `bootcamp.spec` |
+| Pantalla de carga no avanza | Error en Flask interno | Ejecutar `python run_program.py` para ver el error |
+| Error 500 al cargar clases | Falta archivo de datos en el bundle | Revisar sección `datas` en `program.spec` |
+| `ModuleNotFoundError` al buildear | Dependencia no detectada por PyInstaller | Agregar a `hiddenimports` en `program.spec` |
 | Inno Setup no encontrado | Ruta incorrecta o instalación no estándar | Buscar con `where /R "%LOCALAPPDATA%" ISCC.exe` y ajustar `INNO_SETUP` en `build_windows.bat`. Ver rutas alternativas en la sección de instalación manual. |
 | `collect_all('webview')` falla | pywebview no instalado en el entorno de build | `pip install pywebview` |
 

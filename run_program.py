@@ -1,11 +1,11 @@
-"""Punto de entrada para ejecutar el bootcamp en modo desarrollo (localhost).
+"""Punto de entrada para ejecutar el programa en modo desarrollo (localhost).
 
 Uso:
-    python run_bootcamp.py
+    python run_program.py
 
 Esto levanta Flask en http://127.0.0.1:8000 y abre el navegador
 automáticamente cuando el servidor esté listo.
-Para la app de escritorio (sin navegador), ejecuta BootcampPythonDS.exe.
+Para la app de escritorio (sin navegador), ejecuta PythonDSProgram.exe.
 """
 
 from __future__ import annotations
@@ -18,8 +18,8 @@ import time
 import urllib.request
 import webbrowser
 
-HOST = os.getenv("BOOTCAMP_HOST", "127.0.0.1")
-PORT = int(os.getenv("BOOTCAMP_PORT", "8000"))
+HOST = os.getenv("PROGRAM_HOST", "127.0.0.1")
+PORT = int(os.getenv("PROGRAM_PORT", "8000"))
 STARTUP_TIMEOUT = 30
 
 
@@ -51,7 +51,7 @@ def main() -> None:
 
     print()
     print("=" * 58)
-    print("  BOOTCAMP PYTHON DS — Modo desarrollo (localhost)")
+    print("  PYTHON DS PROGRAM — Modo desarrollo (localhost)")
     print("=" * 58)
     print(f"  URL: {url}")
     print()

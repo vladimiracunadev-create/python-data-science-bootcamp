@@ -1,5 +1,5 @@
 // ============================================================
-// DESIGN SYSTEM — BOOTCAMP PYTHON DS
+// DESIGN SYSTEM — PYTHON DS PROGRAM
 // Colores, espaciado, tipografia y bordes usados en toda la app
 // ============================================================
 

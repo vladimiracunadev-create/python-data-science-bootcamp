@@ -1,11 +1,11 @@
-# bootcamp.spec — Especificacion de PyInstaller para el Bootcamp Python DS
+# program.spec — Especificacion de PyInstaller para el Python Data Science Program
 #
-# Genera un directorio dist/BootcampPythonDS/ con el ejecutable y todos los datos.
+# Genera un directorio dist/PythonDSProgram/ con el ejecutable y todos los datos.
 # Uso:
 #   pip install pyinstaller pywebview
-#   pyinstaller bootcamp.spec
+#   pyinstaller program.spec
 #
-# El resultado en dist/BootcampPythonDS/BootcampPythonDS.exe es el ejecutable
+# El resultado en dist/PythonDSProgram/PythonDSProgram.exe es el ejecutable
 # que se entrega al instalador Inno Setup (setup.iss).
 
 import os
@@ -141,7 +141,7 @@ exe = EXE(  # noqa: F821
 
     exclude_binaries=True,
 
-    name="BootcampPythonDS",
+    name="PythonDSProgram",
 
     debug=False,
     bootloader_ignore_signals=False,
@@ -170,5 +170,5 @@ coll = COLLECT(  # noqa: F821
     upx=False,
     upx_exclude=[],
 
-    name="BootcampPythonDS",
+    name="PythonDSProgram",
 )

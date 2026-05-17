@@ -1,4 +1,4 @@
-"""Pruebas del motor de ejecución interactiva del bootcamp.
+"""Pruebas del motor de ejecución interactiva del programa.
 
 Validan que el backend conserve estado por sesión, capture stdout, reporte
 errores y soporte la carga previa de utilidades comunes para el laboratorio.

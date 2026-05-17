@@ -1,5 +1,5 @@
 /**
- * App.js — Punto de entrada de la app Bootcamp Python DS
+ * App.js — Punto de entrada de la app Python Data Science Program
  *
  * Configura:
  *   - NavigationContainer con tema oscuro
@@ -14,7 +14,7 @@ import { NavigationContainer, DarkTheme } from '@react-navigation/native';
 import AppNavigator from './src/navigation/AppNavigator';
 
 // Tema oscuro personalizado para la navegacion
-const BootcampTheme = {
+const ProgramTheme = {
   ...DarkTheme,
   colors: {
     ...DarkTheme.colors,
@@ -34,7 +34,7 @@ export default function App() {
       <StatusBar style="light" backgroundColor="#0f0f1a" />
 
       {/* NavigationContainer: envuelve toda la navegacion de la app */}
-      <NavigationContainer theme={BootcampTheme}>
+      <NavigationContainer theme={ProgramTheme}>
         <AppNavigator />
       </NavigationContainer>
     </SafeAreaProvider>

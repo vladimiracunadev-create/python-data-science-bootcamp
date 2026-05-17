@@ -26,9 +26,9 @@ REM ---------------------------------------------------------------------------
 
 set PYTHON=python
 set PIP=pip
-set APP_NAME=BootcampPythonDS
+set APP_NAME=PythonDSProgram
 set VERSION=2.0.0-scaffold
-set SPEC_FILE=bootcamp.spec
+set SPEC_FILE=program.spec
 set INNO_SETUP="C:\Program Files (x86)\Inno Setup 6\ISCC.exe"
 set INNO_SCRIPT=installer\setup.iss
 set OUTPUT_DIR=dist_installer
@@ -48,7 +48,7 @@ REM ---------------------------------------------------------------------------
 
 echo.
 echo ============================================================
-echo   BOOTCAMP PYTHON DS ^| BUILD WINDOWS v%VERSION%
+echo   PYTHON DS PROGRAM ^| BUILD WINDOWS v%VERSION%
 echo ============================================================
 echo.
 
@@ -226,7 +226,7 @@ echo ============================================================
 echo   BUILD COMPLETADO
 echo ============================================================
 echo.
-echo   Portable (descomprimir y ejecutar BootcampPythonDS.exe):
+echo   Portable (descomprimir y ejecutar PythonDSProgram.exe):
 echo     %PORTABLE_ZIP%
 echo.
 if exist "%OUTPUT_DIR%\%APP_NAME%_Setup_v%VERSION%.exe" (

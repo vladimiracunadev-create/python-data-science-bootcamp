@@ -2,7 +2,7 @@
 
 > **Estado v2:** la app móvil hoy embebe el currículo v1 (31 clases). La migración al currículo v2 (197 clases) está pendiente — ver ROADMAP. Esta guía describe el funcionamiento actual.
 
-App React Native (Expo) standalone para que los alumnos lean el contenido del bootcamp, vean los ejemplos de código con resaltado de sintaxis y abran los notebooks directamente en Google Colab desde su celular.
+App React Native (Expo) standalone para que los alumnos lean el contenido del programa, vean los ejemplos de código con resaltado de sintaxis y abran los notebooks directamente en Google Colab desde su celular.
 
 ---
 

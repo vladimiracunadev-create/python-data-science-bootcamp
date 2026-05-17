@@ -75,10 +75,10 @@ Un sistema de capacitación en Python y Data Science que integra:
 
 ## Cómo evaluar en 5 minutos
 
-1. Clona el repo y ejecuta `python run_bootcamp.py` — el navegador abre automáticamente.
+1. Clona el repo y ejecuta `python run_program.py` — el navegador abre automáticamente.
 2. Haz clic en cualquier clase del sidebar — carga contenido Markdown con quiz.
 3. Abre una celda del notebook y ejecuta `import pandas as pd; print(pd.__version__)`.
-4. Descarga el ZIP portable del Release y ejecuta `BootcampPythonDS.exe` — se abre una ventana nativa.
+4. Descarga el ZIP portable del Release y ejecuta `PythonDSProgram.exe` — se abre una ventana nativa.
 5. Revisa [docs/GUIA_EVALUACION.md](docs/GUIA_EVALUACION.md) para la ruta ejecutiva completa.
 
 ---

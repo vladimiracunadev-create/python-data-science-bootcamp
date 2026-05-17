@@ -1,14 +1,14 @@
 services:
-  bootcamp-app:
+  program-app:
     build: .
     init: true
     ports:
       - "127.0.0.1:8000:8000"
     environment:
-      BOOTCAMP_HOST: 0.0.0.0
-      BOOTCAMP_PORT: 8000
+      PROGRAM_HOST: 0.0.0.0
+      PROGRAM_PORT: 8000
     volumes:
-      - bootcamp_notebooks:/workspace/app/saved_notebooks
+      - program_notebooks:/workspace/app/saved_notebooks
     healthcheck:
       test: ["CMD", "python", "-c", "from urllib.request import urlopen; urlopen('http://127.0.0.1:8000/health').read()"]
       interval: 30s
@@ -19,4 +19,4 @@ services:
     command: python -m app.app
 
 volumes:
-  bootcamp_notebooks:
+  program_notebooks:

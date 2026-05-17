@@ -1,4 +1,4 @@
-"""Genera PDFs de teoría para las clases del bootcamp.
+"""Genera PDFs de teoría para las clases del programa.
 
 Este script resuelve la necesidad de distribuir material docente fuera del
 navegador: toma cada `teoria.md`, respeta su estructura base y lo convierte en
@@ -67,8 +67,8 @@ def _strip_md_inline(text: str) -> str:
     return text
 
 
-class BootcampPDF(FPDF):
-    """Plantilla PDF con la identidad visual del bootcamp."""
+class ProgramPDF(FPDF):
+    """Plantilla PDF con la identidad visual del programa."""
 
     def __init__(self, clase_titulo: str):
         super().__init__()
@@ -281,7 +281,7 @@ def generate_pdf(class_dir: Path) -> Path:
             h1_title = re.sub(r"Documento Teórico — Clase \d+: ", "", h1_title)
             break
 
-    pdf = BootcampPDF(clase_titulo=f"Clase {numero}")
+    pdf = ProgramPDF(clase_titulo=f"Clase {numero}")
     pdf.add_cover(numero, h1_title, "Documento teórico completo con ejemplos y tablas")
 
     pdf.add_page()
@@ -357,7 +357,7 @@ def generate_pdf(class_dir: Path) -> Path:
 
 def main() -> None:
     """Procesa argumentos CLI y genera uno o varios PDFs de clase."""
-    parser = argparse.ArgumentParser(description="Generador de PDFs del bootcamp")
+    parser = argparse.ArgumentParser(description="Generador de PDFs del programa")
     parser.add_argument("--clase", help="Número de clase (ej: 01, 09)")
     parser.add_argument("--listar", action="store_true", help="Listar clases disponibles")
     args = parser.parse_args()

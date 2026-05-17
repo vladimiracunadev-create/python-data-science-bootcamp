@@ -2,9 +2,9 @@
 
 > **Estado v2:** este documento describe metodología y enfoque pedagógico — vigente independientemente del número de clases. El currículo creció de 31 (v1) a **197 clases en 9 partes** (v2). Ver [syllabus.md](syllabus.md) para la pauta actual.
 
-Guía base para estudiantes que usan el bootcamp por primera vez. Este documento no reemplaza la clase: ordena expectativas, reduce ansiedad y explica como aprovechar el material sin depender de copiar pasos.
+Guía base para estudiantes que usan el programa por primera vez. Este documento no reemplaza la clase: ordena expectativas, reduce ansiedad y explica como aprovechar el material sin depender de copiar pasos.
 
-## 🧭 1. Qué es este bootcamp
+## 🧭 1. Qué es este programa
 
 Este programa mezcla cuatro cosas:
 
@@ -86,7 +86,7 @@ Si trabajas desde el laboratorio local del repo, el docente puede indicarte abri
 
 ## 💡 6. Cómo usar tecnología a tu favor
 
-Este bootcamp no se posiciona contra una tecnología puntual. Puedes usar buscadores, videos, asistentes de IA, documentación o notas externas. Lo importante es como las usas.
+Este programa no se posiciona contra una tecnología puntual. Puedes usar buscadores, videos, asistentes de IA, documentación o notas externas. Lo importante es como las usas.
 
 ### Regla operativa
 
@@ -143,7 +143,7 @@ Eso ayuda a que la clase avance contigo y no por encima tuyo.
 También puedes usar:
 
 ```bash
-python examples/validate_bootcamp.py
+python examples/validate_program.py
 ```
 
 ## 📈 10. Cómo se verá tu progreso
@@ -160,11 +160,11 @@ Vas bien cuando puedes:
 
 El enlace oficial esperado para estudiantes es:
 
-`https://vladimiracunadev-create.github.io/python-data-science-bootcamp/`
+`https://vladimiracunadev-create.github.io/python-data-science-program/`
 
 Ese portal sirve para:
 
-- revisar la ruta del bootcamp;
+- revisar la ruta del programa;
 - encontrar recursos base;
 - entender normas de trabajo;
 - seguir una versión ligera desde celular.

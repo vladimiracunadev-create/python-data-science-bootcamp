@@ -1,4 +1,4 @@
-# 🧪 Entorno interactivo del Bootcamp
+# 🧪 Entorno interactivo del Programa
 
 > **Estado v2:** este documento describe metodología y enfoque pedagógico — vigente independientemente del número de clases. El currículo creció de 31 (v1) a **197 clases en 9 partes** (v2). Ver [syllabus.md](syllabus.md) para la pauta actual.
 
@@ -8,7 +8,7 @@
 
 ## Objetivo
 
-El entorno interactivo permite que el bootcamp no dependa de notebooks estáticos. El mismo repositorio sirve como:
+El entorno interactivo permite que el programa no dependa de notebooks estáticos. El mismo repositorio sirve como:
 
 - base de planificación pedagógica (clases, teoría, slides);
 - laboratorio por celdas con persistencia de sesión (tipo Jupyter/Colab);
@@ -23,7 +23,7 @@ El entorno interactivo permite que el bootcamp no dependa de notebooks estático
 ### Modo 1: App de escritorio Windows (distribución para alumnos)
 
 ```bat
-BootcampPythonDS.exe
+PythonDSProgram.exe
 ```
 
 - Abre una **ventana nativa de Windows** usando pywebview + Edge WebView2
@@ -37,7 +37,7 @@ BootcampPythonDS.exe
 ### Modo 2: Desarrollo desde el repositorio
 
 ```bash
-python run_bootcamp.py
+python run_program.py
 ```
 
 - Levanta Flask en `http://127.0.0.1:8000`
@@ -85,8 +85,8 @@ El Markdown se convierte a HTML en el servidor con extensiones `fenced_code`, `t
 | Notebook | Contenido |
 |---|---|
 | `python_basics_lab` | variables, listas, funciones, clasificación básica |
-| `pandas_bootcamp_lab` | carga de CSV, filtros, agrupaciones |
-| `visualizacion_bootcamp_lab` | gráficos con matplotlib y pandas |
+| `pandas_lab` | carga de CSV, filtros, agrupaciones |
+| `visualizacion_lab` | gráficos con matplotlib y pandas |
 | `ml_intro_lab` | regresión lineal, métricas de evaluación |
 | `clasificacion_lab` | árboles de decisión, regresión logística, matriz de confusión |
 | `pipelines_lab` | Pipeline sklearn, GridSearchCV, cross-validation |

@@ -1,10 +1,10 @@
-; setup.iss — Script de Inno Setup para el Bootcamp Python DS
+; setup.iss — Script de Inno Setup para el Python Data Science Program
 ;
-; Genera: BootcampPythonDS_Setup_v2.0.0-scaffold.exe
+; Genera: PythonDSProgram_Setup_v2.0.0-scaffold.exe
 ;
 ; Requisitos:
 ;   - Inno Setup 6+ instalado: https://jrsoftware.org/isinfo.php
-;   - PyInstaller ya corrio: dist\BootcampPythonDS\ debe existir
+;   - PyInstaller ya corrio: dist\PythonDSProgram\ debe existir
 ;
 ; Uso desde linea de comandos:
 ;   "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" installer\setup.iss
@@ -17,30 +17,30 @@
 
 [Setup]
 ; Nombre de la aplicacion — aparece en Agregar o quitar programas
-AppName=Bootcamp Python para Data Science
+AppName=Python Data Science Program
 
 ; Version del producto
 AppVersion=2.0.0-scaffold
 
 ; Identificador unico de la aplicacion (GUID)
 ; Cambiar si se crea una aplicacion completamente nueva
-AppId={{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}
+AppId={{B7C8D9E0-F1A2-3B4C-5D6E-7F8A9B0C1D2E}
 
 ; Publicador — aparece en Agregar o quitar programas
-AppPublisher=Bootcamp Python DS
+AppPublisher=Python Data Science Program
 
 ; URL de soporte
-AppSupportURL=https://github.com/vladimiracunadev-create/python-data-science-bootcamp
+AppSupportURL=https://github.com/vladimiracunadev-create/python-data-science-program
 
 ; Carpeta de instalacion por defecto
 ; {pf} = Program Files (por ejemplo C:\Program Files)
-DefaultDirName={pf}\BootcampPythonDS
+DefaultDirName={pf}\PythonDSProgram
 
 ; Nombre del grupo en el Menu de inicio
-DefaultGroupName=Bootcamp Python DS
+DefaultGroupName=Python Data Science Program
 
 ; Nombre del archivo instalador de salida (sin .exe)
-OutputBaseFilename=BootcampPythonDS_Setup_v2.0.0-scaffold
+OutputBaseFilename=PythonDSProgram_Setup_v2.0.0-scaffold
 
 ; Directorio de salida del instalador generado
 OutputDir=..\dist_installer
@@ -85,7 +85,7 @@ Name: "desktopicon"; Description: "Crear acceso directo en el Escritorio"; Group
 Name: "quicklaunchicon"; Description: "Agregar al area de inicio rapido"; GroupDescription: "Accesos directos:"; Flags: unchecked; OnlyBelowVersion: 6.1; Check: not IsAdminInstallMode
 
 ; Iniciar automaticamente con Windows
-Name: "startup"; Description: "Iniciar el Bootcamp al encender Windows (no recomendado)"; GroupDescription: "Inicio automatico:"; Flags: unchecked
+Name: "startup"; Description: "Iniciar el Programa al encender Windows (no recomendado)"; GroupDescription: "Inicio automatico:"; Flags: unchecked
 
 ; ---------------------------------------------------------------------------
 ; ARCHIVOS A INSTALAR
@@ -94,7 +94,7 @@ Name: "startup"; Description: "Iniciar el Bootcamp al encender Windows (no recom
 [Files]
 ; Copiar todo el directorio generado por PyInstaller
 ; dest: {app} = directorio de instalacion elegido por el usuario
-Source: "..\dist\BootcampPythonDS\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "..\dist\PythonDSProgram\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 
 ; NOTA: No se incluyen los archivos fuente (.py) — solo el ejecutable compilado.
 ; Los datasets y materiales de clase ya estan embebidos en el bundle de PyInstaller.
@@ -105,17 +105,17 @@ Source: "..\dist\BootcampPythonDS\*"; DestDir: "{app}"; Flags: ignoreversion rec
 
 [Icons]
 ; Menu de inicio
-Name: "{group}\Bootcamp Python DS";         Filename: "{app}\BootcampPythonDS.exe";   WorkingDir: "{app}"; Comment: "Iniciar el Bootcamp Python para Data Science"
-Name: "{group}\Desinstalar Bootcamp";       Filename: "{uninstallexe}"
+Name: "{group}\Python Data Science Program";         Filename: "{app}\PythonDSProgram.exe";   WorkingDir: "{app}"; Comment: "Iniciar el Python Data Science Program"
+Name: "{group}\Desinstalar Python DS Program";       Filename: "{uninstallexe}"
 
 ; Escritorio (solo si se selecciono la tarea)
-Name: "{autodesktop}\Bootcamp Python DS";   Filename: "{app}\BootcampPythonDS.exe";   WorkingDir: "{app}"; Comment: "Iniciar el Bootcamp Python para Data Science"; Tasks: desktopicon
+Name: "{autodesktop}\Python Data Science Program";   Filename: "{app}\PythonDSProgram.exe";   WorkingDir: "{app}"; Comment: "Iniciar el Python Data Science Program"; Tasks: desktopicon
 
 ; Barra de inicio rapido (Windows XP/Vista)
-Name: "{userappdata}\Microsoft\Internet Explorer\Quick Launch\Bootcamp Python DS"; Filename: "{app}\BootcampPythonDS.exe"; WorkingDir: "{app}"; Tasks: quicklaunchicon
+Name: "{userappdata}\Microsoft\Internet Explorer\Quick Launch\Python Data Science Program"; Filename: "{app}\PythonDSProgram.exe"; WorkingDir: "{app}"; Tasks: quicklaunchicon
 
 ; Inicio automatico con Windows (opcional)
-Name: "{userstartup}\Bootcamp Python DS"; Filename: "{app}\BootcampPythonDS.exe"; WorkingDir: "{app}"; Tasks: startup
+Name: "{userstartup}\Python Data Science Program"; Filename: "{app}\PythonDSProgram.exe"; WorkingDir: "{app}"; Tasks: startup
 
 ; ---------------------------------------------------------------------------
 ; EJECUTAR AL TERMINAR LA INSTALACION
@@ -123,7 +123,7 @@ Name: "{userstartup}\Bootcamp Python DS"; Filename: "{app}\BootcampPythonDS.exe"
 
 [Run]
 ; Ofrecer iniciar la aplicacion al cerrar el asistente
-Filename: "{app}\BootcampPythonDS.exe"; Description: "Iniciar el Bootcamp ahora"; Flags: nowait postinstall skipifsilent runasoriginaluser; WorkingDir: "{app}"
+Filename: "{app}\PythonDSProgram.exe"; Description: "Iniciar el Programa ahora"; Flags: nowait postinstall skipifsilent runasoriginaluser; WorkingDir: "{app}"
 
 ; ---------------------------------------------------------------------------
 ; DESINSTALACION
@@ -131,7 +131,7 @@ Filename: "{app}\BootcampPythonDS.exe"; Description: "Iniciar el Bootcamp ahora"
 
 [UninstallRun]
 ; Antes de desinstalar, intentar cerrar la aplicacion si esta corriendo
-Filename: "taskkill.exe"; Parameters: "/F /IM BootcampPythonDS.exe"; Flags: runhidden; RunOnceId: "KillBootcamp"
+Filename: "taskkill.exe"; Parameters: "/F /IM PythonDSProgram.exe"; Flags: runhidden; RunOnceId: "KillProgram"
 
 [UninstallDelete]
 ; Eliminar los notebooks guardados por los alumnos (directorio de trabajo)
@@ -145,8 +145,8 @@ Filename: "taskkill.exe"; Parameters: "/F /IM BootcampPythonDS.exe"; Flags: runh
 
 [Messages]
 ; Mensaje en la pagina de bienvenida
-WelcomeLabel1=Bienvenido al instalador del%nBootcamp Python para Data Science
-WelcomeLabel2=Este asistente instalara el Bootcamp Python DS en tu computador.%n%nEl Bootcamp incluye:%n  - 12 clases de Python y Data Science%n  - Laboratorio interactivo local%n  - Datasets de practica%n  - Guias y materiales de clase%n%nNo se requiere conexion a internet.%nAbre una ventana de escritorio nativa (no un navegador).
+WelcomeLabel1=Bienvenido al instalador del%nPython Data Science Program
+WelcomeLabel2=Este asistente instalara el Python Data Science Program en tu computador.%n%nEl programa incluye:%n  - 12 clases de Python y Data Science%n  - Laboratorio interactivo local%n  - Datasets de practica%n  - Guias y materiales de clase%n%nNo se requiere conexion a internet.%nAbre una ventana de escritorio nativa (no un navegador).
 
 ; ---------------------------------------------------------------------------
 ; CODIGO PASCAL (logica personalizada)
@@ -171,5 +171,5 @@ end;
 // Mostrar confirmacion antes de desinstalar
 function InitializeUninstall(): Boolean;
 begin
-  Result := MsgBox('Deseas desinstalar el Bootcamp Python DS?', mbConfirmation, MB_YESNO) = IDYES;
+  Result := MsgBox('Deseas desinstalar el Python Data Science Program?', mbConfirmation, MB_YESNO) = IDYES;
 end;

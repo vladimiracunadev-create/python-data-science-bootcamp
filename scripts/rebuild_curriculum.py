@@ -26,11 +26,11 @@ CURRICULUM = [
         "number": 0,
         "icon": "\U0001F9ED",
         "title": "Diagn\u00f3stico inicial y orientaci\u00f3n",
-        "description": "Prueba diagn\u00f3stica de 30 preguntas para estimar la base t\u00e9cnica del grupo y ordenar el arranque del bootcamp.",
+        "description": "Prueba diagn\u00f3stica de 30 preguntas para estimar la base t\u00e9cnica del grupo y ordenar el arranque del programa.",
         "duration": "15 minutos",
         "duration_short": "15 min",
         "level": "Diagn\u00f3stico",
-        "objective": "Estimar el punto de partida del grupo antes de iniciar la ruta formal del bootcamp.",
+        "objective": "Estimar el punto de partida del grupo antes de iniciar la ruta formal del programa.",
         "dataset": "No requiere dataset.",
         "topics": ["Python b\u00e1sico", "Lectura de tablas", "Gr\u00e1ficos", "Modelado inicial", "H\u00e1bitos de trabajo"],
         "outcomes": ["Identificar fortalezas iniciales.", "Detectar vac\u00edos de apoyo.", "Alinear expectativas del recorrido."],
@@ -293,7 +293,7 @@ print(proyecto.head())""",
         "duration_short": "90 min",
         "level": "Integrador",
         "objective": "Transformar resultados t\u00e9cnicos en una historia corta, clara y defendible.",
-        "dataset": "Reutiliza el dataset del mini proyecto o uno equivalente del bootcamp.",
+        "dataset": "Reutiliza el dataset del mini proyecto o uno equivalente del programa.",
         "topics": ["Storytelling con datos", "Resumen ejecutivo", "Mensajes clave", "Visuales de apoyo"],
         "outcomes": ["Ordenar una historia de an\u00e1lisis.", "Elegir visuales que sostengan un mensaje.", "Escribir conclusiones ejecutivas sin perder rigor."],
         "idea": "La calidad del an\u00e1lisis tambi\u00e9n depende de c\u00f3mo se explica y a qui\u00e9n se dirige.",
@@ -441,11 +441,11 @@ print(scores.mean())""",
         "duration": "90 minutos",
         "duration_short": "90 min",
         "level": "Integrador",
-        "objective": "Integrar las habilidades del bootcamp en un proyecto final acotado y defendible.",
+        "objective": "Integrar las habilidades del programa en un proyecto final acotado y defendible.",
         "dataset": "datasets/ventas_tienda.csv o el dataset trabajado por el grupo.",
         "topics": ["Estructura del notebook", "Pregunta final", "Evidencia", "Cierre de aprendizaje"],
         "outcomes": ["Formular una pregunta final defendible.", "Ordenar el notebook por etapas comprensibles.", "Cerrar con evidencia de aprendizaje integrado."],
-        "idea": "El cierre del bootcamp debe mostrar integraci\u00f3n, criterio y claridad de comunicaci\u00f3n.",
+        "idea": "El cierre del programa debe mostrar integraci\u00f3n, criterio y claridad de comunicaci\u00f3n.",
         "note": "Eval\u00faa no solo el resultado final, sino tambi\u00e9n si el proceso qued\u00f3 explicado con orden.",
         "why": "El proyecto final permite ver si el estudiante integra an\u00e1lisis, c\u00f3digo y comunicaci\u00f3n con una l\u00f3gica completa.",
         "block_title": "Esqueleto inicial del proyecto final",
@@ -491,7 +491,7 @@ def class_label(number: int) -> str:
 
 
 def materials(item: dict) -> list[str]:
-    """Lista los materiales esperados para cada clase del bootcamp.
+    """Lista los materiales esperados para cada clase del programa.
 
     Qué resuelve:
         Hace explícito qué archivos deben existir por módulo y qué cambia entre
@@ -608,7 +608,7 @@ def render_slides(item: dict) -> str:
 ## 🚪 Apertura
 
 - Presentar el objetivo y la pregunta central del módulo.
-- Conectar la sesión con el recorrido general del bootcamp.
+- Conectar la sesión con el recorrido general del programa.
 
 ## 🛤️ Ruta de la sesión
 
@@ -773,7 +773,7 @@ def render_mobile_data() -> str:
                 "level": item["level"],
                 "colabUrl": None
                 if item["number"] == 0
-                else f"https://colab.research.google.com/github/vladimiracunadev-create/python-data-science-bootcamp/blob/master/classes/{item['slug']}/notebook.ipynb",
+                else f"https://colab.research.google.com/github/vladimiracunadev-create/python-data-science-program/blob/master/classes/{item['slug']}/notebook.ipynb",
                 "topics": item["topics"],
                 "theory": f"{item['idea']} {item['objective']}",
                 "outcomes": item["outcomes"],

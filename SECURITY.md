@@ -1,6 +1,6 @@
 # 🔐 SECURITY
 
-> Postura de seguridad actual y hardening recomendado para `python-data-science-bootcamp`.
+> Postura de seguridad actual y hardening recomendado para `python-data-science-program`.
 
 ---
 
@@ -25,8 +25,8 @@ Este repositorio está pensado para uso local, docente y de laboratorio. La app 
 
 | Modo | Superficie expuesta | Nivel de riesgo |
 |---|---|---|
-| App de escritorio Windows (`BootcampPythonDS.exe`) | loopback interno, no accesible desde la red | bajo (local) |
-| Modo desarrollo (`python run_bootcamp.py`) | `http://127.0.0.1:8000`, vinculado a loopback | bajo si no se cambia HOST |
+| App de escritorio Windows (`PythonDSProgram.exe`) | loopback interno, no accesible desde la red | bajo (local) |
+| Modo desarrollo (`python run_program.py`) | `http://127.0.0.1:8000`, vinculado a loopback | bajo si no se cambia HOST |
 | Docker Compose (`docker-compose.yml`) | `127.0.0.1:8000`, mapeado a loopback | bajo por configuración |
 | Docker Compose endurecido (`docker-compose.prod.yml`) | igual, con configuración adicional | bajo |
 | Expuesto a red o internet sin proxy | cualquier superficie | alto — no recomendado sin hardening adicional |
@@ -71,7 +71,7 @@ Este repositorio está pensado para uso local, docente y de laboratorio. La app 
 ### Análisis estático
 
 - Bandit integrado en CI (`security.yml`);
-- los únicos `# nosec` presentes son B310 y B110 en los polling loops de `launcher.py` y `run_bootcamp.py` — justificados porque la URL es siempre `http://127.0.0.1:{port}/health` construida internamente, sin input de usuario;
+- los únicos `# nosec` presentes son B310 y B110 en los polling loops de `launcher.py` y `run_program.py` — justificados porque la URL es siempre `http://127.0.0.1:{port}/health` construida internamente, sin input de usuario;
 - los usos de `exec` y `eval` en `execution_engine.py` son intencionales y necesarios para la funcionalidad tipo notebook; están mitigados por timeout, límites de payload y la restricción de uso local.
 
 ---
@@ -91,7 +91,7 @@ Este repositorio está pensado para uso local, docente y de laboratorio. La app 
 
 ### Para uso local y docente
 
-- mantener `BOOTCAMP_HOST=127.0.0.1` (por defecto);
+- mantener `PROGRAM_HOST=127.0.0.1` (por defecto);
 - ejecutar en máquina controlada por el docente;
 - limpiar `app/saved_notebooks/` antes de compartir el repo o una imagen;
 - usar la app de escritorio Windows en lugar del modo desarrollo cuando sea posible (no expone puerto).

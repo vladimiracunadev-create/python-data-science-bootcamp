@@ -88,10 +88,10 @@ Primera versión operativa y publicada como release oficial.
 - puerto libre elegido automáticamente (no hardcodeado), elimina conflictos de red
 - pantalla de carga animada mientras Flask interno inicia
 - página de error en ventana si el servidor no responde en 45 segundos
-- `run_bootcamp.py` mejorado — detecta puerto ocupado, espera health, abre navegador automáticamente, maneja Ctrl+C
+- `run_program.py` mejorado — detecta puerto ocupado, espera health, abre navegador automáticamente, maneja Ctrl+C
 
 **Build:**
-- `bootcamp.spec` actualizado con `collect_all('webview')` para bundlear pywebview correctamente
+- `program.spec` actualizado con `collect_all('webview')` para bundlear pywebview correctamente
 - `console=False` en el spec — elimina la ventana negra de consola al lanzar el .exe
 - `build_windows.bat` instala pywebview automáticamente, genera ZIP portable con PowerShell
 - favicon SVG inline en `index.html` — elimina 404 en cada carga
@@ -122,8 +122,8 @@ Primera versión operativa y publicada como release oficial.
 
 | Artefacto | Tamaño | SHA256 |
 |---|---|---|
-| `BootcampPythonDS_windows_portable_v1.0.0.zip` | 92 MB | `239d2261...` |
-| `BootcampPythonDS_android_v1.0.0_debug.apk` | 137 MB | `cb69408b...` |
+| `PythonDSProgram_windows_portable_v1.0.0.zip` | 92 MB | `239d2261...` |
+| `PythonDSProgram_android_v1.0.0_debug.apk` | 137 MB | `cb69408b...` |
 
 Build: Python 3.12 · PyInstaller 6.19 · pywebview 6.1 · commit `487b229`
 
@@ -150,4 +150,4 @@ Build: Python 3.12 · PyInstaller 6.19 · pywebview 6.1 · commit `487b229`
 
 ---
 
-[v1.0.0]: https://github.com/vladimiracunadev-create/python-data-science-bootcamp/releases/tag/v1.0.0
+[v1.0.0]: https://github.com/vladimiracunadev-create/python-data-science-program/releases/tag/v1.0.0

@@ -1,12 +1,12 @@
 [project]
-name = "python-data-science-bootcamp"
+name = "python-data-science-program"
 version = "2.0.0"
-description = "Bootcamp de Python para Data Science: 12 clases, notebooks interactivos, datasets y entorno de ejecución local"
+description = "Python Data Science Program para Data Science: 12 clases, notebooks interactivos, datasets y entorno de ejecución local"
 authors = [{ name = "Vladimir Acuña", email = "vladimiracunadev-create@github" }]
 license = { text = "MIT" }
 readme = "README.md"
 requires-python = ">=3.10"
-keywords = ["data-science", "bootcamp", "python", "pandas", "machine-learning", "educacion"]
+keywords = ["data-science", "program", "python", "pandas", "machine-learning", "educacion"]
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Education",

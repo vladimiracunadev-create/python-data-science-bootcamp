@@ -1,6 +1,6 @@
 # 🏗️ Arquitectura del producto
 
-> Vista de alto nivel del bootcamp, sus superficies, límites operativos y la relación entre contenido, laboratorio y publicación.
+> Vista de alto nivel del programa, sus superficies, límites operativos y la relación entre contenido, laboratorio y publicación.
 
 ---
 
@@ -22,7 +22,7 @@ graph LR
     ALUM["🎓 Alumno"] --> PORTAL["Portal del alumno\nsite/"]
     ALUM --> MOBILE["📱 App Android\nmobile/"]
     DOC["👩‍🏫 Docente"] --> LAB["🧪 Laboratorio local\napp/"]
-    DOC --> WIN["🖥️ App escritorio Windows\nBootcampPythonDS.exe"]
+    DOC --> WIN["🖥️ App escritorio Windows\nPythonDSProgram.exe"]
 
     PRODUCT --> DOCS["📚 Documentación canónica\ndocs/"]
     PORTAL --> DOCS
@@ -66,7 +66,7 @@ graph TD
 
 ```mermaid
 graph TD
-    EXE["BootcampPythonDS.exe\nPyInstaller bundle"] --> LAUNCHER["launcher.py"]
+    EXE["PythonDSProgram.exe\nPyInstaller bundle"] --> LAUNCHER["launcher.py"]
     LAUNCHER --> PORT["_find_free_port()\npuerto efímero en loopback"]
     LAUNCHER --> FLASK["Flask daemon thread\napp.app"]
     LAUNCHER --> WV["pywebview\nEdge WebView2"]
@@ -86,9 +86,9 @@ graph LR
     REPO --> PAGES["🌐 deploy-pages.yml\npush a master"]
     PAGES --> SITE["site/ publicado\nGitHub Pages"]
 
-    LOCAL["💻 Máquina del docente"] --> VENV["python run_bootcamp.py\ndev mode"]
+    LOCAL["💻 Máquina del docente"] --> VENV["python run_program.py\ndev mode"]
     LOCAL --> DOCKER["🐳 docker compose\ncontenedor"]
-    LOCAL --> WINAPP["🖥️ BootcampPythonDS.exe\napp de escritorio"]
+    LOCAL --> WINAPP["🖥️ PythonDSProgram.exe\napp de escritorio"]
     VENV --> LAB["app/ en localhost:8000"]
     DOCKER --> LAB
     WINAPP --> LAB

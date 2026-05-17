@@ -1,4 +1,4 @@
-"""Validador rápido de datasets y artefactos clave del bootcamp.
+"""Validador rápido de datasets y artefactos clave del programa.
 
 Este script resuelve una verificación operacional simple: comprobar que los
 archivos base existen y que el proyecto tiene los componentes mínimos para usar

@@ -1,4 +1,4 @@
-"""Carga y guarda contenidos locales del bootcamp.
+"""Carga y guarda contenidos locales del programa.
 
 Este módulo resuelve la capa de acceso a archivos de la aplicación Flask.
 Centraliza lectura de clases, quizzes y plantillas de notebooks, y aplica

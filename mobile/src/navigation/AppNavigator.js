@@ -40,7 +40,7 @@ export default function AppNavigator() {
       <Stack.Screen
         name="Home"
         component={HomeScreen}
-        options={{ title: 'Bootcamp Python DS' }}
+        options={{ title: 'Python Data Science Program' }}
       />
 
       {/* Pantalla de clase: el titulo se asigna dinamicamente en ClassScreen */}

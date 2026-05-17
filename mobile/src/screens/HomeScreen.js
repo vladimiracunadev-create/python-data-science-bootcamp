@@ -2,7 +2,7 @@
  * HomeScreen.js — Pantalla principal: lista de 13 módulos con progreso
  *
  * Muestra:
- *   - Header con nombre del bootcamp
+ *   - Header con nombre del programa
  *   - Barra de progreso: X/13 módulos completados
  *   - Lista de ClassCards navegables
  *   - Nota de uso al pie
@@ -79,7 +79,7 @@ export default function HomeScreen({ navigation }) {
   const renderHeader = () => (
     <View style={styles.headerContainer}>
       {/* Titulo principal */}
-      <Text style={styles.mainTitle}>Bootcamp Python DS</Text>
+      <Text style={styles.mainTitle}>Python Data Science Program</Text>
       <Text style={styles.subtitle}>
         Clase 0 diagnóstica + 12 clases troncales
       </Text>
@@ -105,7 +105,7 @@ export default function HomeScreen({ navigation }) {
           {completedCount === 0
             ? 'Comienza con la Clase 0'
             : completedCount === totalClasses
-            ? 'Bootcamp completado'
+            ? 'Programa completado'
             : `Siguiente: Clase ${nextClass?.number ?? 0}`}
         </Text>
       </View>

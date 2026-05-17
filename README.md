@@ -1,8 +1,8 @@
-# 🧭 Python Data Science Bootcamp
+# 🧭 Python Data Science Program
 
-[![CI](https://github.com/vladimiracunadev-create/python-data-science-bootcamp/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/vladimiracunadev-create/python-data-science-bootcamp/actions/workflows/ci.yml)
-[![Security](https://github.com/vladimiracunadev-create/python-data-science-bootcamp/actions/workflows/security.yml/badge.svg?branch=main)](https://github.com/vladimiracunadev-create/python-data-science-bootcamp/actions/workflows/security.yml)
-[![Pages](https://github.com/vladimiracunadev-create/python-data-science-bootcamp/actions/workflows/deploy-pages.yml/badge.svg?branch=main)](https://github.com/vladimiracunadev-create/python-data-science-bootcamp/actions/workflows/deploy-pages.yml)
+[![CI](https://github.com/vladimiracunadev-create/python-data-science-program/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/vladimiracunadev-create/python-data-science-program/actions/workflows/ci.yml)
+[![Security](https://github.com/vladimiracunadev-create/python-data-science-program/actions/workflows/security.yml/badge.svg?branch=main)](https://github.com/vladimiracunadev-create/python-data-science-program/actions/workflows/security.yml)
+[![Pages](https://github.com/vladimiracunadev-create/python-data-science-program/actions/workflows/deploy-pages.yml/badge.svg?branch=main)](https://github.com/vladimiracunadev-create/python-data-science-program/actions/workflows/deploy-pages.yml)
 ![Python](https://img.shields.io/badge/python-3.10%20%7C%203.11%20%7C%203.12-informational.svg)
 ![Version](https://img.shields.io/badge/release-v2.0.0--scaffold-2e8b57.svg)
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
@@ -78,7 +78,7 @@ La documentación está pensada como sistema, no como inventario de archivos.
 | Vista institucional (`site/product/`) | presentación visual del producto | operativa |
 | Currículo modular v2 (`classes/`) | 197 clases en 9 partes: Prerrequisitos, ML clásico, Deep Learning, Estadística inferencial, MLOps, Ingeniería de datos, Recomendadores, Ética, Capstones | scaffold operativo · contenido en desarrollo |
 | Currículo v1 archivado (`historicos/classes-v1/`) | 31 clases con contenido completo (teoría, ejercicios, soluciones, PDF, PPTX) | referencia y fuente de material reutilizable |
-| App de escritorio Windows (`launcher.py` + `bootcamp.spec` + `installer/`) | ventana nativa con Edge WebView2 — sin navegador, sin Python en el PC del alumno | código operativo · binario v2 pendiente de build |
+| App de escritorio Windows (`launcher.py` + `program.spec` + `installer/`) | ventana nativa con Edge WebView2 — sin navegador, sin Python en el PC del alumno | código operativo · binario v2 pendiente de build |
 | App Android (`mobile/`) | Expo/React Native con integración Google Colab | código operativo · contenido pendiente de migrar a v2 |
 | PDFs (`docs/pdfs/`) | guías v1 vigentes; v2 se regenera por bloques al madurar el contenido | operativo |
 | Presentaciones (`docs/presentaciones/`) | decks `.pptx` v1 vigentes; v2 mismo plan | operativo |
@@ -152,7 +152,7 @@ graph LR
     ALUM["Alumno"] --> PORTAL["site/\nPortal del alumno"]
     ALUM --> MOBILE["mobile/\nApp Android"]
     DOC["Docente"] --> LAB["app/\nLaboratorio Flask"]
-    DOC --> WIN["BootcampPythonDS.exe\nApp de escritorio Windows"]
+    DOC --> WIN["PythonDSProgram.exe\nApp de escritorio Windows"]
 
     PRODUCT --> DOCS["docs/\nDocumentación canónica"]
     PORTAL --> DOCS
@@ -230,7 +230,7 @@ python -m venv .venv
 .venv\Scripts\activate        # Windows
 # source .venv/bin/activate   # macOS / Linux
 pip install -r requirements.txt
-python run_bootcamp.py
+python run_program.py
 ```
 
 Abre automáticamente `http://127.0.0.1:8000` en el navegador.

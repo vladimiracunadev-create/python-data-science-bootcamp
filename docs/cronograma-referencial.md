@@ -13,7 +13,7 @@ Pauta completa: [syllabus.md](syllabus.md).
 
 ## Modalidades sugeridas
 
-### A — Bootcamp introductorio (3 meses · ~90 horas)
+### A — Programa introductorio (3 meses · ~90 horas)
 
 Equivalente al alcance del currículo v1 anterior. Recomendado para alumnos sin experiencia previa.
 
@@ -69,6 +69,6 @@ Cada clase v2 está diseñada para **90 minutos de aula** + ~60 minutos de prác
 
 ## Estado actual
 
-El **contenido pedagógico de las 197 clases v2 está en desarrollo**. Las modalidades A/B/C arriba descritas requieren que primero estén rellenos los bloques correspondientes. Mientras tanto, el currículo v1 archivado en `historicos/classes-v1/` sigue siendo dictable como bootcamp introductorio de 3 meses.
+El **contenido pedagógico de las 197 clases v2 está en desarrollo**. Las modalidades A/B/C arriba descritas requieren que primero estén rellenos los bloques correspondientes. Mientras tanto, el currículo v1 archivado en `historicos/classes-v1/` sigue siendo dictable como programa introductorio de 3 meses.
 
 Ver [../ROADMAP.md](../ROADMAP.md) para el orden recomendado de desarrollo.

@@ -22,12 +22,12 @@ export const getColabUrl = (githubUser, repo, branch, notebookPath) => {
 };
 
 /**
- * Configuracion del repositorio GitHub del bootcamp.
+ * Configuracion del repositorio GitHub del programa.
  * Cambiar aqui si el repo cambia de nombre o usuario.
  */
 export const GITHUB_CONFIG = {
   user: 'vladimiracunadev-create',
-  repo: 'python-data-science-bootcamp',
+  repo: 'python-data-science-program',
   branch: 'master',
 };
 

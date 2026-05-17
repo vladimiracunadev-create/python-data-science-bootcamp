@@ -1,6 +1,6 @@
 # ☁️ Migración a la nube — AWS
 
-> Análisis profundo y guía operativa para llevar el bootcamp desde el modelo **local-first** (laboratorio Flask + portal estático + apps de distribución) a una arquitectura nativa en **Amazon Web Services**, sin perder la postura de seguridad ni la separación de superficies.
+> Análisis profundo y guía operativa para llevar el programa desde el modelo **local-first** (laboratorio Flask + portal estático + apps de distribución) a una arquitectura nativa en **Amazon Web Services**, sin perder la postura de seguridad ni la separación de superficies.
 
 ---
 
@@ -181,10 +181,10 @@ sequenceDiagram
     participant S3 as S3
     participant CF as CloudFront
     participant R53 as Route 53
-    Dev->>CLI: aws s3 mb s3://bootcamp-site
-    Dev->>CLI: aws s3 sync site/ s3://bootcamp-site
+    Dev->>CLI: aws s3 mb s3://python-ds-program-site
+    Dev->>CLI: aws s3 sync site/ s3://python-ds-program-site
     Dev->>CF: crear distribution origin=S3
-    Dev->>R53: alias bootcamp.dominio.cl → CF
+    Dev->>R53: alias program.dominio.cl → CF
     Dev->>CLI: aws acm request-certificate
 ```
 
@@ -192,13 +192,13 @@ Comandos clave:
 
 ```bash
 # 1. crear bucket privado
-aws s3api create-bucket --bucket bootcamp-site-prod --region us-east-1
+aws s3api create-bucket --bucket python-ds-program-site-prod --region us-east-1
 
 # 2. subir contenido estático
-aws s3 sync site/ s3://bootcamp-site-prod/ --delete
+aws s3 sync site/ s3://python-ds-program-site-prod/ --delete
 
 # 3. solicitar certificado en us-east-1 (requerido por CloudFront)
-aws acm request-certificate --domain-name bootcamp.tudominio.cl \
+aws acm request-certificate --domain-name program.tudominio.cl \
   --validation-method DNS --region us-east-1
 
 # 4. crear distribution (preferible Terraform/CDK; aquí solo el placeholder)
@@ -209,24 +209,24 @@ aws cloudfront create-distribution --distribution-config file://cf.json
 
 ```bash
 # 1. login en ECR
-aws ecr create-repository --repository-name bootcamp-lab
+aws ecr create-repository --repository-name pythonds-program-lab
 aws ecr get-login-password | docker login --username AWS \
   --password-stdin <account>.dkr.ecr.us-east-1.amazonaws.com
 
 # 2. build y push (usa el Dockerfile existente)
-docker build -t bootcamp-lab:v2.0.0-scaffold .
-docker tag bootcamp-lab:v2.0.0-scaffold <account>.dkr.ecr.us-east-1.amazonaws.com/bootcamp-lab:v2.0.0-scaffold
-docker push <account>.dkr.ecr.us-east-1.amazonaws.com/bootcamp-lab:v2.0.0-scaffold
+docker build -t pythonds-program-lab:v2.0.0-scaffold .
+docker tag pythonds-program-lab:v2.0.0-scaffold <account>.dkr.ecr.us-east-1.amazonaws.com/pythonds-program-lab:v2.0.0-scaffold
+docker push <account>.dkr.ecr.us-east-1.amazonaws.com/pythonds-program-lab:v2.0.0-scaffold
 ```
 
 ### Fase 3 — ECS Fargate (1 día)
 
-1. Crear cluster ECS Fargate (`bootcamp-prod`).
+1. Crear cluster ECS Fargate (`python-ds-program-prod`).
 2. Definir Task Definition con:
    - imagen ECR de Fase 2;
    - CPU 0.5 vCPU, memoria 1 GB (suficiente para el Flask actual);
    - rol IAM con políticas mínimas (`s3:GetObject` solo en `datasets/`, `secretsmanager:GetSecretValue` para FLASK_SECRET);
-   - logs → CloudWatch group `/ecs/bootcamp-lab`;
+   - logs → CloudWatch group `/ecs/pythonds-program-lab`;
    - mount EFS en `/app/saved_notebooks`.
 3. Crear Service con 2 tasks mínimo, Auto Scaling target = 70% CPU, max 8 tasks.
 4. ALB en frente, target group health check `GET /health` cada 30s.
@@ -258,19 +258,19 @@ jobs:
       - uses: actions/checkout@v4
       - uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: arn:aws:iam::<account>:role/GitHubDeployBootcamp
+          role-to-assume: arn:aws:iam::<account>:role/GitHubDeployProgram
           aws-region: us-east-1
       - name: Sync site
-        run: aws s3 sync site/ s3://bootcamp-site-prod/ --delete
+        run: aws s3 sync site/ s3://python-ds-program-site-prod/ --delete
       - name: Invalidate CloudFront
         run: aws cloudfront create-invalidation --distribution-id $CF_ID --paths "/*"
       - name: Build & push container
         run: |
-          docker build -t bootcamp-lab .
-          docker tag bootcamp-lab:latest $ECR_URI:${{ github.sha }}
+          docker build -t pythonds-program-lab .
+          docker tag pythonds-program-lab:latest $ECR_URI:${{ github.sha }}
           docker push $ECR_URI:${{ github.sha }}
       - name: Update ECS service
-        run: aws ecs update-service --cluster bootcamp-prod --service lab --force-new-deployment
+        run: aws ecs update-service --cluster python-ds-program-prod --service lab --force-new-deployment
 ```
 
 ### Fase 6 — Hardening (continuo)
@@ -278,7 +278,7 @@ jobs:
 - Activar **GuardDuty** ($ por GB analizado, ~5 USD/mes en este tamaño).
 - Activar **AWS Config** con reglas managed (`s3-bucket-public-read-prohibited`, `iam-root-access-key-check`).
 - WAF managed rule groups: `AWSManagedRulesCommonRuleSet`, `AWSManagedRulesKnownBadInputsRuleSet`.
-- Tag de costos por superficie: `Project=bootcamp`, `Surface=lab|site|docs`.
+- Tag de costos por superficie: `Project=python-ds-program`, `Surface=lab|site|docs`.
 - Budgets alert al 50%, 80%, 100% del límite mensual.
 
 ---

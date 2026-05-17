@@ -1,4 +1,4 @@
-"""Renderiza documentos Markdown del bootcamp a PDF con una plantilla uniforme.
+"""Renderiza documentos Markdown del programa a PDF con una plantilla uniforme.
 
 Responsabilidades:
     1. Convertir Markdown simple a un PDF legible y visualmente consistente.
@@ -199,7 +199,7 @@ def parse_markdown(markdown_text: str) -> list[Block]:
 
 
 class DocumentPDF(FPDF):
-    """Plantilla PDF visual del bootcamp con soporte Unicode."""
+    """Plantilla PDF visual del programa con soporte Unicode."""
 
     def __init__(self, header_title: str):
         super().__init__()

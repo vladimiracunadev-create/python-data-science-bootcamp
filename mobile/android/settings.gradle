@@ -44,7 +44,7 @@ if (getRNMinorVersion() >= 75) {
   }
 }
 
-rootProject.name = 'Bootcamp Python DS'
+rootProject.name = 'Python Data Science Program'
 
 dependencyResolutionManagement {
   versionCatalogs {

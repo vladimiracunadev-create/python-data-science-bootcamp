@@ -1,4 +1,4 @@
-"""Motor de ejecución para el laboratorio local del bootcamp.
+"""Motor de ejecución para el laboratorio local del programa.
 
 Este módulo resuelve la experiencia tipo notebook dentro de la app Flask:
 conserva estado por sesión, precarga herramientas frecuentes, captura salida de
@@ -54,7 +54,7 @@ _SESSIONS: dict[str, RuntimeSession] = {}
 _SESSIONS_LOCK = threading.Lock()
 
 
-# Se precargan las librerías más usadas en el bootcamp para dos fines:
+# Se precargan las librerías más usadas en el programa para dos fines:
 #   1. Reducir el tiempo de primera ejecución: importar pandas y matplotlib
 #      en frío puede tardar varios segundos, lo que genera confusión en clase.
 #   2. Evitar que el alumno tenga que escribir los imports en cada celda,
@@ -158,11 +158,11 @@ def _execute_with_timeout(
                 # Riesgo aceptado y documentado: esta app es local-only; no existe
                 # un atacante remoto que pueda enviar código. El alumno ejecuta
                 # su propio código en su propia máquina, igual que con Jupyter.
-                exec(compile(module, "<bootcamp-cell>", "exec"), session_namespace)  # nosec
+                exec(compile(module, "<program-cell>", "exec"), session_namespace)  # nosec
             if last_expr is not None:
                 # `eval` sobre la última expresión captura el valor de retorno
                 # sin imprimirlo, replicando la salida Out[n] de los notebooks.
-                result = eval(compile(last_expr, "<bootcamp-cell>", "eval"), session_namespace)  # nosec
+                result = eval(compile(last_expr, "<program-cell>", "eval"), session_namespace)  # nosec
                 if result is not None:
                     response["result"] = repr(result)
 
@@ -194,10 +194,10 @@ def execute_code(session_id: str, code: str) -> dict[str, Any]:
     stdout_buffer = StringIO()
     plt.close("all")
 
-    if not session.namespace.get("_bootcamp_preloaded"):
+    if not session.namespace.get("_program_preloaded"):
         # Precargamos utilidades comunes para reducir fricción en la práctica.
         exec(COMMON_PRELOAD, session.namespace)  # nosec
-        session.namespace["_bootcamp_preloaded"] = True
+        session.namespace["_program_preloaded"] = True
 
     response: dict[str, Any] = {"stdout": "", "result": None, "error": None, "images": []}
 

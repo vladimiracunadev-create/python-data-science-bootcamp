@@ -1,4 +1,4 @@
-"""Utilidades de datos usadas en clases, demos y pruebas del bootcamp.
+"""Utilidades de datos usadas en clases, demos y pruebas del programa.
 
 Este módulo concentra operaciones pequeñas y repetibles sobre los datasets de
 trabajo. Así evitamos duplicar lógica en notebooks, scripts y tests, y dejamos

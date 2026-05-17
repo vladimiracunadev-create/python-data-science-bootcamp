@@ -26,7 +26,7 @@ Incluye laboratorio interactivo local (Flask), app de escritorio nativa para Win
 |---|---|---|
 | Diseño curricular profesional | 197 clases en 9 partes con prerrequisitos, ML, DL, MLOps, ética, capstones | `classes/README.md` · `docs/syllabus.md` |
 | Fuentes acreditadas del currículo | pauta derivada de 5 libros referentes en el campo | `docs/syllabus.md` |
-| Laboratorio operativo | Flask local con ejecución Python en tiempo real, ya consume v2 | `app/` → `python run_bootcamp.py` |
+| Laboratorio operativo | Flask local con ejecución Python en tiempo real, ya consume v2 | `app/` → `python run_program.py` |
 | Distribución de escritorio | App nativa Windows con Edge WebView2, sin navegador, sin Python instalado | `installer/` · `launcher.py` |
 | Distribución móvil | App Android Expo/React Native (contenido v1, pendiente migrar a v2) | `mobile/` |
 | Portal público funcional | GitHub Pages con portal del alumno + vista institucional | `site/` |
@@ -131,7 +131,7 @@ Disponible en `historicos/classes-v1/`.
 
 ## Conclusiones que una evaluación justa puede sacar
 
-- la **pauta v2 cubre un currículo de Data Science avanzado y empleable en 2026** (incluye LLMs, MLOps real, inferencia causal, fairness — temas ausentes en bootcamps más superficiales);
+- la **pauta v2 cubre un currículo de Data Science avanzado y empleable en 2026** (incluye LLMs, MLOps real, inferencia causal, fairness — temas ausentes en programas más superficiales);
 - existe coherencia entre contenido, laboratorio, distribución y documentación;
 - el rediseño de v1 a v2 evidencia capacidad de **autoevaluar el propio producto y reestructurarlo** cuando se identifica una mejora estructural;
 - el material v1 no se descartó: se archivó como fuente reutilizable, demostrando criterio de preservación;

@@ -6,7 +6,7 @@
 
 ## Objetivo
 
-Traducir la metodología del bootcamp a decisiones concretas antes, durante y despues de la clase.
+Traducir la metodología del programa a decisiones concretas antes, durante y despues de la clase.
 
 ## Checklist previo a cada sesión
 

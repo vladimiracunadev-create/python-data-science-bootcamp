@@ -1,6 +1,6 @@
 # 🤝 Cómo contribuir
 
-Gracias por tu interés en mejorar el Bootcamp Python DS.
+Gracias por tu interés en mejorar el Python Data Science Program.
 
 ---
 
@@ -34,7 +34,7 @@ Gracias por tu interés en mejorar el Bootcamp Python DS.
 3. Haz tus cambios
 4. Verifica que los tests pasan: pytest
 5. Verifica lint: ruff check .
-6. Verifica seguridad: python -m bandit -r app run_bootcamp.py launcher.py
+6. Verifica seguridad: python -m bandit -r app run_program.py launcher.py
 7. Haz commit con mensaje descriptivo (en español)
 8. Abre un Pull Request describiendo qué cambiaste y por qué
 ```
@@ -66,10 +66,10 @@ pytest
 ruff check .
 
 # Seguridad (debe terminar con 0 issues)
-python -m bandit -q -r app run_bootcamp.py launcher.py -x app/saved_notebooks
+python -m bandit -q -r app run_program.py launcher.py -x app/saved_notebooks
 
 # Smoke check rápido (arrancar y verificar /health)
-python run_bootcamp.py &
+python run_program.py &
 sleep 5
 curl http://127.0.0.1:8000/health
 ```

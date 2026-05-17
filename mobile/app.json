@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Bootcamp Python DS",
-    "slug": "bootcamp-python-ds",
+    "name": "Python Data Science Program",
+    "slug": "python-ds-program",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -19,7 +19,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#1a1a2e"
       },
-      "package": "com.bootcamp.pythonds"
+      "package": "com.pythondsprogram"
     },
     "web": {
       "favicon": "./assets/favicon.png"

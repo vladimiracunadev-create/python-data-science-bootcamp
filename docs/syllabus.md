@@ -1,4 +1,4 @@
-# Syllabus — Bootcamp Python para Data Science (v2)
+# Syllabus — Python Data Science Program (v2)
 
 > **197 clases · 9 partes · curriculum avanzado y completo**
 >

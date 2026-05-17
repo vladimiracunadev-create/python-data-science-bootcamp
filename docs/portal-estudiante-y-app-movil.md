@@ -16,9 +16,9 @@ Eso evita mezclar presentación, aprendizaje y ejecución de código en una sola
 
 ## 2. Enlace oficial para estudiantes
 
-Si este repositorio se publica desde `vladimiracunadev-create/python-data-science-bootcamp`, la URL esperada para alumnos es:
+Si este repositorio se publica desde `vladimiracunadev-create/python-data-science-program`, la URL esperada para alumnos es:
 
-`https://vladimiracunadev-create.github.io/python-data-science-bootcamp/`
+`https://vladimiracunadev-create.github.io/python-data-science-program/`
 
 Ese es el enlace que conviene compartir por correo, QR, sala virtual o material impreso.
 

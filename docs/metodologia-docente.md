@@ -6,11 +6,11 @@
 
 ## Proposito
 
-Este documento define como se enseña dentro de este bootcamp. No describe solo contenidos, sino la forma de mediarlos para que el estudiante avance con comprensión, práctica y confianza.
+Este documento define como se enseña dentro de este programa. No describe solo contenidos, sino la forma de mediarlos para que el estudiante avance con comprensión, práctica y confianza.
 
 ## Idea fuerza
 
-El bootcamp no se apoya en "mostrar código" como fin. Su foco es convertir herramientas técnicas en aprendizaje real mediante:
+El programa no se apoya en "mostrar código" como fin. Su foco es convertir herramientas técnicas en aprendizaje real mediante:
 
 - progresión controlada;
 - contexto comprensible;

@@ -1,4 +1,4 @@
-"""Launcher de escritorio para el Bootcamp Python DS — Windows.
+"""Launcher de escritorio para el Python Data Science Program — Windows.
 
 Abre una ventana nativa de Windows usando pywebview + Edge WebView2.
 Flask corre internamente en un puerto libre elegido automáticamente.
@@ -20,7 +20,7 @@ import time
 import urllib.request
 from pathlib import Path
 
-APP_TITLE = "Bootcamp Python — Data Science"
+APP_TITLE = "Python Data Science Program"
 WIN_W, WIN_H = 1280, 800
 MIN_W, MIN_H = 960, 620
 STARTUP_TIMEOUT = 45  # segundos esperando que Flask responda
@@ -69,8 +69,8 @@ def _start_flask(host: str, port: int) -> None:
 
     # Inyectamos las variables de entorno antes del import de Flask para que
     # app.py las lea correctamente al construir la instancia.
-    os.environ["BOOTCAMP_HOST"] = host
-    os.environ["BOOTCAMP_PORT"] = str(port)
+    os.environ["PROGRAM_HOST"] = host
+    os.environ["PROGRAM_PORT"] = str(port)
 
     from app.app import app as flask_app  # noqa: PLC0415
     flask_app.run(
@@ -115,7 +115,7 @@ _LOADING_HTML = """<!doctype html>
 </head>
 <body>
   <div class="spinner"></div>
-  <h2>Iniciando Bootcamp Python DS</h2>
+  <h2>Iniciando Python Data Science Program</h2>
   <p>Preparando el entorno de aprendizaje…</p>
 </body>
 </html>"""
@@ -126,7 +126,7 @@ def _error_html(detail: str) -> str:
 <html lang="es">
 <head>
   <meta charset="utf-8">
-  <title>Error — Bootcamp Python DS</title>
+  <title>Error — Python Data Science Program</title>
   <style>
     * {{ box-sizing: border-box; margin: 0; padding: 0; }}
     body {{
@@ -149,7 +149,7 @@ def _error_html(detail: str) -> str:
 </head>
 <body>
   <div class="icon">⚠️</div>
-  <h2>No se pudo iniciar el Bootcamp</h2>
+  <h2>No se pudo iniciar el Programa</h2>
   <p>El servidor interno no respondió a tiempo. Cierra esta ventana y vuelve a abrir la aplicación.</p>
   <div class="detail">{detail}</div>
 </body>

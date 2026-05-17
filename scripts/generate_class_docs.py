@@ -45,11 +45,11 @@ def read_file(path):
 try:
     from fpdf import FPDF
 
-    class BootcampPDF(FPDF):
+    class ProgramPDF(FPDF):
         def header(self):
             self.set_font('Helvetica', 'B', 10)
             self.set_text_color(15, 61, 62)
-            self.cell(0, 8, 'Bootcamp Python para Data Science', align='R')
+            self.cell(0, 8, 'Python Data Science Program', align='R')
             self.ln(12)
 
         def footer(self):
@@ -90,7 +90,7 @@ try:
         num = cls_name[:2]
         slug = cls_name[3:] if len(cls_name) > 2 else cls_name
 
-        pdf = BootcampPDF()
+        pdf = ProgramPDF()
         pdf.set_auto_page_break(auto=True, margin=15)
         pdf.add_page()
 
@@ -251,7 +251,7 @@ try:
         tf3 = tb3.text_frame
         p3 = tf3.paragraphs[0]
         run3 = p3.add_run()
-        run3.text = 'Bootcamp Python para Data Science'
+        run3.text = 'Python Data Science Program'
         run3.font.size = Pt(14)
         run3.font.color.rgb = TEAL_LIGHT
 

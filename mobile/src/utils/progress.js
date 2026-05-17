@@ -7,7 +7,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Clave de AsyncStorage donde guardamos el progreso
-const PROGRESS_KEY = '@bootcamp_python_ds:progress';
+const PROGRESS_KEY = '@python_ds_program:progress';
 
 /**
  * Marca una clase como completada y la persiste en AsyncStorage.
@@ -96,7 +96,7 @@ export const isClassCompleted = async (classId) => {
 
 /**
  * Limpia todo el progreso del estudiante.
- * Util para reiniciar el bootcamp.
+ * Util para reiniciar el programa.
  *
  * @returns {Promise<void>}
  */

@@ -1,4 +1,4 @@
-package com.bootcamp.pythonds
+package com.pythondsprogram
 
 import android.app.Application
 import android.content.res.Configuration

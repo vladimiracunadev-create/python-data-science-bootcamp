@@ -26,7 +26,7 @@ def test_index_loads():
     client = _client()
     response = client.get("/")
     assert response.status_code == 200
-    assert "Bootcamp Python" in response.get_data(as_text=True)
+    assert "Python Data Science Program" in response.get_data(as_text=True)
 
 
 def test_api_classes_returns_list():
@@ -144,10 +144,10 @@ def test_execute_api_captures_print():
     client = _client()
     response = client.post(
         "/api/execute",
-        json={"notebook_id": "api-test-print", "code": 'print("hola bootcamp")'},
+        json={"notebook_id": "api-test-print", "code": 'print("hola programa")'},
     )
     data = response.get_json()
-    assert "hola bootcamp" in data["stdout"]
+    assert "hola programa" in data["stdout"]
 
 
 def test_execute_api_handles_syntax_error():

@@ -1,6 +1,6 @@
-# 📦 Diccionario de datasets del Bootcamp Python Data Science
+# 📦 Diccionario de datasets del Python Data Science Program
 
-> Catálogo de datasets sinteticos y su uso dentro del bootcamp.
+> Catálogo de datasets sinteticos y su uso dentro del programa.
 
 Este directorio contiene los datasets base usados en las clases. Todos los datos son sinteticos con contexto realista y fueron preparados para practicar lectura, limpieza, análisis, visualización y modelado inicial.
 
@@ -118,7 +118,7 @@ Este directorio contiene los datasets base usados en las clases. Todos los datos
 | `id_estudiante` | int | Identificador del estudiante | `1` |
 | `nombre` | str | Nombre visible en el ejemplo | `Valentina` |
 | `edad` | int | Edad del estudiante | `19` |
-| `curso` | str | Cohorte o grupo | `Bootcamp A` |
+| `curso` | str | Cohorte o grupo | `Programa A` |
 | `asistencia_pct` | int | Asistencia acumulada | `92` |
 | `evaluacion_python` | int | Resultado en Python | `78` |
 | `evaluacion_pandas` | int | Resultado en pandas | `74` |
@@ -164,6 +164,6 @@ Este directorio contiene los datasets base usados en las clases. Todos los datos
 
 ## Origen y licencia
 
-Todos los datasets son datos sinteticos generados para uso educativo dentro del bootcamp. No representan personas ni organizaciones reales.
+Todos los datasets son datos sinteticos generados para uso educativo dentro del programa. No representan personas ni organizaciones reales.
 
 Licencia: MIT para uso educativo y de demostracion con atribucion.

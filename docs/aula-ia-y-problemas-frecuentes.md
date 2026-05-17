@@ -18,7 +18,7 @@ El docente aporta en cinco niveles:
 
 "La tecnología puede resolver dudas puntuales, pero no reemplaza el diseño pedagógico, la lectura del grupo, la retroalimentación o la construcción de confianza. Mi valor no es competir con la herramienta, sino convertirla en apoyo sin que reemplace el aprendizaje."
 
-## Indicaciones pedagogicas para este bootcamp
+## Indicaciones pedagogicas para este programa
 
 - abrir cada bloque con un objetivo concreto y visible;
 - trabajar una idea central por tramo, no demasiadas a la vez;

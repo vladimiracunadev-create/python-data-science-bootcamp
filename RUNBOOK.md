@@ -1,6 +1,6 @@
 # 🛠️ RUNBOOK
 
-> Guía de operación diaria, smoke checks y recuperación básica para `python-data-science-bootcamp`.
+> Guía de operación diaria, smoke checks y recuperación básica para `python-data-science-program`.
 
 ---
 
@@ -11,7 +11,7 @@
 Ejecutar directamente el binario distribuido:
 
 ```bat
-BootcampPythonDS.exe
+PythonDSProgram.exe
 ```
 
 Abre una ventana nativa de Windows (Edge WebView2). No aparece consola, no se abre ningún navegador. Flask corre internamente en un puerto libre elegido automáticamente.
@@ -24,7 +24,7 @@ Abre una ventana nativa de Windows (Edge WebView2). No aparece consola, no se ab
 python -m venv .venv
 .\.venv\Scripts\activate
 pip install -r requirements.txt
-python run_bootcamp.py
+python run_program.py
 ```
 
 Levanta Flask en `http://127.0.0.1:8000` y abre el navegador automáticamente cuando el servidor responde `/health`. Ctrl+C para detener.
@@ -53,7 +53,7 @@ Los smoke checks aplican al modo desarrollo (puerto 8000) o Docker. En modo app 
 Invoke-WebRequest -UseBasicParsing http://127.0.0.1:8000/health
 ```
 
-Respuesta esperada: `{"service": "python-data-science-bootcamp", "status": "ok"}`
+Respuesta esperada: `{"service": "python-data-science-program", "status": "ok"}`
 
 ### Readiness
 
@@ -98,7 +98,7 @@ Invoke-WebRequest -UseBasicParsing -Method Post `
 ```powershell
 .\.venv\Scripts\python.exe -m pytest                        # suite completa
 .\.venv\Scripts\python.exe -m ruff check .                  # lint
-.\.venv\Scripts\python.exe -m bandit -r app run_bootcamp.py launcher.py -x app/saved_notebooks
+.\.venv\Scripts\python.exe -m bandit -r app run_program.py launcher.py -x app/saved_notebooks
 ```
 
 ---
@@ -110,9 +110,9 @@ build_windows.bat
 ```
 
 Genera:
-- `dist/BootcampPythonDS/BootcampPythonDS.exe` — ejecutable principal
-- `release_artifacts/BootcampPythonDS_windows_portable_v1.0.0.zip` — portable (ZIP)
-- `dist_installer/BootcampPythonDS_Setup_v1.0.0.exe` — instalador (requiere Inno Setup 6)
+- `dist/PythonDSProgram/PythonDSProgram.exe` — ejecutable principal
+- `release_artifacts/PythonDSProgram_windows_portable_v1.0.0.zip` — portable (ZIP)
+- `dist_installer/PythonDSProgram_Setup_v1.0.0.exe` — instalador (requiere Inno Setup 6)
 
 Ver [docs/BUILD_INSTALLER.md](docs/BUILD_INSTALLER.md) para detalle completo.
 
@@ -123,9 +123,9 @@ Ver [docs/BUILD_INSTALLER.md](docs/BUILD_INSTALLER.md) para detalle completo.
 | Incidente | Qué revisar |
 |---|---|
 | App de escritorio no abre ventana | verificar Edge WebView2 Runtime instalado en Windows |
-| App de escritorio muestra pantalla de error | Flask interno falló; ejecutar `python run_bootcamp.py` para ver el error |
+| App de escritorio muestra pantalla de error | Flask interno falló; ejecutar `python run_program.py` para ver el error |
 | Modo dev: app no levanta | validar dependencias con `pip install -r requirements.txt` |
-| Modo dev: puerto 8000 ocupado | cambiar `BOOTCAMP_PORT=XXXX` antes de lanzar |
+| Modo dev: puerto 8000 ocupado | cambiar `PROGRAM_PORT=XXXX` antes de lanzar |
 | Runner queda colgado | la celda superó el timeout de 30s; usar `POST /api/reset` desde la UI |
 | No guarda notebooks | revisar permisos sobre `app/saved_notebooks/` (modo dev) o junto al .exe (modo desktop) |
 | Docker expone mal el puerto | confirmar mapeo `127.0.0.1:8000:8000` en compose |
@@ -142,7 +142,7 @@ Cerrar la ventana normalmente. Flask daemon se detiene con el proceso principal.
 
 ### Modo desarrollo
 
-Ctrl+C en la terminal donde corre `python run_bootcamp.py`.
+Ctrl+C en la terminal donde corre `python run_program.py`.
 
 ### Docker
 
@@ -166,7 +166,7 @@ docker compose -f docker-compose.prod.yml down
 
 | Variable | Default | Descripción |
 |---|---|---|
-| `BOOTCAMP_HOST` | `127.0.0.1` | dirección de escucha del servidor |
-| `BOOTCAMP_PORT` | `8000` | puerto del servidor |
+| `PROGRAM_HOST` | `127.0.0.1` | dirección de escucha del servidor |
+| `PROGRAM_PORT` | `8000` | puerto del servidor |
 
-En modo app de escritorio Windows (`BootcampPythonDS.exe`), estas variables son gestionadas internamente y no es necesario configurarlas.
+En modo app de escritorio Windows (`PythonDSProgram.exe`), estas variables son gestionadas internamente y no es necesario configurarlas.

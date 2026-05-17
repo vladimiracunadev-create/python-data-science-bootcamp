@@ -99,7 +99,7 @@ Lo que los hace destacar no es solo la complejidad técnica. Es una combinacion 
 - excelente como capa pública de presentación;
 - su rol no es cubrir operación o seguridad.
 
-#### `python-data-science-bootcamp`
+#### `python-data-science-program`
 
 - muy fuerte pedagogicamente;
 - ya tiene materiales, app y propuesta modular;
@@ -133,7 +133,7 @@ En general son semillas, utilitarios, experimentos o proyectos sin capa producto
 | `unikernel-labs` | B | quickstart y arquitectura | más seguridad y runbooks |
 | `ferremarket` | B | arquitectura y despliegue | docs satelite al nivel A |
 | `rootcause-landing` | B | visuales y marketing técnico | no cubre operación por si solo |
-| `python-data-science-bootcamp` | B/C en transicion | base pedagógica y app | producto visible, CI/CD y seguridad |
+| `python-data-science-program` | B/C en transicion | base pedagógica y app | producto visible, CI/CD y seguridad |
 
 ## Los 12 pilares del estandar alto
 
@@ -289,9 +289,9 @@ Un repo tuyo llega a estandar alto cuando responde bien estas preguntas:
 9. Cómo se evalúa sin leer todo el código.
 10. Cómo se ve como producto y no solo como repo.
 
-## Implicancia directa para este bootcamp
+## Implicancia directa para este programa
 
-Comparado con tus repos de referencia, `python-data-science-bootcamp` necesitaba consolidar:
+Comparado con tus repos de referencia, `python-data-science-program` necesitaba consolidar:
 
 - una capa stakeholder de mayor nivel visual;
 - una taxonomia más clara entre demo, portal alumno y laboratorio;

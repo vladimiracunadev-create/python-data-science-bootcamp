@@ -1,6 +1,6 @@
 # Índice de documentación
 
-> Punto de entrada canónico para navegar la documentación del bootcamp por audiencia y objetivo.
+> Punto de entrada canónico para navegar la documentación del programa por audiencia y objetivo.
 >
 > **Estado v2:** el currículo creció a 197 clases en 9 partes. Este repositorio nació como muestra de habilidades técnicas y pedagógicas, y hoy se desarrolla como recurso personal de aprendizaje y enseñanza, abierto a cualquier persona.
 
@@ -10,7 +10,7 @@
 
 | Territorio | Carpeta / ubicación | Para quién |
 |---|---|---|
-| Producto del bootcamp | `docs/` (raíz) + archivos raíz (`README`, `RUNBOOK`, `SECURITY`, etc.) | Docentes, alumnos, evaluadores técnicos |
+| Producto del programa | `docs/` (raíz) + archivos raíz (`README`, `RUNBOOK`, `SECURITY`, etc.) | Docentes, alumnos, evaluadores técnicos |
 | Currículo vigente (v2) | `classes/` | Alumnos y docentes |
 | Currículo histórico (v1) | `historicos/classes-v1/` | Desarrolladores de contenido (fuente de material reutilizable) |
 | Notas internas del maintainer | `docs/maintainer/` | Solo el autor |
@@ -39,7 +39,7 @@
 | Perfil | Documento de entrada | Qué obtiene |
 |---|---|---|
 | Alumno | [student-guide.md](student-guide.md) | Cómo usar los materiales, ruta y expectativas |
-| Docente | [instructor-guide.md](instructor-guide.md) | Playbook para impartir el bootcamp |
+| Docente | [instructor-guide.md](instructor-guide.md) | Playbook para impartir el programa |
 | Institución / evaluador | [GUIA_EVALUACION.md](GUIA_EVALUACION.md) | Valor del producto, evidencias y límites reales |
 | Reclutador técnico | [../RECRUITER.md](../RECRUITER.md) | Evidencia rápida sin lectura extensa |
 | Stakeholder técnico | [ARQUITECTURA_PRODUCTO.md](ARQUITECTURA_PRODUCTO.md) | Capas, flujos, fronteras y evolución |
@@ -71,7 +71,7 @@
 | [../classes/README.md](../classes/README.md) | Índice navegable de las 197 clases con enlaces directos |
 | [cronograma-referencial.md](cronograma-referencial.md) | Distribución temporal sugerida |
 | [metodologia-docente.md](metodologia-docente.md) | Marco pedagógico del producto |
-| [instructor-guide.md](instructor-guide.md) | Playbook para quien imparte el bootcamp |
+| [instructor-guide.md](instructor-guide.md) | Playbook para quien imparte el programa |
 | [student-guide.md](student-guide.md) | Guía de onboarding del alumno |
 | [plan-evaluacion.md](plan-evaluacion.md) | Criterios de evaluación y retroalimentación |
 | [herramientas-pedagogicas-de-aula.md](herramientas-pedagogicas-de-aula.md) | Estrategias de mediación y problemas de aula |
@@ -106,5 +106,5 @@ Documentos de autoevaluación y mejora continua. No forman parte del producto p�
 | Documento | Rol |
 |---|---|
 | [maintainer/portfolio-high-standard.md](maintainer/portfolio-high-standard.md) | Análisis transversal del portafolio del autor |
-| [maintainer/estandar-alto-gap-bootcamp.md](maintainer/estandar-alto-gap-bootcamp.md) | Brecha entre este repo y el estándar alto personal |
+| [maintainer/estandar-alto-gap.md](maintainer/estandar-alto-gap.md) | Brecha entre este repo y el estándar alto personal |
 | [maintainer/revision-otros-repos-e-insights.md](maintainer/revision-otros-repos-e-insights.md) | Insights de revisión de otros repositorios |

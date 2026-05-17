@@ -1,6 +1,6 @@
 """Pruebas para utilidades de transformación de datasets.
 
-Aseguran que las funciones compartidas del bootcamp carguen archivos, creen
+Aseguran que las funciones compartidas del programa carguen archivos, creen
 métricas derivadas y produzcan resúmenes ordenados como esperan las clases.
 """
 

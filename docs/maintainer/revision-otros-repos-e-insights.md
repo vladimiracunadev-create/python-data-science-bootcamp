@@ -1,4 +1,4 @@
-# 🔎 Revision de otros repos e insights aplicables a este bootcamp
+# 🔎 Revision de otros repos e insights aplicables a este programa
 
 ## Repos revisados
 
@@ -93,7 +93,7 @@ Aplicacion a este repo:
 
 ## Conclusion
 
-La mejor evolución de este bootcamp no es solo agregar más clases. Es adoptar el estandar que ya se ve en tus mejores repos:
+La mejor evolución de este programa no es solo agregar más clases. Es adoptar el estandar que ya se ve en tus mejores repos:
 
 - documentación por capas;
 - narrativa visual clara;

@@ -1,4 +1,4 @@
-"""Chequeos de calidad para DataFrames del bootcamp.
+"""Chequeos de calidad para DataFrames del programa.
 
 Estas funciones se usan como apoyo docente y también como utilidades de sistema.
 Su objetivo es detectar problemas comunes de calidad antes de que un análisis o

@@ -2,7 +2,7 @@
 
 > **Estado v2:** este documento describe metodología y enfoque pedagógico — vigente independientemente del número de clases. El currículo creció de 31 (v1) a **197 clases en 9 partes** (v2). Ver [syllabus.md](syllabus.md) para la pauta actual.
 
-Playbook de mediación para mostrar en entrevista, usar en clase de prueba y operar el bootcamp con criterio. El objetivo de este documento es bajar la pedagogia a decisiones concretas, observables y reutilizables.
+Playbook de mediación para mostrar en entrevista, usar en clase de prueba y operar el programa con criterio. El objetivo de este documento es bajar la pedagogia a decisiones concretas, observables y reutilizables.
 
 ## 💡 1. Idea fuerza
 
