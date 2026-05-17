@@ -4,7 +4,7 @@
 
 Documento de postura técnica para explicar como se opera este repositorio hoy, que controles existen, que CI/CD ya esta disponible y que cambios harían falta para escenarios más expuestos.
 
-## 1. Postura actual
+## 🎯 1. Postura actual
 
 Este proyecto esta preparado para:
 
@@ -15,7 +15,7 @@ Este proyecto esta preparado para:
 
 Este proyecto no debe venderse hoy como plataforma multiusuario expuesta a internet abierta. El runner de código sigue siendo una superficie local y controlada.
 
-## 2. Modelos de despliegue
+## 🚀 2. Modelos de despliegue
 
 | Perfil | Superficie | Estado actual | Riesgo |
 |---|---|---|---|
@@ -24,7 +24,7 @@ Este proyecto no debe venderse hoy como plataforma multiusuario expuesta a inter
 | demo compartida endurecida | contenedor + proxy + auth | posible, no integrada aun | medio |
 | internet abierta con runner | no recomendado hoy | fuera de alcance | alto |
 
-## 3. Arquitectura operativa
+## 🏗️ 3. Arquitectura operativa
 
 ```mermaid
 flowchart LR
@@ -36,9 +36,9 @@ flowchart LR
     G --> H["Classes + datasets + notebooks"]
 ```
 
-## 4. Controles actuales
+## 🛡️ 4. Controles actuales
 
-### Aplicacion
+### 📱 Aplicacion
 
 - validación de slugs e identificadores;
 - proteccion contra path traversal;
@@ -49,22 +49,22 @@ flowchart LR
 - headers HTTP de seguridad;
 - endpoints `GET /health` y `GET /ready`.
 
-### Operación local
+### ⚙️ Operación local
 
 - host y puerto configurables por entorno;
 - `docker-compose.yml` enlazado a `127.0.0.1`;
 - `docker-compose.prod.yml` con healthcheck y reinicio;
 - volumen separado para notebooks guardados.
 
-### Pipeline
+### ⚙️ Pipeline
 
 - `ci.yml`: lint, tests y build de imagen;
 - `security.yml`: `pip-audit` y `bandit`;
 - `deploy-pages.yml`: publicación del portal del alumno.
 
-## 5. Quickstart operativo recomendado
+## 🚀 5. Quickstart operativo recomendado
 
-### Python nativo
+### 🐍 Python nativo
 
 ```powershell
 $env:PROGRAM_HOST="127.0.0.1"
@@ -72,13 +72,13 @@ $env:PROGRAM_PORT="8000"
 python run_program.py
 ```
 
-### Docker local
+### 🐳 Docker local
 
 ```powershell
 docker compose up --build
 ```
 
-### Perfil más serio con healthcheck
+### 👤 Perfil más serio con healthcheck
 
 ```powershell
 docker compose -f docker-compose.prod.yml up -d --build
@@ -86,7 +86,7 @@ docker compose -f docker-compose.prod.yml up -d --build
 
 La aplicacion queda disponible en `http://127.0.0.1:8000`.
 
-## 6. Checklist de preapertura
+## 🎬 6. Checklist de preapertura
 
 Antes de mostrar el producto o correr una clase:
 
@@ -96,7 +96,7 @@ Antes de mostrar el producto o correr una clase:
 4. revisar que carguen una clase y un notebook;
 5. comprobar que Pages o la vista estatica sigan publicando bien.
 
-## 7. CI/CD ya disponible
+## ⚙️ 7. CI/CD ya disponible
 
 Esto ya existe en el repo y no es teórico:
 
@@ -108,7 +108,7 @@ Esto ya existe en el repo y no es teórico:
 
 Eso no equivale a una plataforma enterprise. Pero si demuestra disciplina de entrega y criterio de operación.
 
-## 8. Gaps conscientes hacia una exposicion mayor
+## 🔭 8. Gaps conscientes hacia una exposicion mayor
 
 | Necesidad | Estado |
 |---|---|
@@ -119,7 +119,7 @@ Eso no equivale a una plataforma enterprise. Pero si demuestra disciplina de ent
 | manejo formal de secretos | parcial por entorno, no completo |
 | aislamiento fuerte del runner | pendiente |
 
-## 9. Postura heredada del resto del portafolio
+## 🎯 9. Postura heredada del resto del portafolio
 
 El patron consistente en tus repos fuertes se mantiene aqui:
 
@@ -129,7 +129,7 @@ El patron consistente en tus repos fuertes se mantiene aqui:
 - documentar hardening en vez de vender humo;
 - usar CI/CD como evidencia de criterio y no como adorno.
 
-## 10. Si hubiera que exponerlo fuera de localhost
+## ❓ 10. Si hubiera que exponerlo fuera de localhost
 
 No hacerlo en directo. La secuencia responsable seria:
 
@@ -140,18 +140,18 @@ No hacerlo en directo. La secuencia responsable seria:
 5. definir logs, monitoreo y retencion;
 6. separar entorno demo de entorno de uso real.
 
-## 11. Preguntas de seguridad que debes poder responder
+## ❓ 11. Preguntas de seguridad que debes poder responder
 
 - por que el runner no debe exponerse a internet abierta;
 - que controles existen hoy y cuales no;
 - que diferencia hay entre portal público y backend local;
 - por que GitHub Pages si puede ser público mientras el runner no.
 
-## 12. Regla final
+## ⚖️ 12. Regla final
 
 La madurez técnica de este repo no se demuestra fingiendo que todo esta listo para produccion. Se demuestra mostrando una base operativa, un pipeline visible y una frontera de seguridad bien comunicada.
 
-## 13. Relación con otros documentos
+## 🔗 13. Relación con otros documentos
 
 - [../SECURITY.md](../SECURITY.md)
 - [../RUNBOOK.md](../RUNBOOK.md)

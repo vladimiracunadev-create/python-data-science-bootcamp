@@ -1,6 +1,16 @@
+<div align="center">
+
 # 🏗️ Arquitectura del producto
 
-> Vista de alto nivel del programa, sus superficies, límites operativos y la relación entre contenido, laboratorio y publicación.
+### **Vista funcional con diagramas Mermaid de las superficies, capas y fronteras**
+
+[![Capas](https://img.shields.io/badge/capas-3-7c5cff?style=for-the-badge)](#-visi%C3%B3n-general)
+[![Diagramas](https://img.shields.io/badge/diagramas-Mermaid-ec4899?style=for-the-badge&logo=mermaid)](#%EF%B8%8F-mapa-de-alto-nivel)
+[![Local-first](https://img.shields.io/badge/postura-local--first-3fb950?style=for-the-badge)](#%EF%B8%8F-fronteras-importantes)
+
+</div>
+
+> 🗺️ Vista de alto nivel del programa, sus superficies, límites operativos y la relación entre contenido, laboratorio y publicación.
 
 ---
 

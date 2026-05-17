@@ -30,7 +30,7 @@ Esta secuencia funciona bien en clases cortas, medias y en talleres de prueba po
 
 ## 🛠 3. Caja de herramientas por momento de la clase
 
-### Apertura
+### 🎬 Apertura
 
 Objetivo: alinear al grupo y bajar el nivel de incertidumbre.
 
@@ -41,7 +41,7 @@ Herramientas:
 - hacer una pregunta de entrada de baja exposicion;
 - partir con una victoria rápida.
 
-### Explicación
+### 💡 Explicación
 
 Objetivo: construir comprensión sin saturar.
 
@@ -52,7 +52,7 @@ Herramientas:
 - verbalizar el razonamiento, no solo el teclado;
 - pedir prediccion antes de ejecutar.
 
-### Práctica
+### 🛠️ Práctica
 
 Objetivo: transformar observacion en accion.
 
@@ -63,7 +63,7 @@ Herramientas:
 - desafío opcional para quien termina antes;
 - checkpoints de 15 a 20 minutos.
 
-### Cierre
+### 🏁 Cierre
 
 Objetivo: que el aprendizaje no quede solo en ejecución.
 
@@ -89,14 +89,14 @@ Herramientas:
 
 El valor docente no esta en competir con asistentes, buscadores o plataformas. Esta en ordenar la experiencia de aprendizaje.
 
-### Lo que hace la tecnología
+### ❓ Lo que hace la tecnología
 
 - entrega respuestas rapidas;
 - sugiere código;
 - muestra ejemplos;
 - acelera busqueda de información.
 
-### Lo que hace la mediación docente
+### ❓ Lo que hace la mediación docente
 
 - selecciona dificultad adecuada;
 - secuencia el aprendizaje;
@@ -104,7 +104,7 @@ El valor docente no esta en competir con asistentes, buscadores o plataformas. E
 - convierte resultado en comprensión;
 - regula el uso de tecnología según objetivo.
 
-### Regla de aula sugerida
+### 🏫 Regla de aula sugerida
 
 1. formular una hipótesis;
 2. consultar la herramienta;
@@ -131,7 +131,7 @@ La clave no es hacer tres clases distintas. La clave es sostener un minimo comun
 
 ## 🚨 8. Problemas reales que pueden aparecer en clase
 
-### Problema: no entienden para que sirve el contenido
+### ❓ Problema: no entienden para que sirve el contenido
 
 Respuesta:
 
@@ -139,7 +139,7 @@ Respuesta:
 - mostrar un resultado visible;
 - volver a nombrar el objetivo en mitad de la clase.
 
-### Problema: el curso se vuelve demasiado técnico muy rápido
+### 🚨 Problema: el curso se vuelve demasiado técnico muy rápido
 
 Respuesta:
 
@@ -147,7 +147,7 @@ Respuesta:
 - usar ejemplos más pequenos;
 - privilegiar lectura y modificacion antes que construcción desde cero.
 
-### Problema: se apoyan demasiado en plantillas o asistentes
+### 🚨 Problema: se apoyan demasiado en plantillas o asistentes
 
 Respuesta:
 
@@ -155,7 +155,7 @@ Respuesta:
 - pedir adaptación posterior;
 - pedir explicación oral o escrita de una parte crítica.
 
-### Problema: se quedan pegados en errores minimos
+### ⚠️ Problema: se quedan pegados en errores minimos
 
 Respuesta:
 
@@ -172,15 +172,15 @@ Respuesta:
 
 ## 🎤 10. Frases utiles para entrevista o clase de prueba
 
-### Sobre enfoque
+### 🎯 Sobre enfoque
 
 "Mi foco no es solo que ejecuten código. Es que entiendan la lógica, puedan verificar resultados y ganen confianza para reutilizar lo aprendido."
 
-### Sobre tecnología
+### ⚙️ Sobre tecnología
 
 "No compito contra ninguna tecnología. La ordeno pedagogicamente para que el estudiante no pierda criterio ni autonomia."
 
-### Sobre manejo de aula
+### 🏫 Sobre manejo de aula
 
 "Trabajo con un minimo comun claro, apoyo a quien se bloquea y retos breves para quien avanza más rápido."
 

@@ -1,12 +1,19 @@
+<div align="center">
+
 # 🛠️ RUNBOOK
 
-> Guía de operación diaria, smoke checks y recuperación básica para `python-data-science-program`.
+### **Operación diaria · Smoke checks · Recuperación básica**
+
+[![Health](https://img.shields.io/badge/endpoints-%2Fhealth%20%2Fready-3fb950?style=for-the-badge)](#-smoke-checks-m%C3%ADnimos)
+[![Local](https://img.shields.io/badge/host-127.0.0.1-7c5cff?style=for-the-badge)](#variables-de-entorno-disponibles-modo-desarrollo-y-docker)
+
+</div>
 
 ---
 
-## Arranque estándar
+## 🚀 Arranque estándar
 
-### App de escritorio Windows (usuarios finales)
+### 🖥️ App de escritorio Windows (usuarios finales)
 
 Ejecutar directamente el binario distribuido:
 
@@ -18,7 +25,7 @@ Abre una ventana nativa de Windows (Edge WebView2). No aparece consola, no se ab
 
 **Requisito en el PC del usuario:** Edge WebView2 Runtime — preinstalado en Windows 10 v2004+ y Windows 11.
 
-### Modo desarrollo (desde el repositorio)
+### 🐍 Modo desarrollo (desde el repositorio)
 
 ```powershell
 python -m venv .venv
@@ -29,13 +36,13 @@ python run_program.py
 
 Levanta Flask en `http://127.0.0.1:8000` y abre el navegador automáticamente cuando el servidor responde `/health`. Ctrl+C para detener.
 
-### Docker Compose
+### 🐳 Docker Compose
 
 ```powershell
 docker compose up --build
 ```
 
-### Docker endurecido
+### 🛡️ Docker endurecido
 
 ```powershell
 docker compose -f docker-compose.prod.yml up -d --build
@@ -43,11 +50,11 @@ docker compose -f docker-compose.prod.yml up -d --build
 
 ---
 
-## Smoke checks mínimos
+## 🩺 Smoke checks mínimos
 
 Los smoke checks aplican al modo desarrollo (puerto 8000) o Docker. En modo app de escritorio Windows, Flask corre en un puerto efímero elegido por el sistema; verificar usando las pruebas del repositorio.
 
-### Health
+### 💚 Health
 
 ```powershell
 Invoke-WebRequest -UseBasicParsing http://127.0.0.1:8000/health
@@ -55,23 +62,23 @@ Invoke-WebRequest -UseBasicParsing http://127.0.0.1:8000/health
 
 Respuesta esperada: `{"service": "python-data-science-program", "status": "ok"}`
 
-### Readiness
+### ✅ Readiness
 
 ```powershell
 Invoke-WebRequest -UseBasicParsing http://127.0.0.1:8000/ready
 ```
 
-Respuesta esperada: `{"classes": 13, "notebooks": 6, "status": "ready", ...}`
+Respuesta esperada: `{"classes": 197, "notebooks": 6, "status": "ready", ...}`
 
-### Catálogo de clases
+### 📚 Catálogo de clases
 
 ```powershell
 Invoke-WebRequest -UseBasicParsing http://127.0.0.1:8000/api/classes
 ```
 
-Debe devolver array de 13 objetos con `slug`, `title`, `path`.
+Debe devolver array de 197 objetos con `slug`, `title`, `path`.
 
-### Ejecución básica
+### ⚡ Ejecución básica
 
 ```powershell
 Invoke-WebRequest -UseBasicParsing -Method Post `
@@ -82,7 +89,7 @@ Invoke-WebRequest -UseBasicParsing -Method Post `
 
 Respuesta esperada: `{"error": null, "images": [], "result": "4", "stdout": ""}`
 
-### Ejecución con pandas y matplotlib
+### 📊 Ejecución con pandas y matplotlib
 
 ```powershell
 Invoke-WebRequest -UseBasicParsing -Method Post `
@@ -93,7 +100,7 @@ Invoke-WebRequest -UseBasicParsing -Method Post `
 
 ---
 
-## Validaciones del repositorio
+## 🧪 Validaciones del repositorio
 
 ```powershell
 .\.venv\Scripts\python.exe -m pytest                        # suite completa
@@ -103,48 +110,48 @@ Invoke-WebRequest -UseBasicParsing -Method Post `
 
 ---
 
-## Build de distribución
+## 📦 Build de distribución
 
 ```bat
 build_windows.bat
 ```
 
 Genera:
-- `dist/PythonDSProgram/PythonDSProgram.exe` — ejecutable principal
-- `release_artifacts/PythonDSProgram_windows_portable_v1.0.0.zip` — portable (ZIP)
-- `dist_installer/PythonDSProgram_Setup_v1.0.0.exe` — instalador (requiere Inno Setup 6)
+- 💾 `dist/PythonDSProgram/PythonDSProgram.exe` — ejecutable principal
+- 🗜️ `release_artifacts/PythonDSProgram_windows_portable_v1.0.0.zip` — portable (ZIP)
+- 📦 `dist_installer/PythonDSProgram_Setup_v1.0.0.exe` — instalador (requiere Inno Setup 6)
 
-Ver [docs/BUILD_INSTALLER.md](docs/BUILD_INSTALLER.md) para detalle completo.
+> 📖 Ver [docs/BUILD_INSTALLER.md](docs/BUILD_INSTALLER.md) para detalle completo.
 
 ---
 
-## Incidentes comunes
+## 🚨 Incidentes comunes
 
-| Incidente | Qué revisar |
+| ⚠️ Incidente | 🔍 Qué revisar |
 |---|---|
-| App de escritorio no abre ventana | verificar Edge WebView2 Runtime instalado en Windows |
-| App de escritorio muestra pantalla de error | Flask interno falló; ejecutar `python run_program.py` para ver el error |
-| Modo dev: app no levanta | validar dependencias con `pip install -r requirements.txt` |
-| Modo dev: puerto 8000 ocupado | cambiar `PROGRAM_PORT=XXXX` antes de lanzar |
-| Runner queda colgado | la celda superó el timeout de 30s; usar `POST /api/reset` desde la UI |
-| No guarda notebooks | revisar permisos sobre `app/saved_notebooks/` (modo dev) o junto al .exe (modo desktop) |
-| Docker expone mal el puerto | confirmar mapeo `127.0.0.1:8000:8000` en compose |
-| GitHub Pages no se publica | confirmar que el workflow corre sobre `master` y que `site/` existe |
-| Build PyInstaller falla | asegurar que `pywebview` está instalado: `pip install pywebview` |
+| 🖥️ App de escritorio no abre ventana | verificar Edge WebView2 Runtime instalado en Windows |
+| ❌ App de escritorio muestra pantalla de error | Flask interno falló; ejecutar `python run_program.py` para ver el error |
+| 🐍 Modo dev: app no levanta | validar dependencias con `pip install -r requirements.txt` |
+| 🔌 Modo dev: puerto 8000 ocupado | cambiar `PROGRAM_PORT=XXXX` antes de lanzar |
+| ⏱️ Runner queda colgado | la celda superó el timeout de 30s; usar `POST /api/reset` desde la UI |
+| 💾 No guarda notebooks | revisar permisos sobre `app/saved_notebooks/` (modo dev) o junto al .exe (modo desktop) |
+| 🐳 Docker expone mal el puerto | confirmar mapeo `127.0.0.1:8000:8000` en compose |
+| 🌐 GitHub Pages no se publica | confirmar que el workflow corre sobre `master` y que `site/` existe |
+| 📦 Build PyInstaller falla | asegurar que `pywebview` está instalado: `pip install pywebview` |
 
 ---
 
-## Apagado
+## 🛑 Apagado
 
-### App de escritorio Windows
+### 🖥️ App de escritorio Windows
 
 Cerrar la ventana normalmente. Flask daemon se detiene con el proceso principal.
 
-### Modo desarrollo
+### 🐍 Modo desarrollo
 
-Ctrl+C en la terminal donde corre `python run_program.py`.
+`Ctrl+C` en la terminal donde corre `python run_program.py`.
 
-### Docker
+### 🐳 Docker
 
 ```powershell
 docker compose down
@@ -153,20 +160,20 @@ docker compose -f docker-compose.prod.yml down
 
 ---
 
-## Recuperación básica
+## 🩹 Recuperación básica
 
-- si el runner queda en estado inconsistente, usar `POST /api/reset` desde la UI o reiniciar la app;
-- si el contenido en `app/saved_notebooks/` no se necesita, eliminarlo manualmente;
-- si cambia el material de clases, volver a ejecutar smoke checks de `/ready` y `/api/classes`;
-- si falla un smoke check después de cambios de código, revisar `pytest` y los logs del servidor.
+- 🔄 si el runner queda en estado inconsistente, usar `POST /api/reset` desde la UI o reiniciar la app;
+- 🧹 si el contenido en `app/saved_notebooks/` no se necesita, eliminarlo manualmente;
+- ✅ si cambia el material de clases, volver a ejecutar smoke checks de `/ready` y `/api/classes`;
+- 📋 si falla un smoke check después de cambios de código, revisar `pytest` y los logs del servidor.
 
 ---
 
-## Variables de entorno disponibles (modo desarrollo y Docker)
+## 🔧 Variables de entorno disponibles (modo desarrollo y Docker)
 
-| Variable | Default | Descripción |
+| 🔤 Variable | 📌 Default | 📝 Descripción |
 |---|---|---|
-| `PROGRAM_HOST` | `127.0.0.1` | dirección de escucha del servidor |
-| `PROGRAM_PORT` | `8000` | puerto del servidor |
+| `PROGRAM_HOST` | `127.0.0.1` | 🌐 dirección de escucha del servidor |
+| `PROGRAM_PORT` | `8000` | 🔌 puerto del servidor |
 
-En modo app de escritorio Windows (`PythonDSProgram.exe`), estas variables son gestionadas internamente y no es necesario configurarlas.
+> 🖥️ En modo app de escritorio Windows (`PythonDSProgram.exe`), estas variables son gestionadas internamente y no es necesario configurarlas.

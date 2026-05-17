@@ -4,7 +4,7 @@
 
 ---
 
-## Objetivo
+## 🎯 Objetivo
 
 El entorno interactivo permite que el programa no dependa de notebooks estáticos. El mismo repositorio sirve como:
 
@@ -16,9 +16,9 @@ El entorno interactivo permite que el programa no dependa de notebooks estático
 
 ---
 
-## Modos de ejecución
+## 🚦 Modos de ejecución
 
-### Modo 1: App de escritorio Windows (distribución para alumnos)
+### 🎓 Modo 1: App de escritorio Windows (distribución para alumnos)
 
 ```bat
 PythonDSProgram.exe
@@ -32,7 +32,7 @@ PythonDSProgram.exe
 
 **Requisito del sistema:** Edge WebView2 Runtime (preinstalado en Windows 10 v2004+ y Windows 11).
 
-### Modo 2: Desarrollo desde el repositorio
+### 🐍 Modo 2: Desarrollo desde el repositorio
 
 ```bash
 python run_program.py
@@ -44,7 +44,7 @@ python run_program.py
 - Abre el navegador del sistema automáticamente
 - Ctrl+C para detener
 
-### Modo 3: Docker
+### 🐳 Modo 3: Docker
 
 ```bash
 docker compose up --build
@@ -56,9 +56,9 @@ Acceder en `http://127.0.0.1:8000`.
 
 ---
 
-## Componentes del laboratorio
+## 🧩 Componentes del laboratorio
 
-### Vista de clases
+### 📚 Vista de clases
 
 Renderiza el contenido de las 13 clases directamente desde `classes/`:
 
@@ -73,7 +73,7 @@ Renderiza el contenido de las 13 clases directamente desde `classes/`:
 
 El Markdown se convierte a HTML en el servidor con extensiones `fenced_code`, `tables` y `codehilite`.
 
-### Cuaderno interactivo (tipo Jupyter)
+### 📓 Cuaderno interactivo (tipo Jupyter)
 
 - celdas de código Python editables, ejecutables con `Ctrl+Enter`;
 - cada celda mantiene su salida (stdout, resultado, gráficos, errores);
@@ -89,14 +89,14 @@ El Markdown se convierte a HTML en el servidor con extensiones `fenced_code`, `t
 | `clasificacion_lab` | árboles de decisión, regresión logística, matriz de confusión |
 | `pipelines_lab` | Pipeline sklearn, GridSearchCV, cross-validation |
 
-### Runner rápido
+### ⚡ Runner rápido
 
 - área de texto libre para código Python;
 - `Ctrl+Enter` para ejecutar;
 - sesión separada de los notebooks (no comparte variables);
 - útil para resolver dudas en vivo o probar ideas cortas.
 
-### Guardado de notebooks
+### 💾 Guardado de notebooks
 
 - botón de guardado en la UI → `POST /api/notebook/save`;
 - auto-guardado cada 30 segundos de inactividad;
@@ -105,9 +105,9 @@ El Markdown se convierte a HTML en el servidor con extensiones `fenced_code`, `t
 
 ---
 
-## Motor de ejecución — detalles técnicos
+## ▶️ Motor de ejecución — detalles técnicos
 
-### Sesiones
+### 🎬 Sesiones
 
 | Parámetro | Valor |
 |---|---|
@@ -117,7 +117,7 @@ El Markdown se convierte a HTML en el servidor con extensiones `fenced_code`, `t
 
 Cada sesión tiene su propio namespace Python (`globals()`). Las variables definidas en una celda están disponibles en las siguientes de la misma sesión.
 
-### Ejecución y límites
+### 🚧 Ejecución y límites
 
 | Parámetro | Valor |
 |---|---|
@@ -127,7 +127,7 @@ Cada sesión tiene su propio namespace Python (`globals()`). Las variables defin
 
 Si una celda supera el timeout, la sesión se reinicia automáticamente y se devuelve un mensaje de error.
 
-### Paquetes preimportados
+### 📦 Paquetes preimportados
 
 Las siguientes librerías están disponibles sin importar explícitamente en cada celda:
 
@@ -140,7 +140,7 @@ import matplotlib.pyplot as plt
 
 El resto de las librerías disponibles (numpy, scikit-learn, etc.) deben importarse explícitamente.
 
-### Captura de salida
+### 🖼️ Captura de salida
 
 | Tipo de salida | Cómo se captura |
 |---|---|
@@ -151,7 +151,7 @@ El resto de las librerías disponibles (numpy, scikit-learn, etc.) deben importa
 
 ---
 
-## API del laboratorio
+## 🔌 API del laboratorio
 
 | Método | Ruta | Descripción |
 |---|---|---|
@@ -168,7 +168,7 @@ El resto de las librerías disponibles (numpy, scikit-learn, etc.) deben importa
 
 ---
 
-## Límites de diseño
+## 🚧 Límites de diseño
 
 - el runner ejecuta código Python arbitrario del alumno dentro del proceso de la app;
 - el timeout de 30s reduce el riesgo de bloqueos pero no reemplaza un sandbox real de OS;

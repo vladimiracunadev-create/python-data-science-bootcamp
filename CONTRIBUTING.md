@@ -1,32 +1,41 @@
+<div align="center">
+
 # 🤝 Cómo contribuir
 
-Gracias por tu interés en mejorar el Python Data Science Program.
+### **Guía para colaboradores del Python Data Science Program**
+
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-3fb950?style=for-the-badge)](https://github.com/vladimiracunadev-create/python-data-science-program/pulls)
+[![Idioma](https://img.shields.io/badge/idioma-espa%C3%B1ol-7c5cff?style=for-the-badge)](#-est%C3%A1ndar-de-commits)
+
+</div>
+
+> 💚 Gracias por tu interés en mejorar el Python Data Science Program.
 
 ---
 
-## Tipos de contribuciones bienvenidas
+## ✨ Tipos de contribuciones bienvenidas
 
-| Tipo | Ejemplos |
+| 🎯 Tipo | 📝 Ejemplos |
 |---|---|
-| Correcciones de contenido | errores en teoría, ejercicios o soluciones |
-| Mejoras pedagógicas | mejor secuencia, ejemplos más claros, nuevos ejercicios |
-| Correcciones de bugs | errores en la app Flask, el motor de ejecución o el launcher |
-| Mejoras de documentación | textos incorrectos, secciones faltantes, links rotos |
-| Nuevos datasets | CSV sintéticos útiles para las clases |
-| Mejoras de tests | mayor cobertura, casos borde, smoke tests |
+| ✏️ Correcciones de contenido | errores en teoría, ejercicios o soluciones |
+| 🧠 Mejoras pedagógicas | mejor secuencia, ejemplos más claros, nuevos ejercicios |
+| 🐛 Correcciones de bugs | errores en la app Flask, el motor de ejecución o el launcher |
+| 📖 Mejoras de documentación | textos incorrectos, secciones faltantes, links rotos |
+| 📊 Nuevos datasets | CSV sintéticos útiles para las clases |
+| 🧪 Mejoras de tests | mayor cobertura, casos borde, smoke tests |
 
 ---
 
-## Qué NO aceptamos actualmente
+## 🚫 Qué NO aceptamos actualmente
 
-- cambios de versión sin acuerdo previo (el versionado lo maneja el maintainer);
-- dependencias nuevas no discutidas (el bundle de Windows tiene un tamaño objetivo);
-- cambios en el curriculum que rompan la progresión pedagógica existente;
-- código que reduzca la postura de seguridad documentada en `SECURITY.md`.
+- ❌ cambios de versión sin acuerdo previo (el versionado lo maneja el maintainer);
+- ❌ dependencias nuevas no discutidas (el bundle de Windows tiene un tamaño objetivo);
+- ❌ cambios en el curriculum que rompan la progresión pedagógica existente;
+- ❌ código que reduzca la postura de seguridad documentada en `SECURITY.md`.
 
 ---
 
-## Flujo de contribución
+## 🔄 Flujo de contribución
 
 ```
 1. Fork del repositorio
@@ -41,7 +50,7 @@ Gracias por tu interés en mejorar el Python Data Science Program.
 
 ---
 
-## Estándar de commits
+## 📝 Estándar de commits
 
 Usa mensajes en español, en presente, descriptivos:
 
@@ -56,7 +65,7 @@ Usa mensajes en español, en presente, descriptivos:
 
 ---
 
-## Verificación antes de PR
+## ✅ Verificación antes de PR
 
 ```bash
 # Tests
@@ -76,7 +85,7 @@ curl http://127.0.0.1:8000/health
 
 ---
 
-## Estructura del currículo
+## 🗂️ Estructura del currículo
 
 El currículo vive en `classes/parte-N-slug/NNN-tema-slug/` (anidado por parte). Cada clase es un stub generado con la estructura mínima:
 
@@ -92,16 +101,16 @@ El generador idempotente de la estructura está en `scripts/generate_v2_curricul
 
 ---
 
-## Reportar bugs
+## 🐛 Reportar bugs
 
 Abre un issue con:
-- versión del sistema (`python --version`, OS);
-- pasos para reproducir;
-- comportamiento esperado vs comportamiento real;
-- si es un problema de seguridad, sigue el proceso en [SECURITY.md](SECURITY.md).
+- 🖥️ versión del sistema (`python --version`, OS);
+- 🔁 pasos para reproducir;
+- 🎯 comportamiento esperado vs comportamiento real;
+- 🔐 si es un problema de seguridad, sigue el proceso en [SECURITY.md](SECURITY.md).
 
 ---
 
-## Preguntas
+## ❓ Preguntas
 
 Abre un issue con la etiqueta `pregunta`. Respondemos en español o inglés.

@@ -1,110 +1,145 @@
+<div align="center">
+
 # 🧭 Python Data Science Program
+
+### **197 clases · 9 partes · pauta avanzada y completa**
+
+**Curso completo de Python y Data Science — desde fundamentos hasta despliegue de modelos en producción**
+
+<br>
 
 [![CI](https://github.com/vladimiracunadev-create/python-data-science-program/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/vladimiracunadev-create/python-data-science-program/actions/workflows/ci.yml)
 [![Security](https://github.com/vladimiracunadev-create/python-data-science-program/actions/workflows/security.yml/badge.svg?branch=main)](https://github.com/vladimiracunadev-create/python-data-science-program/actions/workflows/security.yml)
 [![Pages](https://github.com/vladimiracunadev-create/python-data-science-program/actions/workflows/deploy-pages.yml/badge.svg?branch=main)](https://github.com/vladimiracunadev-create/python-data-science-program/actions/workflows/deploy-pages.yml)
-![Python](https://img.shields.io/badge/python-3.10%20%7C%203.11%20%7C%203.12-informational.svg)
-![Version](https://img.shields.io/badge/release-v2.0.0--scaffold-2e8b57.svg)
-![License](https://img.shields.io/badge/license-MIT-blue.svg)
 
-Curso completo de Python y Data Science — desde fundamentos hasta despliegue de modelos en producción.
+[![Version](https://img.shields.io/badge/release-v2.0.0--scaffold-2e8b57?style=for-the-badge)](CHANGELOG.md)
+[![Clases](https://img.shields.io/badge/clases-197%20%C2%B7%209%20partes-7c5cff?style=for-the-badge)](classes/README.md)
+[![Estado](https://img.shields.io/badge/contenido-en%20desarrollo-f59e0b?style=for-the-badge)](ROADMAP.md)
+[![License](https://img.shields.io/badge/license-MIT-3fb950?style=for-the-badge)](LICENSE)
 
-> **197 clases · 9 partes · pauta avanzada y completa**
->
-> Índice navegable: [classes/README.md](classes/README.md) · Syllabus: [docs/syllabus.md](docs/syllabus.md)
+[![Python](https://img.shields.io/badge/Python-3.10%20%7C%203.11%20%7C%203.12-3776AB?style=flat-square&logo=python&logoColor=white)](https://www.python.org/)
+[![Jupyter](https://img.shields.io/badge/Jupyter-Notebook-F37626?style=flat-square&logo=jupyter&logoColor=white)](https://jupyter.org/)
+[![Flask](https://img.shields.io/badge/Flask-3.x-000000?style=flat-square&logo=flask&logoColor=white)](https://flask.palletsprojects.com/)
+[![pandas](https://img.shields.io/badge/pandas-2.x-150458?style=flat-square&logo=pandas&logoColor=white)](https://pandas.pydata.org/)
+[![scikit--learn](https://img.shields.io/badge/scikit--learn-1.4-F7931E?style=flat-square&logo=scikit-learn&logoColor=white)](https://scikit-learn.org/)
+[![Docker](https://img.shields.io/badge/Docker-ready-2496ED?style=flat-square&logo=docker&logoColor=white)](Dockerfile)
+[![Windows](https://img.shields.io/badge/Windows-Desktop%20App-0078D6?style=flat-square&logo=windows&logoColor=white)](docs/BUILD_INSTALLER.md)
+[![Android](https://img.shields.io/badge/Android-Expo-3DDC84?style=flat-square&logo=android&logoColor=white)](mobile/)
+
+[📚 Índice de clases](classes/README.md) · [📖 Syllabus](docs/syllabus.md) · [🏗️ Arquitectura](docs/ARQUITECTURA_PRODUCTO.md) · [🎯 Evaluación](docs/GUIA_EVALUACION.md)
+
+</div>
+
+---
 
 Integra currículo modular extenso, laboratorio interactivo local, portal del alumno, app de escritorio nativa para Windows y app Android. La pauta se deriva de *Hands-On Machine Learning* (Géron, 3ª ed.), *Python Data Science Handbook* (VanderPlas), *Designing ML Systems* (Huyen), *ISLP* (James et al) y *Fairness and ML* (Barocas/Hardt/Narayanan).
 
-> **Origen y orientación del proyecto:** este repositorio nació como **muestra de habilidades técnicas y pedagógicas**, y hoy se desarrolla como **recurso personal de aprendizaje, enseñanza y mejora continua del propio producto**. Es público y abierto a cualquier persona que quiera aprender, enseñar o contribuir.
+> 💡 **Origen y orientación del proyecto:** este repositorio nació como **muestra de habilidades técnicas y pedagógicas**, y hoy se desarrolla como **recurso personal de aprendizaje, enseñanza y mejora continua del propio producto**. Es público y abierto a cualquier persona que quiera aprender, enseñar o contribuir.
 
 ---
 
-## Estado actual del producto
+## 📊 Estado actual del producto
 
-> **Versión:** v2.0.0-scaffold
-> **Clases:** 197 en 9 partes (Prerrequisitos, ML clásico, Deep Learning, Estadística inferencial, MLOps, Ingeniería de datos, Recomendadores, Ética, Capstones)
-> **Estructura:** carpetas y stubs de `README.md` + `notebook.ipynb` generados para las 197 clases
-> **Contenido pedagógico:** ⏳ en desarrollo — los stubs se rellenan por bloques siguiendo el orden de `docs/syllabus.md`
-> **Laboratorio:** Flask local con ejecución Python en tiempo real, captura de gráficos y guardado de notebooks
-> **Distribución:** app de escritorio Windows (Edge WebView2, sin navegador) + app Android (Expo/React Native)
-> **Postura:** local-first — no internet abierta sin capas adicionales
+| 🎯 Aspecto | Estado |
+|---|---|
+| 🏷️ **Versión** | `v2.0.0-scaffold` |
+| 📚 **Clases** | 197 en 9 partes |
+| 🗂️ **Estructura** | ✅ stubs de `README.md` + `notebook.ipynb` generados para las 197 clases |
+| ✍️ **Contenido pedagógico** | ⏳ en desarrollo — los stubs se rellenan por bloques (ver [`docs/syllabus.md`](docs/syllabus.md)) |
+| 🧪 **Laboratorio Flask** | ✅ ejecución Python local, captura de gráficos, guardado de notebooks |
+| 🖥️ **App Windows** | ✅ código operativo · binario pendiente de rebuild (Edge WebView2, sin navegador) |
+| 📱 **App Android** | ✅ código operativo · APK debug (Expo/React Native) |
+| 🛡️ **Postura** | local-first — no internet abierta sin capas adicionales |
 
-### Trabajo pendiente
+### 🗺️ Las 9 partes del currículo
 
-- Rellenar contenido pedagógico de las 197 clases (orden recomendado en `docs/syllabus.md` y `ROADMAP.md`)
-- Migrar el contenido embebido del mobile (`mobile/src/data/classes.js`) a la estructura actual
-- Migrar el portal `site/` al índice actual
-- Generar PDFs y PPTX por bloque al madurar el contenido de cada parte
+| # | Parte | Clases | Foco |
+|---|---|---|---|
+| 0️⃣ | Prerrequisitos | 46 | Python aplicado, NumPy, pandas, visualización, SQL, NoSQL, APIs |
+| 1️⃣ | ML clásico | 43 | Regresión, clasificación, ensembles, no supervisado |
+| 2️⃣ | Deep Learning | 56 | Keras, TF, CNN, RNN, Transformers, RL, despliegue |
+| 3️⃣ | Estadística inferencial | 13 | Hipótesis, A/B testing, inferencia causal, Bayes |
+| 4️⃣ | MLOps | 14 | Docker, CI/CD, MLflow, monitoreo, interpretabilidad |
+| 5️⃣ | Ingeniería de datos | 8 | Spark, Airflow, lakehouses, streaming |
+| 6️⃣ | Recomendadores | 7 | Filtrado colaborativo, factorización, secuenciales |
+| 7️⃣ | Ética, fairness, privacidad | 6 | Sesgo, explicabilidad, marcos normativos |
+| 8️⃣ | Capstones | 4 | Proyectos integradores end-to-end |
+
+### 🚧 Trabajo pendiente
+
+- 📝 Rellenar contenido pedagógico de las 197 clases (orden recomendado en [`docs/syllabus.md`](docs/syllabus.md) y [`ROADMAP.md`](ROADMAP.md))
+- 📱 Migrar el contenido embebido del mobile (`mobile/src/data/classes.js`) a la estructura actual
+- 🌐 Migrar el portal `site/` al índice actual
+- 📄 Generar PDFs y PPTX por bloque al madurar el contenido de cada parte
 
 ---
 
-## Rutas recomendadas según perfil
+## 🧭 Rutas recomendadas según perfil
 
-| Perfil | Documento de entrada | Qué mirar primero |
+| 👤 Perfil | 📖 Documento de entrada | 🎯 Qué mirar primero |
 |---|---|---|
-| Institución / evaluador | [docs/GUIA_EVALUACION.md](docs/GUIA_EVALUACION.md) | valor, evidencia y límites reales |
-| Reclutador técnico | [RECRUITER.md](RECRUITER.md) | evidencia técnica rápida en 5 minutos |
-| Stakeholder técnico | [docs/ARQUITECTURA_PRODUCTO.md](docs/ARQUITECTURA_PRODUCTO.md) | capas, flujos y fronteras |
-| Producto / maintainer | [docs/CATALOGO_PRODUCTO.md](docs/CATALOGO_PRODUCTO.md) | superficies, artefactos y reglas de comunicación |
-| Docente | [docs/herramientas-pedagogicas-de-aula.md](docs/herramientas-pedagogicas-de-aula.md) | mediación, problemas de aula y ritmo |
-| Alumno | [docs/student-guide.md](docs/student-guide.md) | uso del curso y expectativas |
-| Operación | [RUNBOOK.md](RUNBOOK.md) | arranque, smoke checks y apagado |
-| Seguridad | [SECURITY.md](SECURITY.md) | postura actual y riesgos aceptados |
+| 🏛️ Institución / evaluador | [docs/GUIA_EVALUACION.md](docs/GUIA_EVALUACION.md) | valor, evidencia y límites reales |
+| 🎯 Reclutador técnico | [RECRUITER.md](RECRUITER.md) | evidencia técnica rápida en 5 minutos |
+| 🏗️ Stakeholder técnico | [docs/ARQUITECTURA_PRODUCTO.md](docs/ARQUITECTURA_PRODUCTO.md) | capas, flujos y fronteras |
+| 📦 Producto / maintainer | [docs/CATALOGO_PRODUCTO.md](docs/CATALOGO_PRODUCTO.md) | superficies, artefactos y reglas de comunicación |
+| 👩‍🏫 Docente | [docs/herramientas-pedagogicas-de-aula.md](docs/herramientas-pedagogicas-de-aula.md) | mediación, problemas de aula y ritmo |
+| 🎓 Alumno | [docs/student-guide.md](docs/student-guide.md) | uso del curso y expectativas |
+| ⚙️ Operación | [RUNBOOK.md](RUNBOOK.md) | arranque, smoke checks y apagado |
+| 🔐 Seguridad | [SECURITY.md](SECURITY.md) | postura actual y riesgos aceptados |
 
-Si no sabes por donde entrar, usa [docs/INDEX.md](docs/INDEX.md).
+> Si no sabes por dónde entrar, usa [docs/INDEX.md](docs/INDEX.md).
 
 ---
 
-## Cómo leer este repo según tiempo disponible
+## ⏱️ Cómo leer este repo según tiempo disponible
 
-| Tiempo | Secuencia recomendada | Resultado esperado |
+| ⏰ Tiempo | Secuencia recomendada | 🎯 Resultado esperado |
 |---|---|---|
-| 5 minutos | `README` → `RECRUITER.md` | evidencia rápida de qué funciona hoy |
-| 15 minutos | `README` → `docs/GUIA_EVALUACION.md` → `docs/CATALOGO_PRODUCTO.md` | entender superficies, arquitectura y criterio de operación |
-| 30 minutos | secuencia anterior + `docs/syllabus.md` + `docs/ARQUITECTURA_PRODUCTO.md` | entender el currículo completo, capas y growth path |
+| 5 min | `README` → `RECRUITER.md` | evidencia rápida de qué funciona hoy |
+| 15 min | `README` → `docs/GUIA_EVALUACION.md` → `docs/CATALOGO_PRODUCTO.md` | entender superficies, arquitectura y criterio de operación |
+| 30 min | secuencia anterior + `docs/syllabus.md` + `docs/ARQUITECTURA_PRODUCTO.md` | entender el currículo completo, capas y growth path |
 
-La documentación está pensada como sistema, no como inventario de archivos.
+> 📚 La documentación está pensada como sistema, no como inventario de archivos.
 
 ---
 
-## Superficies del producto
+## 🎛️ Superficies del producto
 
 | Superficie | Rol | Estado |
 |---|---|---|
-| Laboratorio interactivo (`app/`) | entorno local de clase — notebooks, runner, ejecución Python | operativo |
-| Portal del alumno (`site/`) | punto de entrada oficial para estudiantes | operativo |
-| Vista institucional (`site/product/`) | presentación visual del producto | operativa |
-| Currículo modular (`classes/`) | 197 clases en 9 partes: Prerrequisitos, ML clásico, Deep Learning, Estadística inferencial, MLOps, Ingeniería de datos, Recomendadores, Ética, Capstones | scaffold operativo · contenido en desarrollo |
-| App de escritorio Windows (`launcher.py` + `program.spec` + `installer/`) | ventana nativa con Edge WebView2 — sin navegador, sin Python en el PC del alumno | código operativo · binario pendiente de build |
-| App Android (`mobile/`) | Expo/React Native con integración Google Colab | código operativo · contenido pendiente de migración al índice actual |
-| PDFs (`docs/pdfs/`) | guías por clase | se regeneran por bloques al madurar el contenido |
-| Presentaciones (`docs/presentaciones/`) | decks `.pptx` por clase | se regeneran por bloques al madurar el contenido |
+| 🧪 Laboratorio interactivo (`app/`) | entorno local de clase — notebooks, runner, ejecución Python | ✅ operativo |
+| 🌐 Portal del alumno (`site/`) | punto de entrada oficial para estudiantes | ✅ operativo |
+| 🏛️ Vista institucional (`site/product/`) | presentación visual del producto | ✅ operativa |
+| 📚 Currículo modular (`classes/`) | 197 clases en 9 partes: Prerrequisitos, ML clásico, Deep Learning, Estadística inferencial, MLOps, Ingeniería de datos, Recomendadores, Ética, Capstones | 🟡 scaffold operativo · contenido en desarrollo |
+| 🖥️ App de escritorio Windows (`launcher.py` + `program.spec` + `installer/`) | ventana nativa con Edge WebView2 — sin navegador, sin Python en el PC del alumno | 🟡 código operativo · binario pendiente de build |
+| 📱 App Android (`mobile/`) | Expo/React Native con integración Google Colab | 🟡 código operativo · contenido pendiente de migración |
+| 📄 PDFs (`docs/pdfs/`) | guías por clase | 🔄 se regeneran por bloques al madurar el contenido |
+| 📊 Presentaciones (`docs/presentaciones/`) | decks `.pptx` por clase | 🔄 se regeneran por bloques al madurar el contenido |
 
 La fuente de verdad de esta taxonomía vive en [docs/CATALOGO_PRODUCTO.md](docs/CATALOGO_PRODUCTO.md).
 
 ---
 
-## Materiales listos para usar
+## 📚 Materiales listos para usar
 
-### Currículo (197 clases)
+### 🗂️ Currículo (197 clases)
 
-- Índice navegable: [classes/README.md](classes/README.md)
-- Pauta completa: [docs/syllabus.md](docs/syllabus.md)
-- Cada clase: `README.md` (ficha) + `notebook.ipynb` (stub). Los materiales PDF/PPTX se regeneran por bloque al madurar el contenido.
-
+- 🧭 **Índice navegable:** [classes/README.md](classes/README.md)
+- 📖 **Pauta completa:** [docs/syllabus.md](docs/syllabus.md)
+- 📝 Cada clase: `README.md` (ficha) + `notebook.ipynb` (stub). Los materiales PDF/PPTX se regeneran por bloque al madurar el contenido.
 
 ### 📄 PDFs de estudio adicionales
 
 PDFs listos para imprimir o compartir. Viven en `docs/pdfs/` y son independientes del flujo de clases.
 
-| Documento | Descripción |
+| 📑 Documento | Descripción |
 |---|---|
-| [guia-estudio-repositorio.pdf](docs/pdfs/guia-estudio-repositorio.pdf) | Ruta de lectura rápida del repo para evaluador o reclutador |
-| [guia-total-python-data-science.pdf](docs/pdfs/guia-total-python-data-science.pdf) | Guía ampliada de Python con Data Science investigada con fuentes oficiales |
+| [guia-estudio-repositorio.pdf](docs/pdfs/guia-estudio-repositorio.pdf) | 🗺️ Ruta de lectura rápida del repo para evaluador o reclutador |
+| [guia-total-python-data-science.pdf](docs/pdfs/guia-total-python-data-science.pdf) | 📘 Guía ampliada de Python con Data Science investigada con fuentes oficiales |
 
 ---
 
-## Arquitectura en una mirada
+## 🏗️ Arquitectura en una mirada
 
 ```mermaid
 graph LR
@@ -127,11 +162,50 @@ graph LR
 
 La arquitectura completa, con flujos y fronteras, está en [docs/ARQUITECTURA_PRODUCTO.md](docs/ARQUITECTURA_PRODUCTO.md).
 
+### 🗺️ Mapa del currículo (9 partes · 197 clases)
+
+```mermaid
+graph TD
+    P0["0️⃣ Prerrequisitos<br/>46 clases"]:::found
+    P1["1️⃣ ML clásico<br/>43 clases"]:::ml
+    P2["2️⃣ Deep Learning<br/>56 clases"]:::dl
+    P3["3️⃣ Estadística inferencial<br/>13 clases"]:::stats
+    P4["4️⃣ MLOps<br/>14 clases"]:::ops
+    P5["5️⃣ Ingeniería de datos<br/>8 clases"]:::data
+    P6["6️⃣ Recomendadores<br/>7 clases"]:::rec
+    P7["7️⃣ Ética, fairness, privacidad<br/>6 clases"]:::eth
+    P8["8️⃣ Capstones<br/>4 proyectos"]:::cap
+
+    P0 --> P1
+    P0 --> P3
+    P1 --> P2
+    P1 --> P4
+    P3 --> P1
+    P2 --> P4
+    P4 --> P5
+    P1 --> P6
+    P2 --> P6
+    P0 --> P7
+    P1 --> P8
+    P2 --> P8
+    P4 --> P8
+
+    classDef found fill:#7c5cff,stroke:#5b3fc7,color:#fff
+    classDef ml fill:#2e8b57,stroke:#1f6f43,color:#fff
+    classDef dl fill:#0ea5e9,stroke:#0369a1,color:#fff
+    classDef stats fill:#f59e0b,stroke:#b45309,color:#fff
+    classDef ops fill:#ef4444,stroke:#b91c1c,color:#fff
+    classDef data fill:#8b5cf6,stroke:#6d28d9,color:#fff
+    classDef rec fill:#ec4899,stroke:#be185d,color:#fff
+    classDef eth fill:#14b8a6,stroke:#0f766e,color:#fff
+    classDef cap fill:#facc15,stroke:#a16207,color:#000
+```
+
 ---
 
-## Capacidades actuales
+## ⚙️ Capacidades actuales
 
-### Currículo y pedagogía
+### 📚 Currículo y pedagogía
 
 - **Currículo (scaffold):** 197 clases en 9 partes — Prerrequisitos (46), ML clásico (43), Deep Learning (56), Estadística inferencial (13), MLOps (14), Ingeniería de datos (8), Recomendadores (7), Ética (6), Capstones (4);
 - pauta derivada de **Hands-On ML** (Géron 3ª ed.), **Python Data Science Handbook** (VanderPlas), **Designing ML Systems** (Huyen), **ISLP** (James et al), **Fairness and ML** (Barocas/Hardt/Narayanan);
@@ -148,7 +222,7 @@ La arquitectura completa, con flujos y fronteras, está en [docs/ARQUITECTURA_PR
 - guardado de notebooks en JSON local (`app/saved_notebooks/`);
 - endpoints `GET /health` y `GET /ready` para healthchecks.
 
-### App de escritorio Windows
+### 🖥️ App de escritorio Windows
 
 - ventana nativa con Edge WebView2 — **sin abrir el navegador del sistema**;
 - Flask corre internamente en un puerto libre elegido automáticamente;
@@ -156,7 +230,7 @@ La arquitectura completa, con flujos y fronteras, está en [docs/ARQUITECTURA_PR
 - portable (ZIP) + instalador (Inno Setup) disponibles;
 - sin dependencias en el PC del usuario final.
 
-### App Android
+### 📱 App Android
 
 - Expo/React Native (pendiente migrar el contenido embebido al índice actual);
 - integración con Google Colab para ejecución de código sin Python local;
@@ -172,15 +246,15 @@ La arquitectura completa, con flujos y fronteras, está en [docs/ARQUITECTURA_PR
 
 ---
 
-## Inicio rápido
+## 🚀 Inicio rápido
 
-### Opción A — app de escritorio Windows (usuarios finales)
+### 🅰️ Opción A — app de escritorio Windows (usuarios finales)
 
 El binario distribuible se reconstruye cuando el contenido alcance un primer hito publicable. Mientras tanto, usa el modo desarrollo (Opción B) o la imagen Docker (Opción C/D) para correr el laboratorio local. Ver [docs/BUILD_INSTALLER.md](docs/BUILD_INSTALLER.md) para construir el `.exe` desde fuente.
 
 Requiere (al usar el binario): Edge WebView2 Runtime (preinstalado en Windows 10 v2004+ y Windows 11).
 
-### Opción B — modo desarrollo (entorno virtual)
+### 🅱️ Opción B — modo desarrollo (entorno virtual)
 
 ```bash
 python -m venv .venv
@@ -192,13 +266,13 @@ python run_program.py
 
 Abre automáticamente `http://127.0.0.1:8000` en el navegador.
 
-### Opción C — Docker local
+### 🐳 Opción C — Docker local
 
 ```bash
 docker compose up --build
 ```
 
-### Opción D — Docker endurecido
+### 🛡️ Opción D — Docker endurecido
 
 ```bash
 docker compose -f docker-compose.prod.yml up -d --build
@@ -206,7 +280,7 @@ docker compose -f docker-compose.prod.yml up -d --build
 
 ---
 
-## Build de distribución
+## 📦 Build de distribución
 
 ```bash
 # Instala dependencias de build
@@ -220,7 +294,7 @@ Ver [docs/BUILD_INSTALLER.md](docs/BUILD_INSTALLER.md) para instrucciones comple
 
 ---
 
-## Validación y CI/CD
+## ✅ Validación y CI/CD
 
 ```bash
 pytest                   # suite completa
@@ -230,83 +304,110 @@ python -m bandit -r app  # seguridad estática
 
 Workflows activos:
 
-| Workflow | Qué cubre |
+| ⚙️ Workflow | Qué cubre |
 |---|---|
-| [ci.yml](.github/workflows/ci.yml) | tests, lint, build de contenedor |
-| [security.yml](.github/workflows/security.yml) | auditoría de dependencias, SAST |
-| [deploy-pages.yml](.github/workflows/deploy-pages.yml) | despliegue de `site/` a GitHub Pages |
+| 🧪 [ci.yml](.github/workflows/ci.yml) | tests, lint, build de contenedor |
+| 🔒 [security.yml](.github/workflows/security.yml) | auditoría de dependencias, SAST |
+| 🚀 [deploy-pages.yml](.github/workflows/deploy-pages.yml) | despliegue de `site/` a GitHub Pages |
 
 ---
 
-## Seguridad y límites
+## 🔐 Seguridad y límites
 
-**Protecciones activas:**
+### 🛡️ Protecciones activas
 
-- validación de slugs e identificadores (regex, evita path traversal);
-- límite de payload por request (1 MB);
-- límite de longitud de código (20 KB);
-- timeout de ejecución por celda (30 s) + reinicio de sesión;
-- eviction de sesiones antiguas (100 sesiones máx, TTL 1 hora);
-- CSP estricto sin dependencias CDN externas;
-- defaults de arranque a `127.0.0.1`;
-- nosec justificado para falsos positivos de Bandit en polling loops.
+- ✅ validación de slugs e identificadores (regex, evita path traversal);
+- ✅ límite de payload por request (1 MB);
+- ✅ límite de longitud de código (20 KB);
+- ✅ timeout de ejecución por celda (30 s) + reinicio de sesión;
+- ✅ eviction de sesiones antiguas (100 sesiones máx, TTL 1 hora);
+- ✅ CSP estricto sin dependencias CDN externas;
+- ✅ defaults de arranque a `127.0.0.1`;
+- ✅ nosec justificado para falsos positivos de Bandit en polling loops.
 
-**Límites conocidos:**
+### ⚠️ Límites conocidos
 
-- no hay autenticación integrada;
-- no hay sandbox fuerte para código no confiable;
-- no hay rate limiting de red;
-- no hay TLS nativo;
-- el runner es para uso local en aula, no para internet abierta.
+- ❌ no hay autenticación integrada;
+- ❌ no hay sandbox fuerte para código no confiable;
+- ❌ no hay rate limiting de red;
+- ❌ no hay TLS nativo;
+- ❌ el runner es para uso local en aula, no para internet abierta.
 
-Ver [SECURITY.md](SECURITY.md) para detalle completo.
+> 📖 Ver [SECURITY.md](SECURITY.md) para detalle completo.
 
 ---
 
-## Mapa documental
+## 🗺️ Mapa documental
 
-| Documento | Rol |
+| 📄 Documento | Rol |
 |---|---|
-| [RECRUITER.md](RECRUITER.md) | evidencia técnica rápida para evaluadores |
-| [CHANGELOG.md](CHANGELOG.md) | historial de cambios por versión |
-| [CONTRIBUTING.md](CONTRIBUTING.md) | cómo contribuir al proyecto |
-| [ROADMAP.md](ROADMAP.md) | dirección futura del producto |
-| [RUNBOOK.md](RUNBOOK.md) | operación diaria |
-| [SECURITY.md](SECURITY.md) | postura de seguridad y límites |
-| [docs/INDEX.md](docs/INDEX.md) | índice completo por audiencia y objetivo |
-| [docs/CATALOGO_PRODUCTO.md](docs/CATALOGO_PRODUCTO.md) | fuente de verdad de superficies y artefactos |
-| [docs/ARQUITECTURA_PRODUCTO.md](docs/ARQUITECTURA_PRODUCTO.md) | arquitectura funcional con diagramas |
-| [docs/GUIA_EVALUACION.md](docs/GUIA_EVALUACION.md) | ruta ejecutiva de 10 minutos |
-| [docs/BUILD_INSTALLER.md](docs/BUILD_INSTALLER.md) | cómo generar el instalador Windows |
-| [docs/MOBILE_APP.md](docs/MOBILE_APP.md) | cómo construir y distribuir la app Android |
-| [docs/entorno-interactivo.md](docs/entorno-interactivo.md) | el laboratorio Flask y su funcionamiento |
-| [docs/metodologia-docente.md](docs/metodologia-docente.md) | marco pedagógico del producto |
-| [docs/instructor-guide.md](docs/instructor-guide.md) | playbook de ejecución docente |
-| [docs/student-guide.md](docs/student-guide.md) | guía de onboarding del alumno |
-| [docs/despliegue-seguro-y-operacion.md](docs/despliegue-seguro-y-operacion.md) | CI/CD, Docker y hardening |
-| [docs/MIGRACION_AWS.md](docs/MIGRACION_AWS.md) | migración a la nube AWS — arquitectura, costos y paso a paso |
+| 🎯 [RECRUITER.md](RECRUITER.md) | evidencia técnica rápida para evaluadores |
+| 📜 [CHANGELOG.md](CHANGELOG.md) | historial de cambios por versión |
+| 🤝 [CONTRIBUTING.md](CONTRIBUTING.md) | cómo contribuir al proyecto |
+| 🛣️ [ROADMAP.md](ROADMAP.md) | dirección futura del producto |
+| ⚙️ [RUNBOOK.md](RUNBOOK.md) | operación diaria |
+| 🔐 [SECURITY.md](SECURITY.md) | postura de seguridad y límites |
+| 🧭 [docs/INDEX.md](docs/INDEX.md) | índice completo por audiencia y objetivo |
+| 📦 [docs/CATALOGO_PRODUCTO.md](docs/CATALOGO_PRODUCTO.md) | fuente de verdad de superficies y artefactos |
+| 🏗️ [docs/ARQUITECTURA_PRODUCTO.md](docs/ARQUITECTURA_PRODUCTO.md) | arquitectura funcional con diagramas |
+| ✅ [docs/GUIA_EVALUACION.md](docs/GUIA_EVALUACION.md) | ruta ejecutiva de 10 minutos |
+| 🖥️ [docs/BUILD_INSTALLER.md](docs/BUILD_INSTALLER.md) | cómo generar el instalador Windows |
+| 📱 [docs/MOBILE_APP.md](docs/MOBILE_APP.md) | cómo construir y distribuir la app Android |
+| 🧪 [docs/entorno-interactivo.md](docs/entorno-interactivo.md) | el laboratorio Flask y su funcionamiento |
+| 🧠 [docs/metodologia-docente.md](docs/metodologia-docente.md) | marco pedagógico del producto |
+| 👩‍🏫 [docs/instructor-guide.md](docs/instructor-guide.md) | playbook de ejecución docente |
+| 🎓 [docs/student-guide.md](docs/student-guide.md) | guía de onboarding del alumno |
+| 🚢 [docs/despliegue-seguro-y-operacion.md](docs/despliegue-seguro-y-operacion.md) | CI/CD, Docker y hardening |
+| ☁️ [docs/MIGRACION_AWS.md](docs/MIGRACION_AWS.md) | migración a la nube AWS — arquitectura, costos y paso a paso |
 
-> Las notas internas del maintainer viven en `docs/maintainer/`.
-
----
-
-## Lo que este repo sí es
-
-- una base seria de capacitación técnica en Python y Data Science;
-- un sistema que integra contenido, práctica interactiva y presentación;
-- una app de escritorio nativa para distribución en aula sin configuración;
-- una muestra de criterio pedagógico, operacional y de seguridad;
-- una propuesta que puede empezar acotada y crecer sin rehacerse.
-
-## Lo que este repo no vende
-
-- una plataforma multiusuario endurecida para internet abierta;
-- una app móvil ya en producción (el código existe pero el APK distribuible se reconstruye con el contenido actual);
-- una promesa de personalización infinita antes de cerrar condiciones;
-- profundidad total en todas las direcciones desde la primera versión.
+> 🗂️ Las notas internas del maintainer viven en `docs/maintainer/`.
 
 ---
 
-## Idea fuerza
+## 🎯 Qué es y qué no es este repo
 
-El valor de este proyecto no depende de competir contra una tecnología puntual. Su valor está en traducir herramientas a aprendizaje real, con secuencia pedagógica, criterio docente, operación responsable y una base documental que permite evaluarlo como producto.
+<table>
+<tr>
+<td valign="top" width="50%">
+
+### ✅ Lo que este repo sí es
+
+- 📚 una base seria de capacitación técnica en Python y Data Science;
+- 🧩 un sistema que integra contenido, práctica interactiva y presentación;
+- 🖥️ una app de escritorio nativa para distribución en aula sin configuración;
+- 🎓 una muestra de criterio pedagógico, operacional y de seguridad;
+- 🌱 una propuesta que puede empezar acotada y crecer sin rehacerse.
+
+</td>
+<td valign="top" width="50%">
+
+### ❌ Lo que este repo no vende
+
+- 🚫 una plataforma multiusuario endurecida para internet abierta;
+- 🚫 una app móvil ya en producción (el código existe pero el APK se reconstruye con el contenido actual);
+- 🚫 una promesa de personalización infinita antes de cerrar condiciones;
+- 🚫 profundidad total en todas las direcciones desde la primera versión.
+
+</td>
+</tr>
+</table>
+
+---
+
+## 💡 Idea fuerza
+
+> El valor de este proyecto no depende de competir contra una tecnología puntual. Su valor está en **traducir herramientas a aprendizaje real**, con secuencia pedagógica, criterio docente, operación responsable y una base documental que permite evaluarlo como producto.
+
+---
+
+<div align="center">
+
+**¿Te resulta útil? ⭐ Dale una estrella al repo.**
+
+[![GitHub stars](https://img.shields.io/github/stars/vladimiracunadev-create/python-data-science-program?style=social)](https://github.com/vladimiracunadev-create/python-data-science-program/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/vladimiracunadev-create/python-data-science-program?style=social)](https://github.com/vladimiracunadev-create/python-data-science-program/network/members)
+[![Follow](https://img.shields.io/github/followers/vladimiracunadev-create?style=social&label=Follow)](https://github.com/vladimiracunadev-create)
+
+Hecho con 🧠 y ☕ por [Vladimir Acuña](https://github.com/vladimiracunadev-create)
+
+</div>

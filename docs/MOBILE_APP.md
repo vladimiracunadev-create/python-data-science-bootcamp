@@ -6,7 +6,7 @@ App React Native (Expo) standalone diseñada para que los alumnos lean el conten
 
 ---
 
-## Qué hace la app (cuando se cargue el catálogo v2)
+## ❓ Qué hace la app (cuando se cargue el catálogo v2)
 
 ```
 ALUMNO
@@ -31,7 +31,7 @@ ALUMNO
 
 ---
 
-## Arquitectura
+## 🏗️ Arquitectura
 
 ```
 mobile/
@@ -57,7 +57,7 @@ mobile/
 
 ---
 
-## Flujo de ejecución de código
+## ▶️ Flujo de ejecución de código
 
 La app móvil NO ejecuta Python directamente. El flujo es:
 
@@ -76,7 +76,7 @@ La app móvil NO ejecuta Python directamente. El flujo es:
                                  (el alumno puede modificarlo y ejecutar celda a celda)
 ```
 
-### ¿Por qué este enfoque?
+### ❓ ¿Por qué este enfoque?
 
 | Alternativa | Problema |
 |---|---|
@@ -87,7 +87,7 @@ La app móvil NO ejecuta Python directamente. El flujo es:
 
 ---
 
-## Requisitos para desarrollar
+## 📋 Requisitos para desarrollar
 
 | Herramienta | Versión | Instalacion |
 |---|---|---|
@@ -100,7 +100,7 @@ No se requiere Android Studio ni SDK de Android para desarrollo y pruebas con Ex
 
 ---
 
-## Instalar y ejecutar en desarrollo
+## 🛠️ Instalar y ejecutar en desarrollo
 
 ```bash
 # 1. Entrar al directorio de la app
@@ -121,9 +121,9 @@ La app se recarga automaticamente cada vez que se guarda un archivo.
 
 ---
 
-## Generar APK para distribucion
+## 📦 Generar APK para distribucion
 
-### Opción A — EAS Build (recomendado, en la nube)
+### 📦 Opción A — EAS Build (recomendado, en la nube)
 
 ```bash
 # Instalar EAS CLI
@@ -143,7 +143,7 @@ eas build -p android --profile preview
 
 El APK generado se puede instalar en cualquier Android con "Instalar desde fuentes desconocidas" activado.
 
-### Opción B — Build local (requiere Android Studio)
+### 📦 Opción B — Build local (requiere Android Studio)
 
 ```bash
 # Generar proyecto Android nativo
@@ -158,7 +158,7 @@ cd android && ./gradlew assembleDebug
 
 ---
 
-## Configuración del contenido
+## ⚙️ Configuración del contenido
 
 El contenido de las clases esta embebido en `src/data/classes.js`. Cada clase tiene:
 
@@ -189,7 +189,7 @@ Para actualizar el contenido: editar `src/data/classes.js` y volver a hacer el b
 
 ---
 
-## Progreso del alumno
+## 🎓 Progreso del alumno
 
 El progreso se guarda localmente en el dispositivo con AsyncStorage (no se sincroniza a ningun servidor). Se persiste entre sesiones.
 
@@ -205,7 +205,7 @@ Para resetear el progreso: ir a la pantalla principal y usar "Reiniciar progreso
 
 ---
 
-## Colores y diseño
+## 🎨 Colores y diseño
 
 ```js
 const colors = {
@@ -222,7 +222,7 @@ const colors = {
 
 ---
 
-## Diferencias entre la app Android y el laboratorio Windows
+## 📱 Diferencias entre la app Android y el laboratorio Windows
 
 | Caracteristica | App Android | Laboratorio Windows (Flask) |
 |---|---|---|
@@ -235,7 +235,7 @@ const colors = {
 
 ---
 
-## Actualizar la app con nuevo contenido
+## 📱 Actualizar la app con nuevo contenido
 
 1. Editar `mobile/src/data/classes.js`
 2. Ejecutar `npx expo start` para probar

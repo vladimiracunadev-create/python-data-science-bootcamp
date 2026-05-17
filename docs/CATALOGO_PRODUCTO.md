@@ -1,13 +1,21 @@
-# Catálogo del producto
+<div align="center">
 
-> Fuente de verdad de superficies, artefactos y reglas de comunicación.
-> Si algún README, landing o presentación contradice este documento, **este tiene prioridad.**
+# 📦 Catálogo del producto
 
-> **Estado:** v2.0.0-scaffold. El currículo tiene **197 clases en 9 partes**. La estructura de carpetas y stubs está creada; el contenido pedagógico de cada clase se desarrolla por bloques. Pauta completa en [syllabus.md](syllabus.md), índice navegable en [../classes/README.md](../classes/README.md).
+### **Fuente de verdad de superficies, artefactos y reglas de comunicación**
+
+[![Autoridad](https://img.shields.io/badge/prioridad-este%20documento-ef4444?style=for-the-badge)](#-regla-de-prioridad)
+[![Estado](https://img.shields.io/badge/release-v2.0.0--scaffold-2e8b57?style=for-the-badge)](../CHANGELOG.md)
+
+</div>
+
+> ⚠️ Si algún README, landing o presentación contradice este documento, **este tiene prioridad.**
+>
+> 📌 El currículo tiene **197 clases en 9 partes**. La estructura de carpetas y stubs está creada; el contenido pedagógico de cada clase se desarrolla por bloques. Pauta completa en [syllabus.md](syllabus.md), índice navegable en [../classes/README.md](../classes/README.md).
 
 ---
 
-## Definiciones
+## 📖 Definiciones
 
 | Término | Significado |
 |---|---|
@@ -18,7 +26,7 @@
 
 ---
 
-## Matriz canónica de superficies
+## 🎛️ Matriz canónica de superficies
 
 | Superficie | Tipo | Estado | Audiencia | Qué entrega hoy |
 |---|---|---|---|---|
@@ -34,7 +42,7 @@
 
 ---
 
-## Estructura del currículo
+## 🗂️ Estructura del currículo
 
 | Parte | Tema | Clases |
 |---|---|---|
@@ -53,7 +61,7 @@ Cada clase vive en `classes/parte-N-slug/NNN-tema-slug/` con `README.md` (ficha)
 
 ---
 
-## Funcionalidad real por superficie
+## ⚙️ Funcionalidad real por superficie
 
 | Capacidad | Lab Flask | App Windows | App Android | Portal alumno | Vista institucional |
 |---|---|---|---|---|---|
@@ -69,7 +77,7 @@ Cada clase vive en `classes/parte-N-slug/NNN-tema-slug/` con `README.md` (ficha)
 
 ---
 
-## Artefactos oficiales de apoyo
+## 🎨 Artefactos oficiales de apoyo
 
 | Artefacto | Rol | Estado |
 |---|---|---|
@@ -85,7 +93,7 @@ Cada clase vive en `classes/parte-N-slug/NNN-tema-slug/` con `README.md` (ficha)
 
 ---
 
-## Reglas de comunicación
+## 📣 Reglas de comunicación
 
 ### Lo que sí se puede afirmar
 
@@ -106,7 +114,7 @@ Cada clase vive en `classes/parte-N-slug/NNN-tema-slug/` con `README.md` (ficha)
 
 ---
 
-## Versión inicial sugerida para primeros pasos
+## 🚀 Versión inicial sugerida para primeros pasos
 
 Para una primera implementación acotada, desarrollar primero el **Bloque 0 — Prerrequisitos** (46 clases):
 
@@ -121,6 +129,6 @@ Con esto un alumno ya puede afrontar cualquier capstone tabular básico. Las par
 
 ---
 
-## Regla de prioridad
+## ⚖️ Regla de prioridad
 
 Si alguna presentación, README o landing contradice esta matriz, **este documento tiene prioridad.**

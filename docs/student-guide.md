@@ -35,14 +35,14 @@ Si solo copias código, avanzas poco. Si modificas, preguntas y justificas, avan
 
 ## 🧰 3. Qué necesitas antes de empezar
 
-### Minimo técnico
+### 📋 Minimo técnico
 
 - Python 3.10 o superior;
 - navegador moderno;
 - acceso para instalar dependencias al menos una vez;
 - ganas de equivocarte y corregir sin bloquearte.
 
-### Preparación del entorno
+### 🌿 Preparación del entorno
 
 #### Windows
 
@@ -86,7 +86,7 @@ Si trabajas desde el laboratorio local del repo, el docente puede indicarte abri
 
 Este programa no se posiciona contra una tecnología puntual. Puedes usar buscadores, videos, asistentes de IA, documentación o notas externas. Lo importante es como las usas.
 
-### Regla operativa
+### ⚖️ Regla operativa
 
 1. piensa primero que deberia pasar;
 2. consulta la herramienta;
@@ -94,14 +94,14 @@ Este programa no se posiciona contra una tecnología puntual. Puedes usar buscad
 4. adapta el resultado;
 5. explica por que lo dejaste asi.
 
-### Senales de buen uso
+### ✅ Senales de buen uso
 
 - usas la tecnología para destrabarte, no para apagar tu criterio;
 - cambias el código recibido y entiendes la diferencia;
 - puedes explicar una línea clave;
 - detectas cuando una respuesta se pasa de complejidad para la clase.
 
-### Senales de mal uso
+### 🚫 Senales de mal uso
 
 - pegas código sin leerlo;
 - no sabes de donde salen las columnas, variables o gráficos;
@@ -117,7 +117,7 @@ Este programa no se posiciona contra una tecnología puntual. Puedes usar buscad
 | intentar antes de pedir la solución completa | acertar siempre al primer intento |
 | corregir y volver a probar | trabajar en silencio sin mostrar bloqueos |
 
-## 🆘 8. Cómo pedir ayuda de forma útil
+## ❓ 🆘 8. Cómo pedir ayuda de forma útil
 
 Cuando te bloquees, intenta decir:
 

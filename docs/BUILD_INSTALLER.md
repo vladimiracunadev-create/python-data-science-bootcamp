@@ -5,7 +5,7 @@ No se abre ningún navegador. La ventana es una app real de Windows.
 
 ---
 
-## Qué genera este proceso
+## ❓ Qué genera este proceso
 
 ```
 release_artifacts/
@@ -26,7 +26,7 @@ dist/PythonDSProgram/
 
 ---
 
-## Arquitectura de la app de escritorio
+## 📱 Arquitectura de la app de escritorio
 
 ```
 PythonDSProgram.exe
@@ -61,7 +61,7 @@ PythonDSProgram.exe
 
 ---
 
-## Requisitos del entorno de build
+## 📦 Requisitos del entorno de build
 
 | Herramienta | Versión mínima | Instalación |
 |---|---|---|
@@ -75,7 +75,7 @@ PythonDSProgram.exe
 > El alumno/docente que usa el instalador **NO necesita Python ni ninguna dependencia**.
 > El bundle incluye el runtime Python completo y el motor gráfico.
 
-### Requisito en el PC del usuario final
+### 📋 Requisito en el PC del usuario final
 
 **Edge WebView2 Runtime** — viene preinstalado en:
 - Windows 10 versión 20H2 (octubre 2020) y posteriores
@@ -85,9 +85,9 @@ Para Windows 10 anterior: descargar desde [Microsoft Edge WebView2](https://deve
 
 ---
 
-## Pasos para generar el instalador
+## 👣 Pasos para generar el instalador
 
-### Opción A — Script automático (recomendado)
+### 🅰️ Opción A — Script automático (recomendado)
 
 ```bat
 build_windows.bat
@@ -103,7 +103,7 @@ build_windows.bat --skip-pyinstaller   # Omite PyInstaller si el bundle ya exist
 build_windows.bat --skip-inno          # Genera bundle + ZIP, sin instalador
 ```
 
-### Opción B — Manual paso a paso
+### 🅱️ Opción B — Manual paso a paso
 
 ```bat
 # Paso 1: Instalar dependencias
@@ -133,9 +133,9 @@ where /R "%LOCALAPPDATA%" ISCC.exe
 
 ---
 
-## Modos de ejecución
+## 🚦 Modos de ejecución
 
-### Modo app de escritorio (producción)
+### 📱 Modo app de escritorio (producción)
 
 ```bat
 PythonDSProgram.exe
@@ -145,7 +145,7 @@ Abre directamente una ventana nativa de Windows.
 No aparece ninguna consola, no se abre ningún navegador.
 El usuario ve la app y la usa igual que cualquier programa.
 
-### Modo desarrollo (desde el repositorio)
+### 🐍 Modo desarrollo (desde el repositorio)
 
 ```bat
 python run_program.py
@@ -156,7 +156,7 @@ Levanta Flask en `http://127.0.0.1:8000` y abre el navegador automáticamente.
 
 ---
 
-## Distribuir a alumnos
+## 🎓 Distribuir a alumnos
 
 **Opción portable (sin instalador):**
 
@@ -176,7 +176,7 @@ No se requiere internet, no se requiere Python, no se requiere ninguna configura
 
 ---
 
-## Notebooks guardados por alumnos
+## 🎓 Notebooks guardados por alumnos
 
 En modo instalado, los notebooks que el alumno guarda se almacenan junto al ejecutable:
 
@@ -189,7 +189,7 @@ Ver sección `[UninstallDelete]` en `installer/setup.iss` para cambiar este comp
 
 ---
 
-## Solucionar problemas comunes
+## 🚨 Solucionar problemas comunes
 
 | Síntoma | Causa probable | Solución |
 |---|---|---|
@@ -202,7 +202,7 @@ Ver sección `[UninstallDelete]` en `installer/setup.iss` para cambiar este comp
 
 ---
 
-## Actualizar a una nueva versión
+## 🔄 Actualizar a una nueva versión
 
 1. Cambiar `VERSION` en `build_windows.bat`
 2. Cambiar `AppVersion` en `installer/setup.iss`
