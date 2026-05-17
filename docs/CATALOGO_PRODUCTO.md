@@ -24,8 +24,8 @@
 |---|---|---|---|---|
 | Laboratorio interactivo (`app/`) | núcleo operativo | operativo | docente / estudiante guiado | acceso a las 197 clases (stubs), notebooks editables, ejecución Python en tiempo real, captura de gráficos, guardado local |
 | App de escritorio Windows (`launcher.py` + `installer/`) | distribución de escritorio | listo para build | alumno / docente en aula | ventana nativa Edge WebView2 sin navegador, sin Python instalado en el equipo del usuario, Flask interno transparente |
-| App Android (`mobile/`) | distribución móvil | **pendiente migración a v2** | alumno en movimiento | hoy embebe el currículo v1 (31 clases); requiere actualizar `mobile/src/data/classes.js` cuando se rellene contenido v2 |
-| Portal del alumno (`site/`) | superficie pública | **pendiente migración a v2** | alumno | hoy lista las 31 clases v1; debe regenerarse contra v2 |
+| App Android (`mobile/`) | distribución móvil | **catálogo vacío** | alumno en movimiento | código operativo, pero `mobile/src/data/classes.js` quedó como stub en la migración; pendiente cargar entradas v2 |
+| Portal del alumno (`site/`) | superficie pública | operativo · alineado con v2 | alumno | muestra el resumen de 197 clases en 9 partes con tarjeta por parte |
 | Vista institucional (`site/product/`) | superficie pública | operativo (mensaje genérico) | institución / evaluador | narrativa del producto, alcance, arquitectura visual |
 | Currículo modular (`classes/`) | base pedagógica | scaffold v2 operativo, contenido en desarrollo | docente / alumno | 197 clases organizadas en 9 partes (Prerrequisitos, ML clásico, Deep Learning, Estadística inferencial, MLOps, Ingeniería de datos, Recomendadores, Ética, Capstones) |
 | Currículo v1 archivado (`historicos/classes-v1/`) | referencia | congelado | desarrollador de contenido | 31 clases v1 preservadas como fuente de material reutilizable |

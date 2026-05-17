@@ -46,8 +46,8 @@ Gracias por tu interés en mejorar el Python Data Science Program.
 Usa mensajes en español, en presente, descriptivos:
 
 ```
-✓ Corrige error de tipeo en teoria.md de clase 03
-✓ Agrega ejercicio adicional de pandas a clase 02
+✓ Corrige error de tipeo en teoria.md de la clase 027 (pandas groupby)
+✓ Agrega ejercicio de broadcasting a la clase 017 de NumPy
 ✓ Fix: timeout no se aplica correctamente en execution_engine
 ✗ fix
 ✗ update
@@ -76,22 +76,19 @@ curl http://127.0.0.1:8000/health
 
 ---
 
-## Estructura del curriculum
+## Estructura del currículo v2
 
-Cada clase en `classes/` sigue esta estructura fija:
+El currículo vigente vive en `classes/parte-N-slug/NNN-tema-slug/` (anidado por parte). Cada clase v2 es un stub generado con la estructura mínima:
 
 ```
-classes/XX-nombre-clase/
-├── README.md          # título y descripción de la clase
-├── teoria.md          # conceptos teóricos
-├── slides.md          # pauta para el instructor
-├── ejercicios.md      # ejercicios guiados en clase
-├── homework.md        # tarea para el hogar
-├── notebook.ipynb     # notebook del alumno (clases 01–12)
-└── soluciones.ipynb   # soluciones (clases 01–12)
+classes/parte-N-slug/NNN-tema-slug/
+├── README.md          # ficha: objetivo, resultados esperados, temas
+└── notebook.ipynb     # cuaderno guía (hoy stub de 8 celdas)
 ```
 
-La clase 00 no tiene notebook pero sí tiene `quiz.json`.
+Los materiales adicionales (`teoria.md`, `slides.md`, `ejercicios.md`, `homework.md`, `soluciones.ipynb`, `quiz.json`) se incorporan cuando una clase concreta se desarrolla, replicando el estándar visible en `historicos/classes-v1/` (currículo anterior, 31 clases con contenido completo, congelado como referencia).
+
+El generador idempotente está en `scripts/generate_v2_curriculum.py`.
 
 ---
 

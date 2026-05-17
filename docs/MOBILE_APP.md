@@ -1,18 +1,18 @@
 # Guía: App Móvil Android
 
-> **Estado v2:** la app móvil hoy embebe el currículo v1 (31 clases). La migración al currículo v2 (197 clases) está pendiente — ver ROADMAP. Esta guía describe el funcionamiento actual.
+> **Estado v2:** el código de la app está operativo (UI, navegación, AsyncStorage, integración con Colab) pero `mobile/src/data/classes.js` quedó como **stub vacío** en la migración. La adaptación de las 197 clases del currículo v2 a una UX móvil está pendiente — ver `ROADMAP.md`. Esta guía describe la arquitectura del código que ya existe.
 
-App React Native (Expo) standalone para que los alumnos lean el contenido del programa, vean los ejemplos de código con resaltado de sintaxis y abran los notebooks directamente en Google Colab desde su celular.
+App React Native (Expo) standalone diseñada para que los alumnos lean el contenido del programa, vean los ejemplos de código con resaltado de sintaxis y abran los notebooks directamente en Google Colab desde su celular.
 
 ---
 
-## Qué hace la app
+## Qué hace la app (cuando se cargue el catálogo v2)
 
 ```
 ALUMNO
   |
   ├── [Lista de clases]
-  │     Currículo v1: 13 módulos · clase 0 diagnóstica + 30 clases con título, descripción, temas y estado de progreso
+  │     Catálogo cargado desde mobile/src/data/classes.js (hoy vacío en main)
   │
   ├── [Detalle de clase]
   │     - Pestaña "Teoría": contenido con esquemas y explicaciones
@@ -26,7 +26,7 @@ ALUMNO
   │
   └── [Boton Colab]
         Abre el notebook de la clase en Google Colab con un tap
-        URL: colab.research.google.com/github/[repo]/blob/master/classes/.../notebook.ipynb
+        URL: colab.research.google.com/github/[repo]/blob/main/classes/parte-N/NNN-tema/notebook.ipynb
 ```
 
 ---
@@ -40,7 +40,7 @@ mobile/
 ├── package.json                <- Dependencias npm
 ├── src/
 │   ├── data/
-│   │   └── classes.js          <- Contenido de la clase 0 diagnóstica y las 12 clases troncales embebido
+│   │   └── classes.js          <- Stub vacío en main (pendiente cargar v2)
 │   ├── screens/
 │   │   ├── HomeScreen.js       <- Lista de clases + barra de progreso
 │   │   └── ClassScreen.js      <- Detalle con pestañas teoría/ejercicios

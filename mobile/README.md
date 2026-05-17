@@ -1,6 +1,8 @@
 # 📱 Python Data Science Program — App Android
 
-App móvil para el Python Data Science Program Data Science. Permite a los estudiantes explorar la clase 0 diagnóstica y las 12 clases troncales, leer teoría con ejemplos de código documentados, rastrear su progreso y abrir cualquier notebook en Google Colab con un tap.
+App móvil del Python Data Science Program.
+
+> **Estado actual:** el código de la app está operativo (UI, navegación, almacenamiento de progreso, integración con Google Colab) pero `src/data/classes.js` quedó como **stub vacío** en la migración a v2. La adaptación de las 197 clases del currículo v2 a una UX móvil está pendiente — ver [ROADMAP.md](../ROADMAP.md). Compilar la app hoy genera un APK funcional pero con catálogo vacío.
 
 ## Requisitos
 
@@ -53,7 +55,7 @@ mobile/
 └── src/
     ├── theme.js                # Design system: colores, espaciado, tipografia
     ├── data/
-    │   └── classes.js          # Clase 0 + 12 clases con ejemplos de código (embebido, offline)
+    │   └── classes.js          # Stub vacío (CLASSES = []); pendiente cargar v2
     ├── navigation/
     │   └── AppNavigator.js     # Stack Navigator con rutas Home y Class
     ├── screens/
@@ -82,7 +84,7 @@ mobile/
 
 ## Agregar/modificar contenido
 
-Todo el contenido de las clases esta en `src/data/classes.js`. Para agregar un ejemplo de código a una clase:
+> El archivo `src/data/classes.js` está hoy vacío (stub). Cuando se decida la UX para representar 197 clases en móvil (jerarquía por partes, búsqueda, progreso por bloque), se irán cargando entradas en este archivo. La estructura del objeto por clase se mantiene del diseño v1:
 
 ```js
 codeExamples: [

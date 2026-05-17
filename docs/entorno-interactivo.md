@@ -71,7 +71,7 @@ Renderiza el contenido de las 13 clases directamente desde `classes/`:
 | Slides | `slides.md` | Pauta para el instructor |
 | Ejercicios | `ejercicios.md` | Práctica guiada en clase |
 | Tarea | `homework.md` | Trabajo fuera del aula |
-| Quiz diagnóstico | `quiz.json` | Solo clase 00 — 30 preguntas, autocorregido |
+| Quiz | `quiz.json` | Opcional por clase; autocorregido. Hoy ninguna clase v2 incluye quiz; se preserva el formato del currículo v1 archivado |
 
 El Markdown se convierte a HTML en el servidor con extensiones `fenced_code`, `tables` y `codehilite`.
 
