@@ -4,7 +4,7 @@
 [![Security](https://github.com/vladimiracunadev-create/python-data-science-bootcamp/actions/workflows/security.yml/badge.svg?branch=main)](https://github.com/vladimiracunadev-create/python-data-science-bootcamp/actions/workflows/security.yml)
 [![Pages](https://github.com/vladimiracunadev-create/python-data-science-bootcamp/actions/workflows/deploy-pages.yml/badge.svg?branch=main)](https://github.com/vladimiracunadev-create/python-data-science-bootcamp/actions/workflows/deploy-pages.yml)
 ![Python](https://img.shields.io/badge/python-3.10%20%7C%203.11%20%7C%203.12-informational.svg)
-![Version](https://img.shields.io/badge/release-v1.0.0-2e8b57.svg)
+![Version](https://img.shields.io/badge/release-v2.0.0--scaffold-2e8b57.svg)
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
 
 Curso completo de Python y Data Science — desde fundamentos hasta despliegue de modelos en producción.
@@ -78,8 +78,8 @@ La documentación está pensada como sistema, no como inventario de archivos.
 | Vista institucional (`site/product/`) | presentación visual del producto | operativa |
 | Currículo modular v2 (`classes/`) | 197 clases en 9 partes: Prerrequisitos, ML clásico, Deep Learning, Estadística inferencial, MLOps, Ingeniería de datos, Recomendadores, Ética, Capstones | scaffold operativo · contenido en desarrollo |
 | Currículo v1 archivado (`historicos/classes-v1/`) | 31 clases con contenido completo (teoría, ejercicios, soluciones, PDF, PPTX) | referencia y fuente de material reutilizable |
-| App de escritorio Windows (`launcher.py` + `bootcamp.spec` + `installer/`) | ventana nativa con Edge WebView2 — sin navegador, sin Python en el PC del alumno | v1.0.0 publicada |
-| App Android (`mobile/`) | Expo/React Native con contenido v1 embebido + integración Google Colab | v1.0.0 publicada · pendiente migración a v2 |
+| App de escritorio Windows (`launcher.py` + `bootcamp.spec` + `installer/`) | ventana nativa con Edge WebView2 — sin navegador, sin Python en el PC del alumno | código operativo · binario v2 pendiente de build |
+| App Android (`mobile/`) | Expo/React Native con integración Google Colab | código operativo · contenido pendiente de migrar a v2 |
 | PDFs (`docs/pdfs/`) | guías v1 vigentes; v2 se regenera por bloques al madurar el contenido | operativo |
 | Presentaciones (`docs/presentaciones/`) | decks `.pptx` v1 vigentes; v2 mismo plan | operativo |
 
@@ -189,7 +189,7 @@ La arquitectura completa, con flujos y fronteras, está en [docs/ARQUITECTURA_PR
 - guardado de notebooks en JSON local (`app/saved_notebooks/`);
 - endpoints `GET /health` y `GET /ready` para healthchecks.
 
-### 🖥️ App de escritorio Windows (v1.0.0)
+### App de escritorio Windows
 
 - ventana nativa con Edge WebView2 — **sin abrir el navegador del sistema**;
 - Flask corre internamente en un puerto libre elegido automáticamente;
@@ -197,7 +197,7 @@ La arquitectura completa, con flujos y fronteras, está en [docs/ARQUITECTURA_PR
 - portable (ZIP) + instalador (Inno Setup) disponibles;
 - sin dependencias en el PC del usuario final.
 
-### 📱 App Android (v1.0.0)
+### App Android
 
 - Expo/React Native con contenido v1 embebido (pendiente migrar a v2);
 - integración con Google Colab para ejecución de código sin Python local;
@@ -219,9 +219,9 @@ La arquitectura completa, con flujos y fronteras, está en [docs/ARQUITECTURA_PR
 
 ### Opción A — app de escritorio Windows (usuarios finales)
 
-Descarga `BootcampPythonDS_windows_portable_v1.0.0.zip` desde [Releases](https://github.com/vladimiracunadev-create/python-data-science-bootcamp/releases/tag/v1.0.0), descomprime y ejecuta `BootcampPythonDS.exe`.
+El binario distribuible se reconstruye cuando el contenido v2 alcance un primer hito publicable. Mientras tanto, usa el modo desarrollo (Opción B) o la imagen Docker (Opción C/D) para correr el laboratorio local. Ver [docs/BUILD_INSTALLER.md](docs/BUILD_INSTALLER.md) para construir el `.exe` desde fuente.
 
-Requiere: Edge WebView2 Runtime (preinstalado en Windows 10 v2004+ y Windows 11).
+Requiere (al usar el binario): Edge WebView2 Runtime (preinstalado en Windows 10 v2004+ y Windows 11).
 
 ### Opción B — modo desarrollo (entorno virtual)
 
@@ -344,7 +344,7 @@ Ver [SECURITY.md](SECURITY.md) para detalle completo.
 ## Lo que este repo no vende
 
 - una plataforma multiusuario endurecida para internet abierta;
-- una app móvil ya en producción (el APK es versión debug v1.0.0);
+- una app móvil ya en producción (el código existe pero el APK distribuible se reconstruye con contenido v2);
 - una promesa de personalización infinita antes de cerrar condiciones;
 - profundidad total en todas las direcciones desde la primera versión.
 
