@@ -32,7 +32,17 @@
 
 ---
 
-Integra currículo modular extenso, laboratorio interactivo local, portal del alumno, app de escritorio nativa para Windows y app Android. La pauta se deriva de *Hands-On Machine Learning* (Géron, 3ª ed.), *Python Data Science Handbook* (VanderPlas), *Designing ML Systems* (Huyen), *ISLP* (James et al) y *Fairness and ML* (Barocas/Hardt/Narayanan).
+Integra currículo modular extenso, laboratorio interactivo local, portal del alumno, app de escritorio nativa para Windows y app Android.
+
+📖 **¿Qué significa "pauta derivada"?** Cada parte del temario sigue explícitamente la secuencia y los énfasis de cinco libros referentes:
+
+- 🧠 **Géron** ([*Hands-On ML*, 3ª ed.](https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/)) → estructura de las partes 1 (ML clásico) y 2 (Deep Learning)
+- 📊 **VanderPlas** ([*Python Data Science Handbook*](https://jakevdp.github.io/PythonDataScienceHandbook/)) → parte 0 (NumPy, pandas, matplotlib)
+- 🏭 **Huyen** ([*Designing ML Systems*](https://www.oreilly.com/library/view/designing-machine-learning/9781098107956/)) → parte 4 (MLOps en producción)
+- 📈 **ISLP** ([*Statistical Learning with Python*](https://www.statlearning.com/)) → parte 3 (estadística inferencial) + rigor matemático de la parte 1
+- ⚖️ **Barocas/Hardt/Narayanan** ([*Fairness and ML*](https://fairmlbook.org/)) → parte 7 (ética, fairness, privacidad)
+
+> Detalle completo (qué aporta cada uno, cómo se adapta) en [docs/syllabus.md § Fuentes y pauta](docs/syllabus.md#-fuentes-y-pauta).
 
 > 💡 **Origen y orientación del proyecto:** este repositorio nació como **muestra de habilidades técnicas y pedagógicas**, y hoy se desarrolla como **recurso personal de aprendizaje, enseñanza y mejora continua del propio producto**. Es público y abierto a cualquier persona que quiera aprender, enseñar o contribuir.
 
