@@ -83,7 +83,7 @@ graph LR
 
 No hay una única respuesta correcta. Tres caminos viables, en orden creciente de robustez y costo:
 
-### Opción A — **Serverless mínimo** (didáctico, tráfico bajo)
+### 🅰️ Opción A — **Serverless mínimo** (didáctico, tráfico bajo)
 
 ```mermaid
 graph TD
@@ -99,7 +99,7 @@ graph TD
 - **Contras:** Lambda tiene timeout 15 min (ok para docente, riesgoso para celdas pesadas); cold start; menor aislamiento entre invocaciones.
 - **Cuándo elegirla:** demos, evaluación institucional, pilotos con < 50 alumnos no concurrentes.
 
-### Opción B — **Contenedores gestionados** (recomendado por defecto)
+### 🅱️ Opción B — **Contenedores gestionados** (recomendado por defecto)
 
 ```mermaid
 graph TD
@@ -116,7 +116,7 @@ graph TD
 - **Contras:** costo base mensual aunque haya 0 usuarios (~50 USD).
 - **Cuándo elegirla:** producción educativa real, 50–500 alumnos concurrentes, SLA modesto.
 
-### Opción C — **EC2 + nginx + gunicorn** (el más barato si hay alguien que lo opere)
+### ❓ Opción C — **EC2 + nginx + gunicorn** (el más barato si hay alguien que lo opere)
 
 ```mermaid
 graph TD
@@ -160,7 +160,7 @@ graph TD
 
 ## 🪜 Paso a paso — levantar la Opción B (recomendada)
 
-### Fase 0 — Preparación (1 día)
+### 0️⃣ Fase 0 — Preparación (1 día)
 
 1. Crear cuenta AWS dedicada al proyecto (no usar la personal).
 2. Activar **MFA** en root, crear usuario IAM con rol `Administrator` solo para bootstrap.
@@ -172,7 +172,7 @@ graph TD
    ```
 5. Definir región principal (`us-east-1` recomendada por costo y servicios disponibles; `sa-east-1` São Paulo si el alumno está en Sudamérica y la latencia importa).
 
-### Fase 1 — Static hosting (medio día)
+### 1️⃣ Fase 1 — Static hosting (medio día)
 
 ```mermaid
 sequenceDiagram
@@ -205,7 +205,7 @@ aws acm request-certificate --domain-name program.tudominio.cl \
 aws cloudfront create-distribution --distribution-config file://cf.json
 ```
 
-### Fase 2 — Container del laboratorio (1 día)
+### 2️⃣ Fase 2 — Container del laboratorio (1 día)
 
 ```bash
 # 1. login en ECR
@@ -219,7 +219,7 @@ docker tag pythonds-program-lab:v2.0.0-scaffold <account>.dkr.ecr.us-east-1.amaz
 docker push <account>.dkr.ecr.us-east-1.amazonaws.com/pythonds-program-lab:v2.0.0-scaffold
 ```
 
-### Fase 3 — ECS Fargate (1 día)
+### 3️⃣ Fase 3 — ECS Fargate (1 día)
 
 1. Crear cluster ECS Fargate (`python-ds-program-prod`).
 2. Definir Task Definition con:
@@ -232,13 +232,13 @@ docker push <account>.dkr.ecr.us-east-1.amazonaws.com/pythonds-program-lab:v2.0.
 4. ALB en frente, target group health check `GET /health` cada 30s.
 5. Listener 443 con certificado ACM, redirección de 80 a 443.
 
-### Fase 4 — DNS y CDN unificado (medio día)
+### 4️⃣ Fase 4 — DNS y CDN unificado (medio día)
 
 - En CloudFront agregar segundo origin = ALB con path pattern `/api/*` y `/run/*`.
 - Origin del path `/*` (default) sigue siendo S3.
 - Comportamiento: `/api/*` con cache deshabilitado, forward de cookies y headers; `/*` con cache largo (1 año) e invalidación por deploy.
 
-### Fase 5 — CI/CD (medio día)
+### ⚙️ Fase 5 — CI/CD (medio día)
 
 Recomendación: **GitHub Actions con OIDC hacia AWS** (sin almacenar Access Keys).
 
@@ -273,7 +273,7 @@ jobs:
         run: aws ecs update-service --cluster python-ds-program-prod --service lab --force-new-deployment
 ```
 
-### Fase 6 — Hardening (continuo)
+### 6️⃣ Fase 6 — Hardening (continuo)
 
 - Activar **GuardDuty** ($ por GB analizado, ~5 USD/mes en este tamaño).
 - Activar **AWS Config** con reglas managed (`s3-bucket-public-read-prohibited`, `iam-root-access-key-check`).
@@ -287,7 +287,7 @@ jobs:
 
 > Estimaciones a precio público en `us-east-1`, sin tier gratuito, redondeadas hacia arriba. La realidad oscila ±20%.
 
-### Escenario "demo institucional" — 50 alumnos / mes, no concurrentes
+### 🎓 Escenario "demo institucional" — 50 alumnos / mes, no concurrentes
 
 | Concepto | Servicio | Costo aprox. |
 |---|---|---|
@@ -304,7 +304,7 @@ jobs:
 | Misma carga en Opción A (serverless) | | **~5 USD** |
 | Misma carga en Opción C (EC2 t3.small reservada) | | **~12 USD** |
 
-### Escenario "operación educativa" — 300 alumnos, picos concurrentes 30
+### 🎓 Escenario "operación educativa" — 300 alumnos, picos concurrentes 30
 
 | Concepto | Servicio | Costo aprox. |
 |---|---|---|
@@ -318,7 +318,7 @@ jobs:
 | Egress total estimado | | 12 |
 | **Total mensual aprox.** | | **~140 USD** |
 
-### Escenario "demo cero usuarios" — Opción A serverless
+### 🅰️ Escenario "demo cero usuarios" — Opción A serverless
 
 - S3 + CloudFront sin tráfico: **< 1 USD**
 - Lambda cero invocaciones: **0 USD**

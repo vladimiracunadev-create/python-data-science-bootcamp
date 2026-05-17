@@ -1,9 +1,15 @@
+<div align="center">
+
 # 📝 Changelog
 
-Todos los cambios notables de este proyecto se documentan aquí.
+### **Historial de cambios por versión**
 
-El formato sigue [Keep a Changelog](https://keepachangelog.com/es/1.0.0/).
-El versionado sigue [Semantic Versioning](https://semver.org/lang/es/).
+[![Keep a Changelog](https://img.shields.io/badge/Keep%20a%20Changelog-1.0.0-f59e0b?style=for-the-badge)](https://keepachangelog.com/es/1.0.0/)
+[![SemVer](https://img.shields.io/badge/SemVer-2.0.0-3fb950?style=for-the-badge)](https://semver.org/lang/es/)
+
+</div>
+
+> 📌 Todos los cambios notables de este proyecto se documentan aquí.
 
 ---
 

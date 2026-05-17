@@ -38,21 +38,21 @@ flowchart LR
 
 ## 📋 5. Evidencias por tipo de actividad
 
-### En clase
+### 📚 En clase
 
 - respuestas a preguntas de chequeo;
 - cambios pequenos sobre ejemplos;
 - resolución de ejercicio base;
 - ticket de salida o conclusion corta.
 
-### En notebooks
+### 📓 En notebooks
 
 - orden de pasos;
 - comentarios o notas propias;
 - corrección de errores detectados;
 - pequenas variaciones sobre el ejemplo.
 
-### En proyecto o actividad integradora
+### 🏆 En proyecto o actividad integradora
 
 - comprensión de la pregunta;
 - uso pertinente de datos;
@@ -73,14 +73,14 @@ flowchart LR
 
 Usar asistentes, buscadores o ayudas externas no debe medirse como trampa por defecto. Debe medirse como parte del proceso de trabajo.
 
-### Uso aceptable
+### ✅ Uso aceptable
 
 - consulta despues de pensar una hipótesis;
 - adapta la respuesta recibida;
 - puede explicar lo que dejo;
 - detecta si la propuesta no coincide con el nivel de la clase.
 
-### Uso problematico
+### 🚫 Uso problematico
 
 - pega código sin comprenderlo;
 - no puede modificar ni justificar;

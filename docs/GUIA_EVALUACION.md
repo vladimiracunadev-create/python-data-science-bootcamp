@@ -1,11 +1,18 @@
-# Guía de evaluación rápida
+<div align="center">
 
-> **Audiencia:** institución, evaluador técnico, reclutador, docente externo.
-> **Tiempo estimado:** 10 minutos para el recorrido ejecutivo · 30 minutos para el técnico.
+# ✅ Guía de evaluación rápida
+
+### **Para institución, evaluador técnico, reclutador o docente externo**
+
+[![Tiempo](https://img.shields.io/badge/recorrido-10%20min-3fb950?style=for-the-badge)](#%EF%B8%8F-recorrido-de-10-minutos)
+[![Técnico](https://img.shields.io/badge/t%C3%A9cnico-30%20min-7c5cff?style=for-the-badge)](#-inventario-real-del-producto)
+[![Honestidad](https://img.shields.io/badge/estado-honesto-f59e0b?style=for-the-badge)](#-executive-summary)
+
+</div>
 
 ---
 
-## Executive summary
+## 🎯 Executive summary
 
 Este repositorio es una **pauta avanzada y completa de Python y Data Science** organizada en 197 clases y 9 partes. La pauta está derivada de referentes profesionales: *Hands-On ML* (Géron, 3ª ed.), *Python Data Science Handbook* (VanderPlas), *Designing ML Systems* (Huyen), *ISLP* (James et al) y *Fairness and ML* (Barocas/Hardt/Narayanan).
 
@@ -19,7 +26,7 @@ Incluye laboratorio interactivo local (Flask), app de escritorio nativa para Win
 
 ---
 
-## Lo que demuestra hoy
+## 💪 Lo que demuestra hoy
 
 | Área | Evidencia concreta | Dónde verla |
 |---|---|---|
@@ -35,7 +42,7 @@ Incluye laboratorio interactivo local (Flask), app de escritorio nativa para Win
 
 ---
 
-## Recorrido de 10 minutos
+## ⏱️ Recorrido de 10 minutos
 
 ```
 1. README.md                        → qué es, estado actual, superficies, inicio rápido
@@ -48,7 +55,7 @@ Incluye laboratorio interactivo local (Flask), app de escritorio nativa para Win
 
 ---
 
-## Inventario real del producto
+## 📦 Inventario real del producto
 
 ### Currículo (scaffold)
 
@@ -90,7 +97,7 @@ Cada clase: `README.md` (ficha: objetivo, resultados, temas, prerrequisitos) + `
 
 ---
 
-## Señales de madurez
+## 🏆 Señales de madurez
 
 | Señal | Dónde se ve |
 |---|---|
@@ -106,7 +113,7 @@ Cada clase: `README.md` (ficha: objetivo, resultados, temas, prerrequisitos) + `
 
 ---
 
-## Lo que este repositorio no vende
+## 🚫 Lo que este repositorio no vende
 
 - una plataforma multiusuario endurecida para internet abierta;
 - un LMS con autenticación, roles y seguimiento centralizado;
@@ -116,7 +123,7 @@ Cada clase: `README.md` (ficha: objetivo, resultados, temas, prerrequisitos) + `
 
 ---
 
-## Conclusiones que una evaluación justa puede sacar
+## 🎓 Conclusiones que una evaluación justa puede sacar
 
 - la **pauta cubre un currículo de Data Science avanzado y empleable en 2026** (incluye LLMs, MLOps real, inferencia causal, fairness — temas ausentes en programas más superficiales);
 - existe coherencia entre contenido, laboratorio, distribución y documentación;

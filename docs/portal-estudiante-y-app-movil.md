@@ -2,7 +2,7 @@
 
 Documento de producto para explicar por que existe una superficie pública separada del laboratorio local, cual es el enlace oficial para estudiantes y como evoluciona esta base hacia una experiencia móvil sin sobredimensionar la madurez actual.
 
-## 1. Objetivo
+## 🎯 1. Objetivo
 
 Separar claramente tres cosas:
 
@@ -12,7 +12,7 @@ Separar claramente tres cosas:
 
 Eso evita mezclar presentación, aprendizaje y ejecución de código en una sola capa.
 
-## 2. Enlace oficial para estudiantes
+## 🎓 2. Enlace oficial para estudiantes
 
 Si este repositorio se publica desde `vladimiracunadev-create/python-data-science-program`, la URL esperada para alumnos es:
 
@@ -20,7 +20,7 @@ Si este repositorio se publica desde `vladimiracunadev-create/python-data-scienc
 
 Ese es el enlace que conviene compartir por correo, QR, sala virtual o material impreso.
 
-## 3. Qué problema resuelve el portal del alumno
+## ❓ 3. Qué problema resuelve el portal del alumno
 
 | Necesidad | Respuesta del portal |
 |---|---|
@@ -29,7 +29,7 @@ Ese es el enlace que conviene compartir por correo, QR, sala virtual o material 
 | revisar desde celular | interfaz ligera y sin backend obligatorio |
 | ordenar recursos y expectativas | ruta, normas y materiales visibles |
 
-## 4. Arquitectura de superficies
+## 🏗️ 4. Arquitectura de superficies
 
 ```mermaid
 flowchart LR
@@ -40,7 +40,7 @@ flowchart LR
     B -. futura integracion .-> G["Experiencia movil"]
 ```
 
-## 5. Qué queda en GitHub Pages
+## ❓ 5. Qué queda en GitHub Pages
 
 - presentación del programa;
 - ruta de aprendizaje;
@@ -49,7 +49,7 @@ flowchart LR
 - enlace oficial del curso;
 - base de lectura en celular.
 
-## 6. Qué sigue viviendo en la app Flask
+## ❓ 6. Qué sigue viviendo en la app Flask
 
 - catálogo dinamico de clases;
 - notebooks interactivos;
@@ -57,13 +57,13 @@ flowchart LR
 - ejecución de código;
 - sesiones y salidas generadas.
 
-## 7. Regla de comunicación importante
+## 💬 7. Regla de comunicación importante
 
 El portal del alumno no es toda la aplicacion. Es la puerta de entrada oficial para estudiantes. El laboratorio Flask sigue siendo el núcleo local de práctica y demostracion.
 
-## 8. Ruta móvil realista
+## 📱 8. Ruta móvil realista
 
-### Lo portable con poca friccion
+### 🎒 Lo portable con poca friccion
 
 - listado de clases;
 - detalle de clase;
@@ -71,7 +71,7 @@ El portal del alumno no es toda la aplicacion. Es la puerta de entrada oficial p
 - checklist de avances;
 - recursos públicos y avisos.
 
-### Lo que requiere backend y mayor control
+### ❓ Lo que requiere backend y mayor control
 
 - ejecución de código;
 - guardado persistente por estudiante;
@@ -79,7 +79,7 @@ El portal del alumno no es toda la aplicacion. Es la puerta de entrada oficial p
 - sesiones autenticadas;
 - seguimiento docente por alumno.
 
-## 9. Roadmap de evolución
+## 🛣️ 9. Roadmap de evolución
 
 | Fase | Entregable | Madurez esperada |
 |---|---|---|
@@ -88,7 +88,7 @@ El portal del alumno no es toda la aplicacion. Es la puerta de entrada oficial p
 | fase 3 | integración con backend para funciones interactivas | requiere decisiones de auth y seguridad |
 | fase 4 | app móvil dedicada | solo si el programa lo justifica |
 
-## 10. CI/CD de la superficie pública
+## ⚙️ 10. CI/CD de la superficie pública
 
 La capa del portal ya tiene despliegue automatico por GitHub Actions:
 
@@ -98,7 +98,7 @@ La capa del portal ya tiene despliegue automatico por GitHub Actions:
 
 Antes de que ese deploy funcione, el repositorio debe tener GitHub Pages habilitado con `Source: GitHub Actions`.
 
-## 11. Qué deben usar los alumnos
+## ❓ 11. Qué deben usar los alumnos
 
 El mensaje recomendado para estudiantes es simple:
 
@@ -108,14 +108,14 @@ El mensaje recomendado para estudiantes es simple:
 4. usar el laboratorio local o notebook cuando se indique;
 5. volver al portal para recursos y continuidad.
 
-## 12. Porque esta separacion agrega valor
+## 🤝 12. Porque esta separacion agrega valor
 
 - mejora la claridad para el estudiante;
 - evita exponer el runner como si fuera un portal público más;
 - permite crecer a móvil sin rehacer la experiencia base;
 - demuestra criterio de producto y no solo acumulacion de pantallas.
 
-## 13. Archivos involucrados
+## 📁 13. Archivos involucrados
 
 - `site/index.html`
 - `site/styles.css`
@@ -123,7 +123,7 @@ El mensaje recomendado para estudiantes es simple:
 - `site/assets/icon.svg`
 - `.github/workflows/deploy-pages.yml`
 
-## 14. Relación con otros documentos
+## 🔗 14. Relación con otros documentos
 
 - [CATALOGO_PRODUCTO.md](CATALOGO_PRODUCTO.md)
 - [ARQUITECTURA_PRODUCTO.md](ARQUITECTURA_PRODUCTO.md)

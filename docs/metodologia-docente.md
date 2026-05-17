@@ -2,11 +2,11 @@
 
 > Audiencia: docente, coordinacion academica, evaluador pedagógico.
 
-## Proposito
+## 🎯 Proposito
 
 Este documento define como se enseña dentro de este programa. No describe solo contenidos, sino la forma de mediarlos para que el estudiante avance con comprensión, práctica y confianza.
 
-## Idea fuerza
+## 💡 Idea fuerza
 
 El programa no se apoya en "mostrar código" como fin. Su foco es convertir herramientas técnicas en aprendizaje real mediante:
 
@@ -16,17 +16,17 @@ El programa no se apoya en "mostrar código" como fin. Su foco es convertir herr
 - interpretacion de resultados;
 - retroalimentación que ayude a avanzar.
 
-## Principios metodologicos
+## ⭐ Principios metodologicos
 
-### 1. De la comprensión minima al uso significativo
+### 🌱 1. De la comprensión minima al uso significativo
 
 Cada sesión debe dejar al estudiante pudiendo hacer algo util y explicarlo. La dificultad aumenta cuando ya existe una base minima de seguridad.
 
-### 2. Contexto antes que tecnicismo
+### ❓ 2. Contexto antes que tecnicismo
 
 Los conceptos se presentan ligados a problemas entendibles: ventas, asistencia, transporte, soporte o seguimiento de estudiantes. Eso reduce friccion y hace visible para que sirve lo que se aprende.
 
-### 3. Mostrar, practicar, interpretar
+### 🔄 3. Mostrar, practicar, interpretar
 
 La secuencia didáctica central del programa es:
 
@@ -35,15 +35,15 @@ La secuencia didáctica central del programa es:
 3. practicar con acompanamiento;
 4. pedir interpretacion, no solo ejecución.
 
-### 4. Error como material de trabajo
+### ❓ 4. Error como material de trabajo
 
 Los errores no se esconden. Se usan para enseñar lectura de mensajes, depuracion, comparacion de alternativas y autonomia gradual.
 
-### 5. Un minimo comun para todos
+### 🤝 5. Un minimo comun para todos
 
 La clase debe asegurar un piso de logro compartido, aun cuando haya estudiantes que avancen más rápido que otros.
 
-### 6. Tecnología como apoyo, no como reemplazo
+### ❓ 6. Tecnología como apoyo, no como reemplazo
 
 El programa acepta buscadores, asistentes o herramientas de IA, pero siempre subordinadas al objetivo de aprendizaje. La regla es:
 
@@ -52,7 +52,7 @@ El programa acepta buscadores, asistentes o herramientas de IA, pero siempre sub
 3. verificar;
 4. explicar.
 
-## Modelo de sesión de 90 minutos
+## 🎬 Modelo de sesión de 90 minutos
 
 | Momento | Tiempo estimado | Qué ocurre |
 |---|---|---|
@@ -63,7 +63,7 @@ El programa acepta buscadores, asistentes o herramientas de IA, pero siempre sub
 | Chequeo de comprensión | 10 a 15 min | variacion corta, ticket de salida o explicación oral |
 | Cierre | 5 min | síntesis, error comun y siguiente paso |
 
-## Rol del docente
+## 👩‍🏫 Rol del docente
 
 El docente cumple al mismo tiempo cinco funciones:
 
@@ -73,7 +73,7 @@ El docente cumple al mismo tiempo cinco funciones:
 4. normaliza la equivocacion como parte del proceso;
 5. protege el foco pedagógico cuando la tecnología distrae o sobrecomplica.
 
-## Tipos de evidencia que la clase debe producir
+## ❓ Tipos de evidencia que la clase debe producir
 
 | Tipo de evidencia | Ejemplo |
 |---|---|
@@ -82,37 +82,37 @@ El docente cumple al mismo tiempo cinco funciones:
 | Evidencia de interpretacion | escribir un hallazgo en lenguaje simple |
 | Evidencia de transferencia | resolver una pequena variacion del ejercicio |
 
-## Intervenciones pedagogicas clave
+## 🤝 Intervenciones pedagogicas clave
 
-### Cuando el grupo va lento
+### 🐢 Cuando el grupo va lento
 
 - reducir cantidad de variaciones;
 - reforzar una sola idea por bloque;
 - usar ejemplos ya preparados;
 - convertir el objetivo en una tarea más acotada.
 
-### Cuando el grupo va rápido
+### 🐇 Cuando el grupo va rápido
 
 - agregar desafío opcional;
 - pedir comparacion entre dos soluciones;
 - pedir interpretacion adicional o justificacion;
 - abrir una micro extension del problema.
 
-### Cuando aparece ansiedad
+### 😰 Cuando aparece ansiedad
 
 - mostrar primero una victoria rápida;
 - hacer visible que nadie debe dominar todo de inmediato;
 - preguntar con baja exposicion;
 - trabajar en parejas antes de pasar a plenario.
 
-### Cuando la tecnología reemplaza el razonamiento
+### ⚙️ Cuando la tecnología reemplaza el razonamiento
 
 - volver al objetivo de la tarea;
 - pedir hipótesis antes de consultar;
 - pedir adaptación y explicación de cualquier respuesta obtenida;
 - bajar la complejidad al nivel del grupo.
 
-## Errores frecuentes que se deben anticipar
+## ⚠️ Errores frecuentes que se deben anticipar
 
 | Tipo de error | Ejemplos | Respuesta docente recomendada |
 |---|---|---|
@@ -121,7 +121,7 @@ El docente cumple al mismo tiempo cinco funciones:
 | Interpretacion | creer que el gráfico "habla solo" | pedir una conclusion escrita u oral |
 | Dependencia externa | copiar código sin criterio | pedir ajuste, justificacion y explicación |
 
-## Indicadores de exito de una buena sesión
+## 🎬 Indicadores de exito de una buena sesión
 
 - el estudiante entiende que hizo y para que sirve;
 - puede modificar algo pequeno sin perderse;
@@ -129,7 +129,7 @@ El docente cumple al mismo tiempo cinco funciones:
 - gana confianza para seguir practicando;
 - no depende exclusivamente de copiar pasos.
 
-## Relación con otros documentos
+## 🔗 Relación con otros documentos
 
 - [herramientas-pedagogicas-de-aula.md](herramientas-pedagogicas-de-aula.md): tacticas concretas de aula;
 - [instructor-guide.md](instructor-guide.md): playbook operativo para impartir clases;

@@ -1,14 +1,22 @@
-# Syllabus — Python Data Science Program
+<div align="center">
 
-> **197 clases · 9 partes · curriculum avanzado y completo**
+# 📚 Syllabus — Python Data Science Program
+
+### **197 clases · 9 partes · curriculum avanzado y completo**
+
+[![Clases](https://img.shields.io/badge/clases-197-7c5cff?style=for-the-badge)](../classes/README.md)
+[![Partes](https://img.shields.io/badge/partes-9-0ea5e9?style=for-the-badge)](#-mapa-curricular-por-partes)
+[![Fuentes](https://img.shields.io/badge/fuentes-5%20libros-f59e0b?style=for-the-badge)](#-fuentes-y-pauta)
+
+</div>
+
+> 📖 Fuente: pauta derivada de *Hands-On Machine Learning* (Géron, 3ª ed.) + *Python Data Science Handbook* (VanderPlas) + *Designing ML Systems* (Huyen) + *ISLP* (James et al) + *Fairness and Machine Learning* (Barocas/Hardt/Narayanan).
 >
-> Fuente: pauta derivada de *Hands-On Machine Learning* (Géron, 3ª ed.) + *Python Data Science Handbook* (VanderPlas) + *Designing ML Systems* (Huyen) + *ISLP* (James et al) + *Fairness and Machine Learning* (Barocas/Hardt/Narayanan).
->
-> Índice navegable completo: [classes/README.md](../classes/README.md)
+> 🧭 Índice navegable completo: [classes/README.md](../classes/README.md)
 
 ---
 
-## Propósito
+## 🎯 Propósito
 
 Llevar a una persona desde cero programación hasta nivel **data scientist / ML engineer empleable** en 2026, con cobertura honesta de:
 
@@ -23,11 +31,11 @@ Llevar a una persona desde cero programación hasta nivel **data scientist / ML 
 - Ética, privacidad y reproducibilidad
 - Tres capstones públicos en GitHub
 
-## Perfil de entrada
+## 🚪 Perfil de entrada
 
 Sin requisitos formales. Una persona con cero programación entra por la Parte 0. Una persona con experiencia previa puede saltarse partes específicas validándose contra el `README.md` de cada clase.
 
-## Perfil de salida
+## 🎓 Perfil de salida
 
 Capaz de:
 
@@ -39,7 +47,7 @@ Capaz de:
 
 ---
 
-## Estructura general
+## 🗂️ Estructura general
 
 | Parte | Tema | Clases | Carpeta |
 |---|---|---|---|
@@ -54,7 +62,7 @@ Capaz de:
 | 8 | Capstones | 4 | [`parte-8-capstones/`](../classes/parte-8-capstones) |
 | | **Total** | **197** | |
 
-## Estado de implementación
+## 📊 Estado de implementación
 
 | Componente | Estado |
 |---|---|
@@ -66,7 +74,7 @@ Capaz de:
 | Quizzes pre/post lección | ⏳ pendiente |
 | Datasets temáticos por bloque | ⏳ pendiente |
 
-## Cómo desarrollar una clase
+## 🛠️ Cómo desarrollar una clase
 
 Cada carpeta de clase tiene la misma estructura mínima:
 
@@ -89,7 +97,7 @@ Materiales opcionales que se pueden añadir conforme una clase madure:
 └── guia-codigo.md
 ```
 
-## Orden recomendado de desarrollo
+## 🛣️ Orden recomendado de desarrollo
 
 1. **Parte 0** completa (46 clases) — sin prerrequisitos nadie llega al resto.
 2. **Parte 1** (43 clases) — ML clásico es la base del 70% del trabajo real.
@@ -99,7 +107,7 @@ Materiales opcionales que se pueden añadir conforme una clase madure:
 6. **Partes 5, 6, 7** en paralelo según prioridad.
 7. **Parte 8** (capstones) — al cierre del programa.
 
-## Metodología por clase
+## 🧠 Metodología por clase
 
 - Pregunta motivadora (1 min)
 - Concepto y metáfora (5–10 min)
@@ -108,6 +116,6 @@ Materiales opcionales que se pueden añadir conforme una clase madure:
 - Ejercicio individual (15–20 min)
 - Quiz de cierre + pregunta integradora (5 min)
 
-## Herramientas del programa
+## 🧰 Herramientas del programa
 
 Python 3.12+, JupyterLab, NumPy, pandas, matplotlib, seaborn, scikit-learn, XGBoost/LightGBM/CatBoost, scipy, statsmodels, SQL (sqlite/DuckDB/PostgreSQL), MongoDB, Polars, PySpark, TensorFlow/Keras, PyTorch, Hugging Face Transformers, FastAPI, Docker, MLflow, DVC, GitHub Actions, Airflow/Prefect, SHAP, Great Expectations.

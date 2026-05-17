@@ -1,8 +1,17 @@
-# Cronograma referencial
+<div align="center">
 
-> Este documento describe las modalidades a alto nivel; el detalle por clase madura conforme se desarrolla cada bloque.
+# 📅 Cronograma referencial
 
-## Visión general
+### **Modalidades de implementación · A/B/C/D · 90 min por clase**
+
+[![Clases](https://img.shields.io/badge/clases-197-7c5cff?style=for-the-badge)](syllabus.md)
+[![Modalidades](https://img.shields.io/badge/modalidades-4-0ea5e9?style=for-the-badge)](#-modalidades-sugeridas)
+
+</div>
+
+> 📌 Este documento describe las modalidades a alto nivel; el detalle por clase madura conforme se desarrolla cada bloque.
+
+## 🔭 Visión general
 
 El currículo tiene **197 clases en 9 partes**. No está pensado para impartirse íntegro en un solo programa de pocas semanas: es una pauta completa y profesional. Las modalidades reales recortan o reordenan partes según el público objetivo.
 
@@ -11,9 +20,9 @@ Pauta completa: [syllabus.md](syllabus.md).
 
 ---
 
-## Modalidades sugeridas
+## 🎓 Modalidades sugeridas
 
-### A — Programa introductorio (3 meses · ~90 horas)
+### 🅰️ A — Programa introductorio (3 meses · ~90 horas)
 
 Recomendado para alumnos sin experiencia previa.
 
@@ -23,7 +32,7 @@ Recomendado para alumnos sin experiencia previa.
 | 2. Estadística + ML clásico | Parte 1 (selección de 15 clases) + Parte 3 (5 clases) | 4 semanas |
 | 3. Capstone tabular | Parte 8, clase 194 | 3 semanas |
 
-### B — Programa intermedio (6 meses · ~180 horas)
+### 🅱️ B — Programa intermedio (6 meses · ~180 horas)
 
 Cubre el grueso de ML clásico y un primer contacto con Deep Learning.
 
@@ -35,7 +44,7 @@ Cubre el grueso de ML clásico y un primer contacto con Deep Learning.
 | 4. Deep Learning intro | Parte 2, clases 090–105 | 3 semanas |
 | 5. Capstones 1 y 2 | Parte 8, clases 194–195 | 4 semanas |
 
-### C — Programa completo (12+ meses · ~400 horas)
+### 🆎 C — Programa completo (12+ meses · ~400 horas)
 
 Cobertura completa de la pauta. Recomendado para perfiles que buscan empleabilidad como ML Engineer / Data Scientist senior.
 
@@ -50,7 +59,7 @@ Cobertura completa de la pauta. Recomendado para perfiles que buscan empleabilid
 | 7. Ética y fairness | Parte 7 (6 clases) | 1 semana |
 | 8. Capstones | Parte 8 (4 clases) | 6 semanas |
 
-### D — Especialización (variable)
+### 🎯 D — Especialización (variable)
 
 Selección por interés profesional. Asume que la Parte 0 ya está cubierta.
 
@@ -63,11 +72,11 @@ Selección por interés profesional. Asume que la Parte 0 ya está cubierta.
 
 ---
 
-## Duración estimada por clase
+## 📚 Duración estimada por clase
 
 Cada clase está diseñada para **90 minutos de aula** + ~60 minutos de práctica autónoma posterior. Las clases-capstone (Parte 8) son notablemente más largas — pueden requerir varias sesiones.
 
-## Estado actual
+## 📊 Estado actual
 
 El **contenido pedagógico de las 197 clases está en desarrollo**. Las modalidades A/B/C arriba descritas requieren que primero estén rellenos los bloques correspondientes.
 

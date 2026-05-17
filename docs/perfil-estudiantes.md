@@ -1,12 +1,12 @@
 # 👥 Perfil de estudiantes
 
-## Perfil principal esperado
+## 👤 Perfil principal esperado
 
 - Personas en transicion hacia análisis de datos.
 - Estudiantes o profesionales que recien comienzan a programar.
 - Participantes con experiencia previa en Excel u otras herramientas, pero no necesariamente en Python.
 
-## Necesidades frecuentes
+## 📌 Necesidades frecuentes
 
 - perder miedo al código;
 - comprender para que sirve cada paso;
@@ -14,14 +14,14 @@
 - practicar en un entorno que no sea fragil;
 - recibir retroalimentación oportuna.
 
-## Riesgos comunes
+## ⚠️ Riesgos comunes
 
 - frustracion por errores de sintaxis;
 - sobrecarga si se mezclan demasiados conceptos en una sola clase;
 - baja confianza frente a notebooks y librerias;
 - tendencia a copiar sin comprender.
 
-## Decisiones de diseño asociadas
+## 🧭 Decisiones de diseño asociadas
 
 Por estas razones, el material:
 - usa datasets pequenos;
