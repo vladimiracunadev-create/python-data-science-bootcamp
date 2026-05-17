@@ -76,9 +76,9 @@ curl http://127.0.0.1:8000/health
 
 ---
 
-## Estructura del currículo v2
+## Estructura del currículo
 
-El currículo vigente vive en `classes/parte-N-slug/NNN-tema-slug/` (anidado por parte). Cada clase v2 es un stub generado con la estructura mínima:
+El currículo vive en `classes/parte-N-slug/NNN-tema-slug/` (anidado por parte). Cada clase es un stub generado con la estructura mínima:
 
 ```
 classes/parte-N-slug/NNN-tema-slug/
@@ -86,9 +86,9 @@ classes/parte-N-slug/NNN-tema-slug/
 └── notebook.ipynb     # cuaderno guía (hoy stub de 8 celdas)
 ```
 
-Los materiales adicionales (`teoria.md`, `slides.md`, `ejercicios.md`, `homework.md`, `soluciones.ipynb`, `quiz.json`) se incorporan cuando una clase concreta se desarrolla, replicando el estándar visible en `historicos/classes-v1/` (currículo anterior, 31 clases con contenido completo, congelado como referencia).
+Los materiales adicionales (`teoria.md`, `slides.md`, `ejercicios.md`, `homework.md`, `soluciones.ipynb`, `quiz.json`) se incorporan cuando una clase concreta se desarrolla.
 
-El generador idempotente está en `scripts/generate_v2_curriculum.py`.
+El generador idempotente de la estructura está en `scripts/generate_v2_curriculum.py`.
 
 ---
 

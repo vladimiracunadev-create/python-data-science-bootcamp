@@ -2,7 +2,7 @@
 
 > Punto de entrada canónico para navegar la documentación del programa por audiencia y objetivo.
 >
-> **Estado v2:** el currículo creció a 197 clases en 9 partes. Este repositorio nació como muestra de habilidades técnicas y pedagógicas, y hoy se desarrolla como recurso personal de aprendizaje y enseñanza, abierto a cualquier persona.
+> El currículo tiene **197 clases en 9 partes**. Este repositorio nació como muestra de habilidades técnicas y pedagógicas, y hoy se desarrolla como recurso personal de aprendizaje y enseñanza, abierto a cualquier persona.
 
 ---
 
@@ -11,8 +11,7 @@
 | Territorio | Carpeta / ubicación | Para quién |
 |---|---|---|
 | Producto del programa | `docs/` (raíz) + archivos raíz (`README`, `RUNBOOK`, `SECURITY`, etc.) | Docentes, alumnos, evaluadores técnicos |
-| Currículo vigente (v2) | `classes/` | Alumnos y docentes |
-| Currículo histórico (v1) | `historicos/classes-v1/` | Desarrolladores de contenido (fuente de material reutilizable) |
+| Currículo | `classes/` | Alumnos y docentes |
 | Notas internas del maintainer | `docs/maintainer/` | Solo el autor |
 
 ---
@@ -21,7 +20,7 @@
 
 | Archivo | Audiencia | Contenido |
 |---|---|---|
-| [../README.md](../README.md) | todos | Portada del producto, estado actual v2, rutas por perfil |
+| [../README.md](../README.md) | todos | Portada del producto, estado actual, rutas por perfil |
 | [../RECRUITER.md](../RECRUITER.md) | reclutadores / evaluadores técnicos | Evidencia técnica en 5 minutos, stack, estado real |
 | [../CHANGELOG.md](../CHANGELOG.md) | maintainers / contribuidores | Historial de cambios por versión |
 | [../CONTRIBUTING.md](../CONTRIBUTING.md) | contribuidores | Cómo contribuir al proyecto |
@@ -60,14 +59,14 @@
 | [entorno-interactivo.md](entorno-interactivo.md) | El laboratorio Flask — modos, API, motor de ejecución |
 | [despliegue-seguro-y-operacion.md](despliegue-seguro-y-operacion.md) | CI/CD, Docker y hardening técnico |
 | [portal-estudiante-y-app-movil.md](portal-estudiante-y-app-movil.md) | Portal público, laboratorio y app móvil |
-| [pdfs/](pdfs/) | Guías explicativas (v1 vigente; v2 se regenera por bloques) |
-| [presentaciones/](presentaciones/) | Decks `.pptx` (mismo estado) |
+| [pdfs/](pdfs/) | Guías explicativas por clase (se regeneran por bloques al madurar el contenido) |
+| [presentaciones/](presentaciones/) | Decks `.pptx` por clase (mismo estado) |
 
 ### Documentos pedagógicos
 
 | Documento | Rol |
 |---|---|
-| [syllabus.md](syllabus.md) | **Currículo v2 completo: 197 clases en 9 partes, pauta avanzada** |
+| [syllabus.md](syllabus.md) | **Currículo completo: 197 clases en 9 partes, pauta avanzada** |
 | [../classes/README.md](../classes/README.md) | Índice navegable de las 197 clases con enlaces directos |
 | [cronograma-referencial.md](cronograma-referencial.md) | Distribución temporal sugerida |
 | [metodologia-docente.md](metodologia-docente.md) | Marco pedagógico del producto |
@@ -80,22 +79,11 @@
 
 ### Regla de lectura rápida (10 minutos)
 
-1. [../README.md](../README.md) — estado v2 y rutas por perfil
+1. [../README.md](../README.md) — estado actual y rutas por perfil
 2. [../RECRUITER.md](../RECRUITER.md) — evidencia técnica
 3. [GUIA_EVALUACION.md](GUIA_EVALUACION.md) — valor y límites
 4. [CATALOGO_PRODUCTO.md](CATALOGO_PRODUCTO.md) — superficies y artefactos
 5. [syllabus.md](syllabus.md) — pauta completa de 197 clases
-
----
-
-## Histórico (`historicos/`)
-
-Material del currículo v1 archivado como referencia y fuente de material reutilizable. **No es la fuente de verdad del producto vigente** — el producto hoy se desarrolla como recurso personal de aprendizaje y mejora del propio producto.
-
-| Carpeta / archivo | Rol |
-|---|---|
-| [../historicos/classes-v1/](../historicos/classes-v1) | 31 clases del currículo v1 con contenido completo (teoría, ejercicios, soluciones, PDF, PPTX) |
-| [../historicos/README.md](../historicos/README.md) | Explicación del archivo |
 
 ---
 

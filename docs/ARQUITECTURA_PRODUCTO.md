@@ -8,7 +8,7 @@
 
 El producto se organiza en tres capas coordinadas:
 
-- una **capa pedagógica reusable** (`classes/`, `datasets/`) — **197 clases en 9 partes** (currículo v2 scaffold); el currículo v1 con 31 clases completas vive en `historicos/classes-v1/`;
+- una **capa pedagógica reusable** (`classes/`, `datasets/`) — **197 clases en 9 partes** (scaffold; contenido en desarrollo por bloques);
 - una **capa operativa local** para el laboratorio (`app/`, `launcher.py`, `mobile/`);
 - una **capa pública** para alumnos e institución (`site/`, GitHub Pages).
 
@@ -27,15 +27,14 @@ graph LR
     PRODUCT --> DOCS["📚 Documentación canónica\ndocs/"]
     PORTAL --> DOCS
     WIN --> LAB
-    MOBILE --> CLASSES["📂 Clases y materiales\nclasses/ — 197 clases · 9 partes (v2)"]
+    MOBILE --> CLASSES["📂 Clases y materiales\nclasses/ — 197 clases · 9 partes"]
     MOBILE --> COLAB["☁️ Google Colab\n(ejecución externa)"]
     LAB --> CLASSES
     LAB --> NOTEBOOKS["📓 Notebooks base\napp/notebooks/"]
     LAB --> SAVED["💾 Notebooks guardados\napp/saved_notebooks/"]
     LAB --> DATA["🗃️ Datasets\ndatasets/ — 6 CSV sintéticos"]
-    LAB --> HIST["🗄️ Currículo v1 archivado\nhistoricos/classes-v1/"]
-    DOCS --> PDFS["📄 PDFs de apoyo\ndocs/pdfs/ — 31 guías v1 + estudios"]
-    DOCS --> PPTX["📊 Presentaciones\ndocs/presentaciones/ — 31 PPTXs v1"]
+    DOCS --> PDFS["📄 PDFs de apoyo\ndocs/pdfs/"]
+    DOCS --> PPTX["📊 Presentaciones\ndocs/presentaciones/"]
 ```
 
 ---
@@ -52,7 +51,7 @@ graph TD
     UI --> RESETAPI["POST /api/reset"]
 
     CLASSAPI --> LOADER["content_loader.py\n_safe_resolve + markdown"]
-    LOADER --> CLASSES["classes/\n197 clases v2 (rglob notebook.ipynb)"]
+    LOADER --> CLASSES["classes/\n197 clases (rglob notebook.ipynb)"]
     NBAPI --> TEMPLATES["app/notebooks/\ntemplates JSON precargados"]
     EXECAPI --> ENGINE["execution_engine.py\ntimeout 30s · max 100 sesiones"]
     ENGINE --> SESSION["Sesión en memoria\nnamespace Python persistente"]
@@ -100,7 +99,7 @@ graph LR
 
 ### `app/` — Laboratorio Flask
 
-- renderiza la experiencia local de clase con acceso a las **197 clases v2** (descubrimiento por `rglob("notebook.ipynb")`);
+- renderiza la experiencia local de clase con acceso a las **197 clases** (descubrimiento por `rglob("notebook.ipynb")`);
 - sirve endpoints de clases, notebooks y ejecución (`/api/class/<path:slug>`, `/api/notebook/`, `/api/execute`);
 - agrega headers de seguridad y endpoints de salud (`/health`, `/ready`);
 - mantiene el motor de ejecución con sesiones, timeout (30 s) y captura de salida.
@@ -111,7 +110,7 @@ graph LR
 - gestiona el ciclo de vida de Flask (arranque, healthcheck, apagado);
 - elige un puerto libre automáticamente para evitar conflictos.
 
-### `classes/` — Currículo modular (v2)
+### `classes/` — Currículo modular
 
 Concentra el contenido de las **197 clases** en 9 partes. Pauta derivada de Géron (Hands-On ML 3ª ed.), VanderPlas, Huyen, ISLP y Barocas/Hardt/Narayanan.
 
@@ -129,10 +128,6 @@ Concentra el contenido de las **197 clases** en 9 partes. Pauta derivada de Gér
 
 Layout por clase: `classes/parte-N-slug/NNN-tema-slug/` con `README.md` (ficha) + `notebook.ipynb` (stub). Materiales opcionales (`teoria.md`, `slides.md`, `ejercicios.md`, `homework.md`, `soluciones.ipynb`, `quiz.json`, PDF, PPTX) se añaden cuando una clase madura.
 
-### `historicos/classes-v1/` — Currículo v1 archivado
-
-Las 31 clases del currículo v1 con contenido completo (teoría, ejercicios, soluciones, PDF, PPTX). Congelado, se conserva como referencia y fuente de material reutilizable al rellenar los stubs v2.
-
 ### `app/notebooks/` — Labs interactivos
 
 - templates JSON con celdas editables y ejecutables;
@@ -141,20 +136,22 @@ Las 31 clases del currículo v1 con contenido completo (teoría, ejercicios, sol
 
 ### `mobile/` — App Android
 
-- Expo/React Native con contenido del currículo v1 (31 clases) embebido — **pendiente migración a v2**;
+- Expo/React Native — **pendiente migrar el contenido embebido al índice actual**;
 - integración con Google Colab para ejecución de código;
 - seguimiento de progreso local con AsyncStorage.
 
 ### `datasets/` — Datos sintéticos
 
-| Dataset | Uso principal |
+| Dataset | Descripción |
 |---|---|
-| ventas_tienda.csv | clases 01–05 · 07 · 09 · 11 |
-| retencion_clientes.csv | clases 03 · 08 · 10 |
-| soporte_tickets.csv | clases 02 · 06 |
-| transporte.csv | clases 04 · 06 |
-| estudiantes.csv | clases 04 · 09 · 10 |
-| comentarios_productos.csv | clase 26 (NLP) |
+| ventas_tienda.csv | Ventas multitienda con categorías y medios de pago |
+| retencion_clientes.csv | Serie mensual de altas, bajas e ingresos |
+| soporte_tickets.csv | Tickets por categoría, prioridad y canal |
+| transporte.csv | Viajes con origen, destino y retrasos |
+| estudiantes.csv | Registro académico con asistencia y evaluaciones |
+| comentarios_productos.csv | Reseñas en español con etiqueta de sentimiento |
+
+La asignación dataset → clase se hace al desarrollar el contenido pedagógico de cada clase.
 
 ### `site/` — Portales públicos
 
@@ -166,21 +163,19 @@ Las 31 clases del currículo v1 con contenido completo (teoría, ejercicios, sol
 
 - ordena la narrativa de producto por audiencias;
 - separa operación, seguridad, pedagogía y evaluación;
-- **31 PDFs guía-explicativa v1** en `docs/pdfs/classes/` (regenerables por bloques al desarrollar v2);
-- **31 PPTXs presentación v1** en `docs/presentaciones/classes/` (mismo plan);
+- PDFs y PPTX por clase en `docs/pdfs/classes/` y `docs/presentaciones/classes/` (se regeneran por bloques al madurar el contenido de cada parte);
 - notas del maintainer en `docs/maintainer/`.
 
 ### `scripts/` — Automatización
 
 | Script | Función |
 |---|---|
-| `generate_v2_curriculum.py` | **(v2)** genera la estructura de carpetas + stubs de las 197 clases |
-| `generate_class_docs.py` | genera PDFs y PPTXs (diseñado para v1, requiere adaptación a v2) |
+| `generate_v2_curriculum.py` | genera la estructura de carpetas + stubs de las 197 clases (idempotente) |
+| `generate_class_docs.py` | genera PDFs y PPTXs por clase (pendiente adaptar al recorrido anidado) |
 | `generate_class_assets.py` | genera assets por clase (mismo estado) |
-| `generate_interview_pdfs.py` | regenera PDFs de entrevista (histórico) |
+| `generate_interview_pdfs.py` | regenera PDFs de entrevista |
 | `generate_extended_study_pdf.py` | regenera guía ampliada de estudio |
 | `generar_pdf_documento.py` | generación genérica de PDFs |
-| `rebuild_curriculum.py` | reconstruye estructura del curriculum v1 (histórico) |
 
 ---
 
@@ -203,7 +198,7 @@ Las 31 clases del currículo v1 con contenido completo (teoría, ejercicios, sol
 - se privilegia **operación local segura** por sobre exposición rápida a internet;
 - se privilegia **separación de audiencias** por sobre una sola portada gigantesca;
 - se usa pywebview (Edge WebView2) en lugar de Electron para mantener bundle liviano;
-- se acepta que la ruta móvil tiene APK debug como v1.0.0 — producción es roadmap.
+- se acepta que la ruta móvil tiene APK debug — producción es roadmap.
 
 ---
 

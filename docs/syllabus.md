@@ -1,4 +1,4 @@
-# Syllabus — Python Data Science Program (v2)
+# Syllabus — Python Data Science Program
 
 > **197 clases · 9 partes · curriculum avanzado y completo**
 >
@@ -66,8 +66,6 @@ Capaz de:
 | Quizzes pre/post lección | ⏳ pendiente |
 | Datasets temáticos por bloque | ⏳ pendiente |
 
-El currículo anterior (v1, 31 clases) se conserva en [`historicos/classes-v1/`](../historicos/classes-v1) como referencia y fuente de material reutilizable.
-
 ## Cómo desarrollar una clase
 
 Cada carpeta de clase tiene la misma estructura mínima:
@@ -78,7 +76,7 @@ classes/parte-N-slug/NNN-tema-slug/
 └── notebook.ipynb  # cuaderno de la clase
 ```
 
-Materiales opcionales que se pueden añadir conforme una clase madure (replicando el estándar de v1):
+Materiales opcionales que se pueden añadir conforme una clase madure:
 
 ```
 ├── teoria.md

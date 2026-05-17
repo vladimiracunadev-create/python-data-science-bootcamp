@@ -8,11 +8,11 @@
 
 Un sistema de capacitación en Python y Data Science que integra:
 
-- **currículo modular v2** (197 clases · 9 partes · pauta derivada de Géron 3ª ed., VanderPlas, Huyen, ISLP, Barocas/Hardt/Narayanan) — estructura scaffold con stubs; contenido pedagógico en desarrollo por bloques. El currículo v1 (31 clases con contenido completo) se conserva en `historicos/classes-v1/`;
-- **laboratorio interactivo** (Flask + ejecución Python en tiempo real, matplotlib, pandas) ya migrado a v2;
+- **currículo modular** (197 clases · 9 partes · pauta derivada de Géron 3ª ed., VanderPlas, Huyen, ISLP, Barocas/Hardt/Narayanan) — estructura scaffold con stubs; contenido pedagógico en desarrollo por bloques;
+- **laboratorio interactivo** (Flask + ejecución Python en tiempo real, matplotlib, pandas);
 - **app de escritorio nativa para Windows** (pywebview + Edge WebView2, sin navegador);
-- **app Android** (Expo/React Native, contenido embebido + Google Colab) — pendiente migración a v2;
-- **portal público** (GitHub Pages para alumnos + vista institucional) — pendiente migración a v2;
+- **app Android** (Expo/React Native, contenido embebido + Google Colab) — pendiente migrar contenido al índice actual;
+- **portal público** (GitHub Pages para alumnos + vista institucional) — pendiente migrar al índice actual;
 - **documentación de producto** organizada por audiencia.
 
 ---
@@ -23,13 +23,12 @@ Un sistema de capacitación en Python y Data Science que integra:
 |---|---|---|
 | Backend Flask | operativo | 10 rutas, tests automatizados, CI en GitHub Actions |
 | Ejecución de código Python | operativo | pandas, matplotlib (gráficos), scikit-learn, timeout 30s |
-| 197 clases v2 (scaffold) | operativo | `/api/classes` → 197 clases, `/api/class/<path:slug>` → HTML |
-| 31 clases v1 con contenido | archivado en `historicos/` | referencia y fuente de material reutilizable |
+| 197 clases (scaffold) | operativo | `/api/classes` → 197 clases, `/api/class/<path:slug>` → HTML |
 | 6 notebooks interactivos | operativo | `/api/notebooks` → 6 templates, ejecución por celda |
-| App de escritorio Windows | v1.0.0 (consume v2 tras rebuild) | pywebview 6.1 + PyInstaller 6.19, ZIP portable 92MB |
-| Instalador Windows | v1.0.0 | Inno Setup — sin Python requerido en el PC del usuario |
-| App Android | v1.0.0 (contenido v1) | APK debug 137MB, Expo/React Native — pendiente migración a v2 |
-| Portal del alumno | en vivo (contenido v1) | GitHub Pages — pendiente migración a v2 |
+| App de escritorio Windows | código operativo · binario pendiente de rebuild | pywebview 6.1 + PyInstaller 6.19, ZIP portable 92MB |
+| Instalador Windows | pendiente de rebuild | Inno Setup — sin Python requerido en el PC del usuario |
+| App Android | APK debug | 137MB, Expo/React Native — pendiente migrar contenido embebido al índice actual |
+| Portal del alumno | en vivo | GitHub Pages — pendiente migrar al índice actual |
 | CI/CD | activo | 3 workflows: tests, security scan, deploy-pages |
 | Análisis de seguridad | limpio | Bandit: 0 High, 0 Medium, 0 Low |
 

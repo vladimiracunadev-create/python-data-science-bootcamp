@@ -11,12 +11,11 @@ Este repositorio es una **pauta avanzada y completa de Python y Data Science** o
 
 ```
 v2.0.0-scaffold:  197 clases  ·  9 partes  ·  scaffold + READMEs + notebooks stub
-v1.1.0 archivado: 31 clases   ·  contenido pedagógico completo  →  historicos/classes-v1/
 ```
 
 Incluye laboratorio interactivo local (Flask), app de escritorio nativa para Windows, app Android y una familia documental que distingue producto, operación y seguridad.
 
-**Estado honesto:** el currículo v2 está en fase **scaffold** — la estructura y la pauta están definidas, pero el contenido pedagógico de cada clase debe desarrollarse. El currículo v1 (31 clases con contenido completo) está en `historicos/` como referencia y fuente de material reutilizable.
+**Estado honesto:** el currículo está en fase **scaffold** — la estructura y la pauta están definidas, pero el contenido pedagógico de cada clase debe desarrollarse por bloques.
 
 ---
 
@@ -26,11 +25,10 @@ Incluye laboratorio interactivo local (Flask), app de escritorio nativa para Win
 |---|---|---|
 | Diseño curricular profesional | 197 clases en 9 partes con prerrequisitos, ML, DL, MLOps, ética, capstones | `classes/README.md` · `docs/syllabus.md` |
 | Fuentes acreditadas del currículo | pauta derivada de 5 libros referentes en el campo | `docs/syllabus.md` |
-| Laboratorio operativo | Flask local con ejecución Python en tiempo real, ya consume v2 | `app/` → `python run_program.py` |
+| Laboratorio operativo | Flask local con ejecución Python en tiempo real | `app/` → `python run_program.py` |
 | Distribución de escritorio | App nativa Windows con Edge WebView2, sin navegador, sin Python instalado | `installer/` · `launcher.py` |
-| Distribución móvil | App Android Expo/React Native (contenido v1, pendiente migrar a v2) | `mobile/` |
+| Distribución móvil | App Android Expo/React Native (pendiente migrar contenido al índice actual) | `mobile/` |
 | Portal público funcional | GitHub Pages con portal del alumno + vista institucional | `site/` |
-| Material pedagógico v1 | 31 PDFs guía-explicativa + 31 PPTXs presentación + notebooks con soluciones | `historicos/classes-v1/` · `docs/pdfs/classes/` |
 | Postura de seguridad | Validación de slugs, timeout de ejecución, CSP estricto, sin CDN externas | `SECURITY.md` · `app/app.py` |
 | CI/CD activo | Tests + lint + build de contenedor + SAST en GitHub Actions | `.github/workflows/` |
 | Documentación auditada | Arquitectura, operación, pedagogía y seguridad como documentos separados | `docs/` |
@@ -40,7 +38,7 @@ Incluye laboratorio interactivo local (Flask), app de escritorio nativa para Win
 ## Recorrido de 10 minutos
 
 ```
-1. README.md                        → qué es, estado v2, superficies, inicio rápido
+1. README.md                        → qué es, estado actual, superficies, inicio rápido
 2. docs/syllabus.md                 → pauta completa de 197 clases
 3. classes/README.md                → índice navegable
 4. docs/CATALOGO_PRODUCTO.md        → qué superficies existen y qué entrega cada una hoy
@@ -52,7 +50,7 @@ Incluye laboratorio interactivo local (Flask), app de escritorio nativa para Win
 
 ## Inventario real del producto
 
-### Currículo v2 (scaffold)
+### Currículo (scaffold)
 
 | Parte | Tema | Clases |
 |---|---|---|
@@ -69,16 +67,6 @@ Incluye laboratorio interactivo local (Flask), app de escritorio nativa para Win
 
 Cada clase: `README.md` (ficha: objetivo, resultados, temas, prerrequisitos) + `notebook.ipynb` (stub con 8 celdas guía).
 
-### Currículo v1 (archivado, contenido completo)
-
-| Grupo | Clases | Archivos por clase |
-|---|---|---|
-| Diagnóstico | 00 | README · slides · teoria · ejercicios · homework · PDF · PPTX |
-| Contenido base | 01–12 | README · slides · teoria · ejercicios · homework · notebook · soluciones · PDF · PPTX |
-| Contenido avanzado | 13–30 | todo lo anterior + preguntas · tecnologias · guia-codigo |
-
-Disponible en `historicos/classes-v1/`.
-
 ### Datasets sintéticos
 
 | Dataset | Descripción |
@@ -94,11 +82,11 @@ Disponible en `historicos/classes-v1/`.
 
 | Superficie | Estado |
 |---|---|
-| Portal del alumno (GitHub Pages) | operativo con contenido v1 — pendiente migrar a v2 |
+| Portal del alumno (GitHub Pages) | operativo — pendiente migrar al índice actual |
 | Vista institucional (GitHub Pages) | operativo |
-| Laboratorio Flask (local) | operativo con v2 |
-| App Windows (Edge WebView2) | v1.0.0 · consume v2 tras rebuild |
-| App Android (Expo/React Native) | v1.0.0 · APK debug · contenido v1 |
+| Laboratorio Flask (local) | operativo |
+| App Windows (Edge WebView2) | código operativo · binario pendiente de rebuild |
+| App Android (Expo/React Native) | APK debug · pendiente migrar contenido embebido al índice actual |
 
 ---
 
@@ -115,7 +103,6 @@ Disponible en `historicos/classes-v1/`.
 | CI/CD visible y rastreable | `.github/workflows/` |
 | Historial de cambios | [../CHANGELOG.md](../CHANGELOG.md) |
 | Capa pública no técnica | `site/` · `site/product/` |
-| Material v1 preservado para reuso | `historicos/` |
 
 ---
 
@@ -123,7 +110,7 @@ Disponible en `historicos/classes-v1/`.
 
 - una plataforma multiusuario endurecida para internet abierta;
 - un LMS con autenticación, roles y seguimiento centralizado;
-- **el currículo v2 listo para dictar** — está en scaffold; el contenido por clase se desarrolla por bloques;
+- **el currículo listo para dictar** — está en scaffold; el contenido por clase se desarrolla por bloques;
 - la app Android en producción (APK debug, producción está en roadmap);
 - personalización ilimitada antes de definir condiciones reales.
 
@@ -131,8 +118,7 @@ Disponible en `historicos/classes-v1/`.
 
 ## Conclusiones que una evaluación justa puede sacar
 
-- la **pauta v2 cubre un currículo de Data Science avanzado y empleable en 2026** (incluye LLMs, MLOps real, inferencia causal, fairness — temas ausentes en programas más superficiales);
+- la **pauta cubre un currículo de Data Science avanzado y empleable en 2026** (incluye LLMs, MLOps real, inferencia causal, fairness — temas ausentes en programas más superficiales);
 - existe coherencia entre contenido, laboratorio, distribución y documentación;
-- el rediseño de v1 a v2 evidencia capacidad de **autoevaluar el propio producto y reestructurarlo** cuando se identifica una mejora estructural;
-- el material v1 no se descartó: se archivó como fuente reutilizable, demostrando criterio de preservación;
+- la decisión de empezar por un scaffold completo antes de rellenar contenido evidencia capacidad de **diseñar el producto antes de implementarlo**;
 - el valor no depende de una tecnología puntual sino de la mediación pedagógica y el criterio de diseño curricular.

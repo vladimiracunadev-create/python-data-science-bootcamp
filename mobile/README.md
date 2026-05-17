@@ -2,7 +2,7 @@
 
 App móvil del Python Data Science Program.
 
-> **Estado actual:** el código de la app está operativo (UI, navegación, almacenamiento de progreso, integración con Google Colab) pero `src/data/classes.js` quedó como **stub vacío** en la migración a v2. La adaptación de las 197 clases del currículo v2 a una UX móvil está pendiente — ver [ROADMAP.md](../ROADMAP.md). Compilar la app hoy genera un APK funcional pero con catálogo vacío.
+> **Estado actual:** el código de la app está operativo (UI, navegación, almacenamiento de progreso, integración con Google Colab) pero `src/data/classes.js` quedó como **stub vacío**. La adaptación de las 197 clases del currículo a una UX móvil está pendiente — ver [ROADMAP.md](../ROADMAP.md). Compilar la app hoy genera un APK funcional pero con catálogo vacío.
 
 ## Requisitos
 
@@ -55,7 +55,7 @@ mobile/
 └── src/
     ├── theme.js                # Design system: colores, espaciado, tipografia
     ├── data/
-    │   └── classes.js          # Stub vacío (CLASSES = []); pendiente cargar v2
+    │   └── classes.js          # Stub vacío (CLASSES = []); pendiente cargar el catálogo
     ├── navigation/
     │   └── AppNavigator.js     # Stack Navigator con rutas Home y Class
     ├── screens/
@@ -84,7 +84,7 @@ mobile/
 
 ## Agregar/modificar contenido
 
-> El archivo `src/data/classes.js` está hoy vacío (stub). Cuando se decida la UX para representar 197 clases en móvil (jerarquía por partes, búsqueda, progreso por bloque), se irán cargando entradas en este archivo. La estructura del objeto por clase se mantiene del diseño v1:
+> El archivo `src/data/classes.js` está hoy vacío (stub). Cuando se decida la UX para representar 197 clases en móvil (jerarquía por partes, búsqueda, progreso por bloque), se irán cargando entradas en este archivo. Estructura de objeto sugerida por clase:
 
 ```js
 codeExamples: [
