@@ -1,7 +1,5 @@
 # 🎓 Guía del instructor
 
-> **Estado v2:** este documento describe metodología y enfoque pedagógico — vigente independientemente del número de clases. El currículo creció de 31 (v1) a **197 clases en 9 partes** (v2). Ver [syllabus.md](syllabus.md) para la pauta actual.
-
 > Audiencia: docente principal, docente apoyo, coordinacion academica.
 
 ## Objetivo

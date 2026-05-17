@@ -4,13 +4,12 @@
 
 Este directorio contiene los datasets base usados en las clases. Todos los datos son sinteticos con contexto realista y fueron preparados para practicar lectura, limpieza, análisis, visualización y modelado inicial.
 
-> **Nota v2:** los campos "Clases que lo usan" abajo aún reflejan la numeración del currículo v1 (clases 00-30) que se conserva como referencia en [`historicos/classes-v1/`](../historicos/classes-v1). La asignación de cada dataset a clases concretas del currículo v2 (197 clases en 9 partes) se actualizará por bloque al desarrollar el contenido pedagógico.
+> **Nota:** la asignación dataset → clase concreta del currículo (197 clases en 9 partes) se define al desarrollar el contenido pedagógico de cada bloque. Las descripciones por dataset abajo no incluyen ya un mapeo fijo.
 
 ## 1. ventas_tienda.csv
 
 **Descripcion:** Registro de ventas de una tienda con varias sucursales, categorías y medios de pago. Es el dataset principal del recorrido.
 
-**Clases que lo usan:** 01, 02, 03, 04, 05, 07, 09, 11
 
 | Columna | Tipo | Descripcion | Ejemplo |
 |---|---|---|---|
@@ -37,7 +36,6 @@ Este directorio contiene los datasets base usados en las clases. Todos los datos
 
 **Descripcion:** Serie mensual para analizar actividad de clientes, perdidas, altas y valor economico promedio.
 
-**Clases que lo usan:** 03, 08, 10
 
 | Columna | Tipo | Descripcion | Ejemplo |
 |---|---|---|---|
@@ -60,7 +58,6 @@ Este directorio contiene los datasets base usados en las clases. Todos los datos
 
 **Descripcion:** Tickets de soporte clasificados por categoría, prioridad, canal y tiempo de resolución.
 
-**Clases que lo usan:** 02, 06
 
 | Columna | Tipo | Descripcion | Ejemplo |
 |---|---|---|---|
@@ -84,7 +81,6 @@ Este directorio contiene los datasets base usados en las clases. Todos los datos
 
 **Descripcion:** Registro de viajes con origen, destino, pasajeros, retraso y contexto operativo.
 
-**Clases que lo usan:** 04, 06
 
 | Columna | Tipo | Descripcion | Ejemplo |
 |---|---|---|---|
@@ -111,7 +107,6 @@ Este directorio contiene los datasets base usados en las clases. Todos los datos
 
 **Descripcion:** Registro academico sintetico para analizar desempeno, asistencia y estado del alumno.
 
-**Clases que lo usan:** 04, 09, 10
 
 | Columna | Tipo | Descripcion | Ejemplo |
 |---|---|---|---|
@@ -138,7 +133,6 @@ Este directorio contiene los datasets base usados en las clases. Todos los datos
 
 **Descripcion:** Reseñas de productos en español con etiqueta de sentimiento. Dataset sintético para practicar procesamiento de texto y clasificación NLP.
 
-**Clases que lo usan:** 26
 
 | Columna | Tipo | Descripcion | Ejemplo |
 |---|---|---|---|

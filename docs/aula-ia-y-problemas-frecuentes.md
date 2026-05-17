@@ -1,7 +1,5 @@
 # 💬 Aula, tecnología y problemas frecuentes en clase
 
-> **Estado v2:** este documento describe metodología y enfoque pedagógico — vigente independientemente del número de clases. El currículo creció de 31 (v1) a **197 clases en 9 partes** (v2). Ver [syllabus.md](syllabus.md) para la pauta actual.
-
 ## Valor docente en una era de herramientas cada vez más accesibles
 
 Que los estudiantes tengan acceso a buscadores, asistentes, IA o cualquier otra tecnología no elimina el valor del docente. Cambia el tipo de valor que más importa.

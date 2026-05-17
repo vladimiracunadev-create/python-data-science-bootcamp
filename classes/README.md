@@ -1,4 +1,4 @@
-# Índice del currículo v2
+# Índice del currículo
 
 Total: 197 clases en 9 partes.
 

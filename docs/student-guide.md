@@ -1,7 +1,5 @@
 # 🚀 Student Guide
 
-> **Estado v2:** este documento describe metodología y enfoque pedagógico — vigente independientemente del número de clases. El currículo creció de 31 (v1) a **197 clases en 9 partes** (v2). Ver [syllabus.md](syllabus.md) para la pauta actual.
-
 Guía base para estudiantes que usan el programa por primera vez. Este documento no reemplaza la clase: ordena expectativas, reduce ansiedad y explica como aprovechar el material sin depender de copiar pasos.
 
 ## 🧭 1. Qué es este programa

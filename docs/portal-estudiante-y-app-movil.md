@@ -1,7 +1,5 @@
 # 📱 Portal del alumno y ruta hacia app móvil
 
-> **Estado v2:** este documento describe metodología y enfoque pedagógico — vigente independientemente del número de clases. El currículo creció de 31 (v1) a **197 clases en 9 partes** (v2). Ver [syllabus.md](syllabus.md) para la pauta actual.
-
 Documento de producto para explicar por que existe una superficie pública separada del laboratorio local, cual es el enlace oficial para estudiantes y como evoluciona esta base hacia una experiencia móvil sin sobredimensionar la madurez actual.
 
 ## 1. Objetivo

@@ -8,43 +8,39 @@
 
 | Superficie | Estado |
 |---|---|
-| Currículo v2 (197 clases, 9 partes) | scaffold operativo; contenido en desarrollo |
-| Currículo v1 (31 clases con contenido) | archivado en `historicos/classes-v1/` |
-| Laboratorio Flask (consume v2) | operativo |
-| App de escritorio Windows (pywebview) | publicada — consume v2 tras rebuild |
-| App Android (contenido v1) | APK debug publicado — pendiente migración a v2 |
-| Portal del alumno (contenido v1) | en vivo — pendiente migración a v2 |
+| Currículo (197 clases, 9 partes) | scaffold operativo; contenido en desarrollo |
+| Laboratorio Flask | operativo |
+| App de escritorio Windows (pywebview) | código operativo · binario pendiente de rebuild |
+| App Android | APK debug publicado — pendiente migrar contenido embebido al índice actual |
+| Portal del alumno | en vivo — pendiente migrar al índice actual |
 | Vista institucional | en vivo |
-| Documentación | realineada con v2 |
+| Documentación | alineada con el currículo actual |
 
 ---
 
-## Trabajo crítico — completar la migración v1 → v2
-
-Antes de añadir nuevas capacidades, hay que cerrar la migración iniciada en v2.0.0-scaffold:
+## Trabajo crítico — completar el contenido pedagógico
 
 ### Contenido pedagógico
 
-- [ ] Desarrollar las 46 clases de la **Parte 0 — Prerrequisitos** al estándar de calidad de la antigua clase 14 (5+ bloques de código documentados, 4–5 ejercicios concretos con dataset, homework verificable)
+- [ ] Desarrollar las 46 clases de la **Parte 0 — Prerrequisitos** al estándar de calidad mínimo (5+ bloques de código documentados, 4–5 ejercicios concretos con dataset, homework verificable)
 - [ ] Desarrollar las 43 clases de la **Parte 1 — ML clásico**
 - [ ] Desarrollar las 13 clases de la **Parte 3 — Estadística inferencial** (intercaladas con Parte 1)
 - [ ] Desarrollar las 56 clases de la **Parte 2 — Deep Learning**
 - [ ] Desarrollar las 14 clases de la **Parte 4 — MLOps**
 - [ ] Desarrollar las 25 clases restantes (Partes 5, 6, 7, 8)
-- [ ] Migrar material reutilizable desde `historicos/classes-v1/` cuando aplique
 
 ### Superficies pendientes de migración
 
-- [ ] `mobile/src/data/classes.js` — regenerar contra el currículo v2
-- [ ] `site/` — regenerar portal contra el currículo v2
+- [ ] `mobile/src/data/classes.js` — regenerar contra el currículo actual
+- [ ] `site/` — regenerar portal contra el currículo actual
 - [ ] `docs/pdfs/classes/` y `docs/presentaciones/classes/` — regenerar PDFs y PPTX por bloques al madurar el contenido
-- [ ] Adaptar `scripts/generate_class_docs.py` y `scripts/generate_class_assets.py` para que recorran la estructura anidada de v2
+- [ ] Adaptar `scripts/generate_class_docs.py` y `scripts/generate_class_assets.py` para que recorran la estructura anidada del currículo
 
 ### Verificación de calidad pedagógica
 
-- [ ] Script de CI que falle si una clase v2 tiene `notebook.ipynb` con menos de N celdas reales
+- [ ] Script de CI que falle si una clase tiene `notebook.ipynb` con menos de N celdas reales
 - [ ] Script de CI que verifique que cada clase referencia un dataset existente
-- [ ] Quizzes interactivos pre/post lección como parte del estándar v2
+- [ ] Quizzes interactivos pre/post lección como parte del estándar de cada clase
 
 ---
 
@@ -81,7 +77,7 @@ Antes de añadir nuevas capacidades, hay que cerrar la migración iniciada en v2
 - [ ] Panel de resumen de progreso por alumno (para el docente) con métricas a nivel de las 9 partes
 - [ ] Soporte multi-idioma (inglés como segunda lengua de la UI)
 
-### App Android (post-migración v2)
+### App Android (post-migración de contenido)
 
 - [ ] Publicación en APK release (firmado) para distribución directa
 - [ ] Seguimiento de progreso con sincronización local
@@ -101,7 +97,7 @@ Antes de añadir nuevas capacidades, hay que cerrar la migración iniciada en v2
 
 - [ ] Asistente local de consulta pedagógica (vía Ollama/modelo local)
 - [ ] Sugerencias automáticas de corrección en ejercicios
-- [ ] Generación asistida de nuevos ejercicios por clase a partir del scaffold v2
+- [ ] Generación asistida de nuevos ejercicios por clase a partir del scaffold
 
 ### Distribución
 

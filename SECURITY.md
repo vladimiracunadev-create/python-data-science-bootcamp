@@ -15,9 +15,8 @@ Este repositorio está pensado para uso local, docente y de laboratorio. La app 
 | Versión | Estado |
 |---|---|
 | `v2.0.0-scaffold` (rama `main`) | activamente desarrollada |
-| versiones anteriores | sin soporte |
 
-> El repositorio fue reiniciado en mayo de 2026 al pasar al currículo v2. Los releases binarios anteriores (v1.0.0) ya no se distribuyen; el siguiente binario se publicará cuando el contenido v2 alcance un hito publicable.
+> El próximo binario distribuible se publicará cuando el contenido alcance un hito publicable.
 
 ---
 
