@@ -1,0 +1,19 @@
+# OSX
+#
+.DS_Store
+
+# Android/IntelliJ
+#
+build/
+.idea
+.gradle
+local.properties
+app/debug.keystore
+*.iml
+*.hprof
+.cxx/
+
+# Bundle artifacts
+*.jsbundle
+app/src/main/assets/index.android.bundle
+app/src/main/res/drawable-*/node_modules_*

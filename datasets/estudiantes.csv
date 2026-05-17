@@ -1,0 +1,11 @@
+id_estudiante,nombre,edad,curso,asistencia_pct,evaluacion_python,evaluacion_pandas,entrega_proyecto,situacion
+1,Valentina,19,Bootcamp A,92,78,74,Sí,Regular
+2,Tomás,24,Bootcamp A,85,68,72,Sí,Regular
+3,Camila,28,Bootcamp B,96,88,90,Sí,Destacado
+4,Matías,22,Bootcamp A,71,55,60,No,En riesgo
+5,Javiera,31,Bootcamp B,89,80,84,Sí,Regular
+6,Benjamín,27,Bootcamp B,64,49,52,No,En riesgo
+7,Florencia,26,Bootcamp A,94,91,93,Sí,Destacado
+8,Diego,21,Bootcamp C,78,62,58,Sí,Regular
+9,Antonia,30,Bootcamp C,83,70,76,Sí,Regular
+10,Lucas,23,Bootcamp C,58,45,47,No,En riesgo

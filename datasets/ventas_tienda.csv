@@ -1,0 +1,15 @@
+fecha,sucursal,categoria,producto,unidades,precio_unitario,descuento_pct,vendedor,medio_pago
+2026-01-03,Centro,Accesorios,Mouse,12,8990,0.10,Ana,Débito
+2026-01-03,Centro,Accesorios,Teclado,8,15990,0.05,Luis,Crédito
+2026-01-04,Providencia,Monitores,Monitor 24,3,129990,0.00,Carla,Transferencia
+2026-01-05,Centro,Computación,Notebook Básico,2,349990,0.08,Ana,Crédito
+2026-01-06,Maipú,Accesorios,Mouse,15,8990,0.00,Pedro,Débito
+2026-01-06,Providencia,Accesorios,Webcam,6,25990,0.12,Carla,Crédito
+2026-01-07,Centro,Computación,Notebook Básico,1,349990,0.05,Luis,Transferencia
+2026-01-07,Maipú,Impresión,Impresora,2,89990,0.15,Pedro,Crédito
+2026-01-08,Providencia,Monitores,Monitor 27,2,199990,0.10,Carla,Débito
+2026-01-08,Centro,Accesorios,Audífonos,7,19990,0.00,Ana,Débito
+2026-01-09,Maipú,Accesorios,Teclado,5,15990,0.10,Pedro,Efectivo
+2026-01-10,Providencia,Computación,Notebook Pro,1,699990,0.07,Luis,Crédito
+2026-01-10,Centro,Accesorios,Webcam,4,25990,0.00,Ana,Transferencia
+2026-01-11,Maipú,Accesorios,Audífonos,9,19990,0.05,Pedro,Débito

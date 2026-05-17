@@ -1,0 +1,33 @@
+# 👥 Perfil de estudiantes
+
+> **Estado v2:** este documento describe metodología y enfoque pedagógico — vigente independientemente del número de clases. El currículo creció de 31 (v1) a **197 clases en 9 partes** (v2). Ver [syllabus.md](syllabus.md) para la pauta actual.
+
+## Perfil principal esperado
+
+- Personas en transicion hacia análisis de datos.
+- Estudiantes o profesionales que recien comienzan a programar.
+- Participantes con experiencia previa en Excel u otras herramientas, pero no necesariamente en Python.
+
+## Necesidades frecuentes
+
+- perder miedo al código;
+- comprender para que sirve cada paso;
+- contar con ejercicios simples y bien guiados;
+- practicar en un entorno que no sea fragil;
+- recibir retroalimentación oportuna.
+
+## Riesgos comunes
+
+- frustracion por errores de sintaxis;
+- sobrecarga si se mezclan demasiados conceptos en una sola clase;
+- baja confianza frente a notebooks y librerias;
+- tendencia a copiar sin comprender.
+
+## Decisiones de diseño asociadas
+
+Por estas razones, el material:
+- usa datasets pequenos;
+- evita complejidad innecesaria;
+- explicita objetivos y resultados esperados;
+- separa ejemplos, ejercicios y soluciones;
+- permite trabajar todo en el mismo ambiente local.

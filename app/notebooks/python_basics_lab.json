@@ -1,0 +1,15 @@
+{
+  "title": "Python básico aplicado a datos",
+  "description": "Variables, listas, funciones y primeros pasos con estructuras simples.",
+  "cells": [
+    {
+      "code": "# Qué hace: ejecuta el paso actual del ejercicio o laboratorio.\n# Para qué sirve: deja explícita la intención del bloque y ayuda a revisarlo con más criterio.\n\nventas = [12000, 15000, 9800, 21000]\nprint(\"Total:\", sum(ventas))\nprint(\"Promedio:\", sum(ventas)/len(ventas))"
+    },
+    {
+      "code": "# Qué hace: ejecuta el paso actual del ejercicio o laboratorio.\n# Para qué sirve: deja explícita la intención del bloque y ayuda a revisarlo con más criterio.\n\nproductos = [\"Martillo\", \"Taladro\", \"Pintura\"]\nfor producto in productos:\n    print(producto)"
+    },
+    {
+      "code": "# Qué hace: define una función reutilizable para encapsular una regla del ejercicio.\n# Para qué sirve: evita repetir lógica y facilita explicar la intención del cálculo.\n\ndef clasificar_venta(monto):\n    if monto >= 15000:\n        return \"alta\"\n    return \"normal\"\n\nclasificar_venta(21000)"
+    }
+  ]
+}

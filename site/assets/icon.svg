@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="title desc">
+  <title id="title">Python Data Science</title>
+  <desc id="desc">Icono del portal del alumno</desc>
+  <rect width="128" height="128" rx="28" fill="#102a43"/>
+  <path d="M34 28h34c11 0 18 7 18 18v12H54c-8 0-13 5-13 13v10H30c-9 0-14-6-14-15V46c0-11 7-18 18-18Z" fill="#d9a441"/>
+  <path d="M94 100H60c-11 0-18-7-18-18V70h32c8 0 13-5 13-13V47h11c9 0 14 6 14 15v20c0 11-7 18-18 18Z" fill="#0f766e"/>
+  <circle cx="47" cy="43" r="4" fill="#102a43"/>
+  <circle cx="81" cy="85" r="4" fill="#f5efe3"/>
+</svg>

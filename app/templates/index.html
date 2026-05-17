@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bootcamp Python — Data Science</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐍</text></svg>">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+  <header class="hero">
+    <div class="hero-brand">
+      <div>
+        <h1>Bootcamp Python - Data Science</h1>
+        <p>Clases, teoría, diagnóstico y laboratorio local en un solo lugar.</p>
+      </div>
+    </div>
+    <div class="hero-actions">
+      <button id="tabBtn-curriculum" class="tab-btn tab-active" onclick="showTab('curriculum')">Clases</button>
+      <button id="tabBtn-lab" class="tab-btn" onclick="showTab('lab')">Cuaderno</button>
+      <button id="tabBtn-runner" class="tab-btn" onclick="showTab('runner')">Runner</button>
+    </div>
+  </header>
+
+  <main class="layout">
+    <aside class="sidebar">
+      <section>
+        <h2>Clases del bootcamp</h2>
+        <ul>
+          {% for item in classes %}
+          <li>
+            <button class="class-list-btn" data-slug="{{ item.slug }}" onclick="loadClass('{{ item.slug }}'); showTab('curriculum')">
+              {{ item.title }}
+            </button>
+          </li>
+          {% endfor %}
+        </ul>
+      </section>
+
+      <section>
+        <h2>Notebooks interactivos</h2>
+        <ul>
+          {% for item in templates %}
+          <li>
+            <button class="link-button" onclick="loadNotebook('{{ item.id }}')" title="{{ item.description }}">
+              {{ item.title }}
+            </button>
+          </li>
+          {% endfor %}
+        </ul>
+      </section>
+
+      <section class="notice">
+        <strong>Entorno local</strong>
+        <p>Este ejecutor está pensado para uso docente y de laboratorio. No exponer a internet sin capas de seguridad adicionales.</p>
+      </section>
+    </aside>
+
+    <section class="content">
+
+      <!-- TAB: Curriculum / Clases -->
+      <div id="tab-curriculum" class="tab active">
+        <div class="panel">
+          <div class="panel-header">
+            <h2>Clase seleccionada</h2>
+          </div>
+          <div id="class-content">
+            <p class="muted">Selecciona una clase del panel izquierdo para ver su contenido.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB: Lab / Notebook -->
+      <div id="tab-lab" class="tab">
+        <div class="panel">
+          <div class="panel-header">
+            <h2>Cuaderno interactivo</h2>
+            <div class="actions">
+              <button onclick="addCell()">+ Agregar celda</button>
+              <button id="btn-run-all" onclick="runAllCells()">Ejecutar todo</button>
+              <button onclick="saveNotebook()">Guardar</button>
+              <button onclick="resetRuntime()">Reiniciar entorno</button>
+            </div>
+          </div>
+          <label for="notebook-title">Título del notebook</label>
+          <input id="notebook-title" class="full-width" value="Notebook de práctica" oninput="scheduleAutoSave()">
+          <div id="notebook-description" class="muted"></div>
+          <p class="muted" style="font-size:0.8rem; margin-top:0;">
+            <strong>Ctrl+Enter</strong> ejecuta la celda activa. El entorno mantiene variables entre celdas y auto-guarda tras 30 s de inactividad.
+          </p>
+          <div id="cells"></div>
+        </div>
+      </div>
+
+      <!-- TAB: Runner rápido -->
+      <div id="tab-runner" class="tab">
+        <div class="panel">
+          <div class="panel-header">
+            <h2>Runner rápido</h2>
+            <div class="actions">
+              <button id="btn-runner-run" onclick="runRunner()">Ejecutar</button>
+              <button onclick="resetRunner()">Reiniciar runner</button>
+            </div>
+          </div>
+          <p class="muted" style="font-size:0.8rem; margin-top:0;">
+            <strong>Ctrl+Enter</strong> ejecuta el código. Usa <code>pd</code>, <code>plt</code>, <code>math</code> y <code>statistics</code> sin importar.
+          </p>
+          <textarea id="runner-code" class="runner-code" spellcheck="false">print("Hola Bootcamp")
+valores = [10, 15, 20, 25, 30]
+print(f"Promedio: {sum(valores)/len(valores):.1f}")</textarea>
+          <div id="runner-output" class="output-box"><span class="muted">Presiona Ejecutar o Ctrl+Enter para ver el resultado.</span></div>
+        </div>
+      </div>
+
+    </section>
+  </main>
+
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>

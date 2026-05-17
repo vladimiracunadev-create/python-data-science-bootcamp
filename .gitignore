@@ -1,0 +1,21 @@
+.venv/
+.claude/settings.local.json
+__pycache__/
+.ipynb_checkpoints/
+.pytest_cache/
+.ruff_cache/
+*.pyc
+.DS_Store
+.env
+.env.*
+!/.env.example
+app/saved_notebooks/*.json
+build/
+dist/
+release_artifacts/
+mobile/.expo/
+mobile/node_modules/
+
+# Mobile build artifacts
+mobile/android/app/src/main/assets/index.android.bundle
+mobile/android/app/src/main/res/drawable-*/node_modules_*
