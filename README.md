@@ -63,17 +63,19 @@ Integra currículo modular extenso, laboratorio interactivo local, portal del al
 
 ### 🗺️ Las 9 partes del currículo
 
-| # | Parte | Clases | Foco |
-|---|---|---|---|
-| 0️⃣ | Prerrequisitos | 46 | Python aplicado, NumPy, pandas, visualización, SQL, NoSQL, APIs |
-| 1️⃣ | ML clásico | 43 | Regresión, clasificación, ensembles, no supervisado |
-| 2️⃣ | Deep Learning | 56 | Keras, TF, CNN, RNN, Transformers, RL, despliegue |
-| 3️⃣ | Estadística inferencial | 13 | Hipótesis, A/B testing, inferencia causal, Bayes |
-| 4️⃣ | MLOps | 14 | Docker, CI/CD, MLflow, monitoreo, interpretabilidad |
-| 5️⃣ | Ingeniería de datos | 8 | Spark, Airflow, lakehouses, streaming |
-| 6️⃣ | Recomendadores | 7 | Filtrado colaborativo, factorización, secuenciales |
-| 7️⃣ | Ética, fairness, privacidad | 6 | Sesgo, explicabilidad, marcos normativos |
-| 8️⃣ | Capstones | 4 | Proyectos integradores end-to-end |
+Cada parte tiene su **propio README** con narrativa completa: de qué trata, qué problemas resuelve, resultados de aprendizaje, estructura temática y enlaces a las clases.
+
+| # | Parte | Clases | Foco | README |
+|---|---|---:|---|---|
+| 0️⃣ | Prerrequisitos | 46 | Python aplicado, NumPy, pandas, visualización, SQL, NoSQL, APIs | [📘 leer](classes/parte-0-prerrequisitos/README.md) |
+| 1️⃣ | ML clásico | 43 | Regresión, clasificación, ensembles, no supervisado | [📘 leer](classes/parte-1-machine-learning-clasico/README.md) |
+| 2️⃣ | Deep Learning | 56 | Keras, TF, CNN, RNN, Transformers, RL, despliegue | [📘 leer](classes/parte-2-deep-learning/README.md) |
+| 3️⃣ | Estadística inferencial | 13 | Hipótesis, A/B testing, inferencia causal, Bayes | [📘 leer](classes/parte-3-estadistica-inferencial/README.md) |
+| 4️⃣ | MLOps | 14 | Docker, CI/CD, MLflow, monitoreo, interpretabilidad | [📘 leer](classes/parte-4-mlops/README.md) |
+| 5️⃣ | Ingeniería de datos | 8 | Spark, Airflow, lakehouses, streaming | [📘 leer](classes/parte-5-ingenieria-de-datos/README.md) |
+| 6️⃣ | Recomendadores | 7 | Filtrado colaborativo, factorización, secuenciales | [📘 leer](classes/parte-6-sistemas-de-recomendacion/README.md) |
+| 7️⃣ | Ética, fairness, privacidad | 6 | Sesgo, explicabilidad, marcos normativos | [📘 leer](classes/parte-7-etica-fairness-privacidad/README.md) |
+| 8️⃣ | Capstones | 4 | Proyectos integradores end-to-end | [📘 leer](classes/parte-8-capstones/README.md) |
 
 ### 🚧 Trabajo pendiente
 

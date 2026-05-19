@@ -1,9 +1,24 @@
 # Índice del currículo
 
-Total: 197 clases en 9 partes.
+**197 clases · 9 partes.** Cada parte tiene su propio README con la narrativa completa (de qué trata, qué problemas resuelve, resultados de aprendizaje, estructura temática y prerrequisitos).
 
+| Parte | Tema | Clases | README de la parte |
+|---|---|---:|---|
+| 0 | Prerrequisitos: Python, NumPy, pandas, visualización, SQL, APIs | 46 | [📘 leer parte 0](parte-0-prerrequisitos/README.md) |
+| 1 | Machine Learning clásico | 43 | [📘 leer parte 1](parte-1-machine-learning-clasico/README.md) |
+| 2 | Deep Learning (Keras, TF, Transformers, RL, despliegue) | 56 | [📘 leer parte 2](parte-2-deep-learning/README.md) |
+| 3 | Estadística inferencial y causal | 13 | [📘 leer parte 3](parte-3-estadistica-inferencial/README.md) |
+| 4 | MLOps en producción | 14 | [📘 leer parte 4](parte-4-mlops/README.md) |
+| 5 | Ingeniería de datos | 8 | [📘 leer parte 5](parte-5-ingenieria-de-datos/README.md) |
+| 6 | Sistemas de recomendación | 7 | [📘 leer parte 6](parte-6-sistemas-de-recomendacion/README.md) |
+| 7 | Ética, fairness, privacidad | 6 | [📘 leer parte 7](parte-7-etica-fairness-privacidad/README.md) |
+| 8 | Capstones | 4 | [📘 leer parte 8](parte-8-capstones/README.md) |
 
-## Parte 0-prerrequisitos
+---
+
+A continuación, el índice plano de las 197 clases. Si buscas la narrativa de una parte, entra a su README (columna de arriba).
+
+## [Parte 0 — Prerrequisitos](parte-0-prerrequisitos/README.md)
 
 - [001 — Instalación de Python 3.12+ y entornos virtuales (venv, uv, conda)](parte-0-prerrequisitos/001-instalacion-de-python-3-12-y-entornos-virtuales-venv-uv-conda/README.md)
 - [002 — Jupyter y JupyterLab: kernels, magics, debugging, profiling](parte-0-prerrequisitos/002-jupyter-y-jupyterlab-kernels-magics-debugging-profiling/README.md)
@@ -52,7 +67,7 @@ Total: 197 clases en 9 partes.
 - [045 — APIs REST con requests](parte-0-prerrequisitos/045-apis-rest-con-requests/README.md)
 - [046 — Web scraping con BeautifulSoup](parte-0-prerrequisitos/046-web-scraping-con-beautifulsoup/README.md)
 
-## Parte 1-machine-learning-clasico
+## [Parte 1 — Machine Learning Clásico](parte-1-machine-learning-clasico/README.md)
 
 - [047 — Panorama del ML: tipos, batch vs online, instance vs model-based](parte-1-machine-learning-clasico/047-panorama-del-ml-tipos-batch-vs-online-instance-vs-model-based/README.md)
 - [048 — Desafíos del ML: overfitting, underfitting, datos insuficientes](parte-1-machine-learning-clasico/048-desafios-del-ml-overfitting-underfitting-datos-insuficientes/README.md)
@@ -98,7 +113,7 @@ Total: 197 clases en 9 partes.
 - [088 — Gaussian Mixture Models](parte-1-machine-learning-clasico/088-gaussian-mixture-models/README.md)
 - [089 — Detección de anomalías: Isolation Forest, LOF, One-Class SVM](parte-1-machine-learning-clasico/089-deteccion-de-anomalias-isolation-forest-lof-one-class-svm/README.md)
 
-## Parte 2-deep-learning
+## [Parte 2 — Deep Learning](parte-2-deep-learning/README.md)
 
 - [090 — Perceptrón, MLP y backpropagation](parte-2-deep-learning/090-perceptron-mlp-y-backpropagation/README.md)
 - [091 — Regresión y clasificación con MLP](parte-2-deep-learning/091-regresion-y-clasificacion-con-mlp/README.md)
@@ -157,7 +172,7 @@ Total: 197 clases en 9 partes.
 - [144 — Entrenamiento multi-dispositivo, tf.distribute](parte-2-deep-learning/144-entrenamiento-multi-dispositivo-tf-distribute/README.md)
 - [145 — Entrenamiento a escala con Vertex AI](parte-2-deep-learning/145-entrenamiento-a-escala-con-vertex-ai/README.md)
 
-## Parte 3-estadistica-inferencial
+## [Parte 3 — Estadística Inferencial](parte-3-estadistica-inferencial/README.md)
 
 - [146 — Distribuciones: normal, binomial, Poisson, exponencial](parte-3-estadistica-inferencial/146-distribuciones-normal-binomial-poisson-exponencial/README.md)
 - [147 — Test t (una muestra, dos muestras, pareado)](parte-3-estadistica-inferencial/147-test-t-una-muestra-dos-muestras-pareado/README.md)
@@ -173,7 +188,7 @@ Total: 197 clases en 9 partes.
 - [157 — Uplift modeling, DiD (difference-in-differences)](parte-3-estadistica-inferencial/157-uplift-modeling-did-difference-in-differences/README.md)
 - [158 — Bayes intro: priors, posterior, MCMC con PyMC](parte-3-estadistica-inferencial/158-bayes-intro-priors-posterior-mcmc-con-pymc/README.md)
 
-## Parte 4-mlops
+## [Parte 4 — MLOps](parte-4-mlops/README.md)
 
 - [159 — Versionado de datos con DVC](parte-4-mlops/159-versionado-de-datos-con-dvc/README.md)
 - [160 — Versionado de modelos y experimentos con MLflow](parte-4-mlops/160-versionado-de-modelos-y-experimentos-con-mlflow/README.md)
@@ -190,7 +205,7 @@ Total: 197 clases en 9 partes.
 - [171 — Testing de datos: Great Expectations, Deequ](parte-4-mlops/171-testing-de-datos-great-expectations-deequ/README.md)
 - [172 — Testing de modelos: invariance, behavioral tests](parte-4-mlops/172-testing-de-modelos-invariance-behavioral-tests/README.md)
 
-## Parte 5-ingenieria-de-datos
+## [Parte 5 — Ingeniería de Datos](parte-5-ingenieria-de-datos/README.md)
 
 - [173 — Pipelines ETL/ELT con Airflow](parte-5-ingenieria-de-datos/173-pipelines-etl-elt-con-airflow/README.md)
 - [174 — Pipelines con Prefect o Dagster](parte-5-ingenieria-de-datos/174-pipelines-con-prefect-o-dagster/README.md)
@@ -201,7 +216,7 @@ Total: 197 clases en 9 partes.
 - [179 — Formatos columnares: Parquet, Avro](parte-5-ingenieria-de-datos/179-formatos-columnares-parquet-avro/README.md)
 - [180 — Modelado dimensional (star/snowflake schemas)](parte-5-ingenieria-de-datos/180-modelado-dimensional-star-snowflake-schemas/README.md)
 
-## Parte 6-sistemas-de-recomendacion
+## [Parte 6 — Sistemas de Recomendación](parte-6-sistemas-de-recomendacion/README.md)
 
 - [181 — Filtrado colaborativo user-based e item-based](parte-6-sistemas-de-recomendacion/181-filtrado-colaborativo-user-based-e-item-based/README.md)
 - [182 — Factorización de matrices: SVD, ALS](parte-6-sistemas-de-recomendacion/182-factorizacion-de-matrices-svd-als/README.md)
@@ -211,7 +226,7 @@ Total: 197 clases en 9 partes.
 - [186 — Cold-start problem](parte-6-sistemas-de-recomendacion/186-cold-start-problem/README.md)
 - [187 — Librerías: LightFM, Implicit, Surprise](parte-6-sistemas-de-recomendacion/187-librerias-lightfm-implicit-surprise/README.md)
 
-## Parte 7-etica-fairness-privacidad
+## [Parte 7 — Ética, Fairness y Privacidad](parte-7-etica-fairness-privacidad/README.md)
 
 - [188 — Tipos de sesgo algorítmico y orígenes](parte-7-etica-fairness-privacidad/188-tipos-de-sesgo-algoritmico-y-origenes/README.md)
 - [189 — Métricas de fairness: demographic parity, equalized odds, calibration](parte-7-etica-fairness-privacidad/189-metricas-de-fairness-demographic-parity-equalized-odds-calibration/README.md)
@@ -220,7 +235,7 @@ Total: 197 clases en 9 partes.
 - [192 — GDPR y AI Act (EU)](parte-7-etica-fairness-privacidad/192-gdpr-y-ai-act-eu/README.md)
 - [193 — Reproducibilidad: seeds, lock files, versionado de datasets](parte-7-etica-fairness-privacidad/193-reproducibilidad-seeds-lock-files-versionado-de-datasets/README.md)
 
-## Parte 8-capstones
+## [Parte 8 — Capstones](parte-8-capstones/README.md)
 
 - [194 — Capstone 1: problema tabular end-to-end (EDA, modelo, API, dashboard)](parte-8-capstones/194-capstone-1-problema-tabular-end-to-end-eda-modelo-api-dashboard/README.md)
 - [195 — Capstone 2: NLP o series de tiempo end-to-end](parte-8-capstones/195-capstone-2-nlp-o-series-de-tiempo-end-to-end/README.md)
