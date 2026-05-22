@@ -40,6 +40,10 @@ class ClassSpec:
     referencias: list[str]
     siguiente: tuple[str, str]  # (folder, title)
     cells: list[Cell] = field(default_factory=list)
+    # v2 — secciones pedagógicas adicionales
+    definiciones: list[tuple[str, str]] = field(default_factory=list)  # (término, definición + características)
+    faq: list[tuple[str, str]] = field(default_factory=list)            # (pregunta, respuesta)
+    errores_comunes: list[tuple[str, str]] = field(default_factory=list)  # (error/síntoma, causa + fix)
 
 
 # ──────────────────────────────────────────────────────────────────────────────
@@ -51,6 +55,22 @@ def render_readme(s: ClassSpec) -> str:
     resultados_md = "\n".join(f"{i+1}. {r}" for i, r in enumerate(s.resultados))
     ejercicios_md = "\n\n".join(f"**{i+1}.** {e}" for i, e in enumerate(s.ejercicios))
     refs_md = "\n".join(f"- {r}" for r in s.referencias)
+
+    definiciones_md = ""
+    if s.definiciones:
+        defs = "\n\n".join(f"**{t}**\n: {d}" for t, d in s.definiciones)
+        definiciones_md = f"\n## 📖 Definiciones y características\n\n{defs}\n"
+
+    faq_md = ""
+    if s.faq:
+        items = "\n\n".join(f"**❓ {q}**\n\n{a}" for q, a in s.faq)
+        faq_md = f"\n## ❓ Preguntas frecuentes\n\n{items}\n"
+
+    err_md = ""
+    if s.errores_comunes:
+        rows = "\n".join(f"| {sym} | {fix} |" for sym, fix in s.errores_comunes)
+        err_md = f"\n## ⚠️ Errores comunes\n\n| Síntoma / mensaje | Causa y cómo arreglar |\n|---|---|\n{rows}\n"
+
     return f"""# Clase {s.number} — {s.title}
 
 > Parte: **0 — Prerrequisitos** · Fuente: {s.source}
@@ -73,7 +93,7 @@ Al finalizar la clase, el alumno podrá:
 | # | Tema | Por qué importa |
 |---|---|---|
 {temas_md}
-
+{definiciones_md}
 ## 📂 Dataset / recursos
 
 {s.dataset}
@@ -87,7 +107,7 @@ Al finalizar la clase, el alumno podrá:
 {s.homework}
 
 **Criterio de aceptación:** {s.homework_criterio}
-
+{err_md}{faq_md}
 ## 🔗 Referencias
 
 {refs_md}
@@ -98,9 +118,58 @@ Al finalizar la clase, el alumno podrá:
 """
 
 
+def _build_extra_cells(s: ClassSpec) -> list[Cell]:
+    """Insert pedagogical extras (definiciones / faq / errores) before the final reference cell.
+
+    Returns a list of Cell objects ready to splice in.
+    """
+    extras: list[Cell] = []
+    if s.definiciones:
+        lines = ["## 📖 Definiciones y características", ""]
+        for term, defin in s.definiciones:
+            lines.append(f"**{term}**")
+            lines.append("")
+            lines.append(defin)
+            lines.append("")
+        extras.append(Cell("md", "\n".join(lines).rstrip()))
+    if s.errores_comunes:
+        lines = ["## ⚠️ Errores comunes", "",
+                 "| Síntoma / mensaje | Causa y cómo arreglar |", "|---|---|"]
+        for sym, fix in s.errores_comunes:
+            lines.append(f"| {sym} | {fix} |")
+        extras.append(Cell("md", "\n".join(lines)))
+    if s.faq:
+        lines = ["## ❓ Preguntas frecuentes", ""]
+        for q, a in s.faq:
+            lines.append(f"**❓ {q}**")
+            lines.append("")
+            lines.append(a)
+            lines.append("")
+        extras.append(Cell("md", "\n".join(lines).rstrip()))
+    return extras
+
+
+def _splice_extras(cells: list[Cell], extras: list[Cell]) -> list[Cell]:
+    """Insert extras BEFORE the last markdown cell (typically the 'Referencias' cell).
+
+    If no clear final cell is detected, append at the end.
+    """
+    if not extras:
+        return cells
+    # Find last cell that looks like references / next-class navigation
+    insert_at = len(cells)
+    for i in range(len(cells) - 1, -1, -1):
+        c = cells[i]
+        if c.kind == "md" and ("Referencias" in c.src or "Siguiente" in c.src or "➡️" in c.src):
+            insert_at = i
+            break
+    return cells[:insert_at] + extras + cells[insert_at:]
+
+
 def render_notebook(s: ClassSpec) -> dict:
+    all_cells = _splice_extras(s.cells, _build_extra_cells(s))
     cells = []
-    for c in s.cells:
+    for c in all_cells:
         src_lines = c.src.split("\n")
         src = [l + "\n" for l in src_lines[:-1]] + [src_lines[-1]]
         if c.kind == "md":
@@ -216,6 +285,32 @@ add(ClassSpec(
         Cell("md", "## 📝 Homework\n\nVer `README.md` — entrega un notebook con benchmark `%timeit` comparando `sum(range(N))` vs `np.arange(N).sum()` para N=10k/100k/1M, tabla y gráfico."),
         Cell("md", "## 🔗 Referencias\n\n- VanderPlas, **cap. 1** — *IPython: Beyond Normal Python*\n- [IPython magics](https://ipython.readthedocs.io/en/stable/interactive/magics.html)\n\n➡️ **Siguiente:** [003 — Git y GitHub para data scientists](../003-git-y-github-para-data-scientists/README.md)"),
     ],
+    definiciones=[
+        ("Kernel", "Proceso Python (u otro lenguaje) que ejecuta el código de las celdas. Vive separado del frontend; si lo matas, pierdes el estado en memoria pero los archivos siguen intactos. Cada notebook se asocia a UN kernel, normalmente el del venv del proyecto."),
+        ("Frontend", "La interfaz visual (Notebook clásico, JupyterLab, VS Code, Cursor, Colab). Todas hablan el mismo protocolo con el kernel — puedes cambiar de frontend sin perder datos si guardas el `.ipynb`."),
+        ("Magic", "Comando especial de IPython, no de Python. Empieza con `%` (afecta una línea) o `%%` (afecta la celda entera). Ejemplos: `%timeit`, `%matplotlib inline`, `%%time`, `%debug`. No funcionan fuera de IPython/Jupyter."),
+        ("`%timeit` vs `%%time`", "`%timeit` corre la expresión **muchas veces**, descarta outliers y reporta el mejor → microbenchmark estadísticamente serio. `%%time` mide **una sola corrida** del bloque → bueno para operaciones largas donde repetir cuesta. Característica clave: usa `%timeit` para algo en milisegundos, `%%time` para algo en segundos."),
+        ("pdb / `%debug`", "Debugger interactivo de Python. `%debug` lo lanza en modo **post-mortem** después de una excepción — entras al stack en el punto del error sin re-correr nada. Comandos: `n` siguiente línea, `s` entra a función, `c` continúa, `p var` imprime, `u/d` sube/baja en stack, `q` salir."),
+    ],
+    errores_comunes=[
+        ("`ModuleNotFoundError` aunque acabo de instalar el paquete", "El kernel activo NO es el venv donde corriste `pip install`. **Fix**: en una celda, `import sys; print(sys.executable)` — si no apunta a tu venv, cambia el kernel (menú Kernel → Change Kernel) o registra el venv con `python -m ipykernel install --user --name <nombre>`."),
+        ("El notebook está \"congelado\" / la barra dice `[*]`", "Una celda quedó atrapada en bucle infinito o esperando input. **Fix**: menú Kernel → Interrupt (Esc + I dos veces). Si no responde, Restart Kernel — perderás variables en memoria pero los archivos quedan intactos."),
+        ("Cambié código de un módulo importado y el notebook ignora el cambio", "Python cachea módulos importados. **Fix**: `%load_ext autoreload` + `%autoreload 2` al inicio del notebook; recarga automáticamente al ejecutar."),
+        ("`%timeit` en una celda con asignación da error \"NameError\"", "Las variables creadas dentro de `%timeit` **no quedan** en el namespace (corre en sandbox). **Fix**: usa `%%timeit` (cell magic) si quieres preservar variables, o asigna fuera de la magic."),
+        ("Outputs gigantes hacen el .ipynb pesado y el diff de git ilegible", "Cada output (imagen, tabla) queda guardado en el JSON del notebook. **Fix**: pre-commit hook con `nbstripout` (limpia outputs antes de commitear) o `Cell → All Output → Clear` antes de guardar."),
+    ],
+    faq=[
+        ("¿Notebook clásico o JupyterLab o VS Code?",
+         "Para aprender, **VS Code** (mismo backend, mejor UX: autocomplete con type hints, debug gráfico, git inline). Para reuniones colaborativas en navegador, JupyterLab. El Notebook clásico es legacy — sigue funcionando pero ya no recibe features."),
+        ("¿Debo crear un kernel por proyecto o usar uno global?",
+         "**Uno por proyecto.** Cada proyecto tiene dependencias distintas que entran en conflicto: el kernel global tarde o temprano se rompe. Comando: `python -m ipykernel install --user --name <proyecto>`."),
+        ("¿Cuándo `%timeit` no es confiable?",
+         "Cuando lo que mides toca disco/red/GPU — la varianza es enorme y el min no representa típico. Usa `%%time` con varios runs manuales y reporta mediana. Tampoco confiable si la primera corrida hace JIT (numba) — calienta con un run previo."),
+        ("`%debug` no funciona, no muestra prompt",
+         "Necesita haber ocurrido una excepción **en el kernel** justo antes. Si la celda falló pero el kernel se reinició, perdiste el stack. También: en VS Code Jupyter, usa el panel de debug en su lugar (más cómodo)."),
+        ("¿Por qué mi notebook tarda 30 segundos en abrir si pesa solo 200 KB?",
+         "Probablemente trae outputs binarios grandes (imágenes inline en base64). El JSON parece chico pero al renderizar el navegador procesa MB. Limpia outputs y guarda."),
+    ],
 ))
 
 add(ClassSpec(
@@ -289,6 +384,37 @@ add(ClassSpec(
         Cell("md", "## 📝 Homework\n\nVer `README.md`. Repo público en GitHub con 5+ commits convencionales, branch mergeada, `.gitignore` de DS y 1 PR cerrado."),
         Cell("md", "## 🔗 Referencias\n\n- [Pro Git book](https://git-scm.com/book) — gratis online\n- [Conventional Commits](https://www.conventionalcommits.org/)\n\n➡️ **Siguiente:** [004 — Estructura reproducible de proyecto](../004-estructura-reproducible-de-proyecto-cookiecutter-data-science/README.md)"),
     ],
+    definiciones=[
+        ("Repositorio (repo)", "Carpeta con un subdirectorio `.git/` que guarda toda la historia. Características: contenido inmutable identificado por SHA-1, ramas son punteros móviles, todo cambio publicado es eterno (aunque borres el commit, vive en reflog 90 días)."),
+        ("Commit", "Snapshot inmutable del estado del repo en un momento. Tiene SHA-1, padre(s), autor, fecha, mensaje. Característica: **atómico** — debería poder revertirse solo sin romper nada."),
+        ("Branch (rama)", "Puntero móvil a un commit. Mover el puntero es barato. `HEAD` apunta a la rama actual. La rama `main` no es especial; solo es la rama por defecto del proyecto."),
+        ("Working tree / Staging / Repo / Remote", "Las 4 zonas: working tree (lo que editas) → staging area (lo preparado con `git add`) → repo local (lo commiteado) → remote (GitHub/GitLab). Cada `git` mueve cosas entre estas 4 zonas."),
+        ("Merge vs Rebase", "**Merge** crea un commit nuevo que junta dos historias (preserva ambas). **Rebase** reescribe los commits de tu rama encima de otra (historia lineal pero modificada). Característica clave: **nunca rebases ramas compartidas** — reescribir SHAs rompe a tus compañeros."),
+        ("Conventional Commits", "Convención que prescribe `tipo(scope): descripción`. Tipos: `feat`, `fix`, `docs`, `refactor`, `test`, `chore`, `perf`, `style`. Beneficio: changelogs y semver automáticos."),
+    ],
+    errores_comunes=[
+        ("`error: failed to push some refs to 'origin/main'`", "El remote tiene commits que no tienes localmente (alguien más empujó). **Fix**: `git pull --rebase` primero, resuelve conflictos si los hay, luego `git push`."),
+        ("`fatal: refusing to merge unrelated histories`", "Estás juntando dos repos sin ancestro común. **Fix**: `git pull --allow-unrelated-histories` (raro, asegúrate de que es lo que querías)."),
+        ("Hice `git reset --hard` y perdí mi trabajo 😱", "Si fue local y no había commit: perdido. Si había commit, **`git reflog`** lo recupera: busca el SHA antes del reset y `git reset --hard <sha>`."),
+        ("`Please tell me who you are` al hacer commit", "Falta config global. **Fix**: `git config --global user.name \"Tu Nombre\"` y `git config --global user.email \"tu@email.com\"`."),
+        ("Commit con archivo enorme; ahora `git push` rechaza por >100 MB", "GitHub bloquea blobs >100 MB. **Fix**: NO basta con borrar el archivo en un commit nuevo (queda en historia). Usa `git filter-repo` o BFG para reescribir historia, o agrega a `.gitignore` desde el inicio."),
+        ("Mergeé un PR pero ahora hay conflictos en `main`", "Alguien mergeó algo antes y tu base local es vieja. **Fix**: `git switch main && git pull` y resuelve los conflictos en una nueva rama, no directo en main."),
+        ("`.gitignore` no funciona — el archivo sigue apareciendo en `git status`", "Si el archivo **ya estaba trackeado** antes del `.gitignore`, git lo sigue viendo. **Fix**: `git rm --cached <archivo>` y commitea — desde ahora lo ignora."),
+    ],
+    faq=[
+        ("¿Merge o rebase?",
+         "Regla simple: **merge para todo lo público, rebase solo localmente antes de PR** para limpiar tus propios commits. Nunca rebases una rama que alguien más usa."),
+        ("¿Force push (`git push -f`) es siempre malo?",
+         "En `main` o ramas compartidas: catástrofe. En tu propia rama de feature después de rebase: aceptable. Mejor usar `--force-with-lease` que falla si alguien más empujó mientras."),
+        ("¿Cómo deshago el último commit?",
+         "Si NO empujaste: `git reset --soft HEAD~1` (mantiene cambios staged) o `--hard` (los borra). Si YA empujaste y quieres revertirlo sin reescribir historia: `git revert HEAD` (crea commit nuevo que deshace)."),
+        ("¿Squash o no squash al mergear?",
+         "Squash = un solo commit final con todo el PR. Bueno para mantener historia limpia en main. Pierdes el detalle de pasos intermedios. Política común: squash en PRs pequeños, merge commit en grandes."),
+        ("¿Está bien commitear el `.venv/` o el `data/raw/customers.csv`?",
+         "NO. `.venv/` se reconstruye con `requirements.txt`. Datos grandes/sensibles van fuera del repo (DVC, S3, etc.) — ver clase 159 Parte 4."),
+        ("Tengo 30 commits \"wip\" en mi rama, ¿qué hago antes del PR?",
+         "`git rebase -i main` para entrar al rebase interactivo. Cambia `pick` por `squash` (o `fixup`) en los commits intermedios; quedará un historial limpio."),
+    ],
 ))
 
 
@@ -357,6 +483,32 @@ add(ClassSpec(
         Cell("md", "## ✅ Checklist\n\n- [ ] Sé generar un proyecto con `cookiecutter-data-science`\n- [ ] Entiendo por qué `data/raw/` no se modifica\n- [ ] Sé importar desde `src/` en mis notebooks\n- [ ] Mi proyecto tiene `pyproject.toml`, no `requirements.txt` suelto\n- [ ] Reconozco al menos 3 olores de proyectos mal estructurados"),
         Cell("md", "## 📝 Homework\n\nVer `README.md`. Repo CCDS con `data/raw/penguins.csv`, notebook que importa de `src/`, `Makefile` con `make setup` y `make data`."),
         Cell("md", "## 🔗 Referencias\n\n- [cookiecutter-data-science v2](https://cookiecutter-data-science.drivendata.org/)\n- Sculley et al., *Hidden Technical Debt in ML Systems* (NeurIPS 2015)\n\n➡️ **Siguiente:** [005 — VS Code / Cursor para Python y Jupyter](../005-vs-code-cursor-para-python-y-jupyter/README.md)"),
+    ],
+    definiciones=[
+        ("Cookiecutter", "Generador de proyectos a partir de plantillas. Tomas una plantilla (URL de un repo), respondes 3-5 preguntas y obtienes un proyecto con estructura pre-armada. Característica: idempotente — la plantilla no sabe ni le importa el contenido futuro del proyecto."),
+        ("CCDS (cookiecutter-data-science)", "Plantilla específica para proyectos de DS, v2 (2023+). Separa `data/raw`, `data/interim`, `data/processed`, `src/`, `notebooks/`, `reports/`, `docs/`. Es **convención**, no dogma."),
+        ("Editable install (`pip install -e .`)", "Instala el paquete pero apuntando al código fuente — los cambios se reflejan sin reinstalar. Habilita `from mi_proyecto.features import x` desde notebooks dentro del repo."),
+        ("`pyproject.toml`", "Estándar moderno (PEP 621) para metadata + dependencias + config de tools (ruff, mypy, pytest). Reemplaza `setup.py` + `setup.cfg` + `requirements.txt` suelto + configs sueltas."),
+        ("`Makefile`", "Archivo con \"recetas\" nombradas (`make data`, `make train`). Escrito en tabs (no espacios), las dependencias se declaran arriba (`target: dep1 dep2`). En proyectos DS funciona como interfaz humana a comandos típicos."),
+    ],
+    errores_comunes=[
+        ("`ModuleNotFoundError: No module named 'mi_proyecto'` al importar desde notebook", "El paquete no está instalado en el venv del kernel. **Fix**: con el venv activo, `pip install -e .` desde la raíz del proyecto (necesita `pyproject.toml` con `[project] name='mi_proyecto'`)."),
+        ("CSV en `data/raw/` apareció en `git status` y pesa 200 MB", "El `.gitignore` no cubre `data/raw/*` o no se aplicó a tiempo. **Fix**: añade `data/raw/*` al `.gitignore` + `!data/raw/.gitkeep` (mantén placeholder); si ya commiteaste, `git rm --cached data/raw/customers.csv`."),
+        ("Tengo 3 notebooks con la misma función `limpiar_fechas`", "Copy-paste. **Fix**: extrae a `src/mi_proyecto/features/cleaning.py` y haz `from mi_proyecto.features.cleaning import limpiar_fechas` en cada notebook. Si modificas la función, todos los notebooks la heredan."),
+        ("El compañero clonó el repo y `make data` falla con \"command not found\"", "Make no está instalado en Windows por default. **Fix**: instalar make (Git Bash trae uno) o documentar el comando equivalente en README; alternativamente, usa scripts Python directos."),
+        ("Edité `pyproject.toml` y los imports siguen viejos", "Tras cambios en metadata o entry-points debes reinstalar. **Fix**: `pip install -e . --force-reinstall --no-deps` (sin deps si no las cambiaste)."),
+    ],
+    faq=[
+        ("¿Realmente necesito una plantilla? ¿No puedo improvisar?",
+         "Puedes, pero perderás el 80% de la ganancia: el compañero que ya conoce CCDS sabe dónde buscar; sin plantilla, cada proyecto es una caja de sorpresas."),
+        ("¿`data/raw/` o `data/01_raw/`?",
+         "CCDS v2 usa `data/raw/`, `data/interim/`, `data/processed/`, `data/external/`. La numeración `01_/02_/03_` la verás en Kedro y en algunas variantes — ambas son válidas, sigue una sola convención por proyecto."),
+        ("¿`requirements.txt` o `pyproject.toml`?",
+         "**`pyproject.toml`** para declarar las deps de tu paquete. **`requirements.txt`** (generado con `pip freeze` o `uv pip compile`) es el **lockfile** con versiones exactas para reproducir. No están en conflicto; conviven."),
+        ("¿Y si el proyecto es solo un notebook exploratorio?",
+         "No fuerces CCDS. Carpeta con `notebook.ipynb`, `data.csv` y `README.md` está bien. La estructura completa aporta cuando el proyecto vive >3 meses o tiene >1 persona."),
+        ("¿Por qué los notebooks tienen prefijo numérico como `0.01-jvp-eda.ipynb`?",
+         "Convención CCDS: `<fase>.<orden>-<iniciales>-<tema>`. Fase 0=exploración, 1=features, 2=modelos, 3=reportes. Iniciales del autor evitan conflictos cuando varias personas crean notebooks."),
     ],
 ))
 
@@ -430,6 +582,32 @@ add(ClassSpec(
         Cell("md", "## ✅ Checklist\n\n- [ ] Mi VS Code apunta al intérprete del venv del proyecto\n- [ ] Sé poner un breakpoint y debuggear sin `print`\n- [ ] Edito notebooks en VS Code con autocompletado\n- [ ] Tengo ruff configurado en `pyproject.toml`\n- [ ] Sé correr tests desde el panel Testing"),
         Cell("md", "## 📝 Homework\n\nVer `README.md`. Repo con `.vscode/settings.json`, `pyproject.toml` con ruff, y screenshot del debugger en acción."),
         Cell("md", "## 🔗 Referencias\n\n- [VS Code Python tutorial](https://code.visualstudio.com/docs/python/python-tutorial)\n- [ruff docs](https://docs.astral.sh/ruff/)\n\n➡️ **Siguiente:** [006 — Python: tipos, estructuras, control de flujo](../006-python-tipos-estructuras-control-de-flujo/README.md)"),
+    ],
+    definiciones=[
+        ("Workspace", "Concepto de VS Code = una carpeta (o conjunto de carpetas) con configuración asociada en `.vscode/settings.json`. La configuración del workspace **override** a la del usuario. Característica: pones `.vscode/` en git para que todos los colaboradores hereden la misma config."),
+        ("Intérprete Python", "Ejecutable concreto (`/path/to/.venv/bin/python`). VS Code recuerda **uno por workspace**. Es el origen del 90% de los \"funciona en mi máquina\" entre IDE y terminal."),
+        ("ruff", "Linter + formatter en un solo binario, escrito en Rust. Reemplaza black + isort + flake8 + (parte de) pylint con un único tool 10–100× más rápido. Config en `[tool.ruff]` de `pyproject.toml`."),
+        ("Breakpoint", "Marca en una línea (F9) que pausa la ejecución cuando llega ahí. Permite inspeccionar variables, paso a paso, evaluar expresiones — mil veces más eficiente que `print`."),
+        ("`launch.json`", "Config de debug de VS Code. Define perfiles: \"debug archivo actual\", \"debug tests\", \"debug Django\", etc. Cada perfil tiene su `program`, `args`, `env`, `justMyCode`."),
+    ],
+    errores_comunes=[
+        ("\"Python interpreter is not selected\" al abrir un .py", "Workspace nuevo, VS Code no eligió uno. **Fix**: `Ctrl+Shift+P` → \"Python: Select Interpreter\" → elige el del `.venv` del proyecto. Guarda en `.vscode/settings.json` para que persista."),
+        ("Format-on-save no aplica ruff aunque está instalado", "Falta declarar ruff como formatter por default para Python. **Fix**: en `settings.json`, `\"[python]\": { \"editor.defaultFormatter\": \"charliermarsh.ruff\" }` y `\"editor.formatOnSave\": true`."),
+        ("Debugger arranca pero se salta mis breakpoints", "Estás corriendo el archivo (Ctrl+F5 = sin debug) en vez de debug (F5). O `justMyCode: true` está saltando código que vive en librerías que sí querías inspeccionar."),
+        ("Tests no aparecen en el panel \"Testing\"", "VS Code no detectó pytest. **Fix**: `Ctrl+Shift+P` → \"Python: Configure Tests\" → pytest → carpeta `tests`. O añade `[tool.pytest.ini_options] testpaths = [\"tests\"]` en `pyproject.toml`."),
+        ("Cambié interpreter y los imports siguen rotos", "VS Code cachea symbols del intérprete viejo. **Fix**: `Ctrl+Shift+P` → \"Python: Restart Language Server\". Si persiste, recarga la ventana (`Reload Window`)."),
+    ],
+    faq=[
+        ("¿VS Code o Cursor?",
+         "Cursor = VS Code + IA integrada (chat con contexto del repo, edición multi-archivo). Si pagas Copilot o no te interesa IA, quédate en VS Code. Si quieres pair-programming con IA sin saltar a otra app, Cursor. Las extensiones son las mismas."),
+        ("¿Debo commitear `.vscode/`?",
+         "**Sí** la parte compartida: `settings.json` (interpreter path relativo, formatter, etc.), `extensions.json` (recomendaciones). **No** lo personal: `.vscode/launch.json` con paths absolutos del tester."),
+        ("¿Notebook en VS Code o en JupyterLab?",
+         "VS Code para escribir/refactorizar (autocomplete con type hints, debug por celda, git inline). JupyterLab cuando alguien necesita un navegador y no quiere instalar VS Code (alumno, demo en proyector)."),
+        ("¿Para qué `justMyCode: false`?",
+         "Por default, el debugger se salta código de librerías de terceros (numpy, pandas) — útil para no perderte. Pero a veces el bug viene **desde dentro de pandas** (datos malformados); con `false` puedes entrar a ver."),
+        ("¿Ruff reemplaza todo el stack? ¿No necesito black?",
+         "Sí — `ruff format` es drop-in replacement de black (mismo output prácticamente). Mismo con isort (`ruff check --select I --fix`) y flake8 (`ruff check`). Único caso donde aún conviene black: si tu org ya tiene CI con black configurado y no quieres tocar."),
     ],
 ))
 
