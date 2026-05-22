@@ -13,6 +13,37 @@
 
 ---
 
+## [v2.1.0] — 2026-05-22
+
+### Añadido
+
+- **Parte 0 — Prerrequisitos: contenido pedagógico completo** (46 clases)
+  - Setup (001–005): venv/uv/conda, Jupyter, Git, CCDS, VS Code
+  - Python idiomático (006–013): tipos, comprehensions, funciones, OOP, pathlib, logging, type hints
+  - NumPy (014–021): tipos, ufuncs, agregaciones, broadcasting, masks, sort, linalg, random
+  - pandas (022–032): Series/DataFrame, indexing, joins, groupby, pivot, strings, time series, eval/query
+  - Visualización (033–040): matplotlib base, subplots, seaborn, mapas folium/plotly
+  - SQL + NoSQL + APIs (041–046): SQL básico/avanzado, DuckDB, MongoDB, requests, scraping
+- Cada clase: README con objetivo + resultados + 5 ejercicios + homework verificable + referencias a libro fuente
+- Cada notebook: 10–18 celdas ejecutables con código real (no stubs)
+- `scripts/build_parte0_*.py` — generadores idempotentes por bloque temático
+- `scripts/generate_site_curriculum.py` — publica los 197 README como HTML en GitHub Pages bajo `/clases/`
+- Workflow `deploy-pages.yml` regenera HTML en cada push a `classes/**/README.md`
+- Skill global `python-version-control` para auditar coherencia de versión Python en repos
+- Páginas Pages live en https://vladimiracunadev-create.github.io/python-data-science-program/clases/
+
+### Cambiado
+
+- **Alineación Python 3.12** en toda la stack (pyproject `requires-python`, `target-version` ruff, Dockerfile `FROM`, CI matrix, security workflow). El currículo asume y enseña 3.12+; ahora coincide con CI/Docker.
+- README raíz y ROADMAP marcan Parte 0 como completa
+
+### Corregido
+
+- Branch policy del environment `github-pages` (residuo de rename `master`→`main`)
+- ruff `per-file-ignores` para scripts de generación con `sys.path.insert` entre imports
+
+---
+
 ## [v2.0.0-scaffold] — 2026-05-17
 
 Rediseño completo del currículo. Pasa de 31 clases en 13 módulos a **197 clases en 9 partes**, alineado con pauta profesional derivada de *Hands-On ML* (Géron 3ª ed.), *Python Data Science Handbook* (VanderPlas), *Designing ML Systems* (Huyen), *ISLP* (James et al) y *Fairness and ML* (Barocas/Hardt/Narayanan).

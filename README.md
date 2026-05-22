@@ -55,7 +55,7 @@ Integra currículo modular extenso, laboratorio interactivo local, portal del al
 | 🏷️ **Versión** | `v2.0.0-scaffold` |
 | 📚 **Clases** | 197 en 9 partes |
 | 🗂️ **Estructura** | ✅ stubs de `README.md` + `notebook.ipynb` generados para las 197 clases |
-| ✍️ **Contenido pedagógico** | ⏳ en desarrollo — los stubs se rellenan por bloques (ver [`docs/syllabus.md`](docs/syllabus.md)) |
+| ✍️ **Contenido pedagógico** | 🟢 **Parte 0 completa (46 clases)** · ⏳ Partes 1-8 en desarrollo (ver [`docs/syllabus.md`](docs/syllabus.md)) |
 | 🧪 **Laboratorio Flask** | ✅ ejecución Python local, captura de gráficos, guardado de notebooks |
 | 🖥️ **App Windows** | ✅ código operativo · binario pendiente de rebuild (Edge WebView2, sin navegador) |
 | 📱 **App Android** | ✅ código operativo · APK debug (Expo/React Native) |
@@ -67,7 +67,7 @@ Cada parte tiene su **propio README** con narrativa completa: de qué trata, qu�
 
 | # | Parte | Clases | Foco | README |
 |---|---|---:|---|---|
-| 0️⃣ | Prerrequisitos | 46 | Python aplicado, NumPy, pandas, visualización, SQL, NoSQL, APIs | [📘 leer](classes/parte-0-prerrequisitos/README.md) |
+| 0️⃣ | Prerrequisitos ✅ | 46 | Python aplicado, NumPy, pandas, visualización, SQL, NoSQL, APIs | [📘 leer](classes/parte-0-prerrequisitos/README.md) |
 | 1️⃣ | ML clásico | 43 | Regresión, clasificación, ensembles, no supervisado | [📘 leer](classes/parte-1-machine-learning-clasico/README.md) |
 | 2️⃣ | Deep Learning | 56 | Keras, TF, CNN, RNN, Transformers, RL, despliegue | [📘 leer](classes/parte-2-deep-learning/README.md) |
 | 3️⃣ | Estadística inferencial | 13 | Hipótesis, A/B testing, inferencia causal, Bayes | [📘 leer](classes/parte-3-estadistica-inferencial/README.md) |

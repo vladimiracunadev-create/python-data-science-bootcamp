@@ -2,9 +2,17 @@
 
 > [⬅️ Volver al programa](../../README.md) · [📚 Índice completo](../README.md) · [⏭️ Parte siguiente](../parte-1-machine-learning-clasico/README.md)
 
-**46 clases** · ~10–12 semanas a ritmo moderado
+**46 clases · ~10–12 semanas a ritmo moderado · ✅ Contenido completo**
 
-**Fuente principal:** **VanderPlas** ([*Python Data Science Handbook*](https://jakevdp.github.io/PythonDataScienceHandbook/)) — secuencia y énfasis en NumPy, pandas y matplotlib.
+**Fuentes (por bloque):**
+
+- **VanderPlas** ([*Python Data Science Handbook*](https://jakevdp.github.io/PythonDataScienceHandbook/)) — NumPy (014–021), pandas (022–032), visualización (033–039).
+- **Ramalho** ([*Fluent Python* 2e](https://www.fluentpython.com/)) — Python idiomático (006–013).
+- **Tanimura** ([*SQL for Data Scientists*](https://www.oreilly.com/library/view/sql-for-data/9781492088776/)) — SQL (041–042).
+- **Mitchell** ([*Web Scraping with Python* 2e](https://www.oreilly.com/library/view/web-scraping-with/9781491985564/)) — clase 046.
+- **Docs oficiales** (Python, requests, BeautifulSoup, folium/plotly, MongoDB) cuando son la mejor referencia.
+
+Cada clase tiene su `README.md` con objetivo, resultados de aprendizaje verificables, dataset recomendado, 5 ejercicios y homework con criterio de aceptación. Cada `notebook.ipynb` trae 10–18 celdas mezclando markdown explicativo + código ejecutable (basado en VanderPlas/Ramalho donde aplica).
 
 ---
 
