@@ -1,31 +1,62 @@
 # Clase 035 — Matplotlib: subplots y gridspec
 
-> Parte: **0-prerrequisitos**
-> Estado: **stub** (pendiente desarrollar contenido).
+> Parte: **0 — Prerrequisitos** · Fuente: VanderPlas, **cap. 4** § 4.6 *Multiple Subplots*.
+> ⏱️ Duración estimada: **60 min**.
 
-## Objetivo
+---
 
-Describir el resultado de aprendizaje concreto de esta clase.
+## 🎯 Objetivo
 
-## Resultados esperados
+Que el alumno organice múltiples plots en una sola figura — con `plt.subplots(n, m)` para grillas regulares y con `GridSpec` para layouts irregulares (un plot grande + varios pequeños). Crítico para informes y dashboards.
 
-Al finalizar, el estudiante podrá:
+## 📚 Resultados de aprendizaje
 
-- (resultado 1)
-- (resultado 2)
-- (resultado 3)
+Al finalizar la clase, el alumno podrá:
 
-## Temas clave
+1. **Crear grillas regulares** con `fig, axes = plt.subplots(2, 3, figsize=...)`.
+2. **Iterar sobre `axes.flat`** para llenar la grilla con loops.
+3. **Compartir ejes** con `sharex=True, sharey=True` para comparar.
+4. **Usar `GridSpec`** para layouts irregulares (1 grande + 3 pequeños).
+5. **Usar `constrained_layout=True`** en vez de `tight_layout()` (más confiable).
 
-- (subtema 1)
-- (subtema 2)
-- (subtema 3)
+## 🗺️ Temas
 
-## Materiales
+| # | Tema | Por qué importa |
+|---|---|---|
+| 1 | `plt.subplots(nrows, ncols)` | Grilla regular. |
+| 2 | Iterar con `.flat` | Llenar muchos plots en loop. |
+| 3 | `sharex`/`sharey` | Comparar con misma escala. |
+| 4 | `GridSpec` para layouts irregulares | 1 grande + N pequeños. |
+| 5 | `constrained_layout` vs `tight_layout` | El primero es mejor. |
+| 6 | `add_subplot` con posiciones custom | Cuando necesitas full control. |
 
-- `README.md` — esta ficha
-- `notebook.ipynb` — cuaderno de la clase
+## 📂 Dataset / recursos
 
-## Prerrequisitos
+Palmer Penguins. Sin descarga.
 
-Ver índice general en `classes/README.md` para dependencias entre clases.
+## 🧪 Ejercicios
+
+**1.** **Grilla 2×2.** 4 histogramas de las 4 features numéricas de penguins en una figura.
+
+**2.** **Grilla con loop.** Itera `axes.flat` para plot consistente.
+
+**3.** **`sharey=True`.** 3 boxplots por species lado a lado con misma escala Y.
+
+**4.** **GridSpec irregular.** Un scatter grande (2×2) + 1 hist arriba (1×2) + 1 hist a la derecha (2×1) — marginal histograms.
+
+**5.** **`constrained_layout`.** Compara una figura compleja con `tight_layout()` vs `constrained_layout=True` — observa diferencia.
+
+## 📝 Homework verificable
+
+Notebook con penguins: (a) grilla 2×2 hists; (b) 3 boxplots con sharey; (c) layout GridSpec con scatter central + marginales arriba/derecha; (d) misma figura comparando tight_layout vs constrained_layout.
+
+**Criterio de aceptación:** Sin superposición de labels. Layouts limpios. Marginales alineadas al scatter.
+
+## 🔗 Referencias
+
+- VanderPlas, **cap. 4** § 4.6.
+- [GridSpec tutorial](https://matplotlib.org/stable/users/explain/axes/arranging_axes.html)
+
+## ➡️ Siguiente clase
+
+[Clase 036 — Matplotlib: legends, colorbars, ticks, anotaciones](../036-matplotlib-legends-colorbars-ticks-anotaciones/README.md)
