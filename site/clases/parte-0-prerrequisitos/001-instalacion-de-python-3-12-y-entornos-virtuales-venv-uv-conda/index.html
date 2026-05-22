@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 001 — Instalación de Python 3.12+ y entornos virtuales (venv, uv, conda) | Python Data Science Program</title>
+  <meta name="description" content="Clase 001 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 0 — Prerrequisitos</a><span class="sep">›</span><span>001</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-0-prerrequisitos/001-instalacion-de-python-3-12-y-entornos-virtuales-venv-uv-conda/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<h1 id="clase-001-instalacion-de-python-312-y-entornos-virtuales-venv-uv-conda">Clase 001 — Instalación de Python 3.12+ y entornos virtuales (venv, uv, conda)</h1>
+<blockquote>
+<p>Parte: <strong>0 — Prerrequisitos</strong> · Fuente: VanderPlas, <em>Python Data Science Handbook</em>, prefacio "Installation Considerations".
+⏱️ Duración estimada: <strong>90 min</strong> (45 lectura + 45 práctica).</p>
+</blockquote>
+<hr>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Que el alumno deje su máquina lista para trabajar en data science: con <strong>Python 3.12+</strong> instalado correctamente, con <strong>al menos dos gestores de entornos virtuales</strong> funcionando (<code>venv</code> nativo + <code>uv</code> o <code>conda</code>), y con la disciplina de <strong>nunca instalar paquetes en el Python del sistema</strong>. Al final de la clase, deberá poder crear un entorno limpio, activarlo, instalar dependencias declaradas, y reproducirlo exactamente en otra máquina.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar la clase, el alumno podrá:</p>
+<ol>
+<li><strong>Verificar</strong> qué versión de Python tiene su máquina y desde qué ruta se ejecuta (<code>python -V</code>, <code>which python</code> / <code>where python</code>, <code>sys.executable</code>).</li>
+<li><strong>Crear, activar y destruir</strong> entornos virtuales con <code>venv</code>, <code>uv venv</code> y <code>conda create</code> — y explicar cuándo conviene cada uno.</li>
+<li><strong>Instalar dependencias</strong> desde <code>requirements.txt</code> y desde <code>pyproject.toml</code>, y <strong>congelar</strong> versiones reproducibles (<code>pip freeze</code>, <code>uv pip compile</code>, <code>conda env export</code>).</li>
+<li><strong>Diagnosticar</strong> el error más frecuente del principiante: "instalé un paquete pero el import falla" (causa: pip instaló en un Python distinto del que ejecuta el notebook).</li>
+<li><strong>Justificar</strong> por qué un entorno virtual por proyecto es no-negociable en data science (reproducibilidad, conflictos de versiones, aislamiento de experimentos).</li>
+</ol>
+<h2 id="prerrequisitos">🧩 Prerrequisitos</h2>
+<ul>
+<li>Acceso a una terminal (PowerShell en Windows, Terminal en macOS/Linux).</li>
+<li>Permisos para instalar software en la máquina propia.</li>
+<li><strong>Conocimiento previo:</strong> ninguno. Esta es la primera clase del programa.</li>
+</ul>
+<h2 id="temas">🗺️ Temas</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Tema</th>
+<th>Por qué importa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Qué es Python "del sistema" y por qué no tocarlo</td>
+<td>Romperlo deja tu OS inestable (macOS/Linux lo usan internamente).</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Instaladores oficiales vs. <code>pyenv</code> / <code>mise</code></td>
+<td>Cómo tener varias versiones de Python conviviendo.</td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>venv</code> (stdlib)</td>
+<td>El más simple, viene incluido — el "default safe".</td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>uv</code> (Astral)</td>
+<td>Rápido (10–100× pip), reemplazo moderno de pip + virtualenv + pip-tools.</td>
+</tr>
+<tr>
+<td>5</td>
+<td><code>conda</code> / <code>mamba</code></td>
+<td>Necesario cuando hay dependencias C/CUDA (PyTorch + GPU, geopandas, rdkit).</td>
+</tr>
+<tr>
+<td>6</td>
+<td><code>requirements.txt</code> vs <code>pyproject.toml</code> vs <code>environment.yml</code></td>
+<td>Tres formatos, tres ecosistemas — cuándo usar cuál.</td>
+</tr>
+<tr>
+<td>7</td>
+<td>El bug más común: "pip install funciona pero <code>import</code> falla"</td>
+<td>Diagnóstico con <code>sys.executable</code> y <code>pip -V</code>.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<p><strong>No requiere dataset.</strong> Es una clase de setup. Los únicos archivos generados son los propios entornos virtuales (que se ignoran en git vía <code>.gitignore</code>).</p>
+<p>Recursos externos:
+- <a href="https://www.python.org/downloads/">Python.org downloads</a> — instalador oficial.
+- <a href="https://docs.astral.sh/uv/">uv docs</a> — gestor moderno de Astral.
+- <a href="https://docs.conda.io/projects/miniconda/">Miniconda</a> — instalación mínima de conda (evita Anaconda completo, pesa 3 GB).</p>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>Diagnóstico inicial.</strong> Abre una terminal y reporta: versión de Python (<code>python -V</code>), ruta absoluta (<code>where python</code> en Windows, <code>which python</code> en Unix) y el contenido de <code>sys.path</code> ejecutando un script. Anótalo — lo usarás de baseline.</li>
+<li><strong>Crea un entorno <code>venv</code> llamado <code>.venv</code></strong> en un directorio nuevo, actívalo, instala <code>numpy==2.1.0</code> y <code>pandas==2.2.3</code>, y verifica con <code>pip list</code>. Luego desactívalo y comprueba que <code>numpy</code> ya no se importa desde el Python global.</li>
+<li><strong>Replica el mismo entorno con <code>uv</code>.</strong> Instala uv (<code>pipx install uv</code> o el instalador oficial), corre <code>uv venv</code>, <code>uv pip install numpy pandas</code>, y compara la velocidad contra el paso anterior.</li>
+<li><strong>Genera <code>requirements.txt</code></strong> congelando versiones exactas con <code>pip freeze &gt; requirements.txt</code>. Borra el entorno, recréalo desde cero y reinstala con <code>pip install -r requirements.txt</code>. Verifica que las versiones coinciden.</li>
+<li><strong>Provoca y resuelve el bug clásico.</strong> Desde Jupyter (ejecutando con un Python distinto al del venv activo), corre <code>!pip install seaborn</code> y luego <code>import seaborn</code>. Diagnostica por qué falla (o por qué se instaló en el lugar equivocado) usando <code>import sys; sys.executable</code> en una celda.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Entrega un repo (o carpeta zip) con:</p>
+<ul>
+<li>[ ] <code>README.md</code> indicando tu OS, versión de Python instalada y gestor elegido (venv / uv / conda).</li>
+<li>[ ] <code>.gitignore</code> con <code>.venv/</code> y <code>__pycache__/</code> (mínimo).</li>
+<li>[ ] <code>requirements.txt</code> con exactamente: <code>numpy&gt;=2.0</code>, <code>pandas&gt;=2.2</code>, <code>matplotlib&gt;=3.8</code>, <code>jupyter&gt;=1.0</code>.</li>
+<li>[ ] Un script <code>verify.py</code> que imprima:</li>
+<li><code>sys.version</code></li>
+<li><code>sys.executable</code></li>
+<li><code>numpy.__version__</code>, <code>pandas.__version__</code></li>
+<li>[ ] Output de <code>python verify.py</code> pegado al final del <code>README.md</code>.</li>
+</ul>
+<p><strong>Criterio de aceptación:</strong> otra persona debe poder clonar tu repo, ejecutar:</p>
+<pre><code class="language-bash">python -m venv .venv
+source .venv/bin/activate    # o .venv\Scripts\activate en Windows
+pip install -r requirements.txt
+python verify.py
+</code></pre>
+<p>…y obtener un output similar al que tú reportaste (mismo Python mayor.menor, mismos paquetes importables).</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>VanderPlas, <em>Python Data Science Handbook</em>, <strong>Preface § "Installation Considerations"</strong>.</li>
+<li><a href="https://peps.python.org/pep-0405/">PEP 405</a> — <code>venv</code> (especificación oficial).</li>
+<li><a href="https://docs.astral.sh/uv/getting-started/">Astral uv — Getting started</a>.</li>
+<li><a href="https://www.anaconda.com/blog/understanding-conda-and-pip">Conda vs pip vs venv</a> — comparación oficial.</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../002-jupyter-y-jupyterlab-kernels-magics-debugging-profiling/index.html">Clase 002 — Jupyter y JupyterLab: kernels, magics, debugging, profiling</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-0-prerrequisitos/001-instalacion-de-python-3-12-y-entornos-virtuales-venv-uv-conda/"><code>classes/parte-0-prerrequisitos/001-instalacion-de-python-3-12-y-entornos-virtuales-venv-uv-conda/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Parte 3 · Estadística inferencial | Python Data Science Program</title>
+  <meta name="description" content="Hipótesis, A/B testing, inferencia causal, Bayes">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../styles.css">
+  <link rel="stylesheet" href="../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../index.html">Currículo</a><span class="sep">›</span><span>Parte 3 — Estadística inferencial</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    
+    <h1 id="parte-3-estadistica-inferencial-y-causal">Parte 3 — Estadística Inferencial y Causal</h1>
+<p><strong>13 clases</strong> · ~4 semanas (puede intercalarse con Parte 1)</p>
+<p><strong>Fuente principal:</strong> <strong>ISLP</strong> (<a href="https://www.statlearning.com/"><em>Statistical Learning with Python</em></a>) — rigor matemático en tests, intervalos y diseño experimental.</p>
+<hr>
+<h2 id="de-que-trata-esta-parte">🎯 ¿De qué trata esta parte?</h2>
+<p>La parte que separa al data scientist del "sklearn user". Cubre <strong>inferencia estadística</strong> (tests, intervalos, bootstrap), <strong>diseño de experimentos</strong> (A/B testing real, no solo <code>p &lt; 0.05</code>) e <strong>inferencia causal</strong> (DAGs, confounders, instrumentos, DiD, uplift) — herramientas que se usan a diario para responder preguntas tipo "¿esto que cambiamos en el producto realmente movió la métrica?" o "¿este coeficiente significa lo que creo que significa?".</p>
+<p>Se intercala bien con la Parte 1 porque la mayoría de los problemas de evaluación de modelos (comparar dos clasificadores, decidir si una mejora es real) son problemas estadísticos disfrazados. Incluye una introducción a estadística bayesiana con PyMC para abrir la puerta a inferencia con incertidumbre explícita.</p>
+<h2 id="problemas-que-resuelve">🧩 Problemas que resuelve</h2>
+<ul>
+<li>Decidir si una diferencia observada es estadísticamente significativa o ruido.</li>
+<li>Diseñar un A/B test con tamaño de muestra y poder estadístico correctos, no a ojo.</li>
+<li>Aplicar el test correcto según los supuestos del dato (paramétrico vs no paramétrico, pareado vs independiente).</li>
+<li>Corregir comparaciones múltiples (Bonferroni, FDR) para no inflar el falso positivo.</li>
+<li>Estimar incertidumbre con bootstrap cuando los supuestos clásicos no aplican.</li>
+<li>Identificar confounders en un DAG y elegir la estrategia causal correcta (control, IV, DiD, uplift).</li>
+<li>Hacer una inferencia bayesiana básica con MCMC en PyMC.</li>
+</ul>
+<h2 id="resultados-de-aprendizaje">🎓 Resultados de aprendizaje</h2>
+<p>Al finalizar esta parte, el estudiante podrá:</p>
+<ul>
+<li>Diseñar y analizar un A/B test end-to-end, incluyendo poder estadístico y corrección por múltiples métricas.</li>
+<li>Aplicar bootstrap para construir intervalos de confianza no paramétricos sobre cualquier estimador.</li>
+<li>Dibujar el DAG de un problema de negocio y justificar qué variables controlar.</li>
+<li>Implementar un modelo bayesiano simple en PyMC e interpretar el posterior.</li>
+</ul>
+<h2 id="estructura-tematica">🗺️ Estructura temática</h2>
+<ul>
+<li><strong>Tests clásicos</strong> — clases 146–151 — distribuciones, t-test, chi-cuadrado, ANOVA, no paramétricos, comparaciones múltiples.</li>
+<li><strong>Estimación e incertidumbre</strong> — clases 152–153 — intervalos de confianza, bootstrap, permutation tests.</li>
+<li><strong>Experimentación y causalidad</strong> — clases 154–157 — A/B testing, diseño experimental, inferencia causal con DAGs, uplift / DiD.</li>
+<li><strong>Inferencia bayesiana</strong> — clase 158 — priors, posterior, MCMC con PyMC.</li>
+</ul>
+    <hr>
+    <h2>📚 Ficha por clase</h2>
+    <div class="classes-list"><a href="146-distribuciones-normal-binomial-poisson-exponencial/index.html"><span class="num">146</span> <span class="title">Distribuciones: normal, binomial, Poisson, exponencial</span></a><a href="147-test-t-una-muestra-dos-muestras-pareado/index.html"><span class="num">147</span> <span class="title">Test t (una muestra, dos muestras, pareado)</span></a><a href="148-test-chi-cuadrado-de-independencia-y-bondad-de-ajuste/index.html"><span class="num">148</span> <span class="title">Test chi-cuadrado de independencia y bondad de ajuste</span></a><a href="149-anova-one-way-two-way/index.html"><span class="num">149</span> <span class="title">ANOVA (one-way, two-way)</span></a><a href="150-tests-no-parametricos-mann-whitney-wilcoxon-kruskal-wallis/index.html"><span class="num">150</span> <span class="title">Tests no paramétricos: Mann-Whitney, Wilcoxon, Kruskal-Wallis</span></a><a href="151-correccion-de-comparaciones-multiples-bonferroni-fdr/index.html"><span class="num">151</span> <span class="title">Corrección de comparaciones múltiples (Bonferroni, FDR)</span></a><a href="152-intervalos-de-confianza/index.html"><span class="num">152</span> <span class="title">Intervalos de confianza</span></a><a href="153-bootstrap-y-permutation-tests/index.html"><span class="num">153</span> <span class="title">Bootstrap y permutation tests</span></a><a href="154-a-b-testing-tamano-de-muestra-poder-estadistico/index.html"><span class="num">154</span> <span class="title">A/B testing: tamaño de muestra, poder estadístico</span></a><a href="155-diseno-experimental/index.html"><span class="num">155</span> <span class="title">Diseño experimental</span></a><a href="156-inferencia-causal-dags-confounders-instrumentos/index.html"><span class="num">156</span> <span class="title">Inferencia causal: DAGs, confounders, instrumentos</span></a><a href="157-uplift-modeling-did-difference-in-differences/index.html"><span class="num">157</span> <span class="title">Uplift modeling, DiD (difference-in-differences)</span></a><a href="158-bayes-intro-priors-posterior-mcmc-con-pymc/index.html"><span class="num">158</span> <span class="title">Bayes intro: priors, posterior, MCMC con PyMC</span></a></div>
+    
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-3-estadistica-inferencial/"><code>classes/parte-3-estadistica-inferencial/</code></a>
+      · <a href="../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

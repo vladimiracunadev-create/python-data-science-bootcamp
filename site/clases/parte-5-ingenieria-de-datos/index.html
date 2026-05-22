@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Parte 5 · Ingeniería de datos | Python Data Science Program</title>
+  <meta name="description" content="Spark, Airflow, lakehouses, streaming">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../styles.css">
+  <link rel="stylesheet" href="../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../index.html">Currículo</a><span class="sep">›</span><span>Parte 5 — Ingeniería de datos</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    
+    <h1 id="parte-5-ingenieria-de-datos">Parte 5 — Ingeniería de Datos</h1>
+<p><strong>8 clases</strong> · ~3 semanas</p>
+<p><strong>Fuente principal:</strong> Complementaria — fundamentos prácticos de data engineering necesarios para alimentar pipelines de ML a escala.</p>
+<hr>
+<h2 id="de-que-trata-esta-parte">🎯 ¿De qué trata esta parte?</h2>
+<p>La parte que enseña a <strong>mover y transformar datos a escala</strong>, más allá de lo que pandas aguanta. Cubre orquestación (Airflow, Prefect, Dagster), procesamiento distribuido (PySpark, Polars), almacenamiento analítico (BigQuery, Snowflake, DuckDB), streaming (Kafka, Kinesis), formatos columnares (Parquet, Avro) y modelado dimensional (star/snowflake schemas).</p>
+<p>Es la parte donde el data scientist deja de pedirle datos al equipo de data engineering y empieza a moverlos él mismo cuando es necesario. No reemplaza a un data engineer senior, pero sí cubre el 80 % de los casos donde el bottleneck era "esto no cabe en memoria" o "este pipeline corre 8 horas y falla a la mitad".</p>
+<h2 id="problemas-que-resuelve">🧩 Problemas que resuelve</h2>
+<ul>
+<li>Orquestar un pipeline de N pasos con dependencias, retries y observabilidad.</li>
+<li>Procesar datasets de TBs con PySpark o de GBs con Polars sin cargarlos en RAM.</li>
+<li>Consultar un data warehouse moderno (BigQuery, Snowflake, DuckDB local) desde Python.</li>
+<li>Consumir un stream de eventos en tiempo real (Kafka / Kinesis).</li>
+<li>Elegir el formato de almacenamiento correcto (Parquet vs Avro vs CSV) según el patrón de lectura.</li>
+<li>Diseñar un modelo dimensional (star schema) para BI y para features de ML.</li>
+</ul>
+<h2 id="resultados-de-aprendizaje">🎓 Resultados de aprendizaje</h2>
+<p>Al finalizar esta parte, el estudiante podrá:</p>
+<ul>
+<li>Convertir un script <code>pandas</code> que tomaba horas en un pipeline Airflow/Prefect con Polars o PySpark.</li>
+<li>Migrar un workflow desde CSV a Parquet y medir la mejora en tiempo y espacio.</li>
+<li>Diseñar un star schema para un caso de negocio dado.</li>
+</ul>
+<h2 id="estructura-tematica">🗺️ Estructura temática</h2>
+<ul>
+<li><strong>Orquestación</strong> — clases 173–174 — Airflow, Prefect, Dagster.</li>
+<li><strong>Procesamiento distribuido y moderno</strong> — clases 175–176 — PySpark, Polars.</li>
+<li><strong>Data warehouses y streaming</strong> — clases 177–178 — BigQuery / Snowflake / DuckDB, Kafka / Kinesis.</li>
+<li><strong>Formatos y modelado</strong> — clases 179–180 — Parquet/Avro, modelado dimensional.</li>
+</ul>
+    <hr>
+    <h2>📚 Ficha por clase</h2>
+    <div class="classes-list"><a href="173-pipelines-etl-elt-con-airflow/index.html"><span class="num">173</span> <span class="title">Pipelines ETL/ELT con Airflow</span></a><a href="174-pipelines-con-prefect-o-dagster/index.html"><span class="num">174</span> <span class="title">Pipelines con Prefect o Dagster</span></a><a href="175-pyspark-para-datasets-grandes/index.html"><span class="num">175</span> <span class="title">PySpark para datasets grandes</span></a><a href="176-polars-como-alternativa-moderna/index.html"><span class="num">176</span> <span class="title">Polars como alternativa moderna</span></a><a href="177-data-warehouses-bigquery-snowflake-duckdb/index.html"><span class="num">177</span> <span class="title">Data warehouses: BigQuery, Snowflake, DuckDB</span></a><a href="178-streaming-intro-kafka-kinesis/index.html"><span class="num">178</span> <span class="title">Streaming intro: Kafka, Kinesis</span></a><a href="179-formatos-columnares-parquet-avro/index.html"><span class="num">179</span> <span class="title">Formatos columnares: Parquet, Avro</span></a><a href="180-modelado-dimensional-star-snowflake-schemas/index.html"><span class="num">180</span> <span class="title">Modelado dimensional (star/snowflake schemas)</span></a></div>
+    
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-5-ingenieria-de-datos/"><code>classes/parte-5-ingenieria-de-datos/</code></a>
+      · <a href="../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

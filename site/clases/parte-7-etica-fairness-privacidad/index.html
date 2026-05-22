@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Parte 7 · Ética, fairness, privacidad | Python Data Science Program</title>
+  <meta name="description" content="Sesgo, explicabilidad, marcos normativos">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../styles.css">
+  <link rel="stylesheet" href="../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../index.html">Currículo</a><span class="sep">›</span><span>Parte 7 — Ética, fairness, privacidad</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    
+    <h1 id="parte-7-etica-fairness-y-privacidad">Parte 7 — Ética, Fairness y Privacidad</h1>
+<p><strong>6 clases</strong> · ~2 semanas</p>
+<p><strong>Fuente principal:</strong> <strong>Barocas / Hardt / Narayanan</strong> (<a href="https://fairmlbook.org/"><em>Fairness and Machine Learning</em></a>) — el texto de referencia académico para fairness algorítmica.</p>
+<hr>
+<h2 id="de-que-trata-esta-parte">🎯 ¿De qué trata esta parte?</h2>
+<p>La parte que ningún currículo serio puede omitir en 2026: cómo construir sistemas de ML que <strong>no discriminen, no filtren datos personales y sean reproducibles</strong>. Cubre los tipos y orígenes del sesgo algorítmico, las <strong>métricas formales de fairness</strong> (demographic parity, equalized odds, calibration — y por qué son matemáticamente incompatibles entre sí), técnicas modernas como <strong>privacidad diferencial</strong> y <strong>federated learning</strong>, y el marco regulatorio actual (GDPR, AI Act europeo).</p>
+<p>Cierra con una clase sobre <strong>reproducibilidad</strong> (seeds, lock files, versionado de datasets) que es prerrequisito de cualquier discusión seria sobre fairness: si no se puede reproducir, no se puede auditar.</p>
+<h2 id="problemas-que-resuelve">🧩 Problemas que resuelve</h2>
+<ul>
+<li>Identificar los tipos y fuentes de sesgo en un dataset y en un modelo entrenado.</li>
+<li>Medir fairness con las métricas correctas y explicar por qué no se pueden cumplir todas a la vez.</li>
+<li>Aplicar privacidad diferencial básica para publicar estadísticas sin filtrar individuos.</li>
+<li>Entender cuándo federated learning es la solución correcta (y cuándo es overkill).</li>
+<li>Cumplir requisitos básicos de GDPR y AI Act en un proyecto de ML.</li>
+<li>Hacer un experimento reproducible bit-a-bit.</li>
+</ul>
+<h2 id="resultados-de-aprendizaje">🎓 Resultados de aprendizaje</h2>
+<p>Al finalizar esta parte, el estudiante podrá:</p>
+<ul>
+<li>Auditar un modelo clasificador por demographic parity y equalized odds, y reportar trade-offs.</li>
+<li>Documentar un dataset y un modelo con un datasheet / model card.</li>
+<li>Producir un experimento que cualquiera puede reproducir desde el repo en menos de 30 minutos.</li>
+</ul>
+<h2 id="estructura-tematica">🗺️ Estructura temática</h2>
+<ul>
+<li><strong>Sesgo y fairness</strong> — clases 188–189 — tipos de sesgo, métricas de fairness.</li>
+<li><strong>Privacidad</strong> — clases 190–191 — privacidad diferencial, federated learning.</li>
+<li><strong>Regulación y reproducibilidad</strong> — clases 192–193 — GDPR / AI Act, reproducibilidad práctica.</li>
+</ul>
+    <hr>
+    <h2>📚 Ficha por clase</h2>
+    <div class="classes-list"><a href="188-tipos-de-sesgo-algoritmico-y-origenes/index.html"><span class="num">188</span> <span class="title">Tipos de sesgo algorítmico y orígenes</span></a><a href="189-metricas-de-fairness-demographic-parity-equalized-odds-calibration/index.html"><span class="num">189</span> <span class="title">Métricas de fairness: demographic parity, equalized odds, calibration</span></a><a href="190-privacidad-diferencial-intro/index.html"><span class="num">190</span> <span class="title">Privacidad diferencial (intro)</span></a><a href="191-federated-learning-intro/index.html"><span class="num">191</span> <span class="title">Federated learning (intro)</span></a><a href="192-gdpr-y-ai-act-eu/index.html"><span class="num">192</span> <span class="title">GDPR y AI Act (EU)</span></a><a href="193-reproducibilidad-seeds-lock-files-versionado-de-datasets/index.html"><span class="num">193</span> <span class="title">Reproducibilidad: seeds, lock files, versionado de datasets</span></a></div>
+    
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-7-etica-fairness-privacidad/"><code>classes/parte-7-etica-fairness-privacidad/</code></a>
+      · <a href="../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

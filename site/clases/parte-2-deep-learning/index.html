@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Parte 2 · Deep Learning | Python Data Science Program</title>
+  <meta name="description" content="Keras, TF, CNN, RNN, Transformers, RL, despliegue">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../styles.css">
+  <link rel="stylesheet" href="../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../index.html">Currículo</a><span class="sep">›</span><span>Parte 2 — Deep Learning</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    
+    <h1 id="parte-2-deep-learning-keras-tensorflow-transformers-rl-y-despliegue">Parte 2 — Deep Learning — Keras, TensorFlow, Transformers, RL y Despliegue</h1>
+<p><strong>56 clases</strong> · ~13–14 semanas</p>
+<p><strong>Fuente principal:</strong> <strong>Géron</strong> (<a href="https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/"><em>Hands-On ML</em>, 3ª ed.</a>) — capítulos 10–19, con incorporación de LLMs modernos, RAG y modelos de difusión.</p>
+<hr>
+<h2 id="de-que-trata-esta-parte">🎯 ¿De qué trata esta parte?</h2>
+<p>La parte <strong>más extensa</strong> del programa. Cubre Deep Learning desde el perceptrón hasta los modelos generativos modernos (Transformers, LLMs, difusión) y reinforcement learning. El énfasis está en <strong>entender qué hace cada bloque</strong> (no solo en copiar <code>model.fit</code>): por qué BatchNorm acelera la convergencia, qué hace Adam que no hace SGD, cuándo conviene una CNN vs una ViT, por qué un Transformer dejó obsoletas a las RNN para secuencias largas.</p>
+<p>Está organizada en bloques: <strong>fundamentos</strong> (MLPs, optimización, regularización), <strong>ingeniería con TensorFlow/Keras</strong> (custom layers, tf.data, TFRecord), <strong>visión por computadora</strong> (CNNs y arquitecturas modernas), <strong>secuencias</strong> (RNN, LSTM, atención, Transformers, LLMs, RAG), <strong>generativos</strong> (autoencoders, VAE, GAN, difusión), <strong>reinforcement learning</strong> y <strong>despliegue a producción</strong> (TF Serving, Vertex AI, TF Lite, TensorFlow.js, multi-GPU).</p>
+<h2 id="problemas-que-resuelve">🧩 Problemas que resuelve</h2>
+<ul>
+<li>Entrenar una red neuronal desde cero (MLP) y explicar la matemática del backpropagation.</li>
+<li>Diagnosticar y resolver vanishing/exploding gradients con inicialización, BatchNorm y activaciones modernas.</li>
+<li>Hacer transfer learning con CNNs preentrenadas para visión o con LLMs para texto.</li>
+<li>Construir un pipeline de datos eficiente con tf.data + TFRecord para entrenar sobre datasets que no caben en RAM.</li>
+<li>Implementar arquitecturas modernas: ResNet, EfficientNet, ViT, BERT, GPT, modelos de difusión.</li>
+<li>Usar Hugging Face Transformers para tareas reales (clasificación, NER, generación, embeddings).</li>
+<li>Construir un sistema RAG básico sobre documentos propios.</li>
+<li>Desplegar un modelo entrenado a producción (TF Serving + gRPC, Vertex AI, TF Lite móvil, navegador con TF.js).</li>
+</ul>
+<h2 id="resultados-de-aprendizaje">🎓 Resultados de aprendizaje</h2>
+<p>Al finalizar esta parte, el estudiante podrá:</p>
+<ul>
+<li>Entrenar y serializar un modelo de visión que supere baseline en un dataset propio.</li>
+<li>Hacer fine-tuning de un Transformer pequeño para clasificación o generación.</li>
+<li>Construir un mini-RAG con embeddings + retriever + LLM sobre un corpus de ~1000 documentos.</li>
+<li>Servir un modelo entrenado vía API en una GPU y medir su latencia.</li>
+<li>Explicar el tradeoff entrenamiento/serving para CNN vs ViT vs LLM para un caso concreto.</li>
+</ul>
+<h2 id="estructura-tematica">🗺️ Estructura temática</h2>
+<ul>
+<li><strong>Fundamentos de redes neuronales</strong> — clases 090–095 — perceptrón, MLP, backprop, Keras (Sequential, Functional, Subclassing), Keras Tuner.</li>
+<li><strong>Entrenamiento de redes profundas</strong> — clases 096–104 — gradientes, inicialización, activaciones, normalización, optimizadores, schedules, regularización.</li>
+<li><strong>TensorFlow avanzado</strong> — clases 105–112 — tensores, custom layers/loops, autograph, tf.data, TFRecord, preprocessing layers, TFDS.</li>
+<li><strong>Visión por computadora</strong> — clases 113–117 — convoluciones, pooling, arquitecturas CNN modernas, transfer learning, detección/segmentación.</li>
+<li><strong>Secuencias y NLP</strong> — clases 118–129 — RNN, LSTM, GRU, 1D CNN, char-RNN, sentimiento, encoder-decoder, atención, Transformers, BERT/GPT, Hugging Face, LLMs, RAG.</li>
+<li><strong>Modelos generativos</strong> — clases 130–133 — autoencoders, VAE, GAN, difusión.</li>
+<li><strong>Reinforcement Learning</strong> — clases 134–138 — Gymnasium, policy gradients, MDPs, Q-learning, DQN, PPO/SAC.</li>
+<li><strong>Despliegue y escala</strong> — clases 139–145 — TF Serving, Vertex AI, TF Lite, TensorFlow.js, GPU, tf.distribute, entrenamiento a escala.</li>
+</ul>
+    <hr>
+    <h2>📚 Ficha por clase</h2>
+    <div class="classes-list"><a href="090-perceptron-mlp-y-backpropagation/index.html"><span class="num">090</span> <span class="title">Perceptrón, MLP y backpropagation</span></a><a href="091-regresion-y-clasificacion-con-mlp/index.html"><span class="num">091</span> <span class="title">Regresión y clasificación con MLP</span></a><a href="092-keras-sequential-api/index.html"><span class="num">092</span> <span class="title">Keras Sequential API</span></a><a href="093-keras-functional-api-y-subclassing/index.html"><span class="num">093</span> <span class="title">Keras Functional API y Subclassing</span></a><a href="094-callbacks-tensorboard-guardar-restaurar-modelos/index.html"><span class="num">094</span> <span class="title">Callbacks, TensorBoard, guardar/restaurar modelos</span></a><a href="095-keras-tuner/index.html"><span class="num">095</span> <span class="title">Keras Tuner</span></a><a href="096-vanishing-exploding-gradients/index.html"><span class="num">096</span> <span class="title">Vanishing/exploding gradients</span></a><a href="097-inicializacion-glorot-he/index.html"><span class="num">097</span> <span class="title">Inicialización (Glorot, He)</span></a><a href="098-activaciones-relu-elu-gelu-swish-mish/index.html"><span class="num">098</span> <span class="title">Activaciones: ReLU, ELU, GELU, Swish, Mish</span></a><a href="099-batch-normalization-layer-normalization/index.html"><span class="num">099</span> <span class="title">Batch Normalization, Layer Normalization</span></a><a href="100-gradient-clipping/index.html"><span class="num">100</span> <span class="title">Gradient clipping</span></a><a href="101-transfer-learning-unsupervised-pretraining/index.html"><span class="num">101</span> <span class="title">Transfer learning, unsupervised pretraining</span></a><a href="102-optimizadores-momentum-nesterov-adagrad-rmsprop-adam-adamw/index.html"><span class="num">102</span> <span class="title">Optimizadores: Momentum, Nesterov, AdaGrad, RMSProp, Adam, AdamW</span></a><a href="103-learning-rate-scheduling/index.html"><span class="num">103</span> <span class="title">Learning rate scheduling</span></a><a href="104-regularizacion-l1-l2-dropout-max-norm-mc-dropout/index.html"><span class="num">104</span> <span class="title">Regularización: L1/L2, dropout, max-norm, MC dropout</span></a><a href="105-tensorflow-tensores-variables-operaciones/index.html"><span class="num">105</span> <span class="title">TensorFlow: tensores, variables, operaciones</span></a><a href="106-losses-metricas-capas-modelos-custom/index.html"><span class="num">106</span> <span class="title">Losses, métricas, capas, modelos custom</span></a><a href="107-funciones-y-grafos-autograph/index.html"><span class="num">107</span> <span class="title">Funciones y grafos (autograph)</span></a><a href="108-custom-training-loops/index.html"><span class="num">108</span> <span class="title">Custom training loops</span></a><a href="109-tf-data-api/index.html"><span class="num">109</span> <span class="title">tf.data API</span></a><a href="110-tfrecord/index.html"><span class="num">110</span> <span class="title">TFRecord</span></a><a href="111-keras-preprocessing-layers/index.html"><span class="num">111</span> <span class="title">Keras preprocessing layers</span></a><a href="112-tensorflow-datasets-tfds/index.html"><span class="num">112</span> <span class="title">TensorFlow Datasets (TFDS)</span></a><a href="113-capas-convolucionales-filtros-feature-maps/index.html"><span class="num">113</span> <span class="title">Capas convolucionales, filtros, feature maps</span></a><a href="114-pooling/index.html"><span class="num">114</span> <span class="title">Pooling</span></a><a href="115-arquitecturas-cnn-lenet-alexnet-vgg-googlenet-resnet-xception-senet-ef/index.html"><span class="num">115</span> <span class="title">Arquitecturas CNN: LeNet, AlexNet, VGG, GoogLeNet, ResNet, Xception, SENet, EfficientNet</span></a><a href="116-transfer-learning-con-cnns-preentrenadas/index.html"><span class="num">116</span> <span class="title">Transfer learning con CNNs preentrenadas</span></a><a href="117-localizacion-deteccion-yolo-faster-r-cnn-segmentacion-semantica/index.html"><span class="num">117</span> <span class="title">Localización, detección (YOLO, Faster R-CNN), segmentación semántica</span></a><a href="118-rnns-neuronas-recurrentes-bptt/index.html"><span class="num">118</span> <span class="title">RNNs: neuronas recurrentes, BPTT</span></a><a href="119-forecasting-de-series-con-rnn/index.html"><span class="num">119</span> <span class="title">Forecasting de series con RNN</span></a><a href="120-lstm-gru/index.html"><span class="num">120</span> <span class="title">LSTM, GRU</span></a><a href="121-1d-cnns-y-wavenet/index.html"><span class="num">121</span> <span class="title">1D CNNs y WaveNet</span></a><a href="122-generacion-de-texto-char-rnn/index.html"><span class="num">122</span> <span class="title">Generación de texto char-RNN</span></a><a href="123-analisis-de-sentimiento/index.html"><span class="num">123</span> <span class="title">Análisis de sentimiento</span></a><a href="124-encoder-decoder-para-traduccion/index.html"><span class="num">124</span> <span class="title">Encoder-Decoder para traducción</span></a><a href="125-mecanismos-de-atencion/index.html"><span class="num">125</span> <span class="title">Mecanismos de atención</span></a><a href="126-transformers-arquitectura-bert-gpt/index.html"><span class="num">126</span> <span class="title">Transformers: arquitectura, BERT, GPT</span></a><a href="127-hugging-face-transformers-uso-practico/index.html"><span class="num">127</span> <span class="title">Hugging Face Transformers (uso práctico)</span></a><a href="128-llms-aplicados-fine-tuning-prompting/index.html"><span class="num">128</span> <span class="title">LLMs aplicados: fine-tuning, prompting</span></a><a href="129-rag-basico-y-embeddings/index.html"><span class="num">129</span> <span class="title">RAG básico y embeddings</span></a><a href="130-autoencoders-undercomplete-stacked-denoising-sparse/index.html"><span class="num">130</span> <span class="title">Autoencoders: undercomplete, stacked, denoising, sparse</span></a><a href="131-variational-autoencoders-vae/index.html"><span class="num">131</span> <span class="title">Variational Autoencoders (VAE)</span></a><a href="132-gans-dcgan-progressive-gan-stylegan/index.html"><span class="num">132</span> <span class="title">GANs: DCGAN, Progressive GAN, StyleGAN</span></a><a href="133-modelos-de-difusion-ddpm-score-based/index.html"><span class="num">133</span> <span class="title">Modelos de difusión (DDPM, score-based)</span></a><a href="134-rl-aprendizaje-por-recompensa-openai-gymnasium/index.html"><span class="num">134</span> <span class="title">RL: aprendizaje por recompensa, OpenAI Gymnasium</span></a><a href="135-policy-gradients/index.html"><span class="num">135</span> <span class="title">Policy gradients</span></a><a href="136-markov-decision-processes/index.html"><span class="num">136</span> <span class="title">Markov Decision Processes</span></a><a href="137-td-learning-q-learning-deep-q-networks/index.html"><span class="num">137</span> <span class="title">TD Learning, Q-Learning, Deep Q-Networks</span></a><a href="138-rl-moderno-a3c-ppo-sac-vista-general/index.html"><span class="num">138</span> <span class="title">RL moderno: A3C, PPO, SAC (vista general)</span></a><a href="139-tf-serving-grpc/index.html"><span class="num">139</span> <span class="title">TF Serving + gRPC</span></a><a href="140-despliegue-en-vertex-ai/index.html"><span class="num">140</span> <span class="title">Despliegue en Vertex AI</span></a><a href="141-tf-lite-mobile-embedded/index.html"><span class="num">141</span> <span class="title">TF Lite (mobile/embedded)</span></a><a href="142-tensorflow-js-navegador/index.html"><span class="num">142</span> <span class="title">TensorFlow.js (navegador)</span></a><a href="143-aceleracion-con-gpu/index.html"><span class="num">143</span> <span class="title">Aceleración con GPU</span></a><a href="144-entrenamiento-multi-dispositivo-tf-distribute/index.html"><span class="num">144</span> <span class="title">Entrenamiento multi-dispositivo, tf.distribute</span></a><a href="145-entrenamiento-a-escala-con-vertex-ai/index.html"><span class="num">145</span> <span class="title">Entrenamiento a escala con Vertex AI</span></a></div>
+    
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-2-deep-learning/"><code>classes/parte-2-deep-learning/</code></a>
+      · <a href="../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>
