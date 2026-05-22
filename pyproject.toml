@@ -34,3 +34,6 @@ ignore = ["E501"]
 
 [tool.ruff.lint.per-file-ignores]
 "examples/*.py" = ["E402"]
+"scripts/build_parte0_*.py" = ["E402", "I001", "E741"]
+"scripts/build_parte0_classes.py" = ["E741"]
+"scripts/_build_class_001_notebook.py" = ["E501", "E741"]
