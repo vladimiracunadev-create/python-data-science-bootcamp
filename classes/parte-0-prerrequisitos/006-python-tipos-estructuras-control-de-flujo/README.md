@@ -30,6 +30,23 @@ Al finalizar la clase, el alumno podrá:
 | 5 | Truthiness y operadores `and`/`or` | Evalúan al objeto, no al booleano. |
 | 6 | Default mutables: el clásico | `def f(x, lst=[])` comparte la lista entre llamadas. |
 
+## 📖 Definiciones y características
+
+**Mutable**
+: Objeto cuyo estado puede modificarse después de crearlo (`list`, `dict`, `set`, `bytearray`). Consecuencia: si dos variables apuntan al mismo objeto mutable, cambiar una cambia la otra (alias).
+
+**Inmutable**
+: Objeto que NO se puede modificar; cualquier 'modificación' produce un objeto nuevo (`int`, `float`, `str`, `tuple`, `frozenset`). Característica clave: son **hashables** y pueden ser claves de dict o miembros de set.
+
+**Hashable**
+: Objeto con `__hash__` definido y constante durante su vida. Los inmutables built-in son hashables; las listas y dicts NO lo son. Es lo que permite el O(1) lookup de set/dict.
+
+**Unpacking**
+: Sintaxis para asignar múltiples variables desde un iterable (`a, b = (1, 2)` o `a, *resto = [1, 2, 3, 4]`). El `*` captura el resto en una lista. Funciona en for, return, llamadas a funciones (`f(*lista)`, `g(**dict)`).
+
+**Truthy / Falsy**
+: Cómo evalúa Python un objeto en contexto booleano (`if x:`). Falsy: `False`, `None`, `0`, `0.0`, `''`, `[]`, `{}`, `set()`. Truthy: todo lo demás (incluso `' '` con espacio, `[0]`, `{None: None}`).
+
 ## 📂 Dataset / recursos
 
 Datos sintéticos pequeños generados en el notebook (lista de diccionarios simulando estudiantes). No requiere descarga.
@@ -51,6 +68,38 @@ Datos sintéticos pequeños generados en el notebook (lista de diccionarios simu
 Notebook `homework.ipynb` con las 5 funciones de los ejercicios, cada una con: (a) implementación, (b) 3 casos de prueba (incluyendo edge cases — lista vacía, string vacío), (c) docstring corto explicando complejidad.
 
 **Criterio de aceptación:** Las 5 funciones pasan sus casos de prueba; los edge cases manejados sin excepción.
+
+## ⚠️ Errores comunes
+
+| Síntoma / mensaje | Causa y cómo arreglar |
+|---|---|
+| `TypeError: unhashable type: 'list'` | Intentaste usar una lista como clave de dict o miembro de set. **Fix**: usa una tupla en su lugar (es inmutable y hashable). `{[1,2]: 'x'}` ❌ → `{(1,2): 'x'}` ✅. |
+| Modifiqué una lista y otra variable también cambió | Las dos apuntan al mismo objeto (alias). **Fix**: si querías una copia, usa `list_b = list_a.copy()` o `list_b = list_a[:]` o `list_b = list(list_a)`. |
+| Función con default `=[]` comparte la lista entre llamadas | El default se evalúa **una vez** al definir la función. **Fix**: `def f(x, lst=None): lst = lst or []` (o `lst = [] if lst is None else lst`). |
+| `KeyError` al acceder a dict que no tiene la key | `d['x']` lanza KeyError si no existe. **Fix**: usa `d.get('x', default)` o `from collections import defaultdict; d = defaultdict(int)`. |
+| `if items != None:` en vez de `if items is not None:` | Para singletons (`None`, `True`, `False`) usa siempre `is` / `is not` — más rápido y semánticamente correcto. `==` puede engañar si el objeto override `__eq__`. |
+
+## ❓ Preguntas frecuentes
+
+**❓ ¿Cuándo tupla y cuándo lista?**
+
+**Tupla** para records heterogéneos de tamaño fijo (`punto = (3.5, 7.1)`, `(nombre, edad)`). **Lista** para colecciones homogéneas que crecen (`temperaturas = [22.1, 22.5, ...]`). Tupla además sirve como clave de dict; lista no.
+
+**❓ ¿Set o dict para chequear pertenencia?**
+
+Ambos son O(1). Set si solo necesitas saber si está. Dict si además necesitas asociar valor. Una `list` para esto es O(n) — usa set/dict si haces `if x in coleccion` con N grande.
+
+**❓ ¿`copy()` me da una copia completa? ¿Y con listas anidadas?**
+
+`.copy()` es **shallow**: copia el contenedor pero comparte las referencias internas. Para anidamiento, `import copy; copy.deepcopy(x)` — más lento pero independiente.
+
+**❓ ¿Por qué `0.1 + 0.2 != 0.3`?**
+
+Floats son IEEE 754 binarios; `0.1` y `0.2` no tienen representación exacta. **Fix**: para igualdad usa `math.isclose(a, b)`. Para precisión decimal financiera, `from decimal import Decimal`.
+
+**❓ ¿Qué pasa con dict si insertas la misma clave dos veces?**
+
+El segundo valor sobrescribe al primero. El orden de inserción se preserva (Python 3.7+), así que `list(d)` da las keys en el orden en que se insertaron por primera vez.
 
 ## 🔗 Referencias
 

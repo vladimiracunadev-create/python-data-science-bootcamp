@@ -30,6 +30,26 @@ Al finalizar la clase, el alumno podrá:
 | 5 | Context managers: protocolo `__enter__`/`__exit__` | Garantiza cleanup. |
 | 6 | `@contextmanager` de `contextlib` | Crear cms con función + `yield`. |
 
+## 📖 Definiciones y características
+
+**Excepción**
+: Objeto que se 'lanza' (`raise`) cuando algo anómalo ocurre. Sube por el stack hasta que un `except` lo captura, o termina el programa. Todas heredan de `BaseException`; las que debes capturar heredan de `Exception`.
+
+**`try/except/else/finally`**
+: **`try`**: código riesgoso. **`except`**: maneja una excepción específica. **`else`**: corre si `try` no lanzó (raro pero útil). **`finally`**: cleanup garantizado, lanzó o no.
+
+**Jerarquía de excepciones**
+: `BaseException` → `SystemExit` / `KeyboardInterrupt` / `Exception` → `ValueError` / `TypeError` / `LookupError` (→ `KeyError`, `IndexError`) / `OSError` / `ArithmeticError` (→ `ZeroDivisionError`). Captura siempre la más específica que sepas manejar.
+
+**Excepción propia (custom)**
+: Subclase de `Exception` (o subclase específica). Permite tipificar errores de tu dominio (`class DatasetCorruptoError(Exception): ...`) en vez de strings. El caller puede `except DatasetCorruptoError` con precisión.
+
+**Context manager**
+: Objeto con `__enter__` y `__exit__` que se usa con `with`. Garantiza setup/teardown (abrir/cerrar archivo, conectar/desconectar BD, lock/unlock). El `__exit__` corre incluso si hay excepción.
+
+**`@contextmanager`**
+: Decorador de `contextlib` que convierte una función con `yield` en context manager. Pre-yield = `__enter__`, post-yield = `__exit__`. Mucho más corto que escribir la clase completa.
+
 ## 📂 Dataset / recursos
 
 Archivo temporal generado en el notebook. Sin descarga.
@@ -51,6 +71,38 @@ Archivo temporal generado en el notebook. Sin descarga.
 Notebook con: (a) `parse_int_safe` con tests de los 3 casos (válido, inválido, otro tipo); (b) `DatasetCorruptoError` usada en una función `cargar_csv` que valida #columnas; (c) decorador-context manager `timer` aplicado a 2 operaciones; (d) `cd` context manager.
 
 **Criterio de aceptación:** Excepciones se capturan solo donde sabes manejarlas. `timer` reporta segundos correctamente.
+
+## ⚠️ Errores comunes
+
+| Síntoma / mensaje | Causa y cómo arreglar |
+|---|---|
+| `except:` o `except Exception:` ciego esconde bugs | Cualquier error queda silenciado (incluso typos `NameError`). **Fix**: captura el tipo específico (`except ValueError as e`). Si quieres loguear cualquiera, `except Exception as e: log.error(...); raise`. |
+| `finally` con `return` traga la excepción | Si `finally` ejecuta `return`, la excepción del `try` desaparece silenciosamente. **Fix**: NO uses `return` en `finally`; sólo cleanup. |
+| `with open(f) as f, open(g) as g:` falla por sintaxis vieja | Esa sintaxis requiere Python 3.10+. **Fix**: en versiones viejas usa `contextlib.ExitStack` o `with open(f) as f: with open(g) as g:` anidado. |
+| Capturé `KeyError` pero el código sigue rompiéndose | Tu `except` está más arriba del `try`, o el error proviene de otra línea. **Fix**: lee el traceback completo, busca el `KeyError` real y rodea solo esa línea con try. |
+| Excepción dentro de generator no se captura como espero | Las excepciones en generators son tricky; `except` rodea el `for`, no el `yield`. **Fix**: lee la sección "Exceptions in generators" del PEP 380, o reformula como función normal. |
+
+## ❓ Preguntas frecuentes
+
+**❓ ¿`except Exception` o `except`?**
+
+Casi siempre `except Exception` — más explícito. `except:` desnudo captura también `KeyboardInterrupt` y `SystemExit`, lo cual rompe Ctrl+C y `sys.exit()`.
+
+**❓ ¿Cuándo creo una excepción propia?**
+
+Cuando el caller necesita **diferenciar** este error de otros. `raise ValueError('CSV corrupto')` obliga al caller a parsear strings; `raise DatasetCorruptoError(linea=42)` le da un tipo y un atributo concreto.
+
+**❓ ¿`with` solo para archivos?**
+
+No — para CUALQUIER recurso que necesite cleanup. Files (`open`), conexiones DB (`engine.connect()`), locks (`threading.Lock`), sesiones HTTP (`requests.Session`), transacciones (`db.atomic()`), timing (`with timer(...)`).
+
+**❓ ¿Debo capturar y re-lanzar para añadir contexto?**
+
+Sí, con `raise ExceptionNueva(...) from e` — preserva el stacktrace original como '`__cause__`'. El log muestra ambos errores en cadena.
+
+**❓ ¿`pass` en `except` es siempre malo?**
+
+**Casi siempre sí.** Si tienes que silenciar, al menos `log.warning(...)`. Solo OK cuando la excepción es esperada (`except FileNotFoundError: pass` al limpiar archivos opcionales).
 
 ## 🔗 Referencias
 

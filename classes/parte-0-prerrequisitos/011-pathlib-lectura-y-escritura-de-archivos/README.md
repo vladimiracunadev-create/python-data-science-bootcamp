@@ -30,6 +30,23 @@ Al finalizar la clase, el alumno podrá:
 | 5 | `mkdir(parents=True, exist_ok=True)` | Crea árbol completo idempotente. |
 | 6 | `Path(__file__).parent` y `resolve()` | Localizar recursos relativos al script. |
 
+## 📖 Definiciones y características
+
+**`Path`**
+: Objeto que representa una ruta de filesystem orientada a objetos (`pathlib.Path`). Sobreescribe `/` para componer rutas, multiplataforma (Windows usa `\`, Unix `/`, transparente). Tiene métodos para casi todo: leer, escribir, listar, mover, borrar.
+
+**Ruta absoluta vs relativa**
+: **Absoluta**: empieza desde la raíz (`C:\dev\proyecto\data.csv` o `/home/user/data.csv`). **Relativa**: parte del cwd (`data.csv`). Las rutas relativas dependen de dónde se ejecuta — fuente de bugs.
+
+**`Path.cwd()` vs `Path(__file__).parent`**
+: `cwd()` es el directorio donde se ejecutó el script (cambia según el invocante). `__file__` es la ruta al archivo Python actual; `.parent` su carpeta. **Usa `__file__`** para recursos que viven junto al script.
+
+**`glob` vs `rglob`**
+: Patrones tipo shell. `glob('*.csv')` busca en el directorio actual (1 nivel). `rglob('*.csv')` busca recursivo (todo el árbol). `**` significa 'cualquier número de directorios'.
+
+**`read_text` / `write_text`**
+: One-liners para texto: `Path('x.txt').write_text(contenido, encoding='utf-8')`. Para binario: `read_bytes` / `write_bytes`. Para JSON/CSV usa librerías especializadas.
+
 ## 📂 Dataset / recursos
 
 Carpeta temporal creada en el notebook con archivos sintéticos. Sin descarga.
@@ -51,6 +68,38 @@ Carpeta temporal creada en el notebook con archivos sintéticos. Sin descarga.
 Script `inventario.py` que recibe un directorio y produce un reporte CSV con: nombre, tamaño_bytes, extensión, última_modificación para cada archivo recursivamente, usando solo `pathlib` (no `os`).
 
 **Criterio de aceptación:** El script corre tanto en Windows como en Linux/macOS sin cambios.
+
+## ⚠️ Errores comunes
+
+| Síntoma / mensaje | Causa y cómo arreglar |
+|---|---|
+| `FileNotFoundError` aunque el archivo existe | Estás usando ruta relativa y el cwd no es el que crees. **Fix**: `print(Path.cwd())` para diagnosticar; usa rutas relativas a `__file__` para archivos del proyecto. |
+| `PermissionError` al escribir | Carpeta read-only, OneDrive sincronizando, antivirus bloqueando. **Fix**: chequea permisos con `p.stat()`, escribe a `tempfile.gettempdir()` para tests. |
+| `mkdir()` falla si el directorio ya existe | Default es `exist_ok=False`. **Fix**: `p.mkdir(parents=True, exist_ok=True)` — crea árbol completo idempotente. |
+| Mezclo `os.path` y `pathlib` | Algunos funciones esperan strings (`open()`, `pd.read_csv()`). Path soporta el protocolo `os.PathLike` y la mayoría las acepta directo; si no, `str(p)` lo convierte. |
+| `glob('*.CSV')` no encuentra `archivo.csv` | Case-sensitive en Linux, insensible en Windows. **Fix**: filtra explícito con `[p for p in path.iterdir() if p.suffix.lower() == '.csv']`. |
+
+## ❓ Preguntas frecuentes
+
+**❓ ¿`pathlib` o `os.path`?**
+
+**`pathlib`** para código nuevo. `os.path` es la API funcional vieja (strings + funciones); pathlib es OO y mucho más legible. Solo usa `os.path` para compatibilidad con código viejo.
+
+**❓ ¿Cómo evito el típico `'C:/Users/...'` vs `'/home/...'` cross-platform?**
+
+**No hardcodees rutas absolutas.** Usa `Path.home()`, `Path(__file__).parent`, `tempfile.gettempdir()`. Y siempre `Path` + `/`, nunca strings concatenados.
+
+**❓ ¿Cómo leo un CSV grande con pathlib?**
+
+Pathlib es para *paths*, no parsing. Combina: `pd.read_csv(Path('data') / 'big.csv')`. El Path se convierte a string automáticamente.
+
+**❓ ¿`Path('a') / 'b/c'` o `Path('a') / 'b' / 'c'`?**
+
+Ambas funcionan: `Path` parsea separadores. Pero la primera es menos explícita; prefiere la segunda.
+
+**❓ ¿`shutil` o `pathlib` para mover/copiar?**
+
+**`shutil`** para operaciones recursivas (copytree, rmtree, move) — pathlib solo cubre operaciones simples. Combinable: `shutil.copy(src_path, dst_path)` acepta Path directo.
 
 ## 🔗 Referencias
 

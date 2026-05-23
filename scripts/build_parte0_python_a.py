@@ -77,6 +77,32 @@ SPECS.append(ClassSpec(
         Cell("md", "## 📝 Homework\n\nVer `README.md`. 5 funciones (cuenta palabras, unique con orden, bug del default, top-K, agrupar por inicial) con casos de prueba."),
         Cell("md", "## 🔗 Referencias\n\n- [Python Tutorial — Data Structures](https://docs.python.org/3/tutorial/datastructures.html)\n- Ramalho, *Fluent Python* 2e, cap. 1\n\n➡️ **Siguiente:** [007 — Comprehensions y generadores](../007-comprehensions-y-generadores/README.md)"),
     ],
+    definiciones=[
+        ("Mutable", "Objeto cuyo estado puede modificarse después de crearlo (`list`, `dict`, `set`, `bytearray`). Consecuencia: si dos variables apuntan al mismo objeto mutable, cambiar una cambia la otra (alias)."),
+        ("Inmutable", "Objeto que NO se puede modificar; cualquier 'modificación' produce un objeto nuevo (`int`, `float`, `str`, `tuple`, `frozenset`). Característica clave: son **hashables** y pueden ser claves de dict o miembros de set."),
+        ("Hashable", "Objeto con `__hash__` definido y constante durante su vida. Los inmutables built-in son hashables; las listas y dicts NO lo son. Es lo que permite el O(1) lookup de set/dict."),
+        ("Unpacking", "Sintaxis para asignar múltiples variables desde un iterable (`a, b = (1, 2)` o `a, *resto = [1, 2, 3, 4]`). El `*` captura el resto en una lista. Funciona en for, return, llamadas a funciones (`f(*lista)`, `g(**dict)`)."),
+        ("Truthy / Falsy", "Cómo evalúa Python un objeto en contexto booleano (`if x:`). Falsy: `False`, `None`, `0`, `0.0`, `''`, `[]`, `{}`, `set()`. Truthy: todo lo demás (incluso `' '` con espacio, `[0]`, `{None: None}`)."),
+    ],
+    errores_comunes=[
+        ("`TypeError: unhashable type: 'list'`", "Intentaste usar una lista como clave de dict o miembro de set. **Fix**: usa una tupla en su lugar (es inmutable y hashable). `{[1,2]: 'x'}` ❌ → `{(1,2): 'x'}` ✅."),
+        ("Modifiqué una lista y otra variable también cambió", "Las dos apuntan al mismo objeto (alias). **Fix**: si querías una copia, usa `list_b = list_a.copy()` o `list_b = list_a[:]` o `list_b = list(list_a)`."),
+        ("Función con default `=[]` comparte la lista entre llamadas", "El default se evalúa **una vez** al definir la función. **Fix**: `def f(x, lst=None): lst = lst or []` (o `lst = [] if lst is None else lst`)."),
+        ("`KeyError` al acceder a dict que no tiene la key", "`d['x']` lanza KeyError si no existe. **Fix**: usa `d.get('x', default)` o `from collections import defaultdict; d = defaultdict(int)`."),
+        ("`if items != None:` en vez de `if items is not None:`", "Para singletons (`None`, `True`, `False`) usa siempre `is` / `is not` — más rápido y semánticamente correcto. `==` puede engañar si el objeto override `__eq__`."),
+    ],
+    faq=[
+        ("¿Cuándo tupla y cuándo lista?",
+         "**Tupla** para records heterogéneos de tamaño fijo (`punto = (3.5, 7.1)`, `(nombre, edad)`). **Lista** para colecciones homogéneas que crecen (`temperaturas = [22.1, 22.5, ...]`). Tupla además sirve como clave de dict; lista no."),
+        ("¿Set o dict para chequear pertenencia?",
+         "Ambos son O(1). Set si solo necesitas saber si está. Dict si además necesitas asociar valor. Una `list` para esto es O(n) — usa set/dict si haces `if x in coleccion` con N grande."),
+        ("¿`copy()` me da una copia completa? ¿Y con listas anidadas?",
+         "`.copy()` es **shallow**: copia el contenedor pero comparte las referencias internas. Para anidamiento, `import copy; copy.deepcopy(x)` — más lento pero independiente."),
+        ("¿Por qué `0.1 + 0.2 != 0.3`?",
+         "Floats son IEEE 754 binarios; `0.1` y `0.2` no tienen representación exacta. **Fix**: para igualdad usa `math.isclose(a, b)`. Para precisión decimal financiera, `from decimal import Decimal`."),
+        ("¿Qué pasa con dict si insertas la misma clave dos veces?",
+         "El segundo valor sobrescribe al primero. El orden de inserción se preserva (Python 3.7+), así que `list(d)` da las keys en el orden en que se insertaron por primera vez."),
+    ],
 ))
 
 
@@ -149,6 +175,32 @@ SPECS.append(ClassSpec(
         Cell("md", "## 📝 Homework\n\nVer `README.md`. Reescribir 3 loops, generador Fibonacci, medir RAM lista vs generador, procesar CSV grande con generador."),
         Cell("md", "## 🔗 Referencias\n\n- Ramalho, *Fluent Python* 2e — caps. 2 y 17\n- [itertools docs](https://docs.python.org/3/library/itertools.html)\n\n➡️ **Siguiente:** [008 — Funciones: args, kwargs, lambdas, closures](../008-funciones-args-kwargs-lambdas-closures/README.md)"),
     ],
+    definiciones=[
+        ("List comprehension", "Expresión `[expr for x in iterable if cond]` que **construye una lista** completa en memoria. Equivalente idiomático a `for + append + if`. Más rápida y legible *si la expresión es simple*."),
+        ("Generator expression", "Lo mismo pero con paréntesis `(expr for x in iterable if cond)`. Devuelve un **generador perezoso**: produce cada valor on-demand, memoria O(1). Solo puedes recorrerlo una vez."),
+        ("Iterador", "Objeto con método `__next__()` que devuelve el siguiente valor o lanza `StopIteration`. Es lo que está *detrás* de un for. Características: lazy, single-pass, memoria O(1)."),
+        ("Generador", "Función con `yield` (o generator expression) que produce un iterador. Cada `yield` pausa la función y emite un valor; al siguiente next() retoma desde ahí. Mantiene el estado local entre llamadas."),
+        ("`itertools`", "Librería stdlib con bloques perezosos componibles: `chain` (concatena), `islice` (slicing perezoso), `groupby` (agrupa consecutivos), `accumulate` (sum/prod corridos), `takewhile`, `combinations`, `product`."),
+    ],
+    errores_comunes=[
+        ("Iteré un generador y la segunda vez está vacío", "Los generadores son **single-pass**. Tras consumir, están agotados. **Fix**: convierte a lista (`list(gen)`) si necesitas recorrer más veces — pierdes memoria O(1)."),
+        ("`MemoryError` al hacer `[expensive(x) for x in millones]`", "Construyes lista completa en RAM. **Fix**: usa generator expression `(expensive(x) for x in millones)` y consúmelo perezosamente con `sum()`, `next()`, `for`."),
+        ("`itertools.groupby` me agrupa raro", "Solo agrupa **elementos consecutivos** con misma key. Si los datos no están ordenados por la key, primero `sorted(data, key=...)`."),
+        ("Generator expression dentro de función falla con `'generator' object is not subscriptable`", "Estás haciendo `gen[0]` — generadores no son indexables. **Fix**: `next(gen)` para el primer valor, o `list(gen)[0]` si necesitas acceso aleatorio."),
+        ("List comprehension con `if-else` no funciona como espero", "`if` al final filtra; `if-else` va al principio: `[x if x > 0 else 0 for x in nums]` (clip). NO `[x for x in nums if x > 0 else 0]` (syntax error)."),
+    ],
+    faq=[
+        ("¿Cuándo comprehension y cuándo for clásico?",
+         "Comprehension cuando es **una expresión** clara en 1 línea. For clásico cuando hay >2 statements, side effects (print, mutación), o la lógica es más legible explícita."),
+        ("¿Generator expression o list?",
+         "Generator si el resultado solo se consume una vez y N es grande (RAM importa). List si necesitas recorrer 2+ veces, indexar, o hacer `len()`. Truco: `sum(x*x for x in xs)` evita lista temporal vs `sum([x*x for x in xs])`."),
+        ("¿Cuánto más rápido es vs un for tradicional?",
+         "~10-30%, no mil veces más. La ganancia real es legibilidad. Si necesitas mil veces, no es comprehension lo que buscas — es numpy/vectorización (clase 015)."),
+        ("¿Generador infinito (`while True: yield ...`) es buena idea?",
+         "Sí, pero ojo: **nunca** lo conviertas a lista directo (`list(gen)`) — bucle infinito hasta OOM. Acopla con `itertools.islice(gen, N)` para truncar."),
+        ("`yield from` vs `yield`?",
+         "`yield from sub_iterable` delega: yieldea todos los valores del sub-iterable. Equivale a `for x in sub: yield x` pero más rápido y propaga `send()`/`throw()` correctamente. Útil para componer generadores."),
+    ],
 ))
 
 
@@ -215,6 +267,33 @@ SPECS.append(ClassSpec(
         Cell("md", "## ✅ Checklist\n\n- [ ] Distingo argumentos posicionales, kw, default, *args, **kwargs\n- [ ] Sé pasar una función como argumento (callback)\n- [ ] Uso lambda solo cuando es corto y claro\n- [ ] Entiendo qué es un closure y por qué funciona\n- [ ] Implementé un memoize y vi el speedup"),
         Cell("md", "## 📝 Homework\n\nVer `README.md`. `make_counter` explicado, `@memoize` con benchmark Fibonacci, sort por 2 criterios."),
         Cell("md", "## 🔗 Referencias\n\n- Ramalho, *Fluent Python* 2e — caps. 7, 9\n- [PEP 3102 keyword-only](https://peps.python.org/pep-3102/)\n\n➡️ **Siguiente:** [009 — Manejo de excepciones y context managers](../009-manejo-de-excepciones-y-context-managers/README.md)"),
+    ],
+    definiciones=[
+        ("First-class object", "En Python, funciones son ciudadanos de primera clase: se asignan a variables (`f = saludar`), se pasan como argumento (`sorted(xs, key=f)`), se retornan de otras funciones. Esto habilita callbacks, decoradores y closures."),
+        ("`*args` / `**kwargs`", "**`*args`** captura argumentos posicionales sobrantes en una **tupla**. **`**kwargs`** captura argumentos nombrados sobrantes en un **dict**. Convención: solo el `*` y `**` importan; los nombres `args`/`kwargs` son convención."),
+        ("Keyword-only argument", "Argumento que solo puede pasarse nombrado: declarado después de `*` o `*args` en la signatura. `def f(a, *, b)` obliga a `f(1, b=2)`. Mejora legibilidad en APIs con muchos params."),
+        ("Lambda", "Función anónima de UNA expresión: `lambda x: x*2`. Sin nombre, sin docstring, sin múltiples statements. Útil para callbacks cortos (`sorted(xs, key=lambda p: p['edad'])`). Si necesitas más, usa `def`."),
+        ("Closure", "Función que **captura variables** del scope donde fue definida y las mantiene vivas aunque ese scope termine. Base mental de los decoradores. Para *modificar* la variable capturada, usa `nonlocal`."),
+        ("Decorador", "Función que recibe función y retorna función (típicamente envuelta). Sintaxis: `@dec` antes de `def`. Implementado típicamente con closure + `@functools.wraps` para preservar metadata original."),
+    ],
+    errores_comunes=[
+        ("`UnboundLocalError: local variable 'x' referenced before assignment`", "Asignaste a `x` dentro de la función → Python la trata como local; pero la usaste antes de asignar. **Fix**: si querías la del scope exterior, declara `nonlocal x` (o `global x`)."),
+        ("`SyntaxError: positional argument follows keyword argument`", "Llamaste `f(a=1, 2)` — posicionales primero. **Fix**: `f(2, a=1)`."),
+        ("`TypeError: f() got multiple values for argument 'x'`", "Pasaste `x` posicional Y nombrado: `f(5, x=10)`. **Fix**: elige uno."),
+        ("Mi decorador rompe `help(funcion)`", "Sin `@functools.wraps(fn)`, el wrapper pierde `__name__`, `__doc__`. **Fix**: `from functools import wraps; @wraps(fn) def wrapper(...)`."),
+        ("Lambda en loop captura el último valor", "`[lambda: i for i in range(3)]` — todas las lambdas devuelven `2` porque capturan `i` por referencia. **Fix**: `[lambda i=i: i for i in range(3)]` (default args evalúan en defin time)."),
+    ],
+    faq=[
+        ("¿Cuándo `*args, **kwargs` y cuándo argumentos explícitos?",
+         "Argumentos explícitos siempre que conozcas la signatura — el IDE te ayuda y el lector entiende. `*args, **kwargs` solo en wrappers genéricos (decoradores, factories) que deben aceptar cualquier llamada."),
+        ("¿Lambda o def?",
+         "Lambda solo si: (a) cabe en una expresión, (b) la usas inmediatamente (callback), (c) un nombre no aportaría. En todos los demás casos, `def` con nombre — más debuggeable, soporta docstring y type hints."),
+        ("¿Closure es lo mismo que decorador?",
+         "Decorador suele estar **implementado con** closure, pero closure ≠ decorador. Closure es cualquier función que captura su entorno; decorador es un patrón específico (función → función)."),
+        ("¿Por qué necesito `nonlocal` en `make_counter`?",
+         "Sin `nonlocal`, `count += 1` dentro de `inner` se interpretaría como variable local nueva y daría UnboundLocalError. `nonlocal` le dice: 'esa variable vive en el scope inmediato exterior, modifícala'."),
+        ("¿Cuál es el costo de pasar funciones como argumento?",
+         "Mínimo (es solo una referencia). Lo costoso es la **invocación** repetida en bucles tight (cada llamada Python tiene overhead). Para esto, NumPy/Cython/Numba."),
     ],
 ))
 
@@ -284,6 +363,33 @@ SPECS.append(ClassSpec(
         Cell("md", "## ✅ Checklist\n\n- [ ] Capturo excepciones específicas, no `except:`\n- [ ] Sé crear una excepción propia con atributos\n- [ ] Uso `with` para archivos y otros recursos\n- [ ] Sé escribir un context manager con `@contextmanager`\n- [ ] Entiendo que `finally` garantiza cleanup"),
         Cell("md", "## 📝 Homework\n\nVer `README.md`. `parse_int_safe`, `DatasetCorruptoError`, `timer`, `cd` context manager."),
         Cell("md", "## 🔗 Referencias\n\n- [Python Tutorial — Errors](https://docs.python.org/3/tutorial/errors.html)\n- [contextlib](https://docs.python.org/3/library/contextlib.html)\n- Ramalho, *Fluent Python* 2e, cap. 18\n\n➡️ **Siguiente:** [010 — OOP básico, dataclasses, herencia](../010-oop-basico-dataclasses-herencia/README.md)"),
+    ],
+    definiciones=[
+        ("Excepción", "Objeto que se 'lanza' (`raise`) cuando algo anómalo ocurre. Sube por el stack hasta que un `except` lo captura, o termina el programa. Todas heredan de `BaseException`; las que debes capturar heredan de `Exception`."),
+        ("`try/except/else/finally`", "**`try`**: código riesgoso. **`except`**: maneja una excepción específica. **`else`**: corre si `try` no lanzó (raro pero útil). **`finally`**: cleanup garantizado, lanzó o no."),
+        ("Jerarquía de excepciones", "`BaseException` → `SystemExit` / `KeyboardInterrupt` / `Exception` → `ValueError` / `TypeError` / `LookupError` (→ `KeyError`, `IndexError`) / `OSError` / `ArithmeticError` (→ `ZeroDivisionError`). Captura siempre la más específica que sepas manejar."),
+        ("Excepción propia (custom)", "Subclase de `Exception` (o subclase específica). Permite tipificar errores de tu dominio (`class DatasetCorruptoError(Exception): ...`) en vez de strings. El caller puede `except DatasetCorruptoError` con precisión."),
+        ("Context manager", "Objeto con `__enter__` y `__exit__` que se usa con `with`. Garantiza setup/teardown (abrir/cerrar archivo, conectar/desconectar BD, lock/unlock). El `__exit__` corre incluso si hay excepción."),
+        ("`@contextmanager`", "Decorador de `contextlib` que convierte una función con `yield` en context manager. Pre-yield = `__enter__`, post-yield = `__exit__`. Mucho más corto que escribir la clase completa."),
+    ],
+    errores_comunes=[
+        ("`except:` o `except Exception:` ciego esconde bugs", "Cualquier error queda silenciado (incluso typos `NameError`). **Fix**: captura el tipo específico (`except ValueError as e`). Si quieres loguear cualquiera, `except Exception as e: log.error(...); raise`."),
+        ("`finally` con `return` traga la excepción", "Si `finally` ejecuta `return`, la excepción del `try` desaparece silenciosamente. **Fix**: NO uses `return` en `finally`; sólo cleanup."),
+        ("`with open(f) as f, open(g) as g:` falla por sintaxis vieja", "Esa sintaxis requiere Python 3.10+. **Fix**: en versiones viejas usa `contextlib.ExitStack` o `with open(f) as f: with open(g) as g:` anidado."),
+        ("Capturé `KeyError` pero el código sigue rompiéndose", "Tu `except` está más arriba del `try`, o el error proviene de otra línea. **Fix**: lee el traceback completo, busca el `KeyError` real y rodea solo esa línea con try."),
+        ("Excepción dentro de generator no se captura como espero", "Las excepciones en generators son tricky; `except` rodea el `for`, no el `yield`. **Fix**: lee la sección \"Exceptions in generators\" del PEP 380, o reformula como función normal."),
+    ],
+    faq=[
+        ("¿`except Exception` o `except`?",
+         "Casi siempre `except Exception` — más explícito. `except:` desnudo captura también `KeyboardInterrupt` y `SystemExit`, lo cual rompe Ctrl+C y `sys.exit()`."),
+        ("¿Cuándo creo una excepción propia?",
+         "Cuando el caller necesita **diferenciar** este error de otros. `raise ValueError('CSV corrupto')` obliga al caller a parsear strings; `raise DatasetCorruptoError(linea=42)` le da un tipo y un atributo concreto."),
+        ("¿`with` solo para archivos?",
+         "No — para CUALQUIER recurso que necesite cleanup. Files (`open`), conexiones DB (`engine.connect()`), locks (`threading.Lock`), sesiones HTTP (`requests.Session`), transacciones (`db.atomic()`), timing (`with timer(...)`)."),
+        ("¿Debo capturar y re-lanzar para añadir contexto?",
+         "Sí, con `raise ExceptionNueva(...) from e` — preserva el stacktrace original como '`__cause__`'. El log muestra ambos errores en cadena."),
+        ("¿`pass` en `except` es siempre malo?",
+         "**Casi siempre sí.** Si tienes que silenciar, al menos `log.warning(...)`. Solo OK cuando la excepción es esperada (`except FileNotFoundError: pass` al limpiar archivos opcionales)."),
     ],
 ))
 

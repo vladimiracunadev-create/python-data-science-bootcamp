@@ -30,6 +30,26 @@ Al finalizar la clase, el alumno podrá:
 | 5 | Lambdas: dónde sí y dónde no | Callbacks cortos sí; lógica compleja no. |
 | 6 | Closures: capturando scope | Base mental de los decoradores. |
 
+## 📖 Definiciones y características
+
+**First-class object**
+: En Python, funciones son ciudadanos de primera clase: se asignan a variables (`f = saludar`), se pasan como argumento (`sorted(xs, key=f)`), se retornan de otras funciones. Esto habilita callbacks, decoradores y closures.
+
+**`*args` / `**kwargs`**
+: **`*args`** captura argumentos posicionales sobrantes en una **tupla**. **`**kwargs`** captura argumentos nombrados sobrantes en un **dict**. Convención: solo el `*` y `**` importan; los nombres `args`/`kwargs` son convención.
+
+**Keyword-only argument**
+: Argumento que solo puede pasarse nombrado: declarado después de `*` o `*args` en la signatura. `def f(a, *, b)` obliga a `f(1, b=2)`. Mejora legibilidad en APIs con muchos params.
+
+**Lambda**
+: Función anónima de UNA expresión: `lambda x: x*2`. Sin nombre, sin docstring, sin múltiples statements. Útil para callbacks cortos (`sorted(xs, key=lambda p: p['edad'])`). Si necesitas más, usa `def`.
+
+**Closure**
+: Función que **captura variables** del scope donde fue definida y las mantiene vivas aunque ese scope termine. Base mental de los decoradores. Para *modificar* la variable capturada, usa `nonlocal`.
+
+**Decorador**
+: Función que recibe función y retorna función (típicamente envuelta). Sintaxis: `@dec` antes de `def`. Implementado típicamente con closure + `@functools.wraps` para preservar metadata original.
+
 ## 📂 Dataset / recursos
 
 Datos sintéticos pequeños (lista de dicts simulando ventas). Sin descarga.
@@ -51,6 +71,38 @@ Datos sintéticos pequeños (lista de dicts simulando ventas). Sin descarga.
 Notebook con: (a) implementación y demo de `make_counter` explicando con comentario por qué el contador persiste; (b) `@memoize` aplicado a Fibonacci recursivo con benchmark (N=35) antes/después; (c) ordenamiento de `list[dict]` por 2 criterios usando `itemgetter`.
 
 **Criterio de aceptación:** `memoize` reduce Fibonacci(35) de segundos a milisegundos. Counter independiente entre instancias.
+
+## ⚠️ Errores comunes
+
+| Síntoma / mensaje | Causa y cómo arreglar |
+|---|---|
+| `UnboundLocalError: local variable 'x' referenced before assignment` | Asignaste a `x` dentro de la función → Python la trata como local; pero la usaste antes de asignar. **Fix**: si querías la del scope exterior, declara `nonlocal x` (o `global x`). |
+| `SyntaxError: positional argument follows keyword argument` | Llamaste `f(a=1, 2)` — posicionales primero. **Fix**: `f(2, a=1)`. |
+| `TypeError: f() got multiple values for argument 'x'` | Pasaste `x` posicional Y nombrado: `f(5, x=10)`. **Fix**: elige uno. |
+| Mi decorador rompe `help(funcion)` | Sin `@functools.wraps(fn)`, el wrapper pierde `__name__`, `__doc__`. **Fix**: `from functools import wraps; @wraps(fn) def wrapper(...)`. |
+| Lambda en loop captura el último valor | `[lambda: i for i in range(3)]` — todas las lambdas devuelven `2` porque capturan `i` por referencia. **Fix**: `[lambda i=i: i for i in range(3)]` (default args evalúan en defin time). |
+
+## ❓ Preguntas frecuentes
+
+**❓ ¿Cuándo `*args, **kwargs` y cuándo argumentos explícitos?**
+
+Argumentos explícitos siempre que conozcas la signatura — el IDE te ayuda y el lector entiende. `*args, **kwargs` solo en wrappers genéricos (decoradores, factories) que deben aceptar cualquier llamada.
+
+**❓ ¿Lambda o def?**
+
+Lambda solo si: (a) cabe en una expresión, (b) la usas inmediatamente (callback), (c) un nombre no aportaría. En todos los demás casos, `def` con nombre — más debuggeable, soporta docstring y type hints.
+
+**❓ ¿Closure es lo mismo que decorador?**
+
+Decorador suele estar **implementado con** closure, pero closure ≠ decorador. Closure es cualquier función que captura su entorno; decorador es un patrón específico (función → función).
+
+**❓ ¿Por qué necesito `nonlocal` en `make_counter`?**
+
+Sin `nonlocal`, `count += 1` dentro de `inner` se interpretaría como variable local nueva y daría UnboundLocalError. `nonlocal` le dice: 'esa variable vive en el scope inmediato exterior, modifícala'.
+
+**❓ ¿Cuál es el costo de pasar funciones como argumento?**
+
+Mínimo (es solo una referencia). Lo costoso es la **invocación** repetida en bucles tight (cada llamada Python tiene overhead). Para esto, NumPy/Cython/Numba.
 
 ## 🔗 Referencias
 
