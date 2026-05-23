@@ -74,6 +74,32 @@ SPECS.append(ClassSpec(
         Cell("md", "## 📝 Homework\n\nVer `README.md`. CSV contactos: normalizar email, extraer dominio, separar nombre, flag corp, Categorical país."),
         Cell("md", "## 🔗 Referencias\n\n- VanderPlas cap. 3 § 3.11\n- [pandas Text](https://pandas.pydata.org/docs/user_guide/text.html)\n- [pandas Categorical](https://pandas.pydata.org/docs/user_guide/categorical.html)\n\n➡️ **Siguiente:** [031 — Series de tiempo](../031-pandas-series-de-tiempo-resampling-rolling/README.md)"),
     ],
+    definiciones=[
+        ("Accessor `.str`", "Espacio de nombres en Series con métodos string vectorizados. Análogos a los de Python (`.lower()`, `.split()`, `.replace()`) pero aplicados elementwise y NaN-aware (propagan NaN sin error)."),
+        ("`.str.extract(pattern)`", "Aplica regex con grupos `()` y devuelve DataFrame con una columna por grupo. Soporta grupos nombrados (`(?P<dominio>...)`)."),
+        ("`.str.split(sep, expand=True)`", "Divide cada string y opcionalmente expande a DataFrame de columnas. Útil para denormalizar 'Apellido, Nombre' → 2 cols."),
+        ("dtype `'string'` (nullable)", "Versión moderna del dtype para texto. Diferencias con `object`: NA-aware (usa `pd.NA`), futuras optimizaciones. Recomendado en pandas 2+."),
+        ("`Categorical`", "Dtype para columnas con cardinalidad baja (pocos valores únicos). Almacena cada valor como entero + diccionario. **Ahorra ~10× memoria** y acelera groupby/sort."),
+    ],
+    errores_comunes=[
+        ("`'NoneType' has no attribute 'lower'` al hacer `s.apply(str.lower)`", "Hay NaN/None en la Series. **Fix**: usa `.str.lower()` (accessor) — maneja NaN automáticamente."),
+        ("Regex no captura nada con `.str.extract`", "Falta `()` para definir grupo, o el pattern no matchea. **Fix**: testa el regex en https://regex101.com con un sample primero."),
+        ("`.str.contains('foo')` lanza error con NaN", "Por default, `na=NaN` propaga. **Fix**: `s.str.contains('foo', na=False)` trata NaN como False."),
+        ("Convertí a `Categorical` y el sort sale alfabético", "Categorical por default es no-ordenado. **Fix**: `pd.Categorical(s, categories=['bajo','medio','alto'], ordered=True)` para imponer orden."),
+        ("`.str.split(',')` da listas, no columnas", "Sin `expand=True`. **Fix**: `s.str.split(',', expand=True)` devuelve DataFrame con una columna por parte."),
+    ],
+    faq=[
+        ("¿`.str.lower()` o `.apply(str.lower)`?",
+         "**`.str.lower()`** siempre — vectorizado, maneja NaN, mucho más rápido en N grande. `apply` es loop Python disfrazado."),
+        ("¿Cuándo convertir a `Categorical`?",
+         "Cuando la cardinalidad es baja (~<5% de N filas) y vas a hacer groupby/sort. Para 100k filas de 5 países: enorme ganancia. Para 100k filas de 80k strings únicos: no ayuda."),
+        ("¿`'string'` o `object` dtype?",
+         "**`'string'`** para código nuevo (NA-aware). **`object`** sigue siendo default por compat. Conviértelo explícito: `df['col'] = df['col'].astype('string')`."),
+        ("¿Regex case-insensitive?",
+         "`s.str.contains('foo', case=False)` o `flags=re.IGNORECASE`. También `s.str.lower().str.contains('foo')` (más explícito)."),
+        ("¿Cómo elimino acentos?",
+         "Pandas no trae nativo. Usa `unidecode` o `s.str.normalize('NFKD').str.encode('ascii', 'ignore').str.decode('ascii')`."),
+    ],
 ))
 
 
@@ -142,6 +168,33 @@ SPECS.append(ClassSpec(
         Cell("md", "## 📝 Homework\n\nVer `README.md`. Parseo, slice por trimestre, resample mensual, rolling 7/30 con plot, diff."),
         Cell("md", "## 🔗 Referencias\n\n- VanderPlas cap. 3 § 3.12\n- [pandas Time Series](https://pandas.pydata.org/docs/user_guide/timeseries.html)\n\n➡️ **Siguiente:** [032 — eval y query](../032-pandas-eval-y-query/README.md)"),
     ],
+    definiciones=[
+        ("`Timestamp` / `DatetimeIndex`", "Tipo nativo de pandas para fechas-horas. Vectorizado. Permite indexar con strings: `df.loc['2024-01':'2024-03']`."),
+        ("`pd.to_datetime`", "Conversor robusto string→Timestamp. `errors='coerce'` convierte fallos a `NaT` (Not a Time) en vez de excepción."),
+        ("Resampling", "Cambiar la frecuencia de una serie: diaria→mensual, horaria→semanal. Requiere **agregación** (sum, mean, last, ohlc). Códigos: `'D'`, `'W'`, `'ME'` (month-end), `'h'`, `'min'`."),
+        ("Rolling window", "Ventana móvil: para cada punto, aplicar función a los últimos N (`.rolling(N).mean()`). Suaviza tendencias, calcula medias móviles."),
+        ("`shift` / `diff` / `pct_change`", "**`shift(N)`**: desplaza N posiciones (NaN al inicio). **`diff(N)`**: `s - s.shift(N)` (cambio absoluto). **`pct_change()`**: cambio relativo."),
+        ("`tz_localize` vs `tz_convert`", "**`localize`** asigna TZ a fecha naive (no convierte). **`convert`** convierte de una TZ a otra (mantiene el instante). Patrón: localize primero, convert después."),
+    ],
+    errores_comunes=[
+        ("`pd.to_datetime` falla con `ValueError`", "Formato no estándar. **Fix**: `format='%d/%m/%Y'` explícito, o `errors='coerce'` para convertir fallos a NaT y diagnosticar después."),
+        ("`df.loc['2024-13']` lanza KeyError", "Mes inválido. **Fix**: verifica formato — pandas espera ISO (`'2024-01'`)."),
+        ("`resample('M')` warning sobre deprecation", "Pandas 2.2+ prefiere `'ME'` (month-end) o `'MS'` (month-start) sobre `'M'` ambiguo. **Fix**: actualiza alias."),
+        ("Resta de fechas da `Timedelta` en lugar de número", "Es correcto — usa `.dt.days`, `.dt.seconds` para obtener escalar. `(d1 - d2).dt.days`."),
+        ("Operaciones con TZ mezcladas: `Cannot compare tz-naive and tz-aware`", "Una fecha tiene timezone, la otra no. **Fix**: alinea — `tz_localize('UTC')` a la naive."),
+    ],
+    faq=[
+        ("¿Cuándo `DatetimeIndex`?",
+         "Cuando vas a hacer `resample`, slicing por fechas, o cualquier operación temporal. `set_index('fecha')` después de parsear."),
+        ("¿`resample` o `groupby(date.dt.month)`?",
+         "**`resample`** es nativo y maneja gaps + zonas horarias mejor. **`groupby`** para agrupaciones no temporales (\"por mes ignorando año\")."),
+        ("¿Rolling cuánto Nuevoiniciar?",
+         "Default: NaN en los primeros N-1 (no hay datos suficientes para la ventana). Si quieres usar lo que haya: `.rolling(N, min_periods=1)`."),
+        ("¿Cómo manejo zonas horarias en producción?",
+         "**Regla**: guarda todo en UTC, convierte solo para mostrar. `df['fecha'] = pd.to_datetime(...).dt.tz_localize('UTC')` al ingerir, `tz_convert('America/Santiago')` al exhibir."),
+        ("¿`pd.date_range` o `pd.timestamp_range`?",
+         "**`date_range`** — `timestamp_range` no existe. `pd.date_range('2024-01-01', '2024-12-31', freq='D')` para 365 fechas diarias."),
+    ],
 ))
 
 
@@ -206,6 +259,32 @@ SPECS.append(ClassSpec(
         Cell("md", "## ✅ Checklist\n\n- [ ] Sé escribir filtros largos con `df.query`\n- [ ] Uso `@var` para referenciar variables locales\n- [ ] Uso `df.eval` para columnas derivadas sin temporales\n- [ ] Sé que el speedup aparece en datasets grandes\n- [ ] Reconozco trade-off: legibilidad vs autocomplete IDE"),
         Cell("md", "## 📝 Homework\n\nVer `README.md`. 3 filtros equivalentes, eval para cols, benchmark en 1M filas."),
         Cell("md", "## 🔗 Referencias\n\n- VanderPlas cap. 3 § 3.13\n- [pandas enhancing perf](https://pandas.pydata.org/docs/user_guide/enhancingperf.html)\n\n➡️ **Siguiente:** [033 — Matplotlib: anatomía figura/axes](../033-matplotlib-anatomia-figura-axes/README.md)"),
+    ],
+    definiciones=[
+        ("`df.query()`", "Filtro como string tipo SQL: `df.query('precio > 100 and categoria == \"A\"')`. Más legible que máscara booleana compuesta cuando hay >2 condiciones."),
+        ("`df.eval()`", "Evalúa expresiones aritméticas: `df.eval('total = precio * cantidad')`. Con `inplace=True` añade la columna al DF."),
+        ("Variables locales (`@var`)", "Dentro de query/eval, prefijo `@` referencia variables del scope Python: `df.query('x > @threshold')`."),
+        ("`numexpr`", "Motor de cómputo que vectoriza expresiones en C/SIMD. Usado por eval/query bajo el capó cuando los datasets son grandes. Acelera operaciones aritméticas complejas."),
+        ("Trade-off legibilidad vs IDE", "Query strings: más legibles para humanos. Filtros tradicionales: autocomplete del IDE, type checking. Elige según contexto."),
+    ],
+    errores_comunes=[
+        ("`UndefinedVariableError: name 'X' is not defined`", "Variable Python no prefijada con `@`. **Fix**: `df.query('x > @threshold')` no `df.query('x > threshold')`."),
+        ("Strings dentro de query con comillas dobles dan error", "Mezcla de quotes. **Fix**: usa quotes opuestas: `df.query(\"categoria == 'A'\")` o triple-quoted."),
+        ("`df.eval('col_nueva = ...')` no añade la columna", "Sin `inplace=True`. **Fix**: `df.eval('col = x*y', inplace=True)` o `df = df.eval('col = x*y')`."),
+        ("query/eval más lento que máscara tradicional en mi caso", "Para datasets pequeños (<10k filas), el overhead del parser no compensa. **Fix**: usa máscara tradicional ahí; reserva query/eval para datasets grandes."),
+        ("Funciones custom no funcionan en query", "Solo aritmética + operadores. **Fix**: `df.query('x > @threshold')` con cálculo previo, o usa máscara tradicional con la función."),
+    ],
+    faq=[
+        ("¿`query` o máscara tradicional?",
+         "**Máscara** para filtros simples (1-2 condiciones) y autocomplete del IDE. **`query`** para filtros largos (4+ condiciones), parametrizables (`@var`), o cuando el lector lo encuentra más claro."),
+        ("¿`eval` y `query` siempre son más rápidos?",
+         "**No** — solo en datasets grandes (>100k) con expresiones complejas. Para pequeños son iguales o ligeramente más lentos."),
+        ("¿Qué operadores acepta query?",
+         "Aritméticos (`+ - * / **`), comparación (`==`, `<`, `>`, `<=`, `>=`, `!=`), boolean (`and`, `or`, `not` o `&`, `|`, `~`), `in`, `not in`. No funciones."),
+        ("¿`query` reemplaza a SQL en pandas?",
+         "Para filtros, sí (mismo nivel expresivo). Para joins y aggregations, no — usa `merge` y `groupby` clásicos. Para datasets >1GB, considera DuckDB directo."),
+        ("¿Hay `eval` peligroso (security)?",
+         "`pd.eval` no usa `exec()` Python — es parser propio limitado. No ejecuta arbitrary code. **Pero**: nunca pases strings de usuario sin sanitizar a query/eval."),
     ],
 ))
 

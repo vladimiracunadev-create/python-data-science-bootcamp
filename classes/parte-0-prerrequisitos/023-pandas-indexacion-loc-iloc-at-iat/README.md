@@ -30,6 +30,23 @@ Al finalizar la clase, el alumno podrá:
 | 5 | Mask + loc para filtros con asignación | `df.loc[mask, 'col'] = valor`. |
 | 6 | `SettingWithCopyWarning`: qué es y cómo evitarlo | Usar `.loc` para asignar. |
 
+## 📖 Definiciones y características
+
+**`.loc[fila, col]`**
+: Acceso por **etiqueta**. Slicing es **inclusivo** en ambos extremos (`df.loc['a':'c']` incluye 'c'). Acepta booleano: `df.loc[df['x'] > 0, 'col']`.
+
+**`.iloc[fila, col]`**
+: Acceso por **posición entera**. Slicing es **exclusivo** del extremo (estilo Python). `df.iloc[0:5]` da 5 filas (índices 0..4).
+
+**`.at[fila, col]` / `.iat[fila, col]`**
+: Versiones para acceder/asignar **un único valor**. ~10× más rápidos que `.loc`/`.iloc` cuando estás en loops. Mismo patrón label vs posición.
+
+**Indexer chaining (`df[cond][col] = x`)**
+: Encadenar dos `[]` operaciones de acceso. Crea ambigüedad: ¿es vista o copia? Origen del `SettingWithCopyWarning`. **Evítalo siempre**.
+
+**`SettingWithCopyWarning`**
+: Aviso de pandas: "estoy haciendo algo ambiguo, puede que tu asignación se pierda". Causado por chaining o asignación sobre subset no-explícito. Solución universal: `.loc[cond, col] = x` en una sola operación.
+
 ## 📂 Dataset / recursos
 
 Palmer Penguins desde URL (mismo de clase 022) o el sintético si no hay internet.
@@ -51,6 +68,38 @@ Palmer Penguins desde URL (mismo de clase 022) o el sintético si no hay interne
 Notebook que: (a) muestra los 3 métodos de acceso a columna; (b) compara loc vs iloc en slicing con tabla; (c) filtra Adelie machos con bill_length>40 mostrando 3 columnas; (d) reproduce y arregla SettingWithCopyWarning con explicación.
 
 **Criterio de aceptación:** Los filtros producen el subset correcto; la versión con `.loc` no emite warning.
+
+## ⚠️ Errores comunes
+
+| Síntoma / mensaje | Causa y cómo arreglar |
+|---|---|
+| `SettingWithCopyWarning` aparece y no sé por qué | Estás asignando sobre un resultado de slicing/filter que podría ser vista o copia. **Fix**: `df.loc[mask, 'col'] = valor` (una sola operación) en vez de `df[mask]['col'] = valor`. |
+| `df.loc[0:5]` da 6 filas no 5 | loc es **inclusive end**. Para 5 filas: `df.iloc[0:5]` (exclusivo) o `df.loc[0:4]` (inclusivo, manual). |
+| `KeyError` con `.loc[5]` cuando hice `set_index('id')` | El index ya no es 0..N — es la columna `id`. **Fix**: usa `.iloc[5]` para posición, o `.loc[<valor_id_real>]` para etiqueta. |
+| Asignación a vista no modifica el original | Pandas 3+ va a ser estricto: la vista no se considera modificable. **Fix**: siempre `.loc` para asignar; si necesitas copia, `.copy()` explícito. |
+| `df.col1 = x` no actualiza la columna | Como atributo, asignar no agrega columna nueva (lanza UserWarning). **Fix**: `df['col1'] = x` siempre. |
+
+## ❓ Preguntas frecuentes
+
+**❓ ¿`loc` o `iloc`?**
+
+**`loc`** cuando el index es semántico (nombres, fechas, ids). **`iloc`** cuando solo importa la posición (top-K por orden, primeros 10, último). Mezclarlos en el mismo código causa confusión.
+
+**❓ ¿Por qué `loc` slicing es inclusivo?**
+
+Decisión histórica: para labels (strings, fechas), incluir el end es lo intuitivo (`'enero':'marzo'` debe incluir marzo). Para enteros default queda raro — usa `iloc` ahí.
+
+**❓ ¿`at` vale la pena vs `loc` para single value?**
+
+Solo en hot loops (>10k iteraciones). Para uso interactivo, `loc` es lo suficientemente rápido y más legible.
+
+**❓ ¿Cómo selecciono múltiples columnas?**
+
+**Lista entre brackets**: `df[['a', 'b', 'c']]` (devuelve DataFrame). Notar el `[[]]`. Un solo `[]` con string devuelve Series.
+
+**❓ ¿`.loc[mask, cols]` o `.query() + [cols]`?**
+
+Ambos válidos. `.loc[mask, cols]` para máscaras computadas; `.query()` para filtros declarativos largos. Misma velocidad para datasets <100k.
 
 ## 🔗 Referencias
 

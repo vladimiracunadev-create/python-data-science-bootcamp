@@ -30,6 +30,23 @@ Al finalizar la clase, el alumno podrá:
 | 5 | groupby + multiindex resultado | groupby con 2+ claves devuelve MultiIndex. |
 | 6 | Cuándo aplanar | Para CSV de salida, plot, scikit-learn. |
 
+## 📖 Definiciones y características
+
+**`MultiIndex`**
+: Índice jerárquico con N niveles. Cada fila identificada por tupla de N labels (`('España', 2024)`). Útil cuando los datos tienen estructura natural (país→ciudad, año→mes).
+
+**Nivel (level)**
+: Cada "capa" del MultiIndex. Se referencia por nombre (`level='año'`) o posición (`level=0`). Útil en operaciones como `unstack(level=...)`.
+
+**`stack` / `unstack`**
+: Mueven niveles entre filas y columnas. **`unstack`** sube un nivel del index a columnas (long→wide). **`stack`** baja un nivel de columnas al index (wide→long). Reversibles.
+
+**`xs` (cross-section)**
+: Slice por un valor en un nivel: `df.xs(2024, level='año')`. Más limpio que indexar con tuplas parciales.
+
+**Aplanar (flatten)**
+: Convertir MultiIndex a Index plano: `df.reset_index()` (vuelve a default 0..N) o `df.index = ['_'.join(map(str, t)) for t in df.index]` (concatena niveles).
+
 ## 📂 Dataset / recursos
 
 Sintético: ventas por país/año.
@@ -51,6 +68,38 @@ Sintético: ventas por país/año.
 Notebook con ventas trimestre×región sintéticas (4 trimestres × 3 regiones × 2 años): (a) construir con `from_product`; (b) acceso a un trimestre específico; (c) total por región (unstack); (d) groupby penguins por (species, sex) → MultiIndex → aplanar.
 
 **Criterio de aceptación:** MultiIndex con shape correcto; unstack/stack reversibles.
+
+## ⚠️ Errores comunes
+
+| Síntoma / mensaje | Causa y cómo arreglar |
+|---|---|
+| `KeyError` al acceder `df.loc['España', 2024]` | loc con MultiIndex requiere **tupla**: `df.loc[('España', 2024)]`. Sin paréntesis pandas lo lee como (fila, columna). |
+| `unstack()` lanza `ValueError: Index contains duplicate entries` | Tienes filas duplicadas en (index, columns) → no se puede pivotar. **Fix**: agrega antes (`groupby` con sum/mean) o usa `pivot_table`. |
+| `groupby([a, b]).sum()` devuelve cosa extraña con MultiIndex | Es **correcto**: groupby con N keys devuelve MultiIndex. **Si quieres DataFrame plano**: `.reset_index()` después. |
+| Plot ignora niveles del MultiIndex | matplotlib/seaborn esperan columnas planas. **Fix**: aplana con `reset_index()` o `unstack()` antes de plotear. |
+| `sort_index()` ordena raro con MultiIndex | Default ordena por todos los niveles. Para ordenar por uno específico: `sort_index(level='año')` o `sort_values('col')` si tienes una columna de criterio. |
+
+## ❓ Preguntas frecuentes
+
+**❓ ¿Cuándo MultiIndex aporta vs cuándo complica?**
+
+**Aporta** en análisis interactivo con slicing por nivel frecuente. **Complica** para export a CSV, plot, sklearn — aplana ahí.
+
+**❓ ¿`set_index([a, b])` vs `groupby([a, b])`?**
+
+`set_index` solo mueve cols al index (sin agregar). `groupby` colapsa filas por las cols (con sum/mean/agg). Diferentes operaciones.
+
+**❓ ¿Cómo evito MultiIndex en groupby?**
+
+`groupby([a, b], as_index=False)` devuelve DataFrame plano directamente. O `.reset_index()` después.
+
+**❓ ¿`stack(future_stack=True)` qué significa?**
+
+Es el comportamiento del nuevo stack (default en pandas 3+). Maneja NaN distinto al legacy. Mejor pasarlo siempre explícito para suprimir warnings.
+
+**❓ ¿Performance MultiIndex vs Index plano?**
+
+MultiIndex tiene overhead. Para datasets grandes (>1M filas) con acceso intenso, aplana al final del pipeline.
 
 ## 🔗 Referencias
 

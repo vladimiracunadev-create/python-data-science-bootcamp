@@ -30,6 +30,23 @@ Al finalizar la clase, el alumno podrá:
 | 5 | Index labels vs posición | El bug clásico cuando el index no es 0..N. |
 | 6 | `info` y `describe` como first-look | Lo primero que mira un DS. |
 
+## 📖 Definiciones y características
+
+**`Series`**
+: Estructura 1D = ndarray + index labelled. `s[label]` accede por etiqueta, `s.iloc[N]` por posición. Característica clave: el index permite alineación automática entre Series.
+
+**`DataFrame`**
+: Estructura 2D = dict de Series que **comparten el mismo index**. Cada columna puede tener su propio dtype (a diferencia de un ndarray). `df['col']` devuelve Series.
+
+**`Index`**
+: Estructura que etiqueta cada fila (o columna). Puede ser entero default (RangeIndex), strings, fechas (DatetimeIndex), o jerárquico (MultiIndex). Inmutable — para cambiarlo, `set_index`/`reset_index`.
+
+**Alineación automática**
+: Cuando operas dos Series/DataFrames, pandas alinea por **index**, NO por posición. Posiciones sin match → NaN. Esto es lo que distingue pandas de NumPy.
+
+**`dtype` en pandas**
+: Cada columna tiene su dtype. Tipos clásicos: `int64`, `float64`, `bool`, `object` (strings o mixto). Modernos (NA-aware): `Int64`, `Float64`, `boolean`, `string`, `category`.
+
 ## 📂 Dataset / recursos
 
 Palmer Penguins (descargable con seaborn/palmerpenguins) — 344 filas × 7 columnas, públicas, sin issues de licencia. Reemplaza al iris dataset.
@@ -51,6 +68,38 @@ Palmer Penguins (descargable con seaborn/palmerpenguins) — 344 filas × 7 colu
 Notebook que: (a) carga Palmer Penguins y reporta `info()`, `describe()`, missing por col; (b) muestra los 3 métodos de acceso a una columna (`df.col`, `df['col']`, `df.loc[:, 'col']`); (c) cambia el index a `species`, vuelve a default con `reset_index`; (d) demuestra alineación automática sumando dos Series.
 
 **Criterio de aceptación:** Carga sin error, los 3 accesos producen la misma Series, alineación produce NaN donde corresponde.
+
+## ⚠️ Errores comunes
+
+| Síntoma / mensaje | Causa y cómo arreglar |
+|---|---|
+| `AttributeError` al hacer `df.column with space` | Acceso como atributo solo funciona con nombres válidos Python (sin espacios, sin números iniciales, sin chocar con métodos como `shape`). **Fix**: siempre `df['column with space']`. |
+| `KeyError: 'columna'` aunque está en el DataFrame | Espacios invisibles o capitalización distinta. **Fix**: `df.columns.tolist()` para ver exactamente cómo se llama. `df.columns = df.columns.str.strip()` para limpiar. |
+| Sumar dos Series y aparecen NaN inesperados | Index no coincide en algunos labels. **Fix**: `s1.add(s2, fill_value=0)` o reindexa con `s.reindex(target_index, fill_value=0)`. |
+| `pd.read_csv` infiere mal los dtypes | Pandas adivina por las primeras filas; si hay strings en una col mayormente numérica, queda `object`. **Fix**: pasa `dtype={'col': 'float64'}` o `na_values=['N/A', '?', '']`. |
+| `DataFrame is not callable: TypeError: 'DataFrame' object is not callable` | Hiciste `df()` por error en vez de `df` (paréntesis sobrantes). Típico al copiar código. |
+
+## ❓ Preguntas frecuentes
+
+**❓ ¿`df['col']` o `df.col`?**
+
+**`df['col']`** siempre — funciona con cualquier nombre, no choca con métodos. `df.col` falla con espacios, choca con `.shape`, `.head`, etc. Solo úsalo en exploración rápida.
+
+**❓ ¿Por qué `read_csv` me da `Unnamed: 0`?**
+
+El CSV se guardó con index (`df.to_csv('x.csv')`). **Fix**: al leer, `pd.read_csv('x.csv', index_col=0)`. O al guardar, `df.to_csv('x.csv', index=False)`.
+
+**❓ ¿Cuándo Series y cuándo DataFrame de 1 columna?**
+
+**Series** es más liviana y la mayoría de operaciones la prefieren. **DataFrame de 1 col** cuando vas a concatenar con otros DataFrames o necesitas mantener la columna nombrada. `s.to_frame()` convierte.
+
+**❓ ¿`copy()` cuándo?**
+
+Cuando vas a modificar un subset y NO quieres afectar el original. `subset = df[cond].copy()`. Si solo lees, no necesitas copy — y consumes el doble de memoria.
+
+**❓ ¿Qué pasa con NaN en una columna `int`?**
+
+Pandas la promueve a `float64` automáticamente (porque NumPy int no soporta NaN). Para mantener `int`: usa dtype nullable `Int64` (mayúscula) que sí permite `pd.NA`.
 
 ## 🔗 Referencias
 

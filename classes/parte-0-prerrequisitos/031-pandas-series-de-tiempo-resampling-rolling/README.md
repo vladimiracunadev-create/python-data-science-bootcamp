@@ -30,6 +30,26 @@ Al finalizar la clase, el alumno podrá:
 | 5 | `shift` y `diff` | Diferencias entre periodos, lag features. |
 | 6 | Timezones: localize → convert | Cuando los datos tienen TZ. |
 
+## 📖 Definiciones y características
+
+**`Timestamp` / `DatetimeIndex`**
+: Tipo nativo de pandas para fechas-horas. Vectorizado. Permite indexar con strings: `df.loc['2024-01':'2024-03']`.
+
+**`pd.to_datetime`**
+: Conversor robusto string→Timestamp. `errors='coerce'` convierte fallos a `NaT` (Not a Time) en vez de excepción.
+
+**Resampling**
+: Cambiar la frecuencia de una serie: diaria→mensual, horaria→semanal. Requiere **agregación** (sum, mean, last, ohlc). Códigos: `'D'`, `'W'`, `'ME'` (month-end), `'h'`, `'min'`.
+
+**Rolling window**
+: Ventana móvil: para cada punto, aplicar función a los últimos N (`.rolling(N).mean()`). Suaviza tendencias, calcula medias móviles.
+
+**`shift` / `diff` / `pct_change`**
+: **`shift(N)`**: desplaza N posiciones (NaN al inicio). **`diff(N)`**: `s - s.shift(N)` (cambio absoluto). **`pct_change()`**: cambio relativo.
+
+**`tz_localize` vs `tz_convert`**
+: **`localize`** asigna TZ a fecha naive (no convierte). **`convert`** convierte de una TZ a otra (mantiene el instante). Patrón: localize primero, convert después.
+
 ## 📂 Dataset / recursos
 
 Sintético: serie diaria de 2 años de ventas. Sin descarga.
@@ -51,6 +71,38 @@ Sintético: serie diaria de 2 años de ventas. Sin descarga.
 Notebook con serie sintética de 2 años: (a) parseo robusto; (b) slice por trimestre; (c) resample a mensual con sum y mean; (d) rolling 7/30 días con plot; (e) diff y pct_change para variación.
 
 **Criterio de aceptación:** Plots muestran tendencia clara. Resample correcto (#meses esperado).
+
+## ⚠️ Errores comunes
+
+| Síntoma / mensaje | Causa y cómo arreglar |
+|---|---|
+| `pd.to_datetime` falla con `ValueError` | Formato no estándar. **Fix**: `format='%d/%m/%Y'` explícito, o `errors='coerce'` para convertir fallos a NaT y diagnosticar después. |
+| `df.loc['2024-13']` lanza KeyError | Mes inválido. **Fix**: verifica formato — pandas espera ISO (`'2024-01'`). |
+| `resample('M')` warning sobre deprecation | Pandas 2.2+ prefiere `'ME'` (month-end) o `'MS'` (month-start) sobre `'M'` ambiguo. **Fix**: actualiza alias. |
+| Resta de fechas da `Timedelta` en lugar de número | Es correcto — usa `.dt.days`, `.dt.seconds` para obtener escalar. `(d1 - d2).dt.days`. |
+| Operaciones con TZ mezcladas: `Cannot compare tz-naive and tz-aware` | Una fecha tiene timezone, la otra no. **Fix**: alinea — `tz_localize('UTC')` a la naive. |
+
+## ❓ Preguntas frecuentes
+
+**❓ ¿Cuándo `DatetimeIndex`?**
+
+Cuando vas a hacer `resample`, slicing por fechas, o cualquier operación temporal. `set_index('fecha')` después de parsear.
+
+**❓ ¿`resample` o `groupby(date.dt.month)`?**
+
+**`resample`** es nativo y maneja gaps + zonas horarias mejor. **`groupby`** para agrupaciones no temporales ("por mes ignorando año").
+
+**❓ ¿Rolling cuánto Nuevoiniciar?**
+
+Default: NaN en los primeros N-1 (no hay datos suficientes para la ventana). Si quieres usar lo que haya: `.rolling(N, min_periods=1)`.
+
+**❓ ¿Cómo manejo zonas horarias en producción?**
+
+**Regla**: guarda todo en UTC, convierte solo para mostrar. `df['fecha'] = pd.to_datetime(...).dt.tz_localize('UTC')` al ingerir, `tz_convert('America/Santiago')` al exhibir.
+
+**❓ ¿`pd.date_range` o `pd.timestamp_range`?**
+
+**`date_range`** — `timestamp_range` no existe. `pd.date_range('2024-01-01', '2024-12-31', freq='D')` para 365 fechas diarias.
 
 ## 🔗 Referencias
 
