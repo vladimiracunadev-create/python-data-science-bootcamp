@@ -24,33 +24,84 @@
   </header>
   <main class="cur-main">
     <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-0-prerrequisitos/037-matplotlib-stylesheets/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
 <h1 id="clase-037-matplotlib-stylesheets">Clase 037 — Matplotlib: stylesheets</h1>
 <blockquote>
-<p>Parte: <strong>0-prerrequisitos</strong>
-Estado: <strong>stub</strong> (pendiente desarrollar contenido).</p>
+<p>Parte: <strong>0 — Prerrequisitos</strong> · Fuente: VanderPlas, <strong>cap. 4</strong> § 4.11 <em>Customizing Matplotlib: Configurations and Stylesheets</em>.
+⏱️ Duración estimada: <strong>30 min</strong>.</p>
 </blockquote>
-<h2 id="objetivo">Objetivo</h2>
-<p>Describir el resultado de aprendizaje concreto de esta clase.</p>
-<h2 id="resultados-esperados">Resultados esperados</h2>
-<p>Al finalizar, el estudiante podrá:</p>
+<hr>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Que el alumno aproveche <strong>stylesheets</strong> built-in y propios para mantener consistencia visual entre plots y proyectos — y deje de configurar manualmente rcParams en cada notebook.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar la clase, el alumno podrá:</p>
+<ol>
+<li><strong>Listar stylesheets disponibles</strong> con <code>plt.style.available</code>.</li>
+<li><strong>Aplicar</strong> un style globalmente (<code>plt.style.use(...)</code>) o solo a un bloque (<code>with plt.style.context(...)</code>).</li>
+<li><strong>Crear style propio</strong> en un archivo <code>.mplstyle</code> y usarlo.</li>
+<li><strong>Combinar styles</strong> (uno + ajustes manuales).</li>
+<li><strong>Elegir style</strong> según contexto (informe, presentación, B&amp;N para impresión).</li>
+</ol>
+<h2 id="temas">🗺️ Temas</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Tema</th>
+<th>Por qué importa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><code>plt.style.available</code></td>
+<td>Catálogo built-in.</td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>plt.style.use(...)</code> global</td>
+<td>Afecta todos los plots subsiguientes.</td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>with plt.style.context(...)</code></td>
+<td>Temporal, ideal para un bloque.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Archivo <code>.mplstyle</code> propio</td>
+<td>Reusar entre proyectos.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Stylesheets comunes</td>
+<td>default, seaborn-v0_8-whitegrid, ggplot, fivethirtyeight, grayscale.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>rcParams override puntual</td>
+<td>Style + ajuste fino.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<p>Sintético: mismo plot en varios styles. Sin descarga.</p>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<p><strong>1.</strong> <strong>Catalogo.</strong> Imprime <code>plt.style.available</code>. Identifica 5 que suenen útiles.</p>
+<p><strong>2.</strong> <strong>Galería visual.</strong> Mismo scatter plot bajo 4 styles distintos (default, ggplot, seaborn-whitegrid, grayscale).</p>
+<p><strong>3.</strong> <strong>Bloque temporal.</strong> Con <code>with plt.style.context('seaborn-v0_8-darkgrid'):</code> aplica style solo a 1 figura.</p>
+<p><strong>4.</strong> <strong>Style propio.</strong> Crea <code>mi_style.mplstyle</code> con tus defaults preferidos. Úsalo.</p>
+<p><strong>5.</strong> <strong>Style + override.</strong> Aplica <code>ggplot</code> y luego cambia <code>figure.figsize</code> para un plot específico.</p>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Notebook: (a) galería de 4 styles sobre un mismo dataset; (b) crear <code>informe.mplstyle</code> con paleta corporativa simulada (3 colores principales); (c) demo de uso temporal con <code>plt.style.context</code>; (d) comparativa B&amp;N (<code>grayscale</code>) vs color para una figura que podría imprimirse.</p>
+<p><strong>Criterio de aceptación:</strong> Galería con plots reconocibles; style propio aplica colores definidos.</p>
+<h2 id="referencias">🔗 Referencias</h2>
 <ul>
-<li>(resultado 1)</li>
-<li>(resultado 2)</li>
-<li>(resultado 3)</li>
+<li>VanderPlas, <strong>cap. 4</strong> § 4.11.</li>
+<li><a href="https://matplotlib.org/stable/gallery/style_sheets/style_sheets_reference.html">matplotlib stylesheets gallery</a></li>
 </ul>
-<h2 id="temas-clave">Temas clave</h2>
-<ul>
-<li>(subtema 1)</li>
-<li>(subtema 2)</li>
-<li>(subtema 3)</li>
-</ul>
-<h2 id="materiales">Materiales</h2>
-<ul>
-<li><code>README.md</code> — esta ficha</li>
-<li><code>notebook.ipynb</code> — cuaderno de la clase</li>
-</ul>
-<h2 id="prerrequisitos">Prerrequisitos</h2>
-<p>Ver índice general en <code>classes/README.md</code> para dependencias entre clases.</p>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../038-matplotlib-3d-plotting/index.html">Clase 038 — Matplotlib: 3D plotting</a></p>
   </main>
   <footer class="cur-footer">
     <p>

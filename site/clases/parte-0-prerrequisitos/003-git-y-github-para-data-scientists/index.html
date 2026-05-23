@@ -24,33 +24,157 @@
   </header>
   <main class="cur-main">
     <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-0-prerrequisitos/003-git-y-github-para-data-scientists/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
 <h1 id="clase-003-git-y-github-para-data-scientists">Clase 003 — Git y GitHub para data scientists</h1>
 <blockquote>
-<p>Parte: <strong>0-prerrequisitos</strong>
-Estado: <strong>stub</strong> (pendiente desarrollar contenido).</p>
+<p>Parte: <strong>0 — Prerrequisitos</strong> · Fuente: Pro Git (Chacon &amp; Straub) — caps. 2 y 3 · GitHub docs.
+⏱️ Duración estimada: <strong>120 min</strong>.</p>
 </blockquote>
-<h2 id="objetivo">Objetivo</h2>
-<p>Describir el resultado de aprendizaje concreto de esta clase.</p>
-<h2 id="resultados-esperados">Resultados esperados</h2>
-<p>Al finalizar, el estudiante podrá:</p>
+<hr>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Que el alumno use git no como "botón save" sino como un sistema serio de versionado: commits atómicos con mensajes útiles, branches por feature, PRs con review, y resolución de conflictos sin pánico. Adicionalmente: ignorar correctamente los archivos típicos de DS (datos pesados, notebooks con output, secrets).</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar la clase, el alumno podrá:</p>
+<ol>
+<li><strong>Inicializar</strong> un repo, hacer commits atómicos con mensajes en formato convencional.</li>
+<li><strong>Trabajar con branches</strong>: crear, cambiar, mergear y resolver un conflicto sin perder código.</li>
+<li><strong>Configurar <code>.gitignore</code></strong> para un proyecto de DS (datos, <code>.venv</code>, secrets, outputs de notebooks).</li>
+<li><strong>Abrir y revisar un PR en GitHub</strong> desde la línea de comandos con <code>gh</code>.</li>
+<li><strong>Recuperar</strong> trabajo perdido con <code>git reflog</code> (la red de seguridad invisible).</li>
+</ol>
+<h2 id="temas">🗺️ Temas</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Tema</th>
+<th>Por qué importa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Modelo de git: working tree → staging → repo → remote</td>
+<td>Sin este modelo mental, todo parece magia.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Commits atómicos + mensajes convencionales</td>
+<td>Un commit = un cambio lógico revertible.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Branches y merge vs rebase</td>
+<td>Cuándo usar cada uno; por qué no rebasear ramas públicas.</td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>.gitignore</code> para data science</td>
+<td>Datos, modelos, notebooks con output, <code>.env</code> no van al repo.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Conflictos: anatomía y resolución</td>
+<td><code>&lt;&lt;&lt;&lt;&lt;&lt;&lt;</code>, <code>=======</code>, <code>&gt;&gt;&gt;&gt;&gt;&gt;&gt;</code> y cómo no entrar en pánico.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Pull Requests + review en GitHub</td>
+<td>El review es donde se transfiere conocimiento.</td>
+</tr>
+<tr>
+<td>7</td>
+<td><code>git reflog</code> — la red de seguridad</td>
+<td>Aunque borres una rama, los commits viven 90 días.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<dl>
+<dt><strong>Repositorio (repo)</strong></dt>
+<dd>Carpeta con un subdirectorio <code>.git/</code> que guarda toda la historia. Características: contenido inmutable identificado por SHA-1, ramas son punteros móviles, todo cambio publicado es eterno (aunque borres el commit, vive en reflog 90 días).</dd>
+<dt><strong>Commit</strong></dt>
+<dd>Snapshot inmutable del estado del repo en un momento. Tiene SHA-1, padre(s), autor, fecha, mensaje. Característica: <strong>atómico</strong> — debería poder revertirse solo sin romper nada.</dd>
+<dt><strong>Branch (rama)</strong></dt>
+<dd>Puntero móvil a un commit. Mover el puntero es barato. <code>HEAD</code> apunta a la rama actual. La rama <code>main</code> no es especial; solo es la rama por defecto del proyecto.</dd>
+<dt><strong>Working tree / Staging / Repo / Remote</strong></dt>
+<dd>Las 4 zonas: working tree (lo que editas) → staging area (lo preparado con <code>git add</code>) → repo local (lo commiteado) → remote (GitHub/GitLab). Cada <code>git</code> mueve cosas entre estas 4 zonas.</dd>
+<dt><strong>Merge vs Rebase</strong></dt>
+<dd><strong>Merge</strong> crea un commit nuevo que junta dos historias (preserva ambas). <strong>Rebase</strong> reescribe los commits de tu rama encima de otra (historia lineal pero modificada). Característica clave: <strong>nunca rebases ramas compartidas</strong> — reescribir SHAs rompe a tus compañeros.</dd>
+<dt><strong>Conventional Commits</strong></dt>
+<dd>Convención que prescribe <code>tipo(scope): descripción</code>. Tipos: <code>feat</code>, <code>fix</code>, <code>docs</code>, <code>refactor</code>, <code>test</code>, <code>chore</code>, <code>perf</code>, <code>style</code>. Beneficio: changelogs y semver automáticos.</dd>
+</dl>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<p>No requiere dataset. El "dataset" son los propios cambios que el alumno hace en archivos de prueba. Para el ejercicio del <code>.gitignore</code>, simulamos archivos típicos de DS (csv pesado, <code>.env</code>, <code>.ipynb_checkpoints/</code>).</p>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<p><strong>1.</strong> <strong>Repo desde cero.</strong> <code>git init</code>, crea 3 archivos (<code>README.md</code>, <code>data.csv</code>, <code>notebook.ipynb</code>), haz 3 commits con mensajes en formato <code>tipo: descripción</code> (feat/fix/docs/chore).</p>
+<p><strong>2.</strong> <strong>Branch + conflicto.</strong> Crea rama <code>feature/x</code>, modifica una línea en <code>README.md</code>. Vuelve a <code>main</code>, modifica la <strong>misma línea</strong> distinto. Mergea, resuelve el conflicto a mano.</p>
+<p><strong>3.</strong> <strong><code>.gitignore</code> profesional.</strong> Genera uno que ignore: <code>.venv/</code>, <code>__pycache__/</code>, <code>.ipynb_checkpoints/</code>, <code>*.csv</code> en <code>data/raw/</code>, <code>.env</code>, <code>models/*.pkl</code>. Verifica con <code>git status</code> que no aparecen.</p>
+<p><strong>4.</strong> <strong>PR desde la CLI.</strong> Crea repo en GitHub (con <code>gh repo create</code>), push, crea PR con <code>gh pr create</code> y descripción no trivial.</p>
+<p><strong>5.</strong> <strong>Recuperación.</strong> Borra una rama con commits. Recupera el HEAD con <code>git reflog</code> + <code>git checkout &lt;sha&gt;</code> + <code>git switch -c rescate</code>.</p>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Repo público en GitHub con: 5+ commits en formato convencional, al menos 1 branch mergeada, un <code>.gitignore</code> de DS completo, README con badges (build status si aplica) y un PR cerrado.</p>
+<p><strong>Criterio de aceptación:</strong> El historial (<code>git log --oneline</code>) se lee como cambios atómicos coherentes. <code>git status</code> limpio después de un experimento. PR mergeado con descripción legible.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>error: failed to push some refs to 'origin/main'</code></td>
+<td>El remote tiene commits que no tienes localmente (alguien más empujó). <strong>Fix</strong>: <code>git pull --rebase</code> primero, resuelve conflictos si los hay, luego <code>git push</code>.</td>
+</tr>
+<tr>
+<td><code>fatal: refusing to merge unrelated histories</code></td>
+<td>Estás juntando dos repos sin ancestro común. <strong>Fix</strong>: <code>git pull --allow-unrelated-histories</code> (raro, asegúrate de que es lo que querías).</td>
+</tr>
+<tr>
+<td>Hice <code>git reset --hard</code> y perdí mi trabajo 😱</td>
+<td>Si fue local y no había commit: perdido. Si había commit, <strong><code>git reflog</code></strong> lo recupera: busca el SHA antes del reset y <code>git reset --hard &lt;sha&gt;</code>.</td>
+</tr>
+<tr>
+<td><code>Please tell me who you are</code> al hacer commit</td>
+<td>Falta config global. <strong>Fix</strong>: <code>git config --global user.name "Tu Nombre"</code> y <code>git config --global user.email "tu@email.com"</code>.</td>
+</tr>
+<tr>
+<td>Commit con archivo enorme; ahora <code>git push</code> rechaza por &gt;100 MB</td>
+<td>GitHub bloquea blobs &gt;100 MB. <strong>Fix</strong>: NO basta con borrar el archivo en un commit nuevo (queda en historia). Usa <code>git filter-repo</code> o BFG para reescribir historia, o agrega a <code>.gitignore</code> desde el inicio.</td>
+</tr>
+<tr>
+<td>Mergeé un PR pero ahora hay conflictos en <code>main</code></td>
+<td>Alguien mergeó algo antes y tu base local es vieja. <strong>Fix</strong>: <code>git switch main &amp;&amp; git pull</code> y resuelve los conflictos en una nueva rama, no directo en main.</td>
+</tr>
+<tr>
+<td><code>.gitignore</code> no funciona — el archivo sigue apareciendo en <code>git status</code></td>
+<td>Si el archivo <strong>ya estaba trackeado</strong> antes del <code>.gitignore</code>, git lo sigue viendo. <strong>Fix</strong>: <code>git rm --cached &lt;archivo&gt;</code> y commitea — desde ahora lo ignora.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿Merge o rebase?</strong></p>
+<p>Regla simple: <strong>merge para todo lo público, rebase solo localmente antes de PR</strong> para limpiar tus propios commits. Nunca rebases una rama que alguien más usa.</p>
+<p><strong>❓ ¿Force push (<code>git push -f</code>) es siempre malo?</strong></p>
+<p>En <code>main</code> o ramas compartidas: catástrofe. En tu propia rama de feature después de rebase: aceptable. Mejor usar <code>--force-with-lease</code> que falla si alguien más empujó mientras.</p>
+<p><strong>❓ ¿Cómo deshago el último commit?</strong></p>
+<p>Si NO empujaste: <code>git reset --soft HEAD~1</code> (mantiene cambios staged) o <code>--hard</code> (los borra). Si YA empujaste y quieres revertirlo sin reescribir historia: <code>git revert HEAD</code> (crea commit nuevo que deshace).</p>
+<p><strong>❓ ¿Squash o no squash al mergear?</strong></p>
+<p>Squash = un solo commit final con todo el PR. Bueno para mantener historia limpia en main. Pierdes el detalle de pasos intermedios. Política común: squash en PRs pequeños, merge commit en grandes.</p>
+<p><strong>❓ ¿Está bien commitear el <code>.venv/</code> o el <code>data/raw/customers.csv</code>?</strong></p>
+<p>NO. <code>.venv/</code> se reconstruye con <code>requirements.txt</code>. Datos grandes/sensibles van fuera del repo (DVC, S3, etc.) — ver clase 159 Parte 4.</p>
+<p><strong>❓ Tengo 30 commits "wip" en mi rama, ¿qué hago antes del PR?</strong></p>
+<p><code>git rebase -i main</code> para entrar al rebase interactivo. Cambia <code>pick</code> por <code>squash</code> (o <code>fixup</code>) en los commits intermedios; quedará un historial limpio.</p>
+<h2 id="referencias">🔗 Referencias</h2>
 <ul>
-<li>(resultado 1)</li>
-<li>(resultado 2)</li>
-<li>(resultado 3)</li>
+<li><a href="https://git-scm.com/book">Pro Git book</a> — cap. 2 <em>Git Basics</em>, cap. 3 <em>Branching</em>.</li>
+<li><a href="https://www.conventionalcommits.org/">Conventional Commits</a></li>
+<li><a href="https://cli.github.com/manual/">GitHub CLI manual</a></li>
 </ul>
-<h2 id="temas-clave">Temas clave</h2>
-<ul>
-<li>(subtema 1)</li>
-<li>(subtema 2)</li>
-<li>(subtema 3)</li>
-</ul>
-<h2 id="materiales">Materiales</h2>
-<ul>
-<li><code>README.md</code> — esta ficha</li>
-<li><code>notebook.ipynb</code> — cuaderno de la clase</li>
-</ul>
-<h2 id="prerrequisitos">Prerrequisitos</h2>
-<p>Ver índice general en <code>classes/README.md</code> para dependencias entre clases.</p>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../004-estructura-reproducible-de-proyecto-cookiecutter-data-science/index.html">Clase 004 — Estructura reproducible de proyecto</a></p>
   </main>
   <footer class="cur-footer">
     <p>

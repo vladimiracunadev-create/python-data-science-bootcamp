@@ -24,33 +24,86 @@
   </header>
   <main class="cur-main">
     <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-0-prerrequisitos/043-sql-desde-python-sqlite3-sqlalchemy-duckdb/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
 <h1 id="clase-043-sql-desde-python-sqlite3-sqlalchemy-duckdb">Clase 043 — SQL desde Python: sqlite3, SQLAlchemy, DuckDB</h1>
 <blockquote>
-<p>Parte: <strong>0-prerrequisitos</strong>
-Estado: <strong>stub</strong> (pendiente desarrollar contenido).</p>
+<p>Parte: <strong>0 — Prerrequisitos</strong> · Fuente: Python stdlib <code>sqlite3</code> · SQLAlchemy docs · DuckDB Python docs.
+⏱️ Duración estimada: <strong>75 min</strong>.</p>
 </blockquote>
-<h2 id="objetivo">Objetivo</h2>
-<p>Describir el resultado de aprendizaje concreto de esta clase.</p>
-<h2 id="resultados-esperados">Resultados esperados</h2>
-<p>Al finalizar, el estudiante podrá:</p>
+<hr>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Que el alumno conecte Python con SQL de las 3 formas que va a encontrar en producción: <code>sqlite3</code> (stdlib, demo local), <code>SQLAlchemy</code> (ORM/engine genérico para PostgreSQL/MySQL), y <code>DuckDB</code> (columnar embebido para análisis sobre CSV/Parquet sin servidor).</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar la clase, el alumno podrá:</p>
+<ol>
+<li><strong>Conectar y consultar</strong> con <code>sqlite3</code> stdlib, usando placeholders <code>?</code> (NUNCA concatenar SQL).</li>
+<li><strong>Usar SQLAlchemy <code>create_engine(URL)</code></strong> + <code>pd.read_sql</code> para queries a cualquier RDBMS.</li>
+<li><strong>Usar DuckDB</strong> para hacer SQL sobre DataFrames y CSV/Parquet directamente.</li>
+<li><strong>Prevenir SQL injection</strong> con queries parametrizadas.</li>
+<li><strong>Decidir</strong> entre sqlite/SQLAlchemy/DuckDB según el caso.</li>
+</ol>
+<h2 id="temas">🗺️ Temas</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Tema</th>
+<th>Por qué importa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><code>sqlite3</code> stdlib: connect, cursor, fetchall</td>
+<td>Para demos y BDs ligeras.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Placeholders <code>?</code> y <code>:nombre</code></td>
+<td>NUNCA concatenar strings.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>SQLAlchemy <code>create_engine('postgresql://...')</code></td>
+<td>Soporta todos los RDBMS.</td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>pd.read_sql</code> y <code>df.to_sql</code></td>
+<td>Pasarela pandas ↔ BD.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>DuckDB: SQL sobre DataFrames y archivos</td>
+<td><code>duckdb.query('SELECT ... FROM df')</code>.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Cuándo cada uno</td>
+<td>Trade-offs.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<p>Penguins descargado a CSV local para DuckDB; datos sintéticos para sqlite/SQLAlchemy.</p>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<p><strong>1.</strong> <strong>sqlite3 con placeholders.</strong> Crea tabla, inserta 5 filas usando <code>executemany</code> con tuples, consulta con <code>?</code> placeholder. Demuestra el bug si concatenas.</p>
+<p><strong>2.</strong> <strong><code>df.to_sql</code> y <code>pd.read_sql</code>.</strong> Carga un DataFrame a SQLite y consulta de vuelta.</p>
+<p><strong>3.</strong> <strong>SQLAlchemy engine.</strong> Crea engine SQLite. Usa <code>pd.read_sql</code> con engine.</p>
+<p><strong>4.</strong> <strong>DuckDB sobre DataFrame.</strong> Carga penguins en df. <code>duckdb.query('SELECT species, AVG(body_mass_g) FROM df GROUP BY species').df()</code>.</p>
+<p><strong>5.</strong> <strong>DuckDB sobre CSV.</strong> Mismo query pero <code>FROM 'penguins.csv'</code> directo, sin cargar a pandas.</p>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Notebook con 3 backends del mismo análisis: (a) sqlite3 stdlib + cursor; (b) SQLAlchemy engine + pd.read_sql; (c) DuckDB sobre CSV. Documenta cuándo elegirías cada uno. Demuestra explícitamente el peligro de SQL injection con concatenación vs placeholders.</p>
+<p><strong>Criterio de aceptación:</strong> Las 3 versiones devuelven el mismo resultado. Demo de injection sin daño real.</p>
+<h2 id="referencias">🔗 Referencias</h2>
 <ul>
-<li>(resultado 1)</li>
-<li>(resultado 2)</li>
-<li>(resultado 3)</li>
+<li><a href="https://docs.python.org/3/library/sqlite3.html">Python <code>sqlite3</code> docs</a></li>
+<li><a href="https://docs.sqlalchemy.org/en/20/tutorial/">SQLAlchemy tutorial</a></li>
+<li><a href="https://duckdb.org/docs/api/python/overview">DuckDB Python API</a></li>
+<li><a href="https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html">OWASP — SQL injection prevention</a></li>
 </ul>
-<h2 id="temas-clave">Temas clave</h2>
-<ul>
-<li>(subtema 1)</li>
-<li>(subtema 2)</li>
-<li>(subtema 3)</li>
-</ul>
-<h2 id="materiales">Materiales</h2>
-<ul>
-<li><code>README.md</code> — esta ficha</li>
-<li><code>notebook.ipynb</code> — cuaderno de la clase</li>
-</ul>
-<h2 id="prerrequisitos">Prerrequisitos</h2>
-<p>Ver índice general en <code>classes/README.md</code> para dependencias entre clases.</p>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../044-nosql-mongodb-con-pymongo/index.html">Clase 044 — NoSQL: MongoDB con pymongo</a></p>
   </main>
   <footer class="cur-footer">
     <p>

@@ -24,33 +24,149 @@
   </header>
   <main class="cur-main">
     <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-0-prerrequisitos/013-type-hints-y-mypy/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
 <h1 id="clase-013-type-hints-y-mypy">Clase 013 — Type hints y mypy</h1>
 <blockquote>
-<p>Parte: <strong>0-prerrequisitos</strong>
-Estado: <strong>stub</strong> (pendiente desarrollar contenido).</p>
+<p>Parte: <strong>0 — Prerrequisitos</strong> · Fuente: <em>Fluent Python</em> 2e cap. 8 (Type Hints in Functions) · <em>typing</em> docs · mypy docs.
+⏱️ Duración estimada: <strong>75 min</strong>.</p>
 </blockquote>
-<h2 id="objetivo">Objetivo</h2>
-<p>Describir el resultado de aprendizaje concreto de esta clase.</p>
-<h2 id="resultados-esperados">Resultados esperados</h2>
-<p>Al finalizar, el estudiante podrá:</p>
+<hr>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Que el alumno anote tipos en sus funciones y dataclasses — no por dogma, sino porque permiten que el IDE autocomplete bien, que <code>mypy</code> detecte bugs antes de runtime, y que el lector entienda la intención. Tipos como <strong>documentación verificable</strong>.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar la clase, el alumno podrá:</p>
+<ol>
+<li><strong>Anotar</strong> funciones con tipos en parámetros y retorno (<code>def f(x: int) -&gt; str</code>).</li>
+<li><strong>Usar tipos compuestos</strong>: <code>list[int]</code>, <code>dict[str, float]</code>, <code>tuple[int, str]</code>, <code>Optional[X]</code>, <code>X | None</code>.</li>
+<li><strong>Definir tipos personalizados</strong> con <code>TypeAlias</code> y <code>Protocol</code> (structural typing).</li>
+<li><strong>Ejecutar mypy</strong> sobre código y interpretar sus errores.</li>
+<li><strong>Reconocer</strong> cuándo type hints aportan (APIs públicas, data classes) y cuándo no (notebooks exploratorios).</li>
+</ol>
+<h2 id="temas">🗺️ Temas</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Tema</th>
+<th>Por qué importa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Sintaxis básica: <code>x: int</code>, <code>-&gt; bool</code></td>
+<td>Solo anotaciones — no afectan runtime.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Tipos compuestos modernos (3.9+): <code>list[int]</code></td>
+<td>Sin <code>from typing import List</code>.</td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>Optional[X]</code> y <code>X | None</code> (3.10+)</td>
+<td>Cuando algo puede ser None.</td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>Literal</code>, <code>TypedDict</code>, <code>Protocol</code></td>
+<td>Tipos avanzados útiles.</td>
+</tr>
+<tr>
+<td>5</td>
+<td><code>mypy</code>: instalar y correr</td>
+<td>Static type checker.</td>
+</tr>
+<tr>
+<td>6</td>
+<td><code>reveal_type(x)</code> y <code># type: ignore</code></td>
+<td>Diagnóstico y escape hatch.</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Cuándo SÍ y cuándo NO</td>
+<td>API pública sí; notebook exploratorio quizá no.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<dl>
+<dt><strong>Type hint (annotation)</strong></dt>
+<dd>Anotación de tipo en signature o variable: <code>def f(x: int) -&gt; str</code>. <strong>Python NO verifica en runtime</strong> — son metadata leída por IDE/linter/mypy. Disponibles en <code>f.__annotations__</code>.</dd>
+<dt><strong><code>Optional[X]</code> / <code>X | None</code></strong></dt>
+<dd>Indica que el valor puede ser <code>X</code> o <code>None</code>. <code>Optional[X]</code> ≡ <code>Union[X, None]</code> ≡ <code>X | None</code> (PEP 604, 3.10+). Usa la sintaxis con <code>|</code> en código nuevo.</dd>
+<dt><strong><code>TypedDict</code></strong></dt>
+<dd>Esquema para diccionarios: <code>class PersonaDict(TypedDict): nombre: str; edad: int</code>. Permite tipear dicts que vienen de JSON/API sin convertirlos a dataclass.</dd>
+<dt><strong><code>Literal</code></strong></dt>
+<dd>Restringe a un conjunto de valores: <code>Literal['asc', 'desc']</code> solo acepta esas 2 strings. Útil para flags, modos, enums simples.</dd>
+<dt><strong><code>Protocol</code> (structural typing)</strong></dt>
+<dd>Define interfaz por <strong>estructura</strong> (duck typing tipado): <code>class TienePromedio(Protocol): def promedio(self) -&gt; float: ...</code>. Cualquier clase con <code>.promedio()</code> la satisface, sin heredarla.</dd>
+<dt><strong>mypy</strong></dt>
+<dd>Static type checker oficial. Lee tu código, sigue las anotaciones, reporta inconsistencias antes de ejecutar. Modo <code>--strict</code> lo hace exigente; recomendado para librerías.</dd>
+</dl>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<p>Funciones de ejemplo en el notebook. Sin descarga.</p>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<p><strong>1.</strong> <strong>Anota una función.</strong> Toma una función de los ejercicios de clase 008 (sin tipos) y anótala completa.</p>
+<p><strong>2.</strong> <strong>Optional vs default.</strong> Distingue <code>def f(x: int = 0)</code> (default 0) de <code>def f(x: int | None = None)</code> (puede no haber valor).</p>
+<p><strong>3.</strong> <strong>TypedDict.</strong> Define <code>class PersonaDict(TypedDict)</code> con <code>nombre: str</code>, <code>edad: int</code>. Úsala como tipo de un parámetro.</p>
+<p><strong>4.</strong> <strong>Corre mypy.</strong> Instala mypy, créate un archivo con un bug de tipo intencional (<code>def f(x: int) -&gt; str: return x + 1</code>) y corre <code>mypy archivo.py</code>. Lee y explica el error.</p>
+<p><strong>5.</strong> <strong>Protocol.</strong> Define <code>class TienePromedio(Protocol)</code> con método <code>promedio() -&gt; float</code>. Acepta cualquier clase que lo implemente (duck typing tipado).</p>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Repo con un módulo <code>analytics.py</code> (5+ funciones completamente anotadas), <code>pyproject.toml</code> que incluye mypy en <code>[tool.mypy]</code> con <code>strict = true</code>, y screenshot/log de <code>mypy analytics.py</code> sin errores.</p>
+<p><strong>Criterio de aceptación:</strong> <code>mypy --strict</code> corre sin errores ni warnings. Tipos consistentes y precisos.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>from typing import List</code> da deprecation warning en mypy</td>
+<td>Python 3.9+ usa lowercase: <code>list[int]</code> en vez de <code>List[int]</code>. <strong>Fix</strong>: actualiza imports + sintaxis.</td>
+</tr>
+<tr>
+<td><code>Optional[int] = 0</code> confunde</td>
+<td><code>Optional[int]</code> admite <code>None</code>. Si tu default es <code>0</code>, no necesitas Optional. <strong>Fix</strong>: <code>x: int = 0</code> (no admite None) vs <code>x: int | None = None</code> (admite None).</td>
+</tr>
+<tr>
+<td>mypy se queja "Cannot find module 'libreria'"</td>
+<td>Lib sin type stubs publicados. <strong>Fix</strong>: <code>pip install types-libreria</code> si existe (PEP 561), o <code>[tool.mypy] ignore_missing_imports = true</code> en pyproject.</td>
+</tr>
+<tr>
+<td>Anoté pero mypy no encuentra errores</td>
+<td>mypy no se llamó. <strong>Fix</strong>: <code>mypy archivo.py</code>. No es automático — debe estar en CI o pre-commit.</td>
+</tr>
+<tr>
+<td><code>reveal_type(x)</code> no existe en runtime</td>
+<td>Es exclusivo de mypy: lo lees como output del check, NO ejecutas. Si lo dejas en código que corre, lanza NameError.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿Tipo hints son obligatorios?</strong></p>
+<p><strong>No</strong> — Python no los verifica. Pero son fuertemente recomendados en: APIs públicas (funciones que importan otros), librerías, código compartido. En notebooks exploratorios, casi nunca aportan.</p>
+<p><strong>❓ ¿Slow my code los type hints?</strong></p>
+<p><strong>No</strong> — son metadata, no impactan runtime. <code>from __future__ import annotations</code> además las hace lazy (strings, evaluadas solo si introspeccionas).</p>
+<p><strong>❓ ¿mypy en CI: estricto o permisivo?</strong></p>
+<p>Empieza permisivo (sin <code>--strict</code>), arregla lo obvio, luego activa <code>--strict</code> gradualmente. Si arrancas estricto en un repo viejo, te ahogas en errores y termina ignorado.</p>
+<p><strong>❓ ¿Y si no sé qué tipo poner?</strong></p>
+<p><code>Any</code> (de <code>typing</code>) es válido — desactiva el check para ese caso. Mejor que mentir con un tipo incorrecto. Convención: comentario <code># TODO: tipo correcto</code> para revisión futura.</p>
+<p><strong>❓ ¿Pydantic vs dataclass + type hints?</strong></p>
+<p><strong>dataclass + hints</strong>: tipos solo a nivel mypy, no en runtime. <strong>Pydantic</strong>: valida en runtime (parsing de JSON con coerción y errores legibles). Para input externo (API, config) → Pydantic. Para internal record → dataclass.</p>
+<h2 id="referencias">🔗 Referencias</h2>
 <ul>
-<li>(resultado 1)</li>
-<li>(resultado 2)</li>
-<li>(resultado 3)</li>
+<li>Ramalho, <em>Fluent Python</em> 2e — cap. 8.</li>
+<li><a href="https://docs.python.org/3/library/typing.html"><code>typing</code> docs</a></li>
+<li><a href="https://mypy.readthedocs.io/">mypy docs</a></li>
+<li><a href="https://peps.python.org/pep-0484/">PEP 484 — Type Hints</a></li>
+<li><a href="https://peps.python.org/pep-0604/">PEP 604 — <code>X | Y</code> syntax</a></li>
 </ul>
-<h2 id="temas-clave">Temas clave</h2>
-<ul>
-<li>(subtema 1)</li>
-<li>(subtema 2)</li>
-<li>(subtema 3)</li>
-</ul>
-<h2 id="materiales">Materiales</h2>
-<ul>
-<li><code>README.md</code> — esta ficha</li>
-<li><code>notebook.ipynb</code> — cuaderno de la clase</li>
-</ul>
-<h2 id="prerrequisitos">Prerrequisitos</h2>
-<p>Ver índice general en <code>classes/README.md</code> para dependencias entre clases.</p>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../014-numpy-tipos-creacion-atributos/index.html">Clase 014 — NumPy: tipos, creación, atributos</a></p>
   </main>
   <footer class="cur-footer">
     <p>

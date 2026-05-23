@@ -24,33 +24,140 @@
   </header>
   <main class="cur-main">
     <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-0-prerrequisitos/012-logging/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
 <h1 id="clase-012-logging">Clase 012 — Logging</h1>
 <blockquote>
-<p>Parte: <strong>0-prerrequisitos</strong>
-Estado: <strong>stub</strong> (pendiente desarrollar contenido).</p>
+<p>Parte: <strong>0 — Prerrequisitos</strong> · Fuente: <em>Python Tutorial</em> logging HOWTO · <em>The Pragmatic Programmer</em> — "Programming by Coincidence".
+⏱️ Duración estimada: <strong>60 min</strong>.</p>
 </blockquote>
-<h2 id="objetivo">Objetivo</h2>
-<p>Describir el resultado de aprendizaje concreto de esta clase.</p>
-<h2 id="resultados-esperados">Resultados esperados</h2>
-<p>Al finalizar, el estudiante podrá:</p>
+<hr>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Que el alumno <strong>deje de usar <code>print</code> para debug</strong> y aprenda el módulo <code>logging</code> estándar: niveles (DEBUG/INFO/WARNING/ERROR/CRITICAL), handlers (consola, archivo), formatters, y configuración por módulo. Es la diferencia entre código que se debuggea reiniciando el notebook y código que se debuggea leyendo logs.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar la clase, el alumno podrá:</p>
+<ol>
+<li><strong>Diferenciar</strong> los 5 niveles de logging y cuándo usar cada uno.</li>
+<li><strong>Configurar</strong> un logger con <code>logging.basicConfig</code> y entender por qué <code>basicConfig</code> solo funciona una vez.</li>
+<li><strong>Crear loggers por módulo</strong> con <code>logging.getLogger(__name__)</code>.</li>
+<li><strong>Agregar handlers</strong>: uno a consola (INFO+), otro a archivo (DEBUG+).</li>
+<li><strong>Formatear</strong> logs con timestamp, módulo y nivel.</li>
+</ol>
+<h2 id="temas">🗺️ Temas</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Tema</th>
+<th>Por qué importa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><code>print</code> vs <code>logging</code></td>
+<td>print() es output; logging es observabilidad.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Niveles: DEBUG/INFO/WARNING/ERROR/CRITICAL</td>
+<td>Filtran qué se ve sin tocar código.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Logger jerárquico por módulo</td>
+<td><code>getLogger(__name__)</code> para herencia natural.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Handlers: consola, archivo, rotating</td>
+<td>Mismo log → múltiples destinos.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Formatters</td>
+<td>Timestamp + nivel + módulo + mensaje.</td>
+</tr>
+<tr>
+<td>6</td>
+<td><code>logging.basicConfig</code> y sus límites</td>
+<td>Solo afecta el primero; preferir config explícita.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<dl>
+<dt><strong>Logger</strong></dt>
+<dd>Punto de entrada para emitir logs. Se obtiene con <code>logging.getLogger(__name__)</code> — esto crea un logger nombrado por el módulo. Característica clave: los loggers son <strong>jerárquicos</strong> (separados por <code>.</code>); la config de root propaga a hijos.</dd>
+<dt><strong>Handler</strong></dt>
+<dd>Define <strong>a dónde</strong> van los logs (consola, archivo, syslog, sentry…). Un logger puede tener N handlers. Cada handler tiene su propio nivel y formatter.</dd>
+<dt><strong>Formatter</strong></dt>
+<dd>Define <strong>cómo</strong> se renderiza el log: <code>'%(asctime)s [%(levelname)s] %(name)s: %(message)s'</code>. Campos comunes: <code>asctime</code>, <code>levelname</code>, <code>name</code> (logger), <code>message</code>, <code>funcName</code>, <code>lineno</code>, <code>pathname</code>.</dd>
+<dt><strong>Nivel (DEBUG/INFO/WARNING/ERROR/CRITICAL)</strong></dt>
+<dd>Severidad ascendente. Filtran qué se emite. <strong>DEBUG</strong>: detalle interno; <strong>INFO</strong>: progreso normal; <strong>WARNING</strong>: algo raro pero no fatal; <strong>ERROR</strong>: operación falló; <strong>CRITICAL</strong>: sistema no puede continuar.</dd>
+<dt><strong><code>dictConfig</code></strong></dt>
+<dd>Forma declarativa de configurar logging desde un dict (o YAML/JSON). Más mantenible que llamadas <code>basicConfig</code>/<code>addHandler</code> dispersas. Convención: una sola llamada en el entrypoint.</dd>
+</dl>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<p>Genera un log file de demo. Sin descarga.</p>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<p><strong>1.</strong> <strong>Reemplaza prints.</strong> Toma una función con 5 prints y conviértelos a logger con niveles apropiados.</p>
+<p><strong>2.</strong> <strong>Logger por módulo.</strong> Crea 2 archivos <code>.py</code> que cada uno usa <code>getLogger(__name__)</code>. Configura el root logger una vez; verifica que ambos heredan.</p>
+<p><strong>3.</strong> <strong>Handler doble.</strong> Configura: consola = INFO+, archivo <code>app.log</code> = DEBUG+. Genera 5 logs de niveles distintos y verifica qué aparece en cada destino.</p>
+<p><strong>4.</strong> <strong>Formato con timestamp.</strong> Cambia el formato a <code>'%(asctime)s [%(levelname)s] %(name)s: %(message)s'</code>. Inspecciona output.</p>
+<p><strong>5.</strong> <strong>Logger en notebook.</strong> Pelea con <code>basicConfig</code> no recordando estado entre reinicios — usa <code>dictConfig</code> o <code>force=True</code>.</p>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Notebook + 2 módulos <code>.py</code> que importan y loguean. Un <code>logging_config.py</code> con <code>dictConfig</code> que define: consola (INFO+, formato corto) y <code>app.log</code> (DEBUG+, formato verbose con timestamp). El notebook ejecuta funciones que generan logs de distintos niveles desde ambos módulos. Adjunta el <code>app.log</code> resultante.</p>
+<p><strong>Criterio de aceptación:</strong> <code>app.log</code> contiene timestamp y módulo correcto en cada línea; consola filtra DEBUG.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>logging.basicConfig(...)</code> no tiene efecto</td>
+<td><code>basicConfig</code> solo aplica si root no tiene handlers ya. <strong>Fix</strong>: <code>basicConfig(..., force=True)</code> o limpia handlers (<code>for h in logging.root.handlers[:]: logging.root.removeHandler(h)</code>).</td>
+</tr>
+<tr>
+<td>Logs duplicados (cada mensaje aparece 2 veces)</td>
+<td>Configuraste el mismo handler dos veces (común al recargar módulos en Jupyter). <strong>Fix</strong>: limpia handlers antes de añadir, o usa <code>dictConfig</code> con <code>disable_existing_loggers=False</code> cuidadosamente.</td>
+</tr>
+<tr>
+<td><code>log.debug(f'valor: {expensive_call()}')</code> siempre evalúa</td>
+<td>El f-string se construye <strong>antes</strong> de pasar a <code>debug</code> — el filtro de nivel no ayuda. <strong>Fix</strong>: usa lazy: <code>log.debug('valor: %s', expensive_call)</code> (sin paréntesis ⇒ solo se llama si pasa el filtro).</td>
+</tr>
+<tr>
+<td>Mi logger emite en INFO pero quiero ver DEBUG</td>
+<td>El nivel está en handler o logger raíz. <strong>Fix</strong>: <code>logging.getLogger().setLevel(logging.DEBUG)</code> Y <code>handler.setLevel(logging.DEBUG)</code> (ambos deben permitirlo).</td>
+</tr>
+<tr>
+<td><code>logging</code> rompe en multiprocessing</td>
+<td>Handlers no son fork-safe. <strong>Fix</strong>: en cada proceso, configura logging de nuevo; o usa <code>QueueHandler</code> + <code>QueueListener</code> del cookbook oficial.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿<code>print</code> o <code>logging</code>?</strong></p>
+<p><strong><code>logging</code> siempre en código que vivirá &gt;1 día.</strong> <code>print</code> solo para REPL/scripts one-shot. Logging te da niveles, timestamps, módulo origen, múltiples destinos, integración con observabilidad.</p>
+<p><strong>❓ ¿Dónde configuro logging?</strong></p>
+<p><strong>Una sola vez</strong> en el entrypoint (<code>__main__</code>, <code>app.py</code>, <code>cli.py</code>). Cada módulo solo hace <code>log = logging.getLogger(__name__)</code>; nunca llama a <code>basicConfig</code>/<code>addHandler</code> desde un módulo importable.</p>
+<p><strong>❓ ¿Por qué <code>getLogger(__name__)</code>?</strong></p>
+<p>Crea un logger jerárquico nombrado por el módulo. Permite silenciar uno específico (<code>logging.getLogger('mi_app.db').setLevel(WARNING)</code>) sin tocar el resto. Pattern estándar.</p>
+<p><strong>❓ ¿Cómo formato un dict/object en el mensaje?</strong></p>
+<p><code>log.info('user=%s data=%s', user_id, data)</code> (mejor que f-string por el lazy). Para JSON estructurado, usa <code>python-json-logger</code> o stdlib con custom formatter.</p>
+<p><strong>❓ ¿<code>logging</code> propaga al root logger?</strong></p>
+<p>Por default, sí — cada logger propaga al padre hasta root. Si configuras handlers en root y en hijos, verás el mensaje dos veces. <strong>Fix</strong>: <code>logger.propagate = False</code> en el hijo, o solo configura root.</p>
+<h2 id="referencias">🔗 Referencias</h2>
 <ul>
-<li>(resultado 1)</li>
-<li>(resultado 2)</li>
-<li>(resultado 3)</li>
+<li><a href="https://docs.python.org/3/howto/logging.html">Logging HOWTO</a></li>
+<li><a href="https://docs.python.org/3/howto/logging-cookbook.html">Logging Cookbook</a></li>
+<li><a href="https://docs.python.org/3/library/logging.config.html"><code>logging.config</code> — dictConfig</a></li>
 </ul>
-<h2 id="temas-clave">Temas clave</h2>
-<ul>
-<li>(subtema 1)</li>
-<li>(subtema 2)</li>
-<li>(subtema 3)</li>
-</ul>
-<h2 id="materiales">Materiales</h2>
-<ul>
-<li><code>README.md</code> — esta ficha</li>
-<li><code>notebook.ipynb</code> — cuaderno de la clase</li>
-</ul>
-<h2 id="prerrequisitos">Prerrequisitos</h2>
-<p>Ver índice general en <code>classes/README.md</code> para dependencias entre clases.</p>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../013-type-hints-y-mypy/index.html">Clase 013 — Type hints y mypy</a></p>
   </main>
   <footer class="cur-footer">
     <p>

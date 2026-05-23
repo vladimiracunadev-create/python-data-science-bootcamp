@@ -24,33 +24,92 @@
   </header>
   <main class="cur-main">
     <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-0-prerrequisitos/045-apis-rest-con-requests/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
 <h1 id="clase-045-apis-rest-con-requests">Clase 045 — APIs REST con requests</h1>
 <blockquote>
-<p>Parte: <strong>0-prerrequisitos</strong>
-Estado: <strong>stub</strong> (pendiente desarrollar contenido).</p>
+<p>Parte: <strong>0 — Prerrequisitos</strong> · Fuente: <em>HTTP: The Definitive Guide</em> caps. 1-2 · requests docs.
+⏱️ Duración estimada: <strong>90 min</strong>.</p>
 </blockquote>
-<h2 id="objetivo">Objetivo</h2>
-<p>Describir el resultado de aprendizaje concreto de esta clase.</p>
-<h2 id="resultados-esperados">Resultados esperados</h2>
-<p>Al finalizar, el estudiante podrá:</p>
+<hr>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Que el alumno consuma APIs REST públicas con <code>requests</code>: GET con parámetros, manejo de status codes, autenticación (header, bearer token), paginación, rate limiting con <code>Retry</code>, y carga eficiente con <code>Session</code>. Lo mínimo para no romper la API del proveedor ni tu pipeline.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar la clase, el alumno podrá:</p>
+<ol>
+<li><strong>Hacer GET/POST</strong> con <code>requests</code>, manejar params, headers, body JSON.</li>
+<li><strong>Verificar status code</strong> (200 vs 4xx vs 5xx) y usar <code>raise_for_status()</code>.</li>
+<li><strong>Autenticarse</strong> con header <code>Authorization: Bearer ...</code> o API key en header/query.</li>
+<li><strong>Paginar</strong> correctamente cuando la API devuelve resultados en páginas.</li>
+<li><strong>Rate-limiting</strong> con <code>urllib3.util.retry.Retry</code> para reintentos exponenciales.</li>
+<li><strong>Reusar conexión</strong> con <code>requests.Session</code> para múltiples requests.</li>
+</ol>
+<h2 id="temas">🗺️ Temas</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Tema</th>
+<th>Por qué importa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Métodos HTTP: GET, POST, PUT, DELETE</td>
+<td>Verbos REST.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Status codes: 2xx/3xx/4xx/5xx</td>
+<td>Cómo reaccionar a cada uno.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Params, headers, body</td>
+<td>Las 3 formas de mandar datos.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Autenticación: Bearer token, API key</td>
+<td>Header <code>Authorization</code>.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Paginación: offset/limit, cursor, link header</td>
+<td>3 patrones comunes.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Rate limiting + retry exponencial</td>
+<td>No tirar la API ajena.</td>
+</tr>
+<tr>
+<td>7</td>
+<td><code>requests.Session</code> para reuso</td>
+<td>Más rápido + cookies persistentes.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<p>API pública sin auth: https://api.coingecko.com (precios cripto). Sin API key necesaria.</p>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<p><strong>1.</strong> <strong>GET básico.</strong> <code>requests.get('https://api.github.com')</code>. Inspecciona <code>status_code</code>, <code>headers</code>, <code>.json()</code>.</p>
+<p><strong>2.</strong> <strong>Con params.</strong> GitHub search: <code>https://api.github.com/search/repositories?q=python+ml&amp;sort=stars</code>. Imprime top 5.</p>
+<p><strong>3.</strong> <strong><code>raise_for_status</code> + try.</strong> Pega a una URL que devuelve 404 (<code>/notfound</code>) y maneja la excepción.</p>
+<p><strong>4.</strong> <strong>Paginación.</strong> GitHub events API. Itera 3 páginas con <code>page=1,2,3</code>.</p>
+<p><strong>5.</strong> <strong>Session + Retry.</strong> Configura una <code>Session</code> con <code>HTTPAdapter</code> + <code>Retry</code> (3 intentos, backoff 1s). Verifica que reintenta en 5xx simulado.</p>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Notebook que: (a) consulta una API pública (CoinGecko, GitHub, JSONPlaceholder) con GET; (b) maneja status codes con try/except; (c) pagina 3+ páginas; (d) configura Session con Retry exponencial; (e) reporta cuánto se tardó vs un loop sin Session.</p>
+<p><strong>Criterio de aceptación:</strong> Maneja al menos un error sin crash. Pagination devuelve datos esperados.</p>
+<h2 id="referencias">🔗 Referencias</h2>
 <ul>
-<li>(resultado 1)</li>
-<li>(resultado 2)</li>
-<li>(resultado 3)</li>
+<li><a href="https://requests.readthedocs.io/">requests docs</a></li>
+<li><a href="https://urllib3.readthedocs.io/en/stable/reference/urllib3.util.html#urllib3.util.Retry">urllib3 Retry</a></li>
+<li><a href="https://docs.github.com/en/rest">GitHub REST API</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status">HTTP status codes (MDN)</a></li>
 </ul>
-<h2 id="temas-clave">Temas clave</h2>
-<ul>
-<li>(subtema 1)</li>
-<li>(subtema 2)</li>
-<li>(subtema 3)</li>
-</ul>
-<h2 id="materiales">Materiales</h2>
-<ul>
-<li><code>README.md</code> — esta ficha</li>
-<li><code>notebook.ipynb</code> — cuaderno de la clase</li>
-</ul>
-<h2 id="prerrequisitos">Prerrequisitos</h2>
-<p>Ver índice general en <code>classes/README.md</code> para dependencias entre clases.</p>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../046-web-scraping-con-beautifulsoup/index.html">Clase 046 — Web scraping con BeautifulSoup</a></p>
   </main>
   <footer class="cur-footer">
     <p>

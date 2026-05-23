@@ -24,33 +24,139 @@
   </header>
   <main class="cur-main">
     <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-0-prerrequisitos/018-numpy-boolean-masks-y-fancy-indexing/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
 <h1 id="clase-018-numpy-boolean-masks-y-fancy-indexing">Clase 018 — NumPy: boolean masks y fancy indexing</h1>
 <blockquote>
-<p>Parte: <strong>0-prerrequisitos</strong>
-Estado: <strong>stub</strong> (pendiente desarrollar contenido).</p>
+<p>Parte: <strong>0 — Prerrequisitos</strong> · Fuente: VanderPlas, <strong>cap. 2</strong>, §§ 2.6–2.7 <em>Comparisons, Masks, and Boolean Logic</em> + <em>Fancy Indexing</em>.
+⏱️ Duración estimada: <strong>75 min</strong>.</p>
 </blockquote>
-<h2 id="objetivo">Objetivo</h2>
-<p>Describir el resultado de aprendizaje concreto de esta clase.</p>
-<h2 id="resultados-esperados">Resultados esperados</h2>
-<p>Al finalizar, el estudiante podrá:</p>
+<hr>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Que el alumno seleccione, filtre y modifique sub-arrays de tres formas: slicing (visto), máscaras booleanas (<code>arr[arr &gt; 0]</code>) y fancy indexing (<code>arr[[0, 3, 5]]</code>). Saber cuál devuelve <strong>vista</strong> vs <strong>copia</strong> y cuándo cada uno es la herramienta correcta.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar la clase, el alumno podrá:</p>
+<ol>
+<li><strong>Filtrar</strong> elementos con máscaras booleanas: <code>arr[arr &gt; 0]</code>, <code>arr[(a &gt; 0) &amp; (a &lt; 10)]</code>.</li>
+<li><strong>Combinar máscaras</strong> con <code>&amp;</code>, <code>|</code>, <code>~</code> — NO con <code>and</code>/<code>or</code> (no vectorizan).</li>
+<li><strong>Seleccionar por índices</strong> con fancy indexing: <code>arr[[0, 3, 5]]</code> o <code>arr[idx_array]</code>.</li>
+<li><strong>Modificar in-place</strong> con máscara: <code>arr[arr &lt; 0] = 0</code> (clipping).</li>
+<li><strong>Diferenciar vista vs copia</strong>: slicing es vista; fancy indexing y máscara son copia.</li>
+</ol>
+<h2 id="temas">🗺️ Temas</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Tema</th>
+<th>Por qué importa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Comparaciones elementwise → arrays bool</td>
+<td><code>arr &gt; 0</code> no devuelve un bool, devuelve un array de bools.</td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>np.count_nonzero</code>, <code>np.sum</code> sobre bool</td>
+<td>Cuenta cuántos True.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Combinar máscaras con <code>&amp;</code>, <code>|</code>, <code>~</code></td>
+<td>Operadores bitwise — no <code>and</code>/<code>or</code>.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Fancy indexing con array de índices</td>
+<td>Selección no contigua.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Vista vs copia</td>
+<td>Slicing = vista; mask/fancy = copia.</td>
+</tr>
+<tr>
+<td>6</td>
+<td><code>np.where(cond)</code> (sin alternativas)</td>
+<td>Devuelve índices donde se cumple.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<dl>
+<dt><strong>Boolean mask</strong></dt>
+<dd>Array de bools del mismo shape que el original. <code>arr[mask]</code> extrae solo los elementos donde mask es True. Devuelve un nuevo array (copia, no vista).</dd>
+<dt><strong>Fancy indexing</strong></dt>
+<dd>Indexar con array de <strong>enteros</strong> (índices arbitrarios, posiblemente no contiguos). <code>arr[[0, 3, 5]]</code> selecciona esas 3 posiciones. Devuelve copia.</dd>
+<dt><strong>Vista (view) vs copia (copy)</strong></dt>
+<dd><strong>Slicing</strong> (<code>arr[:5]</code>) → vista (mismo storage, mutarla muta el original). <strong>Mask / fancy</strong> → copia (storage independiente). Fuente del 70% de los bugs sutiles.</dd>
+<dt><strong>Operadores bitwise vs lógicos</strong></dt>
+<dd>Para combinar masks: <code>&amp;</code>, <code>|</code>, <code>~</code> (bitwise, vectorizados, elementwise). <strong>NO uses <code>and</code>, <code>or</code>, <code>not</code></strong> — son escalares Python y dan <code>ValueError: truth value of an array is ambiguous</code>.</dd>
+<dt><strong><code>np.where(cond)</code> 1-arg</strong></dt>
+<dd>Sin alternativas, devuelve <strong>tupla de arrays de índices</strong> donde se cumple la condición. Diferente a <code>np.where(cond, a, b)</code> (ternario).</dd>
+</dl>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<p>Sintético: array de precipitación diaria (365 valores). Sin descarga.</p>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<p><strong>1.</strong> <strong>Cuenta días lluviosos.</strong> Dado array de 365 días con precipitación (mm), cuenta cuántos tuvieron &gt;5mm.</p>
+<p><strong>2.</strong> <strong>Estadísticos por máscara.</strong> Calcula precipitación media solo en días lluviosos (&gt;0mm).</p>
+<p><strong>3.</strong> <strong>AND/OR combinados.</strong> Días entre 1 y 10 mm. Días &lt;1 o &gt;50 mm.</p>
+<p><strong>4.</strong> <strong>Clipping.</strong> Reemplaza valores negativos por 0 in-place (<code>arr[arr &lt; 0] = 0</code>).</p>
+<p><strong>5.</strong> <strong>Vista vs copia.</strong> Demuestra con un experimento que <code>arr[:5]</code> modifica el original pero <code>arr[arr &gt; 0]</code> no.</p>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Notebook con array sintético de 365 días de precipitación generado con seed. Calcula: (a) días lluviosos y su media, (b) días extremos (&gt;50mm), (c) demo de vista vs copia, (d) clipping in-place, (e) índices del top 10 días más lluviosos con <code>argsort</code>.</p>
+<p><strong>Criterio de aceptación:</strong> Resultados reproducibles. Demo vista/copia muestra comportamiento opuesto.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ValueError: The truth value of an array with more than one element is ambiguous</code></td>
+<td>Usaste <code>and</code>/<code>or</code>/<code>not</code> con arrays. <strong>Fix</strong>: <code>&amp;</code>/<code>|</code>/<code>~</code> con paréntesis: <code>(a &gt; 0) &amp; (a &lt; 10)</code> (los paréntesis son obligatorios por precedencia).</td>
+</tr>
+<tr>
+<td>Modifico <code>arr[mask]</code> y el original no cambia</td>
+<td>Mask devuelve <strong>copia</strong>. <strong>Fix</strong>: para modificar in-place, asigna a <code>arr[mask] = nuevo_valor</code> (no <code>arr[mask].do_something()</code>).</td>
+</tr>
+<tr>
+<td><code>arr[idx1, idx2]</code> con fancy indexing me da algo raro</td>
+<td>Si <code>idx1</code> e <code>idx2</code> son arrays del mismo length, NumPy hace pair-wise: <code>arr[idx1[i], idx2[i]]</code> para cada i. Para 'todas las filas idx1 con todas las cols idx2', usa <code>arr[np.ix_(idx1, idx2)]</code> o <code>arr[idx1][:, idx2]</code>.</td>
+</tr>
+<tr>
+<td>Slice modifica el original sin querer</td>
+<td><code>subset = arr[:10]; subset[0] = 99</code> modifica <code>arr</code>. <strong>Fix</strong>: <code>subset = arr[:10].copy()</code> si querías independencia.</td>
+</tr>
+<tr>
+<td>Mask con shape distinto al array</td>
+<td>Lanza <code>IndexError: boolean index did not match indexed array</code>. <strong>Fix</strong>: asegúrate que la mask tiene el mismo shape (<code>arr.shape == mask.shape</code>).</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿Mask o fancy indexing?</strong></p>
+<p><strong>Mask</strong> cuando la selección viene de una condición sobre los valores (<code>arr[arr &gt; 0]</code>). <strong>Fancy</strong> cuando ya tienes los índices específicos (de un <code>argsort</code>, por ejemplo, o de business logic).</p>
+<p><strong>❓ ¿Cómo modifico múltiples elementos con mask?</strong></p>
+<p><code>arr[arr &lt; 0] = 0</code> (clipping). Funciona para asignar escalar a todos los True, o array del mismo tamaño que la cantidad de Trues: <code>arr[arr &lt; 0] = -arr[arr &lt; 0]</code> (abs solo donde negativo).</p>
+<p><strong>❓ ¿<code>arr[idx]</code> con <code>idx</code> como booleano o entero?</strong></p>
+<p>NumPy distingue: bool array del mismo shape → mask; int array → fancy indexing. Lista Python de bools también funciona, pero ojo con <code>[0, 1, 0, 1]</code> que puede interpretarse como ints (índices 0 y 1) o bools — usa <code>np.array(...)</code> explícito si hay duda.</p>
+<p><strong>❓ ¿<code>np.where(cond)</code> o <code>np.nonzero(cond)</code>?</strong></p>
+<p>Idénticos cuando <code>where</code> se llama con un solo argumento. <code>nonzero</code> es más explícito del intent ("dónde NO es 0/False").</p>
+<p><strong>❓ ¿Cómo combino mask con <code>np.where</code> ternario?</strong></p>
+<p><code>np.where(cond, valor_si_true, valor_si_false)</code> — ternario vectorizado. La diferencia con <code>arr[cond] = X</code>: where construye array nuevo; mask + asignación modifica in-place.</p>
+<h2 id="referencias">🔗 Referencias</h2>
 <ul>
-<li>(resultado 1)</li>
-<li>(resultado 2)</li>
-<li>(resultado 3)</li>
+<li>VanderPlas, <strong>cap. 2</strong> §§ 2.6, 2.7.</li>
+<li><a href="https://numpy.org/doc/stable/user/basics.indexing.html">NumPy indexing user guide</a></li>
 </ul>
-<h2 id="temas-clave">Temas clave</h2>
-<ul>
-<li>(subtema 1)</li>
-<li>(subtema 2)</li>
-<li>(subtema 3)</li>
-</ul>
-<h2 id="materiales">Materiales</h2>
-<ul>
-<li><code>README.md</code> — esta ficha</li>
-<li><code>notebook.ipynb</code> — cuaderno de la clase</li>
-</ul>
-<h2 id="prerrequisitos">Prerrequisitos</h2>
-<p>Ver índice general en <code>classes/README.md</code> para dependencias entre clases.</p>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../019-numpy-ordenamiento-y-busqueda/index.html">Clase 019 — NumPy: ordenamiento y búsqueda</a></p>
   </main>
   <footer class="cur-footer">
     <p>

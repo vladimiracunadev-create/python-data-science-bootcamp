@@ -24,33 +24,144 @@
   </header>
   <main class="cur-main">
     <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-0-prerrequisitos/010-oop-basico-dataclasses-herencia/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
 <h1 id="clase-010-oop-basico-dataclasses-herencia">Clase 010 — OOP básico, dataclasses, herencia</h1>
 <blockquote>
-<p>Parte: <strong>0-prerrequisitos</strong>
-Estado: <strong>stub</strong> (pendiente desarrollar contenido).</p>
+<p>Parte: <strong>0 — Prerrequisitos</strong> · Fuente: Ramalho, <em>Fluent Python</em> 2e — caps. 5 (Data Class Builders) y 14 (Inheritance) · <em>Python Tutorial</em> cap. 9.
+⏱️ Duración estimada: <strong>90 min</strong>.</p>
 </blockquote>
-<h2 id="objetivo">Objetivo</h2>
-<p>Describir el resultado de aprendizaje concreto de esta clase.</p>
-<h2 id="resultados-esperados">Resultados esperados</h2>
-<p>Al finalizar, el estudiante podrá:</p>
+<hr>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Que el alumno escriba clases cuando aportan (no por hábito Java), use <code>@dataclass</code> para records sin boilerplate, entienda herencia con criterio (preferir composición), y conozca los métodos dunder más usados (<code>__repr__</code>, <code>__eq__</code>, <code>__lt__</code>, <code>__len__</code>).</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar la clase, el alumno podrá:</p>
+<ol>
+<li><strong>Definir clases</strong> con <code>__init__</code>, atributos de instancia y métodos.</li>
+<li><strong>Usar <code>@dataclass</code></strong> para records inmutables/mutables sin escribir <code>__init__</code>/<code>__repr__</code>/<code>__eq__</code>.</li>
+<li><strong>Heredar</strong> y sobreescribir métodos con <code>super()</code>.</li>
+<li><strong>Implementar dunders esenciales</strong>: <code>__repr__</code>, <code>__str__</code>, <code>__eq__</code>, <code>__lt__</code>, <code>__len__</code>, <code>__iter__</code>.</li>
+<li><strong>Decidir</strong> entre clase, dataclass o NamedTuple según el caso.</li>
+</ol>
+<h2 id="temas">🗺️ Temas</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Tema</th>
+<th>Por qué importa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Clase mínima: <code>__init__</code> + atributos + métodos</td>
+<td>El bloque básico.</td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>@dataclass(frozen=True)</code></td>
+<td>Records inmutables sin boilerplate.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Herencia + <code>super()</code></td>
+<td>Reutilizar implementación de la clase base.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Composición &gt; herencia</td>
+<td>"Has-a" generalmente mejor que "is-a".</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Métodos dunder</td>
+<td>Integran tu clase con <code>len()</code>, <code>==</code>, <code>repr()</code>, <code>sorted()</code>.</td>
+</tr>
+<tr>
+<td>6</td>
+<td><code>dataclass</code> vs <code>NamedTuple</code> vs <code>TypedDict</code></td>
+<td>Elegir según necesidad de mutabilidad/comportamiento.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<dl>
+<dt><strong>Clase / instancia</strong></dt>
+<dd>Una <strong>clase</strong> es una plantilla (<code>class Punto:</code>); una <strong>instancia</strong> es un objeto concreto (<code>p = Punto(3, 4)</code>). <code>__init__</code> se llama al crear la instancia. <code>self</code> es la convención para referirse a la instancia dentro de los métodos.</dd>
+<dt><strong>Método dunder ("magic method")</strong></dt>
+<dd>Método con doble underscore (<code>__init__</code>, <code>__repr__</code>, <code>__eq__</code>, <code>__lt__</code>, <code>__len__</code>, <code>__iter__</code>, <code>__add__</code>). Python los invoca implícitamente con sintaxis especial (<code>len(obj)</code> → <code>obj.__len__()</code>).</dd>
+<dt><strong><code>@dataclass</code></strong></dt>
+<dd>Decorador que genera <code>__init__</code>, <code>__repr__</code>, <code>__eq__</code> automáticamente desde las anotaciones de tipo de la clase. Reduce boilerplate. Con <code>frozen=True</code> la hace inmutable y hashable.</dd>
+<dt><strong>Herencia</strong></dt>
+<dd><code>class B(A)</code> — B hereda atributos y métodos de A; puede sobreescribirlos. <code>super()</code> invoca al método de la clase padre. Múltiple herencia existe pero se complica (MRO).</dd>
+<dt><strong>Composición</strong></dt>
+<dd>"B <em>tiene un</em> A" (atributo) en vez de "B <em>es un</em> A" (herencia). Generalmente preferible: menos acoplamiento, sin problemas de herencia múltiple/diamante.</dd>
+<dt><strong>Polimorfismo</strong></dt>
+<dd>Distintas clases responden al mismo método con comportamiento distinto (<code>Animal.hablar()</code> → 'guau' o 'miau' según la subclase). Permite tratar instancias heterogéneas uniformemente.</dd>
+<dt><strong>NamedTuple vs dataclass vs TypedDict</strong></dt>
+<dd><strong>NamedTuple</strong>: tupla con nombres, inmutable, hashable, sin métodos custom. <strong>dataclass</strong>: clase con boilerplate auto, mutable por default (mejor con métodos). <strong>TypedDict</strong>: dict con esquema (estructural, no nominal).</dd>
+</dl>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<p>Sintético: lista de objetos <code>Punto</code> y <code>Estudiante</code>. Sin descarga.</p>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<p><strong>1.</strong> <strong>Clase Punto.</strong> Define <code>Punto(x, y)</code> con <code>__repr__</code>, <code>__eq__</code>, distancia al origen y <code>__add__</code> para sumar puntos.</p>
+<p><strong>2.</strong> <strong>Dataclass Estudiante.</strong> <code>@dataclass</code> con <code>nombre</code>, <code>notas: list[float]</code>, método <code>promedio()</code>. Crea 3 instancias, ordena por promedio.</p>
+<p><strong>3.</strong> <strong>Frozen Vector.</strong> <code>@dataclass(frozen=True)</code> para un vector 2D inmutable. Intenta modificar un atributo y observa la excepción.</p>
+<p><strong>4.</strong> <strong>Herencia.</strong> <code>Animal</code> con <code>hablar()</code> → <code>'genérico'</code>. <code>Perro(Animal)</code> que sobreescribe a <code>'guau'</code>. <code>Gato(Animal)</code> a <code>'miau'</code>.</p>
+<p><strong>5.</strong> <strong>Composición.</strong> <code>Coche</code> que tiene un <code>Motor</code> (composición) en vez de heredar de <code>Motor</code>. Justifica por qué.</p>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Notebook con: (a) <code>Punto</code> con 4 dunders y tests; (b) <code>@dataclass Estudiante</code> con sort por promedio; (c) <code>@dataclass(frozen=True) Vector</code> que demuestra inmutabilidad lanzando excepción; (d) jerarquía <code>Animal → Perro/Gato</code> con polimorfismo (lista mixta llamando <code>hablar()</code>).</p>
+<p><strong>Criterio de aceptación:</strong> Las 4 clases pasan tests; <code>frozen=True</code> lanza <code>FrozenInstanceError</code> al asignar.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Olvidé <code>self</code> en un método y el error es confuso</td>
+<td>Cualquier método de instancia recibe <code>self</code> automáticamente. Sin él, Python lo confunde con otra cosa. <strong>Fix</strong>: siempre <code>def metodo(self, ...)</code>.</td>
+</tr>
+<tr>
+<td><code>@dataclass</code> con field mutable default rompe</td>
+<td><code>@dataclass class X: items: list = []</code> lanza <code>ValueError: mutable default ...</code>. <strong>Fix</strong>: <code>items: list = field(default_factory=list)</code>.</td>
+</tr>
+<tr>
+<td><code>__eq__</code> definido pero <code>__hash__</code> rompe</td>
+<td>Definir <code>__eq__</code> sin <code>__hash__</code> hace la clase no-hashable automáticamente. <strong>Fix</strong>: define ambos, o usa <code>@dataclass(frozen=True)</code> (lo hace por ti).</td>
+</tr>
+<tr>
+<td><code>super().__init__(...)</code> olvidado en subclase</td>
+<td>Atributos del padre quedan sin inicializar. <strong>Fix</strong>: si la subclase override <code>__init__</code>, llama <code>super().__init__(...)</code> explícitamente.</td>
+</tr>
+<tr>
+<td>Modifico atributo y otra instancia también cambió</td>
+<td>Asignaste un mutable como class attribute, no instance: <code>class X: items = []</code> — todas las instancias comparten esa lista. <strong>Fix</strong>: inicializa en <code>__init__</code> (<code>self.items = []</code>).</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿Cuándo necesito OOP en data science?</strong></p>
+<p>Menos de lo que crees. Para análisis exploratorio, funciones + dicts/dataclasses bastan. Necesitas clases cuando hay: estado mutable complejo (modelos sklearn), polimorfismo (varios algoritmos misma interfaz), o frameworks que lo exigen (PyTorch nn.Module).</p>
+<p><strong>❓ ¿<code>@dataclass</code> o NamedTuple o pydantic?</strong></p>
+<p>NamedTuple: record inmutable simple, sin validación. dataclass: record con métodos opcionales. <strong>pydantic</strong> (no en stdlib): cuando además quieres validación de tipos en runtime, parsing desde JSON, etc. (lo verás en MLOps).</p>
+<p><strong>❓ ¿Composición &gt; herencia siempre?</strong></p>
+<p>Como regla. Usa herencia solo cuando <em>is-a</em> sea genuino (<code>PerroLabrador</code> is-a <code>Perro</code> is-a <code>Animal</code>). Para <em>has-a</em> (<code>Coche</code> tiene un <code>Motor</code>), composición. Para reutilizar comportamiento sin jerarquía, considera mixins o protocols.</p>
+<p><strong>❓ ¿<code>property</code> y getters/setters Java-style?</strong></p>
+<p>En Python no escribes <code>getNombre()/setNombre()</code>. Usa atributo público (<code>self.nombre = ...</code>). Si después necesitas lógica, conviertes a <code>@property</code> sin cambiar el caller. Es la magia.</p>
+<p><strong>❓ ¿Cuándo <code>__slots__</code>?</strong></p>
+<p>Optimización: define los atributos permitidos y ahorra memoria (~50%) al no usar <code>__dict__</code> por instancia. Útil solo en clases con millones de instancias. Costo: pierde herencia múltiple y dinamismo.</p>
+<h2 id="referencias">🔗 Referencias</h2>
 <ul>
-<li>(resultado 1)</li>
-<li>(resultado 2)</li>
-<li>(resultado 3)</li>
+<li>Ramalho, <em>Fluent Python</em> 2e — caps. 5, 11, 14.</li>
+<li><a href="https://docs.python.org/3/library/dataclasses.html"><code>dataclasses</code> docs</a></li>
+<li><a href="https://docs.python.org/3/tutorial/classes.html">Python Tutorial — Classes</a></li>
 </ul>
-<h2 id="temas-clave">Temas clave</h2>
-<ul>
-<li>(subtema 1)</li>
-<li>(subtema 2)</li>
-<li>(subtema 3)</li>
-</ul>
-<h2 id="materiales">Materiales</h2>
-<ul>
-<li><code>README.md</code> — esta ficha</li>
-<li><code>notebook.ipynb</code> — cuaderno de la clase</li>
-</ul>
-<h2 id="prerrequisitos">Prerrequisitos</h2>
-<p>Ver índice general en <code>classes/README.md</code> para dependencias entre clases.</p>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../011-pathlib-lectura-y-escritura-de-archivos/index.html">Clase 011 — pathlib, lectura y escritura de archivos</a></p>
   </main>
   <footer class="cur-footer">
     <p>

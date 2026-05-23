@@ -24,33 +24,85 @@
   </header>
   <main class="cur-main">
     <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-0-prerrequisitos/030-pandas-operaciones-vectorizadas-sobre-strings/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
 <h1 id="clase-030-pandas-operaciones-vectorizadas-sobre-strings">Clase 030 — Pandas: operaciones vectorizadas sobre strings</h1>
 <blockquote>
-<p>Parte: <strong>0-prerrequisitos</strong>
-Estado: <strong>stub</strong> (pendiente desarrollar contenido).</p>
+<p>Parte: <strong>0 — Prerrequisitos</strong> · Fuente: VanderPlas, <strong>cap. 3</strong> § 3.11 <em>Vectorized String Operations</em>.
+⏱️ Duración estimada: <strong>60 min</strong>.</p>
 </blockquote>
-<h2 id="objetivo">Objetivo</h2>
-<p>Describir el resultado de aprendizaje concreto de esta clase.</p>
-<h2 id="resultados-esperados">Resultados esperados</h2>
-<p>Al finalizar, el estudiante podrá:</p>
+<hr>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Que el alumno limpie y transforme columnas de texto sin caer en <code>apply(lambda x: ...)</code>, usando el accessor <code>.str</code> de pandas — vectorizado, NaN-aware, con métodos análogos a los de Python (<code>lower</code>, <code>strip</code>, <code>replace</code>, <code>split</code>, <code>contains</code>, regex).</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar la clase, el alumno podrá:</p>
+<ol>
+<li><strong>Usar <code>.str</code></strong> para aplicar operaciones de string vectorizadamente a una Series.</li>
+<li><strong>Manejar NaN automáticamente</strong> (los métodos <code>.str</code> propagan NaN sin error).</li>
+<li><strong>Aplicar regex</strong> con <code>.str.contains(patron)</code>, <code>.str.extract(...)</code>, <code>.str.replace(...)</code>.</li>
+<li><strong>Dividir y unir</strong> con <code>.str.split(sep, expand=True)</code> que produce un DataFrame.</li>
+<li><strong>Trabajar con categorical</strong> cuando el cardinalidad es baja (memoria y speedup).</li>
+</ol>
+<h2 id="temas">🗺️ Temas</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Tema</th>
+<th>Por qué importa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Accessor <code>.str</code></td>
+<td>Métodos vectorizados que respetan NaN.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Casos típicos: lower, strip, replace, contains</td>
+<td>El 80% del trabajo.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Regex con <code>.str.extract</code> y grupos nombrados</td>
+<td>Extracción estructurada.</td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>.str.split(expand=True)</code> → DataFrame</td>
+<td>Desnormalizar columnas combinadas.</td>
+</tr>
+<tr>
+<td>5</td>
+<td><code>dtype='string'</code> (nullable) vs object</td>
+<td>El moderno y NA-aware.</td>
+</tr>
+<tr>
+<td>6</td>
+<td><code>Categorical</code> para baja cardinalidad</td>
+<td>Menos memoria, groupby más rápido.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<p>Sintético: emails, nombres con espacios, fechas como string.</p>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<p><strong>1.</strong> <strong>Lower + strip.</strong> Lista de emails con mayúsculas y espacios. Normaliza con <code>.str.lower().str.strip()</code>.</p>
+<p><strong>2.</strong> <strong>Extract dominio.</strong> De una columna de emails, extrae el dominio con regex (<code>@(.+)$</code>).</p>
+<p><strong>3.</strong> <strong>Split nombre completo.</strong> Columna <code>'Ana García'</code> → <code>nombre</code>, <code>apellido</code> en columnas separadas.</p>
+<p><strong>4.</strong> <strong>Filtro por contains.</strong> Filas donde la columna <code>descripcion</code> contiene la palabra (case-insensitive) <code>'urgente'</code>.</p>
+<p><strong>5.</strong> <strong>Categorical.</strong> Convierte una columna con 5 valores únicos en 100k filas a <code>Categorical</code>. Compara memoria.</p>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Notebook con CSV sintético de contactos (nombre, email, teléfono): (a) normalizar email (lower+strip); (b) extraer dominio; (c) separar nombre/apellido; (d) flag de email corporativo (no gmail/yahoo/hotmail); (e) convertir país a Categorical y reportar memoria.</p>
+<p><strong>Criterio de aceptación:</strong> Operaciones manejan NaN sin error. Categorical reduce memoria al menos 5×.</p>
+<h2 id="referencias">🔗 Referencias</h2>
 <ul>
-<li>(resultado 1)</li>
-<li>(resultado 2)</li>
-<li>(resultado 3)</li>
+<li>VanderPlas, <strong>cap. 3</strong> § 3.11.</li>
+<li><a href="https://pandas.pydata.org/docs/user_guide/text.html">pandas Text data user guide</a></li>
+<li><a href="https://pandas.pydata.org/docs/user_guide/categorical.html">pandas Categorical</a></li>
 </ul>
-<h2 id="temas-clave">Temas clave</h2>
-<ul>
-<li>(subtema 1)</li>
-<li>(subtema 2)</li>
-<li>(subtema 3)</li>
-</ul>
-<h2 id="materiales">Materiales</h2>
-<ul>
-<li><code>README.md</code> — esta ficha</li>
-<li><code>notebook.ipynb</code> — cuaderno de la clase</li>
-</ul>
-<h2 id="prerrequisitos">Prerrequisitos</h2>
-<p>Ver índice general en <code>classes/README.md</code> para dependencias entre clases.</p>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../031-pandas-series-de-tiempo-resampling-rolling/index.html">Clase 031 — Pandas: series de tiempo, resampling, rolling</a></p>
   </main>
   <footer class="cur-footer">
     <p>

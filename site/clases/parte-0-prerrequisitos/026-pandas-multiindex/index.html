@@ -24,33 +24,84 @@
   </header>
   <main class="cur-main">
     <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-0-prerrequisitos/026-pandas-multiindex/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
 <h1 id="clase-026-pandas-multiindex">Clase 026 — Pandas: MultiIndex</h1>
 <blockquote>
-<p>Parte: <strong>0-prerrequisitos</strong>
-Estado: <strong>stub</strong> (pendiente desarrollar contenido).</p>
+<p>Parte: <strong>0 — Prerrequisitos</strong> · Fuente: VanderPlas, <strong>cap. 3</strong> § 3.6 <em>Hierarchical Indexing</em>.
+⏱️ Duración estimada: <strong>75 min</strong>.</p>
 </blockquote>
-<h2 id="objetivo">Objetivo</h2>
-<p>Describir el resultado de aprendizaje concreto de esta clase.</p>
-<h2 id="resultados-esperados">Resultados esperados</h2>
-<p>Al finalizar, el estudiante podrá:</p>
+<hr>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Que el alumno use índices jerárquicos (MultiIndex) cuando hay estructura natural en los datos (país × ciudad, año × mes, sector × empresa). Saber cuándo aporta vs cuándo complica — el 80% del tiempo en data science aplanado es mejor.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar la clase, el alumno podrá:</p>
+<ol>
+<li><strong>Crear MultiIndex</strong> desde tuplas, arrays, producto cartesiano (<code>from_product</code>).</li>
+<li><strong>Indexar</strong> con <code>.loc[(nivel1, nivel2)]</code> y <code>.loc[:, ('grupo', 'col')]</code>.</li>
+<li><strong>Aplanar y reconstruir</strong> con <code>unstack()</code>, <code>stack()</code>, <code>reset_index()</code>.</li>
+<li><strong>Decidir</strong> cuándo MultiIndex aporta (groupby con múltiples claves devuelve uno automáticamente) y cuándo es más legible aplanar.</li>
+<li><strong>Renombrar niveles</strong> con <code>rename(level=...)</code> y reordenarlos con <code>swaplevel</code>.</li>
+</ol>
+<h2 id="temas">🗺️ Temas</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Tema</th>
+<th>Por qué importa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>MultiIndex: motivación</td>
+<td>Datos con jerarquía natural.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Construcción: tuples, arrays, from_product</td>
+<td>3 formas comunes.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Indexación: tuple selector</td>
+<td><code>.loc[('A', 2024)]</code>.</td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>stack</code> / <code>unstack</code> — pivot rápido</td>
+<td>Mover niveles entre filas y columnas.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>groupby + multiindex resultado</td>
+<td>groupby con 2+ claves devuelve MultiIndex.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Cuándo aplanar</td>
+<td>Para CSV de salida, plot, scikit-learn.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<p>Sintético: ventas por país/año.</p>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<p><strong>1.</strong> <strong>Construye desde tuplas.</strong> Crea DataFrame con index <code>[(España, 2023), (España, 2024), (Chile, 2023), (Chile, 2024)]</code> y 2 cols ventas/clientes.</p>
+<p><strong>2.</strong> <strong><code>from_product</code>.</strong> Mismo con <code>pd.MultiIndex.from_product([paises, años])</code>.</p>
+<p><strong>3.</strong> <strong>Acceso jerárquico.</strong> <code>df.loc['España']</code>, <code>df.loc[('España', 2024)]</code>. Compara con <code>df.xs(2024, level=1)</code> para slice por nivel.</p>
+<p><strong>4.</strong> <strong><code>unstack</code> y <code>stack</code>.</strong> Convierte tu MultiIndex en wide (años como columnas) y de vuelta.</p>
+<p><strong>5.</strong> <strong>groupby produce MultiIndex.</strong> Carga penguins, agrupa por <code>(species, sex)</code> y agrega <code>mean()</code>. Aplana con <code>reset_index()</code>.</p>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Notebook con ventas trimestre×región sintéticas (4 trimestres × 3 regiones × 2 años): (a) construir con <code>from_product</code>; (b) acceso a un trimestre específico; (c) total por región (unstack); (d) groupby penguins por (species, sex) → MultiIndex → aplanar.</p>
+<p><strong>Criterio de aceptación:</strong> MultiIndex con shape correcto; unstack/stack reversibles.</p>
+<h2 id="referencias">🔗 Referencias</h2>
 <ul>
-<li>(resultado 1)</li>
-<li>(resultado 2)</li>
-<li>(resultado 3)</li>
+<li>VanderPlas, <strong>cap. 3</strong> § 3.6.</li>
+<li><a href="https://pandas.pydata.org/docs/user_guide/advanced.html">pandas MultiIndex user guide</a></li>
 </ul>
-<h2 id="temas-clave">Temas clave</h2>
-<ul>
-<li>(subtema 1)</li>
-<li>(subtema 2)</li>
-<li>(subtema 3)</li>
-</ul>
-<h2 id="materiales">Materiales</h2>
-<ul>
-<li><code>README.md</code> — esta ficha</li>
-<li><code>notebook.ipynb</code> — cuaderno de la clase</li>
-</ul>
-<h2 id="prerrequisitos">Prerrequisitos</h2>
-<p>Ver índice general en <code>classes/README.md</code> para dependencias entre clases.</p>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../027-pandas-concat-merge-join/index.html">Clase 027 — Pandas: concat, merge, join</a></p>
   </main>
   <footer class="cur-footer">
     <p>

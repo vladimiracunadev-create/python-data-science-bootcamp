@@ -24,33 +24,86 @@
   </header>
   <main class="cur-main">
     <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-0-prerrequisitos/044-nosql-mongodb-con-pymongo/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
 <h1 id="clase-044-nosql-mongodb-con-pymongo">Clase 044 — NoSQL: MongoDB con pymongo</h1>
 <blockquote>
-<p>Parte: <strong>0-prerrequisitos</strong>
-Estado: <strong>stub</strong> (pendiente desarrollar contenido).</p>
+<p>Parte: <strong>0 — Prerrequisitos</strong> · Fuente: MongoDB docs · pymongo docs · <em>MongoDB: The Definitive Guide</em> (Bradshaw et al.) cap. 1.
+⏱️ Duración estimada: <strong>75 min</strong>.</p>
 </blockquote>
-<h2 id="objetivo">Objetivo</h2>
-<p>Describir el resultado de aprendizaje concreto de esta clase.</p>
-<h2 id="resultados-esperados">Resultados esperados</h2>
-<p>Al finalizar, el estudiante podrá:</p>
+<hr>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Que el alumno entienda el modelo NoSQL documento (collections de JSON-like), cuándo conviene sobre SQL, y use <code>pymongo</code> para CRUD básico + queries con operadores típicos. Sin pretender competir con un curso entero de MongoDB.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar la clase, el alumno podrá:</p>
+<ol>
+<li><strong>Diferenciar</strong> modelo relacional (tablas + filas) vs documento (collections + docs JSON).</li>
+<li><strong>Reconocer</strong> cuándo NoSQL aporta (schema flexible, datos jerárquicos, escala horizontal).</li>
+<li><strong>Conectar con pymongo</strong>, hacer insert/find/update/delete.</li>
+<li><strong>Filtrar</strong> con operadores: <code>$gt</code>, <code>$lt</code>, <code>$in</code>, <code>$regex</code>, <code>$and</code>, <code>$or</code>.</li>
+<li><strong>Hacer agregaciones</strong> con el pipeline (<code>$match</code>, <code>$group</code>, <code>$sort</code>).</li>
+</ol>
+<h2 id="temas">🗺️ Temas</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Tema</th>
+<th>Por qué importa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>SQL vs NoSQL — cuándo cada uno</td>
+<td>No "NoSQL es mejor" — distinto.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Modelo documento: collections + docs JSON</td>
+<td>Schema flexible.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>pymongo: connect, insert_one, find, update_one</td>
+<td>CRUD básico.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Operadores de query: $gt/$lt/$in/$regex</td>
+<td>Equivalentes a WHERE.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Aggregation pipeline</td>
+<td>$match/$group/$sort — análogo a SQL.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Cuándo NO usar Mongo</td>
+<td>Cuando relacional es claramente mejor.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<p>MongoDB local (Docker o Atlas free tier) — o usar <code>mongomock</code> para tests. Datos sintéticos: collection de productos.</p>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<p><strong>1.</strong> <strong>CRUD básico.</strong> Conecta a Mongo (o mongomock), inserta 5 productos, lee todos, actualiza uno, borra uno.</p>
+<p><strong>2.</strong> <strong>Find con operadores.</strong> Productos con <code>precio &gt; 100</code> y categoría en <code>['libros', 'musica']</code>.</p>
+<p><strong>3.</strong> <strong>Update con <code>$set</code> y <code>$inc</code>.</strong> Incrementa stock de un producto en 10 unidades.</p>
+<p><strong>4.</strong> <strong>Aggregation pipeline.</strong> Promedio de precio por categoría con <code>$group</code>.</p>
+<p><strong>5.</strong> <strong>Documento jerárquico.</strong> Inserta un producto con array de <code>reviews</code> (sub-documentos). Consulta los que tienen alguna review con <code>rating &lt; 3</code> usando <code>$elemMatch</code>.</p>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Notebook con <code>mongomock</code> (no requiere Mongo real): (a) collection productos con 20 docs sintéticos; (b) 5 queries demostrando operadores; (c) aggregation pipeline con <code>$match</code> → <code>$group</code> → <code>$sort</code>; (d) reporte: 3 casos donde Mongo es mejor que SQL y 3 donde no.</p>
+<p><strong>Criterio de aceptación:</strong> Las queries funcionan; el reporte tiene casos justificados.</p>
+<h2 id="referencias">🔗 Referencias</h2>
 <ul>
-<li>(resultado 1)</li>
-<li>(resultado 2)</li>
-<li>(resultado 3)</li>
+<li><a href="https://pymongo.readthedocs.io/">pymongo docs</a></li>
+<li><a href="https://www.mongodb.com/docs/manual/reference/operator/query/">MongoDB query operators</a></li>
+<li><a href="https://github.com/mongomock/mongomock">mongomock</a></li>
+<li>Bradshaw, <em>MongoDB: The Definitive Guide</em> 3e, cap. 1.</li>
 </ul>
-<h2 id="temas-clave">Temas clave</h2>
-<ul>
-<li>(subtema 1)</li>
-<li>(subtema 2)</li>
-<li>(subtema 3)</li>
-</ul>
-<h2 id="materiales">Materiales</h2>
-<ul>
-<li><code>README.md</code> — esta ficha</li>
-<li><code>notebook.ipynb</code> — cuaderno de la clase</li>
-</ul>
-<h2 id="prerrequisitos">Prerrequisitos</h2>
-<p>Ver índice general en <code>classes/README.md</code> para dependencias entre clases.</p>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../045-apis-rest-con-requests/index.html">Clase 045 — APIs REST con requests</a></p>
   </main>
   <footer class="cur-footer">
     <p>

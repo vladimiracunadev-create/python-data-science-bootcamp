@@ -24,33 +24,143 @@
   </header>
   <main class="cur-main">
     <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-0-prerrequisitos/014-numpy-tipos-creacion-atributos/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
 <h1 id="clase-014-numpy-tipos-creacion-atributos">Clase 014 — NumPy: tipos, creación, atributos</h1>
 <blockquote>
-<p>Parte: <strong>0-prerrequisitos</strong>
-Estado: <strong>stub</strong> (pendiente desarrollar contenido).</p>
+<p>Parte: <strong>0 — Prerrequisitos</strong> · Fuente: VanderPlas, <em>Python Data Science Handbook</em>, <strong>cap. 2</strong> — <em>Introduction to NumPy</em>, §§ 2.1–2.2.
+⏱️ Duración estimada: <strong>75 min</strong>.</p>
 </blockquote>
-<h2 id="objetivo">Objetivo</h2>
-<p>Describir el resultado de aprendizaje concreto de esta clase.</p>
-<h2 id="resultados-esperados">Resultados esperados</h2>
-<p>Al finalizar, el estudiante podrá:</p>
+<hr>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Que el alumno entienda el modelo mental de un <code>ndarray</code> — bloque contiguo de memoria con shape, dtype y strides — y sepa crear arrays de las 6 formas más útiles (<code>array</code>, <code>zeros</code>, <code>arange</code>, <code>linspace</code>, <code>random</code>, desde lista). Sin este modelo, todo el rendimiento de NumPy parece magia.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar la clase, el alumno podrá:</p>
+<ol>
+<li><strong>Explicar</strong> por qué <code>ndarray</code> es 50–100× más rápido que <code>list</code> (memoria contigua + dtype fijo + sin overhead Python).</li>
+<li><strong>Crear arrays</strong> con <code>np.array</code>, <code>np.zeros</code>, <code>np.ones</code>, <code>np.full</code>, <code>np.arange</code>, <code>np.linspace</code>.</li>
+<li><strong>Inspeccionar</strong> un array con <code>shape</code>, <code>dtype</code>, <code>ndim</code>, <code>size</code>, <code>nbytes</code>, <code>itemsize</code>.</li>
+<li><strong>Cambiar dtype</strong> explícitamente con <code>astype</code> y entender promociones implícitas (<code>int + float = float</code>).</li>
+<li><strong>Generar arrays aleatorios reproducibles</strong> con <code>np.random.default_rng(seed)</code>.</li>
+</ol>
+<h2 id="temas">🗺️ Temas</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Tema</th>
+<th>Por qué importa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><code>ndarray</code>: memoria contigua + dtype fijo</td>
+<td>Lo que lo hace rápido.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Creación: <code>array</code>, <code>zeros</code>, <code>arange</code>, <code>linspace</code></td>
+<td>Las 6 formas más usadas.</td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>dtype</code>: int8/16/32/64, float32/64, bool</td>
+<td>Memoria y precisión.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Atributos: shape, dtype, ndim, size, nbytes</td>
+<td>Diagnóstico instantáneo.</td>
+</tr>
+<tr>
+<td>5</td>
+<td><code>astype</code> y promoción de tipos</td>
+<td>El bug clásico de overflow int8.</td>
+</tr>
+<tr>
+<td>6</td>
+<td><code>random</code> moderno: <code>default_rng(seed)</code></td>
+<td>El API legacy <code>np.random.seed</code> está deprecated.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<dl>
+<dt><strong><code>ndarray</code></strong></dt>
+<dd>Estructura de datos central de NumPy. Bloque contiguo de memoria con dtype fijo + metadata (shape, strides). 50–100× más rápido que list por evitar el overhead de PyObject por elemento y permitir vectorización SIMD.</dd>
+<dt><strong><code>dtype</code></strong></dt>
+<dd>Tipo de elemento del array: <code>int8/16/32/64</code>, <code>uint8</code> (imágenes RGB), <code>float32/64</code>, <code>bool</code>, <code>complex64/128</code>. Determina memoria por elemento (<code>itemsize</code>) y precisión/rango.</dd>
+<dt><strong><code>shape</code></strong></dt>
+<dd>Tupla con tamaño de cada dimensión: <code>(10,)</code> 1D, <code>(3, 4)</code> matriz, <code>(2, 3, 4)</code> tensor 3D. <code>len(shape)</code> = <code>ndim</code>. <code>prod(shape)</code> = <code>size</code> (total elementos).</dd>
+<dt><strong><code>strides</code></strong></dt>
+<dd>Bytes que el array salta para moverse 1 paso en cada dimensión. Permite vistas eficientes sin copiar memoria (transpose, slicing). Detalle interno pero útil para entender por qué algunas operaciones son gratis.</dd>
+<dt><strong><code>Generator</code> (random)</strong></dt>
+<dd>API moderno para aleatoriedad: <code>rng = np.random.default_rng(seed)</code>. Reemplaza al legacy <code>np.random.seed()</code> + funciones globales. Características: PCG64 (mejor algoritmo), múltiples generadores independientes, API consistente.</dd>
+<dt><strong>Promoción de tipo</strong></dt>
+<dd>Cuando operas arrays de dtypes distintos, NumPy promueve al más amplio: <code>int + float = float</code>, <code>int8 + int16 = int16</code>. La regla evita pérdida silenciosa pero puede generar overflow en otros casos (clase: overflow int8).</dd>
+</dl>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<p>Sintético: arrays generados en el notebook (escalares, matrices, aleatorios reproducibles). Sin descarga.</p>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<p><strong>1.</strong> <strong>Memoria.</strong> Crea <code>list(range(1_000_000))</code> y <code>np.arange(1_000_000)</code>. Compara <code>sys.getsizeof</code> y <code>arr.nbytes</code>. Calcula el ratio.</p>
+<p><strong>2.</strong> <strong>Las 6 formas.</strong> Crea: vector 100 ceros, matriz 5×5 unos, vector 0..1 con 50 puntos equiespaciados, matriz 3×3 de 7s, vector de 100 aleatorios uniformes [0,1).</p>
+<p><strong>3.</strong> <strong>Bug de dtype.</strong> Crea <code>np.array([100, 200, 50], dtype=np.int8)</code> y suma 200 a cada elemento. Observa el resultado y explica.</p>
+<p><strong>4.</strong> <strong>Diagnóstico.</strong> Dado un array, escribe una función que imprima shape, dtype, ndim, size, nbytes y memoria humana (KB/MB).</p>
+<p><strong>5.</strong> <strong>Random reproducible.</strong> Genera 1000 normales N(0,1) con seed=42. Calcula media y std. Repite — debe dar exactamente lo mismo.</p>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Notebook que: (a) compara memoria list vs ndarray para N=1M con tabla; (b) crea las 6 formas y reporta dtype default de cada una; (c) reproduce el bug de overflow int8 con explicación; (d) función <code>info(arr)</code> con diagnóstico completo.</p>
+<p><strong>Criterio de aceptación:</strong> El ratio memoria list/ndarray es &gt;5×. La función <code>info</code> reporta todos los atributos.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>OverflowError</code> silencioso con int8/uint8</td>
+<td>NumPy no lanza excepción — hace wrap-around: <code>np.array([200], dtype=uint8) + 100</code> da <code>44</code>. <strong>Fix</strong>: usa dtype más amplio (<code>int32</code>/<code>int64</code>) o <code>astype</code> antes de la operación.</td>
+</tr>
+<tr>
+<td><code>np.array([1, 2, 'x'])</code> queda como <code>dtype='&lt;U21'</code></td>
+<td>NumPy promueve TODO a string para ser homogéneo. <strong>Fix</strong>: separa los tipos o usa pandas (que sí permite columnas heterogéneas).</td>
+</tr>
+<tr>
+<td><code>np.empty(3)</code> con basura en vez de ceros</td>
+<td><code>empty</code> NO inicializa — más rápido que <code>zeros</code> pero contiene lo que había en memoria. <strong>Fix</strong>: usa <code>np.zeros</code> si necesitas ceros garantizados.</td>
+</tr>
+<tr>
+<td>Reproduzco un experimento con seed y da resultados distintos</td>
+<td>Estás usando el API legacy (<code>np.random.seed</code>) con varias librerías que también lo modifican. <strong>Fix</strong>: usa <code>np.random.default_rng(seed)</code> — independiente, no afecta el estado global.</td>
+</tr>
+<tr>
+<td><code>np.arange(0.1, 1.0, 0.1)</code> no incluye <code>1.0</code></td>
+<td>Floats — el último step da <code>0.9999...</code> por imprecisión. <strong>Fix</strong>: usa <code>np.linspace(0.1, 1.0, 10)</code> que controla N puntos exactos.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿<code>np.array([1,2,3])</code> o <code>np.asarray([1,2,3])</code>?</strong></p>
+<p><code>asarray</code> no copia si ya es ndarray (más eficiente); <code>array</code> siempre copia por default. Usa <code>asarray</code> cuando aceptas cualquier 'array-like' y no necesitas garantizar copia.</p>
+<p><strong>❓ ¿<code>float32</code> o <code>float64</code>?</strong></p>
+<p>Default es <code>float64</code> — máxima precisión. <strong><code>float32</code></strong> cuando trabajas con redes neuronales en GPU (la mitad de memoria, suficiente para gradientes), imágenes, o necesitas duplicar la velocidad de IO.</p>
+<p><strong>❓ ¿Cuándo <code>int32</code> y cuándo <code>int64</code>?</strong></p>
+<p>Default depende del OS (int64 Unix/macOS, int32 Windows pre-numpy 2.0). En 2026, NumPy 2+ usa int64 en todas las plataformas. Solo bajes a int32 si memoria es crítica y sabes que tus valores caben.</p>
+<p><strong>❓ ¿<code>np.random.seed(42)</code> ya no se usa?</strong></p>
+<p>Funciona pero está deprecated en favor del nuevo API. Razones: estado global (peligroso), Mersenne Twister (lento), no permite múltiples streams independientes. Usa <code>default_rng(seed)</code>.</p>
+<p><strong>❓ ¿Por qué <code>arr.nbytes</code> no coincide con <code>sys.getsizeof(arr)</code>?</strong></p>
+<p><code>nbytes</code> cuenta solo los datos (<code>size * itemsize</code>). <code>getsizeof</code> cuenta también el header del objeto ndarray (~100 bytes). Para arrays grandes la diferencia es despreciable.</p>
+<h2 id="referencias">🔗 Referencias</h2>
 <ul>
-<li>(resultado 1)</li>
-<li>(resultado 2)</li>
-<li>(resultado 3)</li>
+<li>VanderPlas, <strong>cap. 2</strong>, §§ 2.1–2.2 <em>Understanding Data Types</em> + <em>The Basics of NumPy Arrays</em>.</li>
+<li><a href="https://numpy.org/doc/stable/user/basics.creation.html">NumPy user guide — Array creation</a></li>
+<li><a href="https://numpy.org/doc/stable/reference/arrays.dtypes.html">NumPy dtypes</a></li>
+<li><a href="https://numpy.org/doc/stable/reference/random/generator.html"><code>Generator</code> random API</a></li>
 </ul>
-<h2 id="temas-clave">Temas clave</h2>
-<ul>
-<li>(subtema 1)</li>
-<li>(subtema 2)</li>
-<li>(subtema 3)</li>
-</ul>
-<h2 id="materiales">Materiales</h2>
-<ul>
-<li><code>README.md</code> — esta ficha</li>
-<li><code>notebook.ipynb</code> — cuaderno de la clase</li>
-</ul>
-<h2 id="prerrequisitos">Prerrequisitos</h2>
-<p>Ver índice general en <code>classes/README.md</code> para dependencias entre clases.</p>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../015-numpy-ufuncs-y-vectorizacion/index.html">Clase 015 — NumPy: ufuncs y vectorización</a></p>
   </main>
   <footer class="cur-footer">
     <p>

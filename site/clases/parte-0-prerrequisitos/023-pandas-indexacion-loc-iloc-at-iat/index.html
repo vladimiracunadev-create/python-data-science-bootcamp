@@ -24,33 +24,85 @@
   </header>
   <main class="cur-main">
     <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-0-prerrequisitos/023-pandas-indexacion-loc-iloc-at-iat/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
 <h1 id="clase-023-pandas-indexacion-loc-iloc-at-iat">Clase 023 — Pandas: indexación (loc, iloc, at, iat)</h1>
 <blockquote>
-<p>Parte: <strong>0-prerrequisitos</strong>
-Estado: <strong>stub</strong> (pendiente desarrollar contenido).</p>
+<p>Parte: <strong>0 — Prerrequisitos</strong> · Fuente: VanderPlas, <strong>cap. 3</strong> § 3.3 <em>Data Indexing and Selection</em>.
+⏱️ Duración estimada: <strong>75 min</strong>.</p>
 </blockquote>
-<h2 id="objetivo">Objetivo</h2>
-<p>Describir el resultado de aprendizaje concreto de esta clase.</p>
-<h2 id="resultados-esperados">Resultados esperados</h2>
-<p>Al finalizar, el estudiante podrá:</p>
+<hr>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Que el alumno <strong>domine los 4 indexers</strong> de pandas y elija el correcto según el caso. El bug "<code>SettingWithCopyWarning</code>" y el bug del slicing por label inclusivo nacen aquí — saber qué indexer usar evita ambos.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar la clase, el alumno podrá:</p>
+<ol>
+<li><strong>Usar <code>.loc[row_label, col_label]</code></strong> para acceso por etiqueta (inclusivo en slicing).</li>
+<li><strong>Usar <code>.iloc[row_pos, col_pos]</code></strong> para acceso por posición entera (exclusivo, como Python).</li>
+<li><strong>Usar <code>.at</code> / <code>.iat</code></strong> para acceso a un único valor (más rápido que loc/iloc).</li>
+<li><strong>Evitar <code>SettingWithCopyWarning</code></strong> usando <code>.loc</code> para asignar en una vista.</li>
+<li><strong>Filtrar filas con boolean mask</strong> dentro de <code>.loc</code>: <code>df.loc[df['edad'] &gt; 30, 'nombre']</code>.</li>
+</ol>
+<h2 id="temas">🗺️ Temas</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Tema</th>
+<th>Por qué importa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><code>[]</code> directo: shortcut con quirks</td>
+<td>Columnas → Series; filas → KeyError.</td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>.loc</code>: por label, slicing inclusivo</td>
+<td>El indexer principal del 80% del tiempo.</td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>.iloc</code>: por posición, slicing exclusivo (como Python)</td>
+<td>Cuando no te importa el label.</td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>.at</code> / <code>.iat</code>: single value</td>
+<td>Optimizado para 1 celda — útil en loops.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Mask + loc para filtros con asignación</td>
+<td><code>df.loc[mask, 'col'] = valor</code>.</td>
+</tr>
+<tr>
+<td>6</td>
+<td><code>SettingWithCopyWarning</code>: qué es y cómo evitarlo</td>
+<td>Usar <code>.loc</code> para asignar.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<p>Palmer Penguins desde URL (mismo de clase 022) o el sintético si no hay internet.</p>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<p><strong>1.</strong> <strong>Acceso simple.</strong> Carga penguins. Obtén la columna <code>species</code> con los 3 métodos: <code>df.species</code>, <code>df['species']</code>, <code>df.loc[:, 'species']</code>.</p>
+<p><strong>2.</strong> <strong>loc inclusivo vs iloc exclusivo.</strong> Con index 0..N por default, compara <code>df.loc[0:5]</code> vs <code>df.iloc[0:5]</code>. ¿Cuántas filas devuelve cada uno?</p>
+<p><strong>3.</strong> <strong>Filtro + columnas seleccionadas.</strong> Pingüinos Adelie machos con bill_length &gt; 40: <code>df.loc[(df.species=='Adelie') &amp; (df.sex=='male') &amp; (df.bill_length_mm &gt; 40), ['species', 'island', 'bill_length_mm']]</code>.</p>
+<p><strong>4.</strong> <strong>Asignación segura.</strong> Crea una columna <code>is_big</code> que sea True si <code>body_mass_g &gt; 4500</code>, usando <code>.loc</code>.</p>
+<p><strong>5.</strong> <strong>Provoca y arregla SettingWithCopyWarning.</strong> Slicea con <code>df[df.x &gt; 0]</code> y modifica → ve warning. Hazlo con <code>.loc</code> → sin warning.</p>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Notebook que: (a) muestra los 3 métodos de acceso a columna; (b) compara loc vs iloc en slicing con tabla; (c) filtra Adelie machos con bill_length&gt;40 mostrando 3 columnas; (d) reproduce y arregla SettingWithCopyWarning con explicación.</p>
+<p><strong>Criterio de aceptación:</strong> Los filtros producen el subset correcto; la versión con <code>.loc</code> no emite warning.</p>
+<h2 id="referencias">🔗 Referencias</h2>
 <ul>
-<li>(resultado 1)</li>
-<li>(resultado 2)</li>
-<li>(resultado 3)</li>
+<li>VanderPlas, <strong>cap. 3</strong> § 3.3.</li>
+<li><a href="https://pandas.pydata.org/docs/user_guide/indexing.html">pandas Indexing user guide</a></li>
+<li><a href="https://pandas.pydata.org/docs/user_guide/indexing.html#returning-a-view-versus-a-copy">SettingWithCopyWarning explained</a></li>
 </ul>
-<h2 id="temas-clave">Temas clave</h2>
-<ul>
-<li>(subtema 1)</li>
-<li>(subtema 2)</li>
-<li>(subtema 3)</li>
-</ul>
-<h2 id="materiales">Materiales</h2>
-<ul>
-<li><code>README.md</code> — esta ficha</li>
-<li><code>notebook.ipynb</code> — cuaderno de la clase</li>
-</ul>
-<h2 id="prerrequisitos">Prerrequisitos</h2>
-<p>Ver índice general en <code>classes/README.md</code> para dependencias entre clases.</p>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../024-pandas-operaciones-y-alineacion/index.html">Clase 024 — Pandas: operaciones y alineación</a></p>
   </main>
   <footer class="cur-footer">
     <p>

@@ -24,33 +24,139 @@
   </header>
   <main class="cur-main">
     <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-0-prerrequisitos/015-numpy-ufuncs-y-vectorizacion/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
 <h1 id="clase-015-numpy-ufuncs-y-vectorizacion">Clase 015 — NumPy: ufuncs y vectorización</h1>
 <blockquote>
-<p>Parte: <strong>0-prerrequisitos</strong>
-Estado: <strong>stub</strong> (pendiente desarrollar contenido).</p>
+<p>Parte: <strong>0 — Prerrequisitos</strong> · Fuente: VanderPlas, <strong>cap. 2</strong>, § 2.3 <em>Computation on NumPy Arrays: Universal Functions</em>.
+⏱️ Duración estimada: <strong>75 min</strong>.</p>
 </blockquote>
-<h2 id="objetivo">Objetivo</h2>
-<p>Describir el resultado de aprendizaje concreto de esta clase.</p>
-<h2 id="resultados-esperados">Resultados esperados</h2>
-<p>Al finalizar, el estudiante podrá:</p>
+<hr>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Que el alumno <strong>abandone los <code>for</code> loops</strong> sobre arrays NumPy y use ufuncs (universal functions) para operaciones elementwise — la fuente real del speedup. Ufuncs son C compilado vectorizado; un <code>for</code> Python sobre array es lo peor de ambos mundos.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar la clase, el alumno podrá:</p>
+<ol>
+<li><strong>Identificar</strong> una ufunc (<code>np.add</code>, <code>np.multiply</code>, <code>np.sin</code>, <code>np.exp</code>, <code>np.log</code>, comparadores).</li>
+<li><strong>Reemplazar</strong> un <code>for+append</code> por una expresión vectorizada y medir el speedup.</li>
+<li><strong>Usar el parámetro <code>out=</code></strong> para escribir el resultado in-place (evita allocar memoria extra).</li>
+<li><strong>Combinar</strong> ufuncs con operadores aritméticos (<code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>, <code>**</code>).</li>
+<li><strong>Reconocer</strong> las trampas de la vectorización (overflow, NaN propagación, división por cero).</li>
+</ol>
+<h2 id="temas">🗺️ Temas</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Tema</th>
+<th>Por qué importa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>¿Qué es una ufunc?</td>
+<td>Función C vectorizada elementwise.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Ufuncs unarias y binarias</td>
+<td><code>np.exp(x)</code> vs <code>np.add(x, y)</code>.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Operadores → ufuncs</td>
+<td><code>a + b</code> ≡ <code>np.add(a, b)</code>.</td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>out=</code> para in-place</td>
+<td>Memoria O(1) extra.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Trampas: overflow, NaN, inf, división por cero</td>
+<td>NumPy avisa pero no para.</td>
+</tr>
+<tr>
+<td>6</td>
+<td><code>np.where(cond, a, b)</code></td>
+<td>Ternario vectorizado.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<dl>
+<dt><strong>Ufunc (universal function)</strong></dt>
+<dd>Función NumPy implementada en C que opera <strong>elementwise</strong> y vectorizada (SIMD cuando posible). Características: rápida (10-100× vs Python), broadcasting automático, soporta <code>out=</code> para in-place.</dd>
+<dt><strong>Vectorización</strong></dt>
+<dd>Operar sobre arrays completos en vez de loops Python: <code>arr * 2</code> en vez de <code>[x*2 for x in arr]</code>. La operación corre en C compilado sobre memoria contigua, sin overhead del intérprete por elemento.</dd>
+<dt><strong>In-place (<code>out=</code>)</strong></dt>
+<dd>Escribir el resultado de una ufunc en un array existente, sin allocar memoria nueva: <code>np.multiply(a, 2, out=a)</code>. Útil con arrays grandes donde la copia temporal duplicaría la memoria pico.</dd>
+<dt><strong>Propagación de NaN</strong></dt>
+<dd>Cualquier operación que tenga <code>NaN</code> como input produce <code>NaN</code>. <code>np.array([1, np.nan, 3]).sum()</code> → <code>nan</code>. Para ignorar usa variantes <code>nan*</code>: <code>nansum</code>, <code>nanmean</code>, <code>nanmedian</code>.</dd>
+<dt><strong><code>np.where(cond, a, b)</code></strong></dt>
+<dd>Ternario vectorizado: para cada elemento, si <code>cond</code> es True usa <code>a</code>, si no usa <code>b</code>. Equivale a <code>[a if c else b for c, a, b in zip(cond, a, b)]</code> pero ~100× más rápido.</dd>
+</dl>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<p>Sintético: arrays grandes para benchmark. Sin descarga.</p>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<p><strong>1.</strong> <strong>Benchmark.</strong> Calcula <code>[x*x + 2*x + 1 for x in range(1_000_000)]</code> vs <code>arr*arr + 2*arr + 1</code>. Mide con <code>%timeit</code>.</p>
+<p><strong>2.</strong> <strong>Logaritmo y exponencial.</strong> Con <code>np.exp</code> y <code>np.log</code>, verifica que <code>log(exp(x)) ≈ x</code> para 1000 valores. Reporta el error máximo.</p>
+<p><strong>3.</strong> <strong>In-place vs alloc.</strong> <code>arr = arr * 2 + 1</code> vs <code>np.multiply(arr, 2, out=arr); np.add(arr, 1, out=arr)</code>. Compara <code>tracemalloc</code>.</p>
+<p><strong>4.</strong> <strong><code>np.where</code> ternario.</strong> Dado un array de notas, crea otro array con <code>'aprobado'</code> si nota &gt;= 4, <code>'reprobado'</code> si no.</p>
+<p><strong>5.</strong> <strong>Trampa NaN.</strong> Crea <code>np.array([1, 2, np.nan, 4]).sum()</code> y <code>.mean()</code>. Compara con <code>np.nansum</code> y <code>np.nanmean</code>.</p>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Notebook: (a) reescribe 3 loops como expresiones vectorizadas + tabla con <code>%timeit</code> (3 N distintos); (b) demuestra <code>out=</code> con <code>tracemalloc</code>; (c) usa <code>np.where</code> para clasificar datos; (d) maneja NaN con <code>nansum/nanmean</code> y compara con propagación.</p>
+<p><strong>Criterio de aceptación:</strong> Speedup &gt;50× en N=1M. <code>out=</code> muestra memoria ≈ 0 extra. NaN-handling correcto.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>for i in range(len(arr)): arr[i] = ...</code> es lentísimo</td>
+<td>Loops Python sobre array NumPy = lo peor de ambos mundos. <strong>Fix</strong>: reescribe como expresión vectorizada (<code>arr = ...</code>) o usa ufunc explícita.</td>
+</tr>
+<tr>
+<td>RuntimeWarning: divide by zero / invalid value</td>
+<td>NumPy avisa pero no para: <code>1/0</code> → <code>inf</code>, <code>0/0</code> → <code>nan</code>. <strong>Fix</strong>: filtra antes (<code>arr[arr != 0]</code>) o silencia con <code>np.errstate(divide='ignore', invalid='ignore')</code>.</td>
+</tr>
+<tr>
+<td><code>out=</code> con dtype incompatible</td>
+<td><code>np.add(int_arr, 0.5, out=int_arr)</code> falla — float no cabe en int. <strong>Fix</strong>: convierte primero (<code>arr = arr.astype(float)</code>) o usa array distinto como destino.</td>
+</tr>
+<tr>
+<td>Resultado de <code>np.where</code> no es lo esperado</td>
+<td>Los 3 args se evalúan <strong>completos</strong>: <code>np.where(arr&gt;0, 1/arr, 0)</code> calcula <code>1/arr</code> para TODOS los elementos (incluso negativos → division por cero). <strong>Fix</strong>: usa <code>np.where</code> solo para values planos, no expresiones.</td>
+</tr>
+<tr>
+<td><code>arr.sum()</code> da NaN y no sé por qué</td>
+<td>Hay un NaN escondido en el array. <strong>Fix</strong>: <code>print(np.isnan(arr).sum())</code> para contar; usa <code>np.nansum()</code> para ignorar.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿Cuánto más rápido es vectorizar?</strong></p>
+<p>Típicamente 50-100× para arrays de 1M elementos. Para arrays pequeños (&lt;100), la ganancia es menor o nula (overhead constante). Mide con <code>%timeit</code>, no asumas.</p>
+<p><strong>❓ ¿<code>arr + 1</code> o <code>np.add(arr, 1)</code>?</strong></p>
+<p>Equivalentes. Operadores son sintaxis dulce sobre ufuncs. Usa <code>np.add(...)</code> cuando necesitas <code>out=</code> (in-place) o <code>where=</code> (mask).</p>
+<p><strong>❓ ¿NumPy aprovecha mi GPU?</strong></p>
+<p><strong>No</strong> — solo CPU. Para GPU: CuPy (drop-in replacement), PyTorch tensors, JAX. NumPy 2 está mejorando vectorización CPU (SIMD wider, BLAS) pero sigue siendo CPU.</p>
+<p><strong>❓ ¿Por qué <code>arr ** 2</code> es más rápido que <code>arr * arr</code>?</strong></p>
+<p>Suelen empatar (<code>**</code> también es ufunc). Para potencias enteras pequeñas (2, 3), NumPy a veces usa atajos. Mide con <code>%timeit</code> en tu caso específico.</p>
+<p><strong>❓ ¿<code>np.where</code> o boolean mask?</strong></p>
+<p><strong>Mask</strong> (<code>arr[cond] = valor</code>) si vas a modificar in-place o filtrar (<code>arr[arr&gt;0]</code>). <strong><code>np.where(cond, a, b)</code></strong> si necesitas un array nuevo con dos valores posibles según condición.</p>
+<h2 id="referencias">🔗 Referencias</h2>
 <ul>
-<li>(resultado 1)</li>
-<li>(resultado 2)</li>
-<li>(resultado 3)</li>
+<li>VanderPlas, <strong>cap. 2</strong> § 2.3 <em>Computation on NumPy Arrays</em>.</li>
+<li><a href="https://numpy.org/doc/stable/reference/ufuncs.html">NumPy ufuncs reference</a></li>
 </ul>
-<h2 id="temas-clave">Temas clave</h2>
-<ul>
-<li>(subtema 1)</li>
-<li>(subtema 2)</li>
-<li>(subtema 3)</li>
-</ul>
-<h2 id="materiales">Materiales</h2>
-<ul>
-<li><code>README.md</code> — esta ficha</li>
-<li><code>notebook.ipynb</code> — cuaderno de la clase</li>
-</ul>
-<h2 id="prerrequisitos">Prerrequisitos</h2>
-<p>Ver índice general en <code>classes/README.md</code> para dependencias entre clases.</p>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../016-numpy-agregaciones/index.html">Clase 016 — NumPy: agregaciones</a></p>
   </main>
   <footer class="cur-footer">
     <p>

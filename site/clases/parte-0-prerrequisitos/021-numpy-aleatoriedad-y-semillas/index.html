@@ -24,33 +24,142 @@
   </header>
   <main class="cur-main">
     <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-0-prerrequisitos/021-numpy-aleatoriedad-y-semillas/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
 <h1 id="clase-021-numpy-aleatoriedad-y-semillas">Clase 021 — NumPy: aleatoriedad y semillas</h1>
 <blockquote>
-<p>Parte: <strong>0-prerrequisitos</strong>
-Estado: <strong>stub</strong> (pendiente desarrollar contenido).</p>
+<p>Parte: <strong>0 — Prerrequisitos</strong> · Fuente: <em>Numerical Recipes</em> cap. 7 (Random Numbers) · NumPy <code>random.Generator</code> docs.
+⏱️ Duración estimada: <strong>60 min</strong>.</p>
 </blockquote>
-<h2 id="objetivo">Objetivo</h2>
-<p>Describir el resultado de aprendizaje concreto de esta clase.</p>
-<h2 id="resultados-esperados">Resultados esperados</h2>
-<p>Al finalizar, el estudiante podrá:</p>
+<hr>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Que el alumno genere números aleatorios <strong>reproduciblemente</strong> con el API moderno (<code>np.random.default_rng(seed)</code>), use las distribuciones más comunes (uniforme, normal, Bernoulli, Poisson, exponencial), y entienda por qué la reproducibilidad es no-negociable en ciencia de datos.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar la clase, el alumno podrá:</p>
+<ol>
+<li><strong>Crear un <code>Generator</code></strong> con <code>np.random.default_rng(seed)</code> y usarlo para reproducibilidad.</li>
+<li><strong>Generar muestras</strong> de uniforme, normal, integers, binomial, Poisson, exponencial.</li>
+<li><strong>Permutar y muestrear</strong> sin/con reemplazo con <code>permutation</code> y <code>choice</code>.</li>
+<li><strong>Reproducir</strong> un experimento exactamente con el mismo seed.</li>
+<li><strong>Saber por qué</strong> <code>np.random.seed()</code> (API legacy) es deprecated en favor de <code>Generator</code>.</li>
+</ol>
+<h2 id="temas">🗺️ Temas</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Tema</th>
+<th>Por qué importa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><code>np.random.default_rng(seed)</code></td>
+<td>El API moderno (Generator-based, PCG64).</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Distribuciones continuas: uniform, normal, exponential, gamma, beta</td>
+<td>Las más usadas en simulación.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Distribuciones discretas: integers, binomial, poisson</td>
+<td>Conteos y procesos.</td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>permutation</code> y <code>choice</code></td>
+<td>Mezclar y muestrear.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Reproducibilidad: por qué importa</td>
+<td>Misma cosa con mismo seed.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Múltiples generadores independientes</td>
+<td>Evita interferencia entre experimentos.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<dl>
+<dt><strong>Generador pseudoaleatorio (PRNG)</strong></dt>
+<dd>Algoritmo determinístico que produce secuencia que <em>parece</em> aleatoria. Con la misma semilla (seed) produce la misma secuencia → <strong>reproducible</strong>. NumPy 2026 usa PCG64 por default.</dd>
+<dt><strong>Seed (semilla)</strong></dt>
+<dd>Estado inicial del PRNG. Mismo seed → misma secuencia, siempre, en cualquier máquina. Es la base de la reproducibilidad científica.</dd>
+<dt><strong><code>np.random.default_rng(seed)</code></strong></dt>
+<dd>API moderno (NumPy 1.17+). Devuelve <code>Generator</code> independiente — no toca estado global, múltiples generadores no se interfieren. Reemplaza a <code>np.random.seed()</code> + funciones globales (deprecated).</dd>
+<dt><strong>Distribuciones continuas comunes</strong></dt>
+<dd><code>uniform(lo, hi)</code>, <code>normal(μ, σ)</code>, <code>exponential(scale)</code>, <code>gamma(shape, scale)</code>, <code>beta(a, b)</code>. Cada una con parámetros que controlan ubicación y dispersión.</dd>
+<dt><strong>Distribuciones discretas</strong></dt>
+<dd><code>integers(lo, hi)</code> (uniforme discreto), <code>binomial(n, p)</code> (éxitos en n trials), <code>poisson(λ)</code> (eventos en intervalo).</dd>
+<dt><strong>Bootstrap</strong></dt>
+<dd>Técnica: resampleas con reemplazo del sample original B veces, recalculas el estadístico → obtienes distribución empírica del estimador. Sin asumir CLT ni normalidad.</dd>
+</dl>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<p>Sintético: simulación Monte Carlo. Sin descarga.</p>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<p><strong>1.</strong> <strong>Reproducibilidad.</strong> Crea 2 rngs con <code>seed=42</code>, genera 1000 normales con cada uno. Verifica que son idénticos.</p>
+<p><strong>2.</strong> <strong>Distribuciones.</strong> Genera 10000 muestras de: uniforme [0,1], normal(5,2), exponential(λ=1/3), poisson(λ=4). Calcula media y std empírica y compara con teórica.</p>
+<p><strong>3.</strong> <strong>Monte Carlo de π.</strong> Estima π lanzando puntos en un cuadrado 2×2 y contando cuántos caen dentro del círculo unitario. Compara con π real.</p>
+<p><strong>4.</strong> <strong>Bootstrap.</strong> Dado un sample de 30 valores, estima la distribución de la media por bootstrap (1000 resamples con reemplazo).</p>
+<p><strong>5.</strong> <strong>Permutación.</strong> Mezcla un array de 100 elementos con <code>permutation</code>. Verifica que es la misma cuando usas el mismo seed.</p>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Notebook con: (a) Monte Carlo de π con N=10k, 100k, 1M reportando error; (b) bootstrap de la media de un sample (95% CI vs CLT); (c) demo de reproducibilidad con dos rngs; (d) tabla comparando momento empírico vs teórico para 4 distribuciones.</p>
+<p><strong>Criterio de aceptación:</strong> MC converge a π. Bootstrap CI similar al CLT. Reproducibilidad exacta.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Pongo seed pero el resultado cambia entre corridas</td>
+<td>Probablemente otra librería (sklearn, pytorch) usa su propio PRNG. <strong>Fix</strong>: setea seed en cada lib que uses, o pasa el <code>rng</code> explícito a funciones que lo acepten.</td>
+</tr>
+<tr>
+<td><code>np.random.seed(42)</code> no funciona como antes</td>
+<td>Está deprecated en favor de <code>default_rng</code>. Aún funciona pero NumPy 2+ puede romperlo. <strong>Fix</strong>: migra a <code>rng = np.random.default_rng(42); rng.normal(...)</code>.</td>
+</tr>
+<tr>
+<td><code>rng.choice(arr, size=N, replace=False)</code> falla con <code>ValueError: Cannot take a larger sample than population when 'replace=False'</code></td>
+<td>Pediste más muestras únicas que elementos disponibles. <strong>Fix</strong>: aumenta <code>arr</code> o usa <code>replace=True</code>.</td>
+</tr>
+<tr>
+<td>Genero millones de números 'aleatorios' y mi laptop muere</td>
+<td>Estás materializando lista en RAM. <strong>Fix</strong>: si solo agregas (sum, mean), procesa por chunks: <code>for _ in range(K): chunk = rng.normal(0,1,N); acc += chunk.sum()</code>.</td>
+</tr>
+<tr>
+<td>Bootstrap CI parece muy estrecho</td>
+<td>Pocos resamples (B). <strong>Fix</strong>: usa B ≥ 1000 para CI 95%, B ≥ 10000 para colas 99%. El costo es lineal en B.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿Por qué un generador independiente y no el global?</strong></p>
+<p>(1) <strong>No interfiere</strong> con libs que también usan random global. (2) <strong>Múltiples experimentos</strong> simultáneos sin conflicto. (3) <strong>API más limpia</strong>. (4) Algoritmo más rápido (PCG64). El legacy es solo por compatibilidad.</p>
+<p><strong>❓ ¿Mismo seed da mismos números en Linux/Windows/Mac?</strong></p>
+<p><strong>Sí</strong> — PCG64 es determinístico cross-platform. La única diferencia podría venir de orden de operaciones float (paralelismo), pero <code>default_rng</code> es single-threaded.</p>
+<p><strong>❓ ¿Qué seed elegir?</strong></p>
+<p>Cualquier entero. <strong>42</strong> es convención (Hitchhiker's Guide). <strong>0</strong> funciona pero genera secuencias 'menos aleatorias' en los primeros bits con algunos PRNG (no PCG64). Lo importante es <strong>registrarlo</strong> para reproducir.</p>
+<p><strong>❓ ¿Bootstrap mejor que t-test?</strong></p>
+<p>Diferente caso. <strong>t-test</strong>: asume normalidad, da p-valor analítico. <strong>Bootstrap</strong>: sin asunción, da distribución empírica de cualquier estadístico (media, mediana, ratio). Para datos no-normales o estadísticos complejos, bootstrap gana.</p>
+<p><strong>❓ ¿Cuántas muestras necesito para Monte Carlo?</strong></p>
+<p>El error decrece como <code>1/√N</code>. Para 1 decimal de precisión: N ≈ 100. Para 2 decimales: N ≈ 10k. Para 3: N ≈ 1M. Verifica convergencia haciendo N=100, 1k, 10k, 100k y mirando que el resultado se estabilice.</p>
+<h2 id="referencias">🔗 Referencias</h2>
 <ul>
-<li>(resultado 1)</li>
-<li>(resultado 2)</li>
-<li>(resultado 3)</li>
+<li><a href="https://numpy.org/doc/stable/reference/random/generator.html">NumPy <code>random.Generator</code></a></li>
+<li><a href="https://numpy.org/neps/nep-0019-rng-policy.html">NEP 19 — Random number generator policy</a></li>
+<li>Press et al., <em>Numerical Recipes</em> 3e — cap. 7 <em>Random Numbers</em>.</li>
 </ul>
-<h2 id="temas-clave">Temas clave</h2>
-<ul>
-<li>(subtema 1)</li>
-<li>(subtema 2)</li>
-<li>(subtema 3)</li>
-</ul>
-<h2 id="materiales">Materiales</h2>
-<ul>
-<li><code>README.md</code> — esta ficha</li>
-<li><code>notebook.ipynb</code> — cuaderno de la clase</li>
-</ul>
-<h2 id="prerrequisitos">Prerrequisitos</h2>
-<p>Ver índice general en <code>classes/README.md</code> para dependencias entre clases.</p>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../022-pandas-series-y-dataframe/index.html">Clase 022 — Pandas: Series y DataFrame</a></p>
   </main>
   <footer class="cur-footer">
     <p>

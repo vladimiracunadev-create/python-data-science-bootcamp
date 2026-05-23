@@ -24,33 +24,142 @@
   </header>
   <main class="cur-main">
     <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-0-prerrequisitos/009-manejo-de-excepciones-y-context-managers/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
 <h1 id="clase-009-manejo-de-excepciones-y-context-managers">Clase 009 — Manejo de excepciones y context managers</h1>
 <blockquote>
-<p>Parte: <strong>0-prerrequisitos</strong>
-Estado: <strong>stub</strong> (pendiente desarrollar contenido).</p>
+<p>Parte: <strong>0 — Prerrequisitos</strong> · Fuente: <em>Python Tutorial</em> cap. 8 (Errors and Exceptions) · Ramalho, <em>Fluent Python</em> 2e — cap. 18 (Context Managers).
+⏱️ Duración estimada: <strong>75 min</strong>.</p>
 </blockquote>
-<h2 id="objetivo">Objetivo</h2>
-<p>Describir el resultado de aprendizaje concreto de esta clase.</p>
-<h2 id="resultados-esperados">Resultados esperados</h2>
-<p>Al finalizar, el estudiante podrá:</p>
+<hr>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Que el alumno maneje excepciones con criterio (sin <code>except: pass</code>), construya jerarquías de excepciones propias cuando aporta, y use context managers (<code>with</code>) — tanto los built-in como propios con <code>@contextmanager</code> — para garantizar limpieza de recursos. Sin esto, el código de carga de datos es una bomba de relojería.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar la clase, el alumno podrá:</p>
+<ol>
+<li><strong>Diferenciar</strong> los 3 tipos de errores (Syntax, runtime exceptions, logical) y dónde se manejan.</li>
+<li><strong>Capturar</strong> excepciones específicas (<code>except ValueError</code>, no <code>except:</code>) y propagar las que no sabes manejar.</li>
+<li><strong>Crear</strong> una excepción propia heredando de la jerarquía estándar (<code>class DatasetCorruptoError(Exception)</code>).</li>
+<li><strong>Usar <code>with</code></strong> para archivos, sesiones HTTP, transacciones DB.</li>
+<li><strong>Escribir</strong> un context manager propio con <code>@contextmanager</code> (timer, supress, change_dir).</li>
+</ol>
+<h2 id="temas">🗺️ Temas</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Tema</th>
+<th>Por qué importa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Jerarquía de excepciones built-in</td>
+<td><code>BaseException</code> → <code>Exception</code> → <code>ValueError</code>/<code>KeyError</code>/...</td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>try/except/else/finally</code></td>
+<td>Cada bloque tiene un rol específico.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Capturar específico, no genérico</td>
+<td><code>except:</code> esconde bugs.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Excepciones propias</td>
+<td>Comunican intención en vez de cargar mensajes string.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Context managers: protocolo <code>__enter__</code>/<code>__exit__</code></td>
+<td>Garantiza cleanup.</td>
+</tr>
+<tr>
+<td>6</td>
+<td><code>@contextmanager</code> de <code>contextlib</code></td>
+<td>Crear cms con función + <code>yield</code>.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<dl>
+<dt><strong>Excepción</strong></dt>
+<dd>Objeto que se 'lanza' (<code>raise</code>) cuando algo anómalo ocurre. Sube por el stack hasta que un <code>except</code> lo captura, o termina el programa. Todas heredan de <code>BaseException</code>; las que debes capturar heredan de <code>Exception</code>.</dd>
+<dt><strong><code>try/except/else/finally</code></strong></dt>
+<dd><strong><code>try</code></strong>: código riesgoso. <strong><code>except</code></strong>: maneja una excepción específica. <strong><code>else</code></strong>: corre si <code>try</code> no lanzó (raro pero útil). <strong><code>finally</code></strong>: cleanup garantizado, lanzó o no.</dd>
+<dt><strong>Jerarquía de excepciones</strong></dt>
+<dd><code>BaseException</code> → <code>SystemExit</code> / <code>KeyboardInterrupt</code> / <code>Exception</code> → <code>ValueError</code> / <code>TypeError</code> / <code>LookupError</code> (→ <code>KeyError</code>, <code>IndexError</code>) / <code>OSError</code> / <code>ArithmeticError</code> (→ <code>ZeroDivisionError</code>). Captura siempre la más específica que sepas manejar.</dd>
+<dt><strong>Excepción propia (custom)</strong></dt>
+<dd>Subclase de <code>Exception</code> (o subclase específica). Permite tipificar errores de tu dominio (<code>class DatasetCorruptoError(Exception): ...</code>) en vez de strings. El caller puede <code>except DatasetCorruptoError</code> con precisión.</dd>
+<dt><strong>Context manager</strong></dt>
+<dd>Objeto con <code>__enter__</code> y <code>__exit__</code> que se usa con <code>with</code>. Garantiza setup/teardown (abrir/cerrar archivo, conectar/desconectar BD, lock/unlock). El <code>__exit__</code> corre incluso si hay excepción.</dd>
+<dt><strong><code>@contextmanager</code></strong></dt>
+<dd>Decorador de <code>contextlib</code> que convierte una función con <code>yield</code> en context manager. Pre-yield = <code>__enter__</code>, post-yield = <code>__exit__</code>. Mucho más corto que escribir la clase completa.</dd>
+</dl>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<p>Archivo temporal generado en el notebook. Sin descarga.</p>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<p><strong>1.</strong> <strong>Captura específica.</strong> Escribe una función <code>parse_int_safe(s, default=0)</code> que use try/except solo para <code>ValueError</code>. Demuestra que no esconde otros errores (ej. <code>TypeError</code> si pasas un dict).</p>
+<p><strong>2.</strong> <strong>Excepción propia.</strong> Define <code>class DatasetCorruptoError(Exception)</code> con un atributo <code>linea</code>. Lanzala desde una función <code>cargar_csv</code> cuando una línea no tenga el número correcto de columnas.</p>
+<p><strong>3.</strong> <strong><code>with</code> para archivo.</strong> Lee un archivo línea por línea contando palabras. Compara con la versión sin <code>with</code> (manual <code>open/close</code>) y muestra qué pasa si hay excepción a mitad.</p>
+<p><strong>4.</strong> <strong>Context manager propio: timer.</strong> Con <code>@contextmanager</code>, escribe <code>with timer("carga"):</code> que imprima cuánto duró el bloque.</p>
+<p><strong>5.</strong> <strong>Context manager: change_dir.</strong> <code>with cd("/tmp"):</code> cambia de directorio al entrar y vuelve al salir — incluso si hay excepción.</p>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Notebook con: (a) <code>parse_int_safe</code> con tests de los 3 casos (válido, inválido, otro tipo); (b) <code>DatasetCorruptoError</code> usada en una función <code>cargar_csv</code> que valida #columnas; (c) decorador-context manager <code>timer</code> aplicado a 2 operaciones; (d) <code>cd</code> context manager.</p>
+<p><strong>Criterio de aceptación:</strong> Excepciones se capturan solo donde sabes manejarlas. <code>timer</code> reporta segundos correctamente.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>except:</code> o <code>except Exception:</code> ciego esconde bugs</td>
+<td>Cualquier error queda silenciado (incluso typos <code>NameError</code>). <strong>Fix</strong>: captura el tipo específico (<code>except ValueError as e</code>). Si quieres loguear cualquiera, <code>except Exception as e: log.error(...); raise</code>.</td>
+</tr>
+<tr>
+<td><code>finally</code> con <code>return</code> traga la excepción</td>
+<td>Si <code>finally</code> ejecuta <code>return</code>, la excepción del <code>try</code> desaparece silenciosamente. <strong>Fix</strong>: NO uses <code>return</code> en <code>finally</code>; sólo cleanup.</td>
+</tr>
+<tr>
+<td><code>with open(f) as f, open(g) as g:</code> falla por sintaxis vieja</td>
+<td>Esa sintaxis requiere Python 3.10+. <strong>Fix</strong>: en versiones viejas usa <code>contextlib.ExitStack</code> o <code>with open(f) as f: with open(g) as g:</code> anidado.</td>
+</tr>
+<tr>
+<td>Capturé <code>KeyError</code> pero el código sigue rompiéndose</td>
+<td>Tu <code>except</code> está más arriba del <code>try</code>, o el error proviene de otra línea. <strong>Fix</strong>: lee el traceback completo, busca el <code>KeyError</code> real y rodea solo esa línea con try.</td>
+</tr>
+<tr>
+<td>Excepción dentro de generator no se captura como espero</td>
+<td>Las excepciones en generators son tricky; <code>except</code> rodea el <code>for</code>, no el <code>yield</code>. <strong>Fix</strong>: lee la sección "Exceptions in generators" del PEP 380, o reformula como función normal.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿<code>except Exception</code> o <code>except</code>?</strong></p>
+<p>Casi siempre <code>except Exception</code> — más explícito. <code>except:</code> desnudo captura también <code>KeyboardInterrupt</code> y <code>SystemExit</code>, lo cual rompe Ctrl+C y <code>sys.exit()</code>.</p>
+<p><strong>❓ ¿Cuándo creo una excepción propia?</strong></p>
+<p>Cuando el caller necesita <strong>diferenciar</strong> este error de otros. <code>raise ValueError('CSV corrupto')</code> obliga al caller a parsear strings; <code>raise DatasetCorruptoError(linea=42)</code> le da un tipo y un atributo concreto.</p>
+<p><strong>❓ ¿<code>with</code> solo para archivos?</strong></p>
+<p>No — para CUALQUIER recurso que necesite cleanup. Files (<code>open</code>), conexiones DB (<code>engine.connect()</code>), locks (<code>threading.Lock</code>), sesiones HTTP (<code>requests.Session</code>), transacciones (<code>db.atomic()</code>), timing (<code>with timer(...)</code>).</p>
+<p><strong>❓ ¿Debo capturar y re-lanzar para añadir contexto?</strong></p>
+<p>Sí, con <code>raise ExceptionNueva(...) from e</code> — preserva el stacktrace original como '<code>__cause__</code>'. El log muestra ambos errores en cadena.</p>
+<p><strong>❓ ¿<code>pass</code> en <code>except</code> es siempre malo?</strong></p>
+<p><strong>Casi siempre sí.</strong> Si tienes que silenciar, al menos <code>log.warning(...)</code>. Solo OK cuando la excepción es esperada (<code>except FileNotFoundError: pass</code> al limpiar archivos opcionales).</p>
+<h2 id="referencias">🔗 Referencias</h2>
 <ul>
-<li>(resultado 1)</li>
-<li>(resultado 2)</li>
-<li>(resultado 3)</li>
+<li><a href="https://docs.python.org/3/tutorial/errors.html">Python Tutorial — Errors and Exceptions</a></li>
+<li>Ramalho, <em>Fluent Python</em> 2e — cap. 18 <em>Context Managers and else Blocks</em>.</li>
+<li><a href="https://docs.python.org/3/library/contextlib.html"><code>contextlib</code> docs</a></li>
 </ul>
-<h2 id="temas-clave">Temas clave</h2>
-<ul>
-<li>(subtema 1)</li>
-<li>(subtema 2)</li>
-<li>(subtema 3)</li>
-</ul>
-<h2 id="materiales">Materiales</h2>
-<ul>
-<li><code>README.md</code> — esta ficha</li>
-<li><code>notebook.ipynb</code> — cuaderno de la clase</li>
-</ul>
-<h2 id="prerrequisitos">Prerrequisitos</h2>
-<p>Ver índice general en <code>classes/README.md</code> para dependencias entre clases.</p>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../010-oop-basico-dataclasses-herencia/index.html">Clase 010 — OOP básico, dataclasses, herencia</a></p>
   </main>
   <footer class="cur-footer">
     <p>

@@ -24,33 +24,141 @@
   </header>
   <main class="cur-main">
     <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-0-prerrequisitos/007-comprehensions-y-generadores/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
 <h1 id="clase-007-comprehensions-y-generadores">Clase 007 — Comprehensions y generadores</h1>
 <blockquote>
-<p>Parte: <strong>0-prerrequisitos</strong>
-Estado: <strong>stub</strong> (pendiente desarrollar contenido).</p>
+<p>Parte: <strong>0 — Prerrequisitos</strong> · Fuente: Ramalho, <em>Fluent Python</em> 2e — caps. 2 (Sequences) y 17 (Iterators, Generators, Coroutines).
+⏱️ Duración estimada: <strong>90 min</strong>.</p>
 </blockquote>
-<h2 id="objetivo">Objetivo</h2>
-<p>Describir el resultado de aprendizaje concreto de esta clase.</p>
-<h2 id="resultados-esperados">Resultados esperados</h2>
-<p>Al finalizar, el estudiante podrá:</p>
+<hr>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Que el alumno escriba código Python idiomático: list/dict/set comprehensions en vez de for+append, generadores cuando el dataset no cabe en memoria, y entienda la diferencia fundamental entre <strong>construir una lista</strong> y <strong>producir un iterable perezoso</strong>.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar la clase, el alumno podrá:</p>
+<ol>
+<li><strong>Convertir</strong> loops <code>for+append</code> a list/dict/set comprehensions sin perder legibilidad.</li>
+<li><strong>Usar generadores</strong> (<code>yield</code> y generator expressions) para procesar datos que no caben en RAM.</li>
+<li><strong>Distinguir</strong> <code>[x for x in xs]</code> (lista) vs <code>(x for x in xs)</code> (generador): memoria y consumo.</li>
+<li><strong>Encadenar</strong> generadores con <code>itertools</code> (<code>chain</code>, <code>islice</code>, <code>takewhile</code>, <code>groupby</code>).</li>
+<li><strong>Identificar</strong> cuándo NO usar comprehension (lógica compleja, side effects, debug difícil).</li>
+</ol>
+<h2 id="temas">🗺️ Temas</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Tema</th>
+<th>Por qué importa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>List comprehension: <code>[expr for x in xs if cond]</code></td>
+<td>Idiomático, eficiente, legible si es simple.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Dict/set comprehensions</td>
+<td>Mismo patrón, otra estructura.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Generator expressions: <code>(expr for x in xs)</code></td>
+<td>Perezoso, memoria O(1).</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Funciones generadoras con <code>yield</code></td>
+<td>Reescribe procesos como streams.</td>
+</tr>
+<tr>
+<td>5</td>
+<td><code>itertools</code> — la caja de herramientas</td>
+<td><code>chain</code>, <code>islice</code>, <code>groupby</code>, <code>accumulate</code>, <code>combinations</code>.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Comprehension vs loop: cuándo NO</td>
+<td>Lógica &gt;2 líneas, side effects, debug.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<dl>
+<dt><strong>List comprehension</strong></dt>
+<dd>Expresión <code>[expr for x in iterable if cond]</code> que <strong>construye una lista</strong> completa en memoria. Equivalente idiomático a <code>for + append + if</code>. Más rápida y legible <em>si la expresión es simple</em>.</dd>
+<dt><strong>Generator expression</strong></dt>
+<dd>Lo mismo pero con paréntesis <code>(expr for x in iterable if cond)</code>. Devuelve un <strong>generador perezoso</strong>: produce cada valor on-demand, memoria O(1). Solo puedes recorrerlo una vez.</dd>
+<dt><strong>Iterador</strong></dt>
+<dd>Objeto con método <code>__next__()</code> que devuelve el siguiente valor o lanza <code>StopIteration</code>. Es lo que está <em>detrás</em> de un for. Características: lazy, single-pass, memoria O(1).</dd>
+<dt><strong>Generador</strong></dt>
+<dd>Función con <code>yield</code> (o generator expression) que produce un iterador. Cada <code>yield</code> pausa la función y emite un valor; al siguiente next() retoma desde ahí. Mantiene el estado local entre llamadas.</dd>
+<dt><strong><code>itertools</code></strong></dt>
+<dd>Librería stdlib con bloques perezosos componibles: <code>chain</code> (concatena), <code>islice</code> (slicing perezoso), <code>groupby</code> (agrupa consecutivos), <code>accumulate</code> (sum/prod corridos), <code>takewhile</code>, <code>combinations</code>, <code>product</code>.</dd>
+</dl>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<p>Datos sintéticos: rango grande de números (1M elementos) para mostrar diferencia memoria lista vs generador. Sin descarga.</p>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<p><strong>1.</strong> <strong>De for a comprehension.</strong> Toma 3 loops <code>for+append</code> (cuadrados, filtra pares, mapea a strings) y conviértelos.</p>
+<p><strong>2.</strong> <strong>Generador de Fibonacci infinito.</strong> Función con <code>yield</code> que produce Fibonacci. Úsala con <code>itertools.islice</code> para tomar los primeros 20.</p>
+<p><strong>3.</strong> <strong>Memoria: lista vs generador.</strong> Mide RAM (con <code>tracemalloc</code>) de <code>sum([i*i for i in range(10_000_000)])</code> vs <code>sum(i*i for i in range(10_000_000))</code>. Reporta la diferencia.</p>
+<p><strong>4.</strong> <strong>Procesa CSV línea por línea.</strong> Lee un archivo grande con <code>yield</code> línea por línea, filtra por una condición, cuenta sin cargar todo en memoria.</p>
+<p><strong>5.</strong> <strong>Pivot con dict comprehension.</strong> Dada <code>list[tuple[str, int]]</code> (nombre, puntaje), construye <code>dict[str, list[int]]</code> agrupando puntajes por nombre.</p>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Notebook que: (1) reescribe 3 loops como comprehensions, (2) implementa generador Fibonacci con <code>islice</code>, (3) comparativa RAM lista vs generador con <code>tracemalloc</code> y tabla de resultados, (4) lee un CSV ≥10k filas con generador y filtra sin cargar entero.</p>
+<p><strong>Criterio de aceptación:</strong> La medición de RAM muestra &gt;100× menos memoria con generador. CSV se procesa sin OOM.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Iteré un generador y la segunda vez está vacío</td>
+<td>Los generadores son <strong>single-pass</strong>. Tras consumir, están agotados. <strong>Fix</strong>: convierte a lista (<code>list(gen)</code>) si necesitas recorrer más veces — pierdes memoria O(1).</td>
+</tr>
+<tr>
+<td><code>MemoryError</code> al hacer <code>[expensive(x) for x in millones]</code></td>
+<td>Construyes lista completa en RAM. <strong>Fix</strong>: usa generator expression <code>(expensive(x) for x in millones)</code> y consúmelo perezosamente con <code>sum()</code>, <code>next()</code>, <code>for</code>.</td>
+</tr>
+<tr>
+<td><code>itertools.groupby</code> me agrupa raro</td>
+<td>Solo agrupa <strong>elementos consecutivos</strong> con misma key. Si los datos no están ordenados por la key, primero <code>sorted(data, key=...)</code>.</td>
+</tr>
+<tr>
+<td>Generator expression dentro de función falla con <code>'generator' object is not subscriptable</code></td>
+<td>Estás haciendo <code>gen[0]</code> — generadores no son indexables. <strong>Fix</strong>: <code>next(gen)</code> para el primer valor, o <code>list(gen)[0]</code> si necesitas acceso aleatorio.</td>
+</tr>
+<tr>
+<td>List comprehension con <code>if-else</code> no funciona como espero</td>
+<td><code>if</code> al final filtra; <code>if-else</code> va al principio: <code>[x if x &gt; 0 else 0 for x in nums]</code> (clip). NO <code>[x for x in nums if x &gt; 0 else 0]</code> (syntax error).</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿Cuándo comprehension y cuándo for clásico?</strong></p>
+<p>Comprehension cuando es <strong>una expresión</strong> clara en 1 línea. For clásico cuando hay &gt;2 statements, side effects (print, mutación), o la lógica es más legible explícita.</p>
+<p><strong>❓ ¿Generator expression o list?</strong></p>
+<p>Generator si el resultado solo se consume una vez y N es grande (RAM importa). List si necesitas recorrer 2+ veces, indexar, o hacer <code>len()</code>. Truco: <code>sum(x*x for x in xs)</code> evita lista temporal vs <code>sum([x*x for x in xs])</code>.</p>
+<p><strong>❓ ¿Cuánto más rápido es vs un for tradicional?</strong></p>
+<p>~10-30%, no mil veces más. La ganancia real es legibilidad. Si necesitas mil veces, no es comprehension lo que buscas — es numpy/vectorización (clase 015).</p>
+<p><strong>❓ ¿Generador infinito (<code>while True: yield ...</code>) es buena idea?</strong></p>
+<p>Sí, pero ojo: <strong>nunca</strong> lo conviertas a lista directo (<code>list(gen)</code>) — bucle infinito hasta OOM. Acopla con <code>itertools.islice(gen, N)</code> para truncar.</p>
+<p><strong>❓ <code>yield from</code> vs <code>yield</code>?</strong></p>
+<p><code>yield from sub_iterable</code> delega: yieldea todos los valores del sub-iterable. Equivale a <code>for x in sub: yield x</code> pero más rápido y propaga <code>send()</code>/<code>throw()</code> correctamente. Útil para componer generadores.</p>
+<h2 id="referencias">🔗 Referencias</h2>
 <ul>
-<li>(resultado 1)</li>
-<li>(resultado 2)</li>
-<li>(resultado 3)</li>
+<li>Ramalho, <em>Fluent Python</em> 2e — caps. 2 y 17.</li>
+<li><a href="https://peps.python.org/pep-0202/">PEP 202 — List Comprehensions</a></li>
+<li><a href="https://peps.python.org/pep-0255/">PEP 255 — Simple Generators</a></li>
+<li><a href="https://docs.python.org/3/library/itertools.html"><code>itertools</code> docs</a></li>
 </ul>
-<h2 id="temas-clave">Temas clave</h2>
-<ul>
-<li>(subtema 1)</li>
-<li>(subtema 2)</li>
-<li>(subtema 3)</li>
-</ul>
-<h2 id="materiales">Materiales</h2>
-<ul>
-<li><code>README.md</code> — esta ficha</li>
-<li><code>notebook.ipynb</code> — cuaderno de la clase</li>
-</ul>
-<h2 id="prerrequisitos">Prerrequisitos</h2>
-<p>Ver índice general en <code>classes/README.md</code> para dependencias entre clases.</p>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../008-funciones-args-kwargs-lambdas-closures/index.html">Clase 008 — Funciones: args, kwargs, lambdas, closures</a></p>
   </main>
   <footer class="cur-footer">
     <p>

@@ -24,33 +24,80 @@
   </header>
   <main class="cur-main">
     <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-0-prerrequisitos/032-pandas-eval-y-query/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
 <h1 id="clase-032-pandas-eval-y-query">Clase 032 — Pandas: eval y query</h1>
 <blockquote>
-<p>Parte: <strong>0-prerrequisitos</strong>
-Estado: <strong>stub</strong> (pendiente desarrollar contenido).</p>
+<p>Parte: <strong>0 — Prerrequisitos</strong> · Fuente: VanderPlas, <strong>cap. 3</strong> § 3.13 <em>High-Performance Pandas: eval and query</em>.
+⏱️ Duración estimada: <strong>45 min</strong>.</p>
 </blockquote>
-<h2 id="objetivo">Objetivo</h2>
-<p>Describir el resultado de aprendizaje concreto de esta clase.</p>
-<h2 id="resultados-esperados">Resultados esperados</h2>
-<p>Al finalizar, el estudiante podrá:</p>
+<hr>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Que el alumno conozca <code>df.eval</code> y <code>df.query</code> — herramientas para expresar operaciones y filtros con sintaxis tipo SQL en strings. Útiles para legibilidad en cadenas largas y, en datasets muy grandes, también más rápidos (usan <code>numexpr</code>).</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar la clase, el alumno podrá:</p>
+<ol>
+<li><strong>Filtrar</strong> con <code>df.query("col &gt; 10 and other == 'X'")</code>.</li>
+<li><strong>Calcular columnas nuevas</strong> con <code>df.eval('z = x + y')</code> o <code>df.eval('x * 2')</code>.</li>
+<li><strong>Referenciar variables locales</strong> en query/eval con prefijo <code>@</code>: <code>df.query('x &gt; @threshold')</code>.</li>
+<li><strong>Decidir</strong> cuándo usar query (legibilidad en cadenas largas) vs filtro tradicional (mejor autocompletado IDE).</li>
+<li><strong>Saber</strong> que el speedup real solo aparece con datasets &gt;10k filas y expresiones complejas.</li>
+</ol>
+<h2 id="temas">🗺️ Temas</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Tema</th>
+<th>Por qué importa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><code>df.query</code> — sintaxis tipo SQL</td>
+<td>Una sola string en vez de máscara compuesta.</td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>df.eval</code> — expresiones aritméticas</td>
+<td>Calcula columnas sin temporales.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Variables locales con <code>@</code></td>
+<td>Pasar valores del scope.</td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>numexpr</code> para speedup</td>
+<td>Solo en datasets grandes.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Trade-off: legibilidad vs introspección IDE</td>
+<td>Query strings no tienen autocompletado.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<p>Sintético: DataFrame grande para benchmark. Sin descarga.</p>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<p><strong>1.</strong> <strong>Filter tradicional vs query.</strong> <code>df[(df.a &gt; 10) &amp; (df.b &lt; 5) &amp; (df.c == 'x')]</code> vs <code>df.query('a &gt; 10 and b &lt; 5 and c == "x"')</code>. Compara legibilidad.</p>
+<p><strong>2.</strong> <strong>Variable local.</strong> <code>threshold = 100</code>; filtra con <code>df.query('precio &gt; @threshold')</code>.</p>
+<p><strong>3.</strong> <strong>eval para nueva columna.</strong> <code>df.eval('total = precio * cantidad', inplace=True)</code>.</p>
+<p><strong>4.</strong> <strong>Benchmark.</strong> Genera df 1M filas. Compara filter tradicional vs query con <code>%timeit</code>.</p>
+<p><strong>5.</strong> <strong>eval con <code>inplace=False</code></strong> vs cálculo tradicional <code>df['total'] = df['precio'] * df['cantidad']</code> — verifica resultados idénticos.</p>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Notebook con df 100k filas: (a) 3 filtros equivalentes (mask, query, query con @var); (b) eval para crear 2 columnas derivadas; (c) benchmark tradicional vs query en N=100k y N=1M; (d) reporte: cuándo conviene cada uno.</p>
+<p><strong>Criterio de aceptación:</strong> Resultados idénticos entre métodos. Speedup de query aparece en N≥100k.</p>
+<h2 id="referencias">🔗 Referencias</h2>
 <ul>
-<li>(resultado 1)</li>
-<li>(resultado 2)</li>
-<li>(resultado 3)</li>
+<li>VanderPlas, <strong>cap. 3</strong> § 3.13.</li>
+<li><a href="https://pandas.pydata.org/docs/user_guide/enhancingperf.html">pandas eval/query docs</a></li>
+<li><a href="https://numexpr.readthedocs.io/"><code>numexpr</code> project</a></li>
 </ul>
-<h2 id="temas-clave">Temas clave</h2>
-<ul>
-<li>(subtema 1)</li>
-<li>(subtema 2)</li>
-<li>(subtema 3)</li>
-</ul>
-<h2 id="materiales">Materiales</h2>
-<ul>
-<li><code>README.md</code> — esta ficha</li>
-<li><code>notebook.ipynb</code> — cuaderno de la clase</li>
-</ul>
-<h2 id="prerrequisitos">Prerrequisitos</h2>
-<p>Ver índice general en <code>classes/README.md</code> para dependencias entre clases.</p>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../033-matplotlib-anatomia-figura-axes/index.html">Clase 033 — Matplotlib: anatomía figura/axes</a></p>
   </main>
   <footer class="cur-footer">
     <p>

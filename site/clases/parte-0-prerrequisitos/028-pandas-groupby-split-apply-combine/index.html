@@ -24,33 +24,85 @@
   </header>
   <main class="cur-main">
     <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-0-prerrequisitos/028-pandas-groupby-split-apply-combine/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
 <h1 id="clase-028-pandas-groupby-split-apply-combine">Clase 028 — Pandas: groupby (split-apply-combine)</h1>
 <blockquote>
-<p>Parte: <strong>0-prerrequisitos</strong>
-Estado: <strong>stub</strong> (pendiente desarrollar contenido).</p>
+<p>Parte: <strong>0 — Prerrequisitos</strong> · Fuente: VanderPlas, <strong>cap. 3</strong> § 3.9 <em>Aggregation and Grouping</em>.
+⏱️ Duración estimada: <strong>90 min</strong>.</p>
 </blockquote>
-<h2 id="objetivo">Objetivo</h2>
-<p>Describir el resultado de aprendizaje concreto de esta clase.</p>
-<h2 id="resultados-esperados">Resultados esperados</h2>
-<p>Al finalizar, el estudiante podrá:</p>
+<hr>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Que el alumno aplique el patrón <strong>split-apply-combine</strong> que es <strong>el</strong> patrón fundamental de análisis tabular: dividir por grupo, aplicar función, recombinar. Saber elegir entre <code>agg</code>, <code>transform</code>, <code>filter</code> y <code>apply</code> — cada uno tiene su rol.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar la clase, el alumno podrá:</p>
+<ol>
+<li><strong>Agrupar</strong> por una o más columnas con <code>groupby</code> y aplicar agregaciones (<code>sum</code>, <code>mean</code>, <code>count</code>).</li>
+<li><strong>Usar <code>agg</code> con dict</strong> para distintas funciones por columna: <code>agg({'a': 'sum', 'b': 'mean'})</code>.</li>
+<li><strong><code>transform</code></strong> para preservar la shape original (broadcasting del estadístico de grupo).</li>
+<li><strong><code>filter</code></strong> para filtrar grupos enteros según condición.</li>
+<li><strong>Diferenciar</strong> los 4 métodos del groupby y elegir el correcto.</li>
+</ol>
+<h2 id="temas">🗺️ Temas</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Tema</th>
+<th>Por qué importa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Split-apply-combine: el patrón</td>
+<td>El más común en análisis tabular.</td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>agg</code> (= aggregate)</td>
+<td>Reduce a una fila por grupo.</td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>transform</code></td>
+<td>Misma shape — útil para imputar/normalizar por grupo.</td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>filter</code></td>
+<td>Conserva grupos completos según condición.</td>
+</tr>
+<tr>
+<td>5</td>
+<td><code>apply</code>: el más flexible, el más lento</td>
+<td>Cuando los 3 anteriores no alcanzan.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Múltiples columnas de agrupación</td>
+<td>groupby(['a','b']) → MultiIndex.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<p>Palmer Penguins (groupby por species y/o sex).</p>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<p><strong>1.</strong> <strong>Agg básico.</strong> Penguins agrupado por species: media de cada feature numérica.</p>
+<p><strong>2.</strong> <strong>Agg con dict.</strong> Por species: mean de bill_length, max de body_mass, count de filas.</p>
+<p><strong>3.</strong> <strong>Transform: z-score por grupo.</strong> Crea columna <code>mass_z</code> = z-score de body_mass dentro de su species.</p>
+<p><strong>4.</strong> <strong>Filter: solo grupos grandes.</strong> Conserva solo species con &gt;100 individuos.</p>
+<p><strong>5.</strong> <strong>Apply custom.</strong> Por species, devuelve el pingüino con mayor body_mass (un DataFrame por grupo).</p>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Notebook con penguins: (a) agg múltiple por (species, sex); (b) transform z-score por species; (c) filter species con n&gt;50; (d) apply que devuelva el top-3 más pesado por species; (e) tabla <code>groupby.size()</code> por sex × island.</p>
+<p><strong>Criterio de aceptación:</strong> z-score por grupo tiene media ≈ 0 y std ≈ 1 dentro de cada species.</p>
+<h2 id="referencias">🔗 Referencias</h2>
 <ul>
-<li>(resultado 1)</li>
-<li>(resultado 2)</li>
-<li>(resultado 3)</li>
+<li>VanderPlas, <strong>cap. 3</strong> § 3.9.</li>
+<li><a href="https://pandas.pydata.org/docs/user_guide/groupby.html">pandas groupby user guide</a></li>
+<li>Wickham, <a href="https://www.jstatsoft.org/article/view/v040i01">"The split-apply-combine strategy for data analysis"</a> (J Stat Software, 2011).</li>
 </ul>
-<h2 id="temas-clave">Temas clave</h2>
-<ul>
-<li>(subtema 1)</li>
-<li>(subtema 2)</li>
-<li>(subtema 3)</li>
-</ul>
-<h2 id="materiales">Materiales</h2>
-<ul>
-<li><code>README.md</code> — esta ficha</li>
-<li><code>notebook.ipynb</code> — cuaderno de la clase</li>
-</ul>
-<h2 id="prerrequisitos">Prerrequisitos</h2>
-<p>Ver índice general en <code>classes/README.md</code> para dependencias entre clases.</p>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../029-pandas-pivot-tables-y-crosstab/index.html">Clase 029 — Pandas: pivot tables y crosstab</a></p>
   </main>
   <footer class="cur-footer">
     <p>

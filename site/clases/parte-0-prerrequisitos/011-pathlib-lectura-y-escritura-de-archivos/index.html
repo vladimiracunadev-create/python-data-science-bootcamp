@@ -24,33 +24,140 @@
   </header>
   <main class="cur-main">
     <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-0-prerrequisitos/011-pathlib-lectura-y-escritura-de-archivos/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
 <h1 id="clase-011-pathlib-lectura-y-escritura-de-archivos">Clase 011 — pathlib, lectura y escritura de archivos</h1>
 <blockquote>
-<p>Parte: <strong>0-prerrequisitos</strong>
-Estado: <strong>stub</strong> (pendiente desarrollar contenido).</p>
+<p>Parte: <strong>0 — Prerrequisitos</strong> · Fuente: <em>Python Tutorial</em> cap. 10 · <code>pathlib</code> docs · <em>Effective Python</em> (Slatkin) ítem 38.
+⏱️ Duración estimada: <strong>60 min</strong>.</p>
 </blockquote>
-<h2 id="objetivo">Objetivo</h2>
-<p>Describir el resultado de aprendizaje concreto de esta clase.</p>
-<h2 id="resultados-esperados">Resultados esperados</h2>
-<p>Al finalizar, el estudiante podrá:</p>
+<hr>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Que el alumno deje de usar <code>os.path.join</code> + strings y adopte <code>pathlib.Path</code> — API orientada a objetos, multiplataforma (Windows/Unix), con métodos legibles para todas las operaciones de filesystem que hace todo el tiempo en DS (leer CSV, listar archivos, crear carpetas).</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar la clase, el alumno podrá:</p>
+<ol>
+<li><strong>Construir paths</strong> con <code>Path(...) / 'subdir' / 'file.csv'</code> (operador <code>/</code>).</li>
+<li><strong>Leer/escribir</strong> archivos texto y binarios con métodos de <code>Path</code> (<code>read_text</code>, <code>write_bytes</code>).</li>
+<li><strong>Listar y filtrar</strong> archivos con <code>iterdir</code>, <code>glob</code>, <code>rglob</code> (recursivo).</li>
+<li><strong>Crear/eliminar</strong> estructuras de directorios sin pelear con <code>os.makedirs(exist_ok=True)</code>.</li>
+<li><strong>Manejar rutas relativas vs absolutas</strong> y entender <code>__file__</code>.</li>
+</ol>
+<h2 id="temas">🗺️ Temas</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Tema</th>
+<th>Por qué importa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><code>Path</code> vs strings</td>
+<td>Objetos con métodos &gt; concatenación manual.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Operador <code>/</code> para componer</td>
+<td>Legible y multiplataforma.</td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>read_text</code> / <code>write_text</code> / <code>read_bytes</code></td>
+<td>One-liners para operaciones simples.</td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>glob</code> y <code>rglob</code></td>
+<td>Patrones tipo shell: <code>*.csv</code>, <code>**/*.py</code>.</td>
+</tr>
+<tr>
+<td>5</td>
+<td><code>mkdir(parents=True, exist_ok=True)</code></td>
+<td>Crea árbol completo idempotente.</td>
+</tr>
+<tr>
+<td>6</td>
+<td><code>Path(__file__).parent</code> y <code>resolve()</code></td>
+<td>Localizar recursos relativos al script.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<dl>
+<dt><strong><code>Path</code></strong></dt>
+<dd>Objeto que representa una ruta de filesystem orientada a objetos (<code>pathlib.Path</code>). Sobreescribe <code>/</code> para componer rutas, multiplataforma (Windows usa <code>\</code>, Unix <code>/</code>, transparente). Tiene métodos para casi todo: leer, escribir, listar, mover, borrar.</dd>
+<dt><strong>Ruta absoluta vs relativa</strong></dt>
+<dd><strong>Absoluta</strong>: empieza desde la raíz (<code>C:\dev\proyecto\data.csv</code> o <code>/home/user/data.csv</code>). <strong>Relativa</strong>: parte del cwd (<code>data.csv</code>). Las rutas relativas dependen de dónde se ejecuta — fuente de bugs.</dd>
+<dt><strong><code>Path.cwd()</code> vs <code>Path(__file__).parent</code></strong></dt>
+<dd><code>cwd()</code> es el directorio donde se ejecutó el script (cambia según el invocante). <code>__file__</code> es la ruta al archivo Python actual; <code>.parent</code> su carpeta. <strong>Usa <code>__file__</code></strong> para recursos que viven junto al script.</dd>
+<dt><strong><code>glob</code> vs <code>rglob</code></strong></dt>
+<dd>Patrones tipo shell. <code>glob('*.csv')</code> busca en el directorio actual (1 nivel). <code>rglob('*.csv')</code> busca recursivo (todo el árbol). <code>**</code> significa 'cualquier número de directorios'.</dd>
+<dt><strong><code>read_text</code> / <code>write_text</code></strong></dt>
+<dd>One-liners para texto: <code>Path('x.txt').write_text(contenido, encoding='utf-8')</code>. Para binario: <code>read_bytes</code> / <code>write_bytes</code>. Para JSON/CSV usa librerías especializadas.</dd>
+</dl>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<p>Carpeta temporal creada en el notebook con archivos sintéticos. Sin descarga.</p>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<p><strong>1.</strong> <strong>Construye una ruta multiplataforma.</strong> Dado <code>Path.home() / 'datos' / '2026' / 'enero.csv'</code>, imprime cómo se ve en Windows vs Unix.</p>
+<p><strong>2.</strong> <strong>Lista CSVs.</strong> En una carpeta con archivos mixtos (.csv, .txt, .py), lista solo los <code>.csv</code> ordenados por tamaño.</p>
+<p><strong>3.</strong> <strong>Búsqueda recursiva.</strong> En un árbol de carpetas, encuentra todos los <code>.py</code> que contengan la palabra <code>TODO</code> en su contenido.</p>
+<p><strong>4.</strong> <strong>Escribe + lee.</strong> Genera 3 archivos <code>txt</code> con <code>write_text</code>, léelos con <code>read_text</code>, concaténalos en uno solo.</p>
+<p><strong>5.</strong> <strong>Ruta del script.</strong> Escribe un script que cargue un dataset que vive <em>al lado</em> del script (no del cwd), usando <code>Path(__file__).parent / 'data.csv'</code>.</p>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Script <code>inventario.py</code> que recibe un directorio y produce un reporte CSV con: nombre, tamaño_bytes, extensión, última_modificación para cada archivo recursivamente, usando solo <code>pathlib</code> (no <code>os</code>).</p>
+<p><strong>Criterio de aceptación:</strong> El script corre tanto en Windows como en Linux/macOS sin cambios.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>FileNotFoundError</code> aunque el archivo existe</td>
+<td>Estás usando ruta relativa y el cwd no es el que crees. <strong>Fix</strong>: <code>print(Path.cwd())</code> para diagnosticar; usa rutas relativas a <code>__file__</code> para archivos del proyecto.</td>
+</tr>
+<tr>
+<td><code>PermissionError</code> al escribir</td>
+<td>Carpeta read-only, OneDrive sincronizando, antivirus bloqueando. <strong>Fix</strong>: chequea permisos con <code>p.stat()</code>, escribe a <code>tempfile.gettempdir()</code> para tests.</td>
+</tr>
+<tr>
+<td><code>mkdir()</code> falla si el directorio ya existe</td>
+<td>Default es <code>exist_ok=False</code>. <strong>Fix</strong>: <code>p.mkdir(parents=True, exist_ok=True)</code> — crea árbol completo idempotente.</td>
+</tr>
+<tr>
+<td>Mezclo <code>os.path</code> y <code>pathlib</code></td>
+<td>Algunos funciones esperan strings (<code>open()</code>, <code>pd.read_csv()</code>). Path soporta el protocolo <code>os.PathLike</code> y la mayoría las acepta directo; si no, <code>str(p)</code> lo convierte.</td>
+</tr>
+<tr>
+<td><code>glob('*.CSV')</code> no encuentra <code>archivo.csv</code></td>
+<td>Case-sensitive en Linux, insensible en Windows. <strong>Fix</strong>: filtra explícito con <code>[p for p in path.iterdir() if p.suffix.lower() == '.csv']</code>.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿<code>pathlib</code> o <code>os.path</code>?</strong></p>
+<p><strong><code>pathlib</code></strong> para código nuevo. <code>os.path</code> es la API funcional vieja (strings + funciones); pathlib es OO y mucho más legible. Solo usa <code>os.path</code> para compatibilidad con código viejo.</p>
+<p><strong>❓ ¿Cómo evito el típico <code>'C:/Users/...'</code> vs <code>'/home/...'</code> cross-platform?</strong></p>
+<p><strong>No hardcodees rutas absolutas.</strong> Usa <code>Path.home()</code>, <code>Path(__file__).parent</code>, <code>tempfile.gettempdir()</code>. Y siempre <code>Path</code> + <code>/</code>, nunca strings concatenados.</p>
+<p><strong>❓ ¿Cómo leo un CSV grande con pathlib?</strong></p>
+<p>Pathlib es para <em>paths</em>, no parsing. Combina: <code>pd.read_csv(Path('data') / 'big.csv')</code>. El Path se convierte a string automáticamente.</p>
+<p><strong>❓ ¿<code>Path('a') / 'b/c'</code> o <code>Path('a') / 'b' / 'c'</code>?</strong></p>
+<p>Ambas funcionan: <code>Path</code> parsea separadores. Pero la primera es menos explícita; prefiere la segunda.</p>
+<p><strong>❓ ¿<code>shutil</code> o <code>pathlib</code> para mover/copiar?</strong></p>
+<p><strong><code>shutil</code></strong> para operaciones recursivas (copytree, rmtree, move) — pathlib solo cubre operaciones simples. Combinable: <code>shutil.copy(src_path, dst_path)</code> acepta Path directo.</p>
+<h2 id="referencias">🔗 Referencias</h2>
 <ul>
-<li>(resultado 1)</li>
-<li>(resultado 2)</li>
-<li>(resultado 3)</li>
+<li><a href="https://docs.python.org/3/library/pathlib.html"><code>pathlib</code> docs</a></li>
+<li><a href="https://peps.python.org/pep-0428/">PEP 428 — Object-oriented filesystem paths</a></li>
+<li>Slatkin, <em>Effective Python</em> 2e — ítem 38 <em>Use Pathlib instead of os.path</em>.</li>
 </ul>
-<h2 id="temas-clave">Temas clave</h2>
-<ul>
-<li>(subtema 1)</li>
-<li>(subtema 2)</li>
-<li>(subtema 3)</li>
-</ul>
-<h2 id="materiales">Materiales</h2>
-<ul>
-<li><code>README.md</code> — esta ficha</li>
-<li><code>notebook.ipynb</code> — cuaderno de la clase</li>
-</ul>
-<h2 id="prerrequisitos">Prerrequisitos</h2>
-<p>Ver índice general en <code>classes/README.md</code> para dependencias entre clases.</p>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../012-logging/index.html">Clase 012 — Logging</a></p>
   </main>
   <footer class="cur-footer">
     <p>

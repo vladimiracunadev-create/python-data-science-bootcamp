@@ -24,33 +24,143 @@
   </header>
   <main class="cur-main">
     <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-0-prerrequisitos/020-numpy-algebra-lineal-con-numpy-linalg/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
 <h1 id="clase-020-numpy-algebra-lineal-con-numpylinalg">Clase 020 — NumPy: álgebra lineal con numpy.linalg</h1>
 <blockquote>
-<p>Parte: <strong>0-prerrequisitos</strong>
-Estado: <strong>stub</strong> (pendiente desarrollar contenido).</p>
+<p>Parte: <strong>0 — Prerrequisitos</strong> · Fuente: VanderPlas, <strong>cap. 2</strong> § 2.9 <em>Structured Arrays</em> (referencia) · <em>Numerical Linear Algebra</em> (Trefethen &amp; Bau).
+⏱️ Duración estimada: <strong>90 min</strong>.</p>
 </blockquote>
-<h2 id="objetivo">Objetivo</h2>
-<p>Describir el resultado de aprendizaje concreto de esta clase.</p>
-<h2 id="resultados-esperados">Resultados esperados</h2>
-<p>Al finalizar, el estudiante podrá:</p>
+<hr>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Que el alumno opere con vectores y matrices al nivel necesario para entender ML: producto punto, multiplicación matricial, inversa, sistema de ecuaciones (<code>solve</code>), descomposiciones (SVD, eigen). Saber <strong>cuándo no usar la inversa</strong> (lentitud + inestabilidad numérica).</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar la clase, el alumno podrá:</p>
+<ol>
+<li><strong>Multiplicar</strong> vectores y matrices con <code>@</code> (operador moderno) y <code>np.dot</code>.</li>
+<li><strong>Resolver</strong> sistemas <code>Ax = b</code> con <code>np.linalg.solve</code> (NO con <code>inv(A) @ b</code>).</li>
+<li><strong>Calcular</strong> norma, determinante, rango, traza.</li>
+<li><strong>Computar</strong> SVD con <code>np.linalg.svd</code> y entender qué retorna.</li>
+<li><strong>Calcular eigenvalores/eigenvectores</strong> con <code>np.linalg.eig</code> / <code>eigh</code> (simétrica).</li>
+</ol>
+<h2 id="temas">🗺️ Temas</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Tema</th>
+<th>Por qué importa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><code>@</code> operador (PEP 465): multiplicación matricial</td>
+<td>Reemplaza <code>np.matmul</code>.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Producto punto vs producto matricial</td>
+<td>Vector·vector vs matriz·matriz.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Resolver sistemas: <code>solve</code> vs <code>inv</code></td>
+<td>Por qué NUNCA usar <code>inv</code>.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Norma, det, rank, trace</td>
+<td>Diagnóstico estructural de matrices.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>SVD — la factorización universal</td>
+<td>Base de PCA, regresión lineal, recomendadores.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Eigen</td>
+<td>Base de PCA conceptual.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<dl>
+<dt><strong>Operador <code>@</code></strong></dt>
+<dd>Multiplicación matricial (PEP 465). <code>A @ B</code> ≡ <code>np.matmul(A, B)</code> ≡ <code>A.dot(B)</code>. NO confundir con <code>*</code> (elementwise). Disponible Python 3.5+.</dd>
+<dt><strong>Producto punto vs producto matricial</strong></dt>
+<dd><strong>Punto</strong> (vector·vector → escalar): <code>a @ b</code> = <code>sum(a*b)</code>. <strong>Matricial</strong> (matriz @ matriz → matriz): regla "fila por columna". Shapes: <code>(m,n) @ (n,p) → (m,p)</code>.</dd>
+<dt><strong><code>np.linalg.solve(A, b)</code></strong></dt>
+<dd>Resuelve <code>Ax = b</code> usando descomposición LU. <strong>Siempre preferible a <code>inv(A) @ b</code></strong>: más rápido (no construye inversa), más estable numéricamente, menos memoria.</dd>
+<dt><strong>SVD (Singular Value Decomposition)</strong></dt>
+<dd>Descomposición universal: <code>M = U·Σ·Vᵀ</code>. U y V son ortogonales; Σ diagonal con valores singulares decrecientes ≥ 0. Base de PCA, recomendadores (matrix factorization), compresión, pseudo-inversa.</dd>
+<dt><strong>Eigen (eigenvalues/eigenvectors)</strong></dt>
+<dd>Para <code>A</code> cuadrada, <code>A v = λ v</code>. <code>eig</code> general; <code>eigh</code> para matrices simétricas (más rápido, garantiza eigenvalores reales). Base de PCA conceptual.</dd>
+<dt><strong>Número de condición (<code>cond</code>)</strong></dt>
+<dd>Ratio entre el valor singular más grande y el más pequeño. Mide sensibilidad de la solución a perturbaciones. <code>cond &gt; 1e10</code> ⇒ matriz mal condicionada, <code>solve</code> perderá precisión.</dd>
+</dl>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<p>Sintético: matrices y vectores para los ejercicios. Sin descarga.</p>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<p><strong>1.</strong> <strong>Producto punto.</strong> Dados dos vectores 100-dim aleatorios, calcula <code>np.dot(a, b)</code> y verifica que coincide con <code>sum(a*b)</code>.</p>
+<p><strong>2.</strong> <strong>Multiplicación matricial.</strong> <code>(50, 30) @ (30, 20)</code> → <code>(50, 20)</code>. Verifica shapes y un elemento manualmente.</p>
+<p><strong>3.</strong> <strong>Resuelve sistema.</strong> Genera <code>A = (5,5)</code> aleatoria, <code>b = (5,)</code>, resuelve <code>Ax = b</code> con <code>solve</code>. Verifica <code>A @ x ≈ b</code>.</p>
+<p><strong>4.</strong> <strong>Inv vs solve benchmark.</strong> Para <code>A (1000,1000)</code> y <code>b (1000,)</code>, mide tiempo de <code>inv(A) @ b</code> vs <code>solve(A, b)</code>. Reporta speedup.</p>
+<p><strong>5.</strong> <strong>SVD de matriz baja rank.</strong> Crea <code>M = u @ v.T</code> (rank 1). Calcula SVD y observa que solo el primer valor singular es no-cero.</p>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Notebook que: (a) compara <code>inv(A) @ b</code> vs <code>solve(A, b)</code> en tiempo Y precisión (<code>np.allclose</code>); (b) implementa regresión lineal cerrada <code>β = (XᵀX)⁻¹ Xᵀy</code> y luego con <code>solve</code>; (c) calcula SVD de una matriz y verifica <code>M = U @ diag(s) @ Vt</code>; (d) eigen de matriz de covarianza.</p>
+<p><strong>Criterio de aceptación:</strong> <code>solve</code> más rápido y más preciso que <code>inv</code>. SVD reconstruye la matriz dentro de tolerancia.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>A @ B</code> falla con <code>ValueError: shapes ... not aligned</code></td>
+<td>Las dimensiones internas no coinciden: <code>(m,n) @ (k,p)</code> requiere <code>n == k</code>. <strong>Fix</strong>: revisa shapes, transpone si necesario (<code>A @ B.T</code>).</td>
+</tr>
+<tr>
+<td>Implementé <code>inv(A) @ b</code> y los resultados son raros</td>
+<td><code>inv</code> es inestable numéricamente para matrices grandes/mal-condicionadas. <strong>Fix</strong>: usa <code>np.linalg.solve(A, b)</code> — más rápido y más preciso.</td>
+</tr>
+<tr>
+<td><code>np.linalg.solve</code> lanza <code>LinAlgError: Singular matrix</code></td>
+<td><code>det(A) ≈ 0</code> — el sistema no tiene solución única. <strong>Fix</strong>: si esperabas el caso, usa <code>np.linalg.lstsq(A, b)</code> (least squares para sistemas singulares/sobredeterminados).</td>
+</tr>
+<tr>
+<td><code>A * B</code> da resultado raro y esperaba <code>A @ B</code></td>
+<td>Operador <code>*</code> es elementwise (Hadamard product). <strong>Fix</strong>: <code>A @ B</code> para multiplicación matricial.</td>
+</tr>
+<tr>
+<td>SVD devuelve <code>Vt</code> no <code>V</code></td>
+<td>Por convención NumPy devuelve <code>V^T</code> (transpuesta), no <code>V</code>. Para reconstruir: <code>M = U @ diag(s) @ Vt</code>. Si necesitas <code>V</code>: <code>Vt.T</code>.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿<code>@</code>, <code>np.matmul</code>, o <code>np.dot</code>?</strong></p>
+<p>Para matriz×matriz son equivalentes — <code>@</code> es el más legible. <code>np.dot</code> tiene comportamiento distinto para arrays &gt;2D (no broadcasting); <code>@</code> y <code>matmul</code> sí. Usa <code>@</code> siempre que puedas.</p>
+<p><strong>❓ ¿<code>eig</code> o <code>eigh</code>?</strong></p>
+<p><strong><code>eigh</code></strong> si la matriz es simétrica (covarianza, kernel matrices, métrica de distancias). Más rápido, garantiza eigenvalores reales. <strong><code>eig</code></strong> para matrices generales (no simétricas) — puede dar valores complejos.</p>
+<p><strong>❓ ¿Por qué <code>np.linalg.det</code> para chequear singularidad es mala idea?</strong></p>
+<p>El determinante es 0 o no-0 sin gradiente útil — para matrices grandes, det puede ser tan chico/grande que cause underflow/overflow numérico. Mejor: <code>np.linalg.cond(A)</code> — si &gt; 1e10, problemática.</p>
+<p><strong>❓ ¿Cuándo necesito BLAS/LAPACK?</strong></p>
+<p>NumPy ya los usa por debajo (vía OpenBLAS o MKL). Si tu <code>np.linalg.solve</code> parece lento, instala MKL (<code>pip install mkl</code>) o usa la build de conda con <code>mkl</code>.</p>
+<p><strong>❓ ¿GPU para álgebra lineal?</strong></p>
+<p><strong>CuPy</strong> (drop-in replacement de NumPy con CUDA), <strong>PyTorch tensors</strong> (<code>.to('cuda')</code>), o <strong>JAX</strong>. Para matrices &gt;1000×1000 la GPU vale la pena.</p>
+<h2 id="referencias">🔗 Referencias</h2>
 <ul>
-<li>(resultado 1)</li>
-<li>(resultado 2)</li>
-<li>(resultado 3)</li>
+<li>VanderPlas cap. 2 (overview NumPy).</li>
+<li><a href="https://numpy.org/doc/stable/reference/routines.linalg.html"><code>numpy.linalg</code> reference</a></li>
+<li><a href="https://peps.python.org/pep-0465/">PEP 465 — <code>@</code> operator</a></li>
+<li>Trefethen &amp; Bau, <em>Numerical Linear Algebra</em> (1997) — fondo matemático.</li>
 </ul>
-<h2 id="temas-clave">Temas clave</h2>
-<ul>
-<li>(subtema 1)</li>
-<li>(subtema 2)</li>
-<li>(subtema 3)</li>
-</ul>
-<h2 id="materiales">Materiales</h2>
-<ul>
-<li><code>README.md</code> — esta ficha</li>
-<li><code>notebook.ipynb</code> — cuaderno de la clase</li>
-</ul>
-<h2 id="prerrequisitos">Prerrequisitos</h2>
-<p>Ver índice general en <code>classes/README.md</code> para dependencias entre clases.</p>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../021-numpy-aleatoriedad-y-semillas/index.html">Clase 021 — NumPy: aleatoriedad y semillas</a></p>
   </main>
   <footer class="cur-footer">
     <p>

@@ -24,33 +24,84 @@
   </header>
   <main class="cur-main">
     <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-0-prerrequisitos/027-pandas-concat-merge-join/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
 <h1 id="clase-027-pandas-concat-merge-join">Clase 027 — Pandas: concat, merge, join</h1>
 <blockquote>
-<p>Parte: <strong>0-prerrequisitos</strong>
-Estado: <strong>stub</strong> (pendiente desarrollar contenido).</p>
+<p>Parte: <strong>0 — Prerrequisitos</strong> · Fuente: VanderPlas, <strong>cap. 3</strong> §§ 3.7–3.8 <em>Combining Datasets: Concat/Merge</em>.
+⏱️ Duración estimada: <strong>90 min</strong>.</p>
 </blockquote>
-<h2 id="objetivo">Objetivo</h2>
-<p>Describir el resultado de aprendizaje concreto de esta clase.</p>
-<h2 id="resultados-esperados">Resultados esperados</h2>
-<p>Al finalizar, el estudiante podrá:</p>
+<hr>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Que el alumno <strong>junte datasets</strong> correctamente: <code>concat</code> (apilado simple), <code>merge</code> (SQL-style joins) y <code>join</code> (atajo por index). El error más común es usar el join equivocado y obtener duplicados o filas perdidas — saber qué tipo (inner/left/right/outer) evita semanas de bugs.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar la clase, el alumno podrá:</p>
+<ol>
+<li><strong>Apilar</strong> DataFrames con <code>pd.concat</code> por filas (<code>axis=0</code>) o columnas (<code>axis=1</code>).</li>
+<li><strong>Hacer joins SQL-style</strong> con <code>pd.merge</code>: inner, left, right, outer, cross.</li>
+<li><strong>Diagnosticar</strong> duplicados generados por merge con <code>validate='one_to_one' | 'many_to_one' | …</code>.</li>
+<li><strong>Joinear por index</strong> con <code>df1.join(df2)</code> (atajo para merge por index).</li>
+<li><strong>Usar <code>indicator=True</code></strong> para saber qué filas vienen de cada lado del merge.</li>
+</ol>
+<h2 id="temas">🗺️ Temas</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Tema</th>
+<th>Por qué importa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><code>concat</code> axis=0 (filas) vs axis=1 (columnas)</td>
+<td>Apilado simple con alineación de index.</td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>merge</code> how='inner'/'left'/'right'/'outer'</td>
+<td>Los 4 tipos de join SQL.</td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>on</code> vs <code>left_on</code>/<code>right_on</code></td>
+<td>Cuando los nombres de columna difieren.</td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>validate</code> para evitar duplicación</td>
+<td>1:1, 1:m, m:1, m:m.</td>
+</tr>
+<tr>
+<td>5</td>
+<td><code>indicator=True</code> para auditar</td>
+<td>Columna <code>_merge</code> con left_only/right_only/both.</td>
+</tr>
+<tr>
+<td>6</td>
+<td><code>df.join</code> por index</td>
+<td>Atajo idiomático.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<p>Sintético: tabla de clientes + tabla de órdenes (relación 1:N).</p>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<p><strong>1.</strong> <strong>Concat por filas.</strong> 3 DataFrames mensuales con mismas columnas → uno anual. <code>ignore_index=True</code>.</p>
+<p><strong>2.</strong> <strong>Inner join.</strong> Clientes + órdenes por <code>cliente_id</code>. Verifica que solo aparecen clientes con al menos 1 orden.</p>
+<p><strong>3.</strong> <strong>Left join.</strong> Clientes + órdenes, conservando clientes sin órdenes (NaN en cols de orden).</p>
+<p><strong>4.</strong> <strong>Detectar duplicados.</strong> Provoca un merge muchos-a-muchos no intencional. Usa <code>validate='one_to_many'</code> para que falle si hay duplicación oculta.</p>
+<p><strong>5.</strong> <strong><code>indicator=True</code>.</strong> Auditar cuántas filas son left_only / right_only / both.</p>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Notebook con clientes (10) + órdenes (25): (a) 4 tipos de join con <code>_merge</code> indicator; (b) tabla con conteo de cada tipo; (c) detección de relación con <code>validate</code>; (d) join por index con <code>df.join</code>.</p>
+<p><strong>Criterio de aceptación:</strong> Counts de cada join coherentes (inner ≤ left ≤ outer). <code>validate</code> lanza excepción si la relación esperada falla.</p>
+<h2 id="referencias">🔗 Referencias</h2>
 <ul>
-<li>(resultado 1)</li>
-<li>(resultado 2)</li>
-<li>(resultado 3)</li>
+<li>VanderPlas, <strong>cap. 3</strong> §§ 3.7-3.8.</li>
+<li><a href="https://pandas.pydata.org/docs/user_guide/merging.html">pandas Merge user guide</a></li>
 </ul>
-<h2 id="temas-clave">Temas clave</h2>
-<ul>
-<li>(subtema 1)</li>
-<li>(subtema 2)</li>
-<li>(subtema 3)</li>
-</ul>
-<h2 id="materiales">Materiales</h2>
-<ul>
-<li><code>README.md</code> — esta ficha</li>
-<li><code>notebook.ipynb</code> — cuaderno de la clase</li>
-</ul>
-<h2 id="prerrequisitos">Prerrequisitos</h2>
-<p>Ver índice general en <code>classes/README.md</code> para dependencias entre clases.</p>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../028-pandas-groupby-split-apply-combine/index.html">Clase 028 — Pandas: groupby (split-apply-combine)</a></p>
   </main>
   <footer class="cur-footer">
     <p>

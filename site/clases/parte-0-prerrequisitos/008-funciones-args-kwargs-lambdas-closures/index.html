@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Clase 008 — Funciones, args, kwargs, lambdas, closures | Python Data Science Program</title>
+  <title>Clase 008 — Funciones: args, kwargs, lambdas, closures | Python Data Science Program</title>
   <meta name="description" content="Clase 008 del Python Data Science Program">
   <meta name="theme-color" content="#0f3d3e">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -24,33 +24,142 @@
   </header>
   <main class="cur-main">
     <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-0-prerrequisitos/008-funciones-args-kwargs-lambdas-closures/notebook.ipynb">📓 Abrir notebook en GitHub</a>
-<h1 id="clase-008-funciones-args-kwargs-lambdas-closures">Clase 008 — Funciones, args, kwargs, lambdas, closures</h1>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-008-funciones-args-kwargs-lambdas-closures">Clase 008 — Funciones: args, kwargs, lambdas, closures</h1>
 <blockquote>
-<p>Parte: <strong>0-prerrequisitos</strong>
-Estado: <strong>stub</strong> (pendiente desarrollar contenido).</p>
+<p>Parte: <strong>0 — Prerrequisitos</strong> · Fuente: Ramalho, <em>Fluent Python</em> 2e — cap. 7 (Functions as First-Class Objects), cap. 9 (Decorators and Closures).
+⏱️ Duración estimada: <strong>90 min</strong>.</p>
 </blockquote>
-<h2 id="objetivo">Objetivo</h2>
-<p>Describir el resultado de aprendizaje concreto de esta clase.</p>
-<h2 id="resultados-esperados">Resultados esperados</h2>
-<p>Al finalizar, el estudiante podrá:</p>
+<hr>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Que el alumno use funciones como ciudadanos de primera clase: pasarlas como argumento, retornarlas, escribir lambdas cuando aportan, y entender closures — la base de los decoradores que verán más adelante. Sin esto, el código pandas/sklearn parece magia.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar la clase, el alumno podrá:</p>
+<ol>
+<li><strong>Definir funciones</strong> con argumentos posicionales, keyword-only, <code>*args</code> y <code>**kwargs</code>.</li>
+<li><strong>Pasar funciones como argumento</strong> (callbacks: <code>sorted(xs, key=fn)</code>, <code>df.apply(fn)</code>).</li>
+<li><strong>Usar lambdas</strong> donde son legibles (callbacks cortos) y evitarlas donde no (lógica).</li>
+<li><strong>Explicar y escribir closures</strong> (función que captura variables del scope exterior).</li>
+<li><strong>Anticipar</strong> la diferencia entre <code>*args</code> y <code>*, args</code> (keyword-only marker).</li>
+</ol>
+<h2 id="temas">🗺️ Temas</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Tema</th>
+<th>Por qué importa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Argumentos: posicional, keyword, default</td>
+<td>Cuatro modos, una sintaxis.</td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>*args</code> y <code>**kwargs</code></td>
+<td>Funciones que aceptan número variable.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Keyword-only con <code>*</code> separador</td>
+<td><code>def f(a, *, b)</code> → b solo nombrado.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Funciones como objetos</td>
+<td>Asignables, pasables, retornables.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Lambdas: dónde sí y dónde no</td>
+<td>Callbacks cortos sí; lógica compleja no.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Closures: capturando scope</td>
+<td>Base mental de los decoradores.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<dl>
+<dt><strong>First-class object</strong></dt>
+<dd>En Python, funciones son ciudadanos de primera clase: se asignan a variables (<code>f = saludar</code>), se pasan como argumento (<code>sorted(xs, key=f)</code>), se retornan de otras funciones. Esto habilita callbacks, decoradores y closures.</dd>
+<dt><strong><code>*args</code> / <code>**kwargs</code></strong></dt>
+<dd><strong><code>*args</code></strong> captura argumentos posicionales sobrantes en una <strong>tupla</strong>. <strong><code>**kwargs</code></strong> captura argumentos nombrados sobrantes en un <strong>dict</strong>. Convención: solo el <code>*</code> y <code>**</code> importan; los nombres <code>args</code>/<code>kwargs</code> son convención.</dd>
+<dt><strong>Keyword-only argument</strong></dt>
+<dd>Argumento que solo puede pasarse nombrado: declarado después de <code>*</code> o <code>*args</code> en la signatura. <code>def f(a, *, b)</code> obliga a <code>f(1, b=2)</code>. Mejora legibilidad en APIs con muchos params.</dd>
+<dt><strong>Lambda</strong></dt>
+<dd>Función anónima de UNA expresión: <code>lambda x: x*2</code>. Sin nombre, sin docstring, sin múltiples statements. Útil para callbacks cortos (<code>sorted(xs, key=lambda p: p['edad'])</code>). Si necesitas más, usa <code>def</code>.</dd>
+<dt><strong>Closure</strong></dt>
+<dd>Función que <strong>captura variables</strong> del scope donde fue definida y las mantiene vivas aunque ese scope termine. Base mental de los decoradores. Para <em>modificar</em> la variable capturada, usa <code>nonlocal</code>.</dd>
+<dt><strong>Decorador</strong></dt>
+<dd>Función que recibe función y retorna función (típicamente envuelta). Sintaxis: <code>@dec</code> antes de <code>def</code>. Implementado típicamente con closure + <code>@functools.wraps</code> para preservar metadata original.</dd>
+</dl>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<p>Datos sintéticos pequeños (lista de dicts simulando ventas). Sin descarga.</p>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<p><strong>1.</strong> <strong>Función con todo.</strong> Define <code>f(a, b=10, *args, c, **kwargs)</code>. Llámala de 3 formas distintas que sean válidas. Identifica qué llamadas son inválidas y por qué.</p>
+<p><strong>2.</strong> <strong><code>sorted</code> con key.</strong> Dada <code>list[dict]</code> de personas, ordena por edad (asc) y por nombre alfabético. Usa lambda primero, luego <code>operator.itemgetter</code>.</p>
+<p><strong>3.</strong> <strong>Closure contador.</strong> Escribe <code>make_counter()</code> que retorna una función que cada vez que se llama incrementa y retorna un contador interno. ¿Por qué funciona?</p>
+<p><strong>4.</strong> <strong>Memoización manual.</strong> Implementa un decorador <code>@memoize</code> usando closure + dict. Aplícalo a Fibonacci recursivo y mide el speedup con <code>%timeit</code>.</p>
+<p><strong>5.</strong> <strong>Compose.</strong> Escribe <code>compose(f, g, h)</code> que retorna una función equivalente a <code>lambda x: f(g(h(x)))</code>.</p>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Notebook con: (a) implementación y demo de <code>make_counter</code> explicando con comentario por qué el contador persiste; (b) <code>@memoize</code> aplicado a Fibonacci recursivo con benchmark (N=35) antes/después; (c) ordenamiento de <code>list[dict]</code> por 2 criterios usando <code>itemgetter</code>.</p>
+<p><strong>Criterio de aceptación:</strong> <code>memoize</code> reduce Fibonacci(35) de segundos a milisegundos. Counter independiente entre instancias.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>UnboundLocalError: local variable 'x' referenced before assignment</code></td>
+<td>Asignaste a <code>x</code> dentro de la función → Python la trata como local; pero la usaste antes de asignar. <strong>Fix</strong>: si querías la del scope exterior, declara <code>nonlocal x</code> (o <code>global x</code>).</td>
+</tr>
+<tr>
+<td><code>SyntaxError: positional argument follows keyword argument</code></td>
+<td>Llamaste <code>f(a=1, 2)</code> — posicionales primero. <strong>Fix</strong>: <code>f(2, a=1)</code>.</td>
+</tr>
+<tr>
+<td><code>TypeError: f() got multiple values for argument 'x'</code></td>
+<td>Pasaste <code>x</code> posicional Y nombrado: <code>f(5, x=10)</code>. <strong>Fix</strong>: elige uno.</td>
+</tr>
+<tr>
+<td>Mi decorador rompe <code>help(funcion)</code></td>
+<td>Sin <code>@functools.wraps(fn)</code>, el wrapper pierde <code>__name__</code>, <code>__doc__</code>. <strong>Fix</strong>: <code>from functools import wraps; @wraps(fn) def wrapper(...)</code>.</td>
+</tr>
+<tr>
+<td>Lambda en loop captura el último valor</td>
+<td><code>[lambda: i for i in range(3)]</code> — todas las lambdas devuelven <code>2</code> porque capturan <code>i</code> por referencia. <strong>Fix</strong>: <code>[lambda i=i: i for i in range(3)]</code> (default args evalúan en defin time).</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿Cuándo <code>*args, **kwargs</code> y cuándo argumentos explícitos?</strong></p>
+<p>Argumentos explícitos siempre que conozcas la signatura — el IDE te ayuda y el lector entiende. <code>*args, **kwargs</code> solo en wrappers genéricos (decoradores, factories) que deben aceptar cualquier llamada.</p>
+<p><strong>❓ ¿Lambda o def?</strong></p>
+<p>Lambda solo si: (a) cabe en una expresión, (b) la usas inmediatamente (callback), (c) un nombre no aportaría. En todos los demás casos, <code>def</code> con nombre — más debuggeable, soporta docstring y type hints.</p>
+<p><strong>❓ ¿Closure es lo mismo que decorador?</strong></p>
+<p>Decorador suele estar <strong>implementado con</strong> closure, pero closure ≠ decorador. Closure es cualquier función que captura su entorno; decorador es un patrón específico (función → función).</p>
+<p><strong>❓ ¿Por qué necesito <code>nonlocal</code> en <code>make_counter</code>?</strong></p>
+<p>Sin <code>nonlocal</code>, <code>count += 1</code> dentro de <code>inner</code> se interpretaría como variable local nueva y daría UnboundLocalError. <code>nonlocal</code> le dice: 'esa variable vive en el scope inmediato exterior, modifícala'.</p>
+<p><strong>❓ ¿Cuál es el costo de pasar funciones como argumento?</strong></p>
+<p>Mínimo (es solo una referencia). Lo costoso es la <strong>invocación</strong> repetida en bucles tight (cada llamada Python tiene overhead). Para esto, NumPy/Cython/Numba.</p>
+<h2 id="referencias">🔗 Referencias</h2>
 <ul>
-<li>(resultado 1)</li>
-<li>(resultado 2)</li>
-<li>(resultado 3)</li>
+<li>Ramalho, <em>Fluent Python</em> 2e — caps. 7 y 9.</li>
+<li><a href="https://docs.python.org/3/tutorial/controlflow.html#more-on-defining-functions">Python docs — More on Defining Functions</a></li>
+<li><a href="https://peps.python.org/pep-3102/">PEP 3102 — Keyword-Only Arguments</a></li>
 </ul>
-<h2 id="temas-clave">Temas clave</h2>
-<ul>
-<li>(subtema 1)</li>
-<li>(subtema 2)</li>
-<li>(subtema 3)</li>
-</ul>
-<h2 id="materiales">Materiales</h2>
-<ul>
-<li><code>README.md</code> — esta ficha</li>
-<li><code>notebook.ipynb</code> — cuaderno de la clase</li>
-</ul>
-<h2 id="prerrequisitos">Prerrequisitos</h2>
-<p>Ver índice general en <code>classes/README.md</code> para dependencias entre clases.</p>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../009-manejo-de-excepciones-y-context-managers/index.html">Clase 009 — Manejo de excepciones y context managers</a></p>
   </main>
   <footer class="cur-footer">
     <p>

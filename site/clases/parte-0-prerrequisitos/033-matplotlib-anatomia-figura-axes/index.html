@@ -24,33 +24,85 @@
   </header>
   <main class="cur-main">
     <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-0-prerrequisitos/033-matplotlib-anatomia-figura-axes/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
 <h1 id="clase-033-matplotlib-anatomia-figuraaxes">Clase 033 — Matplotlib: anatomía figura/axes</h1>
 <blockquote>
-<p>Parte: <strong>0-prerrequisitos</strong>
-Estado: <strong>stub</strong> (pendiente desarrollar contenido).</p>
+<p>Parte: <strong>0 — Prerrequisitos</strong> · Fuente: VanderPlas, <strong>cap. 4</strong> § 4.1 <em>Visualization with Matplotlib</em>.
+⏱️ Duración estimada: <strong>60 min</strong>.</p>
 </blockquote>
-<h2 id="objetivo">Objetivo</h2>
-<p>Describir el resultado de aprendizaje concreto de esta clase.</p>
-<h2 id="resultados-esperados">Resultados esperados</h2>
-<p>Al finalizar, el estudiante podrá:</p>
+<hr>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Que el alumno entienda la <strong>jerarquía de objetos</strong> de matplotlib (Figure → Axes → Artist) y use la <strong>API orientada a objetos</strong> (<code>fig, ax = plt.subplots()</code>) en vez del interfaz pyplot estilo MATLAB. Esto es lo que separa gráficos publicables de notebooks de cualquier curso introductorio.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar la clase, el alumno podrá:</p>
+<ol>
+<li><strong>Explicar</strong> la jerarquía Figure → Axes → Artist y por qué la API OO es preferible.</li>
+<li><strong>Crear</strong> una figura con <code>fig, ax = plt.subplots(figsize=(8, 4))</code> y configurar título, ejes, leyenda.</li>
+<li><strong>Guardar</strong> una figura a PNG/SVG/PDF con DPI controlado.</li>
+<li><strong>Cerrar figuras</strong> explícitamente para liberar memoria en notebooks que generan muchas.</li>
+<li><strong>Configurar defaults</strong> con <code>plt.rcParams</code> (font, line width, colors).</li>
+</ol>
+<h2 id="temas">🗺️ Temas</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Tema</th>
+<th>Por qué importa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Figure (canvas) → Axes (gráfico) → Artist (elementos)</td>
+<td>Modelo mental.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>pyplot vs OO API</td>
+<td><code>plt.plot</code> (state-based) vs <code>ax.plot</code> (explícito).</td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>fig, ax = plt.subplots()</code></td>
+<td>El patrón canónico.</td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>fig.savefig</code> y formatos</td>
+<td>PNG raster vs SVG/PDF vector.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Liberar memoria: <code>plt.close(fig)</code></td>
+<td>Importante en loops.</td>
+</tr>
+<tr>
+<td>6</td>
+<td><code>plt.rcParams</code> y stylesheets</td>
+<td>Defaults globales.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<p>Sintético: serie temporal corta + scatter. Sin descarga.</p>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<p><strong>1.</strong> <strong>Hello world.</strong> Crea figura 8×4, plot de <code>y = sin(x)</code> para <code>x ∈ [0, 2π]</code>. Título, xlabel, ylabel.</p>
+<p><strong>2.</strong> <strong>Dos líneas en un axes.</strong> Misma figura: <code>sin(x)</code> y <code>cos(x)</code> con colores distintos y leyenda.</p>
+<p><strong>3.</strong> <strong>Guarda 3 formatos.</strong> Mismo plot a PNG (100 DPI), PNG (300 DPI), SVG. Compara tamaños.</p>
+<p><strong>4.</strong> <strong>Loop sin leak.</strong> Genera 20 plots en loop. Cierra cada uno con <code>plt.close(fig)</code>. Verifica que <code>len(plt.get_fignums())</code> queda en 0.</p>
+<p><strong>5.</strong> <strong>rcParams.</strong> Cambia <code>font.size</code> y <code>lines.linewidth</code> para tu sesión. Verifica el efecto.</p>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Notebook: (a) figura <code>sin/cos</code> con todos los elementos (título, labels, leyenda, grid); (b) guardar PNG@300dpi y SVG; (c) generar 50 plots en loop sin memory leak; (d) demo de rcParams modificados.</p>
+<p><strong>Criterio de aceptación:</strong> Plot publicable (labels, leyenda, tamaño razonable). Loop deja 0 figuras abiertas.</p>
+<h2 id="referencias">🔗 Referencias</h2>
 <ul>
-<li>(resultado 1)</li>
-<li>(resultado 2)</li>
-<li>(resultado 3)</li>
+<li>VanderPlas, <strong>cap. 4</strong> § 4.1.</li>
+<li><a href="https://matplotlib.org/stable/users/explain/quick_start.html">matplotlib quick start</a></li>
+<li><a href="https://matplotlib.org/stable/gallery/showcase/anatomy.html">Anatomy of a figure (matplotlib gallery)</a></li>
 </ul>
-<h2 id="temas-clave">Temas clave</h2>
-<ul>
-<li>(subtema 1)</li>
-<li>(subtema 2)</li>
-<li>(subtema 3)</li>
-</ul>
-<h2 id="materiales">Materiales</h2>
-<ul>
-<li><code>README.md</code> — esta ficha</li>
-<li><code>notebook.ipynb</code> — cuaderno de la clase</li>
-</ul>
-<h2 id="prerrequisitos">Prerrequisitos</h2>
-<p>Ver índice general en <code>classes/README.md</code> para dependencias entre clases.</p>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../034-matplotlib-line-scatter-bar-histogram-boxplot/index.html">Clase 034 — Matplotlib: line, scatter, bar, histogram, boxplot</a></p>
   </main>
   <footer class="cur-footer">
     <p>

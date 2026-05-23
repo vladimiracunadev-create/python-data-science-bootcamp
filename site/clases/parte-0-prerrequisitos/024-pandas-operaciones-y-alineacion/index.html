@@ -24,33 +24,84 @@
   </header>
   <main class="cur-main">
     <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-0-prerrequisitos/024-pandas-operaciones-y-alineacion/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
 <h1 id="clase-024-pandas-operaciones-y-alineacion">Clase 024 — Pandas: operaciones y alineación</h1>
 <blockquote>
-<p>Parte: <strong>0-prerrequisitos</strong>
-Estado: <strong>stub</strong> (pendiente desarrollar contenido).</p>
+<p>Parte: <strong>0 — Prerrequisitos</strong> · Fuente: VanderPlas, <strong>cap. 3</strong> § 3.4 <em>Operating on Data in Pandas</em>.
+⏱️ Duración estimada: <strong>60 min</strong>.</p>
 </blockquote>
-<h2 id="objetivo">Objetivo</h2>
-<p>Describir el resultado de aprendizaje concreto de esta clase.</p>
-<h2 id="resultados-esperados">Resultados esperados</h2>
-<p>Al finalizar, el estudiante podrá:</p>
+<hr>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Que el alumno entienda cómo pandas <strong>alinea automáticamente por index</strong> en operaciones entre Series/DataFrames, cómo manejar NaN resultantes, y use <code>apply</code>/<code>map</code> para transformaciones custom (con consciencia de cuándo es lento).</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar la clase, el alumno podrá:</p>
+<ol>
+<li><strong>Predecir</strong> el resultado de operar dos Series/DataFrames con indexes parcialmente distintos.</li>
+<li><strong>Usar <code>fill_value</code></strong> en operaciones para no propagar NaN: <code>s1.add(s2, fill_value=0)</code>.</li>
+<li><strong>Aplicar funciones</strong> con <code>apply</code> (lento, flexible), <code>map</code> (Series), <code>applymap</code> / <code>df.map</code> (elementwise).</li>
+<li><strong>Vectorizar</strong> transformaciones cuando se puede en vez de <code>apply</code> (10–100× más rápido).</li>
+<li><strong>Usar ufuncs NumPy</strong> sobre Series — pandas las soporta directamente y preserva el index.</li>
+</ol>
+<h2 id="temas">🗺️ Temas</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Tema</th>
+<th>Por qué importa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Alineación automática por index</td>
+<td>Producto, suma, todo — pandas alinea, no asume orden.</td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>fill_value</code> para operaciones</td>
+<td>Reemplaza el NaN antes de calcular.</td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>apply</code> axis=0 vs axis=1</td>
+<td>Por columna vs por fila — costoso en filas.</td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>map</code> para Series con dict</td>
+<td><code>s.map({'A': 1, 'B': 2})</code>.</td>
+</tr>
+<tr>
+<td>5</td>
+<td><code>df.map</code> (era <code>applymap</code>) — elementwise</td>
+<td>Cell-by-cell, lento.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Vectorización &gt; apply</td>
+<td>Si puedes hacerlo con ufunc, hazlo.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<p>Sintético + Palmer Penguins. Sin descarga adicional.</p>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<p><strong>1.</strong> <strong>Suma con alineación.</strong> Dos Series con index parcialmente solapado. Súmalas (default) y con <code>fill_value=0</code>.</p>
+<p><strong>2.</strong> <strong><code>apply</code> por fila.</strong> Define una función que reciba una fila de penguins y devuelva BMI = body_mass / bill_length². Aplica con <code>axis=1</code>.</p>
+<p><strong>3.</strong> <strong>Mismo cálculo vectorizado.</strong> Implementa BMI con operaciones vectorizadas. Mide ambos con <code>%timeit</code>.</p>
+<p><strong>4.</strong> <strong><code>map</code> con dict.</strong> Mapea <code>species</code> a códigos: <code>{'Adelie': 0, 'Chinstrap': 1, 'Gentoo': 2}</code>.</p>
+<p><strong>5.</strong> <strong>ufunc NumPy preserva index.</strong> Aplica <code>np.log</code> a una columna; verifica que el index sigue intacto.</p>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Notebook con penguins: (a) BMI por fila con <code>apply</code> vs vectorizado (tabla <code>%timeit</code>); (b) species → código numérico con <code>map</code>; (c) demo de alineación con <code>fill_value</code>; (d) <code>np.log</code> sobre body_mass preservando index.</p>
+<p><strong>Criterio de aceptación:</strong> Vectorizado &gt;50× más rápido que apply. Mapping y alineación correctos.</p>
+<h2 id="referencias">🔗 Referencias</h2>
 <ul>
-<li>(resultado 1)</li>
-<li>(resultado 2)</li>
-<li>(resultado 3)</li>
+<li>VanderPlas, <strong>cap. 3</strong> § 3.4.</li>
+<li><a href="https://pandas.pydata.org/docs/user_guide/basics.html#function-application">pandas — apply, map</a></li>
 </ul>
-<h2 id="temas-clave">Temas clave</h2>
-<ul>
-<li>(subtema 1)</li>
-<li>(subtema 2)</li>
-<li>(subtema 3)</li>
-</ul>
-<h2 id="materiales">Materiales</h2>
-<ul>
-<li><code>README.md</code> — esta ficha</li>
-<li><code>notebook.ipynb</code> — cuaderno de la clase</li>
-</ul>
-<h2 id="prerrequisitos">Prerrequisitos</h2>
-<p>Ver índice general en <code>classes/README.md</code> para dependencias entre clases.</p>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../025-pandas-datos-faltantes/index.html">Clase 025 — Pandas: datos faltantes</a></p>
   </main>
   <footer class="cur-footer">
     <p>

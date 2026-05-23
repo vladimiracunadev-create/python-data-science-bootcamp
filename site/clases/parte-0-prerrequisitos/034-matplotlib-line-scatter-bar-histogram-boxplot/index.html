@@ -24,33 +24,84 @@
   </header>
   <main class="cur-main">
     <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-0-prerrequisitos/034-matplotlib-line-scatter-bar-histogram-boxplot/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
 <h1 id="clase-034-matplotlib-line-scatter-bar-histogram-boxplot">Clase 034 — Matplotlib: line, scatter, bar, histogram, boxplot</h1>
 <blockquote>
-<p>Parte: <strong>0-prerrequisitos</strong>
-Estado: <strong>stub</strong> (pendiente desarrollar contenido).</p>
+<p>Parte: <strong>0 — Prerrequisitos</strong> · Fuente: VanderPlas, <strong>cap. 4</strong> §§ 4.2–4.5 <em>Simple Line/Scatter/Bar/Histogram Plots</em>.
+⏱️ Duración estimada: <strong>75 min</strong>.</p>
 </blockquote>
-<h2 id="objetivo">Objetivo</h2>
-<p>Describir el resultado de aprendizaje concreto de esta clase.</p>
-<h2 id="resultados-esperados">Resultados esperados</h2>
-<p>Al finalizar, el estudiante podrá:</p>
+<hr>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Que el alumno conozca los <strong>5 plots básicos</strong> que cubren el 80% del trabajo de EDA, y sepa <strong>cuándo cada uno</strong>: line (tendencia temporal), scatter (relación dos variables), bar (categóricas), histogram (distribución), boxplot (5 estadísticos + outliers).</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar la clase, el alumno podrá:</p>
+<ol>
+<li><strong>Elegir el plot correcto</strong> según el tipo de variables (continua/categórica) y el objetivo.</li>
+<li><strong>Ajustar marker, color, linestyle, alpha</strong> para legibilidad.</li>
+<li><strong>Construir histogramas</strong> con bins adecuados (regla de Freedman-Diaconis o <code>'auto'</code>).</li>
+<li><strong>Interpretar boxplot</strong>: mediana, Q1/Q3, whiskers, outliers.</li>
+<li><strong>Combinar</strong> bar + error bars para mostrar incertidumbre.</li>
+</ol>
+<h2 id="temas">🗺️ Temas</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Tema</th>
+<th>Por qué importa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Line: tendencias y series temporales</td>
+<td>El más fácil de leer mal.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Scatter: relación entre dos variables</td>
+<td>Con <code>c=</code> y <code>s=</code> para 3ª/4ª dimensión.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Bar y barh: categóricas</td>
+<td>Vertical vs horizontal.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Histogram: distribución de una continua</td>
+<td>Bins importan.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Boxplot: distribución resumida + outliers</td>
+<td>Cuando hay muchos grupos.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Errorbar y fill_between</td>
+<td>Mostrar incertidumbre.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<p>Palmer Penguins. Sin descarga adicional.</p>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<p><strong>1.</strong> <strong>Line.</strong> Serie temporal de ventas mensuales (sintética). Anota máximo con flecha.</p>
+<p><strong>2.</strong> <strong>Scatter.</strong> body_mass vs bill_length, color por species. Adicionalmente: <code>s=</code> con flipper_length para tamaño.</p>
+<p><strong>3.</strong> <strong>Bar.</strong> Count por species, ordenado descendente. Vertical y horizontal — compara legibilidad.</p>
+<p><strong>4.</strong> <strong>Histogram.</strong> Distribución de body_mass con bins='auto' y bins=10. Compara.</p>
+<p><strong>5.</strong> <strong>Boxplot.</strong> body_mass por species: 3 cajas lado a lado. Identifica outliers.</p>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Notebook con penguins: (a) 5 plots básicos cada uno bien etiquetado; (b) scatter decorado con color y tamaño codificando 3 dimensiones; (c) bar con errorbars de std; (d) boxplot agrupado con interpretación de outliers.</p>
+<p><strong>Criterio de aceptación:</strong> Cada plot tiene título, labels, leyenda donde aplica. Bins justificados.</p>
+<h2 id="referencias">🔗 Referencias</h2>
 <ul>
-<li>(resultado 1)</li>
-<li>(resultado 2)</li>
-<li>(resultado 3)</li>
+<li>VanderPlas, <strong>cap. 4</strong> §§ 4.2-4.5.</li>
+<li><a href="https://matplotlib.org/stable/gallery/index.html">matplotlib gallery</a></li>
 </ul>
-<h2 id="temas-clave">Temas clave</h2>
-<ul>
-<li>(subtema 1)</li>
-<li>(subtema 2)</li>
-<li>(subtema 3)</li>
-</ul>
-<h2 id="materiales">Materiales</h2>
-<ul>
-<li><code>README.md</code> — esta ficha</li>
-<li><code>notebook.ipynb</code> — cuaderno de la clase</li>
-</ul>
-<h2 id="prerrequisitos">Prerrequisitos</h2>
-<p>Ver índice general en <code>classes/README.md</code> para dependencias entre clases.</p>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../035-matplotlib-subplots-y-gridspec/index.html">Clase 035 — Matplotlib: subplots y gridspec</a></p>
   </main>
   <footer class="cur-footer">
     <p>

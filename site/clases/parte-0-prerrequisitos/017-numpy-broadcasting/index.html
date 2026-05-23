@@ -24,33 +24,141 @@
   </header>
   <main class="cur-main">
     <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-0-prerrequisitos/017-numpy-broadcasting/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
 <h1 id="clase-017-numpy-broadcasting">Clase 017 — NumPy: broadcasting</h1>
 <blockquote>
-<p>Parte: <strong>0-prerrequisitos</strong>
-Estado: <strong>stub</strong> (pendiente desarrollar contenido).</p>
+<p>Parte: <strong>0 — Prerrequisitos</strong> · Fuente: VanderPlas, <strong>cap. 2</strong> § 2.5 <em>Computation on Arrays: Broadcasting</em>.
+⏱️ Duración estimada: <strong>75 min</strong>.</p>
 </blockquote>
-<h2 id="objetivo">Objetivo</h2>
-<p>Describir el resultado de aprendizaje concreto de esta clase.</p>
-<h2 id="resultados-esperados">Resultados esperados</h2>
-<p>Al finalizar, el estudiante podrá:</p>
+<hr>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Que el alumno <strong>internalice las reglas de broadcasting</strong> — el mecanismo por el que NumPy operó arrays de shapes distintos sin copiar datos. Es lo que hace que <code>M - M.mean(axis=0)</code> centrado por columna sea una línea, no un bucle anidado.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar la clase, el alumno podrá:</p>
+<ol>
+<li><strong>Recitar las 3 reglas</strong> de broadcasting (alinea por la derecha, dim 1 estira, falla si no es 1 ni igual).</li>
+<li><strong>Predecir</strong> la shape del resultado de una operación entre arrays de shapes distintos.</li>
+<li><strong>Centrar y escalar</strong> matrices por fila/columna sin loops.</li>
+<li><strong>Usar <code>np.newaxis</code></strong> (o <code>None</code>) para promover un vector a matriz fila/columna.</li>
+<li><strong>Diagnosticar</strong> un <code>ValueError: operands could not be broadcast together</code> leyendo las shapes.</li>
+</ol>
+<h2 id="temas">🗺️ Temas</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Tema</th>
+<th>Por qué importa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Las 3 reglas</td>
+<td>Padding a la derecha, dim 1 estira, error si no coincide.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Vector + matriz</td>
+<td>Vector como fila o como columna.</td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>np.newaxis</code> / <code>None</code></td>
+<td>Insertar eje de tamaño 1.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Caso canónico: centrar/escalar</td>
+<td><code>X - X.mean(axis=0)</code> y <code>(X - μ) / σ</code>.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Outer product sin loop</td>
+<td><code>a[:, None] * b[None, :]</code>.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>ValueError común: "operands could not be broadcast together"</td>
+<td>Cómo leerlo.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<dl>
+<dt><strong>Broadcasting</strong></dt>
+<dd>Mecanismo por el que NumPy opera arrays de shapes distintos <strong>sin copiar memoria</strong>, estirando virtualmente las dimensiones de tamaño 1. Lo que hace posible <code>X - X.mean(axis=0)</code> (centrado por columna) en una línea sin loops.</dd>
+<dt><strong>Regla 1 — padding por la izquierda</strong></dt>
+<dd>Si los arrays tienen distinta cantidad de dimensiones, la shape del menor se rellena con <code>1</code>s a la izquierda. <code>(4,)</code> operado con <code>(3, 4)</code> se trata como <code>(1, 4)</code> vs <code>(3, 4)</code>.</dd>
+<dt><strong>Regla 2 — estirar dim 1</strong></dt>
+<dd>En cada dimensión donde los tamaños difieren, si uno es <code>1</code> se estira al otro. <code>(3, 1)</code> y <code>(3, 4)</code> → ambos <code>(3, 4)</code> (la primera se estira en eje 1).</dd>
+<dt><strong>Regla 3 — fallo</strong></dt>
+<dd>Si en alguna dimensión los tamaños son distintos y <strong>ninguno es 1</strong>, lanza <code>ValueError: operands could not be broadcast together</code>. No hay forma de inferir qué hacer.</dd>
+<dt><strong><code>np.newaxis</code> (alias <code>None</code>)</strong></dt>
+<dd>Inserta una dimensión de tamaño 1 donde lo pongas. <code>v[:, None]</code> convierte vector <code>(3,)</code> en columna <code>(3, 1)</code>. Crítico para forzar broadcasting en la dirección correcta.</dd>
+<dt><strong>Outer product vía broadcasting</strong></dt>
+<dd><code>a[:, None] * b[None, :]</code> produce matriz <code>(len(a), len(b))</code> con todos los productos par a par — equivalente a <code>np.outer(a, b)</code> pero usando broadcasting puro.</dd>
+</dl>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<p>Sintético: matriz de features 100×5 para estandarización. Sin descarga.</p>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<p><strong>1.</strong> <strong>Predice antes de ejecutar.</strong> Para shapes <code>(3,)</code>, <code>(3,1)</code>, <code>(1,3)</code>, <code>(2,3,4)</code> × <code>(4,)</code>, predice la shape del resultado. Verifica.</p>
+<p><strong>2.</strong> <strong>Estandariza features.</strong> Matriz 100×5 aleatoria. Resta media por columna y divide por std por columna en una línea.</p>
+<p><strong>3.</strong> <strong>Outer product.</strong> Vectores <code>a=[1,2,3]</code>, <code>b=[10,20,30,40]</code>. Calcula la matriz outer (3×4) sin <code>np.outer</code>, solo broadcasting.</p>
+<p><strong>4.</strong> <strong>Distance matrix.</strong> Dados 5 puntos 2D, construye matriz 5×5 de distancias euclídeas entre pares — sin <code>cdist</code>, solo broadcasting.</p>
+<p><strong>5.</strong> <strong>Diagnostica error.</strong> Intenta <code>np.ones((3,4)) + np.ones((4,3))</code>. Lee el ValueError y explica.</p>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Notebook que: (a) predice shapes de 4 operaciones broadcasting y verifica; (b) estandariza una matriz feature por columna en una línea; (c) construye distance matrix de 100 puntos sin loop; (d) provoca y explica un error de broadcasting.</p>
+<p><strong>Criterio de aceptación:</strong> Las predicciones coinciden. Estandarización: media≈0, std≈1 por columna.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ValueError: operands could not be broadcast together with shapes (3,4) (4,3)</code></td>
+<td>Las shapes alineadas por la derecha no son compatibles. <strong>Fix</strong>: lee el error literal, alinea shapes a la derecha mentalmente, transpone (<code>.T</code>) uno o ajusta con <code>newaxis</code>.</td>
+</tr>
+<tr>
+<td>Resté <code>M.mean(axis=0)</code> y los promedios quedaron MAL</td>
+<td><code>mean(axis=0)</code> devuelve shape <code>(n_cols,)</code> — se broadcastea como FILA. Si querías restar por fila, usa <code>M.mean(axis=1)[:, None]</code> para que se broadcastee como COLUMNA.</td>
+</tr>
+<tr>
+<td><code>a + b</code> con shapes <code>(3,)</code> y <code>(3,)</code> da escalar (suma punto)</td>
+<td><strong>No</strong> — da array <code>(3,)</code> elementwise. Producto punto es <code>np.dot(a, b)</code> o <code>a @ b</code>. Confundir esto es el bug #1 al empezar.</td>
+</tr>
+<tr>
+<td>Memoria explota en una operación 'inocente'</td>
+<td><code>X[:, None, :] - X[None, :, :]</code> produce array <code>(N, N, D)</code>. Si N=10000, son 100M × D elementos. <strong>Fix</strong>: usa <code>scipy.spatial.distance.cdist</code> o procesa por chunks.</td>
+</tr>
+<tr>
+<td><code>a[None] + b</code> no se broadcastea como espero</td>
+<td><code>a[None]</code> añade dim al inicio. Quizás querías <code>a[:, None]</code> (al medio) o <code>a[None, :]</code> (explícito). Usa <code>print(arr.shape)</code> siempre antes de operar.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿Cómo predigo la shape del resultado?</strong></p>
+<p>(1) Alinea las shapes por la derecha. (2) En cada columna alineada: si son iguales o uno es 1, OK; si no, error. (3) Resultado: por dimensión, toma el <code>max</code> de las dos.</p>
+<p><strong>❓ ¿Broadcasting copia memoria?</strong></p>
+<p><strong>No</strong> — es virtual. NumPy itera con strides 0 en las dims estiradas. Por eso es tan eficiente: cero alloc extra (excepto el array resultado).</p>
+<p><strong>❓ ¿<code>X - X.mean(0)</code> o <code>X - X.mean(0, keepdims=True)</code>?</strong></p>
+<p>Para 2D ambos funcionan (broadcasting alinea). En 3D+, <code>keepdims=True</code> preserva la dimensión como <code>1</code> y evita confusiones. Recomendado en general.</p>
+<p><strong>❓ ¿<code>np.newaxis</code> o <code>None</code>?</strong></p>
+<p>Aliases — <code>arr[:, None]</code> y <code>arr[:, np.newaxis]</code> son idénticos. <code>None</code> es más conciso; muchos prefieren <code>np.newaxis</code> por explicitud.</p>
+<p><strong>❓ ¿Qué hago si broadcasting no me sirve?</strong></p>
+<p>Operaciones que no se ajustan a las reglas: usa <code>np.einsum</code> (más expresivo), <code>np.tensordot</code>, o reshape explícito. Como último recurso, loop Python — pero busca librería específica antes.</p>
+<h2 id="referencias">🔗 Referencias</h2>
 <ul>
-<li>(resultado 1)</li>
-<li>(resultado 2)</li>
-<li>(resultado 3)</li>
+<li>VanderPlas, <strong>cap. 2</strong> § 2.5 <em>Broadcasting</em>.</li>
+<li><a href="https://numpy.org/doc/stable/user/basics.broadcasting.html">NumPy broadcasting docs</a></li>
 </ul>
-<h2 id="temas-clave">Temas clave</h2>
-<ul>
-<li>(subtema 1)</li>
-<li>(subtema 2)</li>
-<li>(subtema 3)</li>
-</ul>
-<h2 id="materiales">Materiales</h2>
-<ul>
-<li><code>README.md</code> — esta ficha</li>
-<li><code>notebook.ipynb</code> — cuaderno de la clase</li>
-</ul>
-<h2 id="prerrequisitos">Prerrequisitos</h2>
-<p>Ver índice general en <code>classes/README.md</code> para dependencias entre clases.</p>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../018-numpy-boolean-masks-y-fancy-indexing/index.html">Clase 018 — NumPy: boolean masks y fancy indexing</a></p>
   </main>
   <footer class="cur-footer">
     <p>

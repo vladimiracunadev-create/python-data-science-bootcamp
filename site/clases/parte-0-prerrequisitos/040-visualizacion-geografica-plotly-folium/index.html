@@ -24,33 +24,85 @@
   </header>
   <main class="cur-main">
     <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-0-prerrequisitos/040-visualizacion-geografica-plotly-folium/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
 <h1 id="clase-040-visualizacion-geografica-plotly-folium">Clase 040 — Visualización geográfica (Plotly / folium)</h1>
 <blockquote>
-<p>Parte: <strong>0-prerrequisitos</strong>
-Estado: <strong>stub</strong> (pendiente desarrollar contenido).</p>
+<p>Parte: <strong>0 — Prerrequisitos</strong> · Fuente: Plotly Choropleth docs · folium docs · <em>Cartographies of the Mind</em> (background).
+⏱️ Duración estimada: <strong>60 min</strong>.</p>
 </blockquote>
-<h2 id="objetivo">Objetivo</h2>
-<p>Describir el resultado de aprendizaje concreto de esta clase.</p>
-<h2 id="resultados-esperados">Resultados esperados</h2>
-<p>Al finalizar, el estudiante podrá:</p>
+<hr>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Que el alumno construya mapas básicos cuando los datos tienen componente geográfico: <strong>folium</strong> (mapas Leaflet interactivos, markers, choropleth), <strong>plotly</strong> (choropleth, scatter geo). Sin entrar a GIS profundo (eso es geopandas, fuera del scope de Parte 0).</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar la clase, el alumno podrá:</p>
+<ol>
+<li><strong>Crear mapa folium</strong> centrado, con tile layer básico.</li>
+<li><strong>Añadir markers</strong> con popup, tooltip, color según valor.</li>
+<li><strong>Construir choropleth</strong> (mapa de calor por región) con folium o plotly.</li>
+<li><strong>Decidir entre folium y plotly geo</strong> según destino (HTML standalone vs dashboard).</li>
+<li><strong>Citar fuentes</strong> de tiles y GeoJSON públicos.</li>
+</ol>
+<h2 id="temas">🗺️ Temas</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Tema</th>
+<th>Por qué importa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Sistemas de coordenadas: lat/lng</td>
+<td>Convención: lat primero en folium, lng primero en plotly.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>folium: mapa + markers + popups</td>
+<td>Mapas Leaflet en notebook.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>folium choropleth con GeoJSON</td>
+<td>Mapas de calor por país/región.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>plotly choropleth y scatter_geo</td>
+<td>Cuando ya usas plotly.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Tile providers (OSM, CartoDB)</td>
+<td>Estética y licencia.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Cuándo geopandas</td>
+<td>Análisis geoespacial real.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<p>Sintético: lista de ciudades con coords + métrica simulada. GeoJSON de países público desde un CDN para choropleth.</p>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<p><strong>1.</strong> <strong>Mapa con markers.</strong> 5 ciudades españolas con marker y popup mostrando nombre + población.</p>
+<p><strong>2.</strong> <strong>Markers coloreados.</strong> Mismo, pero color verde si pop&gt;1M, rojo si &lt;500k.</p>
+<p><strong>3.</strong> <strong>Choropleth folium.</strong> Mapa mundial con un valor sintético por país (ej: PIB).</p>
+<p><strong>4.</strong> <strong>Choropleth plotly.</strong> Lo mismo con <code>plotly.express.choropleth</code>.</p>
+<p><strong>5.</strong> <strong>Comparar.</strong> ¿Cuándo folium (mapa físico explorable) vs plotly (integra con dashboard)?</p>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Notebook: (a) mapa folium con 10+ markers + popups + tooltips; (b) choropleth folium de un dataset por país; (c) mismo choropleth con plotly express; (d) reporte 1-párrafo comparando ambos.</p>
+<p><strong>Criterio de aceptación:</strong> Mapas funcionales en notebook; popups muestran info correcta; choropleth con leyenda.</p>
+<h2 id="referencias">🔗 Referencias</h2>
 <ul>
-<li>(resultado 1)</li>
-<li>(resultado 2)</li>
-<li>(resultado 3)</li>
+<li><a href="https://python-visualization.github.io/folium/">folium docs</a></li>
+<li><a href="https://plotly.com/python/choropleth-maps/">plotly choropleth docs</a></li>
+<li><a href="https://datahub.io/core/geo-countries">Natural Earth GeoJSON</a></li>
 </ul>
-<h2 id="temas-clave">Temas clave</h2>
-<ul>
-<li>(subtema 1)</li>
-<li>(subtema 2)</li>
-<li>(subtema 3)</li>
-</ul>
-<h2 id="materiales">Materiales</h2>
-<ul>
-<li><code>README.md</code> — esta ficha</li>
-<li><code>notebook.ipynb</code> — cuaderno de la clase</li>
-</ul>
-<h2 id="prerrequisitos">Prerrequisitos</h2>
-<p>Ver índice general en <code>classes/README.md</code> para dependencias entre clases.</p>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../041-sql-fundamental-select-where-join-group-by-having/index.html">Clase 041 — SQL fundamental</a></p>
   </main>
   <footer class="cur-footer">
     <p>

@@ -24,33 +24,84 @@
   </header>
   <main class="cur-main">
     <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-0-prerrequisitos/036-matplotlib-legends-colorbars-ticks-anotaciones/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
 <h1 id="clase-036-matplotlib-legends-colorbars-ticks-anotaciones">Clase 036 — Matplotlib: legends, colorbars, ticks, anotaciones</h1>
 <blockquote>
-<p>Parte: <strong>0-prerrequisitos</strong>
-Estado: <strong>stub</strong> (pendiente desarrollar contenido).</p>
+<p>Parte: <strong>0 — Prerrequisitos</strong> · Fuente: VanderPlas, <strong>cap. 4</strong> §§ 4.7–4.9 <em>Customizing Legends, Colorbars, Ticks</em>.
+⏱️ Duración estimada: <strong>60 min</strong>.</p>
 </blockquote>
-<h2 id="objetivo">Objetivo</h2>
-<p>Describir el resultado de aprendizaje concreto de esta clase.</p>
-<h2 id="resultados-esperados">Resultados esperados</h2>
-<p>Al finalizar, el estudiante podrá:</p>
+<hr>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Que el alumno controle los detalles que distinguen un plot ad-hoc de uno publicable: leyenda fuera del gráfico, colorbar discreto, ticks personalizados, y anotaciones (flechas, texto) para guiar la atención del lector.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar la clase, el alumno podrá:</p>
+<ol>
+<li><strong>Posicionar leyenda</strong> fuera del axes con <code>bbox_to_anchor</code>.</li>
+<li><strong>Configurar colorbar</strong> con label, ticks discretos, y categoría.</li>
+<li><strong>Personalizar ticks</strong>: rotación, formato (<code>FuncFormatter</code>, <code>PercentFormatter</code>), scale log.</li>
+<li><strong>Anotar puntos</strong> con <code>ax.annotate(..., xy=..., xytext=..., arrowprops=...)</code>.</li>
+<li><strong>Añadir líneas de referencia</strong> con <code>axhline</code>/<code>axvline</code> (umbrales, medias).</li>
+</ol>
+<h2 id="temas">🗺️ Temas</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Tema</th>
+<th>Por qué importa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Legend con bbox_to_anchor</td>
+<td>Sacarla del axes.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Colorbar con label y ticks discretos</td>
+<td>Cuando hay codificación por color.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Tick formatters: percent, scientific, custom</td>
+<td>Legibilidad.</td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>ax.annotate</code> con flecha</td>
+<td>Resaltar un punto específico.</td>
+</tr>
+<tr>
+<td>5</td>
+<td><code>axhline</code> / <code>axvline</code> / <code>axhspan</code></td>
+<td>Líneas y bandas de referencia.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Log scale: <code>ax.set_yscale('log')</code></td>
+<td>Cuando hay rango grande.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<p>Sintético: serie con outliers, scatter con categorías.</p>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<p><strong>1.</strong> <strong>Leyenda fuera.</strong> Plot con 5 líneas, leyenda a la derecha fuera del axes.</p>
+<p><strong>2.</strong> <strong>Colorbar.</strong> Scatter con <code>c=</code> continuo (ej: density), colorbar con label.</p>
+<p><strong>3.</strong> <strong>PercentFormatter.</strong> Bar chart con eje Y formateado como porcentaje.</p>
+<p><strong>4.</strong> <strong>Anotar outlier.</strong> Scatter con un punto extremo; flecha + texto identificándolo.</p>
+<p><strong>5.</strong> <strong>Log scale.</strong> Plot de valores con rango grande (1, 10, 100, 1000); compara linear vs log.</p>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Notebook con: (a) plot multi-línea con leyenda externa; (b) scatter con colorbar etiquetado; (c) bar % usando PercentFormatter; (d) plot con anotación de máximo via flecha; (e) comparativa lineal vs log en datos exponenciales.</p>
+<p><strong>Criterio de aceptación:</strong> Cada elemento visual tiene propósito. Anotaciones legibles, no superpuestas.</p>
+<h2 id="referencias">🔗 Referencias</h2>
 <ul>
-<li>(resultado 1)</li>
-<li>(resultado 2)</li>
-<li>(resultado 3)</li>
+<li>VanderPlas, <strong>cap. 4</strong> §§ 4.7-4.9.</li>
+<li><a href="https://matplotlib.org/stable/users/explain/text/annotations.html">matplotlib text and annotations</a></li>
 </ul>
-<h2 id="temas-clave">Temas clave</h2>
-<ul>
-<li>(subtema 1)</li>
-<li>(subtema 2)</li>
-<li>(subtema 3)</li>
-</ul>
-<h2 id="materiales">Materiales</h2>
-<ul>
-<li><code>README.md</code> — esta ficha</li>
-<li><code>notebook.ipynb</code> — cuaderno de la clase</li>
-</ul>
-<h2 id="prerrequisitos">Prerrequisitos</h2>
-<p>Ver índice general en <code>classes/README.md</code> para dependencias entre clases.</p>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../037-matplotlib-stylesheets/index.html">Clase 037 — Matplotlib: stylesheets</a></p>
   </main>
   <footer class="cur-footer">
     <p>

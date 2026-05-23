@@ -24,33 +24,90 @@
   </header>
   <main class="cur-main">
     <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-0-prerrequisitos/042-sql-avanzado-ctes-window-functions-subqueries-correlacionadas/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
 <h1 id="clase-042-sql-avanzado-ctes-window-functions-subqueries-correlacionadas">Clase 042 — SQL avanzado: CTEs, window functions, subqueries correlacionadas</h1>
 <blockquote>
-<p>Parte: <strong>0-prerrequisitos</strong>
-Estado: <strong>stub</strong> (pendiente desarrollar contenido).</p>
+<p>Parte: <strong>0 — Prerrequisitos</strong> · Fuente: Tanimura, <em>SQL for Data Scientists</em> caps. 4-5 · PostgreSQL docs (window functions).
+⏱️ Duración estimada: <strong>120 min</strong>.</p>
 </blockquote>
-<h2 id="objetivo">Objetivo</h2>
-<p>Describir el resultado de aprendizaje concreto de esta clase.</p>
-<h2 id="resultados-esperados">Resultados esperados</h2>
-<p>Al finalizar, el estudiante podrá:</p>
+<hr>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Que el alumno escriba SQL legible y potente: <strong>CTEs</strong> (<code>WITH</code>) para descomponer queries complejas, <strong>window functions</strong> (<code>OVER</code>) para rankings/totales corridos/lag/lead sin perder filas, y <strong>subqueries correlacionadas</strong> cuando aportan.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar la clase, el alumno podrá:</p>
+<ol>
+<li><strong>Escribir CTEs</strong> con <code>WITH name AS (...)</code> para mejorar legibilidad.</li>
+<li><strong>Encadenar múltiples CTEs</strong>: <code>WITH a AS (...), b AS (...) SELECT ...</code>.</li>
+<li><strong>Aplicar window functions</strong>: <code>ROW_NUMBER()</code>, <code>RANK()</code>, <code>LAG()</code>, <code>LEAD()</code>, <code>SUM() OVER (PARTITION BY ... ORDER BY ...)</code>.</li>
+<li><strong>Calcular ranking</strong> por grupo con <code>ROW_NUMBER() OVER (PARTITION BY ...)</code>.</li>
+<li><strong>Diferenciar</strong> subquery (independiente) vs correlacionada (depende de la outer).</li>
+</ol>
+<h2 id="temas">🗺️ Temas</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Tema</th>
+<th>Por qué importa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>CTEs: <code>WITH name AS (...)</code></td>
+<td>Descomponer queries largas.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Múltiples CTEs encadenadas</td>
+<td>Pipeline legible.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Recursive CTEs</td>
+<td>Jerarquías, grafos.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Window functions: <code>OVER (PARTITION BY ... ORDER BY ...)</code></td>
+<td>Agregar sin colapsar filas.</td>
+</tr>
+<tr>
+<td>5</td>
+<td><code>ROW_NUMBER</code>, <code>RANK</code>, <code>DENSE_RANK</code></td>
+<td>Diferencias sutiles.</td>
+</tr>
+<tr>
+<td>6</td>
+<td><code>LAG</code>, <code>LEAD</code>: comparar con fila anterior/siguiente</td>
+<td>Series temporales.</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Subqueries correlacionadas</td>
+<td>Cuando la subquery depende de la outer.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<p>SQLite con <code>ordenes</code> (cliente_id, fecha, monto) de clase 041 — extendido. Sin descarga.</p>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<p><strong>1.</strong> <strong>CTE básica.</strong> Reescribe una query con subquery anidada usando <code>WITH</code>.</p>
+<p><strong>2.</strong> <strong>ROW_NUMBER por grupo.</strong> Top-1 orden por cliente (mayor monto).</p>
+<p><strong>3.</strong> <strong>Total corrido.</strong> <code>SUM(monto) OVER (PARTITION BY cliente_id ORDER BY fecha)</code> — total acumulado por cliente.</p>
+<p><strong>4.</strong> <strong>LAG.</strong> Por cliente, diferencia entre el monto actual y el anterior.</p>
+<p><strong>5.</strong> <strong>Recursive CTE.</strong> Genera serie de fechas día a día desde 2024-01-01 a 2024-01-31.</p>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Notebook: (a) 3 versiones de la misma query (anidada → CTE → CTEs múltiples) comparando legibilidad; (b) top-3 órdenes por cliente con <code>ROW_NUMBER</code>; (c) total corrido y delta vs orden anterior; (d) recursive CTE para calendario diario.</p>
+<p><strong>Criterio de aceptación:</strong> Las 3 versiones devuelven exactamente el mismo resultado. Window functions sin error.</p>
+<h2 id="referencias">🔗 Referencias</h2>
 <ul>
-<li>(resultado 1)</li>
-<li>(resultado 2)</li>
-<li>(resultado 3)</li>
+<li>Tanimura, <em>SQL for Data Scientists</em>, caps. 4-5.</li>
+<li><a href="https://www.postgresql.org/docs/current/tutorial-window.html">PostgreSQL window functions tutorial</a></li>
+<li><a href="https://modern-sql.com/feature/with">Modern SQL — CTEs</a></li>
 </ul>
-<h2 id="temas-clave">Temas clave</h2>
-<ul>
-<li>(subtema 1)</li>
-<li>(subtema 2)</li>
-<li>(subtema 3)</li>
-</ul>
-<h2 id="materiales">Materiales</h2>
-<ul>
-<li><code>README.md</code> — esta ficha</li>
-<li><code>notebook.ipynb</code> — cuaderno de la clase</li>
-</ul>
-<h2 id="prerrequisitos">Prerrequisitos</h2>
-<p>Ver índice general en <code>classes/README.md</code> para dependencias entre clases.</p>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../043-sql-desde-python-sqlite3-sqlalchemy-duckdb/index.html">Clase 043 — SQL desde Python (sqlite3, SQLAlchemy, DuckDB)</a></p>
   </main>
   <footer class="cur-footer">
     <p>

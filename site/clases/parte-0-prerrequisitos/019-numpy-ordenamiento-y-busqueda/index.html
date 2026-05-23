@@ -24,33 +24,139 @@
   </header>
   <main class="cur-main">
     <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-0-prerrequisitos/019-numpy-ordenamiento-y-busqueda/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
 <h1 id="clase-019-numpy-ordenamiento-y-busqueda">Clase 019 — NumPy: ordenamiento y búsqueda</h1>
 <blockquote>
-<p>Parte: <strong>0-prerrequisitos</strong>
-Estado: <strong>stub</strong> (pendiente desarrollar contenido).</p>
+<p>Parte: <strong>0 — Prerrequisitos</strong> · Fuente: VanderPlas, <strong>cap. 2</strong> § 2.8 <em>Sorting Arrays</em> · NumPy sorting reference.
+⏱️ Duración estimada: <strong>60 min</strong>.</p>
 </blockquote>
-<h2 id="objetivo">Objetivo</h2>
-<p>Describir el resultado de aprendizaje concreto de esta clase.</p>
-<h2 id="resultados-esperados">Resultados esperados</h2>
-<p>Al finalizar, el estudiante podrá:</p>
+<hr>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Que el alumno ordene arrays con criterio: <code>sort</code> vs <code>argsort</code>, ordenamiento por eje, partial sort con <code>partition</code>, y búsqueda binaria con <code>searchsorted</code>. Útil para top-K, rankings, alineación de series.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar la clase, el alumno podrá:</p>
+<ol>
+<li><strong>Ordenar</strong> con <code>np.sort(arr)</code> (devuelve copia) y <code>arr.sort()</code> (in-place).</li>
+<li><strong>Obtener índices del orden</strong> con <code>argsort</code> — base de top-K y rankings.</li>
+<li><strong>Ordenar por eje</strong> en matrices con <code>axis=0</code> o <code>axis=1</code>.</li>
+<li><strong>Top-K eficiente</strong> con <code>np.partition</code> (no ordena completo, solo separa).</li>
+<li><strong>Búsqueda binaria</strong> con <code>np.searchsorted</code> en arrays ordenados (O(log n)).</li>
+</ol>
+<h2 id="temas">🗺️ Temas</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Tema</th>
+<th>Por qué importa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><code>np.sort</code> vs <code>arr.sort()</code></td>
+<td>Copia vs in-place.</td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>argsort</code>: el truco del top-K</td>
+<td>Índices que ordenarían el array.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Ordenamiento por eje</td>
+<td>Por fila o por columna.</td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>np.partition</code> para top-K</td>
+<td>Más rápido que sort completo.</td>
+</tr>
+<tr>
+<td>5</td>
+<td><code>np.searchsorted</code> — binaria O(log n)</td>
+<td>Inserción en array ordenado.</td>
+</tr>
+<tr>
+<td>6</td>
+<td><code>np.unique</code></td>
+<td>Únicos + opcionalmente cuentas.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<dl>
+<dt><strong><code>np.sort</code> vs <code>arr.sort()</code></strong></dt>
+<dd><strong><code>np.sort(arr)</code></strong> devuelve copia ordenada (no muta). <strong><code>arr.sort()</code></strong> ordena in-place y retorna None. Mismo patrón que <code>sorted(list)</code> vs <code>list.sort()</code>.</dd>
+<dt><strong><code>argsort</code></strong></dt>
+<dd>Devuelve los <strong>índices</strong> que ordenarían el array. <code>idx = arr.argsort(); ordenado = arr[idx]</code>. Base de top-K, rankings, alineación entre arrays correlacionados.</dd>
+<dt><strong><code>np.partition</code></strong></dt>
+<dd>Quick-select O(n): garantiza que los K menores quedan en las primeras K posiciones (no necesariamente ordenados entre sí), el resto después. Mucho más rápido que sort completo cuando solo necesitas top-K.</dd>
+<dt><strong><code>np.searchsorted</code></strong></dt>
+<dd>Búsqueda binaria O(log n) en array ordenado. Devuelve el índice donde insertar un valor para mantener orden. Útil para calcular percentiles, bucketing.</dd>
+<dt><strong><code>np.unique</code></strong></dt>
+<dd>Devuelve únicos ordenados. Con <code>return_counts=True</code> devuelve también las frecuencias — alternativa rápida a <code>Counter</code> para datos numéricos.</dd>
+</dl>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<p>Sintético: puntajes de 1M estudiantes. Sin descarga.</p>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<p><strong>1.</strong> <strong>Top-10.</strong> Dado array de 1M puntajes, obtén los 10 más altos. Compara <code>np.sort()[-10:]</code> vs <code>np.partition</code>.</p>
+<p><strong>2.</strong> <strong>Ranking.</strong> Con <code>argsort</code>, asigna a cada estudiante su ranking (1 = mejor).</p>
+<p><strong>3.</strong> <strong>Ordena matriz por columna.</strong> Matriz 10×5; ordena cada columna por su valor.</p>
+<p><strong>4.</strong> <strong>Mediana por bisect.</strong> Implementa una función que dado un valor <code>v</code> y un array ordenado, devuelve su posición percentil usando <code>searchsorted</code>.</p>
+<p><strong>5.</strong> <strong><code>np.unique</code> con cuentas.</strong> Dado array de categorías, obtén valores únicos y sus frecuencias.</p>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Notebook con array de 100k puntajes: (a) top-100 con <code>partition</code> y benchmark vs sort completo; (b) ranking con <code>argsort.argsort()</code>; (c) percentil de un valor dado con <code>searchsorted</code>; (d) <code>unique</code> con <code>return_counts</code> y barplot top-10 categorías.</p>
+<p><strong>Criterio de aceptación:</strong> <code>partition</code> &gt;10× más rápido que sort completo para N=100k y K=100.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Ordeno con <code>arr.sort()</code> y la variable queda en <code>None</code></td>
+<td><code>sort()</code> es in-place — modifica <code>arr</code> y retorna <code>None</code>. <strong>Fix</strong>: <code>ordenado = np.sort(arr)</code> (con <code>np.sort</code>).</td>
+</tr>
+<tr>
+<td>Top-K con <code>sort()[-K:]</code> es lento para N grande, K chico</td>
+<td>Sort completo es O(N log N). <strong>Fix</strong>: <code>np.partition(arr, -K)[-K:]</code> es O(N). Acopla con <code>.sort()</code> si necesitas los K ordenados internamente.</td>
+</tr>
+<tr>
+<td><code>argsort</code> da resultado raro con matriz</td>
+<td>Sin <code>axis</code>, ordena cada fila/columna independiente según <code>axis=-1</code> por default. Para ordenar matriz completa por una columna, usa <code>arr[arr[:, col].argsort()]</code>.</td>
+</tr>
+<tr>
+<td><code>np.searchsorted</code> da índice fuera del array</td>
+<td>Si el valor es mayor que todos, devuelve <code>len(arr)</code>. Es el comportamiento correcto ("insertar al final"). <strong>Fix</strong>: clipea con <code>np.clip(idx, 0, len(arr)-1)</code> si vas a indexar.</td>
+</tr>
+<tr>
+<td><code>np.unique(arr_2d)</code> aplana el array</td>
+<td>Por default, <code>unique</code> trabaja sobre array aplanado. Para únicos por fila/columna: <code>unique(arr, axis=0)</code>.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿Cuándo <code>argsort</code> y cuándo <code>sort</code>?</strong></p>
+<p>Si solo necesitas los valores ordenados, <code>sort</code>. Si necesitas el orden para <strong>aplicarlo a otros arrays correlacionados</strong> (ej: ordenar <code>nombres</code> por <code>puntajes</code>), <code>argsort</code> te da los índices.</p>
+<p><strong>❓ ¿<code>partition</code> o <code>heapq.nlargest</code>?</strong></p>
+<p><code>partition</code> para arrays NumPy (vectorizado, C). <code>heapq.nlargest(K, lst)</code> para listas Python. Para K muy pequeño (3-5) sobre N grande, similares; partition gana en arrays grandes.</p>
+<p><strong>❓ ¿Cómo ordeno por múltiples claves (lexicográfico)?</strong></p>
+<p><code>np.lexsort([clave_secundaria, clave_principal])</code> — devuelve índices. Atención: el orden es <strong>al revés</strong> (último argumento = key primaria).</p>
+<p><strong>❓ ¿<code>np.unique</code> preserva el orden de primera aparición?</strong></p>
+<p><strong>No</strong> — siempre ordena. Para preservar orden de aparición: <code>_, idx = np.unique(arr, return_index=True); arr[np.sort(idx)]</code>.</p>
+<p><strong>❓ ¿Existe equivalente a SQL <code>ORDER BY x DESC</code>?</strong></p>
+<p><code>arr[arr.argsort()][::-1]</code> o <code>arr[arr.argsort()[::-1]]</code>. NumPy no tiene flag <code>reverse=</code> como <code>sorted()</code> Python — invierte tú.</p>
+<h2 id="referencias">🔗 Referencias</h2>
 <ul>
-<li>(resultado 1)</li>
-<li>(resultado 2)</li>
-<li>(resultado 3)</li>
+<li>VanderPlas, <strong>cap. 2</strong> § 2.8.</li>
+<li><a href="https://numpy.org/doc/stable/reference/routines.sort.html">NumPy sorting reference</a></li>
 </ul>
-<h2 id="temas-clave">Temas clave</h2>
-<ul>
-<li>(subtema 1)</li>
-<li>(subtema 2)</li>
-<li>(subtema 3)</li>
-</ul>
-<h2 id="materiales">Materiales</h2>
-<ul>
-<li><code>README.md</code> — esta ficha</li>
-<li><code>notebook.ipynb</code> — cuaderno de la clase</li>
-</ul>
-<h2 id="prerrequisitos">Prerrequisitos</h2>
-<p>Ver índice general en <code>classes/README.md</code> para dependencias entre clases.</p>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../020-numpy-algebra-lineal-con-numpy-linalg/index.html">Clase 020 — NumPy: álgebra lineal con numpy.linalg</a></p>
   </main>
   <footer class="cur-footer">
     <p>

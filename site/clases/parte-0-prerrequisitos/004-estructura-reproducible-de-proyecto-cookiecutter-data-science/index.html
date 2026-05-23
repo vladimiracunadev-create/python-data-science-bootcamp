@@ -24,33 +24,140 @@
   </header>
   <main class="cur-main">
     <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-0-prerrequisitos/004-estructura-reproducible-de-proyecto-cookiecutter-data-science/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
 <h1 id="clase-004-estructura-reproducible-de-proyecto-cookiecutter-data-science">Clase 004 — Estructura reproducible de proyecto (cookiecutter-data-science)</h1>
 <blockquote>
-<p>Parte: <strong>0-prerrequisitos</strong>
-Estado: <strong>stub</strong> (pendiente desarrollar contenido).</p>
+<p>Parte: <strong>0 — Prerrequisitos</strong> · Fuente: cookiecutter-data-science v2 · <em>Hidden Technical Debt in ML Systems</em> (Sculley et al., 2015).
+⏱️ Duración estimada: <strong>60 min</strong>.</p>
 </blockquote>
-<h2 id="objetivo">Objetivo</h2>
-<p>Describir el resultado de aprendizaje concreto de esta clase.</p>
-<h2 id="resultados-esperados">Resultados esperados</h2>
-<p>Al finalizar, el estudiante podrá:</p>
+<hr>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Que el alumno deje de crear proyectos como "una carpeta con notebooks" y empiece a usar una estructura estándar que separa código, datos, modelos, notebooks de exploración y documentación. Esto no es estética — es lo que permite que un compañero entienda el proyecto en 5 minutos y que el código viva más allá del notebook donde nació.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar la clase, el alumno podrá:</p>
+<ol>
+<li><strong>Generar</strong> un proyecto con la plantilla <code>cookiecutter-data-science</code> (CCDS v2).</li>
+<li><strong>Justificar</strong> la separación <code>data/raw</code> (inmutable) ↔ <code>data/interim</code> ↔ <code>data/processed</code>.</li>
+<li><strong>Mover código</strong> de un notebook a <code>src/</code> cuando deja de ser exploratorio.</li>
+<li><strong>Documentar</strong> dependencias en <code>pyproject.toml</code> (no en <code>requirements.txt</code> suelto).</li>
+<li><strong>Reconocer</strong> los olores de un proyecto mal estructurado (notebooks con números 01/02/03, código duplicado, datos en git).</li>
+</ol>
+<h2 id="temas">🗺️ Temas</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Tema</th>
+<th>Por qué importa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Estructura CCDS v2</td>
+<td>Convención &gt; improvisación.</td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>data/raw</code> es sagrado</td>
+<td>Nunca se modifica; siempre se puede regenerar todo desde ahí.</td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>notebooks/</code> vs <code>src/</code></td>
+<td>Exploración vs producción.</td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>pyproject.toml</code> como fuente de verdad de deps</td>
+<td>Reemplaza <code>requirements.txt</code> suelto.</td>
+</tr>
+<tr>
+<td>5</td>
+<td><code>Makefile</code> como interfaz</td>
+<td><code>make data</code>, <code>make train</code>, <code>make test</code> — lo lee humano y máquina.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Olores típicos</td>
+<td><code>Untitled27.ipynb</code>, datos en git, <code>final_FINAL_v2.py</code>.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<dl>
+<dt><strong>Cookiecutter</strong></dt>
+<dd>Generador de proyectos a partir de plantillas. Tomas una plantilla (URL de un repo), respondes 3-5 preguntas y obtienes un proyecto con estructura pre-armada. Característica: idempotente — la plantilla no sabe ni le importa el contenido futuro del proyecto.</dd>
+<dt><strong>CCDS (cookiecutter-data-science)</strong></dt>
+<dd>Plantilla específica para proyectos de DS, v2 (2023+). Separa <code>data/raw</code>, <code>data/interim</code>, <code>data/processed</code>, <code>src/</code>, <code>notebooks/</code>, <code>reports/</code>, <code>docs/</code>. Es <strong>convención</strong>, no dogma.</dd>
+<dt><strong>Editable install (<code>pip install -e .</code>)</strong></dt>
+<dd>Instala el paquete pero apuntando al código fuente — los cambios se reflejan sin reinstalar. Habilita <code>from mi_proyecto.features import x</code> desde notebooks dentro del repo.</dd>
+<dt><strong><code>pyproject.toml</code></strong></dt>
+<dd>Estándar moderno (PEP 621) para metadata + dependencias + config de tools (ruff, mypy, pytest). Reemplaza <code>setup.py</code> + <code>setup.cfg</code> + <code>requirements.txt</code> suelto + configs sueltas.</dd>
+<dt><strong><code>Makefile</code></strong></dt>
+<dd>Archivo con "recetas" nombradas (<code>make data</code>, <code>make train</code>). Escrito en tabs (no espacios), las dependencias se declaran arriba (<code>target: dep1 dep2</code>). En proyectos DS funciona como interfaz humana a comandos típicos.</dd>
+</dl>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<p>Para el ejercicio principal, descarga el dataset de Palmer Penguins (https://github.com/allisonhorst/palmerpenguins) — pequeño (~13 KB), público, ideal para que <code>data/raw/penguins.csv</code> ocupe poco y se pueda commitear sin mala práctica.</p>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<p><strong>1.</strong> <strong>Genera un proyecto CCDS.</strong> <code>pipx run cookiecutter https://github.com/drivendataorg/cookiecutter-data-science</code> con nombre <code>ds-lab-004</code>. Explora la estructura.</p>
+<p><strong>2.</strong> <strong>Mueve código a <code>src/</code>.</strong> Toma una función de un notebook tuyo previo y muévela a <code>src/&lt;proyecto&gt;/features.py</code>. Importa desde el notebook con <code>from &lt;proyecto&gt;.features import …</code>.</p>
+<p><strong>3.</strong> <strong>Convierte <code>requirements.txt</code> a <code>pyproject.toml</code></strong> (sección <code>[project.dependencies]</code>).</p>
+<p><strong>4.</strong> <strong>Refactoriza un notebook caótico.</strong> Toma uno con bloques copy-paste y extrae 2 funciones a <code>src/</code>.</p>
+<p><strong>5.</strong> <strong>Lista 5 olores</strong> en un repo público que conozcas y propón cómo arreglarlos.</p>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Un repo público con estructura CCDS, <code>data/raw/</code> con un dataset pequeño, al menos 1 notebook que importa funciones desde <code>src/</code>, <code>pyproject.toml</code> con deps, Makefile con <code>make setup</code> y <code>make data</code>.</p>
+<p><strong>Criterio de aceptación:</strong> Un compañero clona, corre <code>make setup &amp;&amp; make data</code> y obtiene la misma estructura de datos procesados que tú reportaste. README explica el flujo.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ModuleNotFoundError: No module named 'mi_proyecto'</code> al importar desde notebook</td>
+<td>El paquete no está instalado en el venv del kernel. <strong>Fix</strong>: con el venv activo, <code>pip install -e .</code> desde la raíz del proyecto (necesita <code>pyproject.toml</code> con <code>[project] name='mi_proyecto'</code>).</td>
+</tr>
+<tr>
+<td>CSV en <code>data/raw/</code> apareció en <code>git status</code> y pesa 200 MB</td>
+<td>El <code>.gitignore</code> no cubre <code>data/raw/*</code> o no se aplicó a tiempo. <strong>Fix</strong>: añade <code>data/raw/*</code> al <code>.gitignore</code> + <code>!data/raw/.gitkeep</code> (mantén placeholder); si ya commiteaste, <code>git rm --cached data/raw/customers.csv</code>.</td>
+</tr>
+<tr>
+<td>Tengo 3 notebooks con la misma función <code>limpiar_fechas</code></td>
+<td>Copy-paste. <strong>Fix</strong>: extrae a <code>src/mi_proyecto/features/cleaning.py</code> y haz <code>from mi_proyecto.features.cleaning import limpiar_fechas</code> en cada notebook. Si modificas la función, todos los notebooks la heredan.</td>
+</tr>
+<tr>
+<td>El compañero clonó el repo y <code>make data</code> falla con "command not found"</td>
+<td>Make no está instalado en Windows por default. <strong>Fix</strong>: instalar make (Git Bash trae uno) o documentar el comando equivalente en README; alternativamente, usa scripts Python directos.</td>
+</tr>
+<tr>
+<td>Edité <code>pyproject.toml</code> y los imports siguen viejos</td>
+<td>Tras cambios en metadata o entry-points debes reinstalar. <strong>Fix</strong>: <code>pip install -e . --force-reinstall --no-deps</code> (sin deps si no las cambiaste).</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿Realmente necesito una plantilla? ¿No puedo improvisar?</strong></p>
+<p>Puedes, pero perderás el 80% de la ganancia: el compañero que ya conoce CCDS sabe dónde buscar; sin plantilla, cada proyecto es una caja de sorpresas.</p>
+<p><strong>❓ ¿<code>data/raw/</code> o <code>data/01_raw/</code>?</strong></p>
+<p>CCDS v2 usa <code>data/raw/</code>, <code>data/interim/</code>, <code>data/processed/</code>, <code>data/external/</code>. La numeración <code>01_/02_/03_</code> la verás en Kedro y en algunas variantes — ambas son válidas, sigue una sola convención por proyecto.</p>
+<p><strong>❓ ¿<code>requirements.txt</code> o <code>pyproject.toml</code>?</strong></p>
+<p><strong><code>pyproject.toml</code></strong> para declarar las deps de tu paquete. <strong><code>requirements.txt</code></strong> (generado con <code>pip freeze</code> o <code>uv pip compile</code>) es el <strong>lockfile</strong> con versiones exactas para reproducir. No están en conflicto; conviven.</p>
+<p><strong>❓ ¿Y si el proyecto es solo un notebook exploratorio?</strong></p>
+<p>No fuerces CCDS. Carpeta con <code>notebook.ipynb</code>, <code>data.csv</code> y <code>README.md</code> está bien. La estructura completa aporta cuando el proyecto vive &gt;3 meses o tiene &gt;1 persona.</p>
+<p><strong>❓ ¿Por qué los notebooks tienen prefijo numérico como <code>0.01-jvp-eda.ipynb</code>?</strong></p>
+<p>Convención CCDS: <code>&lt;fase&gt;.&lt;orden&gt;-&lt;iniciales&gt;-&lt;tema&gt;</code>. Fase 0=exploración, 1=features, 2=modelos, 3=reportes. Iniciales del autor evitan conflictos cuando varias personas crean notebooks.</p>
+<h2 id="referencias">🔗 Referencias</h2>
 <ul>
-<li>(resultado 1)</li>
-<li>(resultado 2)</li>
-<li>(resultado 3)</li>
+<li><a href="https://cookiecutter-data-science.drivendata.org/">cookiecutter-data-science v2 docs</a></li>
+<li>Sculley et al., <a href="https://papers.nips.cc/paper/2015/hash/86df7dcfd896fcaf2674f757a2463eba-Abstract.html"><em>Hidden Technical Debt in ML Systems</em></a> (NeurIPS 2015).</li>
+<li><a href="https://github.com/allisonhorst/palmerpenguins">Palmer Penguins dataset</a></li>
 </ul>
-<h2 id="temas-clave">Temas clave</h2>
-<ul>
-<li>(subtema 1)</li>
-<li>(subtema 2)</li>
-<li>(subtema 3)</li>
-</ul>
-<h2 id="materiales">Materiales</h2>
-<ul>
-<li><code>README.md</code> — esta ficha</li>
-<li><code>notebook.ipynb</code> — cuaderno de la clase</li>
-</ul>
-<h2 id="prerrequisitos">Prerrequisitos</h2>
-<p>Ver índice general en <code>classes/README.md</code> para dependencias entre clases.</p>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../005-vs-code-cursor-para-python-y-jupyter/index.html">Clase 005 — VS Code / Cursor para Python y Jupyter</a></p>
   </main>
   <footer class="cur-footer">
     <p>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Clase 002 — Jupyter y JupyterLab: kernels, magics, debugging, profiling | Python Data Science Program</title>
+  <title>Clase 002 — Jupyter y JupyterLab — kernels, magics, debugging, profiling | Python Data Science Program</title>
   <meta name="description" content="Clase 002 del Python Data Science Program">
   <meta name="theme-color" content="#0f3d3e">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -24,33 +24,145 @@
   </header>
   <main class="cur-main">
     <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-0-prerrequisitos/002-jupyter-y-jupyterlab-kernels-magics-debugging-profiling/notebook.ipynb">📓 Abrir notebook en GitHub</a>
-<h1 id="clase-002-jupyter-y-jupyterlab-kernels-magics-debugging-profiling">Clase 002 — Jupyter y JupyterLab: kernels, magics, debugging, profiling</h1>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-002-jupyter-y-jupyterlab-kernels-magics-debugging-profiling">Clase 002 — Jupyter y JupyterLab — kernels, magics, debugging, profiling</h1>
 <blockquote>
-<p>Parte: <strong>0-prerrequisitos</strong>
-Estado: <strong>stub</strong> (pendiente desarrollar contenido).</p>
+<p>Parte: <strong>0 — Prerrequisitos</strong> · Fuente: VanderPlas, <em>Python Data Science Handbook</em>, <strong>cap. 1</strong> — IPython: Beyond Normal Python.
+⏱️ Duración estimada: <strong>90 min</strong>.</p>
 </blockquote>
-<h2 id="objetivo">Objetivo</h2>
-<p>Describir el resultado de aprendizaje concreto de esta clase.</p>
-<h2 id="resultados-esperados">Resultados esperados</h2>
-<p>Al finalizar, el estudiante podrá:</p>
+<hr>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Que el alumno deje de usar Jupyter como un editor de texto con botón "play" y empiece a usarlo como un entorno exploratorio profesional: con magics que ahorran horas, debugger interactivo (<code>%debug</code>), y profiling real (<code>%timeit</code>, <code>%prun</code>). Al final debe poder diagnosticar por qué un notebook es lento sin adivinar.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar la clase, el alumno podrá:</p>
+<ol>
+<li><strong>Diferenciar</strong> kernel, frontend (Notebook vs JupyterLab vs VS Code) y servidor — y saber qué pasa cuando uno se cuelga.</li>
+<li><strong>Usar magics esenciales:</strong> <code>%timeit</code>, <code>%%time</code>, <code>%run</code>, <code>%load</code>, <code>%matplotlib inline</code>, <code>%debug</code>, <code>%who</code>, <code>%xmode</code>.</li>
+<li><strong>Conectar un kernel específico</strong> a un notebook (<code>ipykernel install --user --name &lt;env&gt;</code>) sin pelearse con el venv equivocado.</li>
+<li><strong>Debuggear</strong> una excepción con <code>%debug</code> y <code>pdb</code> (n, s, c, q, p, l).</li>
+<li><strong>Profilar</strong> código lento con <code>%timeit</code> (microbenchmark) y <code>%prun</code> (line profiler) para decidir dónde optimizar.</li>
+</ol>
+<h2 id="temas">🗺️ Temas</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Tema</th>
+<th>Por qué importa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Kernel ↔ frontend ↔ servidor</td>
+<td>Saber cuál murió cuando el notebook se cuelga.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Modo comando vs modo edición + atajos</td>
+<td>Velocidad real: A/B/X/M/Y/Esc/Enter.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Magics line (<code>%</code>) vs cell (<code>%%</code>)</td>
+<td>El 80% del valor de Jupyter está en las magics.</td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>%timeit</code> y <code>%%time</code></td>
+<td>Microbenchmark riguroso (varias corridas, descarta outliers).</td>
+</tr>
+<tr>
+<td>5</td>
+<td><code>%debug</code> + pdb</td>
+<td>Inspección post-mortem sin re-correr todo el notebook.</td>
+</tr>
+<tr>
+<td>6</td>
+<td><code>%prun</code> y <code>%lprun</code></td>
+<td>Saber qué función pesa antes de optimizar.</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Registro de kernels por venv</td>
+<td>Cada proyecto, su propio kernel — evita el bug <code>import</code> falla.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<dl>
+<dt><strong>Kernel</strong></dt>
+<dd>Proceso Python (u otro lenguaje) que ejecuta el código de las celdas. Vive separado del frontend; si lo matas, pierdes el estado en memoria pero los archivos siguen intactos. Cada notebook se asocia a UN kernel, normalmente el del venv del proyecto.</dd>
+<dt><strong>Frontend</strong></dt>
+<dd>La interfaz visual (Notebook clásico, JupyterLab, VS Code, Cursor, Colab). Todas hablan el mismo protocolo con el kernel — puedes cambiar de frontend sin perder datos si guardas el <code>.ipynb</code>.</dd>
+<dt><strong>Magic</strong></dt>
+<dd>Comando especial de IPython, no de Python. Empieza con <code>%</code> (afecta una línea) o <code>%%</code> (afecta la celda entera). Ejemplos: <code>%timeit</code>, <code>%matplotlib inline</code>, <code>%%time</code>, <code>%debug</code>. No funcionan fuera de IPython/Jupyter.</dd>
+<dt><strong><code>%timeit</code> vs <code>%%time</code></strong></dt>
+<dd><code>%timeit</code> corre la expresión <strong>muchas veces</strong>, descarta outliers y reporta el mejor → microbenchmark estadísticamente serio. <code>%%time</code> mide <strong>una sola corrida</strong> del bloque → bueno para operaciones largas donde repetir cuesta. Característica clave: usa <code>%timeit</code> para algo en milisegundos, <code>%%time</code> para algo en segundos.</dd>
+<dt><strong>pdb / <code>%debug</code></strong></dt>
+<dd>Debugger interactivo de Python. <code>%debug</code> lo lanza en modo <strong>post-mortem</strong> después de una excepción — entras al stack en el punto del error sin re-correr nada. Comandos: <code>n</code> siguiente línea, <code>s</code> entra a función, <code>c</code> continúa, <code>p var</code> imprime, <code>u/d</code> sube/baja en stack, <code>q</code> salir.</dd>
+</dl>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<p>No requiere dataset externo. Usamos arreglos sintéticos con <code>numpy.random</code> para benchmarks. Para el ejercicio de debug, generamos un <code>ValueError</code> intencional.</p>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<p><strong>1.</strong> <strong>Atajos sin mouse.</strong> Crea 5 celdas, navega solo con teclado: convierte 2 a markdown, ejecuta todo en orden, borra una, deshaz. Cronométrate.</p>
+<p><strong>2.</strong> <strong>Registra tu kernel.</strong> Desde un venv recién creado: <code>python -m ipykernel install --user --name ds-lab-001 --display-name 'DS Lab 001'</code>. Abre Jupyter, selecciona ese kernel, verifica con <code>import sys; sys.executable</code>.</p>
+<p><strong>3.</strong> <strong>Benchmark vectorización.</strong> Con <code>%timeit</code>, compara sumar <code>range(10_000)</code> con un <code>for</code> vs <code>np.arange(10_000).sum()</code>. Anota cuántas veces más rápido es NumPy.</p>
+<p><strong>4.</strong> <strong>Post-mortem.</strong> Provoca un <code>ZeroDivisionError</code>, luego ejecuta <code>%debug</code> en la siguiente celda y navega el stack con <code>u</code>/<code>d</code>, inspecciona variables con <code>p</code>.</p>
+<p><strong>5.</strong> <strong>Profila una función.</strong> Escribe una función que ordene una lista 1000 veces con sort burbuja. Ejecuta <code>%prun -s cumulative tu_func()</code>. Identifica la línea más cara.</p>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Entrega un notebook <code>homework.ipynb</code> con: (a) celda que muestra <code>sys.executable</code> confirmando que usas un kernel registrado por ti; (b) benchmark <code>%timeit</code> comparando <code>sum(range(N))</code> vs <code>np.arange(N).sum()</code> para N=10k, 100k, 1M; (c) tabla markdown con los resultados; (d) gráfico simple del speedup.</p>
+<p><strong>Criterio de aceptación:</strong> El notebook abre con kernel propio (no el global), las 3 mediciones corren sin errores, y la conclusión incluye un número concreto ("NumPy es ~50× más rápido para N=1M").</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ModuleNotFoundError</code> aunque acabo de instalar el paquete</td>
+<td>El kernel activo NO es el venv donde corriste <code>pip install</code>. <strong>Fix</strong>: en una celda, <code>import sys; print(sys.executable)</code> — si no apunta a tu venv, cambia el kernel (menú Kernel → Change Kernel) o registra el venv con <code>python -m ipykernel install --user --name &lt;nombre&gt;</code>.</td>
+</tr>
+<tr>
+<td>El notebook está "congelado" / la barra dice <code>[*]</code></td>
+<td>Una celda quedó atrapada en bucle infinito o esperando input. <strong>Fix</strong>: menú Kernel → Interrupt (Esc + I dos veces). Si no responde, Restart Kernel — perderás variables en memoria pero los archivos quedan intactos.</td>
+</tr>
+<tr>
+<td>Cambié código de un módulo importado y el notebook ignora el cambio</td>
+<td>Python cachea módulos importados. <strong>Fix</strong>: <code>%load_ext autoreload</code> + <code>%autoreload 2</code> al inicio del notebook; recarga automáticamente al ejecutar.</td>
+</tr>
+<tr>
+<td><code>%timeit</code> en una celda con asignación da error "NameError"</td>
+<td>Las variables creadas dentro de <code>%timeit</code> <strong>no quedan</strong> en el namespace (corre en sandbox). <strong>Fix</strong>: usa <code>%%timeit</code> (cell magic) si quieres preservar variables, o asigna fuera de la magic.</td>
+</tr>
+<tr>
+<td>Outputs gigantes hacen el .ipynb pesado y el diff de git ilegible</td>
+<td>Cada output (imagen, tabla) queda guardado en el JSON del notebook. <strong>Fix</strong>: pre-commit hook con <code>nbstripout</code> (limpia outputs antes de commitear) o <code>Cell → All Output → Clear</code> antes de guardar.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿Notebook clásico o JupyterLab o VS Code?</strong></p>
+<p>Para aprender, <strong>VS Code</strong> (mismo backend, mejor UX: autocomplete con type hints, debug gráfico, git inline). Para reuniones colaborativas en navegador, JupyterLab. El Notebook clásico es legacy — sigue funcionando pero ya no recibe features.</p>
+<p><strong>❓ ¿Debo crear un kernel por proyecto o usar uno global?</strong></p>
+<p><strong>Uno por proyecto.</strong> Cada proyecto tiene dependencias distintas que entran en conflicto: el kernel global tarde o temprano se rompe. Comando: <code>python -m ipykernel install --user --name &lt;proyecto&gt;</code>.</p>
+<p><strong>❓ ¿Cuándo <code>%timeit</code> no es confiable?</strong></p>
+<p>Cuando lo que mides toca disco/red/GPU — la varianza es enorme y el min no representa típico. Usa <code>%%time</code> con varios runs manuales y reporta mediana. Tampoco confiable si la primera corrida hace JIT (numba) — calienta con un run previo.</p>
+<p><strong>❓ <code>%debug</code> no funciona, no muestra prompt</strong></p>
+<p>Necesita haber ocurrido una excepción <strong>en el kernel</strong> justo antes. Si la celda falló pero el kernel se reinició, perdiste el stack. También: en VS Code Jupyter, usa el panel de debug en su lugar (más cómodo).</p>
+<p><strong>❓ ¿Por qué mi notebook tarda 30 segundos en abrir si pesa solo 200 KB?</strong></p>
+<p>Probablemente trae outputs binarios grandes (imágenes inline en base64). El JSON parece chico pero al renderizar el navegador procesa MB. Limpia outputs y guarda.</p>
+<h2 id="referencias">🔗 Referencias</h2>
 <ul>
-<li>(resultado 1)</li>
-<li>(resultado 2)</li>
-<li>(resultado 3)</li>
+<li>VanderPlas, <strong>cap. 1</strong> — <em>IPython: Beyond Normal Python</em>.</li>
+<li><a href="https://ipython.readthedocs.io/en/stable/interactive/magics.html">IPython magics reference</a></li>
+<li><a href="https://jupyterlab.readthedocs.io/">JupyterLab user guide</a></li>
 </ul>
-<h2 id="temas-clave">Temas clave</h2>
-<ul>
-<li>(subtema 1)</li>
-<li>(subtema 2)</li>
-<li>(subtema 3)</li>
-</ul>
-<h2 id="materiales">Materiales</h2>
-<ul>
-<li><code>README.md</code> — esta ficha</li>
-<li><code>notebook.ipynb</code> — cuaderno de la clase</li>
-</ul>
-<h2 id="prerrequisitos">Prerrequisitos</h2>
-<p>Ver índice general en <code>classes/README.md</code> para dependencias entre clases.</p>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../003-git-y-github-para-data-scientists/index.html">Clase 003 — Git y GitHub para data scientists</a></p>
   </main>
   <footer class="cur-footer">
     <p>

@@ -24,33 +24,141 @@
   </header>
   <main class="cur-main">
     <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-0-prerrequisitos/016-numpy-agregaciones/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
 <h1 id="clase-016-numpy-agregaciones">Clase 016 — NumPy: agregaciones</h1>
 <blockquote>
-<p>Parte: <strong>0-prerrequisitos</strong>
-Estado: <strong>stub</strong> (pendiente desarrollar contenido).</p>
+<p>Parte: <strong>0 — Prerrequisitos</strong> · Fuente: VanderPlas, <strong>cap. 2</strong> § 2.4 <em>Aggregations: Min, Max, and Everything in Between</em>.
+⏱️ Duración estimada: <strong>60 min</strong>.</p>
 </blockquote>
-<h2 id="objetivo">Objetivo</h2>
-<p>Describir el resultado de aprendizaje concreto de esta clase.</p>
-<h2 id="resultados-esperados">Resultados esperados</h2>
-<p>Al finalizar, el estudiante podrá:</p>
+<hr>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Que el alumno reduzca arrays a estadísticos (sum, mean, std, percentile, min, max) controlando el <code>axis</code> correcto — la fuente del 50% de los bugs de pandas/sklearn cuando alguien se confunde de eje. También: variantes <code>nan*</code> y reducciones acumulativas.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar la clase, el alumno podrá:</p>
+<ol>
+<li><strong>Calcular</strong> sum, mean, std, var, median, percentile sobre arrays.</li>
+<li><strong>Controlar el eje</strong> con <code>axis=0</code> (a lo largo de filas, da resultado por columna) y <code>axis=1</code> (a lo largo de columnas, da por fila).</li>
+<li><strong>Usar variantes <code>nan*</code></strong> (nansum, nanmean, etc.) cuando hay datos faltantes.</li>
+<li><strong>Reducciones acumulativas</strong> con <code>cumsum</code> y <code>cumprod</code>.</li>
+<li><strong>Encontrar índice</strong> del min/max con <code>argmin</code>/<code>argmax</code>.</li>
+</ol>
+<h2 id="temas">🗺️ Temas</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Tema</th>
+<th>Por qué importa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Reducciones básicas</td>
+<td>sum, mean, std, var, min, max, median, percentile.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Eje: el bug más común</td>
+<td><code>axis=0</code> reduce filas (resultado por columna).</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Variantes NaN-aware</td>
+<td>nansum, nanmean, nanmedian, nanstd.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Acumulativas</td>
+<td>cumsum, cumprod — útiles para series temporales.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>argmin/argmax</td>
+<td>Posición del extremo.</td>
+</tr>
+<tr>
+<td>6</td>
+<td><code>all</code> y <code>any</code></td>
+<td>Reducciones booleanas.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<dl>
+<dt><strong>Agregación / reducción</strong></dt>
+<dd>Operación que <strong>colapsa</strong> un array a menos dimensiones: <code>sum</code>, <code>mean</code>, <code>std</code>, <code>min</code>, <code>max</code>, <code>argmax</code>. Sin <code>axis</code>, reduce a un escalar; con <code>axis=N</code>, elimina la dimensión N.</dd>
+<dt><strong><code>axis=0</code> vs <code>axis=1</code></strong></dt>
+<dd><strong>Regla</strong>: el axis que pasas es el que <strong>desaparece</strong>. En matriz <code>(filas, cols)</code>: <code>axis=0</code> colapsa filas → un valor por columna; <code>axis=1</code> colapsa cols → un valor por fila. Mnemónico inverso al que muchos esperan.</dd>
+<dt><strong><code>argmin</code> / <code>argmax</code></strong></dt>
+<dd>Devuelven el <strong>índice</strong> del extremo (no el valor). <code>arr.argmax()</code> = posición del máximo; <code>arr[arr.argmax()]</code> = valor máximo. Con <code>axis=</code> devuelven array de índices por fila/columna.</dd>
+<dt><strong>Variantes <code>nan*</code></strong></dt>
+<dd>Versiones que <strong>ignoran NaN</strong> en vez de propagarlo: <code>nansum</code>, <code>nanmean</code>, <code>nanstd</code>, <code>nanmin</code>, <code>nanmax</code>, <code>nanmedian</code>, <code>nanpercentile</code>, <code>nanargmax</code>. Útiles cuando los datos tienen missing.</dd>
+<dt><strong>Acumulativas (<code>cumsum</code>, <code>cumprod</code>)</strong></dt>
+<dd>No colapsan — devuelven array de igual shape con valores acumulados hasta cada posición. Útiles para series temporales (precio acumulado, drawdown).</dd>
+<dt><strong><code>percentile</code> / <code>quantile</code></strong></dt>
+<dd>Valor por debajo del cual cae el N% de los datos. <code>np.percentile(arr, 50)</code> = mediana. <code>np.percentile(arr, [25, 50, 75])</code> = cuartiles.</dd>
+</dl>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<p>Sintético (matriz aleatoria 100×10 simulando "10 features × 100 muestras") generado en el notebook. Sin descarga.</p>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<p><strong>1.</strong> <strong>Promedio por columna.</strong> Dada matriz 100×4 de ventas (filas=día, cols=tienda), calcula la media por tienda y por día.</p>
+<p><strong>2.</strong> <strong>Estadísticos completos.</strong> Para un array de 1000 normales, reporta mean, std, median, p25, p75, min, max.</p>
+<p><strong>3.</strong> <strong>Con NaN.</strong> Inserta 50 NaN aleatorios en el array anterior. Compara <code>mean</code> (propaga) vs <code>nanmean</code>.</p>
+<p><strong>4.</strong> <strong>Cumsum.</strong> Genera array de retornos diarios aleatorios. Calcula el precio acumulado con <code>cumprod(1+r)</code>.</p>
+<p><strong>5.</strong> <strong>Mejor tienda.</strong> Con la matriz del ejercicio 1, usa <code>argmax(axis=0)</code> para encontrar el día de mayor venta de cada tienda.</p>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Notebook con matriz simulada 365 días × 5 tiendas de ventas, reportando: media/std por tienda, mejor y peor día de cada tienda, cumsum total anual, % de días con NaN simulados (20 aleatorios) usando variantes nan*.</p>
+<p><strong>Criterio de aceptación:</strong> Eje correcto en todas las agregaciones; valores reproducibles con seed.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>M.sum(axis=0)</code> da resultado por columna y esperaba por fila</td>
+<td>Confusión clásica. <strong>Regla</strong>: <code>axis=0</code> reduce <strong>filas</strong> (resultado per-column). <strong>Fix</strong>: si querías por fila, usa <code>axis=1</code>. Memoriza: "el axis que pasas desaparece".</td>
+</tr>
+<tr>
+<td><code>arr.mean()</code> da NaN aunque solo hay un par de NaN</td>
+<td>Cualquier NaN propaga. <strong>Fix</strong>: <code>np.nanmean(arr)</code> o filtra antes (<code>arr[~np.isnan(arr)]</code>).</td>
+</tr>
+<tr>
+<td><code>np.argmax(matriz)</code> devuelve un solo número raro</td>
+<td>Sin <code>axis</code>, aplana el array primero y devuelve un índice <strong>lineal</strong>. <strong>Fix</strong>: <code>argmax(axis=0)</code> o <code>axis=1</code> para obtener índices por dimensión; o <code>np.unravel_index(argmax, shape)</code> para coordenadas.</td>
+</tr>
+<tr>
+<td><code>np.percentile([1,2,3,4], 50)</code> da <code>2.5</code> no <code>2</code></td>
+<td>Interpolación lineal por default. Si quieres el valor exacto del dataset, usa <code>interpolation='nearest'</code> o <code>quantile</code> con <code>method='lower'</code>.</td>
+</tr>
+<tr>
+<td><code>cumsum</code> de floats acumula error de redondeo en arrays largos</td>
+<td>Sumas múltiples introducen error numérico. <strong>Fix</strong>: si necesitas precisión, <code>np.cumsum(arr, dtype=np.float64)</code> o usa pairwise summation (Kahan).</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿<code>arr.sum()</code> o <code>np.sum(arr)</code>?</strong></p>
+<p>Equivalentes. Método del array (<code>.sum()</code>) es más legible en cadenas (<code>arr.clip(0).sum()</code>). Función (<code>np.sum</code>) acepta también listas (no solo ndarray).</p>
+<p><strong>❓ ¿Cómo recuerdo qué axis colapsa cuál?</strong></p>
+<p><strong>El axis que pasas es el que desaparece.</strong> Si shape es <code>(3, 4)</code> y haces <code>sum(axis=0)</code>, queda <code>(4,)</code> — desapareció dim 0. Si <code>axis=1</code>, queda <code>(3,)</code>.</p>
+<p><strong>❓ ¿<code>std</code> usa N o N-1?</strong></p>
+<p>Default <code>ddof=0</code> (divide por N — desviación poblacional). Para desviación muestral (N-1), <code>arr.std(ddof=1)</code>. Pandas y scipy.stats usan N-1 por default — cuidado al comparar.</p>
+<p><strong>❓ ¿<code>np.median</code> ignora NaN?</strong></p>
+<p>No — usa <code>np.nanmedian</code>. Mismo patrón que <code>mean</code>/<code>nanmean</code>.</p>
+<p><strong>❓ ¿Hay una agregación 'top-3' built-in?</strong></p>
+<p>No directa. Usa <code>np.partition(arr, -3)[-3:]</code> para los 3 mayores (más rápido que sort completo). Si necesitas ordenados, <code>.sort()</code> después.</p>
+<h2 id="referencias">🔗 Referencias</h2>
 <ul>
-<li>(resultado 1)</li>
-<li>(resultado 2)</li>
-<li>(resultado 3)</li>
+<li>VanderPlas, <strong>cap. 2</strong> § 2.4.</li>
+<li><a href="https://numpy.org/doc/stable/reference/routines.statistics.html">NumPy statistics functions</a></li>
 </ul>
-<h2 id="temas-clave">Temas clave</h2>
-<ul>
-<li>(subtema 1)</li>
-<li>(subtema 2)</li>
-<li>(subtema 3)</li>
-</ul>
-<h2 id="materiales">Materiales</h2>
-<ul>
-<li><code>README.md</code> — esta ficha</li>
-<li><code>notebook.ipynb</code> — cuaderno de la clase</li>
-</ul>
-<h2 id="prerrequisitos">Prerrequisitos</h2>
-<p>Ver índice general en <code>classes/README.md</code> para dependencias entre clases.</p>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../017-numpy-broadcasting/index.html">Clase 017 — NumPy: broadcasting</a></p>
   </main>
   <footer class="cur-footer">
     <p>

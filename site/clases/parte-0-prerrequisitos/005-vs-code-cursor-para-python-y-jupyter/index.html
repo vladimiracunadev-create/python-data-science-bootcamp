@@ -24,33 +24,146 @@
   </header>
   <main class="cur-main">
     <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-0-prerrequisitos/005-vs-code-cursor-para-python-y-jupyter/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
 <h1 id="clase-005-vs-code-cursor-para-python-y-jupyter">Clase 005 — VS Code / Cursor para Python y Jupyter</h1>
 <blockquote>
-<p>Parte: <strong>0-prerrequisitos</strong>
-Estado: <strong>stub</strong> (pendiente desarrollar contenido).</p>
+<p>Parte: <strong>0 — Prerrequisitos</strong> · Fuente: VS Code Python docs · Cursor docs · <em>The Pragmatic Programmer</em> cap. "Power Editing".
+⏱️ Duración estimada: <strong>60 min</strong>.</p>
 </blockquote>
-<h2 id="objetivo">Objetivo</h2>
-<p>Describir el resultado de aprendizaje concreto de esta clase.</p>
-<h2 id="resultados-esperados">Resultados esperados</h2>
-<p>Al finalizar, el estudiante podrá:</p>
+<hr>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Que el alumno deje de usar VS Code como Notepad y lo configure como un IDE serio para Python + Jupyter: selector de intérprete, debugger gráfico, linter (ruff), formatter (ruff format), tests integrados y notebooks editables. Bonus: cuándo conviene Cursor (VS Code + IA integrada).</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar la clase, el alumno podrá:</p>
+<ol>
+<li><strong>Configurar VS Code</strong> con la extensión Python + Jupyter, seleccionando el intérprete del venv del proyecto.</li>
+<li><strong>Debuggear</strong> un script Python paso a paso desde el panel gráfico (breakpoints, watch, call stack).</li>
+<li><strong>Editar y ejecutar notebooks</strong> sin Jupyter web — con autocompletado, type hints y debug de celda.</li>
+<li><strong>Configurar ruff</strong> como linter + formatter (reemplaza black + isort + flake8 en un solo tool).</li>
+<li><strong>Decidir cuándo usar Cursor</strong> (idéntico a VS Code + IA integrada con autorización por chat).</li>
+</ol>
+<h2 id="temas">🗺️ Temas</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Tema</th>
+<th>Por qué importa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Selección de intérprete por workspace</td>
+<td>El bug "funciona en terminal pero no en VS Code" se evita aquí.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Debugger gráfico vs <code>print</code></td>
+<td>Breakpoints, watch, evaluación expresiones — mucho más rápido.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Notebooks nativos en VS Code</td>
+<td>Mejor UX que Jupyter web para edición; mismo backend.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>ruff = linter + formatter en uno</td>
+<td>Reemplaza black/isort/flake8/pylint. Más rápido (Rust).</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Tests integrados (<code>pytest</code>)</td>
+<td>Run/debug tests con un click; coverage inline.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Extensiones esenciales</td>
+<td>Python, Jupyter, GitLens, ruff, Even Better TOML.</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Cursor: cuándo sí</td>
+<td>Cuando quieres pair-programming con IA sin salir del editor.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<dl>
+<dt><strong>Workspace</strong></dt>
+<dd>Concepto de VS Code = una carpeta (o conjunto de carpetas) con configuración asociada en <code>.vscode/settings.json</code>. La configuración del workspace <strong>override</strong> a la del usuario. Característica: pones <code>.vscode/</code> en git para que todos los colaboradores hereden la misma config.</dd>
+<dt><strong>Intérprete Python</strong></dt>
+<dd>Ejecutable concreto (<code>/path/to/.venv/bin/python</code>). VS Code recuerda <strong>uno por workspace</strong>. Es el origen del 90% de los "funciona en mi máquina" entre IDE y terminal.</dd>
+<dt><strong>ruff</strong></dt>
+<dd>Linter + formatter en un solo binario, escrito en Rust. Reemplaza black + isort + flake8 + (parte de) pylint con un único tool 10–100× más rápido. Config en <code>[tool.ruff]</code> de <code>pyproject.toml</code>.</dd>
+<dt><strong>Breakpoint</strong></dt>
+<dd>Marca en una línea (F9) que pausa la ejecución cuando llega ahí. Permite inspeccionar variables, paso a paso, evaluar expresiones — mil veces más eficiente que <code>print</code>.</dd>
+<dt><strong><code>launch.json</code></strong></dt>
+<dd>Config de debug de VS Code. Define perfiles: "debug archivo actual", "debug tests", "debug Django", etc. Cada perfil tiene su <code>program</code>, <code>args</code>, <code>env</code>, <code>justMyCode</code>.</dd>
+</dl>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<p>Sin dataset externo. Usamos un script Python con un bug intencional para practicar debug gráfico, y un notebook trivial para verificar autocompletado/type hints.</p>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<p><strong>1.</strong> <strong>Selecciona intérprete.</strong> En VS Code: <code>Ctrl+Shift+P</code> → "Python: Select Interpreter" → elige el del <code>.venv</code> del proyecto. Verifica con <code>print(sys.executable)</code> en una celda.</p>
+<p><strong>2.</strong> <strong>Debug paso a paso.</strong> Toma un script con un bug, pon breakpoint (F9), ejecuta con F5, navega con F10 (next), F11 (step in), Shift+F11 (step out). Inspecciona variables en panel.</p>
+<p><strong>3.</strong> <strong>Configura ruff.</strong> En <code>pyproject.toml</code>: <code>[tool.ruff]</code> con <code>line-length = 100</code>, <code>[tool.ruff.lint]</code> con <code>select = ["E", "F", "I", "UP"]</code>. Habilita format on save.</p>
+<p><strong>4.</strong> <strong>Edita un notebook.</strong> Abre <code>notebook.ipynb</code> en VS Code, ejecuta una celda, comprueba que el autocompletado funciona con type hints de pandas.</p>
+<p><strong>5.</strong> <strong>Tests con un click.</strong> Instala <code>pytest</code>, crea <code>tests/test_simple.py</code> con 2 tests (uno OK, uno FAIL). Usa el panel "Testing" para correr/debuggear.</p>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Repo con <code>pyproject.toml</code> que incluye <code>[tool.ruff]</code>, <code>.vscode/settings.json</code> con <code>python.defaultInterpreterPath</code> y format-on-save habilitado, screenshot del debugger gráfico mostrando un breakpoint activo y variables inspeccionadas.</p>
+<p><strong>Criterio de aceptación:</strong> Otro alumno clona el repo, abre en VS Code, y al guardar un .py se aplica ruff format automáticamente. El screenshot muestra al menos 1 breakpoint y la variable inspeccionada.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"Python interpreter is not selected" al abrir un .py</td>
+<td>Workspace nuevo, VS Code no eligió uno. <strong>Fix</strong>: <code>Ctrl+Shift+P</code> → "Python: Select Interpreter" → elige el del <code>.venv</code> del proyecto. Guarda en <code>.vscode/settings.json</code> para que persista.</td>
+</tr>
+<tr>
+<td>Format-on-save no aplica ruff aunque está instalado</td>
+<td>Falta declarar ruff como formatter por default para Python. <strong>Fix</strong>: en <code>settings.json</code>, <code>"[python]": { "editor.defaultFormatter": "charliermarsh.ruff" }</code> y <code>"editor.formatOnSave": true</code>.</td>
+</tr>
+<tr>
+<td>Debugger arranca pero se salta mis breakpoints</td>
+<td>Estás corriendo el archivo (Ctrl+F5 = sin debug) en vez de debug (F5). O <code>justMyCode: true</code> está saltando código que vive en librerías que sí querías inspeccionar.</td>
+</tr>
+<tr>
+<td>Tests no aparecen en el panel "Testing"</td>
+<td>VS Code no detectó pytest. <strong>Fix</strong>: <code>Ctrl+Shift+P</code> → "Python: Configure Tests" → pytest → carpeta <code>tests</code>. O añade <code>[tool.pytest.ini_options] testpaths = ["tests"]</code> en <code>pyproject.toml</code>.</td>
+</tr>
+<tr>
+<td>Cambié interpreter y los imports siguen rotos</td>
+<td>VS Code cachea symbols del intérprete viejo. <strong>Fix</strong>: <code>Ctrl+Shift+P</code> → "Python: Restart Language Server". Si persiste, recarga la ventana (<code>Reload Window</code>).</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿VS Code o Cursor?</strong></p>
+<p>Cursor = VS Code + IA integrada (chat con contexto del repo, edición multi-archivo). Si pagas Copilot o no te interesa IA, quédate en VS Code. Si quieres pair-programming con IA sin saltar a otra app, Cursor. Las extensiones son las mismas.</p>
+<p><strong>❓ ¿Debo commitear <code>.vscode/</code>?</strong></p>
+<p><strong>Sí</strong> la parte compartida: <code>settings.json</code> (interpreter path relativo, formatter, etc.), <code>extensions.json</code> (recomendaciones). <strong>No</strong> lo personal: <code>.vscode/launch.json</code> con paths absolutos del tester.</p>
+<p><strong>❓ ¿Notebook en VS Code o en JupyterLab?</strong></p>
+<p>VS Code para escribir/refactorizar (autocomplete con type hints, debug por celda, git inline). JupyterLab cuando alguien necesita un navegador y no quiere instalar VS Code (alumno, demo en proyector).</p>
+<p><strong>❓ ¿Para qué <code>justMyCode: false</code>?</strong></p>
+<p>Por default, el debugger se salta código de librerías de terceros (numpy, pandas) — útil para no perderte. Pero a veces el bug viene <strong>desde dentro de pandas</strong> (datos malformados); con <code>false</code> puedes entrar a ver.</p>
+<p><strong>❓ ¿Ruff reemplaza todo el stack? ¿No necesito black?</strong></p>
+<p>Sí — <code>ruff format</code> es drop-in replacement de black (mismo output prácticamente). Mismo con isort (<code>ruff check --select I --fix</code>) y flake8 (<code>ruff check</code>). Único caso donde aún conviene black: si tu org ya tiene CI con black configurado y no quieres tocar.</p>
+<h2 id="referencias">🔗 Referencias</h2>
 <ul>
-<li>(resultado 1)</li>
-<li>(resultado 2)</li>
-<li>(resultado 3)</li>
+<li><a href="https://code.visualstudio.com/docs/python/python-tutorial">VS Code Python docs</a></li>
+<li><a href="https://code.visualstudio.com/docs/datascience/jupyter-notebooks">VS Code Jupyter docs</a></li>
+<li><a href="https://docs.astral.sh/ruff/">ruff docs</a></li>
+<li><a href="https://docs.cursor.com/">Cursor docs</a></li>
 </ul>
-<h2 id="temas-clave">Temas clave</h2>
-<ul>
-<li>(subtema 1)</li>
-<li>(subtema 2)</li>
-<li>(subtema 3)</li>
-</ul>
-<h2 id="materiales">Materiales</h2>
-<ul>
-<li><code>README.md</code> — esta ficha</li>
-<li><code>notebook.ipynb</code> — cuaderno de la clase</li>
-</ul>
-<h2 id="prerrequisitos">Prerrequisitos</h2>
-<p>Ver índice general en <code>classes/README.md</code> para dependencias entre clases.</p>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../006-python-tipos-estructuras-control-de-flujo/index.html">Clase 006 — Python: tipos, estructuras, control de flujo</a></p>
   </main>
   <footer class="cur-footer">
     <p>

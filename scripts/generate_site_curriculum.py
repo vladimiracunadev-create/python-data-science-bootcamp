@@ -139,6 +139,24 @@ CSS = """/* Curriculum pages — extiende styles.css del portal */
 
 .notebook-link { display: inline-flex; align-items: center; gap: 6px; margin: 8px 0 18px; padding: 6px 14px; background: var(--purple-light); color: #4c1d95; border-radius: 999px; font-size: 0.9rem; text-decoration: none; font-weight: 500; }
 .notebook-link:hover { background: var(--purple); color: #fff; }
+
+/* Auto Table of Contents at top of class page */
+.cur-toc { margin: 8px 0 22px; padding: 12px 16px; background: var(--bg-soft); border-left: 3px solid var(--teal); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; font-size: 0.92rem; color: var(--ink-soft); }
+.cur-toc strong { color: var(--ink); margin-right: 6px; }
+.cur-toc a { color: var(--teal-dark); text-decoration: none; padding: 2px 6px; border-radius: 4px; transition: background 0.15s; }
+.cur-toc a:hover { background: var(--gold-light); color: var(--ink); }
+
+/* Enrichment badges (📖 / ⚠️ / ❓) */
+.enrich-badge { display: inline-block; padding: 1px 8px; background: var(--gold-light); color: #78350f; border-radius: 999px; font-size: 0.82rem; font-weight: 600; margin: 0 2px; }
+.enrich-row { display: inline-flex; gap: 4px; margin-left: 8px; }
+.enrich-summary { display: inline-block; margin-top: 4px; padding: 2px 8px; background: var(--gold-light); color: #78350f; border-radius: 999px; font-size: 0.75rem; font-weight: 600; }
+
+.enriched-note { padding: 10px 14px; background: var(--bg-soft); border-left: 3px solid var(--gold); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; margin: 0 0 16px; font-size: 0.93rem; }
+.enriched-note .enrich-badge { background: #fff; }
+
+.banner-new { padding: 14px 18px; background: linear-gradient(135deg, #fef3c7 0%, #fbbf24 100%); color: #78350f; border-radius: var(--radius-sm); margin: 0 0 24px; font-size: 0.95rem; box-shadow: var(--shadow); }
+.banner-new strong { color: #451a03; }
+.banner-new .enrich-badge { background: rgba(255,255,255,0.6); }
 """
 
 
@@ -199,6 +217,40 @@ def class_title_from_readme(text: str, fallback: str) -> str:
     return m.group(1).strip() if m else fallback
 
 
+# Detect which "enriched" sections a class has (for badges and ToC)
+ENRICHED_SECTIONS = [
+    ("📖 Definiciones", r"##\s*📖\s*Definiciones"),
+    ("⚠️ Errores comunes", r"##\s*⚠️\s*Errores"),
+    ("❓ FAQ", r"##\s*❓\s*Preguntas"),
+]
+
+
+def detect_enrichments(text: str) -> list[str]:
+    """Return list of enrichment labels present in this README."""
+    return [label for label, pattern in ENRICHED_SECTIONS if re.search(pattern, text)]
+
+
+def extract_toc(rendered_html: str) -> str:
+    """Build a small ToC from H2 headings present in the rendered HTML.
+
+    markdown extension 'toc' adds id="..." to headings automatically.
+    We extract them and emit a compact <nav>.
+    """
+    items = re.findall(r'<h2 id="([^"]+)"[^>]*>(.+?)</h2>', rendered_html, flags=re.DOTALL)
+    if not items:
+        return ""
+    links = []
+    for anchor, label_html in items:
+        # Strip tags inside the heading label
+        label_text = re.sub(r"<[^>]+>", "", label_html).strip()
+        if not label_text:
+            continue
+        links.append(f'<a href="#{anchor}">{html.escape(label_text)}</a>')
+    if not links:
+        return ""
+    return f'<nav class="cur-toc"><strong>En esta clase:</strong> {" · ".join(links)}</nav>'
+
+
 def list_parts() -> list[Path]:
     return sorted(p for p in CLASSES.glob("parte-*") if p.is_dir())
 
@@ -231,26 +283,48 @@ def build_curriculum_index() -> None:
     parts = list_parts()
     cards = []
     total_classes = 0
+    total_enriched = 0
     for part in parts:
-        n_classes = len(list_classes(part))
+        klasses = list_classes(part)
+        n_classes = len(klasses)
         total_classes += n_classes
+        n_enriched = sum(1 for c in klasses
+                         if len(detect_enrichments((c / "README.md").read_text(encoding="utf-8"))) == 3)
+        total_enriched += n_enriched
         emoji = PART_EMOJIS.get(part.name, "•")
         meta = PART_TITLES.get(part.name)
         if meta:
             badge, title, desc = meta
         else:
             badge, title, desc = part.name, part.name, ""
+        enriched_badge = (
+            f'<span class="enrich-summary">✨ {n_enriched}/{n_classes} ampliadas</span>'
+            if n_enriched else ''
+        )
         cards.append(
             f'<a class="part-card" href="{part.name}/index.html">'
             f'<span class="badge">{emoji} {html.escape(badge)}</span>'
             f'<h3>{html.escape(title)}</h3>'
             f'<p>{html.escape(desc)}</p>'
-            f'<span class="count">{n_classes} clases</span>'
+            f'<span class="count">{n_classes} clases</span> {enriched_badge}'
             f'</a>'
+        )
+
+    banner = ""
+    if total_enriched:
+        banner = (
+            f'<div class="banner-new">'
+            f'<strong>✨ Novedad:</strong> {total_enriched} clases ya incluyen '
+            f'<span class="enrich-badge">📖</span> <strong>Definiciones y características</strong> · '
+            f'<span class="enrich-badge">⚠️</span> <strong>Errores comunes</strong> · '
+            f'<span class="enrich-badge">❓</span> <strong>Preguntas frecuentes</strong>. '
+            f'El resto se va ampliando por bloques.'
+            f'</div>'
         )
 
     body = f"""
     <h1>Currículo completo</h1>
+    {banner}
     <p><strong>{total_classes} clases en {len(parts)} partes.</strong> Esta es la fuente de referencia
     para alumnos, docentes y evaluadores: cada clase tiene su ficha pedagógica (objetivo, resultados,
     temas, ejercicios, homework) y enlace al notebook.</p>
@@ -292,24 +366,45 @@ def build_part_page(part: Path) -> None:
 
     # Replace the class index links with our own list (more visual)
     classes_list = ['<div class="classes-list">']
+    enriched_count = 0
     for c in classes:
         num = c.name[:3]
         c_readme = (c / "README.md").read_text(encoding="utf-8")
         c_title = class_title_from_readme(c_readme, c.name)
         # Strip leading "Clase NNN — " if present to avoid repetition
         c_title = re.sub(r"^Clase\s+\d+\s+[—-]\s+", "", c_title)
+        enrichments = detect_enrichments(c_readme)
+        if len(enrichments) == 3:
+            enriched_count += 1
+        badges_html = "".join(
+            f'<span class="enrich-badge" title="{html.escape(label)}">{html.escape(label.split()[0])}</span>'
+            for label in enrichments
+        )
         classes_list.append(
             f'<a href="{c.name}/index.html">'
             f'<span class="num">{num}</span> '
             f'<span class="title">{html.escape(c_title)}</span>'
+            f'<span class="enrich-row">{badges_html}</span>'
             f'</a>'
         )
     classes_list.append("</div>")
+    if enriched_count:
+        enriched_note = (
+            f'<p class="enriched-note">'
+            f'✨ <strong>{enriched_count} de {len(classes)}</strong> clases tienen contenido pedagógico ampliado '
+            f'(<span class="enrich-badge">📖</span> Definiciones · '
+            f'<span class="enrich-badge">⚠️</span> Errores comunes · '
+            f'<span class="enrich-badge">❓</span> FAQ).'
+            f'</p>'
+        )
+    else:
+        enriched_note = ""
 
     body = f"""
     {rendered}
     <hr>
     <h2>📚 Ficha por clase</h2>
+    {enriched_note}
     {''.join(classes_list)}
     """
     breadcrumbs = build_breadcrumbs([
@@ -340,7 +435,8 @@ def build_class_page(part: Path, klass: Path) -> None:
         f'📓 Abrir notebook en GitHub'
         f'</a>'
     )
-    body = f"{notebook_link}\n{rendered}"
+    toc = extract_toc(rendered)
+    body = f"{notebook_link}\n{toc}\n{rendered}"
 
     part_meta = PART_TITLES.get(part.name)
     part_label = f"{part_meta[0]} — {part_meta[1]}" if part_meta else part.name

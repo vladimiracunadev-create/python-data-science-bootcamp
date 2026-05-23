@@ -24,33 +24,140 @@
   </header>
   <main class="cur-main">
     <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-0-prerrequisitos/006-python-tipos-estructuras-control-de-flujo/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
 <h1 id="clase-006-python-tipos-estructuras-control-de-flujo">Clase 006 — Python: tipos, estructuras, control de flujo</h1>
 <blockquote>
-<p>Parte: <strong>0-prerrequisitos</strong>
-Estado: <strong>stub</strong> (pendiente desarrollar contenido).</p>
+<p>Parte: <strong>0 — Prerrequisitos</strong> · Fuente: <em>Python Tutorial</em> oficial (caps. 3-5) · <em>Fluent Python</em> (Ramalho, 2ª ed.) cap. 1.
+⏱️ Duración estimada: <strong>120 min</strong>.</p>
 </blockquote>
-<h2 id="objetivo">Objetivo</h2>
-<p>Describir el resultado de aprendizaje concreto de esta clase.</p>
-<h2 id="resultados-esperados">Resultados esperados</h2>
-<p>Al finalizar, el estudiante podrá:</p>
+<hr>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Refrescar (o instalar) los cimientos de Python que el resto del programa asume: tipos primitivos, las 4 estructuras built-in (list, tuple, set, dict), control de flujo (if/for/while), unpacking, truthiness y la diferencia entre mutables e inmutables — la fuente del 90% de bugs sutiles.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar la clase, el alumno podrá:</p>
+<ol>
+<li><strong>Diferenciar</strong> tipos mutables (list, dict, set) vs inmutables (tuple, str, int, frozenset) y predecir el efecto en asignaciones.</li>
+<li><strong>Usar las 4 estructuras</strong> eligiendo bien: list (orden + duplicados), tuple (inmutable, rápida), set (unicidad), dict (lookup O(1)).</li>
+<li><strong>Aplicar unpacking</strong> en for, returns múltiples y <code>*args</code>/<code>**kwargs</code>.</li>
+<li><strong>Evaluar truthiness</strong> correctamente (<code>[]</code>, <code>{}</code>, <code>0</code>, <code>''</code>, <code>None</code> son falsy; el resto es truthy).</li>
+<li><strong>Identificar el bug del default mutable</strong> en funciones (<code>def f(x, lst=[])</code>) y por qué es trampa.</li>
+</ol>
+<h2 id="temas">🗺️ Temas</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Tema</th>
+<th>Por qué importa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Mutables vs inmutables</td>
+<td>Define qué pasa con <code>a = b</code>.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>list, tuple, set, dict — cuándo cada uno</td>
+<td>Complejidad y semántica distintas.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Iteración: for, enumerate, zip</td>
+<td>Idiomático &gt; C-style.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Unpacking y starred expressions</td>
+<td><code>a, *b, c = [1,2,3,4,5]</code>.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Truthiness y operadores <code>and</code>/<code>or</code></td>
+<td>Evalúan al objeto, no al booleano.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Default mutables: el clásico</td>
+<td><code>def f(x, lst=[])</code> comparte la lista entre llamadas.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<dl>
+<dt><strong>Mutable</strong></dt>
+<dd>Objeto cuyo estado puede modificarse después de crearlo (<code>list</code>, <code>dict</code>, <code>set</code>, <code>bytearray</code>). Consecuencia: si dos variables apuntan al mismo objeto mutable, cambiar una cambia la otra (alias).</dd>
+<dt><strong>Inmutable</strong></dt>
+<dd>Objeto que NO se puede modificar; cualquier 'modificación' produce un objeto nuevo (<code>int</code>, <code>float</code>, <code>str</code>, <code>tuple</code>, <code>frozenset</code>). Característica clave: son <strong>hashables</strong> y pueden ser claves de dict o miembros de set.</dd>
+<dt><strong>Hashable</strong></dt>
+<dd>Objeto con <code>__hash__</code> definido y constante durante su vida. Los inmutables built-in son hashables; las listas y dicts NO lo son. Es lo que permite el O(1) lookup de set/dict.</dd>
+<dt><strong>Unpacking</strong></dt>
+<dd>Sintaxis para asignar múltiples variables desde un iterable (<code>a, b = (1, 2)</code> o <code>a, *resto = [1, 2, 3, 4]</code>). El <code>*</code> captura el resto en una lista. Funciona en for, return, llamadas a funciones (<code>f(*lista)</code>, <code>g(**dict)</code>).</dd>
+<dt><strong>Truthy / Falsy</strong></dt>
+<dd>Cómo evalúa Python un objeto en contexto booleano (<code>if x:</code>). Falsy: <code>False</code>, <code>None</code>, <code>0</code>, <code>0.0</code>, <code>''</code>, <code>[]</code>, <code>{}</code>, <code>set()</code>. Truthy: todo lo demás (incluso <code>' '</code> con espacio, <code>[0]</code>, <code>{None: None}</code>).</dd>
+</dl>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<p>Datos sintéticos pequeños generados en el notebook (lista de diccionarios simulando estudiantes). No requiere descarga.</p>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<p><strong>1.</strong> <strong>Cuenta palabras.</strong> Dado un texto, devuelve un <code>dict[str, int]</code> con frecuencias. Sin usar <code>Counter</code>.</p>
+<p><strong>2.</strong> <strong>Unique con orden.</strong> Recibe <code>list[int]</code>, devuelve la lista de únicos manteniendo el orden de primera aparición.</p>
+<p><strong>3.</strong> <strong>Reproduce el bug del default mutable.</strong> Escribe <code>def add(item, target=[])</code>, llámala 3 veces con <code>add('x')</code>. Observa. Explica por qué y arregla.</p>
+<p><strong>4.</strong> <strong>Top-K palabras.</strong> Mismo texto del ejercicio 1, devuelve las 5 más frecuentes ordenadas por frecuencia descendente.</p>
+<p><strong>5.</strong> <strong>Grupos por inicial.</strong> Dado <code>list[str]</code>, devuelve <code>dict[str, list[str]]</code> agrupando por primera letra (case-insensitive).</p>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Notebook <code>homework.ipynb</code> con las 5 funciones de los ejercicios, cada una con: (a) implementación, (b) 3 casos de prueba (incluyendo edge cases — lista vacía, string vacío), (c) docstring corto explicando complejidad.</p>
+<p><strong>Criterio de aceptación:</strong> Las 5 funciones pasan sus casos de prueba; los edge cases manejados sin excepción.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>TypeError: unhashable type: 'list'</code></td>
+<td>Intentaste usar una lista como clave de dict o miembro de set. <strong>Fix</strong>: usa una tupla en su lugar (es inmutable y hashable). <code>{[1,2]: 'x'}</code> ❌ → <code>{(1,2): 'x'}</code> ✅.</td>
+</tr>
+<tr>
+<td>Modifiqué una lista y otra variable también cambió</td>
+<td>Las dos apuntan al mismo objeto (alias). <strong>Fix</strong>: si querías una copia, usa <code>list_b = list_a.copy()</code> o <code>list_b = list_a[:]</code> o <code>list_b = list(list_a)</code>.</td>
+</tr>
+<tr>
+<td>Función con default <code>=[]</code> comparte la lista entre llamadas</td>
+<td>El default se evalúa <strong>una vez</strong> al definir la función. <strong>Fix</strong>: <code>def f(x, lst=None): lst = lst or []</code> (o <code>lst = [] if lst is None else lst</code>).</td>
+</tr>
+<tr>
+<td><code>KeyError</code> al acceder a dict que no tiene la key</td>
+<td><code>d['x']</code> lanza KeyError si no existe. <strong>Fix</strong>: usa <code>d.get('x', default)</code> o <code>from collections import defaultdict; d = defaultdict(int)</code>.</td>
+</tr>
+<tr>
+<td><code>if items != None:</code> en vez de <code>if items is not None:</code></td>
+<td>Para singletons (<code>None</code>, <code>True</code>, <code>False</code>) usa siempre <code>is</code> / <code>is not</code> — más rápido y semánticamente correcto. <code>==</code> puede engañar si el objeto override <code>__eq__</code>.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿Cuándo tupla y cuándo lista?</strong></p>
+<p><strong>Tupla</strong> para records heterogéneos de tamaño fijo (<code>punto = (3.5, 7.1)</code>, <code>(nombre, edad)</code>). <strong>Lista</strong> para colecciones homogéneas que crecen (<code>temperaturas = [22.1, 22.5, ...]</code>). Tupla además sirve como clave de dict; lista no.</p>
+<p><strong>❓ ¿Set o dict para chequear pertenencia?</strong></p>
+<p>Ambos son O(1). Set si solo necesitas saber si está. Dict si además necesitas asociar valor. Una <code>list</code> para esto es O(n) — usa set/dict si haces <code>if x in coleccion</code> con N grande.</p>
+<p><strong>❓ ¿<code>copy()</code> me da una copia completa? ¿Y con listas anidadas?</strong></p>
+<p><code>.copy()</code> es <strong>shallow</strong>: copia el contenedor pero comparte las referencias internas. Para anidamiento, <code>import copy; copy.deepcopy(x)</code> — más lento pero independiente.</p>
+<p><strong>❓ ¿Por qué <code>0.1 + 0.2 != 0.3</code>?</strong></p>
+<p>Floats son IEEE 754 binarios; <code>0.1</code> y <code>0.2</code> no tienen representación exacta. <strong>Fix</strong>: para igualdad usa <code>math.isclose(a, b)</code>. Para precisión decimal financiera, <code>from decimal import Decimal</code>.</p>
+<p><strong>❓ ¿Qué pasa con dict si insertas la misma clave dos veces?</strong></p>
+<p>El segundo valor sobrescribe al primero. El orden de inserción se preserva (Python 3.7+), así que <code>list(d)</code> da las keys en el orden en que se insertaron por primera vez.</p>
+<h2 id="referencias">🔗 Referencias</h2>
 <ul>
-<li>(resultado 1)</li>
-<li>(resultado 2)</li>
-<li>(resultado 3)</li>
+<li><a href="https://docs.python.org/3/tutorial/datastructures.html">Python Tutorial — Data Structures</a></li>
+<li>Ramalho, <em>Fluent Python</em> 2e — cap. 1 <em>The Python Data Model</em>.</li>
+<li><a href="https://docs.python.org/3/tutorial/controlflow.html">Python Tutorial — Control flow</a></li>
 </ul>
-<h2 id="temas-clave">Temas clave</h2>
-<ul>
-<li>(subtema 1)</li>
-<li>(subtema 2)</li>
-<li>(subtema 3)</li>
-</ul>
-<h2 id="materiales">Materiales</h2>
-<ul>
-<li><code>README.md</code> — esta ficha</li>
-<li><code>notebook.ipynb</code> — cuaderno de la clase</li>
-</ul>
-<h2 id="prerrequisitos">Prerrequisitos</h2>
-<p>Ver índice general en <code>classes/README.md</code> para dependencias entre clases.</p>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../007-comprehensions-y-generadores/index.html">Clase 007 — Comprehensions y generadores</a></p>
   </main>
   <footer class="cur-footer">
     <p>
