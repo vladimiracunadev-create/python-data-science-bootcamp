@@ -30,6 +30,26 @@ Al finalizar la clase, el alumno podrá:
 | 5 | Tile providers (OSM, CartoDB) | Estética y licencia. |
 | 6 | Cuándo geopandas | Análisis geoespacial real. |
 
+## 📖 Definiciones y características
+
+**Coordenadas geográficas (lat, lng)**
+: **Latitud** (-90 a 90): N/S del ecuador. **Longitud** (-180 a 180): E/W de Greenwich. Convención y orden varía: folium `[lat, lng]`, GeoJSON `[lng, lat]` — fuente clásica de bugs.
+
+**folium**
+: Wrapper Python de Leaflet.js. Mapas interactivos (zoom, pan, popups) embebidos en notebook como HTML. Ideal para exploración.
+
+**plotly geo**
+: Mapas en plotly (scatter_geo, choropleth). Bonitos, interactivos, integran con dashboards Plotly/Dash. Para choropleth de países usa códigos ISO-3.
+
+**Choropleth**
+: Mapa de calor por región: color de cada polígono representa un valor (PIB, población, casos). Requiere GeoJSON con las shapes.
+
+**Tile provider**
+: Servidor de "baldosas" (imágenes 256×256) que componen el mapa de fondo. OpenStreetMap (default), CartoDB (limpio), Mapbox (premium).
+
+**geopandas**
+: Extensión de pandas con geometrías (Shapely). Para **análisis** espacial (intersection, buffer, dissolve), no solo visualizar. Fuera del scope Parte 0.
+
 ## 📂 Dataset / recursos
 
 Sintético: lista de ciudades con coords + métrica simulada. GeoJSON de países público desde un CDN para choropleth.
@@ -51,6 +71,38 @@ Sintético: lista de ciudades con coords + métrica simulada. GeoJSON de países
 Notebook: (a) mapa folium con 10+ markers + popups + tooltips; (b) choropleth folium de un dataset por país; (c) mismo choropleth con plotly express; (d) reporte 1-párrafo comparando ambos.
 
 **Criterio de aceptación:** Mapas funcionales en notebook; popups muestran info correcta; choropleth con leyenda.
+
+## ⚠️ Errores comunes
+
+| Síntoma / mensaje | Causa y cómo arreglar |
+|---|---|
+| Marcadores aparecen en medio del océano | Invertiste lat/lng. **Fix**: folium espera `[lat, lng]`. Para Madrid: `[40.42, -3.70]` (lat positiva, lng negativa). |
+| Mapa folium no se renderiza en VS Code | Algunas extensiones de notebook no muestran HTML inline complejo. **Fix**: `m.save('mapa.html')` y abre en navegador. |
+| choropleth plotly sale gris | El código ISO no matchea con el shape. **Fix**: usa ISO-3 (`'ESP'` no `'ES'`). Verifica que los códigos del dataset coinciden con los esperados. |
+| Mapa pesa MB y carga lento | Demasiados markers (>1000). **Fix**: usa `MarkerCluster` (`folium.plugins.MarkerCluster`) que agrupa por zoom level. |
+| Tiles fallan a cargar | Provider con rate limit (Mapbox sin token, Stamen down). **Fix**: usa `'OpenStreetMap'` o `'CartoDB positron'` que son gratis sin token. |
+
+## ❓ Preguntas frecuentes
+
+**❓ ¿folium o plotly?**
+
+**folium** para exploración interactiva en notebook (mapa real con zoom/pan/popups). **plotly** para integrar en dashboard o cuando ya usas plotly. Ambos producen HTML standalone.
+
+**❓ ¿Cómo encuentro lat/lng de un lugar?**
+
+Click derecho en Google Maps → "¿Qué hay aquí?". O geocodifica con `geopy` (`from geopy.geocoders import Nominatim`).
+
+**❓ ¿GeoJSON dónde lo consigo?**
+
+Para países: [Natural Earth](https://www.naturalearthdata.com/) (público). Para regiones: portal gov del país. Para custom: dibuja en geojson.io.
+
+**❓ ¿Cuándo necesito geopandas?**
+
+Análisis espacial real: "¿cuántos puntos caen en este polígono?", "buffer de 1km alrededor", re-proyección entre CRS. Para solo visualizar puntos en mapa: folium basta.
+
+**❓ ¿Mapas offline?**
+
+Tiles son online por default. Para offline: descarga tiles con `mbtiles`, sirve local con `folium.raster_layers.TileLayer(url='file://...')`. Setup complejo, considera si vale.
 
 ## 🔗 Referencias
 

@@ -78,6 +78,63 @@ python verify.py
 
 …y obtener un output similar al que tú reportaste (mismo Python mayor.menor, mismos paquetes importables).
 
+## 📖 Definiciones y características
+
+**Python "del sistema"**
+: Intérprete instalado por el OS (macOS y Linux lo traen por default; Windows no). Lo usan herramientas internas del sistema — **modificarlo puede romper el OS**. Regla: nunca instales paquetes ahí.
+
+**Entorno virtual (venv)**
+: Carpeta autocontenida con su propio Python ejecutable y sus propios paquetes. Aislada del Python global y de otros venvs. Crear/destruir es barato — uno por proyecto es la norma.
+
+**`pip`**
+: Gestor de paquetes oficial de Python. Instala desde PyPI (Python Package Index). Característica clave: **usa el Python con el que se invoca** — siempre prefiere `python -m pip install` sobre `pip install` solo.
+
+**`uv` (Astral)**
+: Reemplazo moderno (2024+) escrito en Rust. Drop-in compatible con pip+venv pero **10–100× más rápido**. Maneja también versiones de Python (reemplazo de pyenv). API: `uv venv`, `uv pip install`, `uv python install 3.12`.
+
+**`conda` / `mamba`**
+: Gestor multilenguaje (no solo Python). Maneja también dependencias **binarias C/C++/CUDA** (PyTorch+GPU, geopandas, rdkit). Más pesado pero imprescindible para esos casos. `mamba` es conda en C++ (más rápido).
+
+**`requirements.txt` vs `pyproject.toml` vs `environment.yml`**
+: Tres formatos, tres ecosistemas. `requirements.txt` (pip, lockfile). `pyproject.toml` (estándar moderno PEP 621, declarativo). `environment.yml` (conda).
+
+## ⚠️ Errores comunes
+
+| Síntoma / mensaje | Causa y cómo arreglar |
+|---|---|
+| `ModuleNotFoundError` aunque acabo de instalar el paquete | `pip` y `python` apuntan a Pythons distintos. **Fix**: siempre `python -m pip install <paquete>` para garantizar el mismo Python. |
+| `Permission denied` al hacer `pip install` | Estás instalando en el Python del sistema sin sudo. **NO uses sudo** — activa un venv primero. |
+| `.venv\Scripts\Activate.ps1 cannot be loaded` (Windows PowerShell) | Execution policy bloquea scripts. **Fix**: `Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser` (una vez). |
+| Pip muy lento descargando | Red lenta o servidor PyPI lejano. **Fix**: prueba con `uv` (10–100× más rápido) o mirror más cercano (`pip install -i https://...`). |
+| Borré la carpeta `.venv/` y `pip list` sigue mostrando los paquetes | Tu shell aún tiene el PATH del venv viejo. **Fix**: `deactivate` y abre terminal nueva. |
+| `conda activate` no funciona en script no-interactive | conda init requiere shell interactivo. **Fix**: `source activate` directamente o usa `conda run`. |
+
+## ❓ Preguntas frecuentes
+
+**❓ ¿`venv`, `uv` o `conda` — cuál uso?**
+
+**venv** si quieres simplicidad y solo tocas Python puro (stdlib + pandas + numpy + sklearn). **uv** si haces lo mismo pero quieres velocidad — recomendado en 2026. **conda** solo si necesitas dependencias C/CUDA (PyTorch con GPU, geopandas, química).
+
+**❓ ¿Puedo tener `venv` y `conda` en la misma máquina?**
+
+Sí — coexisten. Lo único: no actives ambos a la vez. Tu PATH se confunde y `python` apunta a uno u otro impredeciblemente.
+
+**❓ ¿Por qué `.venv/` en el repo está en `.gitignore`?**
+
+Porque pesa cientos de MB y es reconstruible desde `requirements.txt`/`pyproject.toml`. Versionar el venv duplica el repo y crea conflicto si cambias de OS.
+
+**❓ ¿Debo actualizar pip al crear un venv?**
+
+Sí, primer paso: `python -m pip install --upgrade pip`. El pip dentro de venvs viejos tiene bugs conocidos y es lento.
+
+**❓ ¿Cómo sé en qué venv estoy?**
+
+`python -c "import sys; print(sys.executable)"` o `which python` (Unix) / `where python` (Windows). El prompt suele cambiar (`(.venv) C:\...>`) pero no siempre — confirma con el comando.
+
+**❓ ¿Necesito Python 3.12 específicamente?**
+
+Para este curso, sí (varias features usadas dependen). En general, usa la última estable. Python 3.10 ya pierde soporte en oct/2026.
+
 ## 🔗 Referencias
 
 - VanderPlas, *Python Data Science Handbook*, **Preface § "Installation Considerations"**.

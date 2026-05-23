@@ -32,6 +32,29 @@ Al finalizar la clase, el alumno podrá:
 | 6 | Rate limiting + retry exponencial | No tirar la API ajena. |
 | 7 | `requests.Session` para reuso | Más rápido + cookies persistentes. |
 
+## 📖 Definiciones y características
+
+**REST (REpresentational State Transfer)**
+: Estilo arquitectónico para APIs web sobre HTTP. Recursos identificados por URLs, operaciones por verbos HTTP (GET=leer, POST=crear, PUT=update, DELETE=borrar).
+
+**`requests`**
+: Librería Python de facto para hacer HTTP. API simple: `requests.get(url, params=..., headers=..., timeout=...)`. Soporta auth, cookies, sessions, retry.
+
+**Status code**
+: Número HTTP que indica resultado: **2xx** éxito, **3xx** redirect, **4xx** error cliente (404 no encontrado, 401 no auth, 403 prohibido, 429 rate limited), **5xx** error servidor.
+
+**Paginación**
+: API que devuelve resultados en bloques (no todo de golpe). Patrones: **offset/limit** (`?page=2`), **cursor** (`?after=<id>`), **Link header** (`<url>; rel="next"`).
+
+**Rate limiting**
+: Política del servidor: máximo N requests/seg/usuario. Excederlo → 429. **Respétalo** con delays y retries exponenciales.
+
+**`Session`**
+: Reuso de conexión TCP/TLS entre requests. Mantiene cookies. ~10× más rápido para múltiples requests al mismo host vs `requests.get` repetido.
+
+**Bearer token**
+: Esquema de auth común: `Authorization: Bearer <token>` header. Token suele ser JWT o opaque string emitido por OAuth/login.
+
 ## 📂 Dataset / recursos
 
 API pública sin auth: https://api.coingecko.com (precios cripto). Sin API key necesaria.
@@ -53,6 +76,38 @@ API pública sin auth: https://api.coingecko.com (precios cripto). Sin API key n
 Notebook que: (a) consulta una API pública (CoinGecko, GitHub, JSONPlaceholder) con GET; (b) maneja status codes con try/except; (c) pagina 3+ páginas; (d) configura Session con Retry exponencial; (e) reporta cuánto se tardó vs un loop sin Session.
 
 **Criterio de aceptación:** Maneja al menos un error sin crash. Pagination devuelve datos esperados.
+
+## ⚠️ Errores comunes
+
+| Síntoma / mensaje | Causa y cómo arreglar |
+|---|---|
+| `requests.exceptions.ConnectTimeout` o `Timeout` | API lenta o sin red. **Fix**: siempre pasa `timeout=10` (segundos) — sin él, request puede colgarse indefinidamente. |
+| API responde 200 pero `.json()` lanza error | Body no es JSON (HTML de error, vacío). **Fix**: verifica `r.headers['content-type']` o usa `try: r.json() except ValueError: print(r.text)`. |
+| Hardcodeé el token en el código y subí a GitHub | **Catástrofe de seguridad** — el token es público. **Fix**: rota el token YA, usa `.env` + `python-dotenv`, añade `.env` a `.gitignore`. |
+| Mi script tira la API ajena (HTTP 429) | Sin rate limiting. **Fix**: `time.sleep()` entre requests, o `Session` con `Retry(backoff_factor=2)` para reintentos exponenciales. |
+| HTTPError no se lanza con status 4xx | `requests` NO lanza por default. **Fix**: `r.raise_for_status()` después de `requests.get(...)` para lanzar en 4xx/5xx. |
+
+## ❓ Preguntas frecuentes
+
+**❓ ¿`requests` o `httpx`?**
+
+**`requests`** sigue siendo la default (estable, ubícua). **`httpx`** drop-in con async support (`async with httpx.AsyncClient() as client:`). Para async/HTTP2, httpx; para todo lo demás, requests.
+
+**❓ ¿Cuándo Session?**
+
+Más de 2-3 requests al mismo host. La primera request hace handshake TCP/TLS (~100ms); Session lo reusa. Para single request, no aporta.
+
+**❓ ¿`json=` o `data=` en POST?**
+
+**`json=dict`**: serializa a JSON y setea `Content-Type: application/json`. **`data=dict`**: form-encoded (`application/x-www-form-urlencoded`). Para APIs REST modernas, casi siempre `json=`.
+
+**❓ ¿Cómo paginar genéricamente?**
+
+Loop hasta que la API diga "no más": `while True: r = requests.get(url, params=...); items.extend(r.json()['data']); if not r.json().get('next'): break`.
+
+**❓ ¿Auth OAuth desde Python?**
+
+Para casos simples (Bearer fijo): pasa el header. Para OAuth flow completo: `authlib`, `requests-oauthlib`. Para producción: librería oficial del proveedor (`google-auth`, `pyOpenSSL`, etc.).
 
 ## 🔗 Referencias
 

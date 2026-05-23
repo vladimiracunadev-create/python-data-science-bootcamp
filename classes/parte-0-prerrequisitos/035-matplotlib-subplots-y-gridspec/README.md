@@ -30,6 +30,23 @@ Al finalizar la clase, el alumno podrá:
 | 5 | `constrained_layout` vs `tight_layout` | El primero es mejor. |
 | 6 | `add_subplot` con posiciones custom | Cuando necesitas full control. |
 
+## 📖 Definiciones y características
+
+**`plt.subplots(n, m)`**
+: Crea figure + grilla regular de n filas × m columnas de axes. Devuelve `(fig, axes)` donde axes es array 2D — itera con `.flat` para llenar.
+
+**`sharex` / `sharey`**
+: Comparten escala entre axes del grid. Ideal para comparar distribuciones de la misma magnitud sin distorsión visual.
+
+**`GridSpec`**
+: Layout irregular avanzado: define grilla y asigna spans manualmente ("plot grande arriba + 3 pequeños abajo"). Mucho más flexible que `subplots(n, m)`.
+
+**`add_subplot(spec)`**
+: Añade un axes a una figure según una posición específica (índice 121, o GridSpec). Útil cuando subplots no alcanza.
+
+**`constrained_layout=True`**
+: Algoritmo moderno (default en pandas 3+) que ajusta spacing automáticamente. Maneja colorbars, leyendas externas, suptitle sin overlap. Recomendado sobre `tight_layout()`.
+
 ## 📂 Dataset / recursos
 
 Palmer Penguins. Sin descarga.
@@ -51,6 +68,38 @@ Palmer Penguins. Sin descarga.
 Notebook con penguins: (a) grilla 2×2 hists; (b) 3 boxplots con sharey; (c) layout GridSpec con scatter central + marginales arriba/derecha; (d) misma figura comparando tight_layout vs constrained_layout.
 
 **Criterio de aceptación:** Sin superposición de labels. Layouts limpios. Marginales alineadas al scatter.
+
+## ⚠️ Errores comunes
+
+| Síntoma / mensaje | Causa y cómo arreglar |
+|---|---|
+| `axes` es array 1D cuando esperaba 2D | Si pides `subplots(1, 3)` o `subplots(3, 1)`, axes es 1D. **Fix**: usa `axes.flat` (siempre 1D) para iterar consistente, o `axes.reshape(-1)`. |
+| `subplots(1, 1)` devuelve axes escalar | No es array. **Fix**: si quieres array siempre, `subplots(1, 1, squeeze=False)` (devuelve 2D). O distingue caso 1 vs N. |
+| Plots se superponen / labels cortados | Sin `constrained_layout=True` ni `tight_layout()`. **Fix**: `subplots(..., constrained_layout=True)` siempre. |
+| `sharey=True` pero un plot tiene escala distinta | Quizás esa subplot necesita un eje secundario: `ax.twinx()`. Mezclar escalas con shared rompe la utilidad. |
+| GridSpec con índices confusos | El orden es `gs[fila, col]` igual que NumPy. Spans: `gs[0:2, 1]` = filas 0-1 (excluye 2), columna 1. |
+
+## ❓ Preguntas frecuentes
+
+**❓ ¿Cuándo `subplots(n, m)` vs `GridSpec`?**
+
+**Regular**: `subplots`. **Irregular** (un grande + varios pequeños, joint plot, dashboard): `GridSpec`.
+
+**❓ ¿`fig.suptitle` o `ax.set_title` con subplots?**
+
+`suptitle` = título de toda la figura (encima de todos). `ax.set_title` = título por subplot. Combinables.
+
+**❓ ¿Cómo controlo espacio entre subplots?**
+
+`subplots(..., gridspec_kw={'hspace': 0.3, 'wspace': 0.3})` (ratios relativos al tamaño del axes). Con `constrained_layout` suele ser automático.
+
+**❓ ¿`figsize` cómo elegir?**
+
+Para artículos: ancho de columna (típicamente 3.5" para 1 col, 7" para ancho página). Para presentaciones: aspect ratio 16:9 → `(12, 6.75)`.
+
+**❓ ¿`axes.flat` o `axes.flatten()`?**
+
+**`flat`** es iterador (no copia). **`flatten()`** devuelve nuevo array. Para iterar, `flat` ahorra memoria.
 
 ## 🔗 Referencias
 

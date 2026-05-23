@@ -29,6 +29,23 @@ Al finalizar la clase, el alumno podrá:
 | 5 | `view_init`: rotar interactivo | En notebooks con `%matplotlib widget`. |
 | 6 | Cuándo NO usar 3D | Casi siempre. |
 
+## 📖 Definiciones y características
+
+**`projection='3d'`**
+: Parámetro al crear axes (`fig.add_subplot(111, projection='3d')`) que habilita el toolkit 3D (mplot3d). Sin esto, las llamadas 3D fallan.
+
+**`plot_surface(X, Y, Z)`**
+: Superficie 3D para `z = f(x, y)`. Requiere mesh: `X, Y = np.meshgrid(x, y); Z = f(X, Y)`. Soporta `cmap` para color por valor de Z.
+
+**`plot_wireframe(X, Y, Z)`**
+: Como surface pero solo líneas — más liviano, mejor para densidad alta, peor para forma.
+
+**`view_init(elev, azim)`**
+: Define ángulo de cámara. `elev` elevación (0=horizontal, 90=vista superior). `azim` rotación horizontal en grados. Animar varia azim para 360°.
+
+**Oclusión**
+: Limitación fundamental del 3D: objetos al frente tapan los del fondo, sin forma confiable de elegir qué ver. La razón principal por la que 3D es problemático.
+
 ## 📂 Dataset / recursos
 
 Sintético: superficie analítica + nube de puntos. Sin descarga.
@@ -50,6 +67,38 @@ Sintético: superficie analítica + nube de puntos. Sin descarga.
 Notebook: (a) scatter 3D con 4 dimensiones (xyz + color); (b) superficie z=f(x,y); (c) wireframe del mismo z; (d) grilla 2×2 con 4 view_init distintos; (e) ejercicio de "2D vence al 3D": versión 2D del scatter.
 
 **Criterio de aceptación:** Plots 3D legibles (no espagueti). Versión 2D del scatter comparable.
+
+## ⚠️ Errores comunes
+
+| Síntoma / mensaje | Causa y cómo arreglar |
+|---|---|
+| `projection='3d'` da error "unknown projection" | No importaste el toolkit. **Fix**: `from mpl_toolkits.mplot3d import Axes3D` (algunas versiones lo requieren), o asegúrate matplotlib es 3.0+. |
+| Surface plot tarda mucho con mesh grande | 100×100 mesh = 10k vertices. **Fix**: reduce resolución (`50×50`) o usa `rcount`/`ccount` parameters. |
+| 3D scatter con miles de puntos = mancha | Oclusión. **Fix**: reduce N (sampling), o usa scatter 2D con color codificando Z. |
+| `view_init` no se aplica si llamado después de show | El orden importa: configura ángulo ANTES de `plt.show()`. |
+| Labels Z se cortan o solapan | 3D tiene limitaciones de layout. **Fix**: ajusta `ax.zaxis.labelpad`, `figsize` más grande, o usa `set_zlabel` con rotación custom. |
+
+## ❓ Preguntas frecuentes
+
+**❓ ¿Realmente necesito 3D?**
+
+**Pregúntate**: ¿hay una versión 2D con color/tamaño que comunique igual? Casi siempre sí. 3D vale para superficies analíticas (`z = f(x,y)`), datos físicos 3D, o cuando es interactivo (rotable).
+
+**❓ ¿`%matplotlib widget` para rotar interactivo?**
+
+Sí — en JupyterLab/Notebook permite rotar con el mouse. Requiere `pip install ipympl`. Default `inline` da imagen estática.
+
+**❓ ¿plotly 3D mejor?**
+
+**Sí** para uso interactivo en web/dashboard. **No** para reportes estáticos (mismo problema de oclusión, peso del HTML).
+
+**❓ ¿Animaciones 3D?**
+
+`matplotlib.animation.FuncAnimation` + variando `view_init` por frame. Bonito pero costoso de generar. Considera plotly que es interactivo nativo.
+
+**❓ ¿`Axes3D` deprecated?**
+
+En matplotlib moderno, basta `subplot_kw={'projection': '3d'}` — no necesitas importar Axes3D explícitamente.
 
 ## 🔗 Referencias
 

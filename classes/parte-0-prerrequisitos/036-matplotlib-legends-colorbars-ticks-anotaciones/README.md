@@ -30,6 +30,23 @@ Al finalizar la clase, el alumno podrá:
 | 5 | `axhline` / `axvline` / `axhspan` | Líneas y bandas de referencia. |
 | 6 | Log scale: `ax.set_yscale('log')` | Cuando hay rango grande. |
 
+## 📖 Definiciones y características
+
+**Leyenda (`ax.legend`)**
+: Mapeo labels↔elementos del plot. Auto-detecta si pones `label=` en `plot/scatter`. Posición con `loc=` o `bbox_to_anchor=` para colocarla fuera del axes.
+
+**Colorbar**
+: Escala de color para plots con codificación continua (`scatter(c=valor)`, `imshow`). Indica cómo se mapean valores a colores. **Siempre etiqueta** con `cbar.set_label(...)`.
+
+**Tick / TickFormatter**
+: Marcas en los ejes y sus etiquetas. **Formatter** define el formato: `PercentFormatter`, `FuncFormatter(lambda x,p: f'${x:,.0f}')`, `LogFormatter`.
+
+**`ax.annotate`**
+: Texto con flecha apuntando a un punto. Parámetros: `xy` (punto a apuntar), `xytext` (posición del texto), `arrowprops` (estilo flecha).
+
+**Líneas/bandas de referencia**
+: `axhline(y)` horizontal, `axvline(x)` vertical, `axhspan(y1, y2)` banda horizontal. Útiles para umbrales, medias, eventos.
+
 ## 📂 Dataset / recursos
 
 Sintético: serie con outliers, scatter con categorías.
@@ -51,6 +68,38 @@ Sintético: serie con outliers, scatter con categorías.
 Notebook con: (a) plot multi-línea con leyenda externa; (b) scatter con colorbar etiquetado; (c) bar % usando PercentFormatter; (d) plot con anotación de máximo via flecha; (e) comparativa lineal vs log en datos exponenciales.
 
 **Criterio de aceptación:** Cada elemento visual tiene propósito. Anotaciones legibles, no superpuestas.
+
+## ⚠️ Errores comunes
+
+| Síntoma / mensaje | Causa y cómo arreglar |
+|---|---|
+| Leyenda tapa parte del plot | Default es 'best' que a veces no encuentra hueco. **Fix**: `ax.legend(loc='upper left')` explícito, o sácala fuera con `bbox_to_anchor=(1.02, 1), loc='upper left'`. |
+| Colorbar es enorme/desproporcionada | Default fill toda la altura. **Fix**: `fig.colorbar(im, shrink=0.7)` o usa `make_axes_locatable` para control fino. |
+| Ticks rotados se cortan | Texto rotado no entra en el bounding box. **Fix**: `ax.tick_params(axis='x', rotation=45)` + `constrained_layout=True` o `bbox_inches='tight'` al guardar. |
+| `annotate` con flecha que apunta mal | `xy` y `xytext` están en coordenadas de datos por default. Si querés relativas al axes, pasa `xycoords='axes fraction'`. |
+| `axhline(media)` invisible | Pintada gris claro encima de fondo similar. **Fix**: `color='red', linewidth=1.5, linestyle='--'` para destacarla. |
+
+## ❓ Preguntas frecuentes
+
+**❓ ¿Leyenda dentro o fuera?**
+
+**Dentro** si hay espacio (1-3 series, plot no saturado). **Fuera** (`bbox_to_anchor`) si son 5+ series o el plot está denso.
+
+**❓ ¿Colorbar discreta o continua?**
+
+**Continua** si los datos son continuos (densidad, precio). **Discreta** (con N boundaries) si son categóricas/cuantiles — `BoundaryNorm` + `ListedColormap`.
+
+**❓ ¿`set_xticks` o `set_xticklabels`?**
+
+**`set_xticks`** define dónde van las marcas. **`set_xticklabels`** define qué texto se muestra. Usa ambos juntos para control fino; nunca uses solo el segundo (deprecation warning).
+
+**❓ ¿Cómo añado emojis/Unicode a texts?**
+
+Default font (DejaVu Sans) trae básicos. Para emoji color, fuente especial (`'Segoe UI Emoji'` en Windows). Mejor: evita emojis dentro del plot, úsalos en título/labels markdown.
+
+**❓ ¿Log scale para presentaciones?**
+
+Si los datos cubren >2 órdenes de magnitud (1, 100, 10000), sí. Pero **siempre indícalo** en el título o axis label ("escala log") — no es obvio.
 
 ## 🔗 Referencias
 

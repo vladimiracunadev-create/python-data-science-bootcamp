@@ -30,6 +30,23 @@ Al finalizar la clase, el alumno podrá:
 | 5 | Liberar memoria: `plt.close(fig)` | Importante en loops. |
 | 6 | `plt.rcParams` y stylesheets | Defaults globales. |
 
+## 📖 Definiciones y características
+
+**Figure**
+: El canvas/lienzo completo (ventana, archivo PNG). Una Figure contiene N Axes.
+
+**Axes**
+: Un gráfico individual con sus ejes X/Y, ticks, labels, leyenda. **No es plural** de axis — es la palabra técnica de matplotlib para 'el rectángulo donde se dibuja'.
+
+**Artist**
+: Todo lo dibujado: lines (Line2D), puntos (PathCollection), texto, leyenda. Cada element es un Artist con propiedades modificables.
+
+**API OO vs pyplot**
+: **OO**: `fig, ax = plt.subplots(); ax.plot(...)` — explícito, escalable. **pyplot**: `plt.plot(...)` — estilo MATLAB, estado global, menos predecible. Usa OO siempre.
+
+**`rcParams`**
+: Dict global con defaults de matplotlib: `plt.rcParams['figure.figsize'] = (10, 5)`. Modificar afecta todos los plots subsiguientes hasta reset.
+
 ## 📂 Dataset / recursos
 
 Sintético: serie temporal corta + scatter. Sin descarga.
@@ -51,6 +68,38 @@ Sintético: serie temporal corta + scatter. Sin descarga.
 Notebook: (a) figura `sin/cos` con todos los elementos (título, labels, leyenda, grid); (b) guardar PNG@300dpi y SVG; (c) generar 50 plots en loop sin memory leak; (d) demo de rcParams modificados.
 
 **Criterio de aceptación:** Plot publicable (labels, leyenda, tamaño razonable). Loop deja 0 figuras abiertas.
+
+## ⚠️ Errores comunes
+
+| Síntoma / mensaje | Causa y cómo arreglar |
+|---|---|
+| Mi notebook se llena de memoria al hacer muchos plots | Cada `plt.subplots()` deja Figure abierta. **Fix**: `plt.close(fig)` después de mostrar/guardar, o `plt.close('all')` periódicamente. |
+| `savefig('out.png')` da PNG con fondo transparente raro | Default es transparent. **Fix**: `fig.savefig('out.png', facecolor='white')` o `dpi=300, bbox_inches='tight'`. |
+| Labels cortados al guardar | Bounding box no incluye text fuera del axes. **Fix**: `bbox_inches='tight'` en savefig o `constrained_layout=True` en subplots. |
+| `plt.plot(x, y)` no muestra nada en notebook | Falta `%matplotlib inline` (default suele estarlo). En scripts standalone: `plt.show()` al final. |
+| Texto en español sale mal | Default font no tiene tildes/ñ. **Fix**: `plt.rcParams['font.family'] = 'DejaVu Sans'` u otra Unicode-friendly. |
+
+## ❓ Preguntas frecuentes
+
+**❓ ¿`fig, ax = plt.subplots()` o `fig = plt.figure(); ax = fig.add_subplot()`?**
+
+`subplots()` es el shortcut más usado. Da figure + axes en una línea, devuelve grid si pasas (n, m). El segundo es más explícito y útil para layouts custom (GridSpec).
+
+**❓ ¿PNG, SVG o PDF?**
+
+**PNG** para web/presentaciones (raster, DPI fijo). **SVG** para documentos editables / publicación (vector, escala infinita). **PDF** para LaTeX (también vector).
+
+**❓ ¿Cuándo `constrained_layout=True` vs `tight_layout()`?**
+
+**`constrained_layout=True`** (al crear figure): más nuevo, más confiable, maneja colorbars y leyendas externas mejor. **`tight_layout()`** (después): legacy, falla con elementos no estándar.
+
+**❓ ¿Por qué mi plot se ve diferente entre script y notebook?**
+
+Backend distinto: notebook usa `inline`, script usa `Qt5Agg`/`Tk`. DPI y tamaño cambian. Para consistencia: `plt.rcParams['figure.dpi'] = 100` explícito.
+
+**❓ ¿Está bien usar `plt.plot()` directo?**
+
+Para 1 plot rápido en notebook, OK. Para cualquier cosa más compleja (subplots, savefig, reutilizable), siempre API OO.
 
 ## 🔗 Referencias
 

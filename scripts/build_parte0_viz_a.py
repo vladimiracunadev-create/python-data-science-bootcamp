@@ -72,6 +72,32 @@ SPECS.append(ClassSpec(
         Cell("md", "## 📝 Homework\n\nVer `README.md`. sin/cos publicable, savefig 3 formatos, loop sin leak, rcParams demo."),
         Cell("md", "## 🔗 Referencias\n\n- VanderPlas cap. 4 § 4.1\n- [matplotlib quick start](https://matplotlib.org/stable/users/explain/quick_start.html)\n\n➡️ **Siguiente:** [034 — line/scatter/bar/hist/box](../034-matplotlib-line-scatter-bar-histogram-boxplot/README.md)"),
     ],
+    definiciones=[
+        ("Figure", "El canvas/lienzo completo (ventana, archivo PNG). Una Figure contiene N Axes."),
+        ("Axes", "Un gráfico individual con sus ejes X/Y, ticks, labels, leyenda. **No es plural** de axis — es la palabra técnica de matplotlib para 'el rectángulo donde se dibuja'."),
+        ("Artist", "Todo lo dibujado: lines (Line2D), puntos (PathCollection), texto, leyenda. Cada element es un Artist con propiedades modificables."),
+        ("API OO vs pyplot", "**OO**: `fig, ax = plt.subplots(); ax.plot(...)` — explícito, escalable. **pyplot**: `plt.plot(...)` — estilo MATLAB, estado global, menos predecible. Usa OO siempre."),
+        ("`rcParams`", "Dict global con defaults de matplotlib: `plt.rcParams['figure.figsize'] = (10, 5)`. Modificar afecta todos los plots subsiguientes hasta reset."),
+    ],
+    errores_comunes=[
+        ("Mi notebook se llena de memoria al hacer muchos plots", "Cada `plt.subplots()` deja Figure abierta. **Fix**: `plt.close(fig)` después de mostrar/guardar, o `plt.close('all')` periódicamente."),
+        ("`savefig('out.png')` da PNG con fondo transparente raro", "Default es transparent. **Fix**: `fig.savefig('out.png', facecolor='white')` o `dpi=300, bbox_inches='tight'`."),
+        ("Labels cortados al guardar", "Bounding box no incluye text fuera del axes. **Fix**: `bbox_inches='tight'` en savefig o `constrained_layout=True` en subplots."),
+        ("`plt.plot(x, y)` no muestra nada en notebook", "Falta `%matplotlib inline` (default suele estarlo). En scripts standalone: `plt.show()` al final."),
+        ("Texto en español sale mal", "Default font no tiene tildes/ñ. **Fix**: `plt.rcParams['font.family'] = 'DejaVu Sans'` u otra Unicode-friendly."),
+    ],
+    faq=[
+        ("¿`fig, ax = plt.subplots()` o `fig = plt.figure(); ax = fig.add_subplot()`?",
+         "`subplots()` es el shortcut más usado. Da figure + axes en una línea, devuelve grid si pasas (n, m). El segundo es más explícito y útil para layouts custom (GridSpec)."),
+        ("¿PNG, SVG o PDF?",
+         "**PNG** para web/presentaciones (raster, DPI fijo). **SVG** para documentos editables / publicación (vector, escala infinita). **PDF** para LaTeX (también vector)."),
+        ("¿Cuándo `constrained_layout=True` vs `tight_layout()`?",
+         "**`constrained_layout=True`** (al crear figure): más nuevo, más confiable, maneja colorbars y leyendas externas mejor. **`tight_layout()`** (después): legacy, falla con elementos no estándar."),
+        ("¿Por qué mi plot se ve diferente entre script y notebook?",
+         "Backend distinto: notebook usa `inline`, script usa `Qt5Agg`/`Tk`. DPI y tamaño cambian. Para consistencia: `plt.rcParams['figure.dpi'] = 100` explícito."),
+        ("¿Está bien usar `plt.plot()` directo?",
+         "Para 1 plot rápido en notebook, OK. Para cualquier cosa más compleja (subplots, savefig, reutilizable), siempre API OO."),
+    ],
 ))
 
 
@@ -140,6 +166,33 @@ SPECS.append(ClassSpec(
         Cell("md", "## 📝 Homework\n\nVer `README.md`. 5 plots básicos sobre penguins, scatter 3D, bar con errorbars, boxplot agrupado."),
         Cell("md", "## 🔗 Referencias\n\n- VanderPlas cap. 4 §§ 4.2-4.5\n- [matplotlib gallery](https://matplotlib.org/stable/gallery/index.html)\n\n➡️ **Siguiente:** [035 — subplots y gridspec](../035-matplotlib-subplots-y-gridspec/README.md)"),
     ],
+    definiciones=[
+        ("Line plot", "Une puntos con líneas. Implica continuidad/orden en X — solo úsalo cuando X tiene **orden natural** (tiempo, espacio, secuencia)."),
+        ("Scatter", "Puntos no conectados. Muestra **relación** entre 2 continuas. Con `c=` codificas 3ª dim (color), con `s=` 4ª (tamaño). Más de 4 dims sobrecarga."),
+        ("Bar / barh", "Barras para **categóricas**. Vertical (`bar`) si etiquetas son cortas, horizontal (`barh`) si son largas o muchas."),
+        ("Histogram", "Distribución de UNA continua. Bins importan: pocos esconden estructura, muchos generan ruido. `bins='auto'` usa Freedman-Diaconis (buen default)."),
+        ("Boxplot", "Resumen de distribución: mediana (línea), Q1-Q3 (caja), whiskers (1.5×IQR), outliers (puntos). Útil para comparar muchos grupos rápido."),
+        ("Errorbar", "Barra + línea vertical/horizontal indicando incertidumbre (std, IC95%). Sin esto, las barras mienten visualmente."),
+    ],
+    errores_comunes=[
+        ("Line plot entre 2 categorías \"A\", \"B\"", "Conectar categorías con línea **engaña** (sugiere continuidad inexistente). **Fix**: usa `bar` o `scatter`."),
+        ("Histograma con escala Y rara", "Por default `density=False` (counts). Si quieres comparar distribuciones de tamaños distintos, `density=True` (probabilidad)."),
+        ("Boxplot todos iguales por outliers extremos", "Outliers dominan visualmente; cajas quedan apretadas. **Fix**: `ax.set_ylim(p5, p95)` recorta vista, o reporta los outliers aparte."),
+        ("Bar chart con colores random distrae", "Sin codificación significativa, color = ruido. **Fix**: un color único para todas; reserva color para grupos reales."),
+        ("Scatter con miles de puntos = blob negro", "Overplotting. **Fix**: `alpha=0.3`, hexbin (`plt.hexbin`), o agrupar por bin antes."),
+    ],
+    faq=[
+        ("¿Pie chart cuándo?",
+         "**Casi nunca.** El ojo humano compara mal ángulos. Para proporciones: bar o stacked bar. Pie tolerable solo con 2-3 categorías y proporciones muy distintas."),
+        ("¿Cuántos bins en un histograma?",
+         "`bins='auto'` (Freedman-Diaconis) es buen default. Si es estudios académicos: regla de Sturges (`bins=int(np.log2(n)+1)`). Experimenta con 10/30/50 si dudas."),
+        ("¿Boxplot o violinplot?",
+         "**Boxplot**: rápido, 5 estadísticos, outliers claros. **Violinplot**: muestra distribución completa (multimodalidad). Para comparar 3-10 grupos, ambos OK. Para >10, boxplot gana en densidad."),
+        ("¿Errorbars con std o con IC?",
+         "**Std**: dispersión natural de los datos. **IC95% de la media**: incertidumbre del estimador (más pequeño con N grande). Para inferencia, IC. Para describir, std."),
+        ("¿Plot 3D buen idea?",
+         "**Casi nunca.** Oclusión + perspectiva engañan. 2D con color/tamaño suele comunicar mejor. Excepción: superficies analíticas `z = f(x, y)`."),
+    ],
 ))
 
 
@@ -202,6 +255,32 @@ SPECS.append(ClassSpec(
         Cell("md", "## ✅ Checklist\n\n- [ ] Creo grillas con `plt.subplots(n, m)`\n- [ ] Itero con `axes.flat` para llenar en loop\n- [ ] Uso `sharex/sharey` para comparar\n- [ ] Sé construir layouts irregulares con GridSpec\n- [ ] Prefiero `constrained_layout=True` a `tight_layout()`"),
         Cell("md", "## 📝 Homework\n\nVer `README.md`. Grilla 2×2 hists, 3 boxplots sharey, joint plot con GridSpec, comparativa layouts."),
         Cell("md", "## 🔗 Referencias\n\n- VanderPlas cap. 4 § 4.6\n- [GridSpec tutorial](https://matplotlib.org/stable/users/explain/axes/arranging_axes.html)\n\n➡️ **Siguiente:** [036 — Legends, colorbars, ticks, anotaciones](../036-matplotlib-legends-colorbars-ticks-anotaciones/README.md)"),
+    ],
+    definiciones=[
+        ("`plt.subplots(n, m)`", "Crea figure + grilla regular de n filas × m columnas de axes. Devuelve `(fig, axes)` donde axes es array 2D — itera con `.flat` para llenar."),
+        ("`sharex` / `sharey`", "Comparten escala entre axes del grid. Ideal para comparar distribuciones de la misma magnitud sin distorsión visual."),
+        ("`GridSpec`", "Layout irregular avanzado: define grilla y asigna spans manualmente (\"plot grande arriba + 3 pequeños abajo\"). Mucho más flexible que `subplots(n, m)`."),
+        ("`add_subplot(spec)`", "Añade un axes a una figure según una posición específica (índice 121, o GridSpec). Útil cuando subplots no alcanza."),
+        ("`constrained_layout=True`", "Algoritmo moderno (default en pandas 3+) que ajusta spacing automáticamente. Maneja colorbars, leyendas externas, suptitle sin overlap. Recomendado sobre `tight_layout()`."),
+    ],
+    errores_comunes=[
+        ("`axes` es array 1D cuando esperaba 2D", "Si pides `subplots(1, 3)` o `subplots(3, 1)`, axes es 1D. **Fix**: usa `axes.flat` (siempre 1D) para iterar consistente, o `axes.reshape(-1)`."),
+        ("`subplots(1, 1)` devuelve axes escalar", "No es array. **Fix**: si quieres array siempre, `subplots(1, 1, squeeze=False)` (devuelve 2D). O distingue caso 1 vs N."),
+        ("Plots se superponen / labels cortados", "Sin `constrained_layout=True` ni `tight_layout()`. **Fix**: `subplots(..., constrained_layout=True)` siempre."),
+        ("`sharey=True` pero un plot tiene escala distinta", "Quizás esa subplot necesita un eje secundario: `ax.twinx()`. Mezclar escalas con shared rompe la utilidad."),
+        ("GridSpec con índices confusos", "El orden es `gs[fila, col]` igual que NumPy. Spans: `gs[0:2, 1]` = filas 0-1 (excluye 2), columna 1."),
+    ],
+    faq=[
+        ("¿Cuándo `subplots(n, m)` vs `GridSpec`?",
+         "**Regular**: `subplots`. **Irregular** (un grande + varios pequeños, joint plot, dashboard): `GridSpec`."),
+        ("¿`fig.suptitle` o `ax.set_title` con subplots?",
+         "`suptitle` = título de toda la figura (encima de todos). `ax.set_title` = título por subplot. Combinables."),
+        ("¿Cómo controlo espacio entre subplots?",
+         "`subplots(..., gridspec_kw={'hspace': 0.3, 'wspace': 0.3})` (ratios relativos al tamaño del axes). Con `constrained_layout` suele ser automático."),
+        ("¿`figsize` cómo elegir?",
+         "Para artículos: ancho de columna (típicamente 3.5\" para 1 col, 7\" para ancho página). Para presentaciones: aspect ratio 16:9 → `(12, 6.75)`."),
+        ("¿`axes.flat` o `axes.flatten()`?",
+         "**`flat`** es iterador (no copia). **`flatten()`** devuelve nuevo array. Para iterar, `flat` ahorra memoria."),
     ],
 ))
 
@@ -271,6 +350,32 @@ SPECS.append(ClassSpec(
         Cell("md", "## ✅ Checklist\n\n- [ ] Saco leyenda con bbox_to_anchor cuando satura\n- [ ] Añado colorbar con label cuando hay codificación por color\n- [ ] Formateo ticks con PercentFormatter/FuncFormatter\n- [ ] Anoto puntos específicos con `annotate` + flecha\n- [ ] Uso `axhline`/`axvline`/`axhspan` para referencias"),
         Cell("md", "## 📝 Homework\n\nVer `README.md`. 5 mejoras de presentación sobre plots básicos."),
         Cell("md", "## 🔗 Referencias\n\n- VanderPlas cap. 4 §§ 4.7-4.9\n- [annotations docs](https://matplotlib.org/stable/users/explain/text/annotations.html)\n\n➡️ **Siguiente:** [037 — Stylesheets](../037-matplotlib-stylesheets/README.md)"),
+    ],
+    definiciones=[
+        ("Leyenda (`ax.legend`)", "Mapeo labels↔elementos del plot. Auto-detecta si pones `label=` en `plot/scatter`. Posición con `loc=` o `bbox_to_anchor=` para colocarla fuera del axes."),
+        ("Colorbar", "Escala de color para plots con codificación continua (`scatter(c=valor)`, `imshow`). Indica cómo se mapean valores a colores. **Siempre etiqueta** con `cbar.set_label(...)`."),
+        ("Tick / TickFormatter", "Marcas en los ejes y sus etiquetas. **Formatter** define el formato: `PercentFormatter`, `FuncFormatter(lambda x,p: f'${x:,.0f}')`, `LogFormatter`."),
+        ("`ax.annotate`", "Texto con flecha apuntando a un punto. Parámetros: `xy` (punto a apuntar), `xytext` (posición del texto), `arrowprops` (estilo flecha)."),
+        ("Líneas/bandas de referencia", "`axhline(y)` horizontal, `axvline(x)` vertical, `axhspan(y1, y2)` banda horizontal. Útiles para umbrales, medias, eventos."),
+    ],
+    errores_comunes=[
+        ("Leyenda tapa parte del plot", "Default es 'best' que a veces no encuentra hueco. **Fix**: `ax.legend(loc='upper left')` explícito, o sácala fuera con `bbox_to_anchor=(1.02, 1), loc='upper left'`."),
+        ("Colorbar es enorme/desproporcionada", "Default fill toda la altura. **Fix**: `fig.colorbar(im, shrink=0.7)` o usa `make_axes_locatable` para control fino."),
+        ("Ticks rotados se cortan", "Texto rotado no entra en el bounding box. **Fix**: `ax.tick_params(axis='x', rotation=45)` + `constrained_layout=True` o `bbox_inches='tight'` al guardar."),
+        ("`annotate` con flecha que apunta mal", "`xy` y `xytext` están en coordenadas de datos por default. Si querés relativas al axes, pasa `xycoords='axes fraction'`."),
+        ("`axhline(media)` invisible", "Pintada gris claro encima de fondo similar. **Fix**: `color='red', linewidth=1.5, linestyle='--'` para destacarla."),
+    ],
+    faq=[
+        ("¿Leyenda dentro o fuera?",
+         "**Dentro** si hay espacio (1-3 series, plot no saturado). **Fuera** (`bbox_to_anchor`) si son 5+ series o el plot está denso."),
+        ("¿Colorbar discreta o continua?",
+         "**Continua** si los datos son continuos (densidad, precio). **Discreta** (con N boundaries) si son categóricas/cuantiles — `BoundaryNorm` + `ListedColormap`."),
+        ("¿`set_xticks` o `set_xticklabels`?",
+         "**`set_xticks`** define dónde van las marcas. **`set_xticklabels`** define qué texto se muestra. Usa ambos juntos para control fino; nunca uses solo el segundo (deprecation warning)."),
+        ("¿Cómo añado emojis/Unicode a texts?",
+         "Default font (DejaVu Sans) trae básicos. Para emoji color, fuente especial (`'Segoe UI Emoji'` en Windows). Mejor: evita emojis dentro del plot, úsalos en título/labels markdown."),
+        ("¿Log scale para presentaciones?",
+         "Si los datos cubren >2 órdenes de magnitud (1, 100, 10000), sí. Pero **siempre indícalo** en el título o axis label (\"escala log\") — no es obvio."),
     ],
 ))
 

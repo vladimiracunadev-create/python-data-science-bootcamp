@@ -30,6 +30,26 @@ Al finalizar la clase, el alumno podrá:
 | 5 | Aggregation pipeline | $match/$group/$sort — análogo a SQL. |
 | 6 | Cuándo NO usar Mongo | Cuando relacional es claramente mejor. |
 
+## 📖 Definiciones y características
+
+**NoSQL documento**
+: Familia de DBs que almacena **documentos JSON-like** (BSON en Mongo) en lugar de filas en tablas. Schema flexible — cada documento puede tener campos distintos.
+
+**Collection**
+: Equivalente a una tabla en SQL, pero sin schema fijo. Contiene documentos del mismo "tipo" lógico (productos, usuarios, eventos).
+
+**Documento (`dict` BSON)**
+: Unidad de almacenamiento. JSON con tipos extra (Date, ObjectId, Decimal128). Puede contener arrays y sub-documentos anidados.
+
+**Operador (`$gt`, `$in`, `$elemMatch`)**
+: Prefijo `$` en las queries Mongo: `{'precio': {'$gt': 100}}` ≈ `WHERE precio > 100`. La query es un dict JSON, no string.
+
+**Aggregation pipeline**
+: Equivalente Mongo a CTEs encadenadas: lista de etapas (`$match`, `$group`, `$sort`, `$project`, `$lookup`) que procesan documentos secuencialmente.
+
+**`$elemMatch`**
+: Operador para filtrar por condiciones sobre **elementos de un array** dentro del documento. Útil con arrays de sub-docs (reviews dentro de producto).
+
 ## 📂 Dataset / recursos
 
 MongoDB local (Docker o Atlas free tier) — o usar `mongomock` para tests. Datos sintéticos: collection de productos.
@@ -51,6 +71,38 @@ MongoDB local (Docker o Atlas free tier) — o usar `mongomock` para tests. Dato
 Notebook con `mongomock` (no requiere Mongo real): (a) collection productos con 20 docs sintéticos; (b) 5 queries demostrando operadores; (c) aggregation pipeline con `$match` → `$group` → `$sort`; (d) reporte: 3 casos donde Mongo es mejor que SQL y 3 donde no.
 
 **Criterio de aceptación:** Las queries funcionan; el reporte tiene casos justificados.
+
+## ⚠️ Errores comunes
+
+| Síntoma / mensaje | Causa y cómo arreglar |
+|---|---|
+| `pymongo.errors.ServerSelectionTimeoutError` | No conecta al servidor. **Fix**: verifica que Mongo está corriendo (`docker ps`), URI correcta (`mongodb://localhost:27017`), firewall. |
+| Update sin `$set` reemplaza el documento entero | `update_one(filter, {'precio': 100})` reemplaza TODO el doc. **Fix**: usa `{'$set': {'precio': 100}}` para modificar solo ese campo. |
+| Aggregation con `$group` sin `_id` falla | `$group` requiere `_id` (la key de agrupación, puede ser `None` para agrupar todo). **Fix**: `{'$group': {'_id': '$categoria', 'total': {'$sum': '$monto'}}}`. |
+| Query con `{}` devuelve todo (no None) | `{}` es "sin filtro" en Mongo. Si querías matchear todo, OK; si querías nada, `{'_id': {'$exists': False}}` o similar. |
+| Cuento con `count_documents({})` y va lento | Sin filtro, recorre toda la collection. **Fix**: para counts aproximados rápidos, `db.coll.estimated_document_count()`. |
+
+## ❓ Preguntas frecuentes
+
+**❓ ¿SQL o NoSQL?**
+
+**SQL** para datos tabulares con relaciones, integridad referencial, reporting/BI. **NoSQL documento** para schema variable, datos jerárquicos naturales, escala write masiva. No es "mejor" — distinto.
+
+**❓ ¿`find_one` o `find`?**
+
+`find_one` devuelve dict (o None). `find` devuelve cursor iterable. Para 1 doc: `find_one`. Para muchos: `list(coll.find(query))` o iterar el cursor.
+
+**❓ ¿pymongo vs Motor (async)?**
+
+**pymongo** síncrono, default. **Motor** asíncrono (asyncio) — para web apps con muchas concurrent connections.
+
+**❓ ¿Cómo tipo los documentos en Python?**
+
+Usa **pydantic** con `BaseModel`. Convierte dict ↔ tipo validado. Combinado con FastAPI, casi gratis (verás en MLOps).
+
+**❓ ¿Mongo para data science?**
+
+Como **fuente** sí (extraes datos con aggregation, los pasas a pandas). Para **análisis** ya no — pandas/DuckDB son mejores. Mongo brilla en operaciones (logs, eventos).
 
 ## 🔗 Referencias
 

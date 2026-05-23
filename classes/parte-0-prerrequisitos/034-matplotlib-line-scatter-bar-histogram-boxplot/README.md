@@ -30,6 +30,26 @@ Al finalizar la clase, el alumno podrá:
 | 5 | Boxplot: distribución resumida + outliers | Cuando hay muchos grupos. |
 | 6 | Errorbar y fill_between | Mostrar incertidumbre. |
 
+## 📖 Definiciones y características
+
+**Line plot**
+: Une puntos con líneas. Implica continuidad/orden en X — solo úsalo cuando X tiene **orden natural** (tiempo, espacio, secuencia).
+
+**Scatter**
+: Puntos no conectados. Muestra **relación** entre 2 continuas. Con `c=` codificas 3ª dim (color), con `s=` 4ª (tamaño). Más de 4 dims sobrecarga.
+
+**Bar / barh**
+: Barras para **categóricas**. Vertical (`bar`) si etiquetas son cortas, horizontal (`barh`) si son largas o muchas.
+
+**Histogram**
+: Distribución de UNA continua. Bins importan: pocos esconden estructura, muchos generan ruido. `bins='auto'` usa Freedman-Diaconis (buen default).
+
+**Boxplot**
+: Resumen de distribución: mediana (línea), Q1-Q3 (caja), whiskers (1.5×IQR), outliers (puntos). Útil para comparar muchos grupos rápido.
+
+**Errorbar**
+: Barra + línea vertical/horizontal indicando incertidumbre (std, IC95%). Sin esto, las barras mienten visualmente.
+
 ## 📂 Dataset / recursos
 
 Palmer Penguins. Sin descarga adicional.
@@ -51,6 +71,38 @@ Palmer Penguins. Sin descarga adicional.
 Notebook con penguins: (a) 5 plots básicos cada uno bien etiquetado; (b) scatter decorado con color y tamaño codificando 3 dimensiones; (c) bar con errorbars de std; (d) boxplot agrupado con interpretación de outliers.
 
 **Criterio de aceptación:** Cada plot tiene título, labels, leyenda donde aplica. Bins justificados.
+
+## ⚠️ Errores comunes
+
+| Síntoma / mensaje | Causa y cómo arreglar |
+|---|---|
+| Line plot entre 2 categorías "A", "B" | Conectar categorías con línea **engaña** (sugiere continuidad inexistente). **Fix**: usa `bar` o `scatter`. |
+| Histograma con escala Y rara | Por default `density=False` (counts). Si quieres comparar distribuciones de tamaños distintos, `density=True` (probabilidad). |
+| Boxplot todos iguales por outliers extremos | Outliers dominan visualmente; cajas quedan apretadas. **Fix**: `ax.set_ylim(p5, p95)` recorta vista, o reporta los outliers aparte. |
+| Bar chart con colores random distrae | Sin codificación significativa, color = ruido. **Fix**: un color único para todas; reserva color para grupos reales. |
+| Scatter con miles de puntos = blob negro | Overplotting. **Fix**: `alpha=0.3`, hexbin (`plt.hexbin`), o agrupar por bin antes. |
+
+## ❓ Preguntas frecuentes
+
+**❓ ¿Pie chart cuándo?**
+
+**Casi nunca.** El ojo humano compara mal ángulos. Para proporciones: bar o stacked bar. Pie tolerable solo con 2-3 categorías y proporciones muy distintas.
+
+**❓ ¿Cuántos bins en un histograma?**
+
+`bins='auto'` (Freedman-Diaconis) es buen default. Si es estudios académicos: regla de Sturges (`bins=int(np.log2(n)+1)`). Experimenta con 10/30/50 si dudas.
+
+**❓ ¿Boxplot o violinplot?**
+
+**Boxplot**: rápido, 5 estadísticos, outliers claros. **Violinplot**: muestra distribución completa (multimodalidad). Para comparar 3-10 grupos, ambos OK. Para >10, boxplot gana en densidad.
+
+**❓ ¿Errorbars con std o con IC?**
+
+**Std**: dispersión natural de los datos. **IC95% de la media**: incertidumbre del estimador (más pequeño con N grande). Para inferencia, IC. Para describir, std.
+
+**❓ ¿Plot 3D buen idea?**
+
+**Casi nunca.** Oclusión + perspectiva engañan. 2D con color/tamaño suele comunicar mejor. Excepción: superficies analíticas `z = f(x, y)`.
 
 ## 🔗 Referencias
 

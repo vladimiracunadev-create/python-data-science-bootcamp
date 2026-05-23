@@ -31,6 +31,26 @@ Al finalizar la clase, el alumno podrá:
 | 6 | `LAG`, `LEAD`: comparar con fila anterior/siguiente | Series temporales. |
 | 7 | Subqueries correlacionadas | Cuando la subquery depende de la outer. |
 
+## 📖 Definiciones y características
+
+**CTE (Common Table Expression)**
+: Vista temporal dentro de una query con `WITH nombre AS (...)`. Descompone queries complejas en pasos legibles. Puedes encadenar múltiples: `WITH a AS (...), b AS (...) SELECT ...`.
+
+**Recursive CTE**
+: CTE que se referencia a sí misma. Útil para jerarquías (árbol organizacional), grafos, generar series (calendario diario). Sintaxis: `WITH RECURSIVE t AS (caso_base UNION ALL caso_recursivo)`.
+
+**Window function**
+: Agregación que **no colapsa filas** — añade el resultado por fila. Sintaxis: `FUNC() OVER (PARTITION BY col ORDER BY col2)`. Ejemplos: `ROW_NUMBER`, `RANK`, `LAG`, `LEAD`, `SUM() OVER (...)`.
+
+**`PARTITION BY` vs `GROUP BY`**
+: **PARTITION BY** (en window): subgrupos para la función, pero mantiene cada fila. **GROUP BY**: reduce a una fila por grupo.
+
+**`LAG` / `LEAD`**
+: Acceden a la fila anterior/siguiente dentro de la partition. `LAG(monto, 1) OVER (PARTITION BY cliente ORDER BY fecha)`. Útil para diffs, growth rates.
+
+**Subquery correlacionada**
+: Subquery que **depende** de la outer query (referencia sus columnas). Se ejecuta una vez por cada fila de la outer. Más lenta que JOIN equivalente.
+
 ## 📂 Dataset / recursos
 
 SQLite con `ordenes` (cliente_id, fecha, monto) de clase 041 — extendido. Sin descarga.
@@ -52,6 +72,38 @@ SQLite con `ordenes` (cliente_id, fecha, monto) de clase 041 — extendido. Sin 
 Notebook: (a) 3 versiones de la misma query (anidada → CTE → CTEs múltiples) comparando legibilidad; (b) top-3 órdenes por cliente con `ROW_NUMBER`; (c) total corrido y delta vs orden anterior; (d) recursive CTE para calendario diario.
 
 **Criterio de aceptación:** Las 3 versiones devuelven exactamente el mismo resultado. Window functions sin error.
+
+## ⚠️ Errores comunes
+
+| Síntoma / mensaje | Causa y cómo arreglar |
+|---|---|
+| `syntax error at or near "OVER"` | Motor sin soporte de window functions (SQLite <3.25, MySQL <8). **Fix**: actualiza motor o reescribe con subqueries / self-join. |
+| `ROW_NUMBER()` da números repetidos | Olvidaste `OVER (...)`. Sin él, no es window function. **Fix**: `ROW_NUMBER() OVER (ORDER BY col)`. |
+| CTE recursiva nunca termina | Caso base falta o caso recursivo no converge. **Fix**: añade `LIMIT N` para debug, asegura que cada iteración acerca al caso base. |
+| `LAG(x) OVER (ORDER BY fecha)` da NULL en la primera fila | Comportamiento esperado — no hay fila anterior. **Fix**: `LAG(x, 1, 0)` para default 0, o filtra con `WHERE row > 1`. |
+| CTE da mismo resultado pero más lento que subquery | Algunos motores no inlineaban CTEs (PostgreSQL <12). **Fix**: actualiza, o reescribe como subquery temporalmente. |
+
+## ❓ Preguntas frecuentes
+
+**❓ ¿CTE o subquery?**
+
+**CTE** si el lector necesita entender qué hace cada paso (legibilidad). **Subquery** si es trivial y de un solo uso. Para queries >10 líneas, CTE casi siempre gana.
+
+**❓ ¿`ROW_NUMBER`, `RANK` o `DENSE_RANK`?**
+
+Para valores `[10, 20, 20, 30]`: **ROW_NUMBER** `[1,2,3,4]` (siempre único). **RANK** `[1,2,2,4]` (huecos). **DENSE_RANK** `[1,2,2,3]` (sin huecos). Elige según semántica.
+
+**❓ ¿Window function es lo mismo que groupby+merge en pandas?**
+
+Conceptualmente sí — `g.transform(...)` en pandas hace lo equivalente. Window functions son la versión SQL más eficiente.
+
+**❓ ¿Cuándo subquery correlacionada vs JOIN?**
+
+Casi siempre **JOIN o window function** es más rápido. Correlacionada solo cuando no tiene equivalente JOIN (raro) o el optimizador del motor la maneja bien (motores modernos).
+
+**❓ ¿Top-N por grupo?**
+
+**Patrón estándar**: `WITH ranked AS (SELECT *, ROW_NUMBER() OVER (PARTITION BY grupo ORDER BY metric DESC) rn FROM tabla) SELECT * FROM ranked WHERE rn <= N`.
 
 ## 🔗 Referencias
 

@@ -31,6 +31,26 @@ Al finalizar la clase, el alumno podrá:
 | 6 | ORDER BY, LIMIT, OFFSET | Final del pipeline. |
 | 7 | Orden lógico ≠ orden escrito | El gran malentendido. |
 
+## 📖 Definiciones y características
+
+**SQL (Structured Query Language)**
+: Lenguaje declarativo para bases de datos relacionales. Describes **qué** quieres (no cómo) y el motor lo ejecuta. Estandarizado pero con dialectos (SQLite, PostgreSQL, MySQL, BigQuery).
+
+**Orden lógico vs escrito**
+: **Escribes**: SELECT-FROM-WHERE-GROUP-HAVING-ORDER. **Ejecuta**: FROM-WHERE-GROUP-HAVING-SELECT-ORDER-LIMIT. Por eso `WHERE SUM(...)` falla (aún no agrupado) — usa HAVING.
+
+**JOIN**
+: Combina filas de 2+ tablas por una key. Tipos: INNER (intersección), LEFT (todo left + match right), RIGHT (espejo), FULL OUTER (todo unión), CROSS (producto cartesiano).
+
+**GROUP BY + HAVING**
+: **GROUP BY**: agrupa filas por valor(es). **HAVING**: filtra los **grupos** después de agregar (no se puede con WHERE).
+
+**Funciones de agregación**
+: Operan sobre grupos: `COUNT(*)`, `COUNT(DISTINCT x)`, `SUM`, `AVG`, `MIN`, `MAX`, `STDDEV`. Devuelven UN valor por grupo.
+
+**DuckDB**
+: Motor SQL embebido (como SQLite) pero **columnar** y optimizado para analytics. Lee CSV/Parquet directo (`FROM 'file.csv'`). Drop-in para queries analíticas, mucho más rápido que SQLite en agregados.
+
 ## 📂 Dataset / recursos
 
 SQLite en memoria con 2 tablas sintéticas: `clientes` (10 filas) y `ordenes` (30 filas). Generado en el notebook con `sqlite3` stdlib. Sin descarga.
@@ -52,6 +72,38 @@ SQLite en memoria con 2 tablas sintéticas: `clientes` (10 filas) y `ordenes` (3
 Notebook con SQLite en memoria: (a) crea 2 tablas y carga datos sintéticos; (b) 5 consultas progresivas (filter, join, group, having, top-N); (c) explica el orden lógico con un ejemplo; (d) mismo ejercicio con `DuckDB` (sustituye `sqlite3.connect(':memory:')`).
 
 **Criterio de aceptación:** Las 5 consultas producen el resultado esperado; DuckDB devuelve igual.
+
+## ⚠️ Errores comunes
+
+| Síntoma / mensaje | Causa y cómo arreglar |
+|---|---|
+| `column "x" must appear in GROUP BY clause or be used in an aggregate function` | Seleccionaste col no agregada ni en GROUP BY. **Fix**: añade a GROUP BY, o agrega con `MAX(x)`, `MIN(x)` (cuando da igual). |
+| `WHERE SUM(monto) > 100` falla | WHERE corre ANTES de GROUP. **Fix**: usa `HAVING SUM(monto) > 100`. |
+| INNER JOIN pierde filas que esperaba ver | La key no matchea (NULL, tipos, espacios). **Fix**: LEFT JOIN + `WHERE r.id IS NULL` para diagnóstico. |
+| `COUNT(col)` devuelve menos que `COUNT(*)` | `COUNT(col)` ignora NULL en esa columna. **Fix**: si quieres todas las filas, `COUNT(*)`. |
+| `SELECT *` después de JOIN trae cols duplicadas con mismo nombre | Ambas tablas tienen `id`. **Fix**: aliasea: `SELECT c.id AS cliente_id, o.id AS orden_id`. |
+
+## ❓ Preguntas frecuentes
+
+**❓ ¿`COUNT(*)` o `COUNT(1)`?**
+
+**Equivalentes** en motores modernos (parser optimiza). `COUNT(*)` es más legible — úsalo.
+
+**❓ ¿Cuándo `DISTINCT`?**
+
+Cuando hay filas duplicadas que no deberían contarse. **Cuidado**: en SELECT con muchas cols puede ser caro. Mejor agrupa con GROUP BY si vas a agregar después.
+
+**❓ ¿`UNION` o `UNION ALL`?**
+
+**`UNION`** quita duplicados (más caro). **`UNION ALL`** mantiene todo (más rápido). Usa ALL si sabes que no hay duplicados (más común).
+
+**❓ ¿SQLite o PostgreSQL para aprender?**
+
+**SQLite** para arrancar (sin servidor, 1 archivo). El SQL es 90% igual. Migras a PostgreSQL cuando necesites: tipos avanzados, concurrencia, escala, JSON nativo.
+
+**❓ ¿Cómo trato fechas en SQL?**
+
+Cada motor su dialecto. SQLite: strings ISO `'2024-01-15'` + `date()`, `strftime()`. PostgreSQL: tipo `DATE`/`TIMESTAMP` nativo. Estándar: `DATE '2024-01-15'`.
 
 ## 🔗 Referencias
 

@@ -67,6 +67,32 @@ SPECS.append(ClassSpec(
         Cell("md", "## 📝 Homework\n\nVer `README.md`. Galería 4 styles, `informe.mplstyle` propio, B&N vs color."),
         Cell("md", "## 🔗 Referencias\n\n- VanderPlas cap. 4 § 4.11\n- [stylesheets gallery](https://matplotlib.org/stable/gallery/style_sheets/style_sheets_reference.html)\n\n➡️ **Siguiente:** [038 — 3D plotting](../038-matplotlib-3d-plotting/README.md)"),
     ],
+    definiciones=[
+        ("Stylesheet", "Conjunto de rcParams predefinidos en un archivo `.mplstyle`. Activa con `plt.style.use('nombre')`. Cambia colors, fonts, grids, spines, etc., consistentemente."),
+        ("`plt.style.available`", "Lista de stylesheets built-in: `default`, `ggplot`, `seaborn-v0_8-whitegrid`, `bmh`, `grayscale`, `dark_background`, etc."),
+        ("`plt.style.context(name)`", "Aplica style solo dentro de un `with` block; al salir, vuelve al anterior. Útil cuando quieres style distinto para 1 plot sin afectar el resto."),
+        ("`.mplstyle` propio", "Archivo de texto con `clave: valor` (igual sintaxis que rcParams). Ubícalo donde sea y carga con `plt.style.use('/ruta/al.mplstyle')`."),
+        ("rcParams override en context", "`with plt.rc_context({'figure.figsize': (12, 6)}):` aplica overrides temporales sobre el style activo."),
+    ],
+    errores_comunes=[
+        ("`plt.style.use('seaborn')` da error", "Renombraron a `seaborn-v0_8-whitegrid` (y variantes). **Fix**: `plt.style.use('seaborn-v0_8-whitegrid')` o `'seaborn-v0_8-darkgrid'`."),
+        ("Style activado pero un plot no lo respeta", "Aplicado **después** de crear el axes. Style afecta defaults, no plots existentes. **Fix**: aplica `style.use` ANTES de `plt.subplots`."),
+        ("Colors definidos en `.mplstyle` no aparecen", "Sintaxis cycler incorrecta. **Fix**: `axes.prop_cycle: cycler('color', ['#FF0000', '#00FF00'])` con quotes simples."),
+        ("`dark_background` rompe scatter color", "Background oscuro, color de marker default es oscuro. **Fix**: override `axes.edgecolor: white` o usa cmap claro."),
+        ("Style se mantiene tras cerrar notebook", "`style.use` afecta rcParams globales del kernel. **Fix**: usa `with plt.style.context(...)` para uso temporal."),
+    ],
+    faq=[
+        ("¿Style propio o usar built-in?",
+         "**Built-in** para empezar. **Propio** cuando tu organización/proyecto tiene paleta corporativa o convenciones específicas."),
+        ("¿Style afecta seaborn?",
+         "Seaborn maneja su propio system con `sns.set_theme()`. Coordinar ambos puede colisionar. Recomendado: elige uno (style de matplotlib O sns.set_theme)."),
+        ("¿Cómo veo todos los styles?",
+         "`plt.style.available` lista todos. Para galería visual: [matplotlib style sheets reference](https://matplotlib.org/stable/gallery/style_sheets/style_sheets_reference.html)."),
+        ("¿`bmh` qué es?",
+         "Style del libro *Bayesian Methods for Hackers* — popular para gráficos estadísticos limpios."),
+        ("¿Style para impresión B&N?",
+         "**`grayscale`** convierte automáticamente. Pero verifica: cmaps con poca variación de luminancia (`'jet'`) quedan ilegibles. Mejor `'viridis'` o linestyles distintos."),
+    ],
 ))
 
 
@@ -131,6 +157,32 @@ SPECS.append(ClassSpec(
         Cell("md", "## ✅ Checklist\n\n- [ ] Sé habilitar 3D con `projection='3d'`\n- [ ] Hago scatter/surface/wireframe/contour 3D\n- [ ] Roto con `view_init`\n- [ ] Pregunto siempre: \"¿hay una versión 2D que comunique mejor?\""),
         Cell("md", "## 📝 Homework\n\nVer `README.md`. Scatter 3D, superficie, wireframe, grilla de view_init, versión 2D alternativa."),
         Cell("md", "## 🔗 Referencias\n\n- VanderPlas cap. 4 § 4.12\n- [mplot3d tutorial](https://matplotlib.org/stable/users/explain/toolkits/mplot3d.html)\n\n➡️ **Siguiente:** [039 — Seaborn](../039-seaborn-distribuciones-relaciones-categoricas-facetas/README.md)"),
+    ],
+    definiciones=[
+        ("`projection='3d'`", "Parámetro al crear axes (`fig.add_subplot(111, projection='3d')`) que habilita el toolkit 3D (mplot3d). Sin esto, las llamadas 3D fallan."),
+        ("`plot_surface(X, Y, Z)`", "Superficie 3D para `z = f(x, y)`. Requiere mesh: `X, Y = np.meshgrid(x, y); Z = f(X, Y)`. Soporta `cmap` para color por valor de Z."),
+        ("`plot_wireframe(X, Y, Z)`", "Como surface pero solo líneas — más liviano, mejor para densidad alta, peor para forma."),
+        ("`view_init(elev, azim)`", "Define ángulo de cámara. `elev` elevación (0=horizontal, 90=vista superior). `azim` rotación horizontal en grados. Animar varia azim para 360°."),
+        ("Oclusión", "Limitación fundamental del 3D: objetos al frente tapan los del fondo, sin forma confiable de elegir qué ver. La razón principal por la que 3D es problemático."),
+    ],
+    errores_comunes=[
+        ("`projection='3d'` da error \"unknown projection\"", "No importaste el toolkit. **Fix**: `from mpl_toolkits.mplot3d import Axes3D` (algunas versiones lo requieren), o asegúrate matplotlib es 3.0+."),
+        ("Surface plot tarda mucho con mesh grande", "100×100 mesh = 10k vertices. **Fix**: reduce resolución (`50×50`) o usa `rcount`/`ccount` parameters."),
+        ("3D scatter con miles de puntos = mancha", "Oclusión. **Fix**: reduce N (sampling), o usa scatter 2D con color codificando Z."),
+        ("`view_init` no se aplica si llamado después de show", "El orden importa: configura ángulo ANTES de `plt.show()`."),
+        ("Labels Z se cortan o solapan", "3D tiene limitaciones de layout. **Fix**: ajusta `ax.zaxis.labelpad`, `figsize` más grande, o usa `set_zlabel` con rotación custom."),
+    ],
+    faq=[
+        ("¿Realmente necesito 3D?",
+         "**Pregúntate**: ¿hay una versión 2D con color/tamaño que comunique igual? Casi siempre sí. 3D vale para superficies analíticas (`z = f(x,y)`), datos físicos 3D, o cuando es interactivo (rotable)."),
+        ("¿`%matplotlib widget` para rotar interactivo?",
+         "Sí — en JupyterLab/Notebook permite rotar con el mouse. Requiere `pip install ipympl`. Default `inline` da imagen estática."),
+        ("¿plotly 3D mejor?",
+         "**Sí** para uso interactivo en web/dashboard. **No** para reportes estáticos (mismo problema de oclusión, peso del HTML)."),
+        ("¿Animaciones 3D?",
+         "`matplotlib.animation.FuncAnimation` + variando `view_init` por frame. Bonito pero costoso de generar. Considera plotly que es interactivo nativo."),
+        ("¿`Axes3D` deprecated?",
+         "En matplotlib moderno, basta `subplot_kw={'projection': '3d'}` — no necesitas importar Axes3D explícitamente."),
     ],
 ))
 
@@ -202,6 +254,33 @@ SPECS.append(ClassSpec(
         Cell("md", "## 📝 Homework\n\nVer `README.md`. Pairplot, violin+swarm, facetas 2×3, tema custom."),
         Cell("md", "## 🔗 Referencias\n\n- VanderPlas cap. 4 § 4.13\n- [seaborn tutorial](https://seaborn.pydata.org/tutorial.html)\n\n➡️ **Siguiente:** [040 — Visualización geográfica](../040-visualizacion-geografica-plotly-folium/README.md)"),
     ],
+    definiciones=[
+        ("Seaborn", "Wrapper sobre matplotlib con (1) defaults estéticos mejores, (2) API tipada para DataFrames (`x=`, `y=`, `hue=`), (3) plots estadísticos directos (regresión, distribuciones, facetas)."),
+        ("Figure-level (displot, relplot, catplot)", "Funciones que crean su propia figura, soportan **facetas** (`col=`, `row=` para grilla automática). Más alto nivel, menos control fino."),
+        ("Axes-level (histplot, scatterplot, boxplot)", "Funciones que dibujan en un `ax` que tú pasas. Más bajo nivel, integran con layouts custom de matplotlib."),
+        ("`hue`, `style`, `size`", "Codifican dimensiones extra: **`hue`** (color por categoría), **`style`** (marker por categoría), **`size`** (tamaño por valor continuo)."),
+        ("`pairplot`", "Matriz de scatterplots de todas las parejas de variables numéricas, diagonal con KDE/histograma. EDA visual en una línea."),
+        ("Faceta (col/row)", "Una sub-figura por cada valor de una categórica. `relplot(..., col='species', row='sex')` produce grilla `n_species × n_sex` de plots automática."),
+    ],
+    errores_comunes=[
+        ("Mezclo `sns.set_theme()` con `plt.style.use(...)`", "Compiten por los rcParams. **Fix**: elige uno. Si usas seaborn, `sns.set_theme(style='whitegrid')` cubre todo."),
+        ("Figure-level no me deja agregar `ax.set_title()`", "Devuelve `FacetGrid`, no axes. **Fix**: `g.set_titles('{col_name}')` o `g.fig.suptitle(...)` para título global; `g.axes_dict` para acceder a subplots."),
+        ("`pairplot` con muchas columnas tarda eternidades", "N² scatters; con 20 cols son 400 plots. **Fix**: selecciona subset relevante (`peng[['masa','pico','aleta','species']]`) o usa `corr()` heatmap."),
+        ("`hue` con muchas categorías → leyenda enorme", "Default muestra todas las categorías. **Fix**: limita con `hue_order=[5 más relevantes]`, o agrupa las menores en \"otros\"."),
+        ("`sns.scatterplot(...)` no aparece en notebook", "Falta capturar return o `plt.show()`. **Fix**: asignar a `ax = sns.scatterplot(...)` o llamar `plt.show()` al final."),
+    ],
+    faq=[
+        ("¿`seaborn` o `matplotlib` puro?",
+         "**Seaborn** para plots estadísticos rápidos con DataFrame (`hue`, facetas, defaults). **Matplotlib** para control fino, customización extrema, o plots que no son estadísticos."),
+        ("¿Cuándo figure-level vs axes-level?",
+         "**Figure-level** si quieres facetas o el plot es el output completo. **Axes-level** si necesitas integrar con layout custom (subplots manuales)."),
+        ("¿`pairplot` o `corrmatrix`?",
+         "**`pairplot`** muestra relaciones visualmente (no lineales, outliers, clusters). **Heatmap de `corr()`** muestra coeficiente Pearson (solo lineal). Complementarios."),
+        ("¿Tema corporativo en seaborn?",
+         "`sns.set_theme(palette=['#0F766E', '#D9A441', '#7C3AED'])` o palette custom: `sns.color_palette('husl', n_colors=5)`. Combina con `style='whitegrid'`."),
+        ("¿Seaborn maneja datasets grandes (>1M)?",
+         "Plots scatter/hist sí. Pairplot con muchas cols se vuelve lento. Para datasets enormes, considera datashader o downsample antes."),
+    ],
 ))
 
 
@@ -269,6 +348,33 @@ SPECS.append(ClassSpec(
         Cell("md", "## ✅ Checklist\n\n- [ ] Sé crear mapa folium con markers y popups\n- [ ] Conozco el bug lat/lng vs lng/lat\n- [ ] Hago choropleth con folium o plotly\n- [ ] Elijo tile provider según estética\n- [ ] Sé cuándo necesito geopandas (no para esto)"),
         Cell("md", "## 📝 Homework\n\nVer `README.md`. Mapa con 10+ markers, choropleth folium y plotly, reporte comparativo."),
         Cell("md", "## 🔗 Referencias\n\n- [folium docs](https://python-visualization.github.io/folium/)\n- [plotly choropleth](https://plotly.com/python/choropleth-maps/)\n\n➡️ **Siguiente:** [041 — SQL fundamental](../041-sql-fundamental-select-where-join-group-by-having/README.md)"),
+    ],
+    definiciones=[
+        ("Coordenadas geográficas (lat, lng)", "**Latitud** (-90 a 90): N/S del ecuador. **Longitud** (-180 a 180): E/W de Greenwich. Convención y orden varía: folium `[lat, lng]`, GeoJSON `[lng, lat]` — fuente clásica de bugs."),
+        ("folium", "Wrapper Python de Leaflet.js. Mapas interactivos (zoom, pan, popups) embebidos en notebook como HTML. Ideal para exploración."),
+        ("plotly geo", "Mapas en plotly (scatter_geo, choropleth). Bonitos, interactivos, integran con dashboards Plotly/Dash. Para choropleth de países usa códigos ISO-3."),
+        ("Choropleth", "Mapa de calor por región: color de cada polígono representa un valor (PIB, población, casos). Requiere GeoJSON con las shapes."),
+        ("Tile provider", "Servidor de \"baldosas\" (imágenes 256×256) que componen el mapa de fondo. OpenStreetMap (default), CartoDB (limpio), Mapbox (premium)."),
+        ("geopandas", "Extensión de pandas con geometrías (Shapely). Para **análisis** espacial (intersection, buffer, dissolve), no solo visualizar. Fuera del scope Parte 0."),
+    ],
+    errores_comunes=[
+        ("Marcadores aparecen en medio del océano", "Invertiste lat/lng. **Fix**: folium espera `[lat, lng]`. Para Madrid: `[40.42, -3.70]` (lat positiva, lng negativa)."),
+        ("Mapa folium no se renderiza en VS Code", "Algunas extensiones de notebook no muestran HTML inline complejo. **Fix**: `m.save('mapa.html')` y abre en navegador."),
+        ("choropleth plotly sale gris", "El código ISO no matchea con el shape. **Fix**: usa ISO-3 (`'ESP'` no `'ES'`). Verifica que los códigos del dataset coinciden con los esperados."),
+        ("Mapa pesa MB y carga lento", "Demasiados markers (>1000). **Fix**: usa `MarkerCluster` (`folium.plugins.MarkerCluster`) que agrupa por zoom level."),
+        ("Tiles fallan a cargar", "Provider con rate limit (Mapbox sin token, Stamen down). **Fix**: usa `'OpenStreetMap'` o `'CartoDB positron'` que son gratis sin token."),
+    ],
+    faq=[
+        ("¿folium o plotly?",
+         "**folium** para exploración interactiva en notebook (mapa real con zoom/pan/popups). **plotly** para integrar en dashboard o cuando ya usas plotly. Ambos producen HTML standalone."),
+        ("¿Cómo encuentro lat/lng de un lugar?",
+         "Click derecho en Google Maps → \"¿Qué hay aquí?\". O geocodifica con `geopy` (`from geopy.geocoders import Nominatim`)."),
+        ("¿GeoJSON dónde lo consigo?",
+         "Para países: [Natural Earth](https://www.naturalearthdata.com/) (público). Para regiones: portal gov del país. Para custom: dibuja en geojson.io."),
+        ("¿Cuándo necesito geopandas?",
+         "Análisis espacial real: \"¿cuántos puntos caen en este polígono?\", \"buffer de 1km alrededor\", re-proyección entre CRS. Para solo visualizar puntos en mapa: folium basta."),
+        ("¿Mapas offline?",
+         "Tiles son online por default. Para offline: descarga tiles con `mbtiles`, sirve local con `folium.raster_layers.TileLayer(url='file://...')`. Setup complejo, considera si vale."),
     ],
 ))
 
