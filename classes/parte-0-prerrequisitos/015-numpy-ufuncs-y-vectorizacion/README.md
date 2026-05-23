@@ -30,6 +30,23 @@ Al finalizar la clase, el alumno podrá:
 | 5 | Trampas: overflow, NaN, inf, división por cero | NumPy avisa pero no para. |
 | 6 | `np.where(cond, a, b)` | Ternario vectorizado. |
 
+## 📖 Definiciones y características
+
+**Ufunc (universal function)**
+: Función NumPy implementada en C que opera **elementwise** y vectorizada (SIMD cuando posible). Características: rápida (10-100× vs Python), broadcasting automático, soporta `out=` para in-place.
+
+**Vectorización**
+: Operar sobre arrays completos en vez de loops Python: `arr * 2` en vez de `[x*2 for x in arr]`. La operación corre en C compilado sobre memoria contigua, sin overhead del intérprete por elemento.
+
+**In-place (`out=`)**
+: Escribir el resultado de una ufunc en un array existente, sin allocar memoria nueva: `np.multiply(a, 2, out=a)`. Útil con arrays grandes donde la copia temporal duplicaría la memoria pico.
+
+**Propagación de NaN**
+: Cualquier operación que tenga `NaN` como input produce `NaN`. `np.array([1, np.nan, 3]).sum()` → `nan`. Para ignorar usa variantes `nan*`: `nansum`, `nanmean`, `nanmedian`.
+
+**`np.where(cond, a, b)`**
+: Ternario vectorizado: para cada elemento, si `cond` es True usa `a`, si no usa `b`. Equivale a `[a if c else b for c, a, b in zip(cond, a, b)]` pero ~100× más rápido.
+
 ## 📂 Dataset / recursos
 
 Sintético: arrays grandes para benchmark. Sin descarga.
@@ -51,6 +68,38 @@ Sintético: arrays grandes para benchmark. Sin descarga.
 Notebook: (a) reescribe 3 loops como expresiones vectorizadas + tabla con `%timeit` (3 N distintos); (b) demuestra `out=` con `tracemalloc`; (c) usa `np.where` para clasificar datos; (d) maneja NaN con `nansum/nanmean` y compara con propagación.
 
 **Criterio de aceptación:** Speedup >50× en N=1M. `out=` muestra memoria ≈ 0 extra. NaN-handling correcto.
+
+## ⚠️ Errores comunes
+
+| Síntoma / mensaje | Causa y cómo arreglar |
+|---|---|
+| `for i in range(len(arr)): arr[i] = ...` es lentísimo | Loops Python sobre array NumPy = lo peor de ambos mundos. **Fix**: reescribe como expresión vectorizada (`arr = ...`) o usa ufunc explícita. |
+| RuntimeWarning: divide by zero / invalid value | NumPy avisa pero no para: `1/0` → `inf`, `0/0` → `nan`. **Fix**: filtra antes (`arr[arr != 0]`) o silencia con `np.errstate(divide='ignore', invalid='ignore')`. |
+| `out=` con dtype incompatible | `np.add(int_arr, 0.5, out=int_arr)` falla — float no cabe en int. **Fix**: convierte primero (`arr = arr.astype(float)`) o usa array distinto como destino. |
+| Resultado de `np.where` no es lo esperado | Los 3 args se evalúan **completos**: `np.where(arr>0, 1/arr, 0)` calcula `1/arr` para TODOS los elementos (incluso negativos → division por cero). **Fix**: usa `np.where` solo para values planos, no expresiones. |
+| `arr.sum()` da NaN y no sé por qué | Hay un NaN escondido en el array. **Fix**: `print(np.isnan(arr).sum())` para contar; usa `np.nansum()` para ignorar. |
+
+## ❓ Preguntas frecuentes
+
+**❓ ¿Cuánto más rápido es vectorizar?**
+
+Típicamente 50-100× para arrays de 1M elementos. Para arrays pequeños (<100), la ganancia es menor o nula (overhead constante). Mide con `%timeit`, no asumas.
+
+**❓ ¿`arr + 1` o `np.add(arr, 1)`?**
+
+Equivalentes. Operadores son sintaxis dulce sobre ufuncs. Usa `np.add(...)` cuando necesitas `out=` (in-place) o `where=` (mask).
+
+**❓ ¿NumPy aprovecha mi GPU?**
+
+**No** — solo CPU. Para GPU: CuPy (drop-in replacement), PyTorch tensors, JAX. NumPy 2 está mejorando vectorización CPU (SIMD wider, BLAS) pero sigue siendo CPU.
+
+**❓ ¿Por qué `arr ** 2` es más rápido que `arr * arr`?**
+
+Suelen empatar (`**` también es ufunc). Para potencias enteras pequeñas (2, 3), NumPy a veces usa atajos. Mide con `%timeit` en tu caso específico.
+
+**❓ ¿`np.where` o boolean mask?**
+
+**Mask** (`arr[cond] = valor`) si vas a modificar in-place o filtrar (`arr[arr>0]`). **`np.where(cond, a, b)`** si necesitas un array nuevo con dos valores posibles según condición.
 
 ## 🔗 Referencias
 

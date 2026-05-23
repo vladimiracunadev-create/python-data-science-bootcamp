@@ -76,6 +76,32 @@ SPECS.append(ClassSpec(
         Cell("md", "## 📝 Homework\n\nVer `README.md`. Análisis de precipitación con máscaras, fancy indexing y demo vista/copia."),
         Cell("md", "## 🔗 Referencias\n\n- VanderPlas cap. 2 §§ 2.6-2.7\n- [Indexing](https://numpy.org/doc/stable/user/basics.indexing.html)\n\n➡️ **Siguiente:** [019 — Ordenamiento y búsqueda](../019-numpy-ordenamiento-y-busqueda/README.md)"),
     ],
+    definiciones=[
+        ("Boolean mask", "Array de bools del mismo shape que el original. `arr[mask]` extrae solo los elementos donde mask es True. Devuelve un nuevo array (copia, no vista)."),
+        ("Fancy indexing", "Indexar con array de **enteros** (índices arbitrarios, posiblemente no contiguos). `arr[[0, 3, 5]]` selecciona esas 3 posiciones. Devuelve copia."),
+        ("Vista (view) vs copia (copy)", "**Slicing** (`arr[:5]`) → vista (mismo storage, mutarla muta el original). **Mask / fancy** → copia (storage independiente). Fuente del 70% de los bugs sutiles."),
+        ("Operadores bitwise vs lógicos", "Para combinar masks: `&`, `|`, `~` (bitwise, vectorizados, elementwise). **NO uses `and`, `or`, `not`** — son escalares Python y dan `ValueError: truth value of an array is ambiguous`."),
+        ("`np.where(cond)` 1-arg", "Sin alternativas, devuelve **tupla de arrays de índices** donde se cumple la condición. Diferente a `np.where(cond, a, b)` (ternario)."),
+    ],
+    errores_comunes=[
+        ("`ValueError: The truth value of an array with more than one element is ambiguous`", "Usaste `and`/`or`/`not` con arrays. **Fix**: `&`/`|`/`~` con paréntesis: `(a > 0) & (a < 10)` (los paréntesis son obligatorios por precedencia)."),
+        ("Modifico `arr[mask]` y el original no cambia", "Mask devuelve **copia**. **Fix**: para modificar in-place, asigna a `arr[mask] = nuevo_valor` (no `arr[mask].do_something()`)."),
+        ("`arr[idx1, idx2]` con fancy indexing me da algo raro", "Si `idx1` e `idx2` son arrays del mismo length, NumPy hace pair-wise: `arr[idx1[i], idx2[i]]` para cada i. Para 'todas las filas idx1 con todas las cols idx2', usa `arr[np.ix_(idx1, idx2)]` o `arr[idx1][:, idx2]`."),
+        ("Slice modifica el original sin querer", "`subset = arr[:10]; subset[0] = 99` modifica `arr`. **Fix**: `subset = arr[:10].copy()` si querías independencia."),
+        ("Mask con shape distinto al array", "Lanza `IndexError: boolean index did not match indexed array`. **Fix**: asegúrate que la mask tiene el mismo shape (`arr.shape == mask.shape`)."),
+    ],
+    faq=[
+        ("¿Mask o fancy indexing?",
+         "**Mask** cuando la selección viene de una condición sobre los valores (`arr[arr > 0]`). **Fancy** cuando ya tienes los índices específicos (de un `argsort`, por ejemplo, o de business logic)."),
+        ("¿Cómo modifico múltiples elementos con mask?",
+         "`arr[arr < 0] = 0` (clipping). Funciona para asignar escalar a todos los True, o array del mismo tamaño que la cantidad de Trues: `arr[arr < 0] = -arr[arr < 0]` (abs solo donde negativo)."),
+        ("¿`arr[idx]` con `idx` como booleano o entero?",
+         "NumPy distingue: bool array del mismo shape → mask; int array → fancy indexing. Lista Python de bools también funciona, pero ojo con `[0, 1, 0, 1]` que puede interpretarse como ints (índices 0 y 1) o bools — usa `np.array(...)` explícito si hay duda."),
+        ("¿`np.where(cond)` o `np.nonzero(cond)`?",
+         "Idénticos cuando `where` se llama con un solo argumento. `nonzero` es más explícito del intent (\"dónde NO es 0/False\")."),
+        ("¿Cómo combino mask con `np.where` ternario?",
+         "`np.where(cond, valor_si_true, valor_si_false)` — ternario vectorizado. La diferencia con `arr[cond] = X`: where construye array nuevo; mask + asignación modifica in-place."),
+    ],
 ))
 
 
@@ -148,6 +174,32 @@ SPECS.append(ClassSpec(
         Cell("md", "## 📝 Homework\n\nVer `README.md`. Top-100 con benchmark partition vs sort, ranking, percentil con searchsorted, unique."),
         Cell("md", "## 🔗 Referencias\n\n- VanderPlas cap. 2 § 2.8\n- [Sorting reference](https://numpy.org/doc/stable/reference/routines.sort.html)\n\n➡️ **Siguiente:** [020 — Álgebra lineal](../020-numpy-algebra-lineal-con-numpy-linalg/README.md)"),
     ],
+    definiciones=[
+        ("`np.sort` vs `arr.sort()`", "**`np.sort(arr)`** devuelve copia ordenada (no muta). **`arr.sort()`** ordena in-place y retorna None. Mismo patrón que `sorted(list)` vs `list.sort()`."),
+        ("`argsort`", "Devuelve los **índices** que ordenarían el array. `idx = arr.argsort(); ordenado = arr[idx]`. Base de top-K, rankings, alineación entre arrays correlacionados."),
+        ("`np.partition`", "Quick-select O(n): garantiza que los K menores quedan en las primeras K posiciones (no necesariamente ordenados entre sí), el resto después. Mucho más rápido que sort completo cuando solo necesitas top-K."),
+        ("`np.searchsorted`", "Búsqueda binaria O(log n) en array ordenado. Devuelve el índice donde insertar un valor para mantener orden. Útil para calcular percentiles, bucketing."),
+        ("`np.unique`", "Devuelve únicos ordenados. Con `return_counts=True` devuelve también las frecuencias — alternativa rápida a `Counter` para datos numéricos."),
+    ],
+    errores_comunes=[
+        ("Ordeno con `arr.sort()` y la variable queda en `None`", "`sort()` es in-place — modifica `arr` y retorna `None`. **Fix**: `ordenado = np.sort(arr)` (con `np.sort`)."),
+        ("Top-K con `sort()[-K:]` es lento para N grande, K chico", "Sort completo es O(N log N). **Fix**: `np.partition(arr, -K)[-K:]` es O(N). Acopla con `.sort()` si necesitas los K ordenados internamente."),
+        ("`argsort` da resultado raro con matriz", "Sin `axis`, ordena cada fila/columna independiente según `axis=-1` por default. Para ordenar matriz completa por una columna, usa `arr[arr[:, col].argsort()]`."),
+        ("`np.searchsorted` da índice fuera del array", "Si el valor es mayor que todos, devuelve `len(arr)`. Es el comportamiento correcto (\"insertar al final\"). **Fix**: clipea con `np.clip(idx, 0, len(arr)-1)` si vas a indexar."),
+        ("`np.unique(arr_2d)` aplana el array", "Por default, `unique` trabaja sobre array aplanado. Para únicos por fila/columna: `unique(arr, axis=0)`."),
+    ],
+    faq=[
+        ("¿Cuándo `argsort` y cuándo `sort`?",
+         "Si solo necesitas los valores ordenados, `sort`. Si necesitas el orden para **aplicarlo a otros arrays correlacionados** (ej: ordenar `nombres` por `puntajes`), `argsort` te da los índices."),
+        ("¿`partition` o `heapq.nlargest`?",
+         "`partition` para arrays NumPy (vectorizado, C). `heapq.nlargest(K, lst)` para listas Python. Para K muy pequeño (3-5) sobre N grande, similares; partition gana en arrays grandes."),
+        ("¿Cómo ordeno por múltiples claves (lexicográfico)?",
+         "`np.lexsort([clave_secundaria, clave_principal])` — devuelve índices. Atención: el orden es **al revés** (último argumento = key primaria)."),
+        ("¿`np.unique` preserva el orden de primera aparición?",
+         "**No** — siempre ordena. Para preservar orden de aparición: `_, idx = np.unique(arr, return_index=True); arr[np.sort(idx)]`."),
+        ("¿Existe equivalente a SQL `ORDER BY x DESC`?",
+         "`arr[arr.argsort()][::-1]` o `arr[arr.argsort()[::-1]]`. NumPy no tiene flag `reverse=` como `sorted()` Python — invierte tú."),
+    ],
 ))
 
 
@@ -219,6 +271,33 @@ SPECS.append(ClassSpec(
         Cell("md", "## 📝 Homework\n\nVer `README.md`. inv vs solve benchmark, regresión lineal cerrada, SVD, eigen de covarianza."),
         Cell("md", "## 🔗 Referencias\n\n- [`numpy.linalg`](https://numpy.org/doc/stable/reference/routines.linalg.html)\n- [PEP 465 — `@` operator](https://peps.python.org/pep-0465/)\n\n➡️ **Siguiente:** [021 — Aleatoriedad y semillas](../021-numpy-aleatoriedad-y-semillas/README.md)"),
     ],
+    definiciones=[
+        ("Operador `@`", "Multiplicación matricial (PEP 465). `A @ B` ≡ `np.matmul(A, B)` ≡ `A.dot(B)`. NO confundir con `*` (elementwise). Disponible Python 3.5+."),
+        ("Producto punto vs producto matricial", "**Punto** (vector·vector → escalar): `a @ b` = `sum(a*b)`. **Matricial** (matriz @ matriz → matriz): regla \"fila por columna\". Shapes: `(m,n) @ (n,p) → (m,p)`."),
+        ("`np.linalg.solve(A, b)`", "Resuelve `Ax = b` usando descomposición LU. **Siempre preferible a `inv(A) @ b`**: más rápido (no construye inversa), más estable numéricamente, menos memoria."),
+        ("SVD (Singular Value Decomposition)", "Descomposición universal: `M = U·Σ·Vᵀ`. U y V son ortogonales; Σ diagonal con valores singulares decrecientes ≥ 0. Base de PCA, recomendadores (matrix factorization), compresión, pseudo-inversa."),
+        ("Eigen (eigenvalues/eigenvectors)", "Para `A` cuadrada, `A v = λ v`. `eig` general; `eigh` para matrices simétricas (más rápido, garantiza eigenvalores reales). Base de PCA conceptual."),
+        ("Número de condición (`cond`)", "Ratio entre el valor singular más grande y el más pequeño. Mide sensibilidad de la solución a perturbaciones. `cond > 1e10` ⇒ matriz mal condicionada, `solve` perderá precisión."),
+    ],
+    errores_comunes=[
+        ("`A @ B` falla con `ValueError: shapes ... not aligned`", "Las dimensiones internas no coinciden: `(m,n) @ (k,p)` requiere `n == k`. **Fix**: revisa shapes, transpone si necesario (`A @ B.T`)."),
+        ("Implementé `inv(A) @ b` y los resultados son raros", "`inv` es inestable numéricamente para matrices grandes/mal-condicionadas. **Fix**: usa `np.linalg.solve(A, b)` — más rápido y más preciso."),
+        ("`np.linalg.solve` lanza `LinAlgError: Singular matrix`", "`det(A) ≈ 0` — el sistema no tiene solución única. **Fix**: si esperabas el caso, usa `np.linalg.lstsq(A, b)` (least squares para sistemas singulares/sobredeterminados)."),
+        ("`A * B` da resultado raro y esperaba `A @ B`", "Operador `*` es elementwise (Hadamard product). **Fix**: `A @ B` para multiplicación matricial."),
+        ("SVD devuelve `Vt` no `V`", "Por convención NumPy devuelve `V^T` (transpuesta), no `V`. Para reconstruir: `M = U @ diag(s) @ Vt`. Si necesitas `V`: `Vt.T`."),
+    ],
+    faq=[
+        ("¿`@`, `np.matmul`, o `np.dot`?",
+         "Para matriz×matriz son equivalentes — `@` es el más legible. `np.dot` tiene comportamiento distinto para arrays >2D (no broadcasting); `@` y `matmul` sí. Usa `@` siempre que puedas."),
+        ("¿`eig` o `eigh`?",
+         "**`eigh`** si la matriz es simétrica (covarianza, kernel matrices, métrica de distancias). Más rápido, garantiza eigenvalores reales. **`eig`** para matrices generales (no simétricas) — puede dar valores complejos."),
+        ("¿Por qué `np.linalg.det` para chequear singularidad es mala idea?",
+         "El determinante es 0 o no-0 sin gradiente útil — para matrices grandes, det puede ser tan chico/grande que cause underflow/overflow numérico. Mejor: `np.linalg.cond(A)` — si > 1e10, problemática."),
+        ("¿Cuándo necesito BLAS/LAPACK?",
+         "NumPy ya los usa por debajo (vía OpenBLAS o MKL). Si tu `np.linalg.solve` parece lento, instala MKL (`pip install mkl`) o usa la build de conda con `mkl`."),
+        ("¿GPU para álgebra lineal?",
+         "**CuPy** (drop-in replacement de NumPy con CUDA), **PyTorch tensors** (`.to('cuda')`), o **JAX**. Para matrices >1000×1000 la GPU vale la pena."),
+    ],
 ))
 
 
@@ -287,6 +366,33 @@ SPECS.append(ClassSpec(
         Cell("md", "## ✅ Checklist\n\n- [ ] Uso `np.random.default_rng(seed)` no `np.random.seed`\n- [ ] Sé generar normal, uniform, integers, binomial, poisson\n- [ ] Mismo seed → mismo output reproducible\n- [ ] Sé usar `choice` para muestreo con/sin reemplazo\n- [ ] Implementé Monte Carlo y bootstrap"),
         Cell("md", "## 📝 Homework\n\nVer `README.md`. Monte Carlo de π, bootstrap CI, reproducibilidad, momentos empíricos vs teóricos."),
         Cell("md", "## 🔗 Referencias\n\n- [`random.Generator`](https://numpy.org/doc/stable/reference/random/generator.html)\n- [NEP 19 RNG policy](https://numpy.org/neps/nep-0019-rng-policy.html)\n\n➡️ **Siguiente:** [022 — Pandas: Series y DataFrame](../022-pandas-series-y-dataframe/README.md)"),
+    ],
+    definiciones=[
+        ("Generador pseudoaleatorio (PRNG)", "Algoritmo determinístico que produce secuencia que *parece* aleatoria. Con la misma semilla (seed) produce la misma secuencia → **reproducible**. NumPy 2026 usa PCG64 por default."),
+        ("Seed (semilla)", "Estado inicial del PRNG. Mismo seed → misma secuencia, siempre, en cualquier máquina. Es la base de la reproducibilidad científica."),
+        ("`np.random.default_rng(seed)`", "API moderno (NumPy 1.17+). Devuelve `Generator` independiente — no toca estado global, múltiples generadores no se interfieren. Reemplaza a `np.random.seed()` + funciones globales (deprecated)."),
+        ("Distribuciones continuas comunes", "`uniform(lo, hi)`, `normal(μ, σ)`, `exponential(scale)`, `gamma(shape, scale)`, `beta(a, b)`. Cada una con parámetros que controlan ubicación y dispersión."),
+        ("Distribuciones discretas", "`integers(lo, hi)` (uniforme discreto), `binomial(n, p)` (éxitos en n trials), `poisson(λ)` (eventos en intervalo)."),
+        ("Bootstrap", "Técnica: resampleas con reemplazo del sample original B veces, recalculas el estadístico → obtienes distribución empírica del estimador. Sin asumir CLT ni normalidad."),
+    ],
+    errores_comunes=[
+        ("Pongo seed pero el resultado cambia entre corridas", "Probablemente otra librería (sklearn, pytorch) usa su propio PRNG. **Fix**: setea seed en cada lib que uses, o pasa el `rng` explícito a funciones que lo acepten."),
+        ("`np.random.seed(42)` no funciona como antes", "Está deprecated en favor de `default_rng`. Aún funciona pero NumPy 2+ puede romperlo. **Fix**: migra a `rng = np.random.default_rng(42); rng.normal(...)`."),
+        ("`rng.choice(arr, size=N, replace=False)` falla con `ValueError: Cannot take a larger sample than population when 'replace=False'`", "Pediste más muestras únicas que elementos disponibles. **Fix**: aumenta `arr` o usa `replace=True`."),
+        ("Genero millones de números 'aleatorios' y mi laptop muere", "Estás materializando lista en RAM. **Fix**: si solo agregas (sum, mean), procesa por chunks: `for _ in range(K): chunk = rng.normal(0,1,N); acc += chunk.sum()`."),
+        ("Bootstrap CI parece muy estrecho", "Pocos resamples (B). **Fix**: usa B ≥ 1000 para CI 95%, B ≥ 10000 para colas 99%. El costo es lineal en B."),
+    ],
+    faq=[
+        ("¿Por qué un generador independiente y no el global?",
+         "(1) **No interfiere** con libs que también usan random global. (2) **Múltiples experimentos** simultáneos sin conflicto. (3) **API más limpia**. (4) Algoritmo más rápido (PCG64). El legacy es solo por compatibilidad."),
+        ("¿Mismo seed da mismos números en Linux/Windows/Mac?",
+         "**Sí** — PCG64 es determinístico cross-platform. La única diferencia podría venir de orden de operaciones float (paralelismo), pero `default_rng` es single-threaded."),
+        ("¿Qué seed elegir?",
+         "Cualquier entero. **42** es convención (Hitchhiker's Guide). **0** funciona pero genera secuencias 'menos aleatorias' en los primeros bits con algunos PRNG (no PCG64). Lo importante es **registrarlo** para reproducir."),
+        ("¿Bootstrap mejor que t-test?",
+         "Diferente caso. **t-test**: asume normalidad, da p-valor analítico. **Bootstrap**: sin asunción, da distribución empírica de cualquier estadístico (media, mediana, ratio). Para datos no-normales o estadísticos complejos, bootstrap gana."),
+        ("¿Cuántas muestras necesito para Monte Carlo?",
+         "El error decrece como `1/√N`. Para 1 decimal de precisión: N ≈ 100. Para 2 decimales: N ≈ 10k. Para 3: N ≈ 1M. Verifica convergencia haciendo N=100, 1k, 10k, 100k y mirando que el resultado se estabilice."),
     ],
 ))
 

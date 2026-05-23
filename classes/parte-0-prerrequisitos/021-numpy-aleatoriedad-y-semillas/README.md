@@ -30,6 +30,26 @@ Al finalizar la clase, el alumno podrá:
 | 5 | Reproducibilidad: por qué importa | Misma cosa con mismo seed. |
 | 6 | Múltiples generadores independientes | Evita interferencia entre experimentos. |
 
+## 📖 Definiciones y características
+
+**Generador pseudoaleatorio (PRNG)**
+: Algoritmo determinístico que produce secuencia que *parece* aleatoria. Con la misma semilla (seed) produce la misma secuencia → **reproducible**. NumPy 2026 usa PCG64 por default.
+
+**Seed (semilla)**
+: Estado inicial del PRNG. Mismo seed → misma secuencia, siempre, en cualquier máquina. Es la base de la reproducibilidad científica.
+
+**`np.random.default_rng(seed)`**
+: API moderno (NumPy 1.17+). Devuelve `Generator` independiente — no toca estado global, múltiples generadores no se interfieren. Reemplaza a `np.random.seed()` + funciones globales (deprecated).
+
+**Distribuciones continuas comunes**
+: `uniform(lo, hi)`, `normal(μ, σ)`, `exponential(scale)`, `gamma(shape, scale)`, `beta(a, b)`. Cada una con parámetros que controlan ubicación y dispersión.
+
+**Distribuciones discretas**
+: `integers(lo, hi)` (uniforme discreto), `binomial(n, p)` (éxitos en n trials), `poisson(λ)` (eventos en intervalo).
+
+**Bootstrap**
+: Técnica: resampleas con reemplazo del sample original B veces, recalculas el estadístico → obtienes distribución empírica del estimador. Sin asumir CLT ni normalidad.
+
 ## 📂 Dataset / recursos
 
 Sintético: simulación Monte Carlo. Sin descarga.
@@ -51,6 +71,38 @@ Sintético: simulación Monte Carlo. Sin descarga.
 Notebook con: (a) Monte Carlo de π con N=10k, 100k, 1M reportando error; (b) bootstrap de la media de un sample (95% CI vs CLT); (c) demo de reproducibilidad con dos rngs; (d) tabla comparando momento empírico vs teórico para 4 distribuciones.
 
 **Criterio de aceptación:** MC converge a π. Bootstrap CI similar al CLT. Reproducibilidad exacta.
+
+## ⚠️ Errores comunes
+
+| Síntoma / mensaje | Causa y cómo arreglar |
+|---|---|
+| Pongo seed pero el resultado cambia entre corridas | Probablemente otra librería (sklearn, pytorch) usa su propio PRNG. **Fix**: setea seed en cada lib que uses, o pasa el `rng` explícito a funciones que lo acepten. |
+| `np.random.seed(42)` no funciona como antes | Está deprecated en favor de `default_rng`. Aún funciona pero NumPy 2+ puede romperlo. **Fix**: migra a `rng = np.random.default_rng(42); rng.normal(...)`. |
+| `rng.choice(arr, size=N, replace=False)` falla con `ValueError: Cannot take a larger sample than population when 'replace=False'` | Pediste más muestras únicas que elementos disponibles. **Fix**: aumenta `arr` o usa `replace=True`. |
+| Genero millones de números 'aleatorios' y mi laptop muere | Estás materializando lista en RAM. **Fix**: si solo agregas (sum, mean), procesa por chunks: `for _ in range(K): chunk = rng.normal(0,1,N); acc += chunk.sum()`. |
+| Bootstrap CI parece muy estrecho | Pocos resamples (B). **Fix**: usa B ≥ 1000 para CI 95%, B ≥ 10000 para colas 99%. El costo es lineal en B. |
+
+## ❓ Preguntas frecuentes
+
+**❓ ¿Por qué un generador independiente y no el global?**
+
+(1) **No interfiere** con libs que también usan random global. (2) **Múltiples experimentos** simultáneos sin conflicto. (3) **API más limpia**. (4) Algoritmo más rápido (PCG64). El legacy es solo por compatibilidad.
+
+**❓ ¿Mismo seed da mismos números en Linux/Windows/Mac?**
+
+**Sí** — PCG64 es determinístico cross-platform. La única diferencia podría venir de orden de operaciones float (paralelismo), pero `default_rng` es single-threaded.
+
+**❓ ¿Qué seed elegir?**
+
+Cualquier entero. **42** es convención (Hitchhiker's Guide). **0** funciona pero genera secuencias 'menos aleatorias' en los primeros bits con algunos PRNG (no PCG64). Lo importante es **registrarlo** para reproducir.
+
+**❓ ¿Bootstrap mejor que t-test?**
+
+Diferente caso. **t-test**: asume normalidad, da p-valor analítico. **Bootstrap**: sin asunción, da distribución empírica de cualquier estadístico (media, mediana, ratio). Para datos no-normales o estadísticos complejos, bootstrap gana.
+
+**❓ ¿Cuántas muestras necesito para Monte Carlo?**
+
+El error decrece como `1/√N`. Para 1 decimal de precisión: N ≈ 100. Para 2 decimales: N ≈ 10k. Para 3: N ≈ 1M. Verifica convergencia haciendo N=100, 1k, 10k, 100k y mirando que el resultado se estabilice.
 
 ## 🔗 Referencias
 

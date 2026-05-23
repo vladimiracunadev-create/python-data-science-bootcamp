@@ -30,6 +30,26 @@ Al finalizar la clase, el alumno podrá:
 | 5 | `astype` y promoción de tipos | El bug clásico de overflow int8. |
 | 6 | `random` moderno: `default_rng(seed)` | El API legacy `np.random.seed` está deprecated. |
 
+## 📖 Definiciones y características
+
+**`ndarray`**
+: Estructura de datos central de NumPy. Bloque contiguo de memoria con dtype fijo + metadata (shape, strides). 50–100× más rápido que list por evitar el overhead de PyObject por elemento y permitir vectorización SIMD.
+
+**`dtype`**
+: Tipo de elemento del array: `int8/16/32/64`, `uint8` (imágenes RGB), `float32/64`, `bool`, `complex64/128`. Determina memoria por elemento (`itemsize`) y precisión/rango.
+
+**`shape`**
+: Tupla con tamaño de cada dimensión: `(10,)` 1D, `(3, 4)` matriz, `(2, 3, 4)` tensor 3D. `len(shape)` = `ndim`. `prod(shape)` = `size` (total elementos).
+
+**`strides`**
+: Bytes que el array salta para moverse 1 paso en cada dimensión. Permite vistas eficientes sin copiar memoria (transpose, slicing). Detalle interno pero útil para entender por qué algunas operaciones son gratis.
+
+**`Generator` (random)**
+: API moderno para aleatoriedad: `rng = np.random.default_rng(seed)`. Reemplaza al legacy `np.random.seed()` + funciones globales. Características: PCG64 (mejor algoritmo), múltiples generadores independientes, API consistente.
+
+**Promoción de tipo**
+: Cuando operas arrays de dtypes distintos, NumPy promueve al más amplio: `int + float = float`, `int8 + int16 = int16`. La regla evita pérdida silenciosa pero puede generar overflow en otros casos (clase: overflow int8).
+
 ## 📂 Dataset / recursos
 
 Sintético: arrays generados en el notebook (escalares, matrices, aleatorios reproducibles). Sin descarga.
@@ -51,6 +71,38 @@ Sintético: arrays generados en el notebook (escalares, matrices, aleatorios rep
 Notebook que: (a) compara memoria list vs ndarray para N=1M con tabla; (b) crea las 6 formas y reporta dtype default de cada una; (c) reproduce el bug de overflow int8 con explicación; (d) función `info(arr)` con diagnóstico completo.
 
 **Criterio de aceptación:** El ratio memoria list/ndarray es >5×. La función `info` reporta todos los atributos.
+
+## ⚠️ Errores comunes
+
+| Síntoma / mensaje | Causa y cómo arreglar |
+|---|---|
+| `OverflowError` silencioso con int8/uint8 | NumPy no lanza excepción — hace wrap-around: `np.array([200], dtype=uint8) + 100` da `44`. **Fix**: usa dtype más amplio (`int32`/`int64`) o `astype` antes de la operación. |
+| `np.array([1, 2, 'x'])` queda como `dtype='<U21'` | NumPy promueve TODO a string para ser homogéneo. **Fix**: separa los tipos o usa pandas (que sí permite columnas heterogéneas). |
+| `np.empty(3)` con basura en vez de ceros | `empty` NO inicializa — más rápido que `zeros` pero contiene lo que había en memoria. **Fix**: usa `np.zeros` si necesitas ceros garantizados. |
+| Reproduzco un experimento con seed y da resultados distintos | Estás usando el API legacy (`np.random.seed`) con varias librerías que también lo modifican. **Fix**: usa `np.random.default_rng(seed)` — independiente, no afecta el estado global. |
+| `np.arange(0.1, 1.0, 0.1)` no incluye `1.0` | Floats — el último step da `0.9999...` por imprecisión. **Fix**: usa `np.linspace(0.1, 1.0, 10)` que controla N puntos exactos. |
+
+## ❓ Preguntas frecuentes
+
+**❓ ¿`np.array([1,2,3])` o `np.asarray([1,2,3])`?**
+
+`asarray` no copia si ya es ndarray (más eficiente); `array` siempre copia por default. Usa `asarray` cuando aceptas cualquier 'array-like' y no necesitas garantizar copia.
+
+**❓ ¿`float32` o `float64`?**
+
+Default es `float64` — máxima precisión. **`float32`** cuando trabajas con redes neuronales en GPU (la mitad de memoria, suficiente para gradientes), imágenes, o necesitas duplicar la velocidad de IO.
+
+**❓ ¿Cuándo `int32` y cuándo `int64`?**
+
+Default depende del OS (int64 Unix/macOS, int32 Windows pre-numpy 2.0). En 2026, NumPy 2+ usa int64 en todas las plataformas. Solo bajes a int32 si memoria es crítica y sabes que tus valores caben.
+
+**❓ ¿`np.random.seed(42)` ya no se usa?**
+
+Funciona pero está deprecated en favor del nuevo API. Razones: estado global (peligroso), Mersenne Twister (lento), no permite múltiples streams independientes. Usa `default_rng(seed)`.
+
+**❓ ¿Por qué `arr.nbytes` no coincide con `sys.getsizeof(arr)`?**
+
+`nbytes` cuenta solo los datos (`size * itemsize`). `getsizeof` cuenta también el header del objeto ndarray (~100 bytes). Para arrays grandes la diferencia es despreciable.
 
 ## 🔗 Referencias
 

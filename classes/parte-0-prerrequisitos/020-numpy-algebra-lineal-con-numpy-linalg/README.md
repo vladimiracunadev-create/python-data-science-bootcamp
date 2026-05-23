@@ -30,6 +30,26 @@ Al finalizar la clase, el alumno podrá:
 | 5 | SVD — la factorización universal | Base de PCA, regresión lineal, recomendadores. |
 | 6 | Eigen | Base de PCA conceptual. |
 
+## 📖 Definiciones y características
+
+**Operador `@`**
+: Multiplicación matricial (PEP 465). `A @ B` ≡ `np.matmul(A, B)` ≡ `A.dot(B)`. NO confundir con `*` (elementwise). Disponible Python 3.5+.
+
+**Producto punto vs producto matricial**
+: **Punto** (vector·vector → escalar): `a @ b` = `sum(a*b)`. **Matricial** (matriz @ matriz → matriz): regla "fila por columna". Shapes: `(m,n) @ (n,p) → (m,p)`.
+
+**`np.linalg.solve(A, b)`**
+: Resuelve `Ax = b` usando descomposición LU. **Siempre preferible a `inv(A) @ b`**: más rápido (no construye inversa), más estable numéricamente, menos memoria.
+
+**SVD (Singular Value Decomposition)**
+: Descomposición universal: `M = U·Σ·Vᵀ`. U y V son ortogonales; Σ diagonal con valores singulares decrecientes ≥ 0. Base de PCA, recomendadores (matrix factorization), compresión, pseudo-inversa.
+
+**Eigen (eigenvalues/eigenvectors)**
+: Para `A` cuadrada, `A v = λ v`. `eig` general; `eigh` para matrices simétricas (más rápido, garantiza eigenvalores reales). Base de PCA conceptual.
+
+**Número de condición (`cond`)**
+: Ratio entre el valor singular más grande y el más pequeño. Mide sensibilidad de la solución a perturbaciones. `cond > 1e10` ⇒ matriz mal condicionada, `solve` perderá precisión.
+
 ## 📂 Dataset / recursos
 
 Sintético: matrices y vectores para los ejercicios. Sin descarga.
@@ -51,6 +71,38 @@ Sintético: matrices y vectores para los ejercicios. Sin descarga.
 Notebook que: (a) compara `inv(A) @ b` vs `solve(A, b)` en tiempo Y precisión (`np.allclose`); (b) implementa regresión lineal cerrada `β = (XᵀX)⁻¹ Xᵀy` y luego con `solve`; (c) calcula SVD de una matriz y verifica `M = U @ diag(s) @ Vt`; (d) eigen de matriz de covarianza.
 
 **Criterio de aceptación:** `solve` más rápido y más preciso que `inv`. SVD reconstruye la matriz dentro de tolerancia.
+
+## ⚠️ Errores comunes
+
+| Síntoma / mensaje | Causa y cómo arreglar |
+|---|---|
+| `A @ B` falla con `ValueError: shapes ... not aligned` | Las dimensiones internas no coinciden: `(m,n) @ (k,p)` requiere `n == k`. **Fix**: revisa shapes, transpone si necesario (`A @ B.T`). |
+| Implementé `inv(A) @ b` y los resultados son raros | `inv` es inestable numéricamente para matrices grandes/mal-condicionadas. **Fix**: usa `np.linalg.solve(A, b)` — más rápido y más preciso. |
+| `np.linalg.solve` lanza `LinAlgError: Singular matrix` | `det(A) ≈ 0` — el sistema no tiene solución única. **Fix**: si esperabas el caso, usa `np.linalg.lstsq(A, b)` (least squares para sistemas singulares/sobredeterminados). |
+| `A * B` da resultado raro y esperaba `A @ B` | Operador `*` es elementwise (Hadamard product). **Fix**: `A @ B` para multiplicación matricial. |
+| SVD devuelve `Vt` no `V` | Por convención NumPy devuelve `V^T` (transpuesta), no `V`. Para reconstruir: `M = U @ diag(s) @ Vt`. Si necesitas `V`: `Vt.T`. |
+
+## ❓ Preguntas frecuentes
+
+**❓ ¿`@`, `np.matmul`, o `np.dot`?**
+
+Para matriz×matriz son equivalentes — `@` es el más legible. `np.dot` tiene comportamiento distinto para arrays >2D (no broadcasting); `@` y `matmul` sí. Usa `@` siempre que puedas.
+
+**❓ ¿`eig` o `eigh`?**
+
+**`eigh`** si la matriz es simétrica (covarianza, kernel matrices, métrica de distancias). Más rápido, garantiza eigenvalores reales. **`eig`** para matrices generales (no simétricas) — puede dar valores complejos.
+
+**❓ ¿Por qué `np.linalg.det` para chequear singularidad es mala idea?**
+
+El determinante es 0 o no-0 sin gradiente útil — para matrices grandes, det puede ser tan chico/grande que cause underflow/overflow numérico. Mejor: `np.linalg.cond(A)` — si > 1e10, problemática.
+
+**❓ ¿Cuándo necesito BLAS/LAPACK?**
+
+NumPy ya los usa por debajo (vía OpenBLAS o MKL). Si tu `np.linalg.solve` parece lento, instala MKL (`pip install mkl`) o usa la build de conda con `mkl`.
+
+**❓ ¿GPU para álgebra lineal?**
+
+**CuPy** (drop-in replacement de NumPy con CUDA), **PyTorch tensors** (`.to('cuda')`), o **JAX**. Para matrices >1000×1000 la GPU vale la pena.
 
 ## 🔗 Referencias
 

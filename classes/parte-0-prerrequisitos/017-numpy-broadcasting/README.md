@@ -30,6 +30,26 @@ Al finalizar la clase, el alumno podrá:
 | 5 | Outer product sin loop | `a[:, None] * b[None, :]`. |
 | 6 | ValueError común: "operands could not be broadcast together" | Cómo leerlo. |
 
+## 📖 Definiciones y características
+
+**Broadcasting**
+: Mecanismo por el que NumPy opera arrays de shapes distintos **sin copiar memoria**, estirando virtualmente las dimensiones de tamaño 1. Lo que hace posible `X - X.mean(axis=0)` (centrado por columna) en una línea sin loops.
+
+**Regla 1 — padding por la izquierda**
+: Si los arrays tienen distinta cantidad de dimensiones, la shape del menor se rellena con `1`s a la izquierda. `(4,)` operado con `(3, 4)` se trata como `(1, 4)` vs `(3, 4)`.
+
+**Regla 2 — estirar dim 1**
+: En cada dimensión donde los tamaños difieren, si uno es `1` se estira al otro. `(3, 1)` y `(3, 4)` → ambos `(3, 4)` (la primera se estira en eje 1).
+
+**Regla 3 — fallo**
+: Si en alguna dimensión los tamaños son distintos y **ninguno es 1**, lanza `ValueError: operands could not be broadcast together`. No hay forma de inferir qué hacer.
+
+**`np.newaxis` (alias `None`)**
+: Inserta una dimensión de tamaño 1 donde lo pongas. `v[:, None]` convierte vector `(3,)` en columna `(3, 1)`. Crítico para forzar broadcasting en la dirección correcta.
+
+**Outer product vía broadcasting**
+: `a[:, None] * b[None, :]` produce matriz `(len(a), len(b))` con todos los productos par a par — equivalente a `np.outer(a, b)` pero usando broadcasting puro.
+
 ## 📂 Dataset / recursos
 
 Sintético: matriz de features 100×5 para estandarización. Sin descarga.
@@ -51,6 +71,38 @@ Sintético: matriz de features 100×5 para estandarización. Sin descarga.
 Notebook que: (a) predice shapes de 4 operaciones broadcasting y verifica; (b) estandariza una matriz feature por columna en una línea; (c) construye distance matrix de 100 puntos sin loop; (d) provoca y explica un error de broadcasting.
 
 **Criterio de aceptación:** Las predicciones coinciden. Estandarización: media≈0, std≈1 por columna.
+
+## ⚠️ Errores comunes
+
+| Síntoma / mensaje | Causa y cómo arreglar |
+|---|---|
+| `ValueError: operands could not be broadcast together with shapes (3,4) (4,3)` | Las shapes alineadas por la derecha no son compatibles. **Fix**: lee el error literal, alinea shapes a la derecha mentalmente, transpone (`.T`) uno o ajusta con `newaxis`. |
+| Resté `M.mean(axis=0)` y los promedios quedaron MAL | `mean(axis=0)` devuelve shape `(n_cols,)` — se broadcastea como FILA. Si querías restar por fila, usa `M.mean(axis=1)[:, None]` para que se broadcastee como COLUMNA. |
+| `a + b` con shapes `(3,)` y `(3,)` da escalar (suma punto) | **No** — da array `(3,)` elementwise. Producto punto es `np.dot(a, b)` o `a @ b`. Confundir esto es el bug #1 al empezar. |
+| Memoria explota en una operación 'inocente' | `X[:, None, :] - X[None, :, :]` produce array `(N, N, D)`. Si N=10000, son 100M × D elementos. **Fix**: usa `scipy.spatial.distance.cdist` o procesa por chunks. |
+| `a[None] + b` no se broadcastea como espero | `a[None]` añade dim al inicio. Quizás querías `a[:, None]` (al medio) o `a[None, :]` (explícito). Usa `print(arr.shape)` siempre antes de operar. |
+
+## ❓ Preguntas frecuentes
+
+**❓ ¿Cómo predigo la shape del resultado?**
+
+(1) Alinea las shapes por la derecha. (2) En cada columna alineada: si son iguales o uno es 1, OK; si no, error. (3) Resultado: por dimensión, toma el `max` de las dos.
+
+**❓ ¿Broadcasting copia memoria?**
+
+**No** — es virtual. NumPy itera con strides 0 en las dims estiradas. Por eso es tan eficiente: cero alloc extra (excepto el array resultado).
+
+**❓ ¿`X - X.mean(0)` o `X - X.mean(0, keepdims=True)`?**
+
+Para 2D ambos funcionan (broadcasting alinea). En 3D+, `keepdims=True` preserva la dimensión como `1` y evita confusiones. Recomendado en general.
+
+**❓ ¿`np.newaxis` o `None`?**
+
+Aliases — `arr[:, None]` y `arr[:, np.newaxis]` son idénticos. `None` es más conciso; muchos prefieren `np.newaxis` por explicitud.
+
+**❓ ¿Qué hago si broadcasting no me sirve?**
+
+Operaciones que no se ajustan a las reglas: usa `np.einsum` (más expresivo), `np.tensordot`, o reshape explícito. Como último recurso, loop Python — pero busca librería específica antes.
 
 ## 🔗 Referencias
 
