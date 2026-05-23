@@ -24,7 +24,7 @@
   </header>
   <main class="cur-main">
     <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-0-prerrequisitos/029-pandas-pivot-tables-y-crosstab/notebook.ipynb">📓 Abrir notebook en GitHub</a>
-<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
 <h1 id="clase-029-pandas-pivot-tables-y-crosstab">Clase 029 — Pandas: pivot tables y crosstab</h1>
 <blockquote>
 <p>Parte: <strong>0 — Prerrequisitos</strong> · Fuente: VanderPlas, <strong>cap. 3</strong> § 3.10 <em>Pivot Tables</em>.
@@ -84,6 +84,19 @@
 </tr>
 </tbody>
 </table>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<dl>
+<dt><strong><code>pivot_table</code></strong></dt>
+<dd>Resumen tabular estilo Excel: defines <code>index</code>, <code>columns</code>, <code>values</code> y <code>aggfunc</code>. Acepta duplicados (agrega). El atajo más usado para reportes.</dd>
+<dt><strong><code>pivot</code> (sin _table)</strong></dt>
+<dd>Variante que NO agrega — falla si hay duplicados en (index, columns). Más estricta; úsala solo cuando garantizas unicidad.</dd>
+<dt><strong><code>crosstab</code></strong></dt>
+<dd>Tabla de contingencia entre 2 categóricas: counts cruzados. Con <code>normalize='index'</code>/<code>'columns'</code>/<code>'all'</code> muestra proporciones.</dd>
+<dt><strong><code>margins=True</code></strong></dt>
+<dd>Añade fila/columna "Total" al pivot. Útil para verificar manualmente y para reportes ejecutivos.</dd>
+<dt><strong>Heatmap de pivot</strong></dt>
+<dd>Renderizar el pivot como matriz coloreada (<code>plt.imshow</code> o <code>seaborn.heatmap</code>) — patrones visuales saltan a la vista.</dd>
+</dl>
 <h2 id="dataset-recursos">📂 Dataset / recursos</h2>
 <p>Palmer Penguins. Sin descarga adicional.</p>
 <h2 id="ejercicios">🧪 Ejercicios</h2>
@@ -95,6 +108,48 @@
 <h2 id="homework-verificable">📝 Homework verificable</h2>
 <p>Notebook con penguins: (a) pivot_table (species × island, mean body_mass); (b) crosstab species × island, count y normalizado; (c) verificación de totales con margins; (d) heatmap simple del pivot.</p>
 <p><strong>Criterio de aceptación:</strong> Pivot con shape correcto; sum de normalize='index' = 1.0 por fila.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>pivot()</code> lanza <code>ValueError: Index contains duplicate entries</code></td>
+<td>Hay duplicados en (index, columns). <strong>Fix</strong>: usa <code>pivot_table()</code> con <code>aggfunc='sum'</code>/'mean' que agrega los duplicados, o agrega antes con groupby.</td>
+</tr>
+<tr>
+<td><code>pivot_table</code> da NaN donde no hay datos</td>
+<td>Combinaciones (index × columns) sin filas. <strong>Fix</strong>: <code>fill_value=0</code> (o el default que tenga sentido).</td>
+</tr>
+<tr>
+<td><code>crosstab</code> cuenta cosas raras con muchos NaN</td>
+<td>Crosstab cuenta filas no-NaN por default. <strong>Fix</strong>: filtra previamente o pasa <code>dropna=False</code>.</td>
+</tr>
+<tr>
+<td>Pivot con cols numéricas float queda feo</td>
+<td>Sin <code>aggfunc</code> explícito, pandas usa mean. Si querías sum, espécifica: <code>aggfunc='sum'</code>.</td>
+</tr>
+<tr>
+<td>Plot del pivot rompe por MultiIndex</td>
+<td>Pivot con múltiples niveles de columnas → MultiIndex. <strong>Fix</strong>: aplana con <code>pivot.columns = ['_'.join(c) for c in pivot.columns]</code> antes del plot.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿<code>pivot_table</code> o <code>groupby</code> + <code>unstack</code>?</strong></p>
+<p>Equivalentes en resultado. <strong><code>pivot_table</code></strong> es más declarativo, mejor para reportes. <strong><code>groupby + unstack</code></strong> más componible, mejor en pipelines.</p>
+<p><strong>❓ ¿<code>crosstab</code> o <code>pivot_table</code> con <code>aggfunc='count'</code>?</strong></p>
+<p>Equivalentes para counts. <strong><code>crosstab</code></strong> tiene API más simple para 2 categóricas. <strong><code>pivot_table</code></strong> más flexible (varias values, varias funcs).</p>
+<p><strong>❓ ¿Cómo ordeno el pivot?</strong></p>
+<p>Por valores: <code>pivot.sort_values('col_x', ascending=False)</code>. Por suma: <code>pivot.loc[pivot.sum(axis=1).sort_values(ascending=False).index]</code>.</p>
+<p><strong>❓ ¿Reportes Excel-like exportables?</strong></p>
+<p><code>pivot.to_excel('reporte.xlsx')</code> directo. O <code>to_csv</code> para CSV. Para formato fino (colores, formulas), usa <code>openpyxl</code> o <code>xlsxwriter</code>.</p>
+<p><strong>❓ ¿Cuándo no usar pivot?</strong></p>
+<p>Cuando los datos ya están en formato wide y solo necesitas plot/agregaciones — usar <code>groupby</code> directo. Pivot es para transformar long → wide.</p>
 <h2 id="referencias">🔗 Referencias</h2>
 <ul>
 <li>VanderPlas, <strong>cap. 3</strong> § 3.10.</li>

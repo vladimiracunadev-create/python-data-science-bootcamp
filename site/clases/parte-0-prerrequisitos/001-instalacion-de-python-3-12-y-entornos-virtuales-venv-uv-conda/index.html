@@ -24,7 +24,7 @@
   </header>
   <main class="cur-main">
     <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-0-prerrequisitos/001-instalacion-de-python-3-12-y-entornos-virtuales-venv-uv-conda/notebook.ipynb">📓 Abrir notebook en GitHub</a>
-<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#prerrequisitos">🧩 Prerrequisitos</a> · <a href="#temas">🗺️ Temas</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#prerrequisitos">🧩 Prerrequisitos</a> · <a href="#temas">🗺️ Temas</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
 <h1 id="clase-001-instalacion-de-python-312-y-entornos-virtuales-venv-uv-conda">Clase 001 — Instalación de Python 3.12+ y entornos virtuales (venv, uv, conda)</h1>
 <blockquote>
 <p>Parte: <strong>0 — Prerrequisitos</strong> · Fuente: VanderPlas, <em>Python Data Science Handbook</em>, prefacio "Installation Considerations".
@@ -128,6 +128,69 @@ pip install -r requirements.txt
 python verify.py
 </code></pre>
 <p>…y obtener un output similar al que tú reportaste (mismo Python mayor.menor, mismos paquetes importables).</p>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<dl>
+<dt><strong>Python "del sistema"</strong></dt>
+<dd>Intérprete instalado por el OS (macOS y Linux lo traen por default; Windows no). Lo usan herramientas internas del sistema — <strong>modificarlo puede romper el OS</strong>. Regla: nunca instales paquetes ahí.</dd>
+<dt><strong>Entorno virtual (venv)</strong></dt>
+<dd>Carpeta autocontenida con su propio Python ejecutable y sus propios paquetes. Aislada del Python global y de otros venvs. Crear/destruir es barato — uno por proyecto es la norma.</dd>
+<dt><strong><code>pip</code></strong></dt>
+<dd>Gestor de paquetes oficial de Python. Instala desde PyPI (Python Package Index). Característica clave: <strong>usa el Python con el que se invoca</strong> — siempre prefiere <code>python -m pip install</code> sobre <code>pip install</code> solo.</dd>
+<dt><strong><code>uv</code> (Astral)</strong></dt>
+<dd>Reemplazo moderno (2024+) escrito en Rust. Drop-in compatible con pip+venv pero <strong>10–100× más rápido</strong>. Maneja también versiones de Python (reemplazo de pyenv). API: <code>uv venv</code>, <code>uv pip install</code>, <code>uv python install 3.12</code>.</dd>
+<dt><strong><code>conda</code> / <code>mamba</code></strong></dt>
+<dd>Gestor multilenguaje (no solo Python). Maneja también dependencias <strong>binarias C/C++/CUDA</strong> (PyTorch+GPU, geopandas, rdkit). Más pesado pero imprescindible para esos casos. <code>mamba</code> es conda en C++ (más rápido).</dd>
+<dt><strong><code>requirements.txt</code> vs <code>pyproject.toml</code> vs <code>environment.yml</code></strong></dt>
+<dd>Tres formatos, tres ecosistemas. <code>requirements.txt</code> (pip, lockfile). <code>pyproject.toml</code> (estándar moderno PEP 621, declarativo). <code>environment.yml</code> (conda).</dd>
+</dl>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ModuleNotFoundError</code> aunque acabo de instalar el paquete</td>
+<td><code>pip</code> y <code>python</code> apuntan a Pythons distintos. <strong>Fix</strong>: siempre <code>python -m pip install &lt;paquete&gt;</code> para garantizar el mismo Python.</td>
+</tr>
+<tr>
+<td><code>Permission denied</code> al hacer <code>pip install</code></td>
+<td>Estás instalando en el Python del sistema sin sudo. <strong>NO uses sudo</strong> — activa un venv primero.</td>
+</tr>
+<tr>
+<td><code>.venv\Scripts\Activate.ps1 cannot be loaded</code> (Windows PowerShell)</td>
+<td>Execution policy bloquea scripts. <strong>Fix</strong>: <code>Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser</code> (una vez).</td>
+</tr>
+<tr>
+<td>Pip muy lento descargando</td>
+<td>Red lenta o servidor PyPI lejano. <strong>Fix</strong>: prueba con <code>uv</code> (10–100× más rápido) o mirror más cercano (<code>pip install -i https://...</code>).</td>
+</tr>
+<tr>
+<td>Borré la carpeta <code>.venv/</code> y <code>pip list</code> sigue mostrando los paquetes</td>
+<td>Tu shell aún tiene el PATH del venv viejo. <strong>Fix</strong>: <code>deactivate</code> y abre terminal nueva.</td>
+</tr>
+<tr>
+<td><code>conda activate</code> no funciona en script no-interactive</td>
+<td>conda init requiere shell interactivo. <strong>Fix</strong>: <code>source activate</code> directamente o usa <code>conda run</code>.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿<code>venv</code>, <code>uv</code> o <code>conda</code> — cuál uso?</strong></p>
+<p><strong>venv</strong> si quieres simplicidad y solo tocas Python puro (stdlib + pandas + numpy + sklearn). <strong>uv</strong> si haces lo mismo pero quieres velocidad — recomendado en 2026. <strong>conda</strong> solo si necesitas dependencias C/CUDA (PyTorch con GPU, geopandas, química).</p>
+<p><strong>❓ ¿Puedo tener <code>venv</code> y <code>conda</code> en la misma máquina?</strong></p>
+<p>Sí — coexisten. Lo único: no actives ambos a la vez. Tu PATH se confunde y <code>python</code> apunta a uno u otro impredeciblemente.</p>
+<p><strong>❓ ¿Por qué <code>.venv/</code> en el repo está en <code>.gitignore</code>?</strong></p>
+<p>Porque pesa cientos de MB y es reconstruible desde <code>requirements.txt</code>/<code>pyproject.toml</code>. Versionar el venv duplica el repo y crea conflicto si cambias de OS.</p>
+<p><strong>❓ ¿Debo actualizar pip al crear un venv?</strong></p>
+<p>Sí, primer paso: <code>python -m pip install --upgrade pip</code>. El pip dentro de venvs viejos tiene bugs conocidos y es lento.</p>
+<p><strong>❓ ¿Cómo sé en qué venv estoy?</strong></p>
+<p><code>python -c "import sys; print(sys.executable)"</code> o <code>which python</code> (Unix) / <code>where python</code> (Windows). El prompt suele cambiar (<code>(.venv) C:\...&gt;</code>) pero no siempre — confirma con el comando.</p>
+<p><strong>❓ ¿Necesito Python 3.12 específicamente?</strong></p>
+<p>Para este curso, sí (varias features usadas dependen). En general, usa la última estable. Python 3.10 ya pierde soporte en oct/2026.</p>
 <h2 id="referencias">🔗 Referencias</h2>
 <ul>
 <li>VanderPlas, <em>Python Data Science Handbook</em>, <strong>Preface § "Installation Considerations"</strong>.</li>

@@ -13,6 +13,31 @@
 
 ---
 
+## [v2.2.0] — 2026-05-22
+
+### Añadido
+
+- **Parte 0 ampliada pedagógicamente — 46/46 clases** con tres secciones nuevas:
+  - **📖 Definiciones y características** — términos técnicos con explicación + características clave (~230 ítems totales).
+  - **⚠️ Errores comunes** — tabla "síntoma/mensaje → causa y cómo arreglar" basada en los bugs más frecuentes de alumnos (~230 ítems).
+  - **❓ Preguntas frecuentes** — FAQs auténticas que aparecen al estudiar el tema (~230 ítems).
+- Total: **~690 ítems pedagógicos nuevos** sobre los 46 README y notebooks.
+- **Framework v2 del generador** (`scripts/build_parte0_classes.py`): el `ClassSpec` ahora acepta `definiciones`, `faq` y `errores_comunes`. Render automático en README (en posición didáctica óptima) y en notebook (3 celdas markdown insertadas antes de Referencias).
+- **Skill global `python-version-control`** (`~/.claude/skills/python-version-control/`): audita coherencia de versión Python en cualquier repo (pyproject + Dockerfile + workflows + tox + pre-commit). Reportó y resolvió drift `3.10/3.11/3.12` en este repo.
+- **Mejoras de descubribilidad en GitHub Pages**:
+  - **Tabla de contenidos automática** al inicio de cada página de clase (anchors a los `H2`).
+  - **Badges visuales** (📖 ⚠️ ❓) en la lista de clases de cada parte mostrando qué tiene cada una.
+  - **Banner amarillo en `/clases/`** con contador global "X clases ya incluyen Definiciones · Errores · FAQ".
+  - **Resumen "X de Y ampliadas"** en cada página de parte.
+
+### Cambiado
+
+- README raíz: badges actualizados (v2.2.0 + badge "Parte 0 46/46 completa" + estado partes 1-8 en desarrollo).
+- ROADMAP: Parte 0 marcada explícitamente como ampliada.
+- `docs/`: estado general del programa actualizado.
+
+---
+
 ## [v2.1.0] — 2026-05-22
 
 ### Añadido

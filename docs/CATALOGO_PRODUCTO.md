@@ -5,13 +5,13 @@
 ### **Fuente de verdad de superficies, artefactos y reglas de comunicación**
 
 [![Autoridad](https://img.shields.io/badge/prioridad-este%20documento-ef4444?style=for-the-badge)](#-regla-de-prioridad)
-[![Estado](https://img.shields.io/badge/release-v2.0.0--scaffold-2e8b57?style=for-the-badge)](../CHANGELOG.md)
+[![Estado](https://img.shields.io/badge/release-v2.2.0-2e8b57?style=for-the-badge)](../CHANGELOG.md)
 
 </div>
 
 > ⚠️ Si algún README, landing o presentación contradice este documento, **este tiene prioridad.**
 >
-> 📌 El currículo tiene **197 clases en 9 partes**. La estructura de carpetas y stubs está creada; el contenido pedagógico de cada clase se desarrolla por bloques. Pauta completa en [syllabus.md](syllabus.md), índice navegable en [../classes/README.md](../classes/README.md).
+> 📌 El currículo tiene **197 clases en 9 partes**. **Parte 0 (46 clases) está completa y ampliada** con contenido pedagógico real + Definiciones/Errores/FAQ. **Partes 1-8** tienen la estructura (scaffold) y se desarrollan por bloques. Pauta completa en [syllabus.md](syllabus.md), índice navegable en [../classes/README.md](../classes/README.md).
 
 ---
 
@@ -35,7 +35,7 @@
 | App Android (`mobile/`) | distribución móvil | **catálogo vacío** | alumno en movimiento | código operativo, pero `mobile/src/data/classes.js` quedó como stub; pendiente cargar entradas del currículo actual |
 | Portal del alumno (`site/`) | superficie pública | operativo | alumno | muestra el resumen de 197 clases en 9 partes con tarjeta por parte |
 | Vista institucional (`site/product/`) | superficie pública | operativo (mensaje genérico) | institución / evaluador | narrativa del producto, alcance, arquitectura visual |
-| Currículo modular (`classes/`) | base pedagógica | scaffold operativo, contenido en desarrollo | docente / alumno | 197 clases organizadas en 9 partes (Prerrequisitos, ML clásico, Deep Learning, Estadística inferencial, MLOps, Ingeniería de datos, Recomendadores, Ética, Capstones) |
+| Currículo modular (`classes/`) | base pedagógica | **Parte 0 (46) completa y ampliada** · Partes 1-8 scaffold | docente / alumno | 197 clases organizadas en 9 partes (Prerrequisitos, ML clásico, Deep Learning, Estadística inferencial, MLOps, Ingeniería de datos, Recomendadores, Ética, Capstones). Parte 0 incluye Definiciones, Errores comunes y FAQ por clase. |
 | Kit documental (`docs/`) | capa editorial | operativo | docente / stakeholder | metodología, operación, evaluación, seguridad y arquitectura |
 | PDFs (`docs/pdfs/`) | artefacto de apoyo | se regenera por bloque | docente / alumno / evaluador | guías PDF por clase al madurar el contenido |
 | Presentaciones (`docs/presentaciones/`) | artefacto de apoyo | se regenera por bloque | docente | decks `.pptx` por clase al madurar el contenido |
@@ -105,7 +105,7 @@ Cada clase vive en `classes/parte-N-slug/NNN-tema-slug/` con `README.md` (ficha)
 
 ### Lo que no se debe mezclar
 
-- **el currículo está en scaffold**: la estructura existe pero el contenido de cada clase debe desarrollarse — no afirmar "197 clases listas para dictar";
+- **el currículo está parcialmente desarrollado**: Parte 0 (46 clases) completa y ampliada con Definiciones/Errores/FAQ; Partes 1-8 son scaffold cuya estructura existe pero el contenido pedagógico debe desarrollarse — no afirmar "197 clases listas para dictar";
 - el portal del alumno **no es** todo el producto;
 - la vista institucional **no reemplaza** el laboratorio;
 - la app Android **no ejecuta Python nativo** — usa Google Colab;

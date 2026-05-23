@@ -24,7 +24,7 @@
   </header>
   <main class="cur-main">
     <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-0-prerrequisitos/024-pandas-operaciones-y-alineacion/notebook.ipynb">📓 Abrir notebook en GitHub</a>
-<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
 <h1 id="clase-024-pandas-operaciones-y-alineacion">Clase 024 — Pandas: operaciones y alineación</h1>
 <blockquote>
 <p>Parte: <strong>0 — Prerrequisitos</strong> · Fuente: VanderPlas, <strong>cap. 3</strong> § 3.4 <em>Operating on Data in Pandas</em>.
@@ -84,6 +84,21 @@
 </tr>
 </tbody>
 </table>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<dl>
+<dt><strong>Alineación por index</strong></dt>
+<dd>Operación matemática entre dos pandas (Series + Series, DF + Series, etc.) alinea por <strong>etiqueta</strong> de index. Labels que no estén en ambos → NaN.</dd>
+<dt><strong><code>fill_value</code> en operaciones</strong></dt>
+<dd>Parámetro que reemplaza NaN durante la operación: <code>s1.add(s2, fill_value=0)</code> trata índices ausentes como 0 en vez de propagar NaN.</dd>
+<dt><strong><code>apply</code></strong></dt>
+<dd>Aplica función a cada fila (<code>axis=1</code>) o columna (<code>axis=0</code>) de un DataFrame, o cada elemento de una Series. <strong>Lento</strong> porque itera en Python. Usa solo si vectorización no aplica.</dd>
+<dt><strong><code>map</code> (Series)</strong></dt>
+<dd>Aplica función o <strong>dict</strong> a cada elemento. Útil para recodificación rápida: <code>s.map({'A': 1, 'B': 2})</code>. Más rápido que <code>apply</code> por su API más restringida.</dd>
+<dt><strong><code>df.map</code> (antes <code>applymap</code>)</strong></dt>
+<dd>Aplica función a <strong>cada celda</strong> del DataFrame (elementwise). Lento; usa solo cuando vectorización no aplica. <code>applymap</code> está deprecated en pandas 2.1+.</dd>
+<dt><strong>Ufunc-aware</strong></dt>
+<dd>Pandas Series respeta ufuncs NumPy: <code>np.log(s)</code>, <code>np.sqrt(s)</code> funcionan y <strong>preservan el index</strong>. Ventaja sobre convertir a array y perder labels.</dd>
+</dl>
 <h2 id="dataset-recursos">📂 Dataset / recursos</h2>
 <p>Sintético + Palmer Penguins. Sin descarga adicional.</p>
 <h2 id="ejercicios">🧪 Ejercicios</h2>
@@ -95,6 +110,48 @@
 <h2 id="homework-verificable">📝 Homework verificable</h2>
 <p>Notebook con penguins: (a) BMI por fila con <code>apply</code> vs vectorizado (tabla <code>%timeit</code>); (b) species → código numérico con <code>map</code>; (c) demo de alineación con <code>fill_value</code>; (d) <code>np.log</code> sobre body_mass preservando index.</p>
 <p><strong>Criterio de aceptación:</strong> Vectorizado &gt;50× más rápido que apply. Mapping y alineación correctos.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>apply</code> toma 10× más que vectorización equivalente</td>
+<td>Iteración Python por fila. <strong>Fix</strong>: piensa si tu lógica es expresable con operaciones vectorizadas (<code>df['a'] * df['b']</code>); 99% de los <code>apply</code> simples se pueden eliminar.</td>
+</tr>
+<tr>
+<td><code>s1 + s2</code> produce NaN aunque los datos están completos</td>
+<td>Index distinto (incluso por orden diferente). <strong>Fix</strong>: alinea antes (<code>s2 = s2.reindex(s1.index)</code>) o usa <code>s1.add(s2, fill_value=0)</code>.</td>
+</tr>
+<tr>
+<td><code>df.apply(func, axis=1)</code> rompe con <code>KeyError</code></td>
+<td>Tu función accede <code>row['col_x']</code> pero esa col no existe. <strong>Fix</strong>: imprime <code>row.index</code> dentro de la función para ver qué hay.</td>
+</tr>
+<tr>
+<td><code>df.map(lambda x: ...)</code> falla "object has no attribute 'map'"</td>
+<td>Es método de DataFrame solo en pandas ≥2.1. Para versiones viejas: <code>df.applymap(...)</code>. Para Series: <code>s.map(...)</code>.</td>
+</tr>
+<tr>
+<td><code>np.log(df['x'])</code> da error con NaN</td>
+<td>Si NaN está presente, log da NaN. Si negativos, lanza warning y NaN. <strong>Fix</strong>: filtra primero (<code>df[df['x'] &gt; 0]</code>) o usa <code>np.log1p</code> para log(1+x).</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿Cuándo <code>apply</code> y cuándo NO?</strong></p>
+<p><strong>NO</strong>: si lo puedes hacer con <code>df['a'] * df['b']</code> u operación pandas built-in (groupby, transform, etc.). <strong>SÍ</strong>: lógica compleja por fila que no se descompone.</p>
+<p><strong>❓ ¿<code>apply(axis=1)</code> con tipos mixtos da problemas?</strong></p>
+<p>Sí — pandas convierte cada row a Series con dtype común. Si tienes <code>int</code> y <code>str</code>, queda <code>object</code> y los operadores <code>&lt;</code>, <code>&gt;</code> rompen. Mejor extrae columnas y opera directo.</p>
+<p><strong>❓ ¿Cómo paralelizo apply?</strong></p>
+<p><code>pandarallel</code>, <code>swifter</code>, <code>modin</code> — drop-in replacements. Pero antes de paralelizar, asegúrate que tu apply no es vectorizable (el speedup es mayor).</p>
+<p><strong>❓ ¿<code>s.map(dict)</code> o <code>s.replace(dict)</code>?</strong></p>
+<p><strong><code>map</code></strong>: mapea uno-a-uno; valores no encontrados en dict → NaN. <strong><code>replace</code></strong>: reemplaza solo los que aparecen; el resto queda igual. Elige según comportamiento deseado en valores faltantes.</p>
+<p><strong>❓ ¿Por qué pandas a veces es más lento que NumPy?</strong></p>
+<p>Overhead del index, manejo de NaN, dtype-aware. Para operaciones puramente numéricas sobre datos limpios y rectangulares, NumPy puede ser 2-5× más rápido. Pandas vale por la API, no por velocidad raw.</p>
 <h2 id="referencias">🔗 Referencias</h2>
 <ul>
 <li>VanderPlas, <strong>cap. 3</strong> § 3.4.</li>

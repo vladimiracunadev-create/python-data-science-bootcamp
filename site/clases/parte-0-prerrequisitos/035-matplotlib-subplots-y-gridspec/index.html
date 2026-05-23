@@ -24,7 +24,7 @@
   </header>
   <main class="cur-main">
     <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-0-prerrequisitos/035-matplotlib-subplots-y-gridspec/notebook.ipynb">📓 Abrir notebook en GitHub</a>
-<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
 <h1 id="clase-035-matplotlib-subplots-y-gridspec">Clase 035 — Matplotlib: subplots y gridspec</h1>
 <blockquote>
 <p>Parte: <strong>0 — Prerrequisitos</strong> · Fuente: VanderPlas, <strong>cap. 4</strong> § 4.6 <em>Multiple Subplots</em>.
@@ -84,6 +84,19 @@
 </tr>
 </tbody>
 </table>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<dl>
+<dt><strong><code>plt.subplots(n, m)</code></strong></dt>
+<dd>Crea figure + grilla regular de n filas × m columnas de axes. Devuelve <code>(fig, axes)</code> donde axes es array 2D — itera con <code>.flat</code> para llenar.</dd>
+<dt><strong><code>sharex</code> / <code>sharey</code></strong></dt>
+<dd>Comparten escala entre axes del grid. Ideal para comparar distribuciones de la misma magnitud sin distorsión visual.</dd>
+<dt><strong><code>GridSpec</code></strong></dt>
+<dd>Layout irregular avanzado: define grilla y asigna spans manualmente ("plot grande arriba + 3 pequeños abajo"). Mucho más flexible que <code>subplots(n, m)</code>.</dd>
+<dt><strong><code>add_subplot(spec)</code></strong></dt>
+<dd>Añade un axes a una figure según una posición específica (índice 121, o GridSpec). Útil cuando subplots no alcanza.</dd>
+<dt><strong><code>constrained_layout=True</code></strong></dt>
+<dd>Algoritmo moderno (default en pandas 3+) que ajusta spacing automáticamente. Maneja colorbars, leyendas externas, suptitle sin overlap. Recomendado sobre <code>tight_layout()</code>.</dd>
+</dl>
 <h2 id="dataset-recursos">📂 Dataset / recursos</h2>
 <p>Palmer Penguins. Sin descarga.</p>
 <h2 id="ejercicios">🧪 Ejercicios</h2>
@@ -95,6 +108,48 @@
 <h2 id="homework-verificable">📝 Homework verificable</h2>
 <p>Notebook con penguins: (a) grilla 2×2 hists; (b) 3 boxplots con sharey; (c) layout GridSpec con scatter central + marginales arriba/derecha; (d) misma figura comparando tight_layout vs constrained_layout.</p>
 <p><strong>Criterio de aceptación:</strong> Sin superposición de labels. Layouts limpios. Marginales alineadas al scatter.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>axes</code> es array 1D cuando esperaba 2D</td>
+<td>Si pides <code>subplots(1, 3)</code> o <code>subplots(3, 1)</code>, axes es 1D. <strong>Fix</strong>: usa <code>axes.flat</code> (siempre 1D) para iterar consistente, o <code>axes.reshape(-1)</code>.</td>
+</tr>
+<tr>
+<td><code>subplots(1, 1)</code> devuelve axes escalar</td>
+<td>No es array. <strong>Fix</strong>: si quieres array siempre, <code>subplots(1, 1, squeeze=False)</code> (devuelve 2D). O distingue caso 1 vs N.</td>
+</tr>
+<tr>
+<td>Plots se superponen / labels cortados</td>
+<td>Sin <code>constrained_layout=True</code> ni <code>tight_layout()</code>. <strong>Fix</strong>: <code>subplots(..., constrained_layout=True)</code> siempre.</td>
+</tr>
+<tr>
+<td><code>sharey=True</code> pero un plot tiene escala distinta</td>
+<td>Quizás esa subplot necesita un eje secundario: <code>ax.twinx()</code>. Mezclar escalas con shared rompe la utilidad.</td>
+</tr>
+<tr>
+<td>GridSpec con índices confusos</td>
+<td>El orden es <code>gs[fila, col]</code> igual que NumPy. Spans: <code>gs[0:2, 1]</code> = filas 0-1 (excluye 2), columna 1.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿Cuándo <code>subplots(n, m)</code> vs <code>GridSpec</code>?</strong></p>
+<p><strong>Regular</strong>: <code>subplots</code>. <strong>Irregular</strong> (un grande + varios pequeños, joint plot, dashboard): <code>GridSpec</code>.</p>
+<p><strong>❓ ¿<code>fig.suptitle</code> o <code>ax.set_title</code> con subplots?</strong></p>
+<p><code>suptitle</code> = título de toda la figura (encima de todos). <code>ax.set_title</code> = título por subplot. Combinables.</p>
+<p><strong>❓ ¿Cómo controlo espacio entre subplots?</strong></p>
+<p><code>subplots(..., gridspec_kw={'hspace': 0.3, 'wspace': 0.3})</code> (ratios relativos al tamaño del axes). Con <code>constrained_layout</code> suele ser automático.</p>
+<p><strong>❓ ¿<code>figsize</code> cómo elegir?</strong></p>
+<p>Para artículos: ancho de columna (típicamente 3.5" para 1 col, 7" para ancho página). Para presentaciones: aspect ratio 16:9 → <code>(12, 6.75)</code>.</p>
+<p><strong>❓ ¿<code>axes.flat</code> o <code>axes.flatten()</code>?</strong></p>
+<p><strong><code>flat</code></strong> es iterador (no copia). <strong><code>flatten()</code></strong> devuelve nuevo array. Para iterar, <code>flat</code> ahorra memoria.</p>
 <h2 id="referencias">🔗 Referencias</h2>
 <ul>
 <li>VanderPlas, <strong>cap. 4</strong> § 4.6.</li>

@@ -14,6 +14,12 @@
 
 Cada clase tiene su `README.md` con objetivo, resultados de aprendizaje verificables, dataset recomendado, 5 ejercicios y homework con criterio de aceptación. Cada `notebook.ipynb` trae 10–18 celdas mezclando markdown explicativo + código ejecutable (basado en VanderPlas/Ramalho donde aplica).
 
+**✨ Ampliación pedagógica (v2.2.0):** todas las 46 clases incluyen además tres secciones nuevas:
+
+- **📖 Definiciones y características** — términos técnicos con explicación y características clave.
+- **⚠️ Errores comunes** — tabla de síntomas/mensajes con causa y solución concretas (los bugs que ven los alumnos en clase).
+- **❓ Preguntas frecuentes** — FAQs auténticas que aparecen al estudiar cada tema.
+
 ---
 
 ## 🎯 ¿De qué trata esta parte?

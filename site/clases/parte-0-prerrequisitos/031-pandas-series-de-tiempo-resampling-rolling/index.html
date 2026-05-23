@@ -24,7 +24,7 @@
   </header>
   <main class="cur-main">
     <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-0-prerrequisitos/031-pandas-series-de-tiempo-resampling-rolling/notebook.ipynb">📓 Abrir notebook en GitHub</a>
-<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
 <h1 id="clase-031-pandas-series-de-tiempo-resampling-rolling">Clase 031 — Pandas: series de tiempo, resampling, rolling</h1>
 <blockquote>
 <p>Parte: <strong>0 — Prerrequisitos</strong> · Fuente: VanderPlas, <strong>cap. 3</strong> § 3.12 <em>Working with Time Series</em>.
@@ -84,6 +84,21 @@
 </tr>
 </tbody>
 </table>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<dl>
+<dt><strong><code>Timestamp</code> / <code>DatetimeIndex</code></strong></dt>
+<dd>Tipo nativo de pandas para fechas-horas. Vectorizado. Permite indexar con strings: <code>df.loc['2024-01':'2024-03']</code>.</dd>
+<dt><strong><code>pd.to_datetime</code></strong></dt>
+<dd>Conversor robusto string→Timestamp. <code>errors='coerce'</code> convierte fallos a <code>NaT</code> (Not a Time) en vez de excepción.</dd>
+<dt><strong>Resampling</strong></dt>
+<dd>Cambiar la frecuencia de una serie: diaria→mensual, horaria→semanal. Requiere <strong>agregación</strong> (sum, mean, last, ohlc). Códigos: <code>'D'</code>, <code>'W'</code>, <code>'ME'</code> (month-end), <code>'h'</code>, <code>'min'</code>.</dd>
+<dt><strong>Rolling window</strong></dt>
+<dd>Ventana móvil: para cada punto, aplicar función a los últimos N (<code>.rolling(N).mean()</code>). Suaviza tendencias, calcula medias móviles.</dd>
+<dt><strong><code>shift</code> / <code>diff</code> / <code>pct_change</code></strong></dt>
+<dd><strong><code>shift(N)</code></strong>: desplaza N posiciones (NaN al inicio). <strong><code>diff(N)</code></strong>: <code>s - s.shift(N)</code> (cambio absoluto). <strong><code>pct_change()</code></strong>: cambio relativo.</dd>
+<dt><strong><code>tz_localize</code> vs <code>tz_convert</code></strong></dt>
+<dd><strong><code>localize</code></strong> asigna TZ a fecha naive (no convierte). <strong><code>convert</code></strong> convierte de una TZ a otra (mantiene el instante). Patrón: localize primero, convert después.</dd>
+</dl>
 <h2 id="dataset-recursos">📂 Dataset / recursos</h2>
 <p>Sintético: serie diaria de 2 años de ventas. Sin descarga.</p>
 <h2 id="ejercicios">🧪 Ejercicios</h2>
@@ -95,6 +110,48 @@
 <h2 id="homework-verificable">📝 Homework verificable</h2>
 <p>Notebook con serie sintética de 2 años: (a) parseo robusto; (b) slice por trimestre; (c) resample a mensual con sum y mean; (d) rolling 7/30 días con plot; (e) diff y pct_change para variación.</p>
 <p><strong>Criterio de aceptación:</strong> Plots muestran tendencia clara. Resample correcto (#meses esperado).</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>pd.to_datetime</code> falla con <code>ValueError</code></td>
+<td>Formato no estándar. <strong>Fix</strong>: <code>format='%d/%m/%Y'</code> explícito, o <code>errors='coerce'</code> para convertir fallos a NaT y diagnosticar después.</td>
+</tr>
+<tr>
+<td><code>df.loc['2024-13']</code> lanza KeyError</td>
+<td>Mes inválido. <strong>Fix</strong>: verifica formato — pandas espera ISO (<code>'2024-01'</code>).</td>
+</tr>
+<tr>
+<td><code>resample('M')</code> warning sobre deprecation</td>
+<td>Pandas 2.2+ prefiere <code>'ME'</code> (month-end) o <code>'MS'</code> (month-start) sobre <code>'M'</code> ambiguo. <strong>Fix</strong>: actualiza alias.</td>
+</tr>
+<tr>
+<td>Resta de fechas da <code>Timedelta</code> en lugar de número</td>
+<td>Es correcto — usa <code>.dt.days</code>, <code>.dt.seconds</code> para obtener escalar. <code>(d1 - d2).dt.days</code>.</td>
+</tr>
+<tr>
+<td>Operaciones con TZ mezcladas: <code>Cannot compare tz-naive and tz-aware</code></td>
+<td>Una fecha tiene timezone, la otra no. <strong>Fix</strong>: alinea — <code>tz_localize('UTC')</code> a la naive.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿Cuándo <code>DatetimeIndex</code>?</strong></p>
+<p>Cuando vas a hacer <code>resample</code>, slicing por fechas, o cualquier operación temporal. <code>set_index('fecha')</code> después de parsear.</p>
+<p><strong>❓ ¿<code>resample</code> o <code>groupby(date.dt.month)</code>?</strong></p>
+<p><strong><code>resample</code></strong> es nativo y maneja gaps + zonas horarias mejor. <strong><code>groupby</code></strong> para agrupaciones no temporales ("por mes ignorando año").</p>
+<p><strong>❓ ¿Rolling cuánto Nuevoiniciar?</strong></p>
+<p>Default: NaN en los primeros N-1 (no hay datos suficientes para la ventana). Si quieres usar lo que haya: <code>.rolling(N, min_periods=1)</code>.</p>
+<p><strong>❓ ¿Cómo manejo zonas horarias en producción?</strong></p>
+<p><strong>Regla</strong>: guarda todo en UTC, convierte solo para mostrar. <code>df['fecha'] = pd.to_datetime(...).dt.tz_localize('UTC')</code> al ingerir, <code>tz_convert('America/Santiago')</code> al exhibir.</p>
+<p><strong>❓ ¿<code>pd.date_range</code> o <code>pd.timestamp_range</code>?</strong></p>
+<p><strong><code>date_range</code></strong> — <code>timestamp_range</code> no existe. <code>pd.date_range('2024-01-01', '2024-12-31', freq='D')</code> para 365 fechas diarias.</p>
 <h2 id="referencias">🔗 Referencias</h2>
 <ul>
 <li>VanderPlas, <strong>cap. 3</strong> § 3.12.</li>

@@ -24,7 +24,7 @@
   </header>
   <main class="cur-main">
     <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-0-prerrequisitos/033-matplotlib-anatomia-figura-axes/notebook.ipynb">📓 Abrir notebook en GitHub</a>
-<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
 <h1 id="clase-033-matplotlib-anatomia-figuraaxes">Clase 033 — Matplotlib: anatomía figura/axes</h1>
 <blockquote>
 <p>Parte: <strong>0 — Prerrequisitos</strong> · Fuente: VanderPlas, <strong>cap. 4</strong> § 4.1 <em>Visualization with Matplotlib</em>.
@@ -84,6 +84,19 @@
 </tr>
 </tbody>
 </table>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<dl>
+<dt><strong>Figure</strong></dt>
+<dd>El canvas/lienzo completo (ventana, archivo PNG). Una Figure contiene N Axes.</dd>
+<dt><strong>Axes</strong></dt>
+<dd>Un gráfico individual con sus ejes X/Y, ticks, labels, leyenda. <strong>No es plural</strong> de axis — es la palabra técnica de matplotlib para 'el rectángulo donde se dibuja'.</dd>
+<dt><strong>Artist</strong></dt>
+<dd>Todo lo dibujado: lines (Line2D), puntos (PathCollection), texto, leyenda. Cada element es un Artist con propiedades modificables.</dd>
+<dt><strong>API OO vs pyplot</strong></dt>
+<dd><strong>OO</strong>: <code>fig, ax = plt.subplots(); ax.plot(...)</code> — explícito, escalable. <strong>pyplot</strong>: <code>plt.plot(...)</code> — estilo MATLAB, estado global, menos predecible. Usa OO siempre.</dd>
+<dt><strong><code>rcParams</code></strong></dt>
+<dd>Dict global con defaults de matplotlib: <code>plt.rcParams['figure.figsize'] = (10, 5)</code>. Modificar afecta todos los plots subsiguientes hasta reset.</dd>
+</dl>
 <h2 id="dataset-recursos">📂 Dataset / recursos</h2>
 <p>Sintético: serie temporal corta + scatter. Sin descarga.</p>
 <h2 id="ejercicios">🧪 Ejercicios</h2>
@@ -95,6 +108,48 @@
 <h2 id="homework-verificable">📝 Homework verificable</h2>
 <p>Notebook: (a) figura <code>sin/cos</code> con todos los elementos (título, labels, leyenda, grid); (b) guardar PNG@300dpi y SVG; (c) generar 50 plots en loop sin memory leak; (d) demo de rcParams modificados.</p>
 <p><strong>Criterio de aceptación:</strong> Plot publicable (labels, leyenda, tamaño razonable). Loop deja 0 figuras abiertas.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Mi notebook se llena de memoria al hacer muchos plots</td>
+<td>Cada <code>plt.subplots()</code> deja Figure abierta. <strong>Fix</strong>: <code>plt.close(fig)</code> después de mostrar/guardar, o <code>plt.close('all')</code> periódicamente.</td>
+</tr>
+<tr>
+<td><code>savefig('out.png')</code> da PNG con fondo transparente raro</td>
+<td>Default es transparent. <strong>Fix</strong>: <code>fig.savefig('out.png', facecolor='white')</code> o <code>dpi=300, bbox_inches='tight'</code>.</td>
+</tr>
+<tr>
+<td>Labels cortados al guardar</td>
+<td>Bounding box no incluye text fuera del axes. <strong>Fix</strong>: <code>bbox_inches='tight'</code> en savefig o <code>constrained_layout=True</code> en subplots.</td>
+</tr>
+<tr>
+<td><code>plt.plot(x, y)</code> no muestra nada en notebook</td>
+<td>Falta <code>%matplotlib inline</code> (default suele estarlo). En scripts standalone: <code>plt.show()</code> al final.</td>
+</tr>
+<tr>
+<td>Texto en español sale mal</td>
+<td>Default font no tiene tildes/ñ. <strong>Fix</strong>: <code>plt.rcParams['font.family'] = 'DejaVu Sans'</code> u otra Unicode-friendly.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿<code>fig, ax = plt.subplots()</code> o <code>fig = plt.figure(); ax = fig.add_subplot()</code>?</strong></p>
+<p><code>subplots()</code> es el shortcut más usado. Da figure + axes en una línea, devuelve grid si pasas (n, m). El segundo es más explícito y útil para layouts custom (GridSpec).</p>
+<p><strong>❓ ¿PNG, SVG o PDF?</strong></p>
+<p><strong>PNG</strong> para web/presentaciones (raster, DPI fijo). <strong>SVG</strong> para documentos editables / publicación (vector, escala infinita). <strong>PDF</strong> para LaTeX (también vector).</p>
+<p><strong>❓ ¿Cuándo <code>constrained_layout=True</code> vs <code>tight_layout()</code>?</strong></p>
+<p><strong><code>constrained_layout=True</code></strong> (al crear figure): más nuevo, más confiable, maneja colorbars y leyendas externas mejor. <strong><code>tight_layout()</code></strong> (después): legacy, falla con elementos no estándar.</p>
+<p><strong>❓ ¿Por qué mi plot se ve diferente entre script y notebook?</strong></p>
+<p>Backend distinto: notebook usa <code>inline</code>, script usa <code>Qt5Agg</code>/<code>Tk</code>. DPI y tamaño cambian. Para consistencia: <code>plt.rcParams['figure.dpi'] = 100</code> explícito.</p>
+<p><strong>❓ ¿Está bien usar <code>plt.plot()</code> directo?</strong></p>
+<p>Para 1 plot rápido en notebook, OK. Para cualquier cosa más compleja (subplots, savefig, reutilizable), siempre API OO.</p>
 <h2 id="referencias">🔗 Referencias</h2>
 <ul>
 <li>VanderPlas, <strong>cap. 4</strong> § 4.1.</li>

@@ -18,7 +18,7 @@
 
 El producto se organiza en tres capas coordinadas:
 
-- una **capa pedagógica reusable** (`classes/`, `datasets/`) — **197 clases en 9 partes** (scaffold; contenido en desarrollo por bloques);
+- una **capa pedagógica reusable** (`classes/`, `datasets/`) — **197 clases en 9 partes** (Parte 0 con 46 clases completas y ampliadas; Partes 1-8 en scaffold, contenido en desarrollo);
 - una **capa operativa local** para el laboratorio (`app/`, `launcher.py`, `mobile/`);
 - una **capa pública** para alumnos e institución (`site/`, GitHub Pages).
 
@@ -136,7 +136,7 @@ Concentra el contenido de las **197 clases** en 9 partes. Pauta derivada de Gér
 | 7 | Ética, fairness, privacidad | 6 |
 | 8 | Capstones | 4 |
 
-Layout por clase: `classes/parte-N-slug/NNN-tema-slug/` con `README.md` (ficha) + `notebook.ipynb` (stub). Materiales opcionales (`teoria.md`, `slides.md`, `ejercicios.md`, `homework.md`, `soluciones.ipynb`, `quiz.json`, PDF, PPTX) se añaden cuando una clase madura.
+Layout por clase: `classes/parte-N-slug/NNN-tema-slug/` con `README.md` (ficha pedagógica) + `notebook.ipynb` (ejecutable). En Parte 0 (clases maduras) el README incluye además **📖 Definiciones**, **⚠️ Errores comunes** y **❓ FAQ**. Materiales opcionales (`teoria.md`, `slides.md`, `ejercicios.md`, `homework.md`, `soluciones.ipynb`, `quiz.json`, PDF, PPTX) se añaden cuando una clase madura.
 
 ### `app/notebooks/` — Labs interactivos
 

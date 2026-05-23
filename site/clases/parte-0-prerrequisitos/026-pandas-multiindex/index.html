@@ -24,7 +24,7 @@
   </header>
   <main class="cur-main">
     <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-0-prerrequisitos/026-pandas-multiindex/notebook.ipynb">📓 Abrir notebook en GitHub</a>
-<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
 <h1 id="clase-026-pandas-multiindex">Clase 026 — Pandas: MultiIndex</h1>
 <blockquote>
 <p>Parte: <strong>0 — Prerrequisitos</strong> · Fuente: VanderPlas, <strong>cap. 3</strong> § 3.6 <em>Hierarchical Indexing</em>.
@@ -84,6 +84,19 @@
 </tr>
 </tbody>
 </table>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<dl>
+<dt><strong><code>MultiIndex</code></strong></dt>
+<dd>Índice jerárquico con N niveles. Cada fila identificada por tupla de N labels (<code>('España', 2024)</code>). Útil cuando los datos tienen estructura natural (país→ciudad, año→mes).</dd>
+<dt><strong>Nivel (level)</strong></dt>
+<dd>Cada "capa" del MultiIndex. Se referencia por nombre (<code>level='año'</code>) o posición (<code>level=0</code>). Útil en operaciones como <code>unstack(level=...)</code>.</dd>
+<dt><strong><code>stack</code> / <code>unstack</code></strong></dt>
+<dd>Mueven niveles entre filas y columnas. <strong><code>unstack</code></strong> sube un nivel del index a columnas (long→wide). <strong><code>stack</code></strong> baja un nivel de columnas al index (wide→long). Reversibles.</dd>
+<dt><strong><code>xs</code> (cross-section)</strong></dt>
+<dd>Slice por un valor en un nivel: <code>df.xs(2024, level='año')</code>. Más limpio que indexar con tuplas parciales.</dd>
+<dt><strong>Aplanar (flatten)</strong></dt>
+<dd>Convertir MultiIndex a Index plano: <code>df.reset_index()</code> (vuelve a default 0..N) o <code>df.index = ['_'.join(map(str, t)) for t in df.index]</code> (concatena niveles).</dd>
+</dl>
 <h2 id="dataset-recursos">📂 Dataset / recursos</h2>
 <p>Sintético: ventas por país/año.</p>
 <h2 id="ejercicios">🧪 Ejercicios</h2>
@@ -95,6 +108,48 @@
 <h2 id="homework-verificable">📝 Homework verificable</h2>
 <p>Notebook con ventas trimestre×región sintéticas (4 trimestres × 3 regiones × 2 años): (a) construir con <code>from_product</code>; (b) acceso a un trimestre específico; (c) total por región (unstack); (d) groupby penguins por (species, sex) → MultiIndex → aplanar.</p>
 <p><strong>Criterio de aceptación:</strong> MultiIndex con shape correcto; unstack/stack reversibles.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>KeyError</code> al acceder <code>df.loc['España', 2024]</code></td>
+<td>loc con MultiIndex requiere <strong>tupla</strong>: <code>df.loc[('España', 2024)]</code>. Sin paréntesis pandas lo lee como (fila, columna).</td>
+</tr>
+<tr>
+<td><code>unstack()</code> lanza <code>ValueError: Index contains duplicate entries</code></td>
+<td>Tienes filas duplicadas en (index, columns) → no se puede pivotar. <strong>Fix</strong>: agrega antes (<code>groupby</code> con sum/mean) o usa <code>pivot_table</code>.</td>
+</tr>
+<tr>
+<td><code>groupby([a, b]).sum()</code> devuelve cosa extraña con MultiIndex</td>
+<td>Es <strong>correcto</strong>: groupby con N keys devuelve MultiIndex. <strong>Si quieres DataFrame plano</strong>: <code>.reset_index()</code> después.</td>
+</tr>
+<tr>
+<td>Plot ignora niveles del MultiIndex</td>
+<td>matplotlib/seaborn esperan columnas planas. <strong>Fix</strong>: aplana con <code>reset_index()</code> o <code>unstack()</code> antes de plotear.</td>
+</tr>
+<tr>
+<td><code>sort_index()</code> ordena raro con MultiIndex</td>
+<td>Default ordena por todos los niveles. Para ordenar por uno específico: <code>sort_index(level='año')</code> o <code>sort_values('col')</code> si tienes una columna de criterio.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿Cuándo MultiIndex aporta vs cuándo complica?</strong></p>
+<p><strong>Aporta</strong> en análisis interactivo con slicing por nivel frecuente. <strong>Complica</strong> para export a CSV, plot, sklearn — aplana ahí.</p>
+<p><strong>❓ ¿<code>set_index([a, b])</code> vs <code>groupby([a, b])</code>?</strong></p>
+<p><code>set_index</code> solo mueve cols al index (sin agregar). <code>groupby</code> colapsa filas por las cols (con sum/mean/agg). Diferentes operaciones.</p>
+<p><strong>❓ ¿Cómo evito MultiIndex en groupby?</strong></p>
+<p><code>groupby([a, b], as_index=False)</code> devuelve DataFrame plano directamente. O <code>.reset_index()</code> después.</p>
+<p><strong>❓ ¿<code>stack(future_stack=True)</code> qué significa?</strong></p>
+<p>Es el comportamiento del nuevo stack (default en pandas 3+). Maneja NaN distinto al legacy. Mejor pasarlo siempre explícito para suprimir warnings.</p>
+<p><strong>❓ ¿Performance MultiIndex vs Index plano?</strong></p>
+<p>MultiIndex tiene overhead. Para datasets grandes (&gt;1M filas) con acceso intenso, aplana al final del pipeline.</p>
 <h2 id="referencias">🔗 Referencias</h2>
 <ul>
 <li>VanderPlas, <strong>cap. 3</strong> § 3.6.</li>

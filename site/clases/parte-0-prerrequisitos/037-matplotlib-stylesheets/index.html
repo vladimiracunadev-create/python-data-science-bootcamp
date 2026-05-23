@@ -24,7 +24,7 @@
   </header>
   <main class="cur-main">
     <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-0-prerrequisitos/037-matplotlib-stylesheets/notebook.ipynb">📓 Abrir notebook en GitHub</a>
-<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
 <h1 id="clase-037-matplotlib-stylesheets">Clase 037 — Matplotlib: stylesheets</h1>
 <blockquote>
 <p>Parte: <strong>0 — Prerrequisitos</strong> · Fuente: VanderPlas, <strong>cap. 4</strong> § 4.11 <em>Customizing Matplotlib: Configurations and Stylesheets</em>.
@@ -84,6 +84,19 @@
 </tr>
 </tbody>
 </table>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<dl>
+<dt><strong>Stylesheet</strong></dt>
+<dd>Conjunto de rcParams predefinidos en un archivo <code>.mplstyle</code>. Activa con <code>plt.style.use('nombre')</code>. Cambia colors, fonts, grids, spines, etc., consistentemente.</dd>
+<dt><strong><code>plt.style.available</code></strong></dt>
+<dd>Lista de stylesheets built-in: <code>default</code>, <code>ggplot</code>, <code>seaborn-v0_8-whitegrid</code>, <code>bmh</code>, <code>grayscale</code>, <code>dark_background</code>, etc.</dd>
+<dt><strong><code>plt.style.context(name)</code></strong></dt>
+<dd>Aplica style solo dentro de un <code>with</code> block; al salir, vuelve al anterior. Útil cuando quieres style distinto para 1 plot sin afectar el resto.</dd>
+<dt><strong><code>.mplstyle</code> propio</strong></dt>
+<dd>Archivo de texto con <code>clave: valor</code> (igual sintaxis que rcParams). Ubícalo donde sea y carga con <code>plt.style.use('/ruta/al.mplstyle')</code>.</dd>
+<dt><strong>rcParams override en context</strong></dt>
+<dd><code>with plt.rc_context({'figure.figsize': (12, 6)}):</code> aplica overrides temporales sobre el style activo.</dd>
+</dl>
 <h2 id="dataset-recursos">📂 Dataset / recursos</h2>
 <p>Sintético: mismo plot en varios styles. Sin descarga.</p>
 <h2 id="ejercicios">🧪 Ejercicios</h2>
@@ -95,6 +108,48 @@
 <h2 id="homework-verificable">📝 Homework verificable</h2>
 <p>Notebook: (a) galería de 4 styles sobre un mismo dataset; (b) crear <code>informe.mplstyle</code> con paleta corporativa simulada (3 colores principales); (c) demo de uso temporal con <code>plt.style.context</code>; (d) comparativa B&amp;N (<code>grayscale</code>) vs color para una figura que podría imprimirse.</p>
 <p><strong>Criterio de aceptación:</strong> Galería con plots reconocibles; style propio aplica colores definidos.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>plt.style.use('seaborn')</code> da error</td>
+<td>Renombraron a <code>seaborn-v0_8-whitegrid</code> (y variantes). <strong>Fix</strong>: <code>plt.style.use('seaborn-v0_8-whitegrid')</code> o <code>'seaborn-v0_8-darkgrid'</code>.</td>
+</tr>
+<tr>
+<td>Style activado pero un plot no lo respeta</td>
+<td>Aplicado <strong>después</strong> de crear el axes. Style afecta defaults, no plots existentes. <strong>Fix</strong>: aplica <code>style.use</code> ANTES de <code>plt.subplots</code>.</td>
+</tr>
+<tr>
+<td>Colors definidos en <code>.mplstyle</code> no aparecen</td>
+<td>Sintaxis cycler incorrecta. <strong>Fix</strong>: <code>axes.prop_cycle: cycler('color', ['#FF0000', '#00FF00'])</code> con quotes simples.</td>
+</tr>
+<tr>
+<td><code>dark_background</code> rompe scatter color</td>
+<td>Background oscuro, color de marker default es oscuro. <strong>Fix</strong>: override <code>axes.edgecolor: white</code> o usa cmap claro.</td>
+</tr>
+<tr>
+<td>Style se mantiene tras cerrar notebook</td>
+<td><code>style.use</code> afecta rcParams globales del kernel. <strong>Fix</strong>: usa <code>with plt.style.context(...)</code> para uso temporal.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿Style propio o usar built-in?</strong></p>
+<p><strong>Built-in</strong> para empezar. <strong>Propio</strong> cuando tu organización/proyecto tiene paleta corporativa o convenciones específicas.</p>
+<p><strong>❓ ¿Style afecta seaborn?</strong></p>
+<p>Seaborn maneja su propio system con <code>sns.set_theme()</code>. Coordinar ambos puede colisionar. Recomendado: elige uno (style de matplotlib O sns.set_theme).</p>
+<p><strong>❓ ¿Cómo veo todos los styles?</strong></p>
+<p><code>plt.style.available</code> lista todos. Para galería visual: <a href="https://matplotlib.org/stable/gallery/style_sheets/style_sheets_reference.html">matplotlib style sheets reference</a>.</p>
+<p><strong>❓ ¿<code>bmh</code> qué es?</strong></p>
+<p>Style del libro <em>Bayesian Methods for Hackers</em> — popular para gráficos estadísticos limpios.</p>
+<p><strong>❓ ¿Style para impresión B&amp;N?</strong></p>
+<p><strong><code>grayscale</code></strong> convierte automáticamente. Pero verifica: cmaps con poca variación de luminancia (<code>'jet'</code>) quedan ilegibles. Mejor <code>'viridis'</code> o linestyles distintos.</p>
 <h2 id="referencias">🔗 Referencias</h2>
 <ul>
 <li>VanderPlas, <strong>cap. 4</strong> § 4.11.</li>

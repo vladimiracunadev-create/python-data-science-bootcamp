@@ -24,7 +24,7 @@
   </header>
   <main class="cur-main">
     <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-0-prerrequisitos/028-pandas-groupby-split-apply-combine/notebook.ipynb">📓 Abrir notebook en GitHub</a>
-<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
 <h1 id="clase-028-pandas-groupby-split-apply-combine">Clase 028 — Pandas: groupby (split-apply-combine)</h1>
 <blockquote>
 <p>Parte: <strong>0 — Prerrequisitos</strong> · Fuente: VanderPlas, <strong>cap. 3</strong> § 3.9 <em>Aggregation and Grouping</em>.
@@ -84,6 +84,21 @@
 </tr>
 </tbody>
 </table>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<dl>
+<dt><strong>Split-apply-combine</strong></dt>
+<dd>Patrón: (1) <strong>split</strong> divide datos por valor de columna(s) → grupos; (2) <strong>apply</strong> ejecuta función en cada grupo; (3) <strong>combine</strong> junta resultados. El más usado en análisis tabular.</dd>
+<dt><strong><code>agg</code> (= aggregate)</strong></dt>
+<dd>Reduce cada grupo a una fila (sum, mean, count, std). Acepta función nombrada, lista de funciones, o dict por columna: <code>agg({'a': 'sum', 'b': ['min','max']})</code>.</dd>
+<dt><strong><code>transform</code></strong></dt>
+<dd>Aplica función por grupo PERO mantiene la shape original (broadcastea resultado a cada fila). Ideal para z-score por grupo, imputación por grupo, ratios.</dd>
+<dt><strong><code>filter</code> (groupby)</strong></dt>
+<dd>Filtra <strong>grupos completos</strong> (no filas) según una condición. <code>g.filter(lambda x: len(x) &gt; 100)</code> mantiene solo grupos con &gt;100 filas.</dd>
+<dt><strong><code>apply</code> (groupby)</strong></dt>
+<dd>El más flexible y el más lento. Cualquier función custom por grupo (puede devolver Series, DataFrame, escalar). Úsalo solo cuando agg/transform/filter no alcanzan.</dd>
+<dt><strong>Named aggregation</strong></dt>
+<dd>Sintaxis pandas 0.25+: <code>g.agg(total=('monto', 'sum'), n=('id', 'count'))</code>. Más legible que el dict tradicional, permite renombrar en el mismo paso.</dd>
+</dl>
 <h2 id="dataset-recursos">📂 Dataset / recursos</h2>
 <p>Palmer Penguins (groupby por species y/o sex).</p>
 <h2 id="ejercicios">🧪 Ejercicios</h2>
@@ -95,6 +110,48 @@
 <h2 id="homework-verificable">📝 Homework verificable</h2>
 <p>Notebook con penguins: (a) agg múltiple por (species, sex); (b) transform z-score por species; (c) filter species con n&gt;50; (d) apply que devuelva el top-3 más pesado por species; (e) tabla <code>groupby.size()</code> por sex × island.</p>
 <p><strong>Criterio de aceptación:</strong> z-score por grupo tiene media ≈ 0 y std ≈ 1 dentro de cada species.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>g.apply(...)</code> lanza FutureWarning sobre <code>include_groups</code></td>
+<td>Pandas 2.2+ cambia comportamiento. <strong>Fix</strong>: <code>g.apply(func, include_groups=False)</code> para que la función no reciba la columna de groupby.</td>
+</tr>
+<tr>
+<td><code>g.mean()</code> solo muestra cols numéricas</td>
+<td>Comportamiento intencional (pandas 2+). <strong>Fix</strong>: <code>g.mean(numeric_only=True)</code> para silenciar warning, o selecciona cols explícito: <code>g[['a','b']].mean()</code>.</td>
+</tr>
+<tr>
+<td><code>g['col'].transform(...)</code> da error "function did not transform"</td>
+<td>Tu función devolvió shape distinta a la entrada. <strong>Fix</strong>: <code>transform</code> requiere shape igual. Usa <code>apply</code> si necesitas más libertad.</td>
+</tr>
+<tr>
+<td>Resultado de <code>g.agg(...)</code> tiene MultiIndex en columnas y es engorroso</td>
+<td>Lista de funciones por columna → MultiIndex automático. <strong>Fix</strong>: usa named aggregation: <code>g.agg(total=('x', 'sum'))</code>.</td>
+</tr>
+<tr>
+<td><code>groupby(col).size()</code> vs <code>count()</code> dan resultados distintos</td>
+<td><strong><code>size</code></strong>: número de filas por grupo (incluye NaN). <strong><code>count</code></strong>: número de NON-NaN por columna. Para 'cuántas filas hay', siempre <code>size()</code>.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿<code>agg</code>, <code>transform</code>, <code>filter</code> o <code>apply</code>?</strong></p>
+<p><strong><code>agg</code></strong>: reduces a 1 fila por grupo (resumen). <strong><code>transform</code></strong>: mantienes shape original (z-score). <strong><code>filter</code></strong>: excluyes grupos enteros. <strong><code>apply</code></strong>: lo demás, asumiendo overhead.</p>
+<p><strong>❓ ¿Cómo agrego columnas usando agg + named?</strong></p>
+<p><code>g.agg(total=('monto', 'sum'), avg=('monto', 'mean'), n=('id', 'count')).reset_index()</code>. Tres columnas nombradas en una sola operación.</p>
+<p><strong>❓ ¿<code>groupby([a, b]).agg(...).reset_index()</code> o <code>as_index=False</code>?</strong></p>
+<p>Equivalentes. <code>as_index=False</code> evita el <code>reset_index()</code> posterior. Para encadenar con merge/concat, <code>as_index=False</code> es más limpio.</p>
+<p><strong>❓ ¿Cómo agrupo por una expresión derivada?</strong></p>
+<p>Pasa Series directa: <code>df.groupby(df['fecha'].dt.year)</code>. O crea columna temporal: <code>df.groupby(df['fecha'].dt.year.rename('año'))</code>.</p>
+<p><strong>❓ ¿groupby es lento con miles de grupos?</strong></p>
+<p>Con N=1M filas y K=1000 grupos, debería ser &lt;1s. Si es más lento, posibles causas: agg con función custom Python (no built-in), keys con dtype <code>object</code> (string), o falta de sort. Usa <code>sort=False</code> si no necesitas orden.</p>
 <h2 id="referencias">🔗 Referencias</h2>
 <ul>
 <li>VanderPlas, <strong>cap. 3</strong> § 3.9.</li>

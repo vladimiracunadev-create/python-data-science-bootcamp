@@ -83,10 +83,11 @@ Capaz de:
 | Componente | Estado |
 |---|---|
 | Estructura de carpetas (197) | ✅ creada |
-| README por clase | ✅ stub generado |
-| `notebook.ipynb` por clase | ✅ stub generado |
-| Contenido pedagógico real | ⏳ pendiente (197 clases por desarrollar) |
-| PDFs y PPTX por clase | ⏳ pendiente (regenerar tras desarrollar) |
+| README por clase | ✅ Parte 0 (46) completos y ampliados · Partes 1-8 stubs |
+| `notebook.ipynb` por clase | ✅ Parte 0 (46) ejecutables · Partes 1-8 stubs |
+| Contenido pedagógico real | 🟢 Parte 0 completa · ⏳ 151 clases pendientes (Partes 1-8) |
+| Definiciones + Errores comunes + FAQ por clase | 🟢 46/46 en Parte 0 (v2.2.0) · ⏳ Partes 1-8 |
+| PDFs y PPTX por clase | ⏳ pendiente (regenerar tras desarrollar contenido) |
 | Quizzes pre/post lección | ⏳ pendiente |
 | Datasets temáticos por bloque | ⏳ pendiente |
 

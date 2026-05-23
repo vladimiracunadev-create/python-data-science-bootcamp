@@ -17,7 +17,7 @@
 
 | 🎛️ Superficie | 🚦 Estado |
 |---|---|
-| 📚 Currículo (197 clases, 9 partes) | 🟢 Parte 0 completa (46 clases) · Partes 1-8 en desarrollo |
+| 📚 Currículo (197 clases, 9 partes) | 🟢 **Parte 0 (46) completa y ampliada** (Definiciones · Errores · FAQ) · Partes 1-8 en desarrollo |
 | 🧪 Laboratorio Flask | ✅ operativo |
 | 🖥️ App de escritorio Windows (pywebview) | 🟡 código operativo · binario pendiente de rebuild |
 | 📱 App Android | 🟡 APK debug publicado — pendiente migrar contenido al índice actual |
@@ -31,7 +31,7 @@
 
 ### 📝 Contenido pedagógico
 
-- [x] **0️⃣ Parte 0 — Prerrequisitos (46 clases)** ✅ completada (mayo 2026) — VanderPlas + Ramalho + Tanimura + Mitchell + docs oficiales
+- [x] **0️⃣ Parte 0 — Prerrequisitos (46 clases)** ✅ completada (mayo 2026) y **ampliada con Definiciones, Errores comunes y FAQ por clase** — VanderPlas + Ramalho + Tanimura + Mitchell + docs oficiales
 - [ ] Desarrollar las 43 clases de la **1️⃣ Parte 1 — ML clásico**
 - [ ] Desarrollar las 13 clases de la **3️⃣ Parte 3 — Estadística inferencial** (intercaladas con Parte 1)
 - [ ] Desarrollar las 56 clases de la **2️⃣ Parte 2 — Deep Learning**

@@ -24,7 +24,7 @@
   </header>
   <main class="cur-main">
     <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-0-prerrequisitos/044-nosql-mongodb-con-pymongo/notebook.ipynb">📓 Abrir notebook en GitHub</a>
-<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
 <h1 id="clase-044-nosql-mongodb-con-pymongo">Clase 044 — NoSQL: MongoDB con pymongo</h1>
 <blockquote>
 <p>Parte: <strong>0 — Prerrequisitos</strong> · Fuente: MongoDB docs · pymongo docs · <em>MongoDB: The Definitive Guide</em> (Bradshaw et al.) cap. 1.
@@ -84,6 +84,21 @@
 </tr>
 </tbody>
 </table>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<dl>
+<dt><strong>NoSQL documento</strong></dt>
+<dd>Familia de DBs que almacena <strong>documentos JSON-like</strong> (BSON en Mongo) en lugar de filas en tablas. Schema flexible — cada documento puede tener campos distintos.</dd>
+<dt><strong>Collection</strong></dt>
+<dd>Equivalente a una tabla en SQL, pero sin schema fijo. Contiene documentos del mismo "tipo" lógico (productos, usuarios, eventos).</dd>
+<dt><strong>Documento (<code>dict</code> BSON)</strong></dt>
+<dd>Unidad de almacenamiento. JSON con tipos extra (Date, ObjectId, Decimal128). Puede contener arrays y sub-documentos anidados.</dd>
+<dt><strong>Operador (<code>$gt</code>, <code>$in</code>, <code>$elemMatch</code>)</strong></dt>
+<dd>Prefijo <code>$</code> en las queries Mongo: <code>{'precio': {'$gt': 100}}</code> ≈ <code>WHERE precio &gt; 100</code>. La query es un dict JSON, no string.</dd>
+<dt><strong>Aggregation pipeline</strong></dt>
+<dd>Equivalente Mongo a CTEs encadenadas: lista de etapas (<code>$match</code>, <code>$group</code>, <code>$sort</code>, <code>$project</code>, <code>$lookup</code>) que procesan documentos secuencialmente.</dd>
+<dt><strong><code>$elemMatch</code></strong></dt>
+<dd>Operador para filtrar por condiciones sobre <strong>elementos de un array</strong> dentro del documento. Útil con arrays de sub-docs (reviews dentro de producto).</dd>
+</dl>
 <h2 id="dataset-recursos">📂 Dataset / recursos</h2>
 <p>MongoDB local (Docker o Atlas free tier) — o usar <code>mongomock</code> para tests. Datos sintéticos: collection de productos.</p>
 <h2 id="ejercicios">🧪 Ejercicios</h2>
@@ -95,6 +110,48 @@
 <h2 id="homework-verificable">📝 Homework verificable</h2>
 <p>Notebook con <code>mongomock</code> (no requiere Mongo real): (a) collection productos con 20 docs sintéticos; (b) 5 queries demostrando operadores; (c) aggregation pipeline con <code>$match</code> → <code>$group</code> → <code>$sort</code>; (d) reporte: 3 casos donde Mongo es mejor que SQL y 3 donde no.</p>
 <p><strong>Criterio de aceptación:</strong> Las queries funcionan; el reporte tiene casos justificados.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>pymongo.errors.ServerSelectionTimeoutError</code></td>
+<td>No conecta al servidor. <strong>Fix</strong>: verifica que Mongo está corriendo (<code>docker ps</code>), URI correcta (<code>mongodb://localhost:27017</code>), firewall.</td>
+</tr>
+<tr>
+<td>Update sin <code>$set</code> reemplaza el documento entero</td>
+<td><code>update_one(filter, {'precio': 100})</code> reemplaza TODO el doc. <strong>Fix</strong>: usa <code>{'$set': {'precio': 100}}</code> para modificar solo ese campo.</td>
+</tr>
+<tr>
+<td>Aggregation con <code>$group</code> sin <code>_id</code> falla</td>
+<td><code>$group</code> requiere <code>_id</code> (la key de agrupación, puede ser <code>None</code> para agrupar todo). <strong>Fix</strong>: <code>{'$group': {'_id': '$categoria', 'total': {'$sum': '$monto'}}}</code>.</td>
+</tr>
+<tr>
+<td>Query con <code>{}</code> devuelve todo (no None)</td>
+<td><code>{}</code> es "sin filtro" en Mongo. Si querías matchear todo, OK; si querías nada, <code>{'_id': {'$exists': False}}</code> o similar.</td>
+</tr>
+<tr>
+<td>Cuento con <code>count_documents({})</code> y va lento</td>
+<td>Sin filtro, recorre toda la collection. <strong>Fix</strong>: para counts aproximados rápidos, <code>db.coll.estimated_document_count()</code>.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿SQL o NoSQL?</strong></p>
+<p><strong>SQL</strong> para datos tabulares con relaciones, integridad referencial, reporting/BI. <strong>NoSQL documento</strong> para schema variable, datos jerárquicos naturales, escala write masiva. No es "mejor" — distinto.</p>
+<p><strong>❓ ¿<code>find_one</code> o <code>find</code>?</strong></p>
+<p><code>find_one</code> devuelve dict (o None). <code>find</code> devuelve cursor iterable. Para 1 doc: <code>find_one</code>. Para muchos: <code>list(coll.find(query))</code> o iterar el cursor.</p>
+<p><strong>❓ ¿pymongo vs Motor (async)?</strong></p>
+<p><strong>pymongo</strong> síncrono, default. <strong>Motor</strong> asíncrono (asyncio) — para web apps con muchas concurrent connections.</p>
+<p><strong>❓ ¿Cómo tipo los documentos en Python?</strong></p>
+<p>Usa <strong>pydantic</strong> con <code>BaseModel</code>. Convierte dict ↔ tipo validado. Combinado con FastAPI, casi gratis (verás en MLOps).</p>
+<p><strong>❓ ¿Mongo para data science?</strong></p>
+<p>Como <strong>fuente</strong> sí (extraes datos con aggregation, los pasas a pandas). Para <strong>análisis</strong> ya no — pandas/DuckDB son mejores. Mongo brilla en operaciones (logs, eventos).</p>
 <h2 id="referencias">🔗 Referencias</h2>
 <ul>
 <li><a href="https://pymongo.readthedocs.io/">pymongo docs</a></li>

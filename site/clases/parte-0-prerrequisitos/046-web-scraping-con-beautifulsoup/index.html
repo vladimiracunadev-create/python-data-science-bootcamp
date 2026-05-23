@@ -24,7 +24,7 @@
   </header>
   <main class="cur-main">
     <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-0-prerrequisitos/046-web-scraping-con-beautifulsoup/notebook.ipynb">📓 Abrir notebook en GitHub</a>
-<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
 <h1 id="clase-046-web-scraping-con-beautifulsoup">Clase 046 — Web scraping con BeautifulSoup</h1>
 <blockquote>
 <p>Parte: <strong>0 — Prerrequisitos</strong> · Fuente: <em>Web Scraping with Python</em> (Mitchell, 2ª ed.) caps. 1-3 · BeautifulSoup docs.
@@ -84,6 +84,21 @@
 </tr>
 </tbody>
 </table>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<dl>
+<dt><strong>Web scraping</strong></dt>
+<dd>Extracción programática de datos de páginas HTML cuando no hay API. Pipeline típico: descargar HTML con <code>requests</code>, parsear con <code>BeautifulSoup</code>, extraer con selectores.</dd>
+<dt><strong>BeautifulSoup</strong></dt>
+<dd>Parser HTML tolerante a errores. <code>soup = BeautifulSoup(html, 'html.parser')</code>. Permite navegar el árbol y buscar por tag, atributo o selector CSS.</dd>
+<dt><strong>CSS selector</strong></dt>
+<dd>Sintaxis para localizar elementos: <code>'.class'</code>, <code>'#id'</code>, <code>'tag'</code>, <code>'parent &gt; child'</code>, <code>'tag[attr=val]'</code>. Usados con <code>soup.select(...)</code>. Más expresivos que <code>find_all</code>.</dd>
+<dt><strong>DOM (Document Object Model)</strong></dt>
+<dd>Representación en árbol del HTML. Cada tag es un nodo; tiene padre, hermanos, hijos. BeautifulSoup navega este árbol con <code>.parent</code>, <code>.next_sibling</code>, <code>.find_all</code>, etc.</dd>
+<dt><strong><code>robots.txt</code></strong></dt>
+<dd>Archivo en raíz del dominio (<code>/robots.txt</code>) que declara qué paths pueden crawlear los bots. Estándar de facto; respetarlo es <strong>legalmente</strong> importante (variable por jurisdicción) y <strong>éticamente</strong> siempre.</dd>
+<dt><strong>JS rendering</strong></dt>
+<dd>Páginas SPA (React, Vue) cargan contenido vía JavaScript tras el HTML inicial. <code>requests</code> solo trae el HTML inicial — JS no se ejecuta. <strong>Solución</strong>: Playwright o Selenium (navegador headless).</dd>
+</dl>
 <h2 id="dataset-recursos">📂 Dataset / recursos</h2>
 <p>Página HTML simple servida desde un string en el notebook (sin tocar internet). Ejercicios opcionales con <code>https://quotes.toscrape.com</code> (sitio diseñado para practicar).</p>
 <h2 id="ejercicios">🧪 Ejercicios</h2>
@@ -95,6 +110,48 @@
 <h2 id="homework-verificable">📝 Homework verificable</h2>
 <p>Notebook: (a) HTML local con 5 productos, extrae nombre/precio/url; (b) scrape <code>quotes.toscrape.com</code> (3 páginas, con delay); (c) consulta robots.txt y razona; (d) listado de 3 escenarios cuando scrapear es buena idea y 3 cuando no.</p>
 <p><strong>Criterio de aceptación:</strong> Scraping respeta delays. Análisis de robots.txt correcto.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>soup.find('div')</code> devuelve None aunque hay divs</td>
+<td>Buscas un atributo específico que no matchea. <strong>Fix</strong>: imprime <code>soup.prettify()[:500]</code> para ver el HTML real recibido; verifica clase/atributo.</td>
+</tr>
+<tr>
+<td>Scrapeo y recibo HTML distinto al que veo en el navegador</td>
+<td>El sitio renderiza con JavaScript. <code>requests</code> no ejecuta JS. <strong>Fix</strong>: inspecciona Network tab del navegador — quizás hay endpoint JSON que puedes consumir directo. Si no, Playwright/Selenium.</td>
+</tr>
+<tr>
+<td>HTTP 403 Forbidden</td>
+<td>El sitio detecta tu bot (User-Agent vacío o sospechoso). <strong>Fix</strong>: <code>headers={'User-Agent': 'Mozilla/5.0 ...'}</code> honesto, respeta robots.txt, rate limit.</td>
+</tr>
+<tr>
+<td>Site funciona en navegador pero scraper devuelve <code>Captcha</code></td>
+<td>Anti-bot agresivo (Cloudflare, reCAPTCHA). <strong>Fix</strong>: respeta sus términos — si te bloquean, claramente NO quieren scraping. Busca API oficial.</td>
+</tr>
+<tr>
+<td>Encoding raro (acentos <code>Ã¡</code>)</td>
+<td>Pandas/requests dedujo encoding mal. <strong>Fix</strong>: <code>r.encoding = 'utf-8'</code> antes de <code>r.text</code>, o usa <code>r.content</code> (bytes) y decodifica explícito.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿Scraping es legal?</strong></p>
+<p><strong>Depende</strong>: jurisdicción, ToS del sitio, naturaleza del dato. Datos personales = casi siempre regulado (GDPR/LGPD). Datos públicos sin ToS prohibitivo = generalmente OK. <strong>Consulta abogado</strong> para casos serios.</p>
+<p><strong>❓ ¿<code>find_all</code> o <code>select</code>?</strong></p>
+<p><strong><code>select</code></strong> (CSS selectors) — más potente, sintaxis estándar web, más legible. <strong><code>find_all</code></strong> para casos simples o cuando integras con código heredado.</p>
+<p><strong>❓ ¿Cómo descargo imágenes?</strong></p>
+<p><code>r = requests.get(url_imagen); open('img.jpg', 'wb').write(r.content)</code>. Para muchas, usa Session + thread pool.</p>
+<p><strong>❓ ¿Scrapy vs BeautifulSoup?</strong></p>
+<p><strong>BeautifulSoup</strong>: librería de parsing. Una página, una request. <strong>Scrapy</strong>: framework completo (crawler, pipelines, throttling). Para proyectos serios (miles de páginas), Scrapy.</p>
+<p><strong>❓ ¿Y si el sitio me bloquea?</strong></p>
+<p>Respeta. Aumentar agresividad (proxies, rotating User-Agents) puede ser ilegal en algunas jurisdicciones (CFAA en USA). Considera: ¿realmente vale la pena? ¿hay otra fuente?</p>
 <h2 id="referencias">🔗 Referencias</h2>
 <ul>
 <li>Mitchell, <em>Web Scraping with Python</em> 2e, caps. 1-3.</li>

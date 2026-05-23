@@ -24,7 +24,7 @@
   </header>
   <main class="cur-main">
     <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-0-prerrequisitos/027-pandas-concat-merge-join/notebook.ipynb">📓 Abrir notebook en GitHub</a>
-<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
 <h1 id="clase-027-pandas-concat-merge-join">Clase 027 — Pandas: concat, merge, join</h1>
 <blockquote>
 <p>Parte: <strong>0 — Prerrequisitos</strong> · Fuente: VanderPlas, <strong>cap. 3</strong> §§ 3.7–3.8 <em>Combining Datasets: Concat/Merge</em>.
@@ -84,6 +84,23 @@
 </tr>
 </tbody>
 </table>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<dl>
+<dt><strong><code>concat</code></strong></dt>
+<dd>Apila DataFrames por filas (<code>axis=0</code>, default) o columnas (<code>axis=1</code>). Alinea por el otro eje. No requiere key; es apilamiento puro.</dd>
+<dt><strong><code>merge</code> (SQL-style join)</strong></dt>
+<dd>Combina dos DataFrames por una <strong>key</strong> común. <code>how='inner'/'left'/'right'/'outer'/'cross'</code> controla qué filas se conservan.</dd>
+<dt><strong>INNER JOIN</strong></dt>
+<dd>Solo filas presentes en AMBOS lados de la key. Si la key no matchea, se descarta. <strong>Default</strong> de <code>merge</code>.</dd>
+<dt><strong>LEFT JOIN</strong></dt>
+<dd>Todas las filas del lado izquierdo (<code>df1</code>). Si no hay match en el derecho, columnas derechas quedan NaN. Útil para enriquecer datos sin perder ninguno.</dd>
+<dt><strong>OUTER JOIN</strong></dt>
+<dd>Todas las filas de ambos lados; NaN donde no hay match. Vista "unión". Útil para auditoría.</dd>
+<dt><strong><code>validate</code></strong></dt>
+<dd>Parámetro de <code>merge</code> que valida la cardinalidad esperada: <code>'one_to_one'</code>, <code>'one_to_many'</code>, <code>'many_to_one'</code>, <code>'many_to_many'</code>. Si los datos no la cumplen, lanza error → evita duplicados ocultos.</dd>
+<dt><strong><code>indicator=True</code></strong></dt>
+<dd>Añade columna <code>_merge</code> con <code>'left_only'</code>/<code>'right_only'</code>/<code>'both'</code>. Útil para auditar qué tipo de match tuvo cada fila.</dd>
+</dl>
 <h2 id="dataset-recursos">📂 Dataset / recursos</h2>
 <p>Sintético: tabla de clientes + tabla de órdenes (relación 1:N).</p>
 <h2 id="ejercicios">🧪 Ejercicios</h2>
@@ -95,6 +112,48 @@
 <h2 id="homework-verificable">📝 Homework verificable</h2>
 <p>Notebook con clientes (10) + órdenes (25): (a) 4 tipos de join con <code>_merge</code> indicator; (b) tabla con conteo de cada tipo; (c) detección de relación con <code>validate</code>; (d) join por index con <code>df.join</code>.</p>
 <p><strong>Criterio de aceptación:</strong> Counts de cada join coherentes (inner ≤ left ≤ outer). <code>validate</code> lanza excepción si la relación esperada falla.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Tras <code>merge</code> tengo más filas que el DataFrame original</td>
+<td>Relación uno-a-muchos no esperada. <strong>Fix</strong>: <code>validate='one_to_one'</code> (lanza error si no es 1:1) o investiga duplicados con <code>df[df.duplicated('key')]</code>.</td>
+</tr>
+<tr>
+<td><code>merge</code> produce <code>KeyError</code> en la key</td>
+<td>Tipos distintos: <code>int</code> vs <code>str</code> aunque el valor sea el mismo. <strong>Fix</strong>: <code>df['id'].astype(str)</code> en ambos lados antes del merge.</td>
+</tr>
+<tr>
+<td>Columnas se renombran con <code>_x</code>/<code>_y</code> tras merge</td>
+<td>Ambos DataFrames tenían cols con el mismo nombre (que no era la key). <strong>Fix</strong>: <code>merge(..., suffixes=('_left', '_right'))</code> para nombres explícitos.</td>
+</tr>
+<tr>
+<td><code>pd.concat([df1, df2])</code> da columnas extra con NaN</td>
+<td>Los dos tenían columnas distintas (pandas las une todas, llena con NaN). <strong>Fix</strong>: <code>concat(..., join='inner')</code> para conservar solo cols comunes.</td>
+</tr>
+<tr>
+<td><code>concat</code> ignora mi <code>ignore_index=True</code> y queda raro</td>
+<td>Si tus DFs tienen index distintos, sin <code>ignore_index=True</code> mantiene los originales (puede haber duplicados). Default de <code>concat</code> es <code>ignore_index=False</code>.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿<code>merge</code> o <code>join</code>?</strong></p>
+<p><strong><code>merge</code></strong> es la API rica (por columnas, control total). <strong><code>df1.join(df2)</code></strong> es atajo cuando ambos tienen index alineado a la key. Mismo motor por dentro.</p>
+<p><strong>❓ ¿Cuándo <code>concat</code> vs <code>merge</code>?</strong></p>
+<p><strong><code>concat</code></strong>: apilas datos con la misma estructura (mes 1, mes 2, mes 3 → año). <strong><code>merge</code></strong>: combinas datasets diferentes que comparten una key (clientes + órdenes).</p>
+<p><strong>❓ ¿<code>validate</code> siempre?</strong></p>
+<p>Sí — cuesta nada y atrapa el bug "silenciosamente generé el doble de filas". Recomendado en todo merge de producción.</p>
+<p><strong>❓ ¿Cómo merge por múltiples columnas?</strong></p>
+<p><code>merge(df1, df2, on=['a', 'b'])</code> o <code>left_on=['a','b'], right_on=['x','y']</code>. La key compuesta es lista de strings.</p>
+<p><strong>❓ ¿Merge es lento con datasets grandes?</strong></p>
+<p>Con N=1M ya empieza a notarse. Acelera: setea index a la key antes (<code>set_index('key').join(...)</code>) o usa DuckDB (<code>SELECT ... JOIN</code>) — frecuentemente más rápido.</p>
 <h2 id="referencias">🔗 Referencias</h2>
 <ul>
 <li>VanderPlas, <strong>cap. 3</strong> §§ 3.7-3.8.</li>

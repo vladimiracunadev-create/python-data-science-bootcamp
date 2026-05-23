@@ -24,7 +24,7 @@
   </header>
   <main class="cur-main">
     <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-0-prerrequisitos/025-pandas-datos-faltantes/notebook.ipynb">📓 Abrir notebook en GitHub</a>
-<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
 <h1 id="clase-025-pandas-datos-faltantes">Clase 025 — Pandas: datos faltantes</h1>
 <blockquote>
 <p>Parte: <strong>0 — Prerrequisitos</strong> · Fuente: VanderPlas, <strong>cap. 3</strong> § 3.5 <em>Handling Missing Data</em>.
@@ -84,6 +84,21 @@
 </tr>
 </tbody>
 </table>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<dl>
+<dt><strong><code>NaN</code> (Not a Number)</strong></dt>
+<dd>Float especial IEEE 754 que representa missing en columnas numéricas. Característica: NO es igual a sí mismo (<code>np.nan == np.nan</code> → False). Usa <code>pd.isna()</code> para detectarlo.</dd>
+<dt><strong><code>None</code> vs <code>NaN</code></strong></dt>
+<dd><strong><code>None</code></strong> es objeto Python (en columnas <code>object</code>). <strong><code>NaN</code></strong> es float (en columnas numéricas). Pandas trata ambos como missing pero internamente son distintos.</dd>
+<dt><strong><code>pd.NA</code></strong></dt>
+<dd>Sentinel "missing universal" (pandas 1.0+) compatible con dtypes nullable (<code>Int64</code>, <code>boolean</code>, <code>string</code>). Comportamiento más consistente que NaN en operaciones.</dd>
+<dt><strong>MCAR / MAR / MNAR</strong></dt>
+<dd><strong>MCAR</strong> (Missing Completely At Random): missing es aleatorio. <strong>MAR</strong> (Missing At Random): missing depende de variables observadas. <strong>MNAR</strong> (Missing Not At Random): depende del propio valor missing (peor caso).</dd>
+<dt><strong>Imputación</strong></dt>
+<dd>Reemplazar missing con un valor estimado. Estrategias: media/mediana/moda global, por grupo (<code>groupby.transform</code>), forward-fill (series temporales), KNN, regresión, MICE.</dd>
+<dt><strong><code>was_missing</code> flag</strong></dt>
+<dd>Columna booleana adicional que registra qué filas tenían missing antes de imputar. Permite al modelo usar el hecho de que faltaba como feature (a veces es informativo).</dd>
+</dl>
 <h2 id="dataset-recursos">📂 Dataset / recursos</h2>
 <p>Palmer Penguins (tiene NaN reales en sex y mediciones). Sin descarga adicional si ya está en clases anteriores.</p>
 <h2 id="ejercicios">🧪 Ejercicios</h2>
@@ -95,6 +110,48 @@
 <h2 id="homework-verificable">📝 Homework verificable</h2>
 <p>Notebook con penguins: (a) reporte completo de missing (% por col, % por fila, filas más incompletas); (b) 3 estrategias: drop all, drop subset, imputar por grupo; (c) columna <code>bill_was_missing</code> y demuestra que el flag puede mejorar un modelo simple; (d) demo de dtypes nullable <code>Int64</code>.</p>
 <p><strong>Criterio de aceptación:</strong> Imputación por grupo no introduce sesgo; el flag was_missing añade información.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>if df['col'] == np.nan</code> no funciona</td>
+<td>NaN no es igual a nada (incluso a sí mismo). <strong>Fix</strong>: <code>df['col'].isna()</code> o <code>pd.isna(df['col'])</code>.</td>
+</tr>
+<tr>
+<td><code>df.dropna()</code> borra todo</td>
+<td>Sin parámetros, borra fila con CUALQUIER NaN. Si tienes muchos NaN repartidos, te queda 0 filas. <strong>Fix</strong>: <code>dropna(subset=['col_clave'])</code> para ser selectivo.</td>
+</tr>
+<tr>
+<td>Imputar con media global introduce sesgo</td>
+<td>Si los grupos tienen medias muy distintas, imputar global aplana las diferencias. <strong>Fix</strong>: imputa por grupo con <code>groupby.transform(lambda s: s.fillna(s.median()))</code>.</td>
+</tr>
+<tr>
+<td>Una columna <code>int</code> se volvió <code>float</code> tras leer CSV</td>
+<td>Tiene NaN → promoción automática (NumPy int no soporta NaN). <strong>Fix</strong>: dtype nullable <code>Int64</code>: <code>df['col'] = df['col'].astype('Int64')</code>.</td>
+</tr>
+<tr>
+<td><code>fillna(0)</code> mata el flag de "missing"</td>
+<td>Pierdes la información de que faltaba. <strong>Fix</strong>: crea <code>df['col_was_missing'] = df['col'].isna()</code> ANTES de imputar.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿Eliminar, imputar o flag?</strong></p>
+<p>Depende: <strong>&lt;1% missing aleatorio</strong> → drop. <strong>5-30% MAR</strong> → imputar (mediana por grupo). <strong>&gt;50%</strong> → eliminar columna o tratar como categoría 'missing'. <strong>Si missing es informativo</strong> → flag + imputar.</p>
+<p><strong>❓ ¿Mediana o media para imputar?</strong></p>
+<p><strong>Mediana</strong> es más robusta a outliers (recomendada por default). <strong>Media</strong> si la distribución es ~normal y sin outliers. Para categóricas: <strong>moda</strong>.</p>
+<p><strong>❓ ¿<code>ffill</code> siempre bueno para series temporales?</strong></p>
+<p>Bueno cuando los valores cambian poco entre observaciones (precios, temperaturas). Malo si los gaps son largos o el dato es volátil. Considera <code>interpolate(method='time')</code> para mejor resultado.</p>
+<p><strong>❓ ¿Cómo sé si la imputación afecta mi modelo?</strong></p>
+<p>Compara métricas: (a) baseline drop, (b) imputación X, (c) imputación + flag. Si el flag mejora el modelo, el missing era informativo (caso MNAR).</p>
+<p><strong>❓ ¿KNN/MICE para imputación en pandas?</strong></p>
+<p>No nativo. Usa <code>sklearn.impute.KNNImputer</code> o <code>IterativeImputer</code> (= MICE). Más caro pero mejor que mediana en datasets con correlaciones fuertes.</p>
 <h2 id="referencias">🔗 Referencias</h2>
 <ul>
 <li>VanderPlas, <strong>cap. 3</strong> § 3.5.</li>

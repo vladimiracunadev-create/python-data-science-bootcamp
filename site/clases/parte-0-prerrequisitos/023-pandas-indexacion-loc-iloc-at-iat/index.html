@@ -24,7 +24,7 @@
   </header>
   <main class="cur-main">
     <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-0-prerrequisitos/023-pandas-indexacion-loc-iloc-at-iat/notebook.ipynb">📓 Abrir notebook en GitHub</a>
-<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
 <h1 id="clase-023-pandas-indexacion-loc-iloc-at-iat">Clase 023 — Pandas: indexación (loc, iloc, at, iat)</h1>
 <blockquote>
 <p>Parte: <strong>0 — Prerrequisitos</strong> · Fuente: VanderPlas, <strong>cap. 3</strong> § 3.3 <em>Data Indexing and Selection</em>.
@@ -84,6 +84,19 @@
 </tr>
 </tbody>
 </table>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<dl>
+<dt><strong><code>.loc[fila, col]</code></strong></dt>
+<dd>Acceso por <strong>etiqueta</strong>. Slicing es <strong>inclusivo</strong> en ambos extremos (<code>df.loc['a':'c']</code> incluye 'c'). Acepta booleano: <code>df.loc[df['x'] &gt; 0, 'col']</code>.</dd>
+<dt><strong><code>.iloc[fila, col]</code></strong></dt>
+<dd>Acceso por <strong>posición entera</strong>. Slicing es <strong>exclusivo</strong> del extremo (estilo Python). <code>df.iloc[0:5]</code> da 5 filas (índices 0..4).</dd>
+<dt><strong><code>.at[fila, col]</code> / <code>.iat[fila, col]</code></strong></dt>
+<dd>Versiones para acceder/asignar <strong>un único valor</strong>. ~10× más rápidos que <code>.loc</code>/<code>.iloc</code> cuando estás en loops. Mismo patrón label vs posición.</dd>
+<dt><strong>Indexer chaining (<code>df[cond][col] = x</code>)</strong></dt>
+<dd>Encadenar dos <code>[]</code> operaciones de acceso. Crea ambigüedad: ¿es vista o copia? Origen del <code>SettingWithCopyWarning</code>. <strong>Evítalo siempre</strong>.</dd>
+<dt><strong><code>SettingWithCopyWarning</code></strong></dt>
+<dd>Aviso de pandas: "estoy haciendo algo ambiguo, puede que tu asignación se pierda". Causado por chaining o asignación sobre subset no-explícito. Solución universal: <code>.loc[cond, col] = x</code> en una sola operación.</dd>
+</dl>
 <h2 id="dataset-recursos">📂 Dataset / recursos</h2>
 <p>Palmer Penguins desde URL (mismo de clase 022) o el sintético si no hay internet.</p>
 <h2 id="ejercicios">🧪 Ejercicios</h2>
@@ -95,6 +108,48 @@
 <h2 id="homework-verificable">📝 Homework verificable</h2>
 <p>Notebook que: (a) muestra los 3 métodos de acceso a columna; (b) compara loc vs iloc en slicing con tabla; (c) filtra Adelie machos con bill_length&gt;40 mostrando 3 columnas; (d) reproduce y arregla SettingWithCopyWarning con explicación.</p>
 <p><strong>Criterio de aceptación:</strong> Los filtros producen el subset correcto; la versión con <code>.loc</code> no emite warning.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SettingWithCopyWarning</code> aparece y no sé por qué</td>
+<td>Estás asignando sobre un resultado de slicing/filter que podría ser vista o copia. <strong>Fix</strong>: <code>df.loc[mask, 'col'] = valor</code> (una sola operación) en vez de <code>df[mask]['col'] = valor</code>.</td>
+</tr>
+<tr>
+<td><code>df.loc[0:5]</code> da 6 filas no 5</td>
+<td>loc es <strong>inclusive end</strong>. Para 5 filas: <code>df.iloc[0:5]</code> (exclusivo) o <code>df.loc[0:4]</code> (inclusivo, manual).</td>
+</tr>
+<tr>
+<td><code>KeyError</code> con <code>.loc[5]</code> cuando hice <code>set_index('id')</code></td>
+<td>El index ya no es 0..N — es la columna <code>id</code>. <strong>Fix</strong>: usa <code>.iloc[5]</code> para posición, o <code>.loc[&lt;valor_id_real&gt;]</code> para etiqueta.</td>
+</tr>
+<tr>
+<td>Asignación a vista no modifica el original</td>
+<td>Pandas 3+ va a ser estricto: la vista no se considera modificable. <strong>Fix</strong>: siempre <code>.loc</code> para asignar; si necesitas copia, <code>.copy()</code> explícito.</td>
+</tr>
+<tr>
+<td><code>df.col1 = x</code> no actualiza la columna</td>
+<td>Como atributo, asignar no agrega columna nueva (lanza UserWarning). <strong>Fix</strong>: <code>df['col1'] = x</code> siempre.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿<code>loc</code> o <code>iloc</code>?</strong></p>
+<p><strong><code>loc</code></strong> cuando el index es semántico (nombres, fechas, ids). <strong><code>iloc</code></strong> cuando solo importa la posición (top-K por orden, primeros 10, último). Mezclarlos en el mismo código causa confusión.</p>
+<p><strong>❓ ¿Por qué <code>loc</code> slicing es inclusivo?</strong></p>
+<p>Decisión histórica: para labels (strings, fechas), incluir el end es lo intuitivo (<code>'enero':'marzo'</code> debe incluir marzo). Para enteros default queda raro — usa <code>iloc</code> ahí.</p>
+<p><strong>❓ ¿<code>at</code> vale la pena vs <code>loc</code> para single value?</strong></p>
+<p>Solo en hot loops (&gt;10k iteraciones). Para uso interactivo, <code>loc</code> es lo suficientemente rápido y más legible.</p>
+<p><strong>❓ ¿Cómo selecciono múltiples columnas?</strong></p>
+<p><strong>Lista entre brackets</strong>: <code>df[['a', 'b', 'c']]</code> (devuelve DataFrame). Notar el <code>[[]]</code>. Un solo <code>[]</code> con string devuelve Series.</p>
+<p><strong>❓ ¿<code>.loc[mask, cols]</code> o <code>.query() + [cols]</code>?</strong></p>
+<p>Ambos válidos. <code>.loc[mask, cols]</code> para máscaras computadas; <code>.query()</code> para filtros declarativos largos. Misma velocidad para datasets &lt;100k.</p>
 <h2 id="referencias">🔗 Referencias</h2>
 <ul>
 <li>VanderPlas, <strong>cap. 3</strong> § 3.3.</li>

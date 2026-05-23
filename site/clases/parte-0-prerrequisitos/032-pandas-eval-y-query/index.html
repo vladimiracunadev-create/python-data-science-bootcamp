@@ -24,7 +24,7 @@
   </header>
   <main class="cur-main">
     <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-0-prerrequisitos/032-pandas-eval-y-query/notebook.ipynb">📓 Abrir notebook en GitHub</a>
-<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
 <h1 id="clase-032-pandas-eval-y-query">Clase 032 — Pandas: eval y query</h1>
 <blockquote>
 <p>Parte: <strong>0 — Prerrequisitos</strong> · Fuente: VanderPlas, <strong>cap. 3</strong> § 3.13 <em>High-Performance Pandas: eval and query</em>.
@@ -79,6 +79,19 @@
 </tr>
 </tbody>
 </table>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<dl>
+<dt><strong><code>df.query()</code></strong></dt>
+<dd>Filtro como string tipo SQL: <code>df.query('precio &gt; 100 and categoria == "A"')</code>. Más legible que máscara booleana compuesta cuando hay &gt;2 condiciones.</dd>
+<dt><strong><code>df.eval()</code></strong></dt>
+<dd>Evalúa expresiones aritméticas: <code>df.eval('total = precio * cantidad')</code>. Con <code>inplace=True</code> añade la columna al DF.</dd>
+<dt><strong>Variables locales (<code>@var</code>)</strong></dt>
+<dd>Dentro de query/eval, prefijo <code>@</code> referencia variables del scope Python: <code>df.query('x &gt; @threshold')</code>.</dd>
+<dt><strong><code>numexpr</code></strong></dt>
+<dd>Motor de cómputo que vectoriza expresiones en C/SIMD. Usado por eval/query bajo el capó cuando los datasets son grandes. Acelera operaciones aritméticas complejas.</dd>
+<dt><strong>Trade-off legibilidad vs IDE</strong></dt>
+<dd>Query strings: más legibles para humanos. Filtros tradicionales: autocomplete del IDE, type checking. Elige según contexto.</dd>
+</dl>
 <h2 id="dataset-recursos">📂 Dataset / recursos</h2>
 <p>Sintético: DataFrame grande para benchmark. Sin descarga.</p>
 <h2 id="ejercicios">🧪 Ejercicios</h2>
@@ -90,6 +103,48 @@
 <h2 id="homework-verificable">📝 Homework verificable</h2>
 <p>Notebook con df 100k filas: (a) 3 filtros equivalentes (mask, query, query con @var); (b) eval para crear 2 columnas derivadas; (c) benchmark tradicional vs query en N=100k y N=1M; (d) reporte: cuándo conviene cada uno.</p>
 <p><strong>Criterio de aceptación:</strong> Resultados idénticos entre métodos. Speedup de query aparece en N≥100k.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>UndefinedVariableError: name 'X' is not defined</code></td>
+<td>Variable Python no prefijada con <code>@</code>. <strong>Fix</strong>: <code>df.query('x &gt; @threshold')</code> no <code>df.query('x &gt; threshold')</code>.</td>
+</tr>
+<tr>
+<td>Strings dentro de query con comillas dobles dan error</td>
+<td>Mezcla de quotes. <strong>Fix</strong>: usa quotes opuestas: <code>df.query("categoria == 'A'")</code> o triple-quoted.</td>
+</tr>
+<tr>
+<td><code>df.eval('col_nueva = ...')</code> no añade la columna</td>
+<td>Sin <code>inplace=True</code>. <strong>Fix</strong>: <code>df.eval('col = x*y', inplace=True)</code> o <code>df = df.eval('col = x*y')</code>.</td>
+</tr>
+<tr>
+<td>query/eval más lento que máscara tradicional en mi caso</td>
+<td>Para datasets pequeños (&lt;10k filas), el overhead del parser no compensa. <strong>Fix</strong>: usa máscara tradicional ahí; reserva query/eval para datasets grandes.</td>
+</tr>
+<tr>
+<td>Funciones custom no funcionan en query</td>
+<td>Solo aritmética + operadores. <strong>Fix</strong>: <code>df.query('x &gt; @threshold')</code> con cálculo previo, o usa máscara tradicional con la función.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿<code>query</code> o máscara tradicional?</strong></p>
+<p><strong>Máscara</strong> para filtros simples (1-2 condiciones) y autocomplete del IDE. <strong><code>query</code></strong> para filtros largos (4+ condiciones), parametrizables (<code>@var</code>), o cuando el lector lo encuentra más claro.</p>
+<p><strong>❓ ¿<code>eval</code> y <code>query</code> siempre son más rápidos?</strong></p>
+<p><strong>No</strong> — solo en datasets grandes (&gt;100k) con expresiones complejas. Para pequeños son iguales o ligeramente más lentos.</p>
+<p><strong>❓ ¿Qué operadores acepta query?</strong></p>
+<p>Aritméticos (<code>+ - * / **</code>), comparación (<code>==</code>, <code>&lt;</code>, <code>&gt;</code>, <code>&lt;=</code>, <code>&gt;=</code>, <code>!=</code>), boolean (<code>and</code>, <code>or</code>, <code>not</code> o <code>&amp;</code>, <code>|</code>, <code>~</code>), <code>in</code>, <code>not in</code>. No funciones.</p>
+<p><strong>❓ ¿<code>query</code> reemplaza a SQL en pandas?</strong></p>
+<p>Para filtros, sí (mismo nivel expresivo). Para joins y aggregations, no — usa <code>merge</code> y <code>groupby</code> clásicos. Para datasets &gt;1GB, considera DuckDB directo.</p>
+<p><strong>❓ ¿Hay <code>eval</code> peligroso (security)?</strong></p>
+<p><code>pd.eval</code> no usa <code>exec()</code> Python — es parser propio limitado. No ejecuta arbitrary code. <strong>Pero</strong>: nunca pases strings de usuario sin sanitizar a query/eval.</p>
 <h2 id="referencias">🔗 Referencias</h2>
 <ul>
 <li>VanderPlas, <strong>cap. 3</strong> § 3.13.</li>
