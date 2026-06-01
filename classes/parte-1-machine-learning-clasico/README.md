@@ -2,9 +2,25 @@
 
 > [⬅️ Volver al programa](../../README.md) · [📚 Índice completo](../README.md) · [⏮️ Parte anterior](../parte-0-prerrequisitos/README.md) · [⏭️ Parte siguiente](../parte-2-deep-learning/README.md)
 
-**43 clases** · ~10 semanas
+**43 clases · ~10 semanas · ✅ Contenido completo**
 
-**Fuente principal:** **Géron** ([*Hands-On Machine Learning*, 3ª ed.](https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/)) — estructura completa de los capítulos 1–9.
+**Fuente principal:** **Géron** ([*Hands-On Machine Learning*, 3ª ed.](https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/)) — estructura completa de los capítulos 1–9. Para boosting moderno (clase 079): docs oficiales de XGBoost / LightGBM / CatBoost.
+
+Cada clase tiene su `README.md` con objetivo, resultados de aprendizaje verificables, dataset recomendado, 5 ejercicios y homework con criterio de aceptación. Todas las 43 clases incluyen las tres secciones del patrón pedagógico v2.2.0:
+
+- **📖 Definiciones y características** — términos técnicos con explicación y características clave.
+- **⚠️ Errores comunes** — tabla de síntomas/mensajes con causa y solución concretas.
+- **❓ Preguntas frecuentes** — FAQs auténticas que aparecen al estudiar cada tema.
+
+**📌 Complementos modernos integrados (cierran los 8 huecos del audit 2026):**
+
+- Clase 049 → validación temporal (`TimeSeriesSplit`, walk-forward).
+- Clase 050 → feature engineering avanzado (target encoding con CV) e imputación avanzada (`KNNImputer`, `IterativeImputer`/MICE).
+- Clase 052 → HPO moderno (Optuna, optimización bayesiana, Halving Search).
+- Clase 053 → Model Cards y documentación responsable (Mitchell 2018, EU AI Act).
+- Clase 056 → class imbalance (`class_weight`, SMOTE vía `imblearn`, threshold tuning).
+- Clase 067 → calibración de probabilidades (Platt, isotonic, temperature scaling).
+- Clase 077 → interpretabilidad moderna con SHAP y LIME.
 
 ---
 

@@ -84,4 +84,4 @@ Entregar un script `tarea_073.py` que:
 
 ## ➡️ Siguiente clase
 
-[../074-voting-classifiers-hard-soft/README.md](../074-voting-classifiers-hard-soft/README.md)
+[Clase 074 — Voting classifiers: hard y soft](../074-voting-classifiers-hard-soft/README.md)
