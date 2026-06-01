@@ -24,34 +24,143 @@
   </header>
   <main class="cur-main">
     <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-1-machine-learning-clasico/063-regresion-polinomial/notebook.ipynb">📓 Abrir notebook en GitHub</a>
-<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">Objetivo</a> · <a href="#resultados-esperados">Resultados esperados</a> · <a href="#temas-clave">Temas clave</a> · <a href="#materiales">Materiales</a> · <a href="#prerrequisitos">Prerrequisitos</a></nav>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
 <h1 id="clase-063-regresion-polinomial">Clase 063 — Regresión polinomial</h1>
 <blockquote>
-<p>Parte: <strong>1-machine-learning-clasico</strong>
-Estado: <strong>stub</strong> (pendiente desarrollar contenido).</p>
+<p>Parte: <strong>1 — Machine Learning Clásico</strong> · Fuente: Géron, <strong>cap. 4</strong> § <em>Polynomial Regression</em>. ⏱️ Duración estimada: <strong>50 min</strong>.</p>
 </blockquote>
-<h2 id="objetivo">Objetivo</h2>
-<p>Describir el resultado de aprendizaje concreto de esta clase.</p>
-<h2 id="resultados-esperados">Resultados esperados</h2>
-<p>Al finalizar, el estudiante podrá:</p>
+<hr>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Que el alumno ajuste modelos lineales a relaciones no lineales usando <code>PolynomialFeatures</code> de scikit-learn, entienda la combinatoria de features que esto genera, y reconozca el riesgo de overfitting cuando el grado crece.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar la clase, el alumno podrá:</p>
+<ol>
+<li><strong>Transformar features</strong> con <code>PolynomialFeatures(degree=d)</code> y entender qué columnas produce.</li>
+<li><strong>Ajustar un <code>LinearRegression</code></strong> sobre features polinómicas y graficar la curva resultante.</li>
+<li><strong>Calcular</strong> cuántas features genera grado <code>d</code> con <code>n</code> variables originales (combinatoria con repetición).</li>
+<li><strong>Diagnosticar overfitting</strong> comparando RMSE en train vs test al subir el grado.</li>
+<li><strong>Decidir</strong> cuándo usar <code>interaction_only=True</code> vs incluir potencias.</li>
+</ol>
+<h2 id="temas">🗺️ Temas</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Tema</th>
+<th>Por qué importa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Modelo lineal sobre features no lineales</td>
+<td>Linealidad es en los <strong>coeficientes</strong>, no en los inputs.</td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>PolynomialFeatures(degree, include_bias, interaction_only)</code></td>
+<td>API para expandir el feature space.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Combinatoria de features: <code>C(n+d, d)</code></td>
+<td>Explosión cuadrática/cúbica con <code>n</code> features de entrada.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Overfitting con grado alto</td>
+<td>Curva oscila para pasar por todos los puntos de train.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Validación con train/test split</td>
+<td>Sin split, grado alto siempre "gana" en train.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Interaction-only vs full polynomial</td>
+<td>Cuándo importan las potencias y cuándo solo los productos cruzados.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<dl>
+<dt><strong><code>PolynomialFeatures</code></strong></dt>
+<dd>Transformer de <code>sklearn.preprocessing</code> que genera todas las combinaciones polinómicas de las features de entrada hasta grado <code>degree</code>. Para <code>x</code> con grado 2: <code>[1, x, x²]</code>. Para <code>[x₁, x₂]</code> grado 2: <code>[1, x₁, x₂, x₁², x₁x₂, x₂²]</code>.</dd>
+<dt><strong><code>degree</code></strong></dt>
+<dd>Grado máximo del polinomio. Grado 1 no transforma (más bias). Grado 2–3 cubre la mayoría de curvaturas suaves. Grado ≥10 casi siempre es overfit.</dd>
+<dt><strong><code>interaction_only=True</code></strong></dt>
+<dd>Genera solo productos cruzados entre features distintas, sin potencias (<code>x₁², x₂²</code> quedan fuera). Útil cuando el efecto no lineal viene de interacciones, no de curvatura individual.</dd>
+<dt><strong><code>include_bias=True</code></strong> (default)</dt>
+<dd>Agrega columna de 1's. Conviene ponerlo en <code>False</code> si después usás <code>LinearRegression</code> (que ya tiene <code>fit_intercept=True</code>) para no duplicar.</dd>
+<dt><strong>Explosión combinatoria</strong></dt>
+<dd>La cantidad de features generadas es <code>C(n+d, d) = (n+d)! / (n! d!)</code>. Con <code>n=10</code> y <code>d=5</code>: 3003 features. Con <code>n=100</code> y <code>d=3</code>: 176851. Escala feo.</dd>
+<dt><strong>Generalización</strong></dt>
+<dd>Capacidad del modelo de funcionar en datos no vistos. Subir grado mejora train pero llega un punto donde test empeora — es el síntoma clásico de overfitting.</dd>
+<dt><strong>Modelo lineal sobre features no lineales</strong></dt>
+<dd>Ajustar <code>y = w₀ + w₁x + w₂x²</code> es resolver un problema <strong>lineal</strong> en <code>(w₀, w₁, w₂)</code> aunque la curva en <code>x</code> sea una parábola. Por eso <code>LinearRegression</code> basta tras transformar.</dd>
+</dl>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<p>Sintético: <code>y = 0.5 x² + x + 2 + ruido_gaussiano</code>, con <code>x ∈ [-3, 3]</code>, <code>n=100</code>. Ideal para visualizar curva ajustada y comparar grados.</p>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<p><strong>1.</strong> <strong>Generar dataset cuadrático.</strong> <code>x = np.linspace(-3, 3, 100)</code> + ruido. Graficar scatter.</p>
+<p><strong>2.</strong> <strong>Ajustar grado 2.</strong> <code>PolynomialFeatures(degree=2, include_bias=False)</code> + <code>LinearRegression</code>. Imprimir <code>coef_</code> e <code>intercept_</code> y compararlos con los del DGP (0.5, 1, 2).</p>
+<p><strong>3.</strong> <strong>Grafo de curvas.</strong> Ajustar grados 1, 2, 5, 30 sobre el mismo dataset y plotear las 4 curvas superpuestas al scatter. Observar oscilaciones en grado 30.</p>
+<p><strong>4.</strong> <strong>Curva train/test vs grado.</strong> Para grado 1 a 20, calcular RMSE en train y en test. Graficar ambas curvas en función del grado. Identificar el punto donde test empieza a subir.</p>
+<p><strong>5.</strong> <strong>Combinatoria.</strong> Con <code>n_features=3</code> de entrada, contar columnas que devuelve <code>PolynomialFeatures(degree=4, include_bias=False)</code>. Verificar con la fórmula <code>C(n+d, d) - 1</code>.</p>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Notebook con: (a) dataset sintético <code>y = sin(x) + ruido</code> en <code>x ∈ [0, 2π]</code>; (b) ajustar polinomios de grado 1 a 15; (c) split 80/20; (d) graficar RMSE train vs test por grado; (e) reportar el grado óptimo según test; (f) graficar curva del grado óptimo encima del scatter.</p>
+<p><strong>Criterio de aceptación:</strong> El grado óptimo reportado está entre 3 y 7 (zona razonable para <code>sin</code> con ruido). Curva train decrece monótona; curva test tiene forma de U.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>LinearRegression</code> da <code>coef_</code> con 2 columnas de bias</td>
+<td>Dejaste <code>include_bias=True</code> y <code>LinearRegression(fit_intercept=True)</code>. <strong>Fix</strong>: poné <code>include_bias=False</code> en <code>PolynomialFeatures</code>.</td>
+</tr>
+<tr>
+<td>RMSE train baja pero test explota al subir grado</td>
+<td>Overfitting clásico. <strong>Fix</strong>: bajá el grado, o pasá a Ridge/Lasso (clase siguiente).</td>
+</tr>
+<tr>
+<td><code>MemoryError</code> con grado 10 y 50 features</td>
+<td>Combinatoria: <code>C(60, 10) ≈ 75M</code>. <strong>Fix</strong>: reducí <code>degree</code>, o usá <code>interaction_only=True</code>, o seleccioná features antes.</td>
+</tr>
+<tr>
+<td>Coeficientes enormes (1e8) con grado alto</td>
+<td>Síntoma de overfitting + colinealidad entre potencias. <strong>Fix</strong>: escalá con <code>StandardScaler</code> <strong>antes</strong> de <code>PolynomialFeatures</code> o usá regularización.</td>
+</tr>
+<tr>
+<td>Olvidaste transformar el test set</td>
+<td>Aplicaste <code>.fit_transform</code> en train y <code>.fit_transform</code> en test (en lugar de <code>.transform</code>). <strong>Fix</strong>: <code>fit</code> solo en train, <code>transform</code> en test. Mejor: usá <code>Pipeline</code>.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿<code>PolynomialFeatures</code> es un modelo no lineal?</strong></p>
+<p>No. Es una <strong>transformación</strong> del input. El modelo (<code>LinearRegression</code>) sigue siendo lineal en los coeficientes. Lo que es no lineal es la relación entre <code>x</code> original e <code>y</code>.</p>
+<p><strong>❓ ¿Qué grado elegir por default?</strong></p>
+<p>Empezá con 2. Si el residual muestra patrón curvo, subí a 3. Más allá de 4–5 rara vez es necesario en problemas reales — si lo necesitás, probablemente quieras un modelo no lineal (árboles, kernel) en vez de subir grado.</p>
+<p><strong>❓ ¿Cuándo <code>interaction_only=True</code>?</strong></p>
+<p>Cuando sabés (o sospechás) que el efecto no lineal viene de <strong>combinaciones</strong> entre features (ej: <code>precio × cantidad</code>), no de curvatura individual de cada una. Reduce muchísimo la cantidad de columnas.</p>
+<p><strong>❓ ¿Por qué siempre escalar antes de <code>PolynomialFeatures</code>?</strong></p>
+<p>Porque <code>x²</code> y <code>x³</code> agrandan rangos: si <code>x ∈ [0, 1000]</code>, entonces <code>x³ ∈ [0, 1e9]</code>. Eso degrada el condicionamiento numérico y mata cualquier regularización posterior. Escalá primero con <code>StandardScaler</code>.</p>
+<p><strong>❓ ¿Cómo se relaciona esto con la clase 064?</strong></p>
+<p>Polinomial es el ejemplo canónico de modelo con <strong>alto bias</strong> en grado bajo y <strong>alta varianza</strong> en grado alto. La 064 formaliza ese trade-off con curvas de aprendizaje.</p>
+<h2 id="referencias">🔗 Referencias</h2>
 <ul>
-<li>(resultado 1)</li>
-<li>(resultado 2)</li>
-<li>(resultado 3)</li>
+<li>Géron, <strong>cap. 4</strong> § <em>Polynomial Regression</em> y § <em>Learning Curves</em>.</li>
+<li><a href="https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.PolynomialFeatures.html">sklearn <code>PolynomialFeatures</code></a></li>
+<li><a href="https://scikit-learn.org/stable/modules/linear_model.html#polynomial-regression-extending-linear-models-with-basis-functions">sklearn user guide § Polynomial regression</a></li>
 </ul>
-<h2 id="temas-clave">Temas clave</h2>
-<ul>
-<li>(subtema 1)</li>
-<li>(subtema 2)</li>
-<li>(subtema 3)</li>
-</ul>
-<h2 id="materiales">Materiales</h2>
-<ul>
-<li><code>README.md</code> — esta ficha</li>
-<li><code>notebook.ipynb</code> — cuaderno de la clase</li>
-</ul>
-<h2 id="prerrequisitos">Prerrequisitos</h2>
-<p>Ver índice general en <code>classes/README.md</code> para dependencias entre clases.</p>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../064-curvas-de-aprendizaje-bias-variance/index.html">Clase 064 — Curvas de aprendizaje: bias vs variance</a></p>
   </main>
   <footer class="cur-footer">
     <p>

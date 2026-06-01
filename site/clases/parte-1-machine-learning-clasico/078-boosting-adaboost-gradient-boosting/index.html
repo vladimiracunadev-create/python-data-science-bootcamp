@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Clase 078 — Boosting: AdaBoost, Gradient Boosting | Python Data Science Program</title>
+  <title>Clase 078 — Boosting: AdaBoost y Gradient Boosting | Python Data Science Program</title>
   <meta name="description" content="Clase 078 del Python Data Science Program">
   <meta name="theme-color" content="#0f3d3e">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -24,34 +24,92 @@
   </header>
   <main class="cur-main">
     <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-1-machine-learning-clasico/078-boosting-adaboost-gradient-boosting/notebook.ipynb">📓 Abrir notebook en GitHub</a>
-<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">Objetivo</a> · <a href="#resultados-esperados">Resultados esperados</a> · <a href="#temas-clave">Temas clave</a> · <a href="#materiales">Materiales</a> · <a href="#prerrequisitos">Prerrequisitos</a></nav>
-<h1 id="clase-078-boosting-adaboost-gradient-boosting">Clase 078 — Boosting: AdaBoost, Gradient Boosting</h1>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-078-boosting-adaboost-y-gradient-boosting">Clase 078 — Boosting: AdaBoost y Gradient Boosting</h1>
 <blockquote>
-<p>Parte: <strong>1-machine-learning-clasico</strong>
-Estado: <strong>stub</strong> (pendiente desarrollar contenido).</p>
+<p>Parte: <strong>1 — Machine Learning Clásico</strong> · Fuente: Géron, <strong>cap. 7</strong>. ⏱️ Duración estimada: <strong>70 min</strong>.</p>
 </blockquote>
-<h2 id="objetivo">Objetivo</h2>
-<p>Describir el resultado de aprendizaje concreto de esta clase.</p>
-<h2 id="resultados-esperados">Resultados esperados</h2>
-<p>Al finalizar, el estudiante podrá:</p>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Entender la idea de <strong>boosting</strong> como combinación secuencial de aprendices débiles, dominar los dos enfoques clásicos —<strong>AdaBoost</strong> (reponderar errores) y <strong>Gradient Boosting</strong> (ajustar al residuo)— y saber tunear <code>learning_rate</code>, <code>n_estimators</code> y aplicar <strong>early stopping</strong> con <code>staged_predict</code>.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al terminar la clase vas a poder:</p>
+<ol>
+<li>Explicar la diferencia conceptual entre <strong>bagging</strong> (paralelo, varianza) y <strong>boosting</strong> (secuencial, sesgo).</li>
+<li>Entrenar un <code>AdaBoostClassifier</code> y un <code>GradientBoostingClassifier</code> de scikit-learn, leyendo correctamente sus hiperparámetros.</li>
+<li>Entender por qué <code>learning_rate</code> y <code>n_estimators</code> se mueven en sentidos opuestos (shrinkage).</li>
+<li>Implementar <strong>early stopping</strong> en boosting usando <code>staged_predict</code> sobre un set de validación.</li>
+<li>Decidir cuándo conviene AdaBoost, cuándo Gradient Boosting clásico y cuándo saltar directo a las librerías de la 079.</li>
+</ol>
+<h2 id="temas">🗺️ Temas</h2>
 <ul>
-<li>(resultado 1)</li>
-<li>(resultado 2)</li>
-<li>(resultado 3)</li>
+<li>Intuición: muchos clasificadores débiles → uno fuerte.</li>
+<li><strong>AdaBoost</strong>: peso a las muestras mal clasificadas; <code>SAMME</code> y <code>SAMME.R</code>.</li>
+<li><strong>Gradient Boosting</strong>: cada árbol ajusta el <strong>residuo</strong> (gradiente de la loss) del ensemble previo.</li>
+<li>Hiperparámetros clave: <code>n_estimators</code>, <code>learning_rate</code>, <code>max_depth</code>, <code>subsample</code> (stochastic gradient boosting).</li>
+<li><code>staged_predict</code> / <code>staged_predict_proba</code>: predicciones intermedias para early stopping.</li>
+<li>Curvas de error vs. número de estimadores: detectar el "codo".</li>
+<li>Limitaciones: entrenamiento secuencial (no se paraleliza tan bien como bagging).</li>
 </ul>
-<h2 id="temas-clave">Temas clave</h2>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
 <ul>
-<li>(subtema 1)</li>
-<li>(subtema 2)</li>
-<li>(subtema 3)</li>
+<li><strong>Boosting</strong>: meta-algoritmo que entrena modelos en <strong>serie</strong>, donde cada uno corrige los errores del anterior. Reduce sesgo (a diferencia del bagging, que reduce varianza).</li>
+<li><strong>AdaBoost (Adaptive Boosting)</strong>: en cada iteración aumenta el peso de las muestras mal clasificadas y entrena un nuevo weak learner sobre la distribución reponderada. La predicción final es un voto ponderado.</li>
+<li><strong>Gradient Boosting</strong>: en cada iteración entrena un árbol nuevo para predecir el <strong>residuo</strong> (gradiente negativo de la loss) del ensemble actual. Generaliza AdaBoost a cualquier función de pérdida diferenciable.</li>
+<li><strong>learning_rate (η)</strong>: factor de <strong>shrinkage</strong> que escala la contribución de cada árbol nuevo. Valores chicos (0.01–0.1) regularizan; obligan a usar más <code>n_estimators</code>.</li>
+<li><strong>n_estimators</strong>: cantidad de aprendices débiles. En boosting puede haber <strong>sobreajuste</strong> si crece demasiado (a diferencia de Random Forest).</li>
+<li><strong>Weak learner</strong>: modelo apenas mejor que el azar. En sklearn, por defecto, un árbol de profundidad 1 (decision stump) para AdaBoost y profundidad 3 para Gradient Boosting.</li>
+<li><strong>Residuo</strong>: diferencia entre el target real y la predicción acumulada del ensemble; lo que falta por explicar.</li>
+<li><strong>staged_predict</strong>: iterador que devuelve la predicción del ensemble usando 1, 2, … N estimadores. Sirve para graficar la curva de error y detectar el número óptimo.</li>
+<li><strong>Shrinkage</strong>: técnica de regularización que multiplica cada contribución por <code>learning_rate &lt; 1</code>; baja el riesgo de overfitting al costo de más iteraciones.</li>
 </ul>
-<h2 id="materiales">Materiales</h2>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
 <ul>
-<li><code>README.md</code> — esta ficha</li>
-<li><code>notebook.ipynb</code> — cuaderno de la clase</li>
+<li><code>sklearn.datasets.make_moons(n_samples=500, noise=0.30, random_state=42)</code> para la parte visual.</li>
+<li><code>sklearn.datasets.load_breast_cancer()</code> para comparar AdaBoost vs. Gradient Boosting en un problema real.</li>
+<li><code>sklearn.ensemble.AdaBoostClassifier</code>, <code>GradientBoostingClassifier</code>, <code>GradientBoostingRegressor</code>.</li>
+<li>Géron, cap. 7, sección <strong>"Boosting"</strong> (AdaBoost + Gradient Boosting + Early Stopping).</li>
 </ul>
-<h2 id="prerrequisitos">Prerrequisitos</h2>
-<p>Ver índice general en <code>classes/README.md</code> para dependencias entre clases.</p>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>AdaBoost desde cero conceptual</strong>: entrená un <code>AdaBoostClassifier(n_estimators=200, learning_rate=0.5)</code> sobre <code>make_moons</code>. Graficá la frontera de decisión con 1, 10, 50 y 200 estimadores.</li>
+<li><strong>Gradient Boosting paso a paso</strong>: usá <code>GradientBoostingRegressor(max_depth=2, n_estimators=3, learning_rate=1.0)</code> sobre datos sintéticos <code>y = x² + ruido</code>. Mostrá las predicciones intermedias entrenando 3 árboles a mano sobre residuos sucesivos y verificá que coinciden con el ensemble.</li>
+<li><strong>Trade-off learning_rate ↔ n_estimators</strong>: comparé <code>(lr=1.0, n=50)</code> vs. <code>(lr=0.1, n=500)</code> vs. <code>(lr=0.01, n=5000)</code> en <code>breast_cancer</code>. Reportá accuracy y tiempo de fit.</li>
+<li><strong>Early stopping con staged_predict</strong>: entrené <code>GradientBoostingClassifier(n_estimators=500, learning_rate=0.05)</code> y, usando <code>staged_predict</code> sobre validación, encontrá el <code>n_estimators</code> óptimo. Re-entrené con ese valor.</li>
+<li><strong>Stochastic Gradient Boosting</strong>: agregale <code>subsample=0.5</code> al modelo de (4). ¿Mejora la generalización? ¿Por qué?</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Sobre <code>load_breast_cancer()</code> con <code>train_test_split(test_size=0.2, random_state=42, stratify=y)</code>:</p>
+<ol>
+<li>Entrené <code>AdaBoostClassifier(n_estimators=200, learning_rate=0.5, random_state=42)</code> y <code>GradientBoostingClassifier(n_estimators=200, learning_rate=0.1, max_depth=3, random_state=42)</code>.</li>
+<li>Para el Gradient Boosting, encontrá el <code>best_n</code> usando <code>staged_predict_proba</code> sobre el set de test y <code>log_loss</code>.</li>
+<li>Reportá accuracy de los tres modelos (AdaBoost, GB completo, GB con <code>best_n</code>).</li>
+</ol>
+<p><strong>Criterio de aprobación</strong>: <code>accuracy ≥ 0.95</code> para el GB con early stopping y <code>best_n &lt; 200</code> (debe recortar de verdad).</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<ol>
+<li><strong>Subir <code>n_estimators</code> sin bajar <code>learning_rate</code></strong>: termina sobreajustando feo. Si subís uno, bajá el otro.</li>
+<li><strong>Usar árboles profundos en AdaBoost</strong>: el algoritmo asume <strong>weak learners</strong>. Stumps (<code>max_depth=1</code>) suelen funcionar mejor que árboles grandes.</li>
+<li><strong>Comparar boosting con random forest a igualdad de <code>n_estimators</code></strong>: no son comparables; en boosting cada árbol depende del anterior.</li>
+<li><strong>Olvidar <code>random_state</code></strong>: tanto AdaBoost como Gradient Boosting son deterministas dado el seed, pero al cambiar la versión de sklearn los defaults se mueven.</li>
+<li><strong>No escalar… no hace falta</strong>: los métodos basados en árboles no necesitan escalado. El error inverso (escalar de más por las dudas) infla el pipeline sin beneficio.</li>
+</ol>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<ol>
+<li><strong>¿AdaBoost o Gradient Boosting?</strong> En la práctica, Gradient Boosting gana casi siempre en tabular: es más flexible (cualquier loss), maneja mejor el ruido y tiene early stopping natural. AdaBoost queda como curiosidad histórica y para casos muy específicos con pocos features.</li>
+<li><strong>¿learning_rate alto o bajo?</strong> Bajo (0.05–0.1) con muchos estimadores <strong>regulariza mejor</strong> y suele dar el mejor test score, a costa de tiempo de entrenamiento. Alto (0.5–1.0) entrena rápido pero sobreajusta.</li>
+<li><strong>¿Cuántos <code>n_estimators</code> poner?</strong> Empezá con 500–1000 y dejá que <strong>early stopping</strong> lo recorte. No es como Random Forest, acá "más" no es siempre mejor.</li>
+<li><strong>¿Por qué <code>staged_predict</code> y no <code>validation_fraction</code> directamente?</strong> <code>GradientBoostingClassifier</code> ya trae <code>n_iter_no_change</code> y <code>validation_fraction</code> desde sklearn 0.20; <code>staged_predict</code> te sirve para <strong>graficar</strong> la curva y entender qué pasa, no solo para parar.</li>
+<li><strong>¿Es paralelizable?</strong> No de forma trivial: cada árbol depende del anterior. Por eso XGBoost / LightGBM / CatBoost (clase 079) usan trucos a nivel de <strong>construcción de cada árbol</strong> para acelerar.</li>
+</ol>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Géron, <strong>Hands-On Machine Learning</strong>, 3ra ed., cap. 7 — "Ensemble Learning and Random Forests", sección <strong>Boosting</strong>.</li>
+<li>scikit-learn user guide: <a href="https://scikit-learn.org/stable/modules/ensemble.html#adaboost">Ensemble methods → Boosting</a>.</li>
+<li>Friedman, J. (2001). <em>Greedy Function Approximation: A Gradient Boosting Machine</em>. Annals of Statistics.</li>
+<li>Freund &amp; Schapire (1997). <em>A Decision-Theoretic Generalization of On-Line Learning and an Application to Boosting</em>.</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../079-xgboost-lightgbm-catboost/index.html">079 — XGBoost, LightGBM y CatBoost</a></p>
   </main>
   <footer class="cur-footer">
     <p>

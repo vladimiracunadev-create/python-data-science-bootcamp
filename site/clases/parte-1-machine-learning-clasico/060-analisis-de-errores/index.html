@@ -24,34 +24,144 @@
   </header>
   <main class="cur-main">
     <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-1-machine-learning-clasico/060-analisis-de-errores/notebook.ipynb">📓 Abrir notebook en GitHub</a>
-<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">Objetivo</a> · <a href="#resultados-esperados">Resultados esperados</a> · <a href="#temas-clave">Temas clave</a> · <a href="#materiales">Materiales</a> · <a href="#prerrequisitos">Prerrequisitos</a></nav>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
 <h1 id="clase-060-analisis-de-errores">Clase 060 — Análisis de errores</h1>
 <blockquote>
-<p>Parte: <strong>1-machine-learning-clasico</strong>
-Estado: <strong>stub</strong> (pendiente desarrollar contenido).</p>
+<p>Parte: <strong>1 — Machine Learning Clásico</strong> · Fuente: Géron, <strong>cap. 3</strong> § <em>Error Analysis</em>. ⏱️ Duración estimada: <strong>60 min</strong>.</p>
 </blockquote>
-<h2 id="objetivo">Objetivo</h2>
-<p>Describir el resultado de aprendizaje concreto de esta clase.</p>
-<h2 id="resultados-esperados">Resultados esperados</h2>
-<p>Al finalizar, el estudiante podrá:</p>
+<hr>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Que el alumno deje de mirar el accuracy global y empiece a auditar <strong>dónde</strong> se equivoca un clasificador: confusion matrix normalizada por fila, pares de clases confundidas, inspección visual de ejemplos mal clasificados, y el loop de <em>error analysis</em> como puerta de entrada al <em>data-centric AI</em> (mejorar datos, no solo modelos).</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar la clase, el alumno podrá:</p>
+<ol>
+<li><strong>Construir y normalizar</strong> una confusion matrix por fila (recall por clase) y leerla sin confundir filas con columnas.</li>
+<li><strong>Identificar pares de clases confundidas</strong> ordenando los off-diagonals normalizados de mayor a menor.</li>
+<li><strong>Inspeccionar visualmente</strong> ejemplos mal clasificados (hard examples) para formular hipótesis de causa raíz.</li>
+<li><strong>Decidir</strong> si la próxima iteración mejora el modelo (features, regularización, capacidad) o mejora los datos (relabel, augmentación, balancear).</li>
+<li><strong>Ejecutar el error analysis loop</strong>: entrenar → matriz → slices → hipótesis → fix → re-entrenar.</li>
+</ol>
+<h2 id="temas">🗺️ Temas</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Tema</th>
+<th>Por qué importa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Confusion matrix cruda vs normalizada por fila</td>
+<td>Sin normalizar, las clases mayoritarias tapan todo.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Off-diagonals: qué clase se confunde con cuál</td>
+<td>El error no es uniforme; suele haber 2-3 pares dominantes.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Inspección visual de hard examples</td>
+<td>Te dice si es ruido de label, ambigüedad real o falta de capacidad.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Slice analysis (error por subgrupo)</td>
+<td>Accuracy global oculta sesgos por subpoblación.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Data-centric AI: cuándo arreglar datos</td>
+<td>Más barato y efectivo que tunear hiperparámetros.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Error analysis loop</td>
+<td>Workflow iterativo y reproducible.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<dl>
+<dt><strong>Confusion matrix normalizada por fila</strong></dt>
+<dd>Matriz donde <code>C[i,j] = P(predicho=j | real=i)</code>. La diagonal es el recall por clase; los off-diagonals son la distribución de errores condicional al label real. <strong>Siempre dividí por la suma de fila</strong>, no por el total: lo que querés ver es "del total de los <code>i</code> verdaderos, qué fracción cayó en <code>j</code>".</dd>
+<dt><strong>Error rate por clase</strong></dt>
+<dd><code>1 - recall_i</code>. Útil para rankear clases por dificultad. Una clase con 60% recall en un modelo de 95% accuracy global es un problema invisible al accuracy.</dd>
+<dt><strong>Hard examples</strong></dt>
+<dd>Instancias mal clasificadas con alta confianza, o cerca del borde de decisión. Inspeccionarlas a mano (50-100 alcanza) revela el 80% de las causas raíz: labels equivocados, imágenes borrosas, ambigüedad ontológica, dominio fuera de distribución.</dd>
+<dt><strong>Slice analysis</strong></dt>
+<dd>Computar métricas no en el set completo sino en subconjuntos definidos por una variable (edad, región, tipo de cámara, longitud del texto). Detecta sesgos que el promedio entierra.</dd>
+<dt><strong>Data-centric AI</strong></dt>
+<dd>Paradigma (Andrew Ng) que pone el foco en mejorar la calidad y consistencia de los datos en vez de iterar modelos. Mucho del <em>error analysis</em> es la herramienta operacional del data-centric.</dd>
+<dt><strong>Error analysis loop</strong></dt>
+<dd>Ciclo <code>train → confusion matrix → top-k confusiones → inspeccionar ejemplos → hipótesis (modelo/dato/feature) → intervenir → repetir</code>. Convierte el debugging de ML de arte a proceso.</dd>
+<dt><strong>Top-k confusiones</strong></dt>
+<dd>Los <code>k</code> pares <code>(i, j)</code> con <code>i != j</code> ordenados por <code>C_norm[i,j]</code> descendente. Son la lista priorizada de qué atacar primero.</dd>
+</dl>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<p><strong>MNIST</strong> (<code>sklearn.datasets.fetch_openml('mnist_784')</code> o <code>keras.datasets.mnist</code>). Es el ejemplo canónico de Géron cap. 3: 10 clases, errores no uniformes (los 4↔9, 3↔5, 7↔9 son los pares clásicos que aparecen en cualquier modelo decente). Alternativa más densa: <strong>Fashion-MNIST</strong> (shirt vs t-shirt vs pullover es un caos pedagógicamente útil).</p>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<p><strong>1.</strong> <strong>Matriz cruda y normalizada.</strong> Entrená un <code>SGDClassifier</code> sobre MNIST. Calculá <code>confusion_matrix(y_true, y_pred)</code> y normalizá por fila (<code>cm / cm.sum(axis=1, keepdims=True)</code>). Plotealá con <code>plt.matshow</code> y poné ceros en la diagonal para que los errores se vean.</p>
+<p><strong>2.</strong> <strong>Top-5 confusiones.</strong> Del array normalizado, extraé los 5 pares <code>(i, j)</code> con mayor valor off-diagonal. Imprimí <code>"real=i → pred=j: XX%"</code>.</p>
+<p><strong>3.</strong> <strong>Galería de errores.</strong> Para el par <code>(real, pred)</code> peor del ejercicio 2, mostrá una grilla 5×5 de imágenes mal clasificadas. Anotá si te parecen ambiguas, mal labeladas o claramente del label real.</p>
+<p><strong>4.</strong> <strong>Slice por grosor de trazo.</strong> Calculá la suma de píxeles por imagen como proxy de "grosor". Dividí el test set en terciles y reportá accuracy por tercil. ¿El modelo es peor con dígitos finos o gruesos?</p>
+<p><strong>5.</strong> <strong>Intervención data-centric.</strong> Tomá el par confundido del ejercicio 2. Augmentá el set de entrenamiento solo con esa clase (shifts de 1px) y re-entrená. Reportá el cambio en el recall de esa clase y el accuracy global.</p>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Notebook con MNIST que entregue: (a) confusion matrix normalizada por fila como heatmap; (b) tabla con los <strong>3 pares de clases más confundidos</strong> y su porcentaje; (c) grilla de <strong>16 ejemplos mal clasificados</strong> del par peor, con título <code>real=X pred=Y</code>; (d) tabla de <strong>accuracy por slice</strong> según una variable derivada (intensidad media, posición del centro de masa, lo que elijas); (e) <strong>un párrafo de hipótesis</strong>: ¿el error es de modelo o de datos? ¿qué probarías en la siguiente iteración?</p>
+<p><strong>Criterio de aceptación:</strong> Las filas de la matriz normalizada suman 1. El top-3 de confusiones está justificado numéricamente. La galería muestra ejemplos reales del par identificado. La hipótesis distingue explícitamente "mejoro modelo" vs "mejoro datos".</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>La matriz "se ve toda igual" / no se distinguen errores</td>
+<td>No normalizaste, o no pusiste ceros en la diagonal. <strong>Fix</strong>: <code>cm_norm = cm / cm.sum(axis=1, keepdims=True); np.fill_diagonal(cm_norm, 0)</code> antes de plotear.</td>
+</tr>
+<tr>
+<td>Normalicé por columna y los números no cierran con el recall</td>
+<td>Normalización por columna te da <strong>precision</strong> condicional, no recall. <strong>Fix</strong>: para recall por clase normalizá por fila (<code>axis=1</code>).</td>
+</tr>
+<tr>
+<td>Hago error analysis sobre el train set</td>
+<td>Te miente: el modelo memorizó. <strong>Fix</strong>: siempre sobre validation/test set, idealmente con <code>cross_val_predict</code> para usar todo el train sin leakage.</td>
+</tr>
+<tr>
+<td>"Tuneo hiperparámetros 3 días y no mejora"</td>
+<td>Probablemente el techo es la calidad del label, no el modelo. <strong>Fix</strong>: inspeccioná 100 errores a mano antes de tocar hiperparámetros otra vez.</td>
+</tr>
+<tr>
+<td>Reporto solo accuracy global</td>
+<td>Esconde clases minoritarias y subgrupos. <strong>Fix</strong>: reportá siempre recall/precision por clase + al menos un slice relevante al dominio.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿Cuándo mejoro el modelo y cuándo mejoro los datos?</strong></p>
+<p>Heurística operativa: si los ejemplos mal clasificados <strong>te confunden a vos también</strong> (ambiguos, mal labelados, fuera de dominio) → <strong>datos</strong> (relabel, limpiar, augmentar, recolectar más de esa clase). Si los errores son <strong>obvios para un humano</strong> pero el modelo los falla sistemáticamente → <strong>modelo</strong> (más capacidad, mejores features, menos regularización). En la práctica, el 70% de las veces son datos; por eso Ng popularizó el data-centric.</p>
+<p><strong>❓ ¿Por fila o por columna se normaliza?</strong></p>
+<p><strong>Por fila</strong> (<code>axis=1</code>) para análisis de errores estándar: te da <code>P(pred | real)</code> = distribución de errores condicional a la verdad. <strong>Por columna</strong> sirve para diagnosticar precision (cuando el modelo dice <code>j</code>, ¿qué tan seguido es realmente <code>j</code>?). Géron usa por fila en cap. 3.</p>
+<p><strong>❓ ¿Cuántos ejemplos mal clasificados hay que mirar?</strong></p>
+<p><strong>50 a 100</strong> suele alcanzar para ver patrones. Más allá tenés rendimientos decrecientes. Lo importante es que estén estratificados por el par de confusión que te interesa, no muestreados al azar.</p>
+<p><strong>❓ ¿<code>cross_val_predict</code> o un split fijo?</strong></p>
+<p><code>cross_val_predict</code> te da predicciones out-of-fold para todo el train set sin leakage, ideal para análisis de errores con N moderado. Para producción usá un test set holdout fijo.</p>
+<p><strong>❓ ¿Esto reemplaza el ROC/PR curve?</strong></p>
+<p>No. Las curvas ROC/PR son para <strong>threshold tuning</strong> y comparación de modelos a nivel agregado. El error analysis es para <strong>debugging cualitativo y priorización</strong>. Son complementarias.</p>
+<h2 id="referencias">🔗 Referencias</h2>
 <ul>
-<li>(resultado 1)</li>
-<li>(resultado 2)</li>
-<li>(resultado 3)</li>
+<li>Géron, <em>Hands-On ML</em>, <strong>cap. 3</strong> § "Error Analysis".</li>
+<li>Andrew Ng — <a href="https://www.youtube.com/watch?v=06-AZXmwHjo">A Chat with Andrew on MLOps: From Model-centric to Data-centric AI</a>.</li>
+<li><a href="https://scikit-learn.org/stable/modules/model_evaluation.html#confusion-matrix">scikit-learn — <code>confusion_matrix</code> y <code>ConfusionMatrixDisplay</code></a>.</li>
+<li><a href="https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.cross_val_predict.html">scikit-learn — <code>cross_val_predict</code></a>.</li>
 </ul>
-<h2 id="temas-clave">Temas clave</h2>
-<ul>
-<li>(subtema 1)</li>
-<li>(subtema 2)</li>
-<li>(subtema 3)</li>
-</ul>
-<h2 id="materiales">Materiales</h2>
-<ul>
-<li><code>README.md</code> — esta ficha</li>
-<li><code>notebook.ipynb</code> — cuaderno de la clase</li>
-</ul>
-<h2 id="prerrequisitos">Prerrequisitos</h2>
-<p>Ver índice general en <code>classes/README.md</code> para dependencias entre clases.</p>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../061-regresion-lineal-ecuacion-normal-vs-gradient-descent/index.html">Clase 061 — Regresión lineal: ecuación normal vs gradient descent</a></p>
   </main>
   <footer class="cur-footer">
     <p>

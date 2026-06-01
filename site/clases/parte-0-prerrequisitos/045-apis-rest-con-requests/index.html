@@ -24,7 +24,7 @@
   </header>
   <main class="cur-main">
     <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-0-prerrequisitos/045-apis-rest-con-requests/notebook.ipynb">📓 Abrir notebook en GitHub</a>
-<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#complemento-httpx-y-async-para-apis-modernas">📌 Complemento: httpx y async para APIs modernas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
 <h1 id="clase-045-apis-rest-con-requests">Clase 045 — APIs REST con requests</h1>
 <blockquote>
 <p>Parte: <strong>0 — Prerrequisitos</strong> · Fuente: <em>HTTP: The Definitive Guide</em> caps. 1-2 · requests docs.
@@ -90,6 +90,70 @@
 </tr>
 </tbody>
 </table>
+<h2 id="complemento-httpx-y-async-para-apis-modernas">📌 Complemento: httpx y async para APIs modernas</h2>
+<p><code>httpx</code> es el sucesor moderno de <code>requests</code>: misma API (<code>httpx.get(url)</code> funciona igual), pero soporta <strong>async/await</strong> y <strong>HTTP/2</strong> nativo. Para data science importa porque descargar 100 endpoints de una API REST en forma secuencial puede tomar minutos; con async, paralelizás y bajás a segundos. Es la diferencia entre un pipeline que corre overnight y uno que corre en el lunch break.</p>
+<p><strong>Sync (drop-in con requests):</strong></p>
+<pre><code class="language-python">import httpx
+
+r = httpx.get('https://api.github.com', timeout=10)
+r.raise_for_status()
+data = r.json()
+</code></pre>
+<p><strong>Async (100 requests en paralelo):</strong></p>
+<pre><code class="language-python">import asyncio, httpx
+
+urls = [f'https://api.github.com/users/user{i}' for i in range(100)]
+
+async def fetch_all(urls):
+    async with httpx.AsyncClient(timeout=10) as client:
+        tasks = [client.get(url) for url in urls]
+        responses = await asyncio.gather(*tasks, return_exceptions=True)
+    return responses
+
+# 100 endpoints de ~1s c/u: ~100s secuencial → ~1-2s en paralelo
+results = asyncio.run(fetch_all(urls))
+</code></pre>
+<p><strong>Comparativa de librerías:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Librería</th>
+<th>Sync</th>
+<th>Async</th>
+<th>HTTP/2</th>
+<th>API tipo requests</th>
+<th>Cuándo usar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>requests</code></td>
+<td>✅</td>
+<td>❌</td>
+<td>❌</td>
+<td>— (es la referencia)</td>
+<td>Scripts simples, &lt;20 requests.</td>
+</tr>
+<tr>
+<td><code>httpx</code></td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅ casi idéntica</td>
+<td>Default moderno; async sin cambiar de mental model.</td>
+</tr>
+<tr>
+<td><code>aiohttp</code></td>
+<td>❌</td>
+<td>✅</td>
+<td>❌</td>
+<td>❌ API distinta</td>
+<td>Servidores async (FastAPI internals) o ecosistemas asyncio puros.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Rate limiting responsable.</strong> Lanzar 1000 requests en paralelo es DDoS. Usá <code>asyncio.Semaphore(N)</code> para limitar concurrencia: <code>sem = asyncio.Semaphore(10); async with sem: await client.get(url)</code>. Respetá el <code>Retry-After</code> header si la API te devuelve 429 y leé los ToS del proveedor antes de saturar.</p>
+<p><strong>Retries con backoff.</strong> Para reintentos exponenciales en async, <code>tenacity</code> es el estándar: <code>@retry(stop=stop_after_attempt(3), wait=wait_exponential(multiplier=1, min=2, max=10))</code>. Funciona con funciones sync y async, integrable directo con <code>httpx.AsyncClient</code>.</p>
 <h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
 <dl>
 <dt><strong>REST (REpresentational State Transfer)</strong></dt>
@@ -147,6 +211,10 @@
 <td>HTTPError no se lanza con status 4xx</td>
 <td><code>requests</code> NO lanza por default. <strong>Fix</strong>: <code>r.raise_for_status()</code> después de <code>requests.get(...)</code> para lanzar en 4xx/5xx.</td>
 </tr>
+<tr>
+<td><code>RuntimeError: asyncio.run() cannot be called from a running event loop</code> en Jupyter</td>
+<td>El notebook ya tiene un event loop corriendo, <code>asyncio.run()</code> intenta crear otro. <strong>Fix</strong>: dentro de Jupyter usá <code>await fetch_all(urls)</code> directamente en la celda (autoawait); fuera de Jupyter sí va <code>asyncio.run(...)</code>.</td>
+</tr>
 </tbody>
 </table>
 <h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
@@ -160,12 +228,16 @@
 <p>Loop hasta que la API diga "no más": <code>while True: r = requests.get(url, params=...); items.extend(r.json()['data']); if not r.json().get('next'): break</code>.</p>
 <p><strong>❓ ¿Auth OAuth desde Python?</strong></p>
 <p>Para casos simples (Bearer fijo): pasa el header. Para OAuth flow completo: <code>authlib</code>, <code>requests-oauthlib</code>. Para producción: librería oficial del proveedor (<code>google-auth</code>, <code>pyOpenSSL</code>, etc.).</p>
+<p><strong>❓ ¿Cuándo paso de requests a httpx async?</strong></p>
+<p>Regla práctica: cuando tenés <strong>&gt;20 requests simultáneos</strong> al mismo proveedor y el cuello de botella es <strong>latencia de red</strong> (no CPU). Si tu script está 90% del tiempo esperando respuestas HTTP, async te da un speedup de 10-100×. Si en cambio estás parseando JSONs gigantes o haciendo cálculo pesado, async no ayuda — ahí lo tuyo es <code>multiprocessing</code>. Pocas requests (&lt;10): seguí con <code>requests</code>, no vale la complejidad.</p>
 <h2 id="referencias">🔗 Referencias</h2>
 <ul>
 <li><a href="https://requests.readthedocs.io/">requests docs</a></li>
 <li><a href="https://urllib3.readthedocs.io/en/stable/reference/urllib3.util.html#urllib3.util.Retry">urllib3 Retry</a></li>
 <li><a href="https://docs.github.com/en/rest">GitHub REST API</a></li>
 <li><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status">HTTP status codes (MDN)</a></li>
+<li><a href="https://www.python-httpx.org/">httpx docs</a></li>
+<li><a href="https://ipython.readthedocs.io/en/stable/interactive/autoawait.html">asyncio + Jupyter (autoawait)</a></li>
 </ul>
 <h2 id="siguiente-clase">➡️ Siguiente clase</h2>
 <p><a href="../046-web-scraping-con-beautifulsoup/index.html">Clase 046 — Web scraping con BeautifulSoup</a></p>

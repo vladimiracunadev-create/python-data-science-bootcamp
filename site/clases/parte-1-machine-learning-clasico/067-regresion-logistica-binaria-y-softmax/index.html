@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Clase 067 — Regresión logística (binaria y softmax) | Python Data Science Program</title>
+  <title>Clase 067 — Regresión logística binaria y softmax | Python Data Science Program</title>
   <meta name="description" content="Clase 067 del Python Data Science Program">
   <meta name="theme-color" content="#0f3d3e">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -24,34 +24,170 @@
   </header>
   <main class="cur-main">
     <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-1-machine-learning-clasico/067-regresion-logistica-binaria-y-softmax/notebook.ipynb">📓 Abrir notebook en GitHub</a>
-<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">Objetivo</a> · <a href="#resultados-esperados">Resultados esperados</a> · <a href="#temas-clave">Temas clave</a> · <a href="#materiales">Materiales</a> · <a href="#prerrequisitos">Prerrequisitos</a></nav>
-<h1 id="clase-067-regresion-logistica-binaria-y-softmax">Clase 067 — Regresión logística (binaria y softmax)</h1>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#complemento-calibracion-de-probabilidades-platt-isotonic-temperature-scaling">📌 Complemento: Calibración de probabilidades (Platt, isotonic, temperature scaling)</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-067-regresion-logistica-binaria-y-softmax">Clase 067 — Regresión logística binaria y softmax</h1>
 <blockquote>
-<p>Parte: <strong>1-machine-learning-clasico</strong>
-Estado: <strong>stub</strong> (pendiente desarrollar contenido).</p>
+<p>Parte: <strong>1 — Machine Learning Clásico</strong> · Fuente: Géron, <strong>cap. 4</strong>. ⏱️ Duración estimada: <strong>70 min</strong>.</p>
 </blockquote>
-<h2 id="objetivo">Objetivo</h2>
-<p>Describir el resultado de aprendizaje concreto de esta clase.</p>
-<h2 id="resultados-esperados">Resultados esperados</h2>
-<p>Al finalizar, el estudiante podrá:</p>
+<hr>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Que el alumno entienda la regresión logística como modelo lineal para clasificación: cómo la sigmoide convierte un score lineal en probabilidad, por qué se entrena minimizando <strong>log-loss</strong> (cross-entropy), y cómo se generaliza a multiclase con <strong>softmax</strong>. Además, que sepa diagnosticar si las probabilidades que devuelve un clasificador están <strong>bien calibradas</strong> y cómo corregirlas si no.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar la clase, el alumno podrá:</p>
+<ol>
+<li><strong>Derivar la sigmoide</strong> σ(z) = 1/(1+e^-z) como puente entre score lineal y probabilidad, y explicar por qué no se usa MSE en clasificación.</li>
+<li><strong>Entrenar <code>LogisticRegression</code></strong> binaria de sklearn, interpretar coeficientes como log-odds y la frontera de decisión.</li>
+<li><strong>Extender a multiclase</strong> con <code>multi_class='multinomial'</code> (softmax) y diferenciar de <code>'ovr'</code> (one-vs-rest).</li>
+<li><strong>Evaluar con log-loss y Brier score</strong>, no solo accuracy.</li>
+<li><strong>Diagnosticar y corregir calibración</strong> con <code>calibration_curve</code> y <code>CalibratedClassifierCV</code> (Platt / isotonic).</li>
+</ol>
+<h2 id="temas">🗺️ Temas</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Tema</th>
+<th>Por qué importa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Sigmoide y log-odds</td>
+<td>Conecta regresión lineal con probabilidad acotada en [0,1].</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Log-loss (cross-entropy binaria)</td>
+<td>Función de costo convexa, derivable, penaliza confianza errada.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Regularización (<code>C</code>, <code>penalty</code>)</td>
+<td>sklearn regulariza por default — <code>C=1/λ</code>.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Softmax para multiclase</td>
+<td>Generaliza sigmoide a K clases con probabilidades que suman 1.</td>
+</tr>
+<tr>
+<td>5</td>
+<td><code>multinomial</code> vs <code>ovr</code></td>
+<td>El primero es softmax real; el segundo entrena K binarios independientes.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Predict_proba y calibración</td>
+<td>El score no siempre es probabilidad confiable.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="complemento-calibracion-de-probabilidades-platt-isotonic-temperature-scaling">📌 Complemento: Calibración de probabilidades (Platt, isotonic, temperature scaling)</h2>
+<p>Muchos clasificadores devuelven un <code>.predict_proba()</code> que <strong>no es una probabilidad bien calibrada</strong>: <code>RandomForest</code> tiende a empujar scores al medio, las SVM (vía Platt interno) suelen quedar sub-confiadas, y los boosting trees como <code>XGBoost</code> salen sobre-confiados. Que el modelo diga "0.9" no implica que 9 de cada 10 instancias con ese score sean realmente positivas. Si solo te importa <code>argmax</code> (la clase predicha) da igual; si <strong>vas a tomar decisiones con la probabilidad</strong> (threshold, expected loss, ranking, pricing), importa muchísimo.</p>
+<p><strong>Diagnóstico — reliability diagram</strong>: con <code>sklearn.calibration.calibration_curve(y_true, y_proba, n_bins=10)</code> particionás las predicciones en bins por score y graficás la fracción real de positivos contra el score promedio del bin. Un modelo calibrado cae sobre la diagonal y=x. El <strong>Brier score</strong> (MSE entre probabilidad y label 0/1) resume la calibración en un número — más bajo, mejor.</p>
+<p><strong>Platt scaling</strong>: ajusta una <strong>regresión logística 1D sobre los scores</strong> del modelo base usando un conjunto de calibración. Tiene 2 parámetros (a, b) → poco data-hungry, ~1000 ejemplos alcanzan. Asume que la mis-calibración tiene forma sigmoidea (típico en SVM). En sklearn: <code>CalibratedClassifierCV(method='sigmoid')</code>.</p>
+<p><strong>Isotonic regression</strong>: ajusta una <strong>función monótona no-decreciente</strong> por partes — no paramétrica, mucho más flexible que Platt, pero requiere más datos (~10k+) o sobreajusta. Es la opción default cuando hay datos abundantes. En sklearn: <code>CalibratedClassifierCV(method='isotonic')</code>.</p>
+<p><strong>Temperature scaling</strong> (más usado en deep learning): se aprende un único escalar <strong>T</strong> sobre el set de validación y se reemplazan los logits <code>z</code> por <code>z/T</code> antes del softmax. T &gt; 1 suaviza (modelo era sobre-confiado), T &lt; 1 afina. No está en sklearn pero son ~10 líneas con scipy.optimize. Ventaja: <strong>no cambia el argmax</strong>, solo recalibra magnitudes — útil cuando ya tenés un modelo en producción y solo querés arreglar las probabilidades sin retocar el clasificador.</p>
+<pre><code class="language-python">from sklearn.calibration import CalibratedClassifierCV, calibration_curve
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import brier_score_loss
+
+base = RandomForestClassifier(n_estimators=200, random_state=42)
+calibrado = CalibratedClassifierCV(estimator=base, cv=5, method='isotonic')
+calibrado.fit(X_train, y_train)
+
+proba = calibrado.predict_proba(X_test)[:, 1]
+print(&quot;Brier:&quot;, brier_score_loss(y_test, proba))
+frac_pos, mean_pred = calibration_curve(y_test, proba, n_bins=10)
+</code></pre>
+<p><strong>Cuándo importa</strong>: decisiones con <strong>costos asimétricos</strong> (un FN cuesta 10× un FP → el threshold óptimo depende de p, no de argmax); cómputos de <strong>expected loss</strong> o pricing actuarial; <strong>threshold tuning</strong> explícito; <strong>fairness</strong> (paridad demográfica que compara P(ŷ=1|grupo) entre grupos requiere que esas probabilidades sean comparables); ensembles que promedian probabilidades de modelos heterogéneos.</p>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<dl>
+<dt><strong>Sigmoide σ(z)</strong></dt>
+<dd>Función <code>1/(1+exp(-z))</code> que mapea ℝ → (0,1). Su inverso es el <strong>logit</strong> <code>log(p/(1-p))</code>. La regresión logística modela <code>logit(p) = w·x + b</code> (linealidad en los log-odds).</dd>
+<dt><strong>Log-loss (cross-entropy binaria)</strong></dt>
+<dd><code>-[y·log(p) + (1-y)·log(1-p)]</code>. Función de costo convexa de la logística. Penaliza fuerte la confianza alta cuando te equivocás (predecir 0.99 y que sea 0 cuesta ~4.6).</dd>
+<dt><strong>Softmax</strong></dt>
+<dd>Generalización de la sigmoide a K clases: <code>softmax(z_k) = exp(z_k) / Σ exp(z_j)</code>. Probabilidades positivas que suman 1. Es la activación final de logística multinomial y de la última capa en clasificadores neuronales.</dd>
+<dt><strong>Cross-entropy categórica</strong></dt>
+<dd>Generalización del log-loss a K clases: <code>-Σ_k y_k · log(p_k)</code> con <code>y</code> one-hot. Pareja natural de softmax.</dd>
+<dt><strong>Calibración</strong></dt>
+<dd>Propiedad de que <code>P(y=1 | ŷ=p) ≈ p</code> para todo <code>p</code>. Un modelo calibrado al 0.7 acierta como positivo el 70% de las veces que dice "0.7".</dd>
+<dt><strong>Reliability diagram</strong></dt>
+<dd>Gráfico de fracción observada de positivos vs score promedio en bins. Diagonal = perfecto. Curva en S = típica de árboles; curva inversa = sobre-confianza.</dd>
+<dt><strong>Brier score</strong></dt>
+<dd><code>mean((p - y)^2)</code>. MSE entre probabilidades y labels 0/1. Resume calibración + discriminación en un escalar. Menor = mejor.</dd>
+<dt><strong><code>CalibratedClassifierCV</code></strong></dt>
+<dd>Wrapper de sklearn que envuelve un clasificador base y calibra sus probabilidades vía cross-validation interno. Métodos: <code>'sigmoid'</code> (Platt) o <code>'isotonic'</code>.</dd>
+</dl>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
 <ul>
-<li>(resultado 1)</li>
-<li>(resultado 2)</li>
-<li>(resultado 3)</li>
+<li><strong>Iris</strong> (3 clases) para softmax — <code>sklearn.datasets.load_iris()</code>.</li>
+<li><strong>Breast cancer Wisconsin</strong> (binario) para logística y calibración — <code>load_breast_cancer()</code>.</li>
+<li>Sintético desbalanceado con <code>make_classification(weights=[0.9, 0.1])</code> para visualizar mis-calibración de un <code>RandomForest</code>.</li>
 </ul>
-<h2 id="temas-clave">Temas clave</h2>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<p><strong>1.</strong> <strong>Logística binaria desde cero.</strong> Entrená <code>LogisticRegression()</code> sobre breast cancer. Reportá accuracy, log-loss y matriz de confusión. Imprimí los 5 coeficientes con mayor <code>|w|</code> e interpretá uno como odds-ratio (<code>exp(w)</code>).</p>
+<p><strong>2.</strong> <strong>Frontera de decisión.</strong> Con 2 features de iris (solo 2 clases primero), graficá la frontera lineal de la logística y los puntos. Cambiá <code>C</code> entre 0.01 y 100 y observá cómo la frontera se vuelve más/menos rígida.</p>
+<p><strong>3.</strong> <strong>Softmax sobre iris.</strong> <code>LogisticRegression(multi_class='multinomial', solver='lbfgs')</code>. Comparalo con <code>multi_class='ovr'</code> en <code>log_loss</code> y accuracy. Imprimí <code>predict_proba</code> de 3 muestras y verificá que sumen 1.</p>
+<p><strong>4.</strong> <strong>Reliability diagram de un RandomForest.</strong> Entrená <code>RandomForestClassifier(n_estimators=100)</code> sobre el dataset sintético desbalanceado. Computá <code>calibration_curve</code> con <code>n_bins=10</code> y graficá vs diagonal. Reportá Brier score.</p>
+<p><strong>5.</strong> <strong>Calibrar con <code>CalibratedClassifierCV</code>.</strong> Sobre el mismo RF: aplicá <code>method='sigmoid'</code> y <code>method='isotonic'</code> (cv=5). Re-graficá los tres reliability diagrams (RF crudo, +Platt, +isotonic) y compará Brier scores. Reportá cuál calibra mejor y por qué te parece.</p>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Notebook que sobre <code>make_classification(n_samples=20000, weights=[0.9, 0.1], random_state=42)</code>: (a) entrena <code>LogisticRegression</code> y <code>RandomForestClassifier</code>; (b) reporta accuracy, log-loss y Brier score de ambos en test; (c) grafica reliability diagram de ambos en la misma figura; (d) calibra el RF con <code>CalibratedClassifierCV(method='isotonic', cv=5)</code> y reporta el nuevo Brier; (e) escribe 2-3 líneas interpretando: ¿quedó el RF mejor calibrado que la logística cruda?</p>
+<p><strong>Criterio de aceptación:</strong> Brier score del RF calibrado debe ser <strong>menor</strong> que el del RF crudo. El reliability diagram del calibrado debe estar visiblemente más cerca de la diagonal.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Usar <code>predict_proba</code> directamente para tomar decisiones con costos asimétricos sin verificar calibración</td>
+<td>Asumir que el score es probabilidad. <strong>Fix</strong>: graficá <code>calibration_curve</code> primero. Si no cae sobre la diagonal, envolvelo en <code>CalibratedClassifierCV</code>.</td>
+</tr>
+<tr>
+<td><code>ConvergenceWarning: lbfgs failed to converge</code> en logística</td>
+<td>Features sin escalar o <code>max_iter</code> bajo. <strong>Fix</strong>: <code>StandardScaler</code> en pipeline + <code>max_iter=1000</code>.</td>
+</tr>
+<tr>
+<td>Coeficientes enormes con <code>C</code> muy alto en datos casi-separables</td>
+<td>Sin regularización, la logística diverge cuando las clases son linealmente separables. <strong>Fix</strong>: dejá <code>C</code> razonable (1.0 default) o aumentá regularización.</td>
+</tr>
+<tr>
+<td><code>multi_class='ovr'</code> y log-loss raro en multiclase</td>
+<td>OvR entrena K binarios independientes — las probabilidades no suman 1 de manera natural y se renormalizan. <strong>Fix</strong>: usá <code>multi_class='multinomial'</code> (softmax real) salvo razón específica.</td>
+</tr>
+<tr>
+<td>Calibrar sobre el mismo set de entrenamiento del clasificador base</td>
+<td>Leakage — los scores ya están sobreajustados. <strong>Fix</strong>: <code>CalibratedClassifierCV</code> con <code>cv=5</code> lo maneja interno; si calibrás a mano, usá un <strong>set separado</strong> (train / calib / test).</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿Por qué log-loss y no MSE para clasificación?</strong></p>
+<p>Con MSE sobre una sigmoide la superficie de costo es <strong>no convexa</strong> (varios mínimos locales) y los gradientes se saturan en los extremos. Log-loss + sigmoide da costo convexo y gradientes limpios (<code>p - y</code>).</p>
+<p><strong>❓ ¿Platt o isotonic?</strong></p>
+<p><strong>Platt</strong> si tenés ~1000 ejemplos de calibración y la curva de mis-calibración parece sigmoidea (típico SVM, NN pequeñas). <strong>Isotonic</strong> si tenés ~10k+ y/o la mis-calibración no es monótona-sigmoidea (RF, boosting). Regla práctica: probá ambos en validación y quedate con el de menor Brier.</p>
+<p><strong>❓ ¿<code>predict_proba</code> de <code>LogisticRegression</code> está calibrado?</strong></p>
+<p><strong>Generalmente sí</strong>, porque la logística optimiza log-loss directamente — sus probabilidades suelen ser razonables. Igual chequealo con <code>calibration_curve</code> antes de usarlas para decisiones críticas; regularización fuerte (<code>C</code> chico) puede sub-confiar el output.</p>
+<p><strong>❓ ¿Softmax y sigmoide son lo mismo en binario?</strong></p>
+<p>Equivalentes: softmax con K=2 colapsa a sigmoide. sklearn con <code>multi_class='multinomial'</code> y 2 clases hace lo mismo que el modo binario por default.</p>
+<p><strong>❓ ¿Calibrar afecta el accuracy o solo las probabilidades?</strong></p>
+<p>Platt e isotonic son <strong>monótonas no-decrecientes</strong> → no cambian el ranking ni el argmax → accuracy y AUC quedan iguales. Lo que cambia es el log-loss, el Brier score, y el threshold óptimo cuando elegís uno distinto de 0.5.</p>
+<h2 id="referencias">🔗 Referencias</h2>
 <ul>
-<li>(subtema 1)</li>
-<li>(subtema 2)</li>
-<li>(subtema 3)</li>
+<li>Géron, <strong>cap. 4</strong> § <em>Logistic Regression</em> y § <em>Softmax Regression</em>.</li>
+<li><a href="https://scikit-learn.org/stable/modules/calibration.html">sklearn — Probability calibration</a></li>
+<li><a href="https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html">sklearn — <code>LogisticRegression</code></a></li>
+<li>Niculescu-Mizil &amp; Caruana (2005), <em>Predicting Good Probabilities With Supervised Learning</em>, ICML — paper canónico sobre Platt vs isotonic en RF, SVM, boosting, NB.</li>
+<li>Guo et al. (2017), <em>On Calibration of Modern Neural Networks</em> — temperature scaling.</li>
 </ul>
-<h2 id="materiales">Materiales</h2>
-<ul>
-<li><code>README.md</code> — esta ficha</li>
-<li><code>notebook.ipynb</code> — cuaderno de la clase</li>
-</ul>
-<h2 id="prerrequisitos">Prerrequisitos</h2>
-<p>Ver índice general en <code>classes/README.md</code> para dependencias entre clases.</p>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../068-svm-lineal/index.html">Clase 068 — SVM lineal</a></p>
   </main>
   <footer class="cur-footer">
     <p>

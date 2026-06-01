@@ -24,34 +24,150 @@
   </header>
   <main class="cur-main">
     <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-1-machine-learning-clasico/071-arboles-de-decision-entrenamiento-visualizacion-cart/notebook.ipynb">📓 Abrir notebook en GitHub</a>
-<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">Objetivo</a> · <a href="#resultados-esperados">Resultados esperados</a> · <a href="#temas-clave">Temas clave</a> · <a href="#materiales">Materiales</a> · <a href="#prerrequisitos">Prerrequisitos</a></nav>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
 <h1 id="clase-071-arboles-de-decision-entrenamiento-visualizacion-cart">Clase 071 — Árboles de decisión: entrenamiento, visualización, CART</h1>
 <blockquote>
-<p>Parte: <strong>1-machine-learning-clasico</strong>
-Estado: <strong>stub</strong> (pendiente desarrollar contenido).</p>
+<p>Parte: <strong>1 — Machine Learning Clásico</strong> · Fuente: Géron, <strong>cap. 6</strong> § <em>Training and Visualizing a Decision Tree</em>.
+⏱️ Duración estimada: <strong>60 min</strong>.</p>
 </blockquote>
-<h2 id="objetivo">Objetivo</h2>
-<p>Describir el resultado de aprendizaje concreto de esta clase.</p>
-<h2 id="resultados-esperados">Resultados esperados</h2>
-<p>Al finalizar, el estudiante podrá:</p>
+<hr>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Que el alumno entrene un <code>DecisionTreeClassifier</code> con el algoritmo CART, entienda cómo se elige cada split (criterio Gini/Entropy), y sepa <strong>leer el árbol</strong> — tanto el dibujo (<code>plot_tree</code>) como el código (<code>export_graphviz</code>) — para auditar las decisiones del modelo.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar la clase, el alumno podrá:</p>
+<ol>
+<li><strong>Entrenar</strong> un <code>DecisionTreeClassifier</code> de scikit-learn sobre un dataset tabular (Iris) y predecir clases / probabilidades.</li>
+<li><strong>Explicar el algoritmo CART</strong>: greedy, binario, busca el par <code>(feature, threshold)</code> que minimiza la impureza ponderada de los dos hijos.</li>
+<li><strong>Calcular Gini y entropía</strong> a mano sobre un nodo con <code>k</code> clases y elegir el split óptimo entre candidatos.</li>
+<li><strong>Visualizar</strong> el árbol entrenado con <code>plot_tree</code> (matplotlib) y <code>export_graphviz</code> (DOT → PNG/SVG), interpretando <code>samples</code>, <code>value</code>, <code>class</code>, <code>gini</code>.</li>
+<li><strong>Identificar la decision boundary axis-aligned</strong>: cada split es ortogonal a un eje, lo que limita al árbol frente a fronteras oblicuas.</li>
+</ol>
+<h2 id="temas">🗺️ Temas</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Tema</th>
+<th>Por qué importa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><code>DecisionTreeClassifier</code> API</td>
+<td>El estimador base del capítulo y de Random Forest / Gradient Boosting.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Algoritmo CART</td>
+<td>Saber qué hace el <code>.fit()</code> por debajo evita tunear a ciegas.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Criterio Gini vs Entropy</td>
+<td>Casi siempre dan el mismo árbol; saber cuándo importa.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Visualización: <code>plot_tree</code> y Graphviz</td>
+<td>Auditar el modelo y comunicarlo a no-técnicos.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Interpretación de nodos</td>
+<td>Leer <code>value=[n0, n1, n2]</code>, <code>samples</code>, <code>class</code> predicha.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Decision boundary axis-aligned</td>
+<td>Limitación geométrica que explica por qué los bosques mejoran tanto.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<dl>
+<dt><strong>CART (Classification And Regression Trees)</strong></dt>
+<dd>Algoritmo que entrena árboles <strong>binarios</strong> (cada split tiene exactamente 2 hijos). Greedy: en cada nodo elige el par <code>(feature k, threshold t_k)</code> que minimiza el costo <code>J = (m_left/m) · G_left + (m_right/m) · G_right</code>. No vuelve atrás (no es óptimo global).</dd>
+<dt><strong>Impureza Gini</strong></dt>
+<dd><code>G_i = 1 - Σ p_{i,k}²</code> sobre las <code>k</code> clases del nodo <code>i</code>. Vale 0 si el nodo es puro (una sola clase) y máximo cuando las clases están balanceadas. Es el default en sklearn.</dd>
+<dt><strong>Entropía (information gain)</strong></dt>
+<dd><code>H_i = - Σ p_{i,k} · log₂(p_{i,k})</code>. Mide desorden en bits. Se activa con <code>criterion='entropy'</code>. En la práctica produce árboles <strong>muy similares</strong> a Gini; Gini es marginalmente más rápido.</dd>
+<dt><strong>Nodo</strong></dt>
+<dd>Punto del árbol donde se evalúa una condición <code>feature ≤ threshold</code>. Si se cumple, va al hijo izquierdo; si no, al derecho.</dd>
+<dt><strong>Hoja (leaf)</strong></dt>
+<dd>Nodo terminal, sin hijos. Predice la <strong>clase mayoritaria</strong> de las muestras de entrenamiento que cayeron en él. La probabilidad estimada es la proporción de cada clase en la hoja.</dd>
+<dt><strong>Profundidad (<code>max_depth</code>)</strong></dt>
+<dd>Distancia desde la raíz hasta la hoja más lejana. Controla complejidad: sin tope, CART crece hasta que cada hoja es pura → overfitting casi garantizado. Se ataca en la <strong>Clase 072</strong>.</dd>
+<dt><strong><code>criterion</code></strong></dt>
+<dd>Hiperparámetro de sklearn: <code>'gini'</code> (default) o <code>'entropy'</code>. Define la función de impureza que minimiza CART al elegir splits.</dd>
+<dt><strong>Decision boundary axis-aligned</strong></dt>
+<dd>Cada split parte el espacio con un hiperplano <strong>ortogonal a un eje</strong> (<code>x_k = t_k</code>). La frontera resultante es una unión de rectángulos. Por eso un árbol no puede aprender una diagonal de forma compacta — necesita escaleras.</dd>
+</dl>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
 <ul>
-<li>(resultado 1)</li>
-<li>(resultado 2)</li>
-<li>(resultado 3)</li>
+<li><strong>Iris</strong> (<code>sklearn.datasets.load_iris</code>): 150 muestras, 4 features, 3 clases. Géron lo usa porque permite dibujar el árbol completo en una página y la frontera en 2D (pétalo largo × ancho).</li>
+<li>Opcional: <code>moons</code> (<code>make_moons</code>) para ver la limitación axis-aligned.</li>
 </ul>
-<h2 id="temas-clave">Temas clave</h2>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<p><strong>1.</strong> <strong>Fit + score baseline.</strong> Entrená <code>DecisionTreeClassifier(max_depth=2, random_state=42)</code> sobre Iris (todas las features). Reportá <code>accuracy</code> en train. Probabilidades de la primera flor con <code>.predict_proba</code>.</p>
+<p><strong>2.</strong> <strong>Gini a mano.</strong> Para el nodo raíz de Iris (50/50/50), calculá Gini. Verificá contra <code>tree_.impurity[0]</code> del estimador entrenado.</p>
+<p><strong>3.</strong> <strong>Gini vs Entropy.</strong> Entrená dos árboles <code>max_depth=3</code>, uno con cada criterio. Compará accuracy y el set de features usadas en los splits (<code>tree_.feature</code>). ¿Cambia algo material?</p>
+<p><strong>4.</strong> <strong><code>plot_tree</code>.</strong> Renderizá el árbol del ejercicio 1 con <code>sklearn.tree.plot_tree(clf, feature_names=..., class_names=..., filled=True)</code>. Identificá: feature del root split, threshold, y la clase predicha por cada hoja.</p>
+<p><strong>5.</strong> <strong>Boundary axis-aligned.</strong> Entrená un árbol <code>max_depth=4</code> sobre <code>make_moons(n_samples=300, noise=0.2)</code>. Graficá la decision boundary con un meshgrid. Observá los rectángulos.</p>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Notebook que: (a) carga Iris (solo pétalo largo y ancho), (b) entrena <code>DecisionTreeClassifier(max_depth=2)</code>, (c) reporta accuracy y <code>predict_proba</code> para una flor nueva <code>[5, 1.5]</code>, (d) exporta el árbol con <code>export_graphviz</code> a un archivo <code>iris_tree.dot</code> y lo convierte a PNG (o usa <code>plot_tree</code>), (e) responde por escrito: "¿por qué la hoja izquierda tiene Gini=0?".</p>
+<p><strong>Criterio de aceptación:</strong> accuracy ≥ 0.95 en train, el árbol exportado tiene exactamente 3 hojas (porque <code>max_depth=2</code> con el split que CART elige sobre pétalos), y la respuesta menciona que esa hoja contiene solo <em>setosa</em> (pétalos chicos → linealmente separable).</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>accuracy = 1.0</code> en train y mucho menos en test</td>
+<td>No pusiste <code>max_depth</code> ni regularización. CART por default crece hasta hojas puras → overfit. <strong>Fix</strong>: empezá con <code>max_depth=3-5</code> (ver Clase 072).</td>
+</tr>
+<tr>
+<td><code>graphviz: command not found</code> al correr <code>export_graphviz</code> + <code>dot -Tpng</code></td>
+<td>El paquete Python <code>graphviz</code> no trae el binario <code>dot</code>. <strong>Fix</strong>: instalar Graphviz del sistema (<code>choco install graphviz</code> / <code>apt install graphviz</code>) y agregarlo al PATH, o usar <code>plot_tree</code> que solo necesita matplotlib.</td>
+</tr>
+<tr>
+<td>Cambio <code>criterion='gini'</code> ↔ <code>'entropy'</code> y el árbol cambia drásticamente</td>
+<td>Casi nunca pasa en datasets reales — si pasa, probablemente cambiaste también <code>random_state</code> o hay empates en la impureza. <strong>Fix</strong>: fijá <code>random_state</code> y compará con el mismo seed.</td>
+</tr>
+<tr>
+<td>Resultados distintos en cada <code>.fit()</code> con el mismo dataset</td>
+<td>CART desempata splits con un componente aleatorio (<code>splitter='best'</code> igual mira features en orden con tiebreak). <strong>Fix</strong>: <code>random_state=42</code> siempre.</td>
+</tr>
+<tr>
+<td><code>plot_tree</code> sale ilegible (texto pisado, miniatura)</td>
+<td>Árbol grande sin <code>figsize</code>. <strong>Fix</strong>: <code>plt.figure(figsize=(20, 10))</code> antes de <code>plot_tree</code>, o limitá <code>max_depth</code> para el plot.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿Hay que escalar las features antes de un árbol?</strong></p>
+<p>No. CART compara <code>feature ≤ threshold</code> por feature individualmente — escalar/centrar no cambia el orden, así que el árbol es <strong>invariante a transformaciones monótonas de cada feature</strong>. Esto lo diferencia de SVM, KNN y regresión regularizada.</p>
+<p><strong>❓ ¿Gini o Entropy, cuál uso?</strong></p>
+<p><strong>Gini</strong> (default). Es marginalmente más rápido (no calcula <code>log</code>) y produce árboles casi idénticos. Géron lo dice explícito: la elección rara vez importa en la práctica.</p>
+<p><strong>❓ ¿Por qué los árboles de sklearn son siempre binarios? ID3 hacía multi-way.</strong></p>
+<p>Porque sklearn implementa <strong>CART</strong>, no ID3/C4.5. CART es binario por diseño: un split por nodo, dos hijos. Es más simple, se generaliza a regresión sin cambios, y los multi-way se simulan encadenando binarios.</p>
+<p><strong>❓ ¿Los árboles manejan features categóricas?</strong></p>
+<p>sklearn <strong>no nativamente</strong> (hasta versión 1.4 hay soporte experimental). Hay que codificar: ordinal si hay orden natural, one-hot si no. Cuidado con one-hot de alta cardinalidad: el árbol nunca puede agrupar dos categorías en el mismo split, lo que sesga la selección hacia features numéricas.</p>
+<p><strong>❓ ¿Qué predice una hoja cuando empatan dos clases?</strong></p>
+<p>Devuelve la <strong>clase con índice menor</strong> entre las empatadas (orden de <code>clf.classes_</code>). En <code>predict_proba</code> te muestra el empate real (<code>[0.5, 0.5, 0]</code>), así que si te importa, usá probabilidades en vez de la clase argmax.</p>
+<h2 id="referencias">🔗 Referencias</h2>
 <ul>
-<li>(subtema 1)</li>
-<li>(subtema 2)</li>
-<li>(subtema 3)</li>
+<li>Géron, <strong>cap. 6</strong> — <em>Decision Trees</em>, secciones <em>Training and Visualizing</em> y <em>Making Predictions</em>.</li>
+<li><a href="https://scikit-learn.org/stable/modules/tree.html">sklearn — Decision Trees user guide</a></li>
+<li><a href="https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html"><code>DecisionTreeClassifier</code> API</a></li>
+<li><a href="https://graphviz.org/">Graphviz</a> — para <code>export_graphviz</code> + <code>dot</code>.</li>
 </ul>
-<h2 id="materiales">Materiales</h2>
-<ul>
-<li><code>README.md</code> — esta ficha</li>
-<li><code>notebook.ipynb</code> — cuaderno de la clase</li>
-</ul>
-<h2 id="prerrequisitos">Prerrequisitos</h2>
-<p>Ver índice general en <code>classes/README.md</code> para dependencias entre clases.</p>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../072-regularizacion-de-arboles/index.html">Clase 072 — Regularización de árboles</a></p>
   </main>
   <footer class="cur-footer">
     <p>

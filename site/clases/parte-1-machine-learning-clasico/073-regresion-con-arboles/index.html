@@ -24,34 +24,88 @@
   </header>
   <main class="cur-main">
     <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-1-machine-learning-clasico/073-regresion-con-arboles/notebook.ipynb">📓 Abrir notebook en GitHub</a>
-<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">Objetivo</a> · <a href="#resultados-esperados">Resultados esperados</a> · <a href="#temas-clave">Temas clave</a> · <a href="#materiales">Materiales</a> · <a href="#prerrequisitos">Prerrequisitos</a></nav>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
 <h1 id="clase-073-regresion-con-arboles">Clase 073 — Regresión con árboles</h1>
 <blockquote>
-<p>Parte: <strong>1-machine-learning-clasico</strong>
-Estado: <strong>stub</strong> (pendiente desarrollar contenido).</p>
+<p>Parte: <strong>1 — Machine Learning Clásico</strong> · Fuente: Géron, <strong>cap. 6</strong>. ⏱️ Duración estimada: <strong>45 min</strong>.</p>
 </blockquote>
-<h2 id="objetivo">Objetivo</h2>
-<p>Describir el resultado de aprendizaje concreto de esta clase.</p>
-<h2 id="resultados-esperados">Resultados esperados</h2>
-<p>Al finalizar, el estudiante podrá:</p>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Entrenar árboles de decisión para problemas de regresión con <code>DecisionTreeRegressor</code>, entender por qué sus predicciones son <strong>escalonadas</strong> (constantes por hoja) y reconocer su incapacidad para <strong>extrapolar</strong> fuera del rango de entrenamiento.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar la clase, el estudiante podrá:</p>
 <ul>
-<li>(resultado 1)</li>
-<li>(resultado 2)</li>
-<li>(resultado 3)</li>
+<li>Ajustar un <code>DecisionTreeRegressor</code> de scikit-learn y predecir sobre datos nuevos.</li>
+<li>Explicar cómo el criterio <strong>MSE</strong> (squared error) decide los splits en regresión.</li>
+<li>Visualizar la predicción escalonada del árbol contra el target real en 1D.</li>
+<li>Identificar el problema de <strong>no-extrapolación</strong> y contrastarlo con regresión lineal.</li>
+<li>Regular <code>max_depth</code> / <code>min_samples_leaf</code> para balancear bias y varianza.</li>
 </ul>
-<h2 id="temas-clave">Temas clave</h2>
+<h2 id="temas">🗺️ Temas</h2>
 <ul>
-<li>(subtema 1)</li>
-<li>(subtema 2)</li>
-<li>(subtema 3)</li>
+<li><code>DecisionTreeRegressor</code>: API e hiperparámetros principales.</li>
+<li>Criterio de split: <code>squared_error</code> (MSE) y <code>friedman_mse</code>.</li>
+<li>Predicción como <strong>media del target</strong> dentro de cada hoja → función escalonada.</li>
+<li>Sobreajuste con árboles profundos y regularización vía <code>max_depth</code>, <code>min_samples_leaf</code>, <code>min_samples_split</code>.</li>
+<li>Limitación clave: el árbol <strong>no extrapola</strong> — predice el último valor visto en los extremos.</li>
+<li>Comparación rápida con regresión lineal en datos con tendencia.</li>
 </ul>
-<h2 id="materiales">Materiales</h2>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
 <ul>
-<li><code>README.md</code> — esta ficha</li>
-<li><code>notebook.ipynb</code> — cuaderno de la clase</li>
+<li><strong><code>DecisionTreeRegressor</code></strong>: variante de árbol que en cada hoja predice un <strong>escalar</strong> (la media del target de las muestras que cayeron ahí), no una clase.</li>
+<li><strong><code>squared_error</code> (MSE)</strong>: criterio por defecto; en cada split elige el corte que minimiza la suma ponderada de varianzas en los hijos. Es el análogo de Gini/entropía pero para regresión.</li>
+<li><strong><code>friedman_mse</code></strong>: variante de MSE que ajusta una mejora propuesta por Friedman; suele dar splits levemente distintos, útil con boosting.</li>
+<li><strong>Predicción escalonada (step prediction)</strong>: como cada hoja devuelve una constante, la función <code>ŷ(x)</code> es <strong>piecewise constant</strong>. En 1D se ve como una escalera, nunca como una curva suave.</li>
+<li><strong>No extrapolación</strong>: fuera del rango <code>[min(x_train), max(x_train)]</code> el árbol devuelve la constante de la hoja del extremo. No hay pendiente, no hay tendencia: lineal con <code>slope = 0</code> afuera.</li>
+<li><strong>Regularización</strong>: <code>max_depth</code> limita profundidad, <code>min_samples_leaf</code> exige un mínimo de muestras por hoja (suaviza); sin estos límites el árbol llega a MSE = 0 en train (una hoja por muestra) y sobreajusta.</li>
+<li><strong>Sensibilidad a rotaciones</strong>: igual que en clasificación, los splits son axis-aligned; si la relación es diagonal, el árbol necesita muchos cortes para aproximarla.</li>
 </ul>
-<h2 id="prerrequisitos">Prerrequisitos</h2>
-<p>Ver índice general en <code>classes/README.md</code> para dependencias entre clases.</p>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<ul>
+<li>Dataset sintético 1D: <code>x = np.linspace(-3, 3, 200)</code>, <code>y = np.sin(x) + ruido_gaussiano(0, 0.1)</code> — sirve para ver la escalera y la no-extrapolación.</li>
+<li>Alternativa real: <code>sklearn.datasets.fetch_california_housing</code> (regresión, 8 features) para evaluar con <code>cross_val_score</code>.</li>
+<li>Géron, <em>Hands-On ML</em>, cap. 6, sección <strong>"Regression"</strong> (incluye figura 6-5 con la predicción escalonada).</li>
+</ul>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>Ajuste básico</strong>: generá los datos <code>sin(x) + ruido</code>, entrená <code>DecisionTreeRegressor(max_depth=2)</code> y <code>max_depth=5</code>, y graficá ambas predicciones sobre los puntos. Observá las escaleras.</li>
+<li><strong>MSE en train vs test</strong>: hacé <code>train_test_split(test_size=0.3)</code>, calculá <code>mean_squared_error</code> en train y test para <code>max_depth ∈ {1, 2, 4, 8, None}</code>. ¿Dónde empieza el sobreajuste?</li>
+<li><strong>No extrapolación</strong>: predecí con el modelo entrenado sobre <code>x_new = np.linspace(-5, 5, 200)</code> (rango más ancho que el train). Graficá: vas a ver mesetas planas en los extremos.</li>
+<li><strong>Árbol vs lineal</strong>: entrená <code>LinearRegression</code> sobre los mismos datos. Comparalo con el árbol fuera del rango de entrenamiento. ¿Cuál extrapola "bien" y por qué?</li>
+<li><strong>California Housing</strong>: corré <code>cross_val_score(DecisionTreeRegressor(max_depth=6), X, y, scoring='neg_mean_squared_error', cv=5)</code> y compará contra <code>max_depth=None</code>.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Entregar un script <code>tarea_073.py</code> que:</p>
+<ol>
+<li>Genere <code>y = 0.5 * x + sin(x) + ruido</code> con <code>x</code> en <code>[0, 10]</code>.</li>
+<li>Entrene <code>DecisionTreeRegressor(max_depth=4, random_state=42)</code> y <code>LinearRegression</code>.</li>
+<li>Prediga sobre <code>x_new</code> en <code>[0, 15]</code> (excede el rango de train).</li>
+<li>Imprima el MSE en test (dentro del rango) y el valor predicho por el árbol en <code>x=15</code>.</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: el script corre sin error, el MSE del árbol en test es menor al de la lineal <strong>dentro del rango</strong>, y la predicción del árbol en <code>x=15</code> es <strong>idéntica</strong> a su predicción en <code>x=10</code> (demuestra no-extrapolación).</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<ul>
+<li><strong>Esperar una curva suave</strong>: el árbol nunca produce una recta ni una curva — siempre escalones. Si necesitás suavidad, usá regresión lineal, polinómica o un ensamble como Gradient Boosting.</li>
+<li><strong>Olvidar regularizar</strong>: dejar <code>max_depth=None</code> con pocos datos da MSE = 0 en train y MSE altísimo en test. Siempre validar con CV.</li>
+<li><strong>Usar el árbol para forecasting con tendencia</strong>: si la serie tiene drift, el árbol queda clavado en el último valor del rango de train. Para tendencia, primero diferenciar o usar otro modelo.</li>
+<li><strong>Confundir el criterio</strong>: <code>criterion='gini'</code> es para clasificación; en regresión usá <code>squared_error</code> o <code>absolute_error</code> (este último es más robusto a outliers pero más lento).</li>
+<li><strong>Comparar MSE entre datasets</strong>: el MSE no es adimensional. Para comparar entre problemas usá R² o RMSE relativo al desvío del target.</li>
+</ul>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<ul>
+<li><strong>¿Árbol o regresión lineal?</strong> Si la relación es <strong>monótona y aproximadamente lineal</strong> y querés extrapolar, lineal. Si hay <strong>no-linealidades, interacciones y umbrales</strong> y trabajás <strong>dentro del rango de entrenamiento</strong>, árbol (o mejor: un ensamble).</li>
+<li><strong>¿Por qué la predicción es constante por tramos?</strong> Porque cada hoja almacena un único número (la media del target del subconjunto que cayó ahí). Toda muestra que termine en esa hoja recibe el mismo valor.</li>
+<li><strong>¿Puedo usar <code>absolute_error</code> en lugar de MSE?</strong> Sí, optimiza la <strong>mediana</strong> por hoja en vez de la media; es más robusto a outliers pero entrena más lento y suele dar splits distintos.</li>
+<li><strong>¿Cómo elijo <code>max_depth</code>?</strong> Con validación cruzada sobre una grilla pequeña (<code>[2, 4, 6, 8, 10, None]</code>). En general entre 4 y 10 alcanza para la mayoría de datasets tabulares.</li>
+<li><strong>¿Sirve un solo árbol en producción?</strong> Casi nunca. Su varianza es alta. En la práctica se usa como bloque base de <strong>Random Forest</strong> o <strong>Gradient Boosting</strong> (próximas clases).</li>
+</ul>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Géron, A. <em>Hands-On Machine Learning with Scikit-Learn, Keras &amp; TensorFlow</em>, 3ra ed., <strong>cap. 6 — sección "Regression"</strong>.</li>
+<li>scikit-learn: <a href="https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeRegressor.html"><code>DecisionTreeRegressor</code></a>.</li>
+<li>scikit-learn user guide: <a href="https://scikit-learn.org/stable/modules/tree.html#regression">Decision Trees — Regression</a>.</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../074-voting-classifiers-hard-soft/index.html">Clase 074 — Voting classifiers: hard y soft</a></p>
   </main>
   <footer class="cur-footer">
     <p>

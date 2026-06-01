@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Clase 075 — Bagging y Pasting | Python Data Science Program</title>
+  <title>Clase 075 — Bagging y pasting | Python Data Science Program</title>
   <meta name="description" content="Clase 075 del Python Data Science Program">
   <meta name="theme-color" content="#0f3d3e">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -24,34 +24,151 @@
   </header>
   <main class="cur-main">
     <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-1-machine-learning-clasico/075-bagging-y-pasting/notebook.ipynb">📓 Abrir notebook en GitHub</a>
-<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">Objetivo</a> · <a href="#resultados-esperados">Resultados esperados</a> · <a href="#temas-clave">Temas clave</a> · <a href="#materiales">Materiales</a> · <a href="#prerrequisitos">Prerrequisitos</a></nav>
-<h1 id="clase-075-bagging-y-pasting">Clase 075 — Bagging y Pasting</h1>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-075-bagging-y-pasting">Clase 075 — Bagging y pasting</h1>
 <blockquote>
-<p>Parte: <strong>1-machine-learning-clasico</strong>
-Estado: <strong>stub</strong> (pendiente desarrollar contenido).</p>
+<p>Parte: <strong>1 — Machine Learning Clásico</strong> · Fuente: Géron, <strong>cap. 7</strong>. ⏱️ Duración estimada: <strong>55 min</strong>.</p>
 </blockquote>
-<h2 id="objetivo">Objetivo</h2>
-<p>Describir el resultado de aprendizaje concreto de esta clase.</p>
-<h2 id="resultados-esperados">Resultados esperados</h2>
-<p>Al finalizar, el estudiante podrá:</p>
+<hr>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Que el alumno entrene ensembles entrenando el <strong>mismo algoritmo</strong> sobre <strong>distintos subsets</strong> del training set —bagging (con reemplazo) y pasting (sin reemplazo)— y evalúe sin held-out usando <strong>out-of-bag (OOB)</strong>. Cierre con sampling de features (random patches y random subspaces) como puente conceptual a Random Forests.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar la clase, el alumno podrá:</p>
+<ol>
+<li><strong>Distinguir bagging vs pasting</strong> y justificar cuándo elegir uno u otro.</li>
+<li><strong>Entrenar un <code>BaggingClassifier</code></strong> de scikit-learn con un base estimator y <code>n_estimators</code> razonable.</li>
+<li><strong>Usar <code>oob_score=True</code></strong> para estimar el error de generalización sin tocar el test set.</li>
+<li><strong>Aplicar sampling de features</strong> (<code>max_features &lt; 1.0</code>, <code>bootstrap_features=True</code>) para random patches / random subspaces.</li>
+<li><strong>Comparar bias/variance</strong> del ensemble vs un único árbol, en accuracy y en frontera de decisión.</li>
+</ol>
+<h2 id="temas">🗺️ Temas</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Tema</th>
+<th>Por qué importa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Bagging (bootstrap aggregating)</td>
+<td>Reduce varianza promediando predictores entrenados sobre muestras con reemplazo.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Pasting</td>
+<td>Igual idea pero sin reemplazo — útil cuando el dataset es grande.</td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>BaggingClassifier</code> API</td>
+<td><code>estimator</code>, <code>n_estimators</code>, <code>max_samples</code>, <code>bootstrap</code>.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>OOB evaluation</td>
+<td>Cada predictor ve ~63% de las instancias; el 37% restante valida gratis.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Random patches</td>
+<td>Sampling de instancias <strong>y</strong> features.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Random subspaces</td>
+<td>Sampling solo de features (<code>bootstrap=False</code>, <code>max_features&lt;1</code>).</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Paralelización con <code>n_jobs=-1</code></td>
+<td>Los predictores son independientes — escala lineal.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<dl>
+<dt><strong>Bagging (bootstrap aggregating)</strong></dt>
+<dd>Entrenar el mismo algoritmo sobre múltiples muestras <strong>con reemplazo</strong> del training set y agregar predicciones por voto mayoritario (clasificación) o promedio (regresión). Reduce varianza sin aumentar bias.</dd>
+<dt><strong>Pasting</strong></dt>
+<dd>Igual que bagging pero el sampling es <strong>sin reemplazo</strong>. Cada instancia aparece a lo sumo una vez por predictor. Bagging suele ganar porque introduce más diversidad.</dd>
+<dt><strong>Bootstrap</strong></dt>
+<dd>Sampling con reemplazo del mismo tamaño que el original. En promedio cubre ~63.2% de las instancias únicas; el resto son repetidas.</dd>
+<dt><strong>Out-of-bag (OOB) score</strong></dt>
+<dd>Para cada predictor, las instancias <strong>no muestreadas</strong> (~37%) actúan como validation set. Promediando OOB scores se obtiene una estimación del error de generalización <strong>sin separar test set</strong>. Activado con <code>oob_score=True</code>.</dd>
+<dt><strong><code>BaggingClassifier</code></strong></dt>
+<dd>Meta-estimador de sklearn. Params clave: <code>estimator</code> (base learner), <code>n_estimators</code> (cuántos), <code>max_samples</code> (tamaño de cada muestra, default 1.0 = igual al training set), <code>bootstrap=True</code> (bagging) / <code>False</code> (pasting), <code>oob_score</code>, <code>n_jobs</code>.</dd>
+<dt><strong>Random patches</strong></dt>
+<dd>Sampling simultáneo de <strong>instancias y features</strong>. <code>bootstrap=True, bootstrap_features=True, max_features&lt;1.0</code>. Útil cuando hay muchas features (imágenes, alta dimensionalidad).</dd>
+<dt><strong>Random subspaces</strong></dt>
+<dd>Sampling <strong>solo de features</strong>, manteniendo todas las instancias. <code>bootstrap=False, max_samples=1.0, bootstrap_features=True, max_features&lt;1.0</code>.</dd>
+<dt><strong><code>n_estimators</code></strong></dt>
+<dd>Número de predictores del ensemble. Más estimators = menos varianza, más cómputo. Típico: 100–500. La curva de mejora se aplana rápido.</dd>
+</dl>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<p><code>make_moons(n_samples=500, noise=0.30)</code> de sklearn — frontera no lineal, ideal para visualizar el efecto smoothing del ensemble vs un árbol único.</p>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<p><strong>1.</strong> <strong>Bagging vs árbol único.</strong> Entrená un <code>DecisionTreeClassifier</code> y un <code>BaggingClassifier(DecisionTreeClassifier(), n_estimators=500, max_samples=100, bootstrap=True)</code> sobre <code>make_moons</code>. Compará accuracy en test.</p>
+<p><strong>2.</strong> <strong>Bagging vs pasting.</strong> Repetí (1) con <code>bootstrap=False</code>. Reportá diferencia de accuracy y discutí.</p>
+<p><strong>3.</strong> <strong>OOB.</strong> Entrená con <code>oob_score=True, bootstrap=True</code>. Imprimí <code>bag.oob_score_</code> y compará con accuracy en test — deberían ser parecidos.</p>
+<p><strong>4.</strong> <strong>Curva de <code>n_estimators</code>.</strong> Variá <code>n_estimators</code> ∈ {1, 10, 50, 100, 500, 1000}. Plotteá accuracy test vs n_estimators.</p>
+<p><strong>5.</strong> <strong>Random subspaces.</strong> Sobre <code>load_digits()</code> (64 features), entrená con <code>bootstrap=False, max_samples=1.0, bootstrap_features=True, max_features=0.5</code>. Compará con bagging clásico.</p>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Notebook que: (a) cargue <code>make_moons(500, noise=0.30)</code>, split 80/20; (b) entrene árbol único y <code>BaggingClassifier(n_estimators=500, max_samples=100, oob_score=True, n_jobs=-1)</code>; (c) reporte accuracy test de ambos y <code>oob_score_</code> del bag; (d) grafique las dos fronteras de decisión lado a lado; (e) repita con <code>bootstrap=False</code> (pasting) y compare en 1 párrafo.</p>
+<p><strong>Criterio de aceptación:</strong> Bagging supera al árbol único en test. <code>oob_score_</code> ≈ accuracy test (diferencia &lt; 0.05). La frontera del bag es visiblemente más suave.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ValueError: Out of bag estimation only available if bootstrap=True</code></td>
+<td>Pediste <code>oob_score=True</code> con <code>bootstrap=False</code> (pasting). <strong>Fix</strong>: OOB solo existe con reemplazo. Para pasting, separá validation.</td>
+</tr>
+<tr>
+<td><code>n_estimators=10</code> y el ensemble no mejora al árbol</td>
+<td>Pocos predictores — la varianza no se promedia lo suficiente. <strong>Fix</strong>: subí a 100–500.</td>
+</tr>
+<tr>
+<td><code>BaggingClassifier</code> lento con árboles profundos</td>
+<td>Cada predictor crece sin podar. <strong>Fix</strong>: <code>n_jobs=-1</code> para paralelizar, o limitá <code>max_depth</code> del base estimator.</td>
+</tr>
+<tr>
+<td>Confundir <code>max_samples</code> con <code>max_features</code></td>
+<td><code>max_samples</code> sortea <strong>filas</strong>, <code>max_features</code> sortea <strong>columnas</strong>. <strong>Fix</strong>: leé los docstrings y nombrá variables claro.</td>
+</tr>
+<tr>
+<td>OOB score muy distinto al test score</td>
+<td>Dataset chico (OOB tiene alta varianza) o <code>n_estimators</code> bajo. <strong>Fix</strong>: más estimators, o validá con CV.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿Bagging o pasting?</strong></p>
+<p><strong>Bagging</strong> casi siempre. El reemplazo introduce más diversidad entre predictores, que es exactamente lo que reduce la varianza del ensemble. Pasting puede ganar marginalmente si el dataset es enorme y querés evitar repetir instancias, pero la diferencia es chica. Como bonus, bagging te da OOB gratis.</p>
+<p><strong>❓ ¿Cuántos <code>n_estimators</code> uso?</strong></p>
+<p>Empezá con 100. Subí a 500 si tenés cómputo. Más allá de eso, retornos decrecientes — la mejora marginal por estimator se aplana.</p>
+<p><strong>❓ ¿OOB reemplaza al test set?</strong></p>
+<p>Reemplaza al <strong>validation set</strong> durante tuning. Igual conviene reservar un test set final para reportar el número honesto al stakeholder.</p>
+<p><strong>❓ ¿Bagging sirve con cualquier base estimator?</strong></p>
+<p>Sí, pero brilla con learners de <strong>alta varianza</strong> (árboles profundos sin podar). Con learners de bajo varianza (regresión logística, naive Bayes) el bagging casi no mueve la aguja.</p>
+<p><strong>❓ ¿Esto es lo mismo que Random Forest?</strong></p>
+<p>Casi. Random Forest = bagging de árboles + sampling de features <strong>en cada split</strong> (no por árbol). Lo vemos en la clase siguiente.</p>
+<h2 id="referencias">🔗 Referencias</h2>
 <ul>
-<li>(resultado 1)</li>
-<li>(resultado 2)</li>
-<li>(resultado 3)</li>
+<li>Géron, <em>Hands-On ML</em>, <strong>cap. 7</strong> § "Bagging and Pasting", "Out-of-Bag Evaluation", "Random Patches and Random Subspaces".</li>
+<li><a href="https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.BaggingClassifier.html">sklearn <code>BaggingClassifier</code></a></li>
+<li><a href="https://scikit-learn.org/stable/modules/ensemble.html#bagging">sklearn user guide — Bagging</a></li>
+<li>Breiman, L. (1996). <em>Bagging predictors</em>. Machine Learning, 24(2).</li>
 </ul>
-<h2 id="temas-clave">Temas clave</h2>
-<ul>
-<li>(subtema 1)</li>
-<li>(subtema 2)</li>
-<li>(subtema 3)</li>
-</ul>
-<h2 id="materiales">Materiales</h2>
-<ul>
-<li><code>README.md</code> — esta ficha</li>
-<li><code>notebook.ipynb</code> — cuaderno de la clase</li>
-</ul>
-<h2 id="prerrequisitos">Prerrequisitos</h2>
-<p>Ver índice general en <code>classes/README.md</code> para dependencias entre clases.</p>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../076-random-forests-y-extra-trees/index.html">Clase 076 — Random forests y extra trees</a></p>
   </main>
   <footer class="cur-footer">
     <p>

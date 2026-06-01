@@ -24,7 +24,7 @@
   </header>
   <main class="cur-main">
     <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-0-prerrequisitos/004-estructura-reproducible-de-proyecto-cookiecutter-data-science/notebook.ipynb">📓 Abrir notebook en GitHub</a>
-<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#complemento-testing-con-pytest">📌 Complemento: Testing con pytest</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
 <h1 id="clase-004-estructura-reproducible-de-proyecto-cookiecutter-data-science">Clase 004 — Estructura reproducible de proyecto (cookiecutter-data-science)</h1>
 <blockquote>
 <p>Parte: <strong>0 — Prerrequisitos</strong> · Fuente: cookiecutter-data-science v2 · <em>Hidden Technical Debt in ML Systems</em> (Sculley et al., 2015).
@@ -84,6 +84,60 @@
 </tr>
 </tbody>
 </table>
+<h2 id="complemento-testing-con-pytest">📌 Complemento: Testing con pytest</h2>
+<p>El folder <code>tests/</code> que genera CCDS suele quedar vacío — y es un error. Un data scientist necesita tests por tres razones concretas: las funciones de feature engineering se reusan en producción y un bug silencioso te corrompe el dataset; los pipelines reproducibles se rompen sin avisar cuando cambias una dependencia; y al refactorizar código de notebook a <code>src/</code> querés saber que el comportamiento sigue siendo el mismo. Tests bien escritos son la red que te deja moverte rápido sin romper lo que ya funciona.</p>
+<p><strong>Estructura mínima:</strong> archivos <code>test_*.py</code> dentro de <code>tests/</code>, funciones <code>test_*()</code> adentro, y <code>assert</code> para verificar. pytest descubre todo automáticamente.</p>
+<table>
+<thead>
+<tr>
+<th>Concepto</th>
+<th>Para qué sirve</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>assert</code></td>
+<td>Verificación básica: <code>assert resultado == esperado</code>. Si falla, pytest muestra ambos valores.</td>
+</tr>
+<tr>
+<td><code>pytest.fixture</code></td>
+<td>Datos o objetos reutilizables entre tests (ej.: un DataFrame de prueba).</td>
+</tr>
+<tr>
+<td><code>pytest.mark.parametrize</code></td>
+<td>Corre el mismo test con varios inputs distintos.</td>
+</tr>
+<tr>
+<td><code>pytest.raises</code></td>
+<td>Verifica que una función levante la excepción esperada.</td>
+</tr>
+<tr>
+<td><code>conftest.py</code></td>
+<td>Fixtures compartidas entre varios archivos de test, sin imports.</td>
+</tr>
+<tr>
+<td><code>--cov</code></td>
+<td>Reporta cobertura de código (requiere <code>pytest-cov</code>).</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Mini-ejemplo.</strong> Función en <code>src/mi_proyecto/features.py</code>:</p>
+<pre><code class="language-python">def normalize(x):
+    return (x - x.mean()) / x.std()
+</code></pre>
+<p>Test en <code>tests/test_features.py</code>:</p>
+<pre><code class="language-python">import numpy as np
+import pandas as pd
+from mi_proyecto.features import normalize
+
+def test_normalize_media_cero():
+    s = pd.Series([1.0, 2.0, 3.0, 4.0, 5.0])
+    result = normalize(s)
+    assert np.isclose(result.mean(), 0.0)
+    assert np.isclose(result.std(), 1.0)
+</code></pre>
+<p><strong>Correr los tests:</strong> <code>pytest -v</code> para ver todo lo que corre, <code>pytest --cov=src tests/</code> para incluir cobertura.</p>
+<p><strong>¿Qué testear en DS?</strong> Funciones puras de transformación (limpieza, encoding, feature engineering) <strong>sí</strong> — son determinísticas y rápidas. Modelos entrenados con aleatoriedad <strong>no</strong> se testean directamente sobre métricas exactas; o fijás <code>random_state</code>/seeds y verificás contra un valor congelado, o usás snapshots tolerantes (<code>pytest.approx</code>). Lo que importa es testear la lógica que escribiste, no reinventar <code>scikit-learn</code>.</p>
 <h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
 <dl>
 <dt><strong>Cookiecutter</strong></dt>
@@ -137,6 +191,10 @@
 <td>Edité <code>pyproject.toml</code> y los imports siguen viejos</td>
 <td>Tras cambios en metadata o entry-points debes reinstalar. <strong>Fix</strong>: <code>pip install -e . --force-reinstall --no-deps</code> (sin deps si no las cambiaste).</td>
 </tr>
+<tr>
+<td><code>pytest</code> corre pero dice <code>collected 0 items</code></td>
+<td>Los archivos o funciones no respetan la convención de nombres. <strong>Fix</strong>: renombrá los archivos a <code>test_*.py</code> y las funciones a <code>test_*()</code>. Si además ves <code>ModuleNotFoundError: No module named 'mi_proyecto'</code> al correr los tests, falta <code>pip install -e .</code> en el venv o agregar <code>[tool.pytest.ini_options] pythonpath = ["src"]</code> en <code>pyproject.toml</code>.</td>
+</tr>
 </tbody>
 </table>
 <h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
@@ -150,11 +208,14 @@
 <p>No fuerces CCDS. Carpeta con <code>notebook.ipynb</code>, <code>data.csv</code> y <code>README.md</code> está bien. La estructura completa aporta cuando el proyecto vive &gt;3 meses o tiene &gt;1 persona.</p>
 <p><strong>❓ ¿Por qué los notebooks tienen prefijo numérico como <code>0.01-jvp-eda.ipynb</code>?</strong></p>
 <p>Convención CCDS: <code>&lt;fase&gt;.&lt;orden&gt;-&lt;iniciales&gt;-&lt;tema&gt;</code>. Fase 0=exploración, 1=features, 2=modelos, 3=reportes. Iniciales del autor evitan conflictos cuando varias personas crean notebooks.</p>
+<p><strong>❓ ¿Hace falta testear notebooks?</strong></p>
+<p>Los notebooks <strong>no</strong> se testean directamente — son scratchpads exploratorios y cambian todo el tiempo. Lo que sí se testea es el código que <strong>migrás</strong> del notebook a <code>src/</code>: en el momento que una función deja de ser exploración y pasa a <code>src/mi_proyecto/</code>, le escribís su <code>test_*</code> correspondiente. Regla práctica: si la función vive en <code>src/</code>, tiene test; si vive en una celda, no.</p>
 <h2 id="referencias">🔗 Referencias</h2>
 <ul>
 <li><a href="https://cookiecutter-data-science.drivendata.org/">cookiecutter-data-science v2 docs</a></li>
 <li>Sculley et al., <a href="https://papers.nips.cc/paper/2015/hash/86df7dcfd896fcaf2674f757a2463eba-Abstract.html"><em>Hidden Technical Debt in ML Systems</em></a> (NeurIPS 2015).</li>
 <li><a href="https://github.com/allisonhorst/palmerpenguins">Palmer Penguins dataset</a></li>
+<li><a href="https://docs.pytest.org/">pytest docs</a></li>
 </ul>
 <h2 id="siguiente-clase">➡️ Siguiente clase</h2>
 <p><a href="../005-vs-code-cursor-para-python-y-jupyter/index.html">Clase 005 — VS Code / Cursor para Python y Jupyter</a></p>

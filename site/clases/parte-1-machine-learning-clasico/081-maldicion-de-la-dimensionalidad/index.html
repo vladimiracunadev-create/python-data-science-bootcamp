@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Clase 081 — Maldición de la dimensionalidad | Python Data Science Program</title>
+  <title>Clase 081 — La maldición de la dimensionalidad | Python Data Science Program</title>
   <meta name="description" content="Clase 081 del Python Data Science Program">
   <meta name="theme-color" content="#0f3d3e">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -24,34 +24,151 @@
   </header>
   <main class="cur-main">
     <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-1-machine-learning-clasico/081-maldicion-de-la-dimensionalidad/notebook.ipynb">📓 Abrir notebook en GitHub</a>
-<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">Objetivo</a> · <a href="#resultados-esperados">Resultados esperados</a> · <a href="#temas-clave">Temas clave</a> · <a href="#materiales">Materiales</a> · <a href="#prerrequisitos">Prerrequisitos</a></nav>
-<h1 id="clase-081-maldicion-de-la-dimensionalidad">Clase 081 — Maldición de la dimensionalidad</h1>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-081-la-maldicion-de-la-dimensionalidad">Clase 081 — La maldición de la dimensionalidad</h1>
 <blockquote>
-<p>Parte: <strong>1-machine-learning-clasico</strong>
-Estado: <strong>stub</strong> (pendiente desarrollar contenido).</p>
+<p>Parte: <strong>1 — Machine Learning Clásico</strong> · Fuente: Géron, <strong>cap. 8</strong> § <em>The Curse of Dimensionality</em>.
+⏱️ Duración estimada: <strong>45 min</strong>.</p>
 </blockquote>
-<h2 id="objetivo">Objetivo</h2>
-<p>Describir el resultado de aprendizaje concreto de esta clase.</p>
-<h2 id="resultados-esperados">Resultados esperados</h2>
-<p>Al finalizar, el estudiante podrá:</p>
+<hr>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Que el alumno entienda por qué los algoritmos basados en distancia (kNN, k-means, SVM-RBF) degradan en alta dimensión: el espacio se vuelve mayormente vacío, las distancias entre puntos colapsan a un mismo valor, y los modelos overfittean. Esto motiva la reducción de dimensionalidad (PCA, manifold learning) que viene en las próximas clases.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar la clase, el alumno podrá:</p>
+<ol>
+<li><strong>Explicar la sparsity exponencial</strong>: por qué llenar uniformemente un hipercubo unitario requiere <code>n^d</code> puntos.</li>
+<li><strong>Calcular numéricamente</strong> que en <code>d=100</code> la razón <code>(d_max - d_min) / d_min</code> entre distancias euclidianas tiende a 0.</li>
+<li><strong>Identificar qué algoritmos</strong> sufren la maldición (basados en distancia/densidad) y cuáles menos (árboles, modelos lineales con regularización).</li>
+<li><strong>Reconocer la <em>manifold hypothesis</em></strong> como justificación de PCA, t-SNE, UMAP: los datos reales viven en un subespacio de baja dimensión.</li>
+<li><strong>Decidir cuándo reducir dimensionalidad</strong> vs. cuándo regularizar o usar otro modelo.</li>
+</ol>
+<h2 id="temas">🗺️ Temas</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Tema</th>
+<th>Por qué importa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Intuición geométrica: hipercubo y volumen del borde</td>
+<td>En <code>d=100</code>, el 99.99% del volumen está pegado al borde.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Sparsity exponencial</td>
+<td>Para cubrir el espacio uniformemente, los datos no alcanzan nunca.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Concentración de la medida</td>
+<td>Distancias entre puntos aleatorios convergen al mismo valor.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Distancia euclidiana pierde sentido</td>
+<td><code>nearest neighbor</code> deja de ser informativo.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Hubness</td>
+<td>Algunos puntos aparecen como vecinos de todos.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Manifold hypothesis</td>
+<td>Los datos reales no llenan el espacio: viven en un manifold.</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Implicaciones prácticas para ML</td>
+<td>Overfitting, kNN colapsa, k-means inestable.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<dl>
+<dt><strong>Maldición de la dimensionalidad</strong></dt>
+<dd>Conjunto de fenómenos contraintuitivos que aparecen al crecer la cantidad de features: el espacio se vuelve mayormente vacío, las distancias se igualan, y la cantidad de datos necesaria para densidad constante crece exponencialmente en <code>d</code>. Acuñada por Bellman (1961).</dd>
+<dt><strong>Sparsity exponencial</strong></dt>
+<dd>Para mantener una densidad constante de puntos en un hipercubo <code>[0,1]^d</code>, hace falta <code>n^d</code> muestras. Con <code>d=100</code> y <code>n=10</code> por eje son <code>10^100</code> puntos — más que átomos en el universo observable. Consecuencia: en alta dimensión <strong>todos los datasets son chicos</strong>.</dd>
+<dt><strong>Concentración de la medida</strong></dt>
+<dd>En distribuciones de alta dimensión (uniforme, gaussiana), la distancia entre dos puntos aleatorios se concentra fuertemente alrededor de su media. Formalmente, <code>Var(||X-Y||) / E[||X-Y||]^2 → 0</code> cuando <code>d → ∞</code>. Resultado: <code>d_min ≈ d_max</code>, y la noción de "más cercano" se vuelve ruido.</dd>
+<dt><strong>Distancia euclidiana en alta dimensión</strong></dt>
+<dd>Pierde poder discriminativo porque acumula varianza por cada feature irrelevante. Alternativas: distancia coseno (escala-invariante), Mahalanobis (decorrela), o reducir antes con PCA.</dd>
+<dt><strong>Hubness</strong></dt>
+<dd>Fenómeno por el cual, en alta dimensión, ciertos puntos aparecen entre los <code>k</code> vecinos más cercanos de muchísimos otros (hubs), mientras otros nunca son vecinos de nadie (anti-hubs). Rompe el supuesto de simetría que asume kNN.</dd>
+<dt><strong>Manifold hypothesis</strong></dt>
+<dd>Suposición de que los datos reales de alta dimensión (imágenes, texto, audio) no llenan el espacio ambiente sino que viven en un subespacio (manifold) de dimensión intrínseca mucho menor. Justifica PCA, autoencoders, t-SNE, UMAP. Sin esta hipótesis, reducir dimensionalidad sería destruir información.</dd>
+<dt><strong>Dimensión intrínseca</strong></dt>
+<dd>Cantidad mínima de variables latentes necesarias para representar los datos sin pérdida apreciable. MNIST tiene <code>d=784</code> features (28×28 pixels) pero dimensión intrínseca estimada ~10–15.</dd>
+</dl>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<p>Sintético: puntos uniformes en <code>[0,1]^d</code> para <code>d ∈ {2, 10, 100, 1000}</code>. Permite calcular numéricamente sparsity, ratio <code>d_max/d_min</code>, y fracción de volumen cerca del borde. Para la parte aplicada, <code>sklearn.datasets.load_digits</code> (d=64) como ejemplo de manifold hypothesis empírica.</p>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<p><strong>1.</strong> <strong>Volumen del borde.</strong> Calculá la fracción de volumen del hipercubo <code>[0,1]^d</code> que está a menos de <code>0.01</code> del borde, para <code>d=2, 10, 100</code>. Fórmula: <code>1 - 0.98^d</code>.</p>
+<p><strong>2.</strong> <strong>Concentración de distancias.</strong> Sampleá 1000 puntos uniformes en <code>[0,1]^d</code>. Para <code>d ∈ {2, 10, 100, 1000}</code>, calculá <code>(d_max - d_min) / d_min</code> sobre todas las distancias pairwise. Verificá que tiende a 0.</p>
+<p><strong>3.</strong> <strong>Distancia al vecino más cercano.</strong> Con <code>n=1000</code> puntos uniformes y <code>d</code> variable, graficá la distancia media al 1-NN. Mostrá que crece con <code>d</code> (el "vecino" está cada vez más lejos).</p>
+<p><strong>4.</strong> <strong>kNN degrada.</strong> Generá clasificación sintética con <code>n=500</code>, agregando <code>d</code> features de ruido puro (irrelevantes). Evaluá accuracy de <code>KNeighborsClassifier</code> para <code>d = 2, 10, 50, 200</code>. Curva debería caer.</p>
+<p><strong>5.</strong> <strong>Manifold hipótesis empírica.</strong> Cargá <code>sklearn.datasets.load_digits</code>. Calculá cuántos componentes PCA explican el 95% de la varianza vs. <code>d=64</code> originales — estimación grosera de dimensión intrínseca.</p>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Notebook que: (a) genere puntos uniformes en <code>[0,1]^d</code> para <code>d ∈ [1, 200]</code>; (b) calcule y grafique <code>(d_max - d_min)/d_min</code> vs <code>d</code>; (c) entrene <code>KNeighborsClassifier</code> con <code>n=1000</code> y features añadidas de ruido N(0,1), reporte accuracy vs <code>d</code>; (d) sobre <code>load_digits</code>, calcule cuántos componentes PCA explican 90%, 95%, 99% de varianza.</p>
+<p><strong>Criterio de aceptación:</strong> El ratio de distancias tiende a 0 para <code>d &gt; 50</code>. Accuracy de kNN cae monotónicamente al agregar ruido. PCA muestra que <code>digits</code> (d=64) tiene dimensión intrínseca ≤ 30 al 95%.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"Agregué más features y el modelo empeoró"</td>
+<td>Features irrelevantes inyectan ruido y empeoran kNN/k-means. <strong>Fix</strong>: hacé feature selection o reducción de dimensionalidad antes; en modelos lineales, regularizá (L1/L2).</td>
+</tr>
+<tr>
+<td>kNN con <code>k=1</code> da resultados aleatorios en alta dimensión</td>
+<td>Concentración de medida: <code>d_min ≈ d_max</code>, "el más cercano" es ruido. <strong>Fix</strong>: subí <code>k</code>, normalizá features, o reducí dimensión con PCA.</td>
+</tr>
+<tr>
+<td>"PCA me bajó accuracy"</td>
+<td>Te quedaste con muy pocos componentes, o el problema no respeta la manifold hypothesis. <strong>Fix</strong>: usá <code>explained_variance_ratio_</code> para elegir cantidad de componentes que retenga ≥95%.</td>
+</tr>
+<tr>
+<td>Confundir <code>d</code> (features) con <code>n</code> (muestras)</td>
+<td>"Tengo 10M filas, no aplica la maldición" — falso. La maldición es sobre <strong>features</strong>, no muestras. <strong>Fix</strong>: la regla de oro es <code>n &gt;&gt; 2^d</code> para densidad mínima, prácticamente imposible si <code>d &gt; 30</code>.</td>
+</tr>
+<tr>
+<td>Pensar que árboles también sufren</td>
+<td>Random Forest y boosting son <strong>mucho más robustos</strong> porque hacen splits axis-aligned, no usan distancia global. <strong>Fix</strong>: si <code>d</code> es alto y no querés reducir, considerá árboles antes que kNN/SVM-RBF.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿A partir de qué <code>d</code> empiezo a preocuparme?</strong></p>
+<p>Heurística: con kNN/k-means/SVM-RBF, ya con <code>d &gt; 20–30</code> y <code>n</code> modesto se nota la degradación. Con árboles y modelos lineales regularizados, podés escalar a <code>d = 10000</code> sin drama (texto TF-IDF, genómica).</p>
+<p><strong>❓ ¿Más datos resuelve la maldición?</strong></p>
+<p>Solo asintóticamente, y la cantidad necesaria crece exponencialmente. Para <code>d=100</code> no hay suficientes datos en el universo. La salida real es <strong>reducir <code>d</code></strong> (PCA, feature selection) o usar modelos que no dependan de densidad global.</p>
+<p><strong>❓ ¿Por qué deep learning funciona con <code>d</code> enorme (imágenes 224×224×3 = 150k)?</strong></p>
+<p>Por la manifold hypothesis: las imágenes naturales no llenan <code>R^150000</code>, viven en un manifold de dimensión intrínseca mucho menor. Las redes profundas aprenden esa estructura jerárquicamente. La maldición sigue aplicando si hacés kNN sobre pixels crudos — y por eso no se hace.</p>
+<p><strong>❓ ¿Distancia coseno me salva?</strong></p>
+<p>Mitiga, no salva. Es invariante a escala y funciona mejor en texto (TF-IDF, embeddings), pero también sufre concentración si las features son ruido puro. Mejor combinar coseno + reducción + selección.</p>
+<p><strong>❓ ¿Cómo estimo la dimensión intrínseca?</strong></p>
+<p>Métodos: (a) PCA + curva de varianza explicada (rápido, lineal); (b) <code>sklearn.manifold</code> (Isomap, LLE); (c) estimadores específicos como MLE de Levina–Bickel o el paquete <code>skdim</code>. Para empezar, PCA al 95% alcanza como aproximación grosera.</p>
+<h2 id="referencias">🔗 Referencias</h2>
 <ul>
-<li>(resultado 1)</li>
-<li>(resultado 2)</li>
-<li>(resultado 3)</li>
+<li>Géron, <strong>cap. 8</strong> § <em>The Curse of Dimensionality</em> y § <em>Main Approaches for Dimensionality Reduction</em>.</li>
+<li>Bellman, R. (1961). <em>Adaptive Control Processes: A Guided Tour</em> — origen del término.</li>
+<li>Beyer, K. et al. (1999). <em>When Is "Nearest Neighbor" Meaningful?</em> — paper clásico sobre concentración de distancias.</li>
+<li>Radovanović, M. (2010). <em>Hubs in space: Popular nearest neighbors in high-dimensional data</em> — fenómeno de hubness.</li>
+<li><a href="https://scikit-learn.org/stable/modules/manifold.html">scikit-learn — Manifold learning</a></li>
 </ul>
-<h2 id="temas-clave">Temas clave</h2>
-<ul>
-<li>(subtema 1)</li>
-<li>(subtema 2)</li>
-<li>(subtema 3)</li>
-</ul>
-<h2 id="materiales">Materiales</h2>
-<ul>
-<li><code>README.md</code> — esta ficha</li>
-<li><code>notebook.ipynb</code> — cuaderno de la clase</li>
-</ul>
-<h2 id="prerrequisitos">Prerrequisitos</h2>
-<p>Ver índice general en <code>classes/README.md</code> para dependencias entre clases.</p>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../082-pca-proyeccion-varianza-explicada-incremental-randomized-kernel/index.html">Clase 082 — PCA: proyección, varianza explicada, incremental, randomized, kernel</a></p>
   </main>
   <footer class="cur-footer">
     <p>

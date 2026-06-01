@@ -18,7 +18,7 @@
 
 El producto se organiza en tres capas coordinadas:
 
-- una **capa pedagógica reusable** (`classes/`, `datasets/`) — **197 clases en 9 partes** (Parte 0 con 46 clases completas y ampliadas; Partes 1-8 en scaffold, contenido en desarrollo);
+- una **capa pedagógica reusable** (`classes/`, `datasets/`) — **197 clases en 9 partes** (Partes 0 y 1 con 89 clases completas y ampliadas + 13 complementos modernos integrados; Partes 2-8 en scaffold, contenido en desarrollo);
 - una **capa operativa local** para el laboratorio (`app/`, `launcher.py`, `mobile/`);
 - una **capa pública** para alumnos e institución (`site/`, GitHub Pages).
 

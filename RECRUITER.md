@@ -16,7 +16,7 @@
 
 Un sistema de capacitación en Python y Data Science que integra:
 
-- 📚 **currículo modular** (197 clases · 9 partes · pauta derivada de Géron 3ª ed., VanderPlas, Huyen, ISLP, Barocas/Hardt/Narayanan) — **Parte 0 (46 clases) completa y ampliada** con Definiciones, Errores comunes y FAQ por clase; Partes 1-8 son scaffold en desarrollo;
+- 📚 **currículo modular** (197 clases · 9 partes · pauta derivada de Géron 3ª ed., VanderPlas, Huyen, ISLP, Barocas/Hardt/Narayanan) — **Partes 0 y 1 (89 clases) completas y ampliadas** con Definiciones, Errores comunes y FAQ por clase + 13 complementos modernos integrados (regex, pytest, Polars, Parquet, async/httpx, validación temporal, FE avanzado, MICE, Optuna, model cards, class imbalance, calibración, SHAP/LIME); Partes 2-8 son scaffold en desarrollo;
 - 🧪 **laboratorio interactivo** (Flask + ejecución Python en tiempo real, matplotlib, pandas);
 - 🖥️ **app de escritorio nativa para Windows** (pywebview + Edge WebView2, sin navegador);
 - 📱 **app Android** (Expo/React Native, contenido embebido + Google Colab) — pendiente migrar contenido al índice actual;
@@ -31,7 +31,7 @@ Un sistema de capacitación en Python y Data Science que integra:
 |---|---|---|
 | Backend Flask | ✅ operativo | 10 rutas, tests automatizados, CI en GitHub Actions |
 | Ejecución de código Python | ✅ operativo | pandas, matplotlib (gráficos), scikit-learn, timeout 30s |
-| 197 clases (46 desarrolladas, 151 scaffold) | ✅ operativo | `/api/classes` → 197 clases, `/api/class/<path:slug>` → HTML |
+| 197 clases (89 desarrolladas, 108 scaffold) | ✅ operativo | `/api/classes` → 197 clases, `/api/class/<path:slug>` → HTML |
 | 6 notebooks interactivos | ✅ operativo | `/api/notebooks` → 6 templates, ejecución por celda |
 | App de escritorio Windows | 🟡 código operativo · binario pendiente | pywebview 6.1 + PyInstaller 6.19, ZIP portable 92MB |
 | Instalador Windows | 🟡 pendiente de rebuild | Inno Setup — sin Python requerido en el PC del usuario |

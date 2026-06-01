@@ -24,7 +24,7 @@
   </header>
   <main class="cur-main">
     <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-0-prerrequisitos/022-pandas-series-y-dataframe/notebook.ipynb">📓 Abrir notebook en GitHub</a>
-<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#complemento-polars-como-alternativa-moderna">📌 Complemento: Polars como alternativa moderna</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
 <h1 id="clase-022-pandas-series-y-dataframe">Clase 022 — Pandas: Series y DataFrame</h1>
 <blockquote>
 <p>Parte: <strong>0 — Prerrequisitos</strong> · Fuente: VanderPlas, <strong>cap. 3</strong>, §§ 3.1–3.2 <em>Introducing Pandas Objects</em>.
@@ -84,6 +84,69 @@
 </tr>
 </tbody>
 </table>
+<h2 id="complemento-polars-como-alternativa-moderna">📌 Complemento: Polars como alternativa moderna</h2>
+<p><strong>Polars</strong> es una librería de DataFrames escrita en <strong>Rust</strong>, con API expresiva tipo "expression engine", <strong>lazy execution</strong> (construye un grafo y lo optimiza antes de ejecutar) y <strong>multicore por default</strong> (no necesitás Dask ni multiprocessing). Es la alternativa moderna a pandas y suele ser 5-30x más rápida en operaciones típicas de agregación y join. Aun así, <strong>en este curso seguimos con pandas</strong> como default: el ecosistema (sklearn, matplotlib, seaborn, statsmodels, plotly) habla pandas nativamente, la documentación y los tutoriales del mundo data abundan, y el 90% del código productivo que vas a leer está en pandas.</p>
+<table>
+<thead>
+<tr>
+<th>Aspecto</th>
+<th>pandas</th>
+<th>polars</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Backend</td>
+<td>NumPy + Python</td>
+<td>Rust + Arrow</td>
+</tr>
+<tr>
+<td>Ejecución</td>
+<td>Eager (línea a línea)</td>
+<td>Eager <strong>o</strong> lazy (<code>.lazy()</code> + <code>.collect()</code>)</td>
+</tr>
+<tr>
+<td>Paralelismo</td>
+<td>Single-thread por default</td>
+<td>Multicore automático</td>
+</tr>
+<tr>
+<td>Memoria</td>
+<td>Más pesada (copies frecuentes)</td>
+<td>Más eficiente (zero-copy Arrow)</td>
+</tr>
+<tr>
+<td>Sintaxis</td>
+<td><code>df[df.col &gt; 5].groupby(...)</code></td>
+<td><code>df.filter(pl.col("c") &gt; 5).group_by(...)</code></td>
+</tr>
+<tr>
+<td>Ecosistema</td>
+<td>Enorme (sklearn, plot, stats)</td>
+<td>Creciente pero limitado</td>
+</tr>
+<tr>
+<td>Curva de aprendizaje</td>
+<td>Más laxa, muchos atajos</td>
+<td>Más estricta, API uniforme</td>
+</tr>
+</tbody>
+</table>
+<p>Mini ejemplo lado a lado — leer CSV, filtrar y agrupar:</p>
+<pre><code class="language-python"># pandas
+import pandas as pd
+df = pd.read_csv(&quot;penguins.csv&quot;)
+out = df[df[&quot;body_mass_g&quot;] &gt; 4000].groupby(&quot;species&quot;)[&quot;bill_length_mm&quot;].mean()
+
+# polars
+import polars as pl
+df = pl.read_csv(&quot;penguins.csv&quot;)
+out = (df.filter(pl.col(&quot;body_mass_g&quot;) &gt; 4000)
+         .group_by(&quot;species&quot;)
+         .agg(pl.col(&quot;bill_length_mm&quot;).mean()))
+</code></pre>
+<p><strong>Cuándo migrar a polars</strong>: datasets &gt; 1 GB que pandas levanta lento o swappea, pipelines en producción donde el costo CPU importa, querer aprovechar lazy execution para optimizar queries complejas, o equipos cómodos con APIs más estrictas tipo SQL. <strong>Cuándo quedarte en pandas</strong>: notebooks exploratorios, integración con sklearn/statsmodels/plot, código que otros van a leer y mantener, datasets que entran cómodos en RAM (&lt; 1 GB).</p>
+<p>La <strong>Parte 5 (clase 176)</strong> profundiza en polars: instalación, expressions, lazy frames, joins paralelos y benchmarks reales contra pandas.</p>
 <h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
 <dl>
 <dt><strong><code>Series</code></strong></dt>
@@ -150,11 +213,14 @@
 <p>Cuando vas a modificar un subset y NO quieres afectar el original. <code>subset = df[cond].copy()</code>. Si solo lees, no necesitas copy — y consumes el doble de memoria.</p>
 <p><strong>❓ ¿Qué pasa con NaN en una columna <code>int</code>?</strong></p>
 <p>Pandas la promueve a <code>float64</code> automáticamente (porque NumPy int no soporta NaN). Para mantener <code>int</code>: usa dtype nullable <code>Int64</code> (mayúscula) que sí permite <code>pd.NA</code>.</p>
+<p><strong>❓ ¿Tengo que aprender pandas Y polars?</strong></p>
+<p>Por ahora, no. <strong>Pandas primero</strong> — es la base del curso, lo vas a ver en clases, libros, Stack Overflow y en cualquier código que toques. Cuando lo domines y te topes con un dataset que no entra en RAM o un pipeline lento, ahí asomate a polars (Parte 5). La transición es directa porque los conceptos (DataFrame, columnas, group_by, joins) son los mismos; lo que cambia es la sintaxis y el motor.</p>
 <h2 id="referencias">🔗 Referencias</h2>
 <ul>
 <li>VanderPlas, <strong>cap. 3</strong> §§ 3.1, 3.2.</li>
 <li><a href="https://pandas.pydata.org/docs/user_guide/dsintro.html">pandas user guide — DataFrame</a></li>
 <li><a href="https://github.com/allisonhorst/palmerpenguins">Palmer Penguins</a></li>
+<li><a href="https://docs.pola.rs/">Polars user guide</a></li>
 </ul>
 <h2 id="siguiente-clase">➡️ Siguiente clase</h2>
 <p><a href="../023-pandas-indexacion-loc-iloc-at-iat/index.html">Clase 023 — Pandas: indexación (loc, iloc, at, iat)</a></p>

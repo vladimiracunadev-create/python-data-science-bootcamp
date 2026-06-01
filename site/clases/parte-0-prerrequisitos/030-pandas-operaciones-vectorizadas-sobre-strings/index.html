@@ -24,7 +24,7 @@
   </header>
   <main class="cur-main">
     <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-0-prerrequisitos/030-pandas-operaciones-vectorizadas-sobre-strings/notebook.ipynb">📓 Abrir notebook en GitHub</a>
-<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#complemento-previo-regex-con-el-modulo-re">📌 Complemento previo: Regex con el módulo re</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
 <h1 id="clase-030-pandas-operaciones-vectorizadas-sobre-strings">Clase 030 — Pandas: operaciones vectorizadas sobre strings</h1>
 <blockquote>
 <p>Parte: <strong>0 — Prerrequisitos</strong> · Fuente: VanderPlas, <strong>cap. 3</strong> § 3.11 <em>Vectorized String Operations</em>.
@@ -84,6 +84,134 @@
 </tr>
 </tbody>
 </table>
+<h2 id="complemento-previo-regex-con-el-modulo-re">📌 Complemento previo: Regex con el módulo <code>re</code></h2>
+<p>Antes de meternos con <code>.str.extract</code> / <code>.str.contains</code>, conviene tener una intro mínima a expresiones regulares. Pandas usa regex por debajo en casi todos los métodos de texto, y en scraping (BeautifulSoup, parsing de HTML/logs) son prerrequisito invisible. Sin entender regex, los patrones se vuelven magia negra que se copypastea de Stack Overflow.</p>
+<p><strong>Metacaracteres esenciales</strong></p>
+<table>
+<thead>
+<tr>
+<th>Símbolo</th>
+<th>Significado</th>
+<th>Ejemplo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>.</code></td>
+<td>Cualquier carácter (excepto newline)</td>
+<td><code>a.c</code> matchea <code>abc</code>, <code>a c</code>, <code>a3c</code></td>
+</tr>
+<tr>
+<td><code>*</code></td>
+<td>0 o más repeticiones del anterior</td>
+<td><code>ab*</code> matchea <code>a</code>, <code>ab</code>, <code>abbb</code></td>
+</tr>
+<tr>
+<td><code>+</code></td>
+<td>1 o más repeticiones</td>
+<td><code>ab+</code> matchea <code>ab</code>, <code>abbb</code> (no <code>a</code>)</td>
+</tr>
+<tr>
+<td><code>?</code></td>
+<td>0 o 1 (opcional)</td>
+<td><code>colou?r</code> matchea <code>color</code> y <code>colour</code></td>
+</tr>
+<tr>
+<td><code>\d</code></td>
+<td>Dígito <code>[0-9]</code></td>
+<td><code>\d\d\d</code> matchea <code>123</code></td>
+</tr>
+<tr>
+<td><code>\w</code></td>
+<td>Word char <code>[a-zA-Z0-9_]</code></td>
+<td><code>\w+</code> matchea <code>hola_123</code></td>
+</tr>
+<tr>
+<td><code>\s</code></td>
+<td>Whitespace (espacio, tab, newline)</td>
+<td><code>\s+</code> matchea uno o más espacios</td>
+</tr>
+<tr>
+<td><code>[]</code></td>
+<td>Set de caracteres</td>
+<td><code>[aeiou]</code> matchea una vocal</td>
+</tr>
+<tr>
+<td><code>()</code></td>
+<td>Grupo de captura</td>
+<td><code>(\d+)-(\d+)</code> captura ambos números</td>
+</tr>
+<tr>
+<td><code>^</code></td>
+<td>Inicio de string</td>
+<td><code>^Hola</code> matchea solo si arranca con <code>Hola</code></td>
+</tr>
+<tr>
+<td><code>$</code></td>
+<td>Fin de string</td>
+<td><code>\.com$</code> matchea solo si termina en <code>.com</code></td>
+</tr>
+<tr>
+<td><code>\|</code></td>
+<td>OR</td>
+<td><code>gato\|perro</code> matchea cualquiera</td>
+</tr>
+<tr>
+<td><code>{n,m}</code></td>
+<td>Entre n y m repeticiones</td>
+<td><code>\d{2,4}</code> matchea 2 a 4 dígitos</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Funciones clave de <code>re</code></strong></p>
+<table>
+<thead>
+<tr>
+<th>Función</th>
+<th>Para qué sirve</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>re.search(pat, s)</code></td>
+<td>Busca el primer match en cualquier parte del string. Devuelve <code>Match</code> o <code>None</code>.</td>
+</tr>
+<tr>
+<td><code>re.match(pat, s)</code></td>
+<td>Igual que <code>search</code> pero solo desde el inicio del string.</td>
+</tr>
+<tr>
+<td><code>re.findall(pat, s)</code></td>
+<td>Devuelve <strong>lista</strong> con todos los matches.</td>
+</tr>
+<tr>
+<td><code>re.sub(pat, repl, s)</code></td>
+<td>Reemplaza todos los matches por <code>repl</code>. Equivalente a <code>.str.replace</code> con <code>regex=True</code>.</td>
+</tr>
+<tr>
+<td><code>re.compile(pat)</code></td>
+<td>Pre-compila el patrón. Útil si lo vas a usar muchas veces (más rápido).</td>
+</tr>
+<tr>
+<td><code>re.IGNORECASE</code> (flag)</td>
+<td>Match case-insensitive. Se pasa como <code>flags=re.IGNORECASE</code>.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Mini-ejemplo — extraer dominio de email con grupos nombrados:</strong></p>
+<pre><code class="language-python">import re
+
+email = &quot;vladimir.acuna@gmail.com&quot;
+pat = re.compile(r&quot;(?P&lt;usuario&gt;[\w.]+)@(?P&lt;dominio&gt;[\w.]+)&quot;)
+m = pat.search(email)
+print(m.group(&quot;usuario&quot;))  # vladimir.acuna
+print(m.group(&quot;dominio&quot;))  # gmail.com
+</code></pre>
+<p><strong>Raw strings (<code>r"..."</code>)</strong></p>
+<p>Siempre se usan raw strings con regex. Sin la <code>r</code>, Python interpreta <code>\d</code>, <code>\w</code>, <code>\s</code> como secuencias de escape y muchas veces te las come o te tira <code>DeprecationWarning</code>. Con <code>r"\d+"</code> le decís a Python "esto es literal, no lo toques, pasáselo crudo a <code>re</code>". Regla: <strong>toda regex va en raw string, sin excepciones</strong>.</p>
+<blockquote>
+<p>🛠️ Herramienta recomendada para iterar patrones: <a href="https://regex101.com">regex101.com</a> — testa en vivo, explica cada token y soporta flavor Python.</p>
+</blockquote>
 <h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
 <dl>
 <dt><strong>Accessor <code>.str</code></strong></dt>
@@ -137,6 +265,10 @@
 <td><code>.str.split(',')</code> da listas, no columnas</td>
 <td>Sin <code>expand=True</code>. <strong>Fix</strong>: <code>s.str.split(',', expand=True)</code> devuelve DataFrame con una columna por parte.</td>
 </tr>
+<tr>
+<td>Regex con <code>"\d+"</code> no matchea o tira <code>DeprecationWarning: invalid escape sequence</code></td>
+<td>Olvidaste la <code>r</code> del raw string — Python interpreta <code>\d</code> como escape y lo rompe. <strong>Fix</strong>: usá siempre <code>r"\d+"</code> en lugar de <code>"\d+"</code>. Misma regla para <code>\w</code>, <code>\s</code>, <code>\b</code>, etc.</td>
+</tr>
 </tbody>
 </table>
 <h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
@@ -150,11 +282,14 @@
 <p><code>s.str.contains('foo', case=False)</code> o <code>flags=re.IGNORECASE</code>. También <code>s.str.lower().str.contains('foo')</code> (más explícito).</p>
 <p><strong>❓ ¿Cómo elimino acentos?</strong></p>
 <p>Pandas no trae nativo. Usa <code>unidecode</code> o <code>s.str.normalize('NFKD').str.encode('ascii', 'ignore').str.decode('ascii')</code>.</p>
+<p><strong>❓ ¿Por qué <code>\d</code> a veces falla?</strong></p>
+<p>Porque te olvidaste de la <code>r</code> del raw string. <code>"\d"</code> en Python plano no es un escape válido y según la versión te lo come o te tira <code>DeprecationWarning</code> (y en Python 3.12+ va directo a <code>SyntaxWarning</code>). Con <code>r"\d"</code> el backslash se pasa literal a <code>re</code>, que es quien lo interpreta como "dígito". Regla mecánica: <strong>toda regex en raw string, sin pensarlo</strong>.</p>
 <h2 id="referencias">🔗 Referencias</h2>
 <ul>
 <li>VanderPlas, <strong>cap. 3</strong> § 3.11.</li>
 <li><a href="https://pandas.pydata.org/docs/user_guide/text.html">pandas Text data user guide</a></li>
 <li><a href="https://pandas.pydata.org/docs/user_guide/categorical.html">pandas Categorical</a></li>
+<li><a href="https://docs.python.org/3/howto/regex.html">Python <code>re</code> HOWTO</a></li>
 </ul>
 <h2 id="siguiente-clase">➡️ Siguiente clase</h2>
 <p><a href="../031-pandas-series-de-tiempo-resampling-rolling/index.html">Clase 031 — Pandas: series de tiempo, resampling, rolling</a></p>

@@ -24,34 +24,198 @@
   </header>
   <main class="cur-main">
     <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-1-machine-learning-clasico/056-metricas-confusion-matrix-precision-recall-f1/notebook.ipynb">📓 Abrir notebook en GitHub</a>
-<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">Objetivo</a> · <a href="#resultados-esperados">Resultados esperados</a> · <a href="#temas-clave">Temas clave</a> · <a href="#materiales">Materiales</a> · <a href="#prerrequisitos">Prerrequisitos</a></nav>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#complemento-class-imbalance-smote-class_weight-threshold-tuning">📌 Complemento: Class imbalance (SMOTE, class_weight, threshold tuning)</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
 <h1 id="clase-056-metricas-confusion-matrix-precision-recall-f1">Clase 056 — Métricas: confusion matrix, precision, recall, F1</h1>
 <blockquote>
-<p>Parte: <strong>1-machine-learning-clasico</strong>
-Estado: <strong>stub</strong> (pendiente desarrollar contenido).</p>
+<p>Parte: <strong>1 — Machine Learning Clásico</strong> · Fuente: Géron, <strong>cap. 3</strong>. ⏱️ Duración estimada: <strong>70 min</strong>.</p>
 </blockquote>
-<h2 id="objetivo">Objetivo</h2>
-<p>Describir el resultado de aprendizaje concreto de esta clase.</p>
-<h2 id="resultados-esperados">Resultados esperados</h2>
-<p>Al finalizar, el estudiante podrá:</p>
+<hr>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Que el alumno deje de mirar <code>accuracy</code> como métrica única y aprenda a leer una <strong>confusion matrix</strong>, a elegir entre <strong>precision</strong>, <strong>recall</strong>, <strong>F1</strong> o <strong>F-beta</strong> según el costo de los errores, y a interpretar <code>classification_report</code> clase por clase. En particular, entender por qué en problemas desbalanceados (fraude, churn, diagnóstico) accuracy miente y qué hacer al respecto.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar la clase, el alumno podrá:</p>
+<ol>
+<li><strong>Construir e interpretar</strong> una confusion matrix con <code>sklearn.metrics.confusion_matrix</code> identificando TP, FP, TN, FN.</li>
+<li><strong>Calcular y comparar</strong> precision, recall, F1 y F-beta a mano y con <code>precision_score</code>, <code>recall_score</code>, <code>f1_score</code>, <code>fbeta_score</code>.</li>
+<li><strong>Elegir la métrica adecuada</strong> según el costo asimétrico de los errores (FP vs FN) del problema.</li>
+<li><strong>Leer <code>classification_report</code></strong> y diferenciar <code>macro avg</code> vs <code>weighted avg</code> en multiclase.</li>
+<li><strong>Diagnosticar class imbalance</strong> y aplicar <code>class_weight='balanced'</code>, SMOTE o threshold tuning según corresponda.</li>
+</ol>
+<h2 id="temas">🗺️ Temas</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Tema</th>
+<th>Por qué importa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Confusion matrix (TP/FP/TN/FN)</td>
+<td>Base de toda métrica de clasificación.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Precision = TP / (TP+FP)</td>
+<td>Cuán "puras" son las predicciones positivas.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Recall = TP / (TP+FN)</td>
+<td>Qué fracción de positivos reales capturo.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>F1 y F-beta</td>
+<td>Media armónica; F-beta pondera recall (β&gt;1) o precision (β&lt;1).</td>
+</tr>
+<tr>
+<td>5</td>
+<td><code>classification_report</code> y macro/weighted avg</td>
+<td>Métricas por clase en multiclase.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Accuracy y por qué falla con clases desbalanceadas</td>
+<td>Paradoja del 99% inútil.</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Class imbalance: class_weight, SMOTE, threshold tuning</td>
+<td>Cuándo aplicar cada uno.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="complemento-class-imbalance-smote-class_weight-threshold-tuning">📌 Complemento: Class imbalance (SMOTE, class_weight, threshold tuning)</h2>
+<p>En muchos problemas reales la clase positiva es rara: fraude (~0.1%), churn (~5%), diagnóstico de enfermedad rara (~1%). Un modelo que predice <strong>"todo negativo"</strong> alcanza 99% accuracy y <strong>cero utilidad</strong> — recall = 0, precision indefinida. Detectar y mitigar el imbalance es parte del trabajo, no un detalle.</p>
+<p>Hay tres enfoques principales, y suelen combinarse:</p>
+<p><strong>1. <code>class_weight</code> (lo más simple, primer intento siempre).</strong>
+Casi todos los modelos de sklearn aceptan <code>class_weight='balanced'</code>, que pondera la loss inversamente proporcional a la frecuencia de cada clase. Cero cambios al dataset, cero leakage posible.</p>
+<pre><code class="language-python">from sklearn.linear_model import LogisticRegression
+clf = LogisticRegression(class_weight='balanced', max_iter=1000)
+clf.fit(X_train, y_train)
+</code></pre>
+<p><strong>2. Resampling (SMOTE para oversampling, RandomUnderSampler para undersampling).</strong>
+<strong>SMOTE</strong> (<em>Synthetic Minority Over-sampling Technique</em>) genera ejemplos sintéticos de la clase minoritaria <strong>interpolando</strong> entre cada muestra y sus k-vecinos más cercanos en el espacio de features. No duplica filas (eso es random oversampling y suele overfittear), sino que crea puntos nuevos sobre los segmentos que unen vecinos. Librería: <code>imbalanced-learn</code> (<code>pip install imbalanced-learn</code>).</p>
+<pre><code class="language-python">from imblearn.over_sampling import SMOTE
+from imblearn.pipeline import Pipeline  # ojo: el de imblearn, NO el de sklearn
+from sklearn.linear_model import LogisticRegression
+
+pipe = Pipeline([
+    ('smote', SMOTE(random_state=42)),
+    ('clf', LogisticRegression(max_iter=1000)),
+])
+pipe.fit(X_train, y_train)  # SMOTE solo se aplica en fit, no en predict
+</code></pre>
+<p><strong>3. Threshold tuning (mover el umbral del 0.5 por defecto).</strong>
+<code>predict()</code> usa 0.5 como umbral sobre <code>predict_proba()</code>. En problemas desbalanceados ese 0.5 es arbitrario y casi nunca es óptimo. Conviene calcular <code>precision_recall_curve</code> sobre un set de validación y elegir el umbral que maximiza F1 (o F-beta si te importa más recall):</p>
+<pre><code class="language-python">from sklearn.metrics import precision_recall_curve, f1_score
+import numpy as np
+
+probs = clf.predict_proba(X_val)[:, 1]
+prec, rec, thr = precision_recall_curve(y_val, probs)
+f1s = 2 * prec * rec / (prec + rec + 1e-12)
+best_thr = thr[np.argmax(f1s[:-1])]  # thr tiene 1 elem menos
+y_pred = (clf.predict_proba(X_test)[:, 1] &gt;= best_thr).astype(int)
+</code></pre>
+<blockquote>
+<p>⚠️ <strong>Warning SMOTE — leakage.</strong> NUNCA aplicar SMOTE antes del train/test split, ni antes del CV split. Solo dentro del <strong>train fold</strong>, vía <code>imblearn.pipeline.Pipeline</code>. Aplicarlo sobre el dataset completo "filtra" información del test al train (vecinos sintéticos del minoritario se construyen viendo el test) e infla las métricas de manera fraudulenta.</p>
+</blockquote>
+<p><strong>Variantes útiles</strong> (todas en <code>imbalanced-learn</code>):</p>
 <ul>
-<li>(resultado 1)</li>
-<li>(resultado 2)</li>
-<li>(resultado 3)</li>
+<li><strong><code>ADASYN</code></strong> — como SMOTE pero genera más sintéticos en las zonas donde la clase minoritaria es difícil de clasificar.</li>
+<li><strong><code>BorderlineSMOTE</code></strong> — solo sintetiza cerca de la frontera de decisión.</li>
+<li><strong><code>TomekLinks</code></strong> — undersampling que elimina pares de vecinos de clases distintas (limpia la frontera). Suele combinarse con SMOTE → <code>SMOTETomek</code>.</li>
 </ul>
-<h2 id="temas-clave">Temas clave</h2>
+<p><strong>Regla práctica de elección:</strong> empezá con <code>class_weight='balanced'</code>. Si no alcanza, sumá threshold tuning. SMOTE/ADASYN como tercer recurso cuando los dos anteriores no rinden y tenés evidencia de que el modelo no separa bien la frontera.</p>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<dl>
+<dt><strong>TP / FP / TN / FN</strong></dt>
+<dd><strong>True Positive</strong>: positivo real predicho positivo. <strong>False Positive</strong>: negativo real predicho positivo (error tipo I). <strong>True Negative</strong>: negativo real predicho negativo. <strong>False Negative</strong>: positivo real predicho negativo (error tipo II). Toda métrica binaria se deriva de estos cuatro.</dd>
+<dt><strong>Confusion matrix</strong></dt>
+<dd>Tabla 2×2 (o k×k en multiclase) con counts de cada combinación (real, predicho). En sklearn las filas son la clase real y las columnas la predicha: <code>[[TN, FP], [FN, TP]]</code>.</dd>
+<dt><strong>Precision</strong> = TP / (TP + FP)</dt>
+<dd>De todo lo que predije positivo, ¿qué fracción acerté? Importa cuando un FP es caro (ej.: bloquear una transacción legítima, marcar email legítimo como spam).</dd>
+<dt><strong>Recall</strong> (sensitivity, TPR) = TP / (TP + FN)</dt>
+<dd>De todos los positivos reales, ¿qué fracción detecté? Importa cuando un FN es caro (ej.: no detectar un tumor, dejar pasar un fraude).</dd>
+<dt><strong>F1</strong> = 2 · (P · R) / (P + R)</dt>
+<dd>Media armónica de precision y recall. Penaliza fuerte cuando una de las dos es baja. Default razonable cuando no hay preferencia clara entre FP y FN.</dd>
+<dt><strong>F-beta</strong> = (1 + β²) · (P · R) / (β² · P + R)</dt>
+<dd>F1 generalizada. <strong>β &gt; 1</strong> pondera más recall (β=2 → recall pesa 4× más que precision). <strong>β &lt; 1</strong> pondera más precision (β=0.5). Útil cuando el costo de FP y FN es asimétrico pero ambos importan.</dd>
+<dt><strong>Accuracy</strong> = (TP + TN) / (TP + TN + FP + FN)</dt>
+<dd>Fracción total de aciertos. <strong>Engañosa con clases desbalanceadas</strong>: con 99% negativos, predecir "todo negativo" da 99% accuracy con cero recall. Reservala para problemas balanceados.</dd>
+<dt><strong><code>class_weight</code></strong></dt>
+<dd>Hiperparámetro de la mayoría de estimadores sklearn. <code>'balanced'</code> calcula pesos inversamente proporcionales a la frecuencia. También acepta dict <code>{0: 1, 1: 10}</code> para control manual. Modifica la función de pérdida, no el dataset.</dd>
+</dl>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
 <ul>
-<li>(subtema 1)</li>
-<li>(subtema 2)</li>
-<li>(subtema 3)</li>
+<li><strong>MNIST 5-vs-not-5</strong> (binarizado): clásico de Géron cap. 3. Imbalance ~10% positivo.</li>
+<li><strong>Credit card fraud</strong> (Kaggle, opcional): ~0.17% positivo, ideal para ver SMOTE en acción.</li>
+<li>Sintético con <code>make_classification(weights=[0.99, 0.01])</code> para experimentar sin descargar.</li>
 </ul>
-<h2 id="materiales">Materiales</h2>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<p><strong>1.</strong> <strong>Confusion matrix a mano.</strong> Dado <code>y_true = [0,1,1,0,1,1,0,0,1,0]</code> y <code>y_pred = [0,1,0,0,1,1,1,0,1,0]</code>: calculá TP/FP/TN/FN, precision, recall y F1 con lápiz y papel. Verificá con <code>sklearn.metrics</code>.</p>
+<p><strong>2.</strong> <strong>MNIST 5-detector.</strong> Entrená <code>SGDClassifier</code> sobre MNIST binarizado (5 vs no-5). Mostrá confusion matrix con <code>ConfusionMatrixDisplay</code> y reportá precision, recall y F1.</p>
+<p><strong>3.</strong> <strong><code>classification_report</code> multiclase.</strong> Sobre MNIST completo (10 clases) con <code>LogisticRegression</code>, imprimí <code>classification_report</code>. Identificá qué dígito tiene peor recall y por qué (mirá la confusion matrix).</p>
+<p><strong>4.</strong> <strong>Class imbalance con <code>class_weight</code>.</strong> Generá un dataset con <code>make_classification(n_samples=10000, weights=[0.99, 0.01], random_state=42)</code>. Entrená dos <code>LogisticRegression</code>: una sin <code>class_weight</code> y otra con <code>class_weight='balanced'</code>. Compará recall de la clase minoritaria.</p>
+<p><strong>5.</strong> <strong>SMOTE dentro de Pipeline.</strong> Mismo dataset que el ejercicio 4. Armá un <code>imblearn.pipeline.Pipeline</code> con <code>SMOTE</code> + <code>LogisticRegression</code>, evaluá con <code>cross_val_score(scoring='f1')</code> y compará contra <code>class_weight='balanced'</code>. Verificá que SMOTE solo se aplica al train fold (leelo en docs).</p>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Notebook sobre el dataset sintético desbalanceado (~1% positivo) que: (a) entrene baseline <code>LogisticRegression</code> y reporte confusion matrix + classification_report; (b) repita con <code>class_weight='balanced'</code>; (c) arme Pipeline con SMOTE; (d) haga threshold tuning con <code>precision_recall_curve</code> sobre val set maximizando F1; (e) tabla comparativa de F1 y recall de la clase minoritaria para las 4 estrategias (baseline, class_weight, SMOTE, threshold tuning).</p>
+<p><strong>Criterio de aceptación:</strong> las 4 estrategias documentadas, F1 de la clase minoritaria del mejor enfoque ≥ 2× el del baseline, y SMOTE aplicado <strong>solo</strong> dentro de Pipeline (chequear en código que no aparece <code>SMOTE().fit_resample(X, y)</code> sobre el dataset completo antes del split).</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Accuracy 99% pero el modelo "no detecta nada"</td>
+<td>Clases desbalanceadas + métrica equivocada. <strong>Fix</strong>: mirá recall y F1 de la clase minoritaria, no accuracy. Usá <code>class_weight='balanced'</code> y/o threshold tuning.</td>
+</tr>
+<tr>
+<td>Aplicar <code>SMOTE().fit_resample(X, y)</code> antes del <code>train_test_split</code></td>
+<td><strong>Data leakage</strong>: vecinos sintéticos se construyen viendo el test set. Métricas infladas. <strong>Fix</strong>: SMOTE solo dentro de <code>imblearn.pipeline.Pipeline</code>, que lo aplica únicamente al train fold.</td>
+</tr>
+<tr>
+<td><code>precision_score</code> lanza <code>UndefinedMetricWarning</code> con valor 0</td>
+<td>No hubo predicciones positivas (TP+FP=0). <strong>Fix</strong>: bajá el threshold con <code>predict_proba</code> o usá <code>class_weight='balanced'</code>. El warning indica que el modelo nunca activa esa clase.</td>
+</tr>
+<tr>
+<td>Confunden ejes de la confusion matrix</td>
+<td>En sklearn las <strong>filas son la clase real</strong> y las <strong>columnas la predicha</strong>. <strong>Fix</strong>: <code>ConfusionMatrixDisplay</code> lo etiqueta. En papers a veces es al revés — siempre verificá los labels.</td>
+</tr>
+<tr>
+<td>Usar F1 cuando el costo de FP y FN es muy distinto</td>
+<td>F1 trata ambos errores como equivalentes. <strong>Fix</strong>: usá <code>F-beta</code> con β&gt;1 si recall importa más (medicina, fraude) o β&lt;1 si precision importa más (spam, alertas).</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿SMOTE, <code>class_weight</code> o threshold tuning?</strong></p>
+<p>Empezá siempre por <strong><code>class_weight='balanced'</code></strong> — es gratis, no toca el dataset, no genera leakage. Si no alcanza, sumá <strong>threshold tuning</strong> (también gratis, solo cambia el corte sobre <code>predict_proba</code>). Recurrí a <strong>SMOTE/ADASYN</strong> cuando los dos anteriores no rinden y sospechás que el modelo no separa bien la frontera de decisión. Ojo: SMOTE no es magia — en datasets tabulares ruidosos a veces empeora.</p>
+<p><strong>❓ ¿Precision o recall?</strong></p>
+<p>Depende del costo asimétrico: si un <strong>FN es caro</strong> (no detectar un cáncer, dejar pasar un fraude) → priorizá <strong>recall</strong>. Si un <strong>FP es caro</strong> (bloquear cliente legítimo, marcar email serio como spam) → priorizá <strong>precision</strong>. Cuando no hay preferencia clara, usá F1.</p>
+<p><strong>❓ ¿<code>macro avg</code> o <code>weighted avg</code> en multiclase?</strong></p>
+<p><strong><code>macro avg</code></strong> = promedio simple por clase (todas pesan igual). Útil cuando te importan todas las clases por igual, incluyendo las raras. <strong><code>weighted avg</code></strong> = promedio ponderado por soporte (clases mayoritarias pesan más). Útil cuando refleja el costo real del negocio. En problemas desbalanceados <strong>macro avg</strong> es más honesto.</p>
+<p><strong>❓ ¿Por qué F1 es media armónica y no aritmética?</strong></p>
+<p>Porque la armónica <strong>penaliza fuerte los valores bajos</strong>. Si precision=1.0 y recall=0.0, la media aritmética da 0.5 (engañosa); la armónica da 0. F1 te obliga a que <strong>ambas</strong> sean razonables.</p>
+<p><strong>❓ ¿El umbral 0.5 es óptimo?</strong></p>
+<p>Casi nunca — es el default de <code>predict()</code> pero no tiene base teórica. Con <code>precision_recall_curve</code> sobre un set de validación encontrás el umbral que maximiza F1 (o F-beta, o la métrica de negocio). En problemas desbalanceados moverlo suele dar más mejora que cambiar de modelo.</p>
+<h2 id="referencias">🔗 Referencias</h2>
 <ul>
-<li><code>README.md</code> — esta ficha</li>
-<li><code>notebook.ipynb</code> — cuaderno de la clase</li>
+<li>Géron, <strong>cap. 3</strong> — <em>Performance Measures</em>, <em>Confusion Matrix</em>, <em>Precision and Recall</em>, <em>The Precision/Recall Trade-off</em>.</li>
+<li><a href="https://scikit-learn.org/stable/modules/model_evaluation.html#classification-metrics">scikit-learn — Classification metrics</a></li>
+<li><a href="https://imbalanced-learn.org/stable/user_guide.html">imbalanced-learn — User guide</a></li>
+<li><a href="https://imbalanced-learn.org/stable/references/generated/imblearn.over_sampling.SMOTE.html">imbalanced-learn — SMOTE</a></li>
+<li>Chawla et al. (2002), <em>SMOTE: Synthetic Minority Over-sampling Technique</em>, JAIR 16.</li>
 </ul>
-<h2 id="prerrequisitos">Prerrequisitos</h2>
-<p>Ver índice general en <code>classes/README.md</code> para dependencias entre clases.</p>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../057-precision-recall-tradeoff/index.html">Clase 057 — Precision/Recall trade-off</a></p>
   </main>
   <footer class="cur-footer">
     <p>

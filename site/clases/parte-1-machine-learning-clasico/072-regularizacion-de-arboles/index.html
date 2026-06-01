@@ -24,34 +24,146 @@
   </header>
   <main class="cur-main">
     <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-1-machine-learning-clasico/072-regularizacion-de-arboles/notebook.ipynb">📓 Abrir notebook en GitHub</a>
-<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">Objetivo</a> · <a href="#resultados-esperados">Resultados esperados</a> · <a href="#temas-clave">Temas clave</a> · <a href="#materiales">Materiales</a> · <a href="#prerrequisitos">Prerrequisitos</a></nav>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
 <h1 id="clase-072-regularizacion-de-arboles">Clase 072 — Regularización de árboles</h1>
 <blockquote>
-<p>Parte: <strong>1-machine-learning-clasico</strong>
-Estado: <strong>stub</strong> (pendiente desarrollar contenido).</p>
+<p>Parte: <strong>1 — Machine Learning Clásico</strong> · Fuente: Géron, <strong>cap. 6</strong>. ⏱️ Duración estimada: <strong>50 min</strong>.</p>
 </blockquote>
-<h2 id="objetivo">Objetivo</h2>
-<p>Describir el resultado de aprendizaje concreto de esta clase.</p>
-<h2 id="resultados-esperados">Resultados esperados</h2>
-<p>Al finalizar, el estudiante podrá:</p>
+<hr>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Que el alumno controle el overfitting de un <code>DecisionTreeClassifier</code>/<code>Regressor</code> usando hiperparámetros de regularización (pre-pruning) y cost-complexity pruning (post-pruning), y sepa elegir entre ambas estrategias en función del problema.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar la clase, el alumno podrá:</p>
+<ol>
+<li><strong>Identificar overfitting</strong> en un árbol sin regularizar (train accuracy ≈ 1, test bajo).</li>
+<li><strong>Tunear</strong> <code>max_depth</code>, <code>min_samples_split</code>, <code>min_samples_leaf</code>, <code>max_leaf_nodes</code>, <code>max_features</code> con <code>GridSearchCV</code>.</li>
+<li><strong>Aplicar cost-complexity pruning</strong> vía <code>ccp_alpha</code> y leer la curva <code>cost_complexity_pruning_path</code>.</li>
+<li><strong>Diferenciar pre-pruning</strong> (frenar el crecimiento) de <strong>post-pruning</strong> (podar después).</li>
+<li><strong>Justificar</strong> la elección de hiperparámetros con curvas de validación, no a ojo.</li>
+</ol>
+<h2 id="temas">🗺️ Temas</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Tema</th>
+<th>Por qué importa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Árboles sin regularizar = overfitting garantizado</td>
+<td>Un árbol crece hasta hojas puras.</td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>max_depth</code> y <code>max_leaf_nodes</code></td>
+<td>Los dos frenos más efectivos y baratos.</td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>min_samples_split</code> / <code>min_samples_leaf</code></td>
+<td>Frenan splits sobre muestras chicas (ruido).</td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>max_features</code></td>
+<td>Aleatoriza el split; antesala de Random Forest.</td>
+</tr>
+<tr>
+<td>5</td>
+<td><code>ccp_alpha</code> (cost-complexity pruning)</td>
+<td>Post-pruning principled, basado en <code>α</code>.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Pre-pruning vs post-pruning</td>
+<td>Trade-off: rapidez vs óptimo bias-variance.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<dl>
+<dt><strong><code>max_depth</code></strong></dt>
+<dd>Profundidad máxima del árbol. Default <code>None</code> (crece hasta hojas puras → overfit). Valor típico: 3–10. El hiperparámetro más impactante y barato de tunear.</dd>
+<dt><strong><code>min_samples_split</code></strong></dt>
+<dd>Mínimo de muestras que un nodo necesita para ser <strong>candidato a split</strong>. Default 2 (cualquier nodo se parte). Subirlo (ej. 20) bloquea splits sobre muestras chicas, que suelen ser ruido.</dd>
+<dt><strong><code>min_samples_leaf</code></strong></dt>
+<dd>Mínimo de muestras que debe quedar en <strong>cada hoja resultante</strong> del split. Default 1 (hojas con 1 sample → memorización). Subirlo a 5–20 suaviza la frontera.</dd>
+<dt><strong><code>max_leaf_nodes</code></strong></dt>
+<dd>Tope absoluto de hojas. El árbol crece en best-first (mejor reducción de impureza primero) hasta alcanzarlo. Equivalente funcional a <code>max_depth</code> pero más fino — el árbol no tiene que ser balanceado.</dd>
+<dt><strong><code>max_features</code></strong></dt>
+<dd>Cantidad de features consideradas en cada split. Default = todas. Bajarlo (<code>sqrt</code>, <code>log2</code>) introduce aleatoriedad, reduce varianza y acelera el fit. Es la idea base de Random Forest.</dd>
+<dt><strong><code>ccp_alpha</code> (cost-complexity pruning)</strong></dt>
+<dd>Hiperparámetro <code>α ≥ 0</code> que penaliza la complejidad del árbol al podar. Se minimiza <code>R(T) + α·|T|</code> donde <code>|T|</code> = nº de hojas. <code>α=0</code> no poda; <code>α</code> grande poda agresivo. Se elige con <code>cost_complexity_pruning_path()</code> + CV.</dd>
+<dt><strong>Pre-pruning</strong></dt>
+<dd>Frenar el crecimiento <strong>durante</strong> el fit con <code>max_depth</code>, <code>min_samples_*</code>, <code>max_leaf_nodes</code>. Rápido y simple — es lo que más se usa.</dd>
+<dt><strong>Post-pruning</strong></dt>
+<dd>Dejar crecer el árbol completo y <strong>después</strong> podarlo con <code>ccp_alpha</code>. Más fundamentado teóricamente, pero requiere doble pasada (fit completo + path + CV).</dd>
+</dl>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<p><code>moons</code> de <code>sklearn.datasets.make_moons(n_samples=1000, noise=0.4)</code> — clásico para visualizar fronteras de decisión y el efecto de regularizar.</p>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<p><strong>1.</strong> <strong>Overfit baseline.</strong> Entrená un <code>DecisionTreeClassifier()</code> sin tocar nada sobre <code>moons</code>. Reportá train vs test accuracy. ¿Cuánto gap hay?</p>
+<p><strong>2.</strong> <strong><code>max_depth</code> sweep.</strong> Para <code>max_depth ∈ {1, 2, 3, 5, 10, None}</code> graficá train y test accuracy. Identificá el punto donde empieza el overfit.</p>
+<p><strong>3.</strong> <strong>GridSearch.</strong> Buscá con <code>GridSearchCV(cv=5)</code> la mejor combinación de <code>max_depth</code>, <code>min_samples_leaf</code> y <code>max_leaf_nodes</code>. Reportá mejores params y test score.</p>
+<p><strong>4.</strong> <strong>Cost-complexity path.</strong> Llamá <code>tree.cost_complexity_pruning_path(X_train, y_train)</code> para obtener <code>ccp_alphas</code>. Entrená un árbol por cada <code>α</code> y graficá test accuracy vs <code>α</code>. Elegí el óptimo.</p>
+<p><strong>5.</strong> <strong>Visualización de fronteras.</strong> Plotteá la decision boundary de (a) árbol sin regularizar y (b) árbol con <code>max_depth=4</code>. Compará overfit visual.</p>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Notebook con <code>moons</code> (noise=0.4, 1000 samples, split 70/30): (a) baseline sin regularizar — reportar gap train/test; (b) <code>GridSearchCV</code> sobre <code>max_depth</code> y <code>min_samples_leaf</code> con 5-fold; (c) cost-complexity pruning — graficar <code>ccp_alphas</code> vs test accuracy y elegir el mejor <code>α</code>; (d) comparar test accuracy de los 3 modelos (baseline, grid, pruned) en tabla.</p>
+<p><strong>Criterio de aceptación:</strong> El modelo regularizado tiene <strong>gap train-test ≤ 5 pp</strong> y test accuracy ≥ baseline. La elección de <code>α</code> está justificada con la curva, no a ojo.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Train accuracy = 1.0, test = 0.75</td>
+<td>Árbol sin regularizar memorizó train. <strong>Fix</strong>: bajá <code>max_depth</code> (3–10) o subí <code>min_samples_leaf</code> (≥5).</td>
+</tr>
+<tr>
+<td><code>GridSearchCV</code> tarda eternamente</td>
+<td>Grilla enorme sobre 4+ hiperparámetros. <strong>Fix</strong>: empezá con 2 (<code>max_depth</code>, <code>min_samples_leaf</code>) y refiná después.</td>
+</tr>
+<tr>
+<td><code>ccp_alpha</code> no hace nada</td>
+<td>Default es <code>0.0</code> (sin pruning). <strong>Fix</strong>: corré <code>cost_complexity_pruning_path</code> primero para ver el rango de <code>α</code> útil.</td>
+</tr>
+<tr>
+<td><code>min_samples_split=2</code> "no es default" — sí lo es</td>
+<td>Confusión típica: 2 es el default y significa "casi nunca frena". <strong>Fix</strong>: subilo a 10–20 para que tenga efecto regularizador real.</td>
+</tr>
+<tr>
+<td>Tuneás <code>max_features=sqrt</code> y los resultados son inestables corrida a corrida</td>
+<td><code>max_features &lt; n_features</code> introduce aleatoriedad. <strong>Fix</strong>: fijá <code>random_state</code> y promediá con CV.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿Pre-pruning o post-pruning?</strong></p>
+<p><strong>Pre-pruning</strong> (<code>max_depth</code>, <code>min_samples_leaf</code>) en el 90% de los casos: rápido, simple, suficiente. <strong>Post-pruning</strong> (<code>ccp_alpha</code>) cuando querés un árbol único, interpretable, óptimo bias-variance — típico en problemas tabulares chicos donde el árbol es el modelo final, no un building block. Para ensembles (RF, GBM), pre-pruning y listo.</p>
+<p><strong>❓ ¿<code>max_depth</code> o <code>max_leaf_nodes</code>?</strong></p>
+<p><code>max_depth</code> es más fácil de interpretar ("profundidad ≤ 5"). <code>max_leaf_nodes</code> es más flexible — deja que el árbol sea asimétrico y crezca solo donde realmente reduce impureza. Si te importa interpretabilidad: <code>max_depth</code>. Si te importa performance: <code>max_leaf_nodes</code>.</p>
+<p><strong>❓ ¿Cómo elijo <code>min_samples_leaf</code>?</strong></p>
+<p>Regla de dedo: 1–5% de <code>n_samples</code>. Con 1000 filas, probá 10–50. Cuanto más ruidoso el dataset, más alto.</p>
+<p><strong>❓ ¿<code>max_features</code> regulariza?</strong></p>
+<p>Sí, indirectamente: al limitar features candidatas por split, fuerza al árbol a usar features sub-óptimas y reduce varianza. Es el mecanismo central de Random Forest, no tanto de árbol único.</p>
+<p><strong>❓ ¿Por qué <code>ccp_alpha</code> se usa poco en la práctica?</strong></p>
+<p>Porque (a) requiere doble pasada (path + CV), (b) en ensembles ya tenés regularización implícita por agregación, (c) <code>max_depth + min_samples_leaf</code> suele alcanzar. Pero es la podada con mejor fundamento teórico (Breiman et al., CART).</p>
+<h2 id="referencias">🔗 Referencias</h2>
 <ul>
-<li>(resultado 1)</li>
-<li>(resultado 2)</li>
-<li>(resultado 3)</li>
+<li>Géron, <strong>cap. 6</strong> § "Regularization Hyperparameters".</li>
+<li><a href="https://scikit-learn.org/stable/modules/tree.html">scikit-learn — Decision Trees user guide</a></li>
+<li><a href="https://scikit-learn.org/stable/auto_examples/tree/plot_cost_complexity_pruning.html">scikit-learn — Post pruning decision trees with cost complexity pruning</a></li>
+<li>Breiman, Friedman, Olshen &amp; Stone (1984), <em>Classification and Regression Trees</em> — el paper original de CART y cost-complexity pruning.</li>
 </ul>
-<h2 id="temas-clave">Temas clave</h2>
-<ul>
-<li>(subtema 1)</li>
-<li>(subtema 2)</li>
-<li>(subtema 3)</li>
-</ul>
-<h2 id="materiales">Materiales</h2>
-<ul>
-<li><code>README.md</code> — esta ficha</li>
-<li><code>notebook.ipynb</code> — cuaderno de la clase</li>
-</ul>
-<h2 id="prerrequisitos">Prerrequisitos</h2>
-<p>Ver índice general en <code>classes/README.md</code> para dependencias entre clases.</p>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../073-regresion-con-arboles/index.html">Clase 073 — Regresión con árboles</a></p>
   </main>
   <footer class="cur-footer">
     <p>

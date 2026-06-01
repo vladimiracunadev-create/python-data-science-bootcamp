@@ -24,34 +24,176 @@
   </header>
   <main class="cur-main">
     <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-1-machine-learning-clasico/049-testing-validacion-hyperparameter-tuning-no-free-lunch-theorem/notebook.ipynb">📓 Abrir notebook en GitHub</a>
-<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">Objetivo</a> · <a href="#resultados-esperados">Resultados esperados</a> · <a href="#temas-clave">Temas clave</a> · <a href="#materiales">Materiales</a> · <a href="#prerrequisitos">Prerrequisitos</a></nav>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#complemento-validacion-temporal-timeseriessplit-walk-forward">📌 Complemento: Validación temporal (TimeSeriesSplit, walk-forward)</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
 <h1 id="clase-049-testing-validacion-hyperparameter-tuning-no-free-lunch-theorem">Clase 049 — Testing, validación, hyperparameter tuning, no free lunch theorem</h1>
 <blockquote>
-<p>Parte: <strong>1-machine-learning-clasico</strong>
-Estado: <strong>stub</strong> (pendiente desarrollar contenido).</p>
+<p>Parte: <strong>1 — Machine Learning Clásico</strong> · Fuente: Géron, <strong>cap. 2</strong> + sklearn user guide. ⏱️ Duración estimada: <strong>70 min</strong>.</p>
 </blockquote>
-<h2 id="objetivo">Objetivo</h2>
-<p>Describir el resultado de aprendizaje concreto de esta clase.</p>
-<h2 id="resultados-esperados">Resultados esperados</h2>
-<p>Al finalizar, el estudiante podrá:</p>
+<hr>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Que el alumno entienda <strong>cómo medir generalización sin engañarse</strong> — separar train/val/test correctamente, usar cross-validation para estimar performance con poca varianza, tunear hiperparámetros con <code>GridSearchCV</code> / <code>RandomizedSearchCV</code>, y aceptar el <em>no free lunch theorem</em>: ningún modelo gana en todos los datasets.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar la clase, el alumno podrá:</p>
+<ol>
+<li><strong>Separar</strong> un dataset en train/validation/test y justificar por qué el test no se toca hasta el final.</li>
+<li><strong>Aplicar</strong> <code>KFold</code> y <code>StratifiedKFold</code> con <code>cross_val_score</code> para estimar generalización.</li>
+<li><strong>Tunear hiperparámetros</strong> con <code>GridSearchCV</code> y <code>RandomizedSearchCV</code>, leyendo <code>cv_results_</code>.</li>
+<li><strong>Reconocer</strong> cuándo <code>KFold</code> rompe (datos temporales, grupos) y elegir el splitter correcto.</li>
+<li><strong>Explicar</strong> el no free lunch theorem y por qué siempre conviene comparar varios modelos.</li>
+</ol>
+<h2 id="temas">🗺️ Temas</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Tema</th>
+<th>Por qué importa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Train / validation / test split</td>
+<td>Test es sagrado: una sola medición al final.</td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>KFold</code> y <code>StratifiedKFold</code></td>
+<td>Estima generalización con menos varianza que un hold-out único.</td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>cross_val_score</code> y <code>cross_validate</code></td>
+<td>Una línea, K métricas, intervalo de confianza.</td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>GridSearchCV</code> vs <code>RandomizedSearchCV</code></td>
+<td>Grid es exhaustivo, random escala mejor en espacios grandes.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Pipeline + CV (evitar leakage del scaler)</td>
+<td>Fitear el scaler dentro del fold, nunca afuera.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>No free lunch theorem</td>
+<td>Ningún algoritmo domina en todo dataset — siempre comparar.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="complemento-validacion-temporal-timeseriessplit-walk-forward">📌 Complemento: Validación temporal (TimeSeriesSplit, walk-forward)</h2>
+<p><code>KFold</code> parte el dataset en bloques aleatorios. Con datos temporales (precios, ventas, logs) eso <strong>rompe la flecha del tiempo</strong>: entrenás con datos de 2024 y validás con datos de 2022, lo que constituye <em>data leakage del futuro al pasado</em>. El modelo "ve" patrones que en producción nunca tendrá disponibles, y la métrica de CV queda inflada — después en producción todo se cae.</p>
+<p>La solución estándar es <code>sklearn.model_selection.TimeSeriesSplit</code>, que respeta el orden temporal con una estrategia de <strong>expanding window</strong>: el train crece progresivamente y el val siempre está después en el tiempo.</p>
+<pre><code class="language-text">Fold 1:  [Train ████              ][Val ██]
+Fold 2:  [Train ██████            ][Val ██]
+Fold 3:  [Train ████████          ][Val ██]
+Fold 4:  [Train ██████████        ][Val ██]
+Fold 5:  [Train ████████████      ][Val ██]
+         0%                            100%
+         tiempo →
+</code></pre>
+<p>La variante <strong>walk-forward</strong> (sliding window) usa un train de tamaño fijo que se va corriendo: <code>[t-100, t]</code> entrena, <code>[t, t+10]</code> valida; después <code>[t-90, t+10]</code> entrena, <code>[t+10, t+20]</code> valida; y así. Útil cuando el régimen cambia y datos viejos meten ruido. <code>TimeSeriesSplit</code> no lo trae nativo en sklearn estable, pero con <code>max_train_size=N</code> se aproxima al sliding window.</p>
+<pre><code class="language-python">from sklearn.model_selection import TimeSeriesSplit
+import numpy as np
+
+X = np.arange(20).reshape(-1, 1)
+tscv = TimeSeriesSplit(n_splits=5)
+for i, (train_idx, val_idx) in enumerate(tscv.split(X)):
+    print(f&quot;Fold {i}: train={train_idx.tolist()}  val={val_idx.tolist()}&quot;)
+# Fold 0: train=[0,1,2,3,4]            val=[5,6,7]
+# Fold 1: train=[0,1,2,3,4,5,6,7]      val=[8,9,10]
+# Fold 2: train=[0,1,...,10]           val=[11,12,13]
+# ...
+</code></pre>
+<p><strong>Gap entre train y val.</strong> Si tu target tiene autocorrelación (ventas de hoy correlacionan con ayer), un val pegado al train filtra información. <code>TimeSeriesSplit(n_splits=5, gap=7)</code> deja 7 muestras de hueco entre el último día de train y el primero de val. Regla: el <code>gap</code> debería ser ≥ al horizonte de predicción del modelo en producción.</p>
+<p><strong>Alternativas modernas:</strong> <a href="https://www.sktime.net/"><code>sktime</code></a> (splitters más ricos: <code>SlidingWindowSplitter</code>, <code>ExpandingWindowSplitter</code>, métricas forecasting) y <a href="https://nixtlaverse.nixtla.io/mlforecast/"><code>mlforecast</code></a> (Nixtla, CV temporal a escala con backends paralelos). Para producción de forecasting seria, sklearn solo se queda corto.</p>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<dl>
+<dt><strong>Train / validation / test split</strong></dt>
+<dd>Train entrena, validation tunea hiperparámetros, test se mira <strong>una sola vez al final</strong>. Proporciones típicas: 60/20/20 o 70/15/15. En CV el val se reemplaza por los K folds, pero el test queda igualmente intocable.</dd>
+<dt><strong>Cross-validation (CV)</strong></dt>
+<dd>Estimar generalización promediando K mediciones rotando qué fold es val. Reduce varianza vs un hold-out único. Costo: K veces más entrenamientos.</dd>
+<dt><strong>Hold-out</strong></dt>
+<dd>Una sola partición train/val. Rápido pero ruidoso — con datasets chicos la métrica depende mucho de qué muestras cayeron en val.</dd>
+<dt><strong>Hyperparameter</strong></dt>
+<dd>Configuración del modelo que <strong>no se aprende del data</strong> (ej. <code>max_depth</code>, <code>C</code>, <code>learning_rate</code>). Se tunea en validation, nunca en test.</dd>
+<dt><strong>Generalization gap</strong></dt>
+<dd>Diferencia entre score en train y score en val/test. Gap grande = overfitting. Gap chico pero score bajo = underfitting.</dd>
+<dt><strong>No free lunch theorem (Wolpert, 1996)</strong></dt>
+<dd>Promediado sobre <strong>todos los problemas posibles</strong>, ningún algoritmo de ML es mejor que otro. En la práctica: no hay un "mejor modelo" universal; siempre hay que comparar (linear, RF, GBM, etc.) sobre tu dataset específico.</dd>
+<dt><strong>Leak temporal</strong></dt>
+<dd>Cuando el train contiene información que en producción no estaría disponible al momento de predecir (típicamente, datos del futuro respecto al target). Mata silenciosamente proyectos de forecasting.</dd>
+</dl>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
 <ul>
-<li>(resultado 1)</li>
-<li>(resultado 2)</li>
-<li>(resultado 3)</li>
+<li><code>sklearn.datasets.load_breast_cancer</code> para CV estratificado.</li>
+<li><code>sklearn.datasets.fetch_california_housing</code> para tuning con <code>GridSearchCV</code>.</li>
+<li>Serie sintética con <code>np.cumsum(np.random.randn(500))</code> para <code>TimeSeriesSplit</code>.</li>
 </ul>
-<h2 id="temas-clave">Temas clave</h2>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<p><strong>1.</strong> <strong>Hold-out vs CV.</strong> Sobre <code>breast_cancer</code>, comparar el score de un único <code>train_test_split</code> (varios <code>random_state</code>) vs <code>cross_val_score(cv=5)</code>. Mostrar que el hold-out varía ±0.03 entre seeds, CV mucho menos.</p>
+<p><strong>2.</strong> <strong>StratifiedKFold.</strong> Con un target desbalanceado 90/10, comparar <code>KFold</code> vs <code>StratifiedKFold</code> mirando la proporción de la clase minoritaria en cada fold.</p>
+<p><strong>3.</strong> <strong>GridSearchCV en pipeline.</strong> <code>Pipeline([('scaler', StandardScaler()), ('svc', SVC())])</code> + <code>GridSearchCV</code> sobre <code>C</code> y <code>gamma</code>. Verificar que el scaler se fitea dentro de cada fold (no leakage).</p>
+<p><strong>4.</strong> <strong>RandomizedSearchCV.</strong> Mismo problema que (3) pero con <code>RandomizedSearchCV(n_iter=30)</code> y distribuciones (<code>scipy.stats.loguniform</code>). Comparar tiempo y <code>best_score_</code>.</p>
+<p><strong>5.</strong> <strong>TimeSeriesSplit.</strong> Generar serie con tendencia + ruido. Aplicar <code>TimeSeriesSplit(n_splits=5)</code> y entrenar <code>Ridge</code> con features lag-1, lag-7. Reportar score por fold. Repetir con <code>KFold(shuffle=True)</code> y mostrar que el score se infla artificialmente (leakage temporal).</p>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Notebook que sobre <code>california_housing</code>: (a) split 80/20 train/test con <code>random_state=42</code>; (b) <code>GridSearchCV(cv=5)</code> con <code>RandomForestRegressor</code> sobre <code>n_estimators ∈ {100, 300}</code> y <code>max_depth ∈ {None, 10, 20}</code>; (c) reportar <code>best_params_</code> y <code>best_score_</code>; (d) evaluar el mejor modelo <strong>una sola vez</strong> sobre test; (e) comparar contra un baseline <code>DummyRegressor(strategy='mean')</code>.</p>
+<p><strong>Criterio de aceptación:</strong> El test se evalúa una única vez al final del notebook. El RF supera al baseline en R² al menos por 0.4. <code>cv_results_</code> queda exportado a CSV.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Score de CV altísimo pero en producción se cae</td>
+<td>Leakage. <strong>Fix:</strong> scaler/encoder dentro del <code>Pipeline</code>, nunca fiteado antes del split. Si es serie temporal, usar <code>TimeSeriesSplit</code>.</td>
+</tr>
+<tr>
+<td>Usar <code>KFold</code> con datos temporales y obtener R² inflado</td>
+<td>Estás "viendo el futuro". <strong>Fix:</strong> <code>TimeSeriesSplit</code> (+ <code>gap</code> si hay autocorrelación).</td>
+</tr>
+<tr>
+<td><code>GridSearchCV</code> tarda horas</td>
+<td>Espacio de búsqueda demasiado grande. <strong>Fix:</strong> <code>RandomizedSearchCV</code> o <code>HalvingGridSearchCV</code>. Reducir grid con criterio (loguniform para <code>C</code>, <code>alpha</code>).</td>
+</tr>
+<tr>
+<td>Mirar el test set varias veces para "ajustar"</td>
+<td>Estás haciendo overfitting del test → la métrica final ya no es honesta. <strong>Fix:</strong> dejar el test cerrado hasta el último día. Para iterar, usar CV sobre train.</td>
+</tr>
+<tr>
+<td>Folds con clase minoritaria ausente (<code>ValueError: only one class present</code>)</td>
+<td><code>KFold</code> random en target desbalanceado. <strong>Fix:</strong> <code>StratifiedKFold</code>.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿Cuándo <code>TimeSeriesSplit</code> en lugar de <code>KFold</code>?</strong></p>
+<p>Siempre que haya <strong>orden temporal con sentido predictivo</strong>: forecasting, logs, sensores, transacciones, métricas de negocio. Si las observaciones son intercambiables (tabular cross-sectional, ej. clasificar imágenes independientes), <code>KFold</code>/<code>StratifiedKFold</code> está bien. Regla mecánica: si tu target depende del tiempo y predecís hacia adelante, <code>TimeSeriesSplit</code>.</p>
+<p><strong>❓ ¿<code>GridSearchCV</code> o <code>RandomizedSearchCV</code>?</strong></p>
+<p>Grid si tenés ≤ ~50 combinaciones y querés exhaustividad. Random a partir de espacios grandes (&gt;100 combos) o cuando hay hiperparámetros continuos (<code>C</code>, <code>alpha</code>, <code>learning_rate</code>): con 30-60 iteraciones random llegás cerca del óptimo con una fracción del costo (resultado teórico de Bergstra &amp; Bengio 2012).</p>
+<p><strong>❓ ¿K=5 o K=10 en KFold?</strong></p>
+<p>K=5 es el default razonable (buen compromiso varianza/costo). K=10 cuando el dataset es chico y necesitás más muestras por fold. K=N (LOOCV) casi nunca: costo absurdo y varianza alta.</p>
+<p><strong>❓ ¿Por qué importa el no free lunch theorem en la práctica?</strong></p>
+<p>Porque te recuerda no quedarte con un solo modelo "favorito". Para cualquier dataset nuevo, comparar al menos: un baseline tonto (<code>Dummy</code>), un lineal (<code>Ridge</code>/<code>LogReg</code>), un árbol ensamble (<code>RandomForest</code>/<code>GradientBoosting</code>). El que gane depende del problema, no de tu intuición previa.</p>
+<p><strong>❓ ¿Puedo usar <code>cross_val_score</code> y después GridSearch sobre el mismo set?</strong></p>
+<p>Sí, pero entendé que estás haciendo CV anidada implícita. Lo correcto cuando querés <strong>estimar la performance del proceso de tuning</strong>: <code>cross_val_score(GridSearchCV(...), X_train, y_train, cv=outer_cv)</code>. CV externa evalúa, CV interna tunea. Caro pero honesto.</p>
+<h2 id="referencias">🔗 Referencias</h2>
 <ul>
-<li>(subtema 1)</li>
-<li>(subtema 2)</li>
-<li>(subtema 3)</li>
+<li>Géron, <em>Hands-On ML</em>, <strong>cap. 2</strong> — End-to-End ML Project (sección "Better Evaluation Using Cross-Validation").</li>
+<li><a href="https://scikit-learn.org/stable/modules/cross_validation.html">sklearn — Cross-validation user guide</a></li>
+<li><a href="https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.TimeSeriesSplit.html">sklearn — <code>TimeSeriesSplit</code></a></li>
+<li><a href="https://scikit-learn.org/stable/modules/grid_search.html">sklearn — <code>GridSearchCV</code> / <code>RandomizedSearchCV</code></a></li>
+<li>Bergstra &amp; Bengio (2012), <em>Random Search for Hyper-Parameter Optimization</em>, JMLR.</li>
+<li>Wolpert (1996), <em>The Lack of A Priori Distinctions Between Learning Algorithms</em>.</li>
 </ul>
-<h2 id="materiales">Materiales</h2>
-<ul>
-<li><code>README.md</code> — esta ficha</li>
-<li><code>notebook.ipynb</code> — cuaderno de la clase</li>
-</ul>
-<h2 id="prerrequisitos">Prerrequisitos</h2>
-<p>Ver índice general en <code>classes/README.md</code> para dependencias entre clases.</p>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../050-proyecto-end-to-end-vision-datos-exploracion-preparacion/index.html">Clase 050 — Proyecto end-to-end: visión, datos, exploración y preparación</a></p>
   </main>
   <footer class="cur-footer">
     <p>

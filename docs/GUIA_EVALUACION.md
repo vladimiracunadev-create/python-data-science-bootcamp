@@ -17,12 +17,12 @@
 Este repositorio es una **pauta avanzada y completa de Python y Data Science** organizada en 197 clases y 9 partes. La pauta está derivada de referentes profesionales: *Hands-On ML* (Géron, 3ª ed.), *Python Data Science Handbook* (VanderPlas), *Designing ML Systems* (Huyen), *ISLP* (James et al) y *Fairness and ML* (Barocas/Hardt/Narayanan).
 
 ```
-v2.2.0:  197 clases · 9 partes · Parte 0 (46) completa y ampliada · Partes 1-8 scaffold
+v2.3.0:  197 clases · 9 partes · Partes 0 y 1 (89) completas y ampliadas · Partes 2-8 scaffold
 ```
 
 Incluye laboratorio interactivo local (Flask), app de escritorio nativa para Windows, app Android y una familia documental que distingue producto, operación y seguridad.
 
-**Estado honesto:** **Parte 0 (46 clases) está completa y ampliada** con READMEs pedagógicos, notebooks ejecutables y secciones Definiciones/Errores comunes/FAQ por clase. **Partes 1-8 (151 clases)** son scaffold — la estructura y la pauta están definidas; el contenido pedagógico se desarrolla por bloques. Ver progreso real en [GitHub Pages — currículo](https://vladimiracunadev-create.github.io/python-data-science-program/clases/).
+**Estado honesto:** **Partes 0 y 1 (89 clases) están completas y ampliadas** con READMEs pedagógicos, secciones Definiciones/Errores comunes/FAQ por clase y 13 complementos modernos integrados (regex, pytest, Polars, Parquet, async/httpx, validación temporal, FE avanzado, MICE, Optuna, model cards, class imbalance, calibración, SHAP/LIME). En Parte 0 los notebooks también están desarrollados; en Parte 1 los notebooks siguen como stubs (el contenido pedagógico vive en los README). **Partes 2-8 (108 clases)** son scaffold — la estructura y la pauta están definidas; el contenido pedagógico se desarrolla por bloques. Ver progreso real en [GitHub Pages — currículo](https://vladimiracunadev-create.github.io/python-data-science-program/clases/).
 
 ---
 
@@ -61,8 +61,8 @@ Incluye laboratorio interactivo local (Flask), app de escritorio nativa para Win
 
 | Parte | Tema | Clases | Estado |
 |---|---|---|---|
-| 0 | Prerrequisitos | 46 | 🟢 **completa y ampliada** |
-| 1 | Machine Learning clásico | 43 | 🟡 scaffold |
+| 0 | Prerrequisitos | 46 | 🟢 **completa y ampliada** (+ 5 complementos) |
+| 1 | Machine Learning clásico | 43 | 🟢 **completa y ampliada** (+ 8 complementos) |
 | 2 | Deep Learning | 56 | 🟡 scaffold |
 | 3 | Estadística inferencial | 13 | 🟡 scaffold |
 | 4 | MLOps | 14 | 🟡 scaffold |
@@ -70,11 +70,11 @@ Incluye laboratorio interactivo local (Flask), app de escritorio nativa para Win
 | 6 | Recomendadores | 7 | 🟡 scaffold |
 | 7 | Ética, fairness, privacidad | 6 | 🟡 scaffold |
 | 8 | Capstones | 4 | 🟡 scaffold |
-| | **Total** | **197** | **46 desarrolladas, 151 scaffold** |
+| | **Total** | **197** | **89 desarrolladas, 108 scaffold** |
 
-**Parte 0 desarrollada** (46): `README.md` con objetivo + resultados + temas + dataset + ejercicios + homework + **📖 Definiciones** + **⚠️ Errores comunes** + **❓ FAQ** + referencias. `notebook.ipynb` con 13–21 celdas ejecutables (markdown + código real).
+**Partes 0 y 1 desarrolladas** (89): `README.md` con objetivo + resultados + temas + dataset + ejercicios + homework + **📖 Definiciones** + **⚠️ Errores comunes** + **❓ FAQ** + referencias. En Parte 0 los `notebook.ipynb` traen 13–21 celdas ejecutables. En Parte 1 los notebooks siguen como stub — el contenido pedagógico vive en los README.
 
-**Partes 1-8 scaffold**: `README.md` ficha mínima y `notebook.ipynb` stub con 8 celdas guía.
+**Partes 2-8 scaffold**: `README.md` ficha mínima y `notebook.ipynb` stub con 8 celdas guía.
 
 ### Datasets sintéticos
 
@@ -119,7 +119,7 @@ Incluye laboratorio interactivo local (Flask), app de escritorio nativa para Win
 
 - una plataforma multiusuario endurecida para internet abierta;
 - un LMS con autenticación, roles y seguimiento centralizado;
-- **el currículo entero listo para dictar** — solo **Parte 0 (46 clases)** está completa y ampliada; Partes 1-8 (151 clases) están en scaffold y se desarrollan por bloques;
+- **el currículo entero listo para dictar** — **Partes 0 y 1 (89 clases)** están completas y ampliadas con 13 complementos modernos integrados; Partes 2-8 (108 clases) están en scaffold y se desarrollan por bloques;
 - la app Android en producción (APK debug, producción está en roadmap);
 - personalización ilimitada antes de definir condiciones reales.
 
