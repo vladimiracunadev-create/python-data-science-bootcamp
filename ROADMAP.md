@@ -4,7 +4,7 @@
 
 ### **Dirección futura del Python Data Science Program**
 
-[![Version](https://img.shields.io/badge/release-v2.0.0--scaffold-2e8b57?style=for-the-badge)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/release-v2.3.0-2e8b57?style=for-the-badge)](CHANGELOG.md)
 [![Estado](https://img.shields.io/badge/contenido-en%20desarrollo-f59e0b?style=for-the-badge)](#-trabajo-cr%C3%ADtico--completar-el-contenido-pedag%C3%B3gico)
 
 </div>
@@ -13,11 +13,11 @@
 
 ---
 
-## 📊 Estado actual — v2.0.0-scaffold (mayo 2026)
+## 📊 Estado actual — v2.3.0 (junio 2026)
 
 | 🎛️ Superficie | 🚦 Estado |
 |---|---|
-| 📚 Currículo (197 clases, 9 partes) | 🟢 **Parte 0 (46) completa y ampliada** (Definiciones · Errores · FAQ) · Partes 1-8 en desarrollo |
+| 📚 Currículo (197 clases, 9 partes) | 🟢 **Partes 0 y 1 (89 clases) completas y ampliadas** (Definiciones · Errores · FAQ + 13 complementos modernos) · Partes 2-8 en desarrollo |
 | 🧪 Laboratorio Flask | ✅ operativo |
 | 🖥️ App de escritorio Windows (pywebview) | 🟡 código operativo · binario pendiente de rebuild |
 | 📱 App Android | 🟡 APK debug publicado — pendiente migrar contenido al índice actual |
@@ -31,9 +31,9 @@
 
 ### 📝 Contenido pedagógico
 
-- [x] **0️⃣ Parte 0 — Prerrequisitos (46 clases)** ✅ completada (mayo 2026) y **ampliada con Definiciones, Errores comunes y FAQ por clase** — VanderPlas + Ramalho + Tanimura + Mitchell + docs oficiales
-- [ ] Desarrollar las 43 clases de la **1️⃣ Parte 1 — ML clásico**
-- [ ] Desarrollar las 13 clases de la **3️⃣ Parte 3 — Estadística inferencial** (intercaladas con Parte 1)
+- [x] **0️⃣ Parte 0 — Prerrequisitos (46 clases)** ✅ completada (mayo 2026), **ampliada con Definiciones, Errores comunes y FAQ por clase** y reforzada con **5 complementos modernos** (regex, pytest, Polars, Parquet/Arrow, async/httpx) — VanderPlas + Ramalho + Tanimura + Mitchell + docs oficiales
+- [x] **1️⃣ Parte 1 — ML clásico (43 clases)** ✅ completada (junio 2026), con patrón pedagógico completo y **8 complementos modernos integrados** (validación temporal, feature engineering avanzado + MICE, HPO con Optuna, model cards, class imbalance + SMOTE, calibración de probabilidades, SHAP/LIME) — Géron 3ª ed., caps. 1–9 + docs XGBoost/LightGBM/CatBoost
+- [ ] Desarrollar las 13 clases de la **3️⃣ Parte 3 — Estadística inferencial** (siguiente prioridad — soporta evaluación de modelos de Parte 1)
 - [ ] Desarrollar las 56 clases de la **2️⃣ Parte 2 — Deep Learning**
 - [ ] Desarrollar las 14 clases de la **4️⃣ Parte 4 — MLOps**
 - [ ] Desarrollar las 25 clases restantes (Partes 5, 6, 7, 8)

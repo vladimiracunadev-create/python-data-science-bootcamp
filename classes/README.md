@@ -2,17 +2,17 @@
 
 **197 clases · 9 partes.** Cada parte tiene su propio README con la narrativa completa (de qué trata, qué problemas resuelve, resultados de aprendizaje, estructura temática y prerrequisitos).
 
-| Parte | Tema | Clases | README de la parte |
-|---|---|---:|---|
-| 0 | Prerrequisitos: Python, NumPy, pandas, visualización, SQL, APIs | 46 | [📘 leer parte 0](parte-0-prerrequisitos/README.md) |
-| 1 | Machine Learning clásico | 43 | [📘 leer parte 1](parte-1-machine-learning-clasico/README.md) |
-| 2 | Deep Learning (Keras, TF, Transformers, RL, despliegue) | 56 | [📘 leer parte 2](parte-2-deep-learning/README.md) |
-| 3 | Estadística inferencial y causal | 13 | [📘 leer parte 3](parte-3-estadistica-inferencial/README.md) |
-| 4 | MLOps en producción | 14 | [📘 leer parte 4](parte-4-mlops/README.md) |
-| 5 | Ingeniería de datos | 8 | [📘 leer parte 5](parte-5-ingenieria-de-datos/README.md) |
-| 6 | Sistemas de recomendación | 7 | [📘 leer parte 6](parte-6-sistemas-de-recomendacion/README.md) |
-| 7 | Ética, fairness, privacidad | 6 | [📘 leer parte 7](parte-7-etica-fairness-privacidad/README.md) |
-| 8 | Capstones | 4 | [📘 leer parte 8](parte-8-capstones/README.md) |
+| Parte | Tema | Clases | Estado | README de la parte |
+|---|---|---:|---|---|
+| 0 | Prerrequisitos: Python, NumPy, pandas, visualización, SQL, APIs | 46 | ✅ completa | [📘 leer parte 0](parte-0-prerrequisitos/README.md) |
+| 1 | Machine Learning clásico | 43 | ✅ completa | [📘 leer parte 1](parte-1-machine-learning-clasico/README.md) |
+| 2 | Deep Learning (Keras, TF, Transformers, RL, despliegue) | 56 | ⏳ scaffold | [📘 leer parte 2](parte-2-deep-learning/README.md) |
+| 3 | Estadística inferencial y causal | 13 | ⏳ scaffold | [📘 leer parte 3](parte-3-estadistica-inferencial/README.md) |
+| 4 | MLOps en producción | 14 | ⏳ scaffold | [📘 leer parte 4](parte-4-mlops/README.md) |
+| 5 | Ingeniería de datos | 8 | ⏳ scaffold | [📘 leer parte 5](parte-5-ingenieria-de-datos/README.md) |
+| 6 | Sistemas de recomendación | 7 | ⏳ scaffold | [📘 leer parte 6](parte-6-sistemas-de-recomendacion/README.md) |
+| 7 | Ética, fairness, privacidad | 6 | ⏳ scaffold | [📘 leer parte 7](parte-7-etica-fairness-privacidad/README.md) |
+| 8 | Capstones | 4 | ⏳ scaffold | [📘 leer parte 8](parte-8-capstones/README.md) |
 
 ---
 

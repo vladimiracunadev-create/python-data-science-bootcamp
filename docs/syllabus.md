@@ -83,10 +83,11 @@ Capaz de:
 | Componente | Estado |
 |---|---|
 | Estructura de carpetas (197) | ✅ creada |
-| README por clase | ✅ Parte 0 (46) completos y ampliados · Partes 1-8 stubs |
-| `notebook.ipynb` por clase | ✅ Parte 0 (46) ejecutables · Partes 1-8 stubs |
-| Contenido pedagógico real | 🟢 Parte 0 completa · ⏳ 151 clases pendientes (Partes 1-8) |
-| Definiciones + Errores comunes + FAQ por clase | 🟢 46/46 en Parte 0 (v2.2.0) · ⏳ Partes 1-8 |
+| README por clase | ✅ Partes 0 y 1 (89) completos y ampliados · Partes 2-8 stubs |
+| `notebook.ipynb` por clase | ✅ Parte 0 (46) ejecutables · ⏳ Partes 1-8 stubs (notebooks pendientes de desarrollo aunque los README estén completos en Parte 1) |
+| Contenido pedagógico real | 🟢 Partes 0 y 1 completas (89 clases) · ⏳ 108 clases pendientes (Partes 2-8) |
+| Definiciones + Errores comunes + FAQ por clase | 🟢 89/89 en Partes 0-1 (v2.3.0) · ⏳ Partes 2-8 |
+| Complementos modernos integrados | 🟢 13 complementos en Partes 0-1 (regex, pytest, Polars, Parquet, async/httpx, validación temporal, FE+MICE, Optuna, model cards, class imbalance, calibración, SHAP/LIME) |
 | PDFs y PPTX por clase | ⏳ pendiente (regenerar tras desarrollar contenido) |
 | Quizzes pre/post lección | ⏳ pendiente |
 | Datasets temáticos por bloque | ⏳ pendiente |
@@ -116,9 +117,9 @@ Materiales opcionales que se pueden añadir conforme una clase madure:
 
 ## 🛣️ Orden recomendado de desarrollo
 
-1. **Parte 0** completa (46 clases) — sin prerrequisitos nadie llega al resto.
-2. **Parte 1** (43 clases) — ML clásico es la base del 70% del trabajo real.
-3. **Parte 3** intercalada con Parte 1 — la estadística inferencial soporta la evaluación de modelos.
+1. ~~**Parte 0** completa (46 clases) — sin prerrequisitos nadie llega al resto.~~ ✅ completada (v2.1.0, ampliada en v2.2.0, +5 complementos en v2.3.0).
+2. ~~**Parte 1** (43 clases) — ML clásico es la base del 70% del trabajo real.~~ ✅ completada (v2.3.0, con 8 complementos modernos integrados).
+3. **Parte 3** (13 clases) — siguiente prioridad. La estadística inferencial soporta la evaluación de modelos de Parte 1.
 4. **Parte 2** (56 clases) — Deep Learning solo con bases sólidas de Parte 1.
 5. **Parte 4** (MLOps) — después de tener al menos un modelo serio entrenado.
 6. **Partes 5, 6, 7** en paralelo según prioridad.

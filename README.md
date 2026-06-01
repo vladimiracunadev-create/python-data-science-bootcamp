@@ -12,10 +12,11 @@
 [![Security](https://github.com/vladimiracunadev-create/python-data-science-program/actions/workflows/security.yml/badge.svg?branch=main)](https://github.com/vladimiracunadev-create/python-data-science-program/actions/workflows/security.yml)
 [![Pages](https://github.com/vladimiracunadev-create/python-data-science-program/actions/workflows/deploy-pages.yml/badge.svg?branch=main)](https://github.com/vladimiracunadev-create/python-data-science-program/actions/workflows/deploy-pages.yml)
 
-[![Version](https://img.shields.io/badge/release-v2.2.0-2e8b57?style=for-the-badge)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/release-v2.3.0-2e8b57?style=for-the-badge)](CHANGELOG.md)
 [![Clases](https://img.shields.io/badge/clases-197%20%C2%B7%209%20partes-7c5cff?style=for-the-badge)](classes/README.md)
-[![Parte 0](https://img.shields.io/badge/Parte%200-46%2F46%20completa%20%E2%9C%A8-3fb950?style=for-the-badge)](classes/parte-0-prerrequisitos/README.md)
-[![Estado](https://img.shields.io/badge/Partes%201--8-en%20desarrollo-f59e0b?style=for-the-badge)](ROADMAP.md)
+[![Parte 0](https://img.shields.io/badge/Parte%200-46%2F46%20%E2%9C%85-3fb950?style=for-the-badge)](classes/parte-0-prerrequisitos/README.md)
+[![Parte 1](https://img.shields.io/badge/Parte%201-43%2F43%20%E2%9C%85-3fb950?style=for-the-badge)](classes/parte-1-machine-learning-clasico/README.md)
+[![Estado](https://img.shields.io/badge/Partes%202--8-en%20desarrollo-f59e0b?style=for-the-badge)](ROADMAP.md)
 [![License](https://img.shields.io/badge/license-MIT-3fb950?style=for-the-badge)](LICENSE)
 
 [![Python](https://img.shields.io/badge/Python-3.10%20%7C%203.11%20%7C%203.12-3776AB?style=flat-square&logo=python&logoColor=white)](https://www.python.org/)
@@ -53,10 +54,10 @@ Integra currículo modular extenso, laboratorio interactivo local, portal del al
 
 | 🎯 Aspecto | Estado |
 |---|---|
-| 🏷️ **Versión** | `v2.2.0` |
+| 🏷️ **Versión** | `v2.3.0` |
 | 📚 **Clases** | 197 en 9 partes |
 | 🗂️ **Estructura** | ✅ scaffold de las 197 clases (`README.md` + `notebook.ipynb`) |
-| ✍️ **Contenido pedagógico** | 🟢 **Parte 0 (46 clases) — completa y ampliada** con Definiciones · Errores comunes · FAQ · ⏳ Partes 1-8 en desarrollo |
+| ✍️ **Contenido pedagógico** | 🟢 **Partes 0 y 1 (89 clases) — completas y ampliadas** con Definiciones · Errores comunes · FAQ + 13 complementos modernos integrados (regex, pytest, Polars, Parquet, async/httpx, validación temporal, FE avanzado, MICE, Optuna, model cards, class imbalance, calibración, SHAP/LIME) · ⏳ Partes 2-8 en desarrollo |
 | 🧭 **Descubribilidad Pages** | ✅ tabla de contenidos automática + badges por clase + banner global de progreso |
 | 🧪 **Laboratorio Flask** | ✅ ejecución Python local, captura de gráficos, guardado de notebooks |
 | 🖥️ **App Windows** | ✅ código operativo · binario pendiente de rebuild (Edge WebView2, sin navegador) |
@@ -70,7 +71,7 @@ Cada parte tiene su **propio README** con narrativa completa: de qué trata, qu�
 | # | Parte | Clases | Foco | README |
 |---|---|---:|---|---|
 | 0️⃣ | Prerrequisitos ✅ | 46 | Python aplicado, NumPy, pandas, visualización, SQL, NoSQL, APIs | [📘 leer](classes/parte-0-prerrequisitos/README.md) |
-| 1️⃣ | ML clásico | 43 | Regresión, clasificación, ensembles, no supervisado | [📘 leer](classes/parte-1-machine-learning-clasico/README.md) |
+| 1️⃣ | ML clásico ✅ | 43 | Regresión, clasificación, ensembles, no supervisado | [📘 leer](classes/parte-1-machine-learning-clasico/README.md) |
 | 2️⃣ | Deep Learning | 56 | Keras, TF, CNN, RNN, Transformers, RL, despliegue | [📘 leer](classes/parte-2-deep-learning/README.md) |
 | 3️⃣ | Estadística inferencial | 13 | Hipótesis, A/B testing, inferencia causal, Bayes | [📘 leer](classes/parte-3-estadistica-inferencial/README.md) |
 | 4️⃣ | MLOps | 14 | Docker, CI/CD, MLflow, monitoreo, interpretabilidad | [📘 leer](classes/parte-4-mlops/README.md) |
@@ -124,7 +125,7 @@ Cada parte tiene su **propio README** con narrativa completa: de qué trata, qu�
 | 🧪 Laboratorio interactivo (`app/`) | entorno local de clase — notebooks, runner, ejecución Python | ✅ operativo |
 | 🌐 Portal del alumno (`site/`) | punto de entrada oficial para estudiantes | ✅ operativo |
 | 🏛️ Vista institucional (`site/product/`) | presentación visual del producto | ✅ operativa |
-| 📚 Currículo modular (`classes/`) | 197 clases en 9 partes: Prerrequisitos, ML clásico, Deep Learning, Estadística inferencial, MLOps, Ingeniería de datos, Recomendadores, Ética, Capstones | 🟢 Parte 0 (46) completa y ampliada · 🟡 Partes 1-8 scaffold operativo, contenido en desarrollo |
+| 📚 Currículo modular (`classes/`) | 197 clases en 9 partes: Prerrequisitos, ML clásico, Deep Learning, Estadística inferencial, MLOps, Ingeniería de datos, Recomendadores, Ética, Capstones | 🟢 Partes 0-1 (89 clases) completas y ampliadas con 13 complementos modernos · 🟡 Partes 2-8 scaffold operativo, contenido en desarrollo |
 | 🖥️ App de escritorio Windows (`launcher.py` + `program.spec` + `installer/`) | ventana nativa con Edge WebView2 — sin navegador, sin Python en el PC del alumno | 🟡 código operativo · binario pendiente de build |
 | 📱 App Android (`mobile/`) | Expo/React Native con integración Google Colab | 🟡 código operativo · contenido pendiente de migración |
 | 📄 PDFs (`docs/pdfs/`) | guías por clase | 🔄 se regeneran por bloques al madurar el contenido |

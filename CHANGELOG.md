@@ -13,6 +13,40 @@
 
 ---
 
+## [v2.3.0] — 2026-06-01
+
+### Añadido
+
+- **Parte 1 — Machine Learning Clásico: 43/43 clases desarrolladas** ✅. Reemplaza los stubs por contenido completo siguiendo el patrón pedagógico v2.2.0 (Objetivo + Resultados verificables + Temas + Definiciones + Ejercicios + Homework + Errores comunes + FAQ + Referencias). Fuente principal: **Géron** (*Hands-On ML* 3ª ed., caps. 1–9). Total: **5.078 líneas** en los 43 README.
+- **Cierre completo del audit de Parte 1: 8/8 complementos modernos integrados** en clases existentes (no se rompió la numeración):
+  - Clase 049 → **validación temporal** (`TimeSeriesSplit`, walk-forward, gap).
+  - Clase 050 → **feature engineering avanzado** (target encoding con CV out-of-fold, cyclic encoding, los 3 leakages) y **imputación avanzada** (`KNNImputer`, `IterativeImputer`/MICE, `MissingIndicator`).
+  - Clase 052 → **HPO moderno** (Optuna con pruners, optimización bayesiana, `HalvingGridSearchCV`).
+  - Clase 053 → **Model Cards y documentación responsable** (Mitchell 2018, HF model cards, Datasheets for Datasets, EU AI Act).
+  - Clase 056 → **class imbalance** (`class_weight='balanced'`, SMOTE vía `imblearn`, threshold tuning con `precision_recall_curve`, warning anti-leakage).
+  - Clase 067 → **calibración de probabilidades** (Platt, isotonic, temperature scaling, `CalibratedClassifierCV`).
+  - Clase 077 → **interpretabilidad moderna SHAP/LIME** (`TreeExplainer`, `summary_plot`, `waterfall_plot`, PDP/ICE).
+- **5 complementos modernos sumados a Parte 0** (cierran huecos del audit sin tocar el contenido existente):
+  - Clase 004 → **testing con pytest** (fixtures, parametrize, qué testear en DS).
+  - Clase 011 → **formatos columnares** Parquet/Arrow/Feather + `dtype_backend="pyarrow"`.
+  - Clase 022 → **Polars** como alternativa moderna (tabla comparativa con pandas).
+  - Clase 030 → **regex con módulo `re`** (metacaracteres, raw strings, regex101).
+  - Clase 045 → **httpx + async** (`asyncio.gather`, `Semaphore` para rate limiting, `tenacity`).
+- README de Parte 1 actualizado con marca de completitud (✅) y listado explícito de los 7 complementos modernos integrados.
+
+### Cambiado
+
+- README raíz: badge "Parte 0 46/46" reemplazado por badges **Parte 0 ✅** + **Parte 1 43/43 ✅**; versión a v2.3.0; estado a "Partes 2-8 en desarrollo".
+- ROADMAP: marcado el ítem de Parte 1 (43 clases) como completado; versión actualizada a v2.3.0.
+- `docs/CATALOGO_PRODUCTO.md`: estado del currículo "Partes 0-1 (89 clases) completas y ampliadas".
+- `docs/syllabus.md`: tabla de estado de implementación refleja Parte 1 completa.
+
+### Corregido
+
+- Clase 073 (regresión con árboles): el link a "Siguiente clase" mostraba el path como texto visible; ahora usa un texto humano legible.
+
+---
+
 ## [v2.2.0] — 2026-05-22
 
 ### Añadido
