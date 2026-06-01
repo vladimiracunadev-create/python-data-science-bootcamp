@@ -30,6 +30,57 @@ Al finalizar la clase, el alumno podrá:
 | 5 | `dtype='string'` (nullable) vs object | El moderno y NA-aware. |
 | 6 | `Categorical` para baja cardinalidad | Menos memoria, groupby más rápido. |
 
+## 📌 Complemento previo: Regex con el módulo `re`
+
+Antes de meternos con `.str.extract` / `.str.contains`, conviene tener una intro mínima a expresiones regulares. Pandas usa regex por debajo en casi todos los métodos de texto, y en scraping (BeautifulSoup, parsing de HTML/logs) son prerrequisito invisible. Sin entender regex, los patrones se vuelven magia negra que se copypastea de Stack Overflow.
+
+**Metacaracteres esenciales**
+
+| Símbolo | Significado | Ejemplo |
+|---|---|---|
+| `.` | Cualquier carácter (excepto newline) | `a.c` matchea `abc`, `a c`, `a3c` |
+| `*` | 0 o más repeticiones del anterior | `ab*` matchea `a`, `ab`, `abbb` |
+| `+` | 1 o más repeticiones | `ab+` matchea `ab`, `abbb` (no `a`) |
+| `?` | 0 o 1 (opcional) | `colou?r` matchea `color` y `colour` |
+| `\d` | Dígito `[0-9]` | `\d\d\d` matchea `123` |
+| `\w` | Word char `[a-zA-Z0-9_]` | `\w+` matchea `hola_123` |
+| `\s` | Whitespace (espacio, tab, newline) | `\s+` matchea uno o más espacios |
+| `[]` | Set de caracteres | `[aeiou]` matchea una vocal |
+| `()` | Grupo de captura | `(\d+)-(\d+)` captura ambos números |
+| `^` | Inicio de string | `^Hola` matchea solo si arranca con `Hola` |
+| `$` | Fin de string | `\.com$` matchea solo si termina en `.com` |
+| `\|` | OR | `gato\|perro` matchea cualquiera |
+| `{n,m}` | Entre n y m repeticiones | `\d{2,4}` matchea 2 a 4 dígitos |
+
+**Funciones clave de `re`**
+
+| Función | Para qué sirve |
+|---|---|
+| `re.search(pat, s)` | Busca el primer match en cualquier parte del string. Devuelve `Match` o `None`. |
+| `re.match(pat, s)` | Igual que `search` pero solo desde el inicio del string. |
+| `re.findall(pat, s)` | Devuelve **lista** con todos los matches. |
+| `re.sub(pat, repl, s)` | Reemplaza todos los matches por `repl`. Equivalente a `.str.replace` con `regex=True`. |
+| `re.compile(pat)` | Pre-compila el patrón. Útil si lo vas a usar muchas veces (más rápido). |
+| `re.IGNORECASE` (flag) | Match case-insensitive. Se pasa como `flags=re.IGNORECASE`. |
+
+**Mini-ejemplo — extraer dominio de email con grupos nombrados:**
+
+```python
+import re
+
+email = "vladimir.acuna@gmail.com"
+pat = re.compile(r"(?P<usuario>[\w.]+)@(?P<dominio>[\w.]+)")
+m = pat.search(email)
+print(m.group("usuario"))  # vladimir.acuna
+print(m.group("dominio"))  # gmail.com
+```
+
+**Raw strings (`r"..."`)**
+
+Siempre se usan raw strings con regex. Sin la `r`, Python interpreta `\d`, `\w`, `\s` como secuencias de escape y muchas veces te las come o te tira `DeprecationWarning`. Con `r"\d+"` le decís a Python "esto es literal, no lo toques, pasáselo crudo a `re`". Regla: **toda regex va en raw string, sin excepciones**.
+
+> 🛠️ Herramienta recomendada para iterar patrones: [regex101.com](https://regex101.com) — testa en vivo, explica cada token y soporta flavor Python.
+
 ## 📖 Definiciones y características
 
 **Accessor `.str`**
@@ -78,6 +129,7 @@ Notebook con CSV sintético de contactos (nombre, email, teléfono): (a) normali
 | `.str.contains('foo')` lanza error con NaN | Por default, `na=NaN` propaga. **Fix**: `s.str.contains('foo', na=False)` trata NaN como False. |
 | Convertí a `Categorical` y el sort sale alfabético | Categorical por default es no-ordenado. **Fix**: `pd.Categorical(s, categories=['bajo','medio','alto'], ordered=True)` para imponer orden. |
 | `.str.split(',')` da listas, no columnas | Sin `expand=True`. **Fix**: `s.str.split(',', expand=True)` devuelve DataFrame con una columna por parte. |
+| Regex con `"\d+"` no matchea o tira `DeprecationWarning: invalid escape sequence` | Olvidaste la `r` del raw string — Python interpreta `\d` como escape y lo rompe. **Fix**: usá siempre `r"\d+"` en lugar de `"\d+"`. Misma regla para `\w`, `\s`, `\b`, etc. |
 
 ## ❓ Preguntas frecuentes
 
@@ -101,11 +153,16 @@ Cuando la cardinalidad es baja (~<5% de N filas) y vas a hacer groupby/sort. Par
 
 Pandas no trae nativo. Usa `unidecode` o `s.str.normalize('NFKD').str.encode('ascii', 'ignore').str.decode('ascii')`.
 
+**❓ ¿Por qué `\d` a veces falla?**
+
+Porque te olvidaste de la `r` del raw string. `"\d"` en Python plano no es un escape válido y según la versión te lo come o te tira `DeprecationWarning` (y en Python 3.12+ va directo a `SyntaxWarning`). Con `r"\d"` el backslash se pasa literal a `re`, que es quien lo interpreta como "dígito". Regla mecánica: **toda regex en raw string, sin pensarlo**.
+
 ## 🔗 Referencias
 
 - VanderPlas, **cap. 3** § 3.11.
 - [pandas Text data user guide](https://pandas.pydata.org/docs/user_guide/text.html)
 - [pandas Categorical](https://pandas.pydata.org/docs/user_guide/categorical.html)
+- [Python `re` HOWTO](https://docs.python.org/3/howto/regex.html)
 
 ## ➡️ Siguiente clase
 

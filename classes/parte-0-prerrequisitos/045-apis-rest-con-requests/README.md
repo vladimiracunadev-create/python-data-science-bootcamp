@@ -32,6 +32,49 @@ Al finalizar la clase, el alumno podrá:
 | 6 | Rate limiting + retry exponencial | No tirar la API ajena. |
 | 7 | `requests.Session` para reuso | Más rápido + cookies persistentes. |
 
+## 📌 Complemento: httpx y async para APIs modernas
+
+`httpx` es el sucesor moderno de `requests`: misma API (`httpx.get(url)` funciona igual), pero soporta **async/await** y **HTTP/2** nativo. Para data science importa porque descargar 100 endpoints de una API REST en forma secuencial puede tomar minutos; con async, paralelizás y bajás a segundos. Es la diferencia entre un pipeline que corre overnight y uno que corre en el lunch break.
+
+**Sync (drop-in con requests):**
+
+```python
+import httpx
+
+r = httpx.get('https://api.github.com', timeout=10)
+r.raise_for_status()
+data = r.json()
+```
+
+**Async (100 requests en paralelo):**
+
+```python
+import asyncio, httpx
+
+urls = [f'https://api.github.com/users/user{i}' for i in range(100)]
+
+async def fetch_all(urls):
+    async with httpx.AsyncClient(timeout=10) as client:
+        tasks = [client.get(url) for url in urls]
+        responses = await asyncio.gather(*tasks, return_exceptions=True)
+    return responses
+
+# 100 endpoints de ~1s c/u: ~100s secuencial → ~1-2s en paralelo
+results = asyncio.run(fetch_all(urls))
+```
+
+**Comparativa de librerías:**
+
+| Librería | Sync | Async | HTTP/2 | API tipo requests | Cuándo usar |
+|---|---|---|---|---|---|
+| `requests` | ✅ | ❌ | ❌ | — (es la referencia) | Scripts simples, <20 requests. |
+| `httpx` | ✅ | ✅ | ✅ | ✅ casi idéntica | Default moderno; async sin cambiar de mental model. |
+| `aiohttp` | ❌ | ✅ | ❌ | ❌ API distinta | Servidores async (FastAPI internals) o ecosistemas asyncio puros. |
+
+**Rate limiting responsable.** Lanzar 1000 requests en paralelo es DDoS. Usá `asyncio.Semaphore(N)` para limitar concurrencia: `sem = asyncio.Semaphore(10); async with sem: await client.get(url)`. Respetá el `Retry-After` header si la API te devuelve 429 y leé los ToS del proveedor antes de saturar.
+
+**Retries con backoff.** Para reintentos exponenciales en async, `tenacity` es el estándar: `@retry(stop=stop_after_attempt(3), wait=wait_exponential(multiplier=1, min=2, max=10))`. Funciona con funciones sync y async, integrable directo con `httpx.AsyncClient`.
+
 ## 📖 Definiciones y características
 
 **REST (REpresentational State Transfer)**
@@ -86,6 +129,7 @@ Notebook que: (a) consulta una API pública (CoinGecko, GitHub, JSONPlaceholder)
 | Hardcodeé el token en el código y subí a GitHub | **Catástrofe de seguridad** — el token es público. **Fix**: rota el token YA, usa `.env` + `python-dotenv`, añade `.env` a `.gitignore`. |
 | Mi script tira la API ajena (HTTP 429) | Sin rate limiting. **Fix**: `time.sleep()` entre requests, o `Session` con `Retry(backoff_factor=2)` para reintentos exponenciales. |
 | HTTPError no se lanza con status 4xx | `requests` NO lanza por default. **Fix**: `r.raise_for_status()` después de `requests.get(...)` para lanzar en 4xx/5xx. |
+| `RuntimeError: asyncio.run() cannot be called from a running event loop` en Jupyter | El notebook ya tiene un event loop corriendo, `asyncio.run()` intenta crear otro. **Fix**: dentro de Jupyter usá `await fetch_all(urls)` directamente en la celda (autoawait); fuera de Jupyter sí va `asyncio.run(...)`. |
 
 ## ❓ Preguntas frecuentes
 
@@ -109,12 +153,18 @@ Loop hasta que la API diga "no más": `while True: r = requests.get(url, params=
 
 Para casos simples (Bearer fijo): pasa el header. Para OAuth flow completo: `authlib`, `requests-oauthlib`. Para producción: librería oficial del proveedor (`google-auth`, `pyOpenSSL`, etc.).
 
+**❓ ¿Cuándo paso de requests a httpx async?**
+
+Regla práctica: cuando tenés **>20 requests simultáneos** al mismo proveedor y el cuello de botella es **latencia de red** (no CPU). Si tu script está 90% del tiempo esperando respuestas HTTP, async te da un speedup de 10-100×. Si en cambio estás parseando JSONs gigantes o haciendo cálculo pesado, async no ayuda — ahí lo tuyo es `multiprocessing`. Pocas requests (<10): seguí con `requests`, no vale la complejidad.
+
 ## 🔗 Referencias
 
 - [requests docs](https://requests.readthedocs.io/)
 - [urllib3 Retry](https://urllib3.readthedocs.io/en/stable/reference/urllib3.util.html#urllib3.util.Retry)
 - [GitHub REST API](https://docs.github.com/en/rest)
 - [HTTP status codes (MDN)](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status)
+- [httpx docs](https://www.python-httpx.org/)
+- [asyncio + Jupyter (autoawait)](https://ipython.readthedocs.io/en/stable/interactive/autoawait.html)
 
 ## ➡️ Siguiente clase
 

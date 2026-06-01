@@ -30,6 +30,40 @@ Al finalizar la clase, el alumno podrá:
 | 5 | Index labels vs posición | El bug clásico cuando el index no es 0..N. |
 | 6 | `info` y `describe` como first-look | Lo primero que mira un DS. |
 
+## 📌 Complemento: Polars como alternativa moderna
+
+**Polars** es una librería de DataFrames escrita en **Rust**, con API expresiva tipo "expression engine", **lazy execution** (construye un grafo y lo optimiza antes de ejecutar) y **multicore por default** (no necesitás Dask ni multiprocessing). Es la alternativa moderna a pandas y suele ser 5-30x más rápida en operaciones típicas de agregación y join. Aun así, **en este curso seguimos con pandas** como default: el ecosistema (sklearn, matplotlib, seaborn, statsmodels, plotly) habla pandas nativamente, la documentación y los tutoriales del mundo data abundan, y el 90% del código productivo que vas a leer está en pandas.
+
+| Aspecto | pandas | polars |
+|---|---|---|
+| Backend | NumPy + Python | Rust + Arrow |
+| Ejecución | Eager (línea a línea) | Eager **o** lazy (`.lazy()` + `.collect()`) |
+| Paralelismo | Single-thread por default | Multicore automático |
+| Memoria | Más pesada (copies frecuentes) | Más eficiente (zero-copy Arrow) |
+| Sintaxis | `df[df.col > 5].groupby(...)` | `df.filter(pl.col("c") > 5).group_by(...)` |
+| Ecosistema | Enorme (sklearn, plot, stats) | Creciente pero limitado |
+| Curva de aprendizaje | Más laxa, muchos atajos | Más estricta, API uniforme |
+
+Mini ejemplo lado a lado — leer CSV, filtrar y agrupar:
+
+```python
+# pandas
+import pandas as pd
+df = pd.read_csv("penguins.csv")
+out = df[df["body_mass_g"] > 4000].groupby("species")["bill_length_mm"].mean()
+
+# polars
+import polars as pl
+df = pl.read_csv("penguins.csv")
+out = (df.filter(pl.col("body_mass_g") > 4000)
+         .group_by("species")
+         .agg(pl.col("bill_length_mm").mean()))
+```
+
+**Cuándo migrar a polars**: datasets > 1 GB que pandas levanta lento o swappea, pipelines en producción donde el costo CPU importa, querer aprovechar lazy execution para optimizar queries complejas, o equipos cómodos con APIs más estrictas tipo SQL. **Cuándo quedarte en pandas**: notebooks exploratorios, integración con sklearn/statsmodels/plot, código que otros van a leer y mantener, datasets que entran cómodos en RAM (< 1 GB).
+
+La **Parte 5 (clase 176)** profundiza en polars: instalación, expressions, lazy frames, joins paralelos y benchmarks reales contra pandas.
+
 ## 📖 Definiciones y características
 
 **`Series`**
@@ -101,11 +135,16 @@ Cuando vas a modificar un subset y NO quieres afectar el original. `subset = df[
 
 Pandas la promueve a `float64` automáticamente (porque NumPy int no soporta NaN). Para mantener `int`: usa dtype nullable `Int64` (mayúscula) que sí permite `pd.NA`.
 
+**❓ ¿Tengo que aprender pandas Y polars?**
+
+Por ahora, no. **Pandas primero** — es la base del curso, lo vas a ver en clases, libros, Stack Overflow y en cualquier código que toques. Cuando lo domines y te topes con un dataset que no entra en RAM o un pipeline lento, ahí asomate a polars (Parte 5). La transición es directa porque los conceptos (DataFrame, columnas, group_by, joins) son los mismos; lo que cambia es la sintaxis y el motor.
+
 ## 🔗 Referencias
 
 - VanderPlas, **cap. 3** §§ 3.1, 3.2.
 - [pandas user guide — DataFrame](https://pandas.pydata.org/docs/user_guide/dsintro.html)
 - [Palmer Penguins](https://github.com/allisonhorst/palmerpenguins)
+- [Polars user guide](https://docs.pola.rs/)
 
 ## ➡️ Siguiente clase
 

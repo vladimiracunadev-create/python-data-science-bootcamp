@@ -30,6 +30,46 @@ Al finalizar la clase, el alumno podrá:
 | 5 | `Makefile` como interfaz | `make data`, `make train`, `make test` — lo lee humano y máquina. |
 | 6 | Olores típicos | `Untitled27.ipynb`, datos en git, `final_FINAL_v2.py`. |
 
+## 📌 Complemento: Testing con pytest
+
+El folder `tests/` que genera CCDS suele quedar vacío — y es un error. Un data scientist necesita tests por tres razones concretas: las funciones de feature engineering se reusan en producción y un bug silencioso te corrompe el dataset; los pipelines reproducibles se rompen sin avisar cuando cambias una dependencia; y al refactorizar código de notebook a `src/` querés saber que el comportamiento sigue siendo el mismo. Tests bien escritos son la red que te deja moverte rápido sin romper lo que ya funciona.
+
+**Estructura mínima:** archivos `test_*.py` dentro de `tests/`, funciones `test_*()` adentro, y `assert` para verificar. pytest descubre todo automáticamente.
+
+| Concepto | Para qué sirve |
+|---|---|
+| `assert` | Verificación básica: `assert resultado == esperado`. Si falla, pytest muestra ambos valores. |
+| `pytest.fixture` | Datos o objetos reutilizables entre tests (ej.: un DataFrame de prueba). |
+| `pytest.mark.parametrize` | Corre el mismo test con varios inputs distintos. |
+| `pytest.raises` | Verifica que una función levante la excepción esperada. |
+| `conftest.py` | Fixtures compartidas entre varios archivos de test, sin imports. |
+| `--cov` | Reporta cobertura de código (requiere `pytest-cov`). |
+
+**Mini-ejemplo.** Función en `src/mi_proyecto/features.py`:
+
+```python
+def normalize(x):
+    return (x - x.mean()) / x.std()
+```
+
+Test en `tests/test_features.py`:
+
+```python
+import numpy as np
+import pandas as pd
+from mi_proyecto.features import normalize
+
+def test_normalize_media_cero():
+    s = pd.Series([1.0, 2.0, 3.0, 4.0, 5.0])
+    result = normalize(s)
+    assert np.isclose(result.mean(), 0.0)
+    assert np.isclose(result.std(), 1.0)
+```
+
+**Correr los tests:** `pytest -v` para ver todo lo que corre, `pytest --cov=src tests/` para incluir cobertura.
+
+**¿Qué testear en DS?** Funciones puras de transformación (limpieza, encoding, feature engineering) **sí** — son determinísticas y rápidas. Modelos entrenados con aleatoriedad **no** se testean directamente sobre métricas exactas; o fijás `random_state`/seeds y verificás contra un valor congelado, o usás snapshots tolerantes (`pytest.approx`). Lo que importa es testear la lógica que escribiste, no reinventar `scikit-learn`.
+
 ## 📖 Definiciones y características
 
 **Cookiecutter**
@@ -78,6 +118,7 @@ Un repo público con estructura CCDS, `data/raw/` con un dataset pequeño, al me
 | Tengo 3 notebooks con la misma función `limpiar_fechas` | Copy-paste. **Fix**: extrae a `src/mi_proyecto/features/cleaning.py` y haz `from mi_proyecto.features.cleaning import limpiar_fechas` en cada notebook. Si modificas la función, todos los notebooks la heredan. |
 | El compañero clonó el repo y `make data` falla con "command not found" | Make no está instalado en Windows por default. **Fix**: instalar make (Git Bash trae uno) o documentar el comando equivalente en README; alternativamente, usa scripts Python directos. |
 | Edité `pyproject.toml` y los imports siguen viejos | Tras cambios en metadata o entry-points debes reinstalar. **Fix**: `pip install -e . --force-reinstall --no-deps` (sin deps si no las cambiaste). |
+| `pytest` corre pero dice `collected 0 items` | Los archivos o funciones no respetan la convención de nombres. **Fix**: renombrá los archivos a `test_*.py` y las funciones a `test_*()`. Si además ves `ModuleNotFoundError: No module named 'mi_proyecto'` al correr los tests, falta `pip install -e .` en el venv o agregar `[tool.pytest.ini_options] pythonpath = ["src"]` en `pyproject.toml`. |
 
 ## ❓ Preguntas frecuentes
 
@@ -101,11 +142,16 @@ No fuerces CCDS. Carpeta con `notebook.ipynb`, `data.csv` y `README.md` está bi
 
 Convención CCDS: `<fase>.<orden>-<iniciales>-<tema>`. Fase 0=exploración, 1=features, 2=modelos, 3=reportes. Iniciales del autor evitan conflictos cuando varias personas crean notebooks.
 
+**❓ ¿Hace falta testear notebooks?**
+
+Los notebooks **no** se testean directamente — son scratchpads exploratorios y cambian todo el tiempo. Lo que sí se testea es el código que **migrás** del notebook a `src/`: en el momento que una función deja de ser exploración y pasa a `src/mi_proyecto/`, le escribís su `test_*` correspondiente. Regla práctica: si la función vive en `src/`, tiene test; si vive en una celda, no.
+
 ## 🔗 Referencias
 
 - [cookiecutter-data-science v2 docs](https://cookiecutter-data-science.drivendata.org/)
 - Sculley et al., [*Hidden Technical Debt in ML Systems*](https://papers.nips.cc/paper/2015/hash/86df7dcfd896fcaf2674f757a2463eba-Abstract.html) (NeurIPS 2015).
 - [Palmer Penguins dataset](https://github.com/allisonhorst/palmerpenguins)
+- [pytest docs](https://docs.pytest.org/)
 
 ## ➡️ Siguiente clase
 
