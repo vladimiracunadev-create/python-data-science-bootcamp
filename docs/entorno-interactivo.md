@@ -60,7 +60,7 @@ Acceder en `http://127.0.0.1:8000`.
 
 ### 📚 Vista de clases
 
-Renderiza el contenido de las 13 clases directamente desde `classes/`:
+Renderiza el contenido de las 232 clases directamente desde `classes/`:
 
 | Sección | Archivo fuente | Descripción |
 |---|---|---|
@@ -158,7 +158,7 @@ El resto de las librerías disponibles (numpy, scikit-learn, etc.) deben importa
 | `GET` | `/` | Interfaz web principal |
 | `GET` | `/health` | Liveness probe: `{"status": "ok"}` |
 | `GET` | `/ready` | Readiness: incluye count de clases y notebooks |
-| `GET` | `/api/classes` | Lista de las 13 clases |
+| `GET` | `/api/classes` | Lista de las 232 clases |
 | `GET` | `/api/class/<slug>` | Contenido de una clase (HTML + quiz) |
 | `GET` | `/api/notebooks` | Lista de templates disponibles |
 | `GET` | `/api/notebook/<id>` | Contenido de un template |

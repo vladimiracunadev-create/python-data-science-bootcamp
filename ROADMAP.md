@@ -31,17 +31,17 @@
 
 ### 📝 Contenido pedagógico
 
-- [x] **0️⃣ Parte 0 — Prerrequisitos (46 clases)** ✅ completada (mayo 2026), **ampliada con Definiciones, Errores comunes y FAQ por clase** y reforzada con **5 complementos modernos** (regex, pytest, Polars, Parquet/Arrow, async/httpx) — VanderPlas + Ramalho + Tanimura + Mitchell + docs oficiales
-- [x] **1️⃣ Parte 1 — ML clásico (43 clases)** ✅ completada (junio 2026), con patrón pedagógico completo y **8 complementos modernos integrados** (validación temporal, feature engineering avanzado + MICE, HPO con Optuna, model cards, class imbalance + SMOTE, calibración de probabilidades, SHAP/LIME) — Géron 3ª ed., caps. 1–9 + docs XGBoost/LightGBM/CatBoost
-- [x] **2️⃣ Parte 2 — Deep Learning (75 clases)** ✅ completada (junio 2026), patrón pedagógico completo + **19 clases dedicadas** para temas modernos 2024-2026 (Ray Tune, Lion/Sophia, Stochastic Depth, PyTorch+Lightning, SAM/YOLOv11, Flash Attention/RoPE/GQA, CLIP/SigLIP, Whisper, LoRA/QLoRA, DPO/RLHF, vLLM/TGI, MCP, Agentes ReAct, LLM Evaluation, SDXL+ControlNet, ONNX, JAX/Flax) — Géron 3ª ed. caps. 10-19 + papers seminales + HuggingFace + PyTorch ecosystem
-- [x] **3️⃣ Parte 3 — Estadística inferencial y causal (19 clases)** ✅ completada (junio 2026), patrón pedagógico completo + **6 clases dedicadas** modernas (effect size, BCa bootstrap, CUPED+sequential, DoubleML/EconML, Synthetic Controls, stack PyMC v5/NumPyro/ArviZ) — ISLP + Bruce & Bruce + Pearl + Hernán & Robins
-- [ ] Desarrollar las 14 clases de la **4️⃣ Parte 4 — MLOps** (siguiente prioridad)
-- [ ] Desarrollar las 25 clases restantes (Partes 5, 6, 7, 8)
+- [x] **0️⃣ Parte 0 — Prerrequisitos (49 clases · 001-049)** ✅ completada (mayo 2026, ampliada junio 2026 con clases dedicadas), **ampliada con Definiciones, Errores comunes y FAQ por clase** + 3 clases dedicadas modernas (Polars, Parquet/Arrow/DuckDB, async httpx/aiohttp) + 2 complementos integrados (regex, pytest) — VanderPlas + Ramalho + Tanimura + Mitchell + docs oficiales
+- [x] **1️⃣ Parte 1 — ML clásico (50 clases · 050-099)** ✅ completada (junio 2026), patrón pedagógico completo + **7 clases dedicadas modernas** (validación temporal, FE avanzado + MICE, Optuna dedicado, Model Cards/Responsible ML, class imbalance + SMOTE, calibración Platt/isotonic, SHAP en profundidad) — Géron 3ª ed., caps. 1–9 + docs XGBoost/LightGBM/CatBoost
+- [x] **2️⃣ Parte 2 — Deep Learning (75 clases · 100-174)** ✅ completada (junio 2026), patrón pedagógico completo + **19 clases dedicadas modernas 2024-2026** (Ray Tune, Lion/Sophia, Stochastic Depth, PyTorch+Lightning, SAM/YOLOv11, Flash Attention/RoPE/GQA, CLIP/SigLIP, Whisper, LoRA/QLoRA, DPO/RLHF, vLLM/TGI, MCP, Agentes ReAct, LLM Evaluation, SDXL+ControlNet, ONNX, JAX/Flax) — Géron 3ª ed. caps. 10-19 + papers seminales + HuggingFace + PyTorch ecosystem
+- [x] **3️⃣ Parte 3 — Estadística inferencial y causal (19 clases · 175-193)** ✅ completada (junio 2026), patrón pedagógico completo + **6 clases dedicadas modernas** (effect size, BCa bootstrap, CUPED+sequential, DoubleML/EconML, Synthetic Controls, stack PyMC v5/NumPyro/ArviZ) — ISLP + Bruce & Bruce + Pearl + Hernán & Robins
+- [ ] Desarrollar las 14 clases de la **4️⃣ Parte 4 — MLOps (194-207)** (siguiente prioridad)
+- [ ] Desarrollar las 25 clases restantes de las **Partes 5-8 (208-232)**
 
 ### 🔄 Superficies pendientes de migración
 
-- [ ] 📱 `mobile/src/data/classes.js` — regenerar contra el currículo actual
-- [ ] 🌐 `site/` — regenerar portal contra el currículo actual
+- [x] 📱 `mobile/src/data/classes.js` — actualizado a v3.0.0 (232 clases), pendiente UI Android para listar
+- [x] 🌐 `site/` — regenerado contra el currículo v3.0.0 (`scripts/generate_site_curriculum.py`)
 - [ ] 📄 `docs/pdfs/classes/` y `docs/presentaciones/classes/` — regenerar PDFs y PPTX por bloques al madurar el contenido
 - [ ] 🔧 Adaptar `scripts/generate_class_docs.py` y `scripts/generate_class_assets.py` para que recorran la estructura anidada del currículo
 
@@ -57,7 +57,7 @@
 
 ### 🧪 Laboratorio
 
-- [ ] 📊 Indicador de progreso por clase en el sidebar (con cobertura de las 197 clases)
+- [ ] 📊 Indicador de progreso por clase en el sidebar (con cobertura de las 232 clases)
 - [ ] 🌲 Navegación jerárquica (parte → clase) en lugar de lista plana
 - [ ] 📥 Soporte para importar notebooks `.ipynb` externos
 - [ ] 🌓 Modo oscuro / claro configurable desde la interfaz

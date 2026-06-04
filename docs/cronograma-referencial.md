@@ -38,11 +38,11 @@ Cubre el grueso de ML clásico y un primer contacto con Deep Learning.
 
 | Bloque | Partes / clases | Duración |
 |---|---|---|
-| 1. Prerrequisitos completos | Parte 0 (46 clases) | 8 semanas |
-| 2. ML clásico completo | Parte 1 (43 clases) | 8 semanas |
-| 3. Estadística inferencial | Parte 3 (13 clases) | 3 semanas |
-| 4. Deep Learning intro | Parte 2, clases 090–105 | 3 semanas |
-| 5. Capstones 1 y 2 | Parte 8, clases 194–195 | 4 semanas |
+| 1. Prerrequisitos completos | Parte 0 (49 clases · 001-049) | 9 semanas |
+| 2. ML clásico completo | Parte 1 (50 clases · 050-099) | 10 semanas |
+| 3. Estadística inferencial y causal | Parte 3 (19 clases · 175-193) | 5 semanas |
+| 4. Deep Learning intro | Parte 2, clases 100-125 | 5 semanas |
+| 5. Capstones 1 y 2 | Parte 8, clases 229-230 | 4 semanas |
 
 ### 🆎 C — Programa completo (12+ meses · ~400 horas)
 
@@ -50,14 +50,14 @@ Cobertura completa de la pauta. Recomendado para perfiles que buscan empleabilid
 
 | Bloque | Partes / clases | Duración |
 |---|---|---|
-| 1. Fundamentos completos | Parte 0 (46 clases) | 8 semanas |
-| 2. ML clásico + Estadística | Partes 1 y 3 (56 clases) | 10 semanas |
-| 3. Deep Learning completo | Parte 2 (56 clases) | 12 semanas |
-| 4. MLOps en producción | Parte 4 (14 clases) | 4 semanas |
-| 5. Ingeniería de datos | Parte 5 (8 clases) | 2 semanas |
-| 6. Recomendadores | Parte 6 (7 clases) | 2 semanas |
-| 7. Ética y fairness | Parte 7 (6 clases) | 1 semana |
-| 8. Capstones | Parte 8 (4 clases) | 6 semanas |
+| 1. Fundamentos completos | Parte 0 (49 clases · 001-049) | 9 semanas |
+| 2. ML clásico + Estadística + Causalidad | Partes 1 y 3 (69 clases · 050-099 + 175-193) | 14 semanas |
+| 3. Deep Learning completo (+ LLMs + multimodal) | Parte 2 (75 clases · 100-174) | 17 semanas |
+| 4. MLOps en producción | Parte 4 (14 clases · 194-207) | 4 semanas |
+| 5. Ingeniería de datos | Parte 5 (8 clases · 208-215) | 2 semanas |
+| 6. Recomendadores | Parte 6 (7 clases · 216-222) | 2 semanas |
+| 7. Ética y fairness | Parte 7 (6 clases · 223-228) | 1 semana |
+| 8. Capstones | Parte 8 (4 clases · 229-232) | 6 semanas |
 
 ### 🎯 D — Especialización (variable)
 

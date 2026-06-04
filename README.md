@@ -56,10 +56,10 @@ Integra currículo modular extenso, laboratorio interactivo local, portal del al
 
 | 🎯 Aspecto | Estado |
 |---|---|
-| 🏷️ **Versión** | `v2.3.0` |
-| 📚 **Clases** | 197 en 9 partes |
-| 🗂️ **Estructura** | ✅ scaffold de las 197 clases (`README.md` + `notebook.ipynb`) |
-| ✍️ **Contenido pedagógico** | 🟢 **Partes 0 y 1 (89 clases) — completas y ampliadas** con Definiciones · Errores comunes · FAQ + 13 complementos modernos integrados (regex, pytest, Polars, Parquet, async/httpx, validación temporal, FE avanzado, MICE, Optuna, model cards, class imbalance, calibración, SHAP/LIME) · ⏳ Partes 2-8 en desarrollo |
+| 🏷️ **Versión** | `v3.0.0` (junio 2026 — expansión 2026) |
+| 📚 **Clases** | **232 en 9 partes** · numeración secuencial limpia 001-232 |
+| 🗂️ **Estructura** | ✅ las 232 clases con `README.md` + `notebook.ipynb` |
+| ✍️ **Contenido pedagógico** | 🟢 **Partes 0, 1, 2 y 3 (193 clases) — completas y modernizadas** con Definiciones · Errores comunes · FAQ en cada clase + **35 clases dedicadas a temas modernos 2024-2026** (Polars/Parquet/async, Optuna/SHAP/calibración/Model Cards, PyTorch+Lightning, SAM/YOLOv11, Flash Attention/RoPE/GQA, CLIP/Whisper, LoRA/QLoRA/DPO/vLLM, MCP/agentes/eval, SDXL+ControlNet, ONNX, JAX, effect size, BCa, CUPED+sequential, DoubleML, Synthetic Controls, PyMC v5/NumPyro/ArviZ) · ⏳ Partes 4-8 (39 clases) en desarrollo |
 | 🧭 **Descubribilidad Pages** | ✅ tabla de contenidos automática + badges por clase + banner global de progreso |
 | 🧪 **Laboratorio Flask** | ✅ ejecución Python local, captura de gráficos, guardado de notebooks |
 | 🖥️ **App Windows** | ✅ código operativo · binario pendiente de rebuild (Edge WebView2, sin navegador) |
@@ -72,22 +72,21 @@ Cada parte tiene su **propio README** con narrativa completa: de qué trata, qu�
 
 | # | Parte | Clases | Foco | README |
 |---|---|---:|---|---|
-| 0️⃣ | Prerrequisitos ✅ | 46 | Python aplicado, NumPy, pandas, visualización, SQL, NoSQL, APIs | [📘 leer](classes/parte-0-prerrequisitos/README.md) |
-| 1️⃣ | ML clásico ✅ | 43 | Regresión, clasificación, ensembles, no supervisado | [📘 leer](classes/parte-1-machine-learning-clasico/README.md) |
-| 2️⃣ | Deep Learning | 56 | Keras, TF, CNN, RNN, Transformers, RL, despliegue | [📘 leer](classes/parte-2-deep-learning/README.md) |
-| 3️⃣ | Estadística inferencial | 13 | Hipótesis, A/B testing, inferencia causal, Bayes | [📘 leer](classes/parte-3-estadistica-inferencial/README.md) |
-| 4️⃣ | MLOps | 14 | Docker, CI/CD, MLflow, monitoreo, interpretabilidad | [📘 leer](classes/parte-4-mlops/README.md) |
-| 5️⃣ | Ingeniería de datos | 8 | Spark, Airflow, lakehouses, streaming | [📘 leer](classes/parte-5-ingenieria-de-datos/README.md) |
-| 6️⃣ | Recomendadores | 7 | Filtrado colaborativo, factorización, secuenciales | [📘 leer](classes/parte-6-sistemas-de-recomendacion/README.md) |
-| 7️⃣ | Ética, fairness, privacidad | 6 | Sesgo, explicabilidad, marcos normativos | [📘 leer](classes/parte-7-etica-fairness-privacidad/README.md) |
-| 8️⃣ | Capstones | 4 | Proyectos integradores end-to-end | [📘 leer](classes/parte-8-capstones/README.md) |
+| 0️⃣ | Prerrequisitos ✅ | 49 (001-049) | Python aplicado, NumPy, pandas, Polars, Parquet/Arrow/DuckDB, viz, SQL, NoSQL, APIs, async | [📘 leer](classes/parte-0-prerrequisitos/README.md) |
+| 1️⃣ | ML clásico ✅ | 50 (050-099) | Regresión, clasificación, ensembles, no supervisado, Optuna, SHAP, calibración, Model Cards | [📘 leer](classes/parte-1-machine-learning-clasico/README.md) |
+| 2️⃣ | Deep Learning ✅ | 75 (100-174) | Keras + PyTorch + Lightning, CNN (SAM/YOLOv11), Transformers + Flash/RoPE/GQA, LLMs (LoRA/DPO/vLLM), multimodal (CLIP/Whisper), MCP/agentes, SDXL+ControlNet, RL, ONNX/JAX, despliegue | [📘 leer](classes/parte-2-deep-learning/README.md) |
+| 3️⃣ | Estadística inferencial y causal ✅ | 19 (175-193) | Hipótesis + effect size, BCa bootstrap, A/B (CUPED+sequential), DoubleML, Synthetic Controls, Bayes (PyMC v5+NumPyro+ArviZ) | [📘 leer](classes/parte-3-estadistica-inferencial/README.md) |
+| 4️⃣ | MLOps | 14 (194-207) | Docker, CI/CD, MLflow, monitoreo, interpretabilidad | [📘 leer](classes/parte-4-mlops/README.md) |
+| 5️⃣ | Ingeniería de datos | 8 (208-215) | Spark, Airflow, lakehouses, streaming | [📘 leer](classes/parte-5-ingenieria-de-datos/README.md) |
+| 6️⃣ | Recomendadores | 7 (216-222) | Filtrado colaborativo, factorización, secuenciales | [📘 leer](classes/parte-6-sistemas-de-recomendacion/README.md) |
+| 7️⃣ | Ética, fairness, privacidad | 6 (223-228) | Sesgo, explicabilidad, marcos normativos | [📘 leer](classes/parte-7-etica-fairness-privacidad/README.md) |
+| 8️⃣ | Capstones | 4 (229-232) | Proyectos integradores end-to-end | [📘 leer](classes/parte-8-capstones/README.md) |
 
 ### 🚧 Trabajo pendiente
 
-- 📝 Rellenar contenido pedagógico de las 197 clases (orden recomendado en [`docs/syllabus.md`](docs/syllabus.md) y [`ROADMAP.md`](ROADMAP.md))
-- 📱 Migrar el contenido embebido del mobile (`mobile/src/data/classes.js`) a la estructura actual
-- 🌐 Migrar el portal `site/` al índice actual
-- 📄 Generar PDFs y PPTX por bloque al madurar el contenido de cada parte
+- 📝 Rellenar contenido pedagógico de las **39 clases restantes** (Partes 4-8, 194-232 — orden recomendado en [`docs/syllabus.md`](docs/syllabus.md) y [`ROADMAP.md`](ROADMAP.md))
+- 📱 Listar las 232 clases en la UI Android (`mobile/`) — el dato ya está actualizado a v3.0.0
+- 📄 Regenerar PDFs y PPTX (`docs/pdfs/`, `docs/presentaciones/`) con la nueva numeración 001-232 de cada parte
 
 ---
 
@@ -127,7 +126,7 @@ Cada parte tiene su **propio README** con narrativa completa: de qué trata, qu�
 | 🧪 Laboratorio interactivo (`app/`) | entorno local de clase — notebooks, runner, ejecución Python | ✅ operativo |
 | 🌐 Portal del alumno (`site/`) | punto de entrada oficial para estudiantes | ✅ operativo |
 | 🏛️ Vista institucional (`site/product/`) | presentación visual del producto | ✅ operativa |
-| 📚 Currículo modular (`classes/`) | 197 clases en 9 partes: Prerrequisitos, ML clásico, Deep Learning, Estadística inferencial, MLOps, Ingeniería de datos, Recomendadores, Ética, Capstones | 🟢 Partes 0-1 (89 clases) completas y ampliadas con 13 complementos modernos · 🟡 Partes 2-8 scaffold operativo, contenido en desarrollo |
+| 📚 Currículo modular (`classes/`) | **232 clases** en 9 partes (numeración secuencial 001-232): Prerrequisitos, ML clásico, Deep Learning, Estadística inferencial y causal, MLOps, Ingeniería de datos, Recomendadores, Ética, Capstones | 🟢 Partes 0-3 (**193 clases**) completas y modernizadas con **35 clases dedicadas a temas 2024-2026** · 🟡 Partes 4-8 (39 clases) scaffold operativo, contenido en desarrollo |
 | 🖥️ App de escritorio Windows (`launcher.py` + `program.spec` + `installer/`) | ventana nativa con Edge WebView2 — sin navegador, sin Python en el PC del alumno | 🟡 código operativo · binario pendiente de build |
 | 📱 App Android (`mobile/`) | Expo/React Native con integración Google Colab | 🟡 código operativo · contenido pendiente de migración |
 | 📄 PDFs (`docs/pdfs/`) | guías por clase | 🔄 se regeneran por bloques al madurar el contenido |
@@ -139,7 +138,7 @@ La fuente de verdad de esta taxonomía vive en [docs/CATALOGO_PRODUCTO.md](docs/
 
 ## 📚 Materiales listos para usar
 
-### 🗂️ Currículo (197 clases)
+### 🗂️ Currículo (232 clases)
 
 - 🧭 **Índice navegable:** [classes/README.md](classes/README.md)
 - 📖 **Pauta completa:** [docs/syllabus.md](docs/syllabus.md)
@@ -168,7 +167,7 @@ graph LR
 
     PRODUCT --> DOCS["docs/\nDocumentación canónica"]
     PORTAL --> DOCS
-    MOBILE --> CLASSES["classes/\n197 clases · 9 partes"]
+    MOBILE --> CLASSES["classes/\n232 clases · 9 partes"]
     MOBILE --> COLAB["Google Colab\n(ejecución de código)"]
     LAB --> CLASSES
     LAB --> DATA["datasets/\n6 CSV sintéticos"]
@@ -179,19 +178,19 @@ graph LR
 
 La arquitectura completa, con flujos y fronteras, está en [docs/ARQUITECTURA_PRODUCTO.md](docs/ARQUITECTURA_PRODUCTO.md).
 
-### 🗺️ Mapa del currículo (9 partes · 197 clases)
+### 🗺️ Mapa del currículo (9 partes · 232 clases · v3.0.0)
 
 ```mermaid
 graph TD
-    P0["0️⃣ Prerrequisitos<br/>46 clases"]:::found
-    P1["1️⃣ ML clásico<br/>43 clases"]:::ml
-    P2["2️⃣ Deep Learning<br/>56 clases"]:::dl
-    P3["3️⃣ Estadística inferencial<br/>13 clases"]:::stats
-    P4["4️⃣ MLOps<br/>14 clases"]:::ops
-    P5["5️⃣ Ingeniería de datos<br/>8 clases"]:::data
-    P6["6️⃣ Recomendadores<br/>7 clases"]:::rec
-    P7["7️⃣ Ética, fairness, privacidad<br/>6 clases"]:::eth
-    P8["8️⃣ Capstones<br/>4 proyectos"]:::cap
+    P0["0️⃣ Prerrequisitos<br/>49 clases (001-049)"]:::found
+    P1["1️⃣ ML clásico<br/>50 clases (050-099)"]:::ml
+    P2["2️⃣ Deep Learning<br/>75 clases (100-174)"]:::dl
+    P3["3️⃣ Estadística inferencial y causal<br/>19 clases (175-193)"]:::stats
+    P4["4️⃣ MLOps<br/>14 clases (194-207)"]:::ops
+    P5["5️⃣ Ingeniería de datos<br/>8 clases (208-215)"]:::data
+    P6["6️⃣ Recomendadores<br/>7 clases (216-222)"]:::rec
+    P7["7️⃣ Ética, fairness, privacidad<br/>6 clases (223-228)"]:::eth
+    P8["8️⃣ Capstones<br/>4 proyectos (229-232)"]:::cap
 
     P0 --> P1
     P0 --> P3
@@ -224,7 +223,7 @@ graph TD
 
 ### 📚 Currículo y pedagogía
 
-- **Currículo (scaffold):** 197 clases en 9 partes — Prerrequisitos (46), ML clásico (43), Deep Learning (56), Estadística inferencial (13), MLOps (14), Ingeniería de datos (8), Recomendadores (7), Ética (6), Capstones (4);
+- **Currículo (v3.0.0):** **232 clases** en 9 partes (numeración secuencial 001-232) — Prerrequisitos (49), ML clásico (50), Deep Learning (75), Estadística inferencial y causal (19), MLOps (14), Ingeniería de datos (8), Recomendadores (7), Ética (6), Capstones (4). **Partes 0-3 (193) completas y modernizadas 2024-2026** con 35 clases dedicadas a temas modernos · Partes 4-8 (39) scaffold;
 - pauta derivada de **Hands-On ML** (Géron 3ª ed.), **Python Data Science Handbook** (VanderPlas), **Designing ML Systems** (Huyen), **ISLP** (James et al), **Fairness and ML** (Barocas/Hardt/Narayanan);
 - cada clase: `README.md` (ficha) + `notebook.ipynb` (stub); materiales adicionales se agregan al madurar;
 - **6 datasets** sintéticos: ventas_tienda, retencion_clientes, soporte_tickets, transporte, estudiantes, comentarios_productos;
@@ -232,7 +231,7 @@ graph TD
 
 ### 🧪 Laboratorio interactivo
 
-- app Flask con acceso a las 197 clases desde interfaz web (descubrimiento automático por anidamiento);
+- app Flask con acceso a las 232 clases desde interfaz web (descubrimiento automático por anidamiento);
 - notebooks interactivos precargados con celdas editables y ejecutables;
 - ejecución de código Python por celdas con persistencia de sesión;
 - captura de gráficos matplotlib como PNG inline;

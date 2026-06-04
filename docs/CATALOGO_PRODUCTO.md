@@ -11,7 +11,7 @@
 
 > ⚠️ Si algún README, landing o presentación contradice este documento, **este tiene prioridad.**
 >
-> 📌 El currículo tiene **232 clases en 9 partes**. **Partes 0 y 1 (89 clases) están completas y ampliadas** con contenido pedagógico real + Definiciones/Errores/FAQ + 13 complementos modernos (regex, pytest, Polars, Parquet, async/httpx, validación temporal, FE avanzado, MICE, Optuna, model cards, class imbalance, calibración, SHAP/LIME). **Partes 2-8** tienen la estructura (scaffold) y se desarrollan por bloques. Pauta completa en [syllabus.md](syllabus.md), índice navegable en [../classes/README.md](../classes/README.md).
+> 📌 El currículo tiene **232 clases en 9 partes** (v3.0.0, numeración secuencial 001-232). **Partes 0, 1, 2 y 3 (193 clases) están completas y modernizadas** con contenido pedagógico real + Definiciones/Errores/FAQ en cada clase + 35 clases dedicadas a temas modernos 2024-2026 (Polars/Parquet/async, Optuna/SHAP/calibración/Model Cards, PyTorch+Lightning, SAM/YOLOv11, Flash Attention/RoPE/GQA, CLIP/Whisper, LoRA/QLoRA/DPO/vLLM, MCP/agentes/eval, SDXL+ControlNet, ONNX, JAX, effect size, BCa, CUPED+sequential, DoubleML, Synthetic Controls, PyMC v5/NumPyro/ArviZ). **Partes 4-8 (39 clases)** tienen la estructura scaffold y se desarrollan por bloques. Pauta completa en [syllabus.md](syllabus.md), índice navegable en [../classes/README.md](../classes/README.md).
 
 ---
 
@@ -35,7 +35,7 @@
 | App Android (`mobile/`) | distribución móvil | **catálogo vacío** | alumno en movimiento | código operativo, pero `mobile/src/data/classes.js` quedó como stub; pendiente cargar entradas del currículo actual |
 | Portal del alumno (`site/`) | superficie pública | operativo | alumno | muestra el resumen de 232 clases en 9 partes con tarjeta por parte |
 | Vista institucional (`site/product/`) | superficie pública | operativo (mensaje genérico) | institución / evaluador | narrativa del producto, alcance, arquitectura visual |
-| Currículo modular (`classes/`) | base pedagógica | **Partes 0 y 1 (89) completas y ampliadas** · Partes 2-8 scaffold | docente / alumno | 232 clases organizadas en 9 partes (Prerrequisitos, ML clásico, Deep Learning, Estadística inferencial, MLOps, Ingeniería de datos, Recomendadores, Ética, Capstones). Partes 0 y 1 incluyen Definiciones, Errores comunes y FAQ por clase, más 13 complementos modernos (regex, pytest, Polars, Parquet, async/httpx, validación temporal, FE avanzado, MICE, Optuna, model cards, class imbalance, calibración, SHAP/LIME). |
+| Currículo modular (`classes/`) | base pedagógica | **Partes 0, 1, 2 y 3 (193) completas y modernizadas** · Partes 4-8 (39) scaffold | docente / alumno | 232 clases organizadas en 9 partes (numeración secuencial 001-232: Prerrequisitos, ML clásico, Deep Learning, Estadística inferencial y causal, MLOps, Ingeniería de datos, Recomendadores, Ética, Capstones). Partes 0-3 incluyen Definiciones, Errores comunes y FAQ en cada clase, más 35 clases dedicadas a temas modernos 2024-2026. |
 | Kit documental (`docs/`) | capa editorial | operativo | docente / stakeholder | metodología, operación, evaluación, seguridad y arquitectura |
 | PDFs (`docs/pdfs/`) | artefacto de apoyo | se regenera por bloque | docente / alumno / evaluador | guías PDF por clase al madurar el contenido |
 | Presentaciones (`docs/presentaciones/`) | artefacto de apoyo | se regenera por bloque | docente | decks `.pptx` por clase al madurar el contenido |
@@ -105,7 +105,7 @@ Cada clase vive en `classes/parte-N-slug/NNN-tema-slug/` con `README.md` (ficha)
 
 ### Lo que no se debe mezclar
 
-- **el currículo está parcialmente desarrollado**: Partes 0 y 1 (89 clases) completas y ampliadas con Definiciones/Errores/FAQ + 13 complementos modernos; Partes 2-8 son scaffold cuya estructura existe pero el contenido pedagógico debe desarrollarse — no afirmar "232 clases listas para dictar";
+- **el currículo está parcialmente desarrollado**: Partes 0, 1, 2 y 3 (193 clases) completas y modernizadas con Definiciones/Errores/FAQ en cada clase + 35 clases dedicadas a temas modernos 2024-2026; Partes 4-8 (39 clases) son scaffold cuya estructura existe pero el contenido pedagógico debe desarrollarse — no afirmar "232 clases listas para dictar";
 - el portal del alumno **no es** todo el producto;
 - la vista institucional **no reemplaza** el laboratorio;
 - la app Android **no ejecuta Python nativo** — usa Google Colab;
@@ -116,14 +116,14 @@ Cada clase vive en `classes/parte-N-slug/NNN-tema-slug/` con `README.md` (ficha)
 
 ## 🚀 Versión inicial sugerida para primeros pasos
 
-Para una primera implementación acotada, desarrollar primero el **Bloque 0 — Prerrequisitos** (46 clases):
+Para una primera implementación acotada, **las Partes 0-3 (193 clases) ya están desarrolladas** (v3.0.0). El próximo bloque a desarrollar es la **Parte 4 — MLOps** (14 clases, números 194-207). Si se quiere arrancar con un bloque chico ya listo, **Parte 0 — Prerrequisitos** (49 clases, 001-049) está completa:
 
 1. Setup y herramientas (clases 001–005)
 2. Python aplicado a datos (clases 006–013)
 3. NumPy completo (clases 014–021)
-4. Pandas completo (clases 022–032)
-5. Visualización (clases 033–040)
-6. SQL y fuentes de datos (clases 041–046)
+4. Pandas completo (clases 022–032) + Polars + Parquet/Arrow/DuckDB (033–034)
+5. Visualización (clases 035–042)
+6. SQL y fuentes de datos (clases 043–048) + async/httpx (049)
 
 Con esto un alumno ya puede afrontar cualquier capstone tabular básico. Las partes 1 (ML clásico) y 3 (estadística inferencial) son el siguiente bloque natural.
 

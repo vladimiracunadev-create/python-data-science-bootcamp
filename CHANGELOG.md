@@ -13,6 +13,39 @@
 
 ---
 
+## [v3.0.0] — 2026-06-04 (BREAKING — gran restructuración del currículo)
+
+### Cambios estructurales (BREAKING)
+
+- **Currículo expandido a 232 clases** (antes 197). Numeración secuencial limpia **001-232** (sin sufijos `a/b/c`).
+  - **Partes 0-3 (193 clases) 100 % completas** con patrón pedagógico v2.2.0 y modernización 2024-2026.
+  - **35 clases dedicadas** a temas modernos integradas como clases propias (antes eran "complementos" dentro de otras clases).
+  - **8 complementos previos convertidos a clases independientes** (validación temporal, FE+MICE, Ray Tune, Lion/Sophia, Stochastic Depth, Flash Attention/RoPE/GQA, BCa bootstrap, stack PyMC v5).
+
+### Añadido
+
+- **Parte 2 — Deep Learning: 75/75 clases desarrolladas** (100-174) con patrón pedagógico completo. Géron 3ª ed. (caps. 10-19) + ecosistema PyTorch + HuggingFace + papers seminales.
+  - 19 clases dedicadas modernas: Ray Tune (HPO distribuido), Lion/Sophia/Schedule-Free (optimizadores 2023+), Stochastic Depth/DropPath/LayerDrop, PyTorch + Lightning, SAM/SAM 2, YOLOv11, Flash Attention v2/v3 + RoPE + GQA, CLIP/SigLIP, Whisper, LoRA/QLoRA, DPO/RLHF, vLLM/TGI, MCP (Model Context Protocol), Agentes (ReAct, multi-agent), LLM Evaluation (MMLU, MT-Bench, LLM-as-judge), SDXL + ControlNet, ONNX/ONNX Runtime, JAX/Flax.
+- **Parte 3 — Estadística inferencial y causal: 19/19 clases desarrolladas** (175-193). ISLP + Bruce & Bruce + Pearl + Hernán & Robins.
+  - 6 clases dedicadas modernas: effect size (Cohen's d/Hedges' g/Cliff's δ con pingouin), BCa bootstrap + APIs scipy modernas, CUPED + sequential testing + always-valid p-values, DoubleML/EconML (ML para causalidad), Synthetic Control Method (pysyncon, SparseSC), stack PyMC v5 + NumPyro + ArviZ.
+- **Parte 0 expandida a 49 clases** (antes 46) con 3 clases dedicadas: Polars (DataFrames modernos), Parquet + Arrow + DuckDB, async / httpx / aiohttp.
+- **Parte 1 expandida a 50 clases** (antes 43) con 7 clases dedicadas: validación temporal, FE avanzado + MICE, Optuna dedicado, Model Cards y Responsible ML, class imbalance/SMOTE, calibración de probabilidades, SHAP en profundidad.
+
+### Cambiado
+
+- **Numeración global renumerada**: P0=001-049, P1=050-099, P2=100-174, P3=175-193, P4=194-207, P5=208-215, P6=216-222, P7=223-228, P8=229-232.
+- **200 carpetas de clase renombradas** con git rename detection preservada.
+- **Limpieza de duplicados**: 17 anchors con complementos modernos en versión expansión-2026 pasaron a tener puntero corto a la clase dedicada en lugar de duplicar contenido.
+- **Documentación sincronizada**: ROADMAP, README root, RECRUITER, RUNBOOK, 4 README de Parte, classes/README.md, 8 docs en `docs/` (INDEX, syllabus, cronograma, ARQUITECTURA, CATALOGO, GUIA_EVALUACION, MOBILE_APP, despliegue), site/index.html, site/product/index.html, mobile/src/data/classes.js.
+- **site/clases regenerado** vía `scripts/generate_site_curriculum.py` (9 partes, 232 fichas HTML).
+- **README root**: badges actualizados — v3.0.0, 232 clases, Partes 0-3 al 100 %, Partes 4-8 en desarrollo.
+
+### Versión
+
+- `v2.3.0` → `v3.0.0` (BREAKING por renumeración global; todos los enlaces externos a clases por número quedan invalidados).
+
+---
+
 ## [v2.3.0] — 2026-06-01
 
 ### Añadido

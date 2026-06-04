@@ -68,7 +68,7 @@ Respuesta esperada: `{"service": "python-data-science-program", "status": "ok"}`
 Invoke-WebRequest -UseBasicParsing http://127.0.0.1:8000/ready
 ```
 
-Respuesta esperada: `{"classes": 197, "notebooks": 6, "status": "ready", ...}`
+Respuesta esperada: `{"classes": 232, "notebooks": 6, "status": "ready", ...}`
 
 ### 📚 Catálogo de clases
 
@@ -76,7 +76,7 @@ Respuesta esperada: `{"classes": 197, "notebooks": 6, "status": "ready", ...}`
 Invoke-WebRequest -UseBasicParsing http://127.0.0.1:8000/api/classes
 ```
 
-Debe devolver array de 197 objetos con `slug`, `title`, `path`.
+Debe devolver array de 232 objetos con `slug`, `title`, `path`.
 
 ### ⚡ Ejecución básica
 

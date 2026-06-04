@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Python Data Science Program | Portal del Alumno</title>
-  <meta name="description" content="Portal oficial del alumno para el programa de Python para Data Science. Pauta avanzada de 197 clases en 9 partes, recursos y laboratorio interactivo.">
+  <meta name="description" content="Portal oficial del alumno para el programa de Python para Data Science. Pauta avanzada de 232 clases en 9 partes (v3.0.0, expansión 2026 con PyTorch, LLMs, MCP, agentes, causalidad moderna), recursos y laboratorio interactivo.">
   <meta name="theme-color" content="#0f3d3e">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -33,9 +33,10 @@
         <p class="eyebrow">📚 Portal oficial del alumno</p>
         <h1>Tu punto de entrada al programa</h1>
         <p class="hero-text">
-          Pauta avanzada de 197 clases en 9 partes: prerrequisitos, ML clásico, Deep Learning,
-          estadística inferencial, MLOps, ingeniería de datos, recomendadores, ética y capstones.
-          Derivada de Géron, VanderPlas, Huyen, ISLP y Barocas/Hardt/Narayanan.
+          Pauta avanzada de 232 clases en 9 partes (v3.0.0, expansión 2026): prerrequisitos, ML clásico,
+          Deep Learning (PyTorch + LLMs + multimodal), estadística inferencial y causalidad moderna, MLOps,
+          ingeniería de datos, recomendadores, ética y capstones. Derivada de Géron, VanderPlas, Huyen, ISLP,
+          Barocas/Hardt/Narayanan + papers seminales 2024-2026 (Flash Attention, LoRA, DPO, ControlNet, MCP).
         </p>
         <div class="hero-actions">
           <a class="btn btn-primary" href="#clases">Ver el temario</a>
@@ -56,7 +57,7 @@
         </p>
         <div class="quick-stats">
           <div class="stat">
-            <strong>197</strong>
+            <strong>232</strong>
             <span>clases</span>
           </div>
           <div class="stat">
@@ -78,15 +79,16 @@
     <section id="clases" class="section">
       <div class="section-head">
         <p class="eyebrow">Temario completo</p>
-        <h2>Las 197 clases del programa</h2>
+        <h2>Las 232 clases del programa (v3.0.0)</h2>
         <p class="section-desc">
-          Pauta avanzada y completa: prerrequisitos (Python, NumPy, pandas, viz, SQL, NoSQL),
-          ML clásico, Deep Learning (Keras, TF, transformers, RL), estadística inferencial,
-          MLOps, ingeniería de datos, recomendadores, ética y capstones públicos.
-          El currículo está en fase scaffold — la estructura existe y el contenido se desarrolla por bloques.
+          Pauta avanzada y completa: prerrequisitos (Python, NumPy, pandas, Polars/Arrow/DuckDB, viz, SQL, NoSQL, async),
+          ML clásico (con Optuna, SHAP, calibración, Model Cards), Deep Learning (Keras + PyTorch + Lightning, CNN, Transformers,
+          LLMs con LoRA/DPO/vLLM, multimodal CLIP/Whisper, MCP y agentes, SDXL/ControlNet, ONNX, JAX), estadística inferencial
+          y causalidad moderna (DoubleML, Synthetic Controls, CUPED, PyMC v5), MLOps, ingeniería de datos, recomendadores,
+          ética y capstones. <strong>P0-P3 (193 clases) 100% completas y modernizadas 2024-2026.</strong>
         </p>
         <p style="margin-top:18px">
-          <a class="btn btn-primary" href="clases/index.html">📚 Ver currículo completo (197 fichas)</a>
+          <a class="btn btn-primary" href="clases/index.html">📚 Ver currículo completo (232 fichas)</a>
         </p>
       </div>
 
@@ -98,8 +100,8 @@
             <div class="class-icon">🧰</div>
             <h3>Prerrequisitos</h3>
             <p>Entorno, Python aplicado, NumPy, pandas, visualización, SQL, NoSQL, APIs. La base sin la que nada del resto tiene sentido.</p>
-            <ul class="class-topics"><li>46 clases · 6 bloques temáticos</li><li>Setup, Git, JupyterLab</li><li>Datos tabulares y no tabulares</li></ul>
-            <a class="class-cta" href="clases/parte-0-prerrequisitos/index.html">Ver las 46 fichas →</a>
+            <ul class="class-topics"><li>49 clases · 6 bloques temáticos</li><li>Setup, Git, JupyterLab</li><li>Datos tabulares, Polars, Parquet, async</li></ul>
+            <a class="class-cta" href="clases/parte-0-prerrequisitos/index.html">Ver las 49 fichas →</a>
           </div>
         </article>
 
@@ -109,8 +111,8 @@
             <div class="class-icon">📈</div>
             <h3>Machine Learning clásico</h3>
             <p>Regresión, clasificación, ensembles (Random Forest, XGBoost, LightGBM, CatBoost), no supervisado, PCA, anomalías.</p>
-            <ul class="class-topics"><li>43 clases</li><li>Validación cruzada y métricas reales</li><li>Tuning con Optuna</li></ul>
-            <a class="class-cta" href="clases/parte-1-machine-learning-clasico/index.html">Ver las 43 fichas →</a>
+            <ul class="class-topics"><li>50 clases</li><li>Optuna dedicado, SHAP, calibración, Model Cards</li><li>Class imbalance + SMOTE, validación temporal</li></ul>
+            <a class="class-cta" href="clases/parte-1-machine-learning-clasico/index.html">Ver las 50 fichas →</a>
           </div>
         </article>
 
@@ -119,9 +121,9 @@
           <div class="class-body">
             <div class="class-icon">🧠</div>
             <h3>Deep Learning</h3>
-            <p>Keras, TensorFlow, CNN para visión, RNN para secuencias, Transformers, RAG, LLMs aplicados, GANs, RL, despliegue a escala.</p>
-            <ul class="class-topics"><li>56 clases</li><li>Hugging Face, fine-tuning</li><li>TF Serving, Vertex AI</li></ul>
-            <a class="class-cta" href="clases/parte-2-deep-learning/index.html">Ver las 56 fichas →</a>
+            <p>Keras + PyTorch + Lightning, CNN (SAM, YOLOv11), Transformers + Flash Attention/RoPE/GQA, LLMs (LoRA/QLoRA, DPO, vLLM), multimodal (CLIP, Whisper), MCP + agentes ReAct, GANs, difusión (SDXL+ControlNet), RL, despliegue (ONNX, JAX, Vertex AI).</p>
+            <ul class="class-topics"><li>75 clases</li><li>HuggingFace, fine-tuning moderno</li><li>vLLM, ONNX, TensorRT, Vertex AI</li></ul>
+            <a class="class-cta" href="clases/parte-2-deep-learning/index.html">Ver las 75 fichas →</a>
           </div>
         </article>
 
@@ -130,9 +132,9 @@
           <div class="class-body">
             <div class="class-icon">📊</div>
             <h3>Estadística inferencial</h3>
-            <p>Hipótesis, bootstrap, A/B testing, diseño experimental, inferencia causal (DAGs, uplift, DiD), Bayes con PyMC.</p>
-            <ul class="class-topics"><li>13 clases</li><li>Tests paramétricos y no paramétricos</li><li>Causalidad aplicada</li></ul>
-            <a class="class-cta" href="clases/parte-3-estadistica-inferencial/index.html">Ver las 13 fichas →</a>
+            <p>Hipótesis con effect size (Cohen's d), BCa bootstrap, A/B testing moderno (CUPED + sequential), diseño experimental, causalidad (DAGs, DoubleML/EconML, Synthetic Controls, uplift, DiD), Bayes con PyMC v5 + NumPyro + ArviZ.</p>
+            <ul class="class-topics"><li>19 clases</li><li>Tests paramétricos / no paramétricos + effect size</li><li>Causalidad ML-driven, stack bayesiano moderno</li></ul>
+            <a class="class-cta" href="clases/parte-3-estadistica-inferencial/index.html">Ver las 19 fichas →</a>
           </div>
         </article>
 

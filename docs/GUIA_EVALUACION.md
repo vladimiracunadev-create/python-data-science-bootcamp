@@ -17,12 +17,12 @@
 Este repositorio es una **pauta avanzada y completa de Python y Data Science** organizada en 232 clases y 9 partes. La pauta está derivada de referentes profesionales: *Hands-On ML* (Géron, 3ª ed.), *Python Data Science Handbook* (VanderPlas), *Designing ML Systems* (Huyen), *ISLP* (James et al) y *Fairness and ML* (Barocas/Hardt/Narayanan).
 
 ```
-v2.3.0:  232 clases · 9 partes · Partes 0 y 1 (89) completas y ampliadas · Partes 2-8 scaffold
+v3.0.0:  232 clases · 9 partes · Partes 0, 1, 2 y 3 (193) completas y modernizadas 2024-2026 · Partes 4-8 (39) scaffold
 ```
 
 Incluye laboratorio interactivo local (Flask), app de escritorio nativa para Windows, app Android y una familia documental que distingue producto, operación y seguridad.
 
-**Estado honesto:** **Partes 0 y 1 (89 clases) están completas y ampliadas** con READMEs pedagógicos, secciones Definiciones/Errores comunes/FAQ por clase y 13 complementos modernos integrados (regex, pytest, Polars, Parquet, async/httpx, validación temporal, FE avanzado, MICE, Optuna, model cards, class imbalance, calibración, SHAP/LIME). En Parte 0 los notebooks también están desarrollados; en Parte 1 los notebooks siguen como stubs (el contenido pedagógico vive en los README). **Partes 2-8 (108 clases)** son scaffold — la estructura y la pauta están definidas; el contenido pedagógico se desarrolla por bloques. Ver progreso real en [GitHub Pages — currículo](https://vladimiracunadev-create.github.io/python-data-science-program/clases/).
+**Estado honesto (v3.0.0, junio 2026):** **Partes 0, 1, 2 y 3 (193 clases) están completas y modernizadas** con READMEs pedagógicos, secciones Definiciones/Errores comunes/FAQ en cada clase y 35 clases dedicadas a temas modernos 2024-2026 (Polars/Parquet/async, Optuna/SHAP/calibración/Model Cards, PyTorch+Lightning, SAM/YOLOv11, Flash Attention/RoPE/GQA, CLIP/Whisper, LoRA/QLoRA/DPO/vLLM, MCP/agentes/eval, SDXL+ControlNet, ONNX, JAX, effect size, BCa, CUPED+sequential, DoubleML, Synthetic Controls, PyMC v5/NumPyro/ArviZ). En Parte 0 los notebooks también están desarrollados; en Partes 1-3 los notebooks siguen como stubs (el contenido pedagógico vive en los README, ~150 líneas promedio). **Partes 4-8 (39 clases)** son scaffold — la estructura y la pauta están definidas; el contenido pedagógico se desarrolla por bloques. Ver progreso real en [GitHub Pages — currículo](https://vladimiracunadev-create.github.io/python-data-science-program/clases/).
 
 ---
 
@@ -119,7 +119,7 @@ Incluye laboratorio interactivo local (Flask), app de escritorio nativa para Win
 
 - una plataforma multiusuario endurecida para internet abierta;
 - un LMS con autenticación, roles y seguimiento centralizado;
-- **el currículo entero listo para dictar** — **Partes 0 y 1 (89 clases)** están completas y ampliadas con 13 complementos modernos integrados; Partes 2-8 (108 clases) están en scaffold y se desarrollan por bloques;
+- **el currículo entero listo para dictar** — **Partes 0, 1, 2 y 3 (193 clases)** están completas y modernizadas con 35 clases dedicadas a temas modernos 2024-2026; Partes 4-8 (39 clases) están en scaffold y se desarrollan por bloques;
 - la app Android en producción (APK debug, producción está en roadmap);
 - personalización ilimitada antes de definir condiciones reales.
 
