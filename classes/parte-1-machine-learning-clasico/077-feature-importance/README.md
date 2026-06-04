@@ -26,35 +26,11 @@ Al finalizar, el estudiante podrá:
 - Interpretabilidad global vs local.
 - Complemento moderno: SHAP, LIME, PDP, ICE.
 
-## 📌 Complemento: Interpretabilidad moderna con SHAP y LIME
+## 📌 Versión profundizada — 2026
 
-MDI y permutation son medidas **globales**: te dicen qué features importan en promedio para todo el dataset, pero no explican por qué *este* paciente concreto fue clasificado como de alto riesgo, o por qué *esta* solicitud de crédito fue rechazada. Para auditar modelos en producción, debuggear predicciones extrañas o cumplir requisitos regulatorios (EU AI Act, GDPR art. 22), necesitás **explicaciones locales** por instancia.
+El tema moderno que antes vivía como complemento dentro de esta clase ahora tiene su(s) clase(s) propia(s) con patrón completo, ejercicios y homework:
 
-**LIME** (Local Interpretable Model-agnostic Explanations, Ribeiro et al. 2016): perturba la instancia que querés explicar generando vecinos sintéticos, los pasa por el modelo black-box, y entrena un **modelo lineal simple localmente** ponderando por cercanía. Funciona con cualquier modelo (tabular, texto, imagen). Ejemplo mínimo:
-
-```python
-from lime.lime_tabular import LimeTabularExplainer
-explainer = LimeTabularExplainer(X_train.values, feature_names=X.columns, class_names=["no", "si"])
-exp = explainer.explain_instance(X_test.iloc[0].values, model.predict_proba, num_features=5)
-exp.show_in_notebook()
-```
-
-**SHAP** (SHapley Additive exPlanations, Lundberg & Lee 2017): asigna a cada feature un **Shapley value** —contribución promedio a la predicción sobre todas las coaliciones posibles de features, importado de teoría de juegos cooperativos—. Tiene tres propiedades únicas: es **aditivo** (la suma de contribuciones reconstruye la predicción), **consistente** y **localmente preciso**. Para árboles, `TreeExplainer` calcula valores exactos en tiempo polinómico:
-
-```python
-import shap
-explainer = shap.TreeExplainer(model)
-shap_values = explainer.shap_values(X_test)
-shap.summary_plot(shap_values, X_test)         # global: ranking + dirección
-shap.waterfall_plot(shap.Explanation(...))     # local: una predicción
-shap.dependence_plot("edad", shap_values, X_test)  # interacción feature-impacto
-```
-
-**Comparación**: LIME es agnóstico al modelo y fácil de usar pero **costoso por instancia e inestable** (resultados varían entre corridas por el sampleo aleatorio). SHAP tiene fundamento teórico sólido y es determinista, pero `KernelExplainer` (la versión model-agnostic) es **lento**; para árboles usá siempre `TreeExplainer` que es órdenes de magnitud más rápido y exacto.
-
-**PDP e ICE** son el complemento clásico: `sklearn.inspection.partial_dependence` muestra el efecto marginal promedio de una feature sobre la predicción (PDP) o curvas individuales por instancia (ICE plots). Útiles para entender la *forma* de la relación (lineal, escalonada, no monótona), aunque asumen independencia entre features.
-
-**Cuándo usar cada uno**: MDI/permutation para un primer screening rápido; PDP/ICE para entender la forma funcional; SHAP para auditoría rigurosa y explicaciones a stakeholders; LIME cuando trabajás con texto/imagen o necesitás una explicación rápida sin instalar más deps.
+- 👉 [Clase 077a — SHAP en profundidad: TreeExplainer, KernelExplainer, DeepExplainer](../077a-shap-en-profundidad-treeexplainer-deepexplainer/README.md)
 
 ## 📖 Definiciones y características
 
@@ -117,4 +93,4 @@ Sobre el dataset `load_breast_cancer`, entrená un `RandomForestClassifier` y en
 
 ## ➡️ Siguiente clase
 
-[078 — Boosting: AdaBoost y Gradient Boosting](../078-boosting-adaboost-gradient-boosting/README.md)
+[Clase 077a — SHAP en profundidad: TreeExplainer, KernelExplainer, DeepExplainer](../077a-shap-en-profundidad-treeexplainer-deepexplainer/README.md)

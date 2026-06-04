@@ -2,25 +2,30 @@
 
 > [⬅️ Volver al programa](../../README.md) · [📚 Índice completo](../README.md) · [⏮️ Parte anterior](../parte-0-prerrequisitos/README.md) · [⏭️ Parte siguiente](../parte-2-deep-learning/README.md)
 
-**43 clases · ~10 semanas · ✅ Contenido completo**
+**48 clases · ~11 semanas · ✅ Contenido completo**
 
 **Fuente principal:** **Géron** ([*Hands-On Machine Learning*, 3ª ed.](https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/)) — estructura completa de los capítulos 1–9. Para boosting moderno (clase 079): docs oficiales de XGBoost / LightGBM / CatBoost.
 
-Cada clase tiene su `README.md` con objetivo, resultados de aprendizaje verificables, dataset recomendado, 5 ejercicios y homework con criterio de aceptación. Todas las 43 clases incluyen las tres secciones del patrón pedagógico v2.2.0:
+Cada clase tiene su `README.md` con objetivo, resultados de aprendizaje verificables, dataset recomendado, 5 ejercicios y homework con criterio de aceptación. Todas las 48 clases incluyen las tres secciones del patrón pedagógico v2.2.0:
 
 - **📖 Definiciones y características** — términos técnicos con explicación y características clave.
 - **⚠️ Errores comunes** — tabla de síntomas/mensajes con causa y solución concretas.
 - **❓ Preguntas frecuentes** — FAQs auténticas que aparecen al estudiar cada tema.
 
-**📌 Complementos modernos integrados (cierran los 8 huecos del audit 2026):**
+**📌 Cobertura moderna (audit 2026) — 2 complementos integrados + 5 clases dedicadas:**
+
+Complementos integrados dentro de la clase original:
 
 - Clase 049 → validación temporal (`TimeSeriesSplit`, walk-forward).
 - Clase 050 → feature engineering avanzado (target encoding con CV) e imputación avanzada (`KNNImputer`, `IterativeImputer`/MICE).
-- Clase 052 → HPO moderno (Optuna, optimización bayesiana, Halving Search).
-- Clase 053 → Model Cards y documentación responsable (Mitchell 2018, EU AI Act).
-- Clase 056 → class imbalance (`class_weight`, SMOTE vía `imblearn`, threshold tuning).
-- Clase 067 → calibración de probabilidades (Platt, isotonic, temperature scaling).
-- Clase 077 → interpretabilidad moderna con SHAP y LIME.
+
+Clases dedicadas (expansión 2026 con patrón completo + ejercicios + homework propios):
+
+- Clase **052a** → HPO moderno (Optuna, TPE, Hyperband, multi-objective, Ray Tune).
+- Clase **053a** → Model Cards y Responsible ML (Mitchell 2018, EU AI Act, NIST AI RMF).
+- Clase **056a** → class imbalance (SMOTE, ADASYN, class_weight, threshold tuning, MCC, PR-AUC).
+- Clase **067a** → calibración de probabilidades (Platt, isotonic, temperature scaling, ECE, Brier).
+- Clase **077a** → SHAP en profundidad (TreeExplainer, KernelExplainer, DeepExplainer, summary/waterfall/dependence).
 
 ---
 
@@ -69,10 +74,13 @@ Al finalizar esta parte, el estudiante podrá:
 - [050 — Proyecto end-to-end: visión, datos, exploración, preparación](050-proyecto-end-to-end-vision-datos-exploracion-preparacion/README.md)
 - [051 — Selección y entrenamiento de modelo](051-seleccion-y-entrenamiento-de-modelo/README.md)
 - [052 — Fine-tuning (Grid Search, Randomized Search)](052-fine-tuning-grid-search-randomized-search/README.md)
+- [052a — Optuna y HPO bayesiano dedicado](052a-optuna-bayesian-hpo-dedicado/README.md) 🆕
 - [053 — Launch, monitoreo y mantenimiento](053-launch-monitoreo-y-mantenimiento/README.md)
+- [053a — Model Cards y Responsible ML](053a-model-cards-y-responsible-ml/README.md) 🆕
 - [054 — CRISP-DM como framework metodológico](054-crisp-dm-como-framework-metodologico/README.md)
 - [055 — Clasificación binaria con MNIST](055-clasificacion-binaria-con-mnist/README.md)
 - [056 — Métricas: confusion matrix, precision, recall, F1](056-metricas-confusion-matrix-precision-recall-f1/README.md)
+- [056a — Class imbalance: SMOTE, ADASYN, class_weight, threshold tuning](056a-class-imbalance-smote-adasyn-class-weight/README.md) 🆕
 - [057 — Precision/recall tradeoff](057-precision-recall-tradeoff/README.md)
 - [058 — Curva ROC y AUC](058-curva-roc-y-auc/README.md)
 - [059 — Clasificación multiclase, multilabel, multioutput](059-clasificacion-multiclase-multilabel-multioutput/README.md)
@@ -84,6 +92,7 @@ Al finalizar esta parte, el estudiante podrá:
 - [065 — Regularización: Ridge, Lasso, Elastic Net](065-regularizacion-ridge-lasso-elastic-net/README.md)
 - [066 — Early stopping](066-early-stopping/README.md)
 - [067 — Regresión logística (binaria y softmax)](067-regresion-logistica-binaria-y-softmax/README.md)
+- [067a — Calibración de probabilidades: Platt, isotonic, temperature scaling](067a-calibracion-de-probabilidades-platt-isotonic/README.md) 🆕
 - [068 — SVM lineal](068-svm-lineal/README.md)
 - [069 — SVM no lineal (kernel polinomial, RBF)](069-svm-no-lineal-kernel-polinomial-rbf/README.md)
 - [070 — SVM para regresión](070-svm-para-regresion/README.md)
@@ -94,6 +103,7 @@ Al finalizar esta parte, el estudiante podrá:
 - [075 — Bagging y Pasting](075-bagging-y-pasting/README.md)
 - [076 — Random Forests y Extra-Trees](076-random-forests-y-extra-trees/README.md)
 - [077 — Feature importance](077-feature-importance/README.md)
+- [077a — SHAP en profundidad: TreeExplainer, KernelExplainer, DeepExplainer](077a-shap-en-profundidad-treeexplainer-deepexplainer/README.md) 🆕
 - [078 — Boosting: AdaBoost, Gradient Boosting](078-boosting-adaboost-gradient-boosting/README.md)
 - [079 — XGBoost, LightGBM, CatBoost](079-xgboost-lightgbm-catboost/README.md)
 - [080 — Stacking](080-stacking/README.md)

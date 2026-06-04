@@ -32,37 +32,11 @@ Al finalizar la clase, el alumno podrá:
 | 7 | Model Cards y Datasheets | Documentación responsable del modelo y de los datos. |
 | 8 | Governance y rollback | Versionar modelos como código; poder volver atrás. |
 
-## 📌 Complemento: Model Cards y documentación responsable
+## 📌 Versión profundizada — 2026
 
-Una **Model Card** es un documento corto y estandarizado que acompaña a un modelo de ML y describe **qué hace, para qué fue entrenado, con qué datos, qué métricas obtuvo (overall y por subgrupos) y cuáles son sus limitaciones**. La idea la formalizó Mitchell et al. en *"Model Cards for Model Reporting"* (Google, FAT* 2019) y hoy es práctica estándar en proyectos serios. Importa por tres razones: **regulación** (la EU AI Act exige documentación técnica obligatoria para sistemas de alto riesgo), **transparencia** (usuarios y stakeholders pueden auditar el modelo sin leer el código) y **prevención de mal uso** (declarás explícitamente para qué *no* sirve).
+El tema moderno que antes vivía como complemento dentro de esta clase ahora tiene su(s) clase(s) propia(s) con patrón completo, ejercicios y homework:
 
-**Secciones típicas de una model card:**
-
-- **Detalles del modelo** — versión, fecha, autor, tipo (clasificador binario, regresor, LLM…), licencia.
-- **Uso previsto** — casos de uso autorizados y, sobre todo, **out-of-scope uses**.
-- **Factores** — subgrupos relevantes (género, edad, región, dispositivo).
-- **Métricas** — overall + desagregadas por subgrupo (no alcanza con un solo accuracy).
-- **Datos de entrenamiento y evaluación** — origen, tamaño, sesgos conocidos.
-- **Consideraciones éticas** — riesgos identificados, mitigaciones.
-- **Advertencias y recomendaciones** — cuándo *no* usar el modelo.
-
-**Herramientas:** `model-card-toolkit` de Google (genera HTML/Markdown desde un JSON), plantillas Markdown manuales (lo más usado en equipos chicos), y las **HuggingFace Model Cards** — un `README.md` con front-matter YAML que se volvió el estándar de facto en NLP y multimodal (cualquier modelo subido al Hub tiene una).
-
-**Mini-ejemplo — model card de un clasificador binario de churn:**
-
-| Campo | Valor |
-|---|---|
-| **Modelo** | `churn-classifier-v1.3` (RandomForest, 200 árboles) |
-| **Fecha / autor** | 2026-05-12 / Data Science Team |
-| **Uso previsto** | Predecir baja de cliente en próximos 30 días para campañas de retención. |
-| **Out-of-scope** | NO usar para decisiones de crédito, precios, ni para clientes < 30 días de antigüedad. |
-| **Métricas overall** | ROC-AUC 0.84, Precision@10% 0.61, Recall@10% 0.42 |
-| **Métricas por subgrupo** | AUC mujeres 0.83 / hombres 0.85 / sin género declarado 0.78 |
-| **Datos entrenamiento** | 180k clientes activos entre 2024-01 y 2025-12 (LATAM). |
-| **Limitaciones** | Bajo recall en clientes nuevos (< 90 días). Sesgo conocido en cohorte "sin género". |
-| **Contacto** | mlops@empresa.com |
-
-**Datasheets for Datasets** (Gebru et al., 2018) es el complemento natural: si la Model Card documenta el *modelo*, el Datasheet documenta el *dataset* — cómo se recolectó, quién lo etiquetó, qué consentimiento hay, qué sesgos tiene. Juntos forman la base de la documentación responsable: sin Datasheet del dataset, la Model Card flota en el aire (no sabés si las métricas son comparables con tu caso de uso).
+- 👉 [Clase 053a — Model Cards y Responsible ML](../053a-model-cards-y-responsible-ml/README.md)
 
 ## 📖 Definiciones y características
 
@@ -155,4 +129,4 @@ Las dos. La doc técnica (README, API reference) es para desarrolladores. La mod
 
 ## ➡️ Siguiente clase
 
-[Clase 054 — CRISP-DM como framework metodológico](../054-crisp-dm-como-framework-metodologico/README.md)
+[Clase 053a — Model Cards y Responsible ML](../053a-model-cards-y-responsible-ml/README.md)

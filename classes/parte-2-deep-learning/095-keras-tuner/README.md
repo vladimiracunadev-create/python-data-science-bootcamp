@@ -1,31 +1,173 @@
-# Clase 095 — Keras Tuner
+# Clase 095 — Keras Tuner (+ Optuna, Ray Tune)
 
-> Parte: **2-deep-learning**
-> Estado: **stub** (pendiente desarrollar contenido).
+> Parte: **2 — Deep Learning** · Fuente: Géron, **cap. 10** § *Fine-Tuning Neural Network Hyperparameters* + docs Keras Tuner / Optuna / Ray Tune. ⏱️ Duración estimada: **85 min**.
 
-## Objetivo
+## 🎯 Objetivo
 
-Describir el resultado de aprendizaje concreto de esta clase.
+Hacer **hyperparameter tuning** sistemático en redes neuronales — buscar `n_layers`, `units`, `lr`, `dropout`, etc. con estrategias modernas: Random Search, **Hyperband** y **Bayesian Optimization**. Conocer las tres herramientas estándar de Python — **Keras Tuner** (TF-native, simple), **Optuna** (multi-framework, default industrial) y **Ray Tune** (distribuido, escalable a clusters).
 
-## Resultados esperados
+## 📚 Resultados de aprendizaje
 
 Al finalizar, el estudiante podrá:
 
-- (resultado 1)
-- (resultado 2)
-- (resultado 3)
+- Definir un `model-building function` con hiperparámetros declarados vía `hp.Int`, `hp.Float`, `hp.Choice`.
+- Lanzar tuners de Keras Tuner: `RandomSearch`, `Hyperband`, `BayesianOptimization`.
+- Migrar el mismo problema a **Optuna** con `optuna.create_study(direction='minimize')` y `trial.suggest_float`.
+- Lanzar **Ray Tune** con `tune.run` para distribuir trials en múltiples GPUs/nodos.
+- Comparar las 3 estrategias (Random vs Hyperband vs Bayesian) en términos de eficiencia.
 
-## Temas clave
+## 🗺️ Temas
 
-- (subtema 1)
-- (subtema 2)
-- (subtema 3)
+- ¿Por qué tuning? Los defaults (Adam `lr=1e-3`, dropout `0.5`) rara vez son óptimos.
+- **Random Search** vs Grid Search: Bergstra & Bengio (2012) — random gana casi siempre por el "curse of low effective dimensionality".
+- **Hyperband** (Li et al. 2017): asignar más cómputo a configs prometedoras (successive halving).
+- **Bayesian Optimization** (TPE, GP): construye un modelo del paisaje y elige el siguiente trial inteligentemente.
+- Trade-off cómputo vs ganancia: típicamente 50-200 trials para una primera optimización.
+- **Complemento moderno**: Optuna y Ray Tune como alternativas multi-framework.
 
-## Materiales
+## 📌 Complemento: Optuna y Ray Tune
 
-- `README.md` — esta ficha
-- `notebook.ipynb` — cuaderno de la clase
+### Optuna — el estándar industrial moderno
 
-## Prerrequisitos
+Keras Tuner está atado a TF/Keras. **Optuna** (Akiba et al. 2019) es framework-agnóstico, funciona con PyTorch, JAX, scikit-learn y XGBoost; tiene mejor pruner por default (Hyperband), mejor visualización y soporte multi-objective. Para 2026 es el default industrial.
 
-Ver índice general en `classes/README.md` para dependencias entre clases.
+```python
+import optuna
+
+def objective(trial):
+    n_layers = trial.suggest_int('n_layers', 1, 4)
+    units    = trial.suggest_categorical('units', [32, 64, 128, 256])
+    lr       = trial.suggest_float('lr', 1e-5, 1e-2, log=True)   # log-uniform
+    dropout  = trial.suggest_float('dropout', 0.0, 0.5)
+
+    model = build_model(n_layers, units, lr, dropout)
+    history = model.fit(X_train, y_train, validation_split=0.2, epochs=20, verbose=0,
+                        callbacks=[keras.callbacks.EarlyStopping(patience=3)])
+    return min(history.history['val_loss'])
+
+study = optuna.create_study(direction='minimize',
+                            pruner=optuna.pruners.HyperbandPruner())
+study.optimize(objective, n_trials=50, n_jobs=4)
+
+print(study.best_params, study.best_value)
+optuna.visualization.plot_optimization_history(study).show()
+optuna.visualization.plot_param_importances(study).show()
+```
+
+**Por qué Optuna gana**:
+
+- **Define-by-run**: definís el espacio de búsqueda en código Python normal (con `if`, loops, samplers dinámicos). En Keras Tuner el espacio es declarativo y limitado.
+- **Pruner**: corta trials malos temprano (`MedianPruner`, `HyperbandPruner`).
+- **Storage**: SQLite por default → persistencia gratis; PostgreSQL para distribuido.
+- **Visualización**: importancia de hiperparámetros, slice plots, parallel coordinates — incluido out of the box.
+- **Multi-objective**: optimizar 2+ objetivos (accuracy vs latencia) con `directions=['maximize', 'minimize']`.
+
+### Ray Tune — para escala distribuida
+
+Cuando los trials son caros (entrenar un Transformer toma horas) y tenés un cluster con varias GPUs, **Ray Tune** (Liaw et al. 2018) lanza trials en paralelo sobre los nodos del cluster, con orquestación de fallos, checkpointing, y schedulers como **ASHA** (Async Successive Halving) y **Population Based Training (PBT)**.
+
+```python
+from ray import tune
+from ray.tune.schedulers import ASHAScheduler
+
+def trainable(config):
+    model = build_model(**config)
+    for epoch in range(30):
+        loss = train_one_epoch(model)
+        tune.report(loss=loss)   # reporta progreso → ASHA puede podar
+
+tune.run(
+    trainable,
+    config={'lr': tune.loguniform(1e-5, 1e-2), 'units': tune.choice([64, 128, 256])},
+    num_samples=100,
+    resources_per_trial={'cpu': 2, 'gpu': 1},
+    scheduler=ASHAScheduler(metric='loss', mode='min'),
+)
+```
+
+**Cuándo cada uno**:
+
+- **Keras Tuner**: prototipos rápidos en TF/Keras, 1 máquina, 1 GPU.
+- **Optuna**: default para cualquier proyecto serio, 1-pocas máquinas, framework-agnóstico. **Recomendado para producción**.
+- **Ray Tune**: cluster con >1 nodo, trials que toman horas, modelos grandes (LLMs, transformers de visión).
+
+**Integración cruzada**: Optuna tiene `OptunaSearch` para usarlo COMO el algoritmo de búsqueda dentro de Ray Tune — combinás Bayesian search de Optuna con orquestación distribuida de Ray. Patrón estándar en industria.
+
+## 📖 Definiciones y características
+
+- **Search space**: el rango/conjunto donde busca cada hiperparámetro.
+- **Trial**: una corrida de entrenamiento con una config específica.
+- **Random Search**: muestrea trials al azar del espacio.
+- **Hyperband**: corre muchos trials cortos, mata a los peores, sigue con los buenos por más épocas (successive halving en múltiples brackets).
+- **Bayesian Optimization / TPE (Tree-structured Parzen Estimator)**: modela P(config | resultado bueno) y muestrea de ahí.
+- **Pruner**: lógica para matar trials sin terminar (callback en cada época).
+- **`log=True`** en `suggest_float`: muestreo log-uniform — esencial para LR.
+
+## 📂 Dataset / recursos
+
+- Fashion-MNIST como dataset chico para iterar rápido.
+- Librerías: `keras-tuner` (`pip install keras-tuner`), `optuna`, `ray[tune]`.
+
+## 🧪 Ejercicios
+
+1. **Keras Tuner — RandomSearch**: tunear `units` ∈ `{32, 64, 128}` y `lr` ∈ `[1e-4, 1e-2]` log con 20 trials. Reportar mejores hiperparámetros y val_accuracy.
+2. **Keras Tuner — Hyperband**: el mismo espacio, 50 trials con Hyperband. Comparar tiempo total vs RandomSearch.
+3. **Optuna**: traducir el espacio a Optuna; correr 50 trials con `HyperbandPruner`; graficar `plot_optimization_history` y `plot_param_importances`.
+4. **Multi-objective**: optimizar simultáneamente `val_accuracy` (max) y `n_params` (min) con `optuna.create_study(directions=['maximize', 'minimize'])`. Inspeccionar la Pareto front.
+5. **Visualización**: con Optuna, generar `plot_parallel_coordinate(study)` y entender qué dimensiones son las más sensibles.
+
+## 📝 Homework verificable
+
+Tunear un MLP sobre Fashion-MNIST con Optuna:
+
+1. Espacio: `n_layers ∈ [1, 4]`, `units ∈ {32, 64, 128, 256}`, `dropout ∈ [0, 0.5]`, `lr ∈ [1e-5, 1e-2] log`, `optimizer ∈ {Adam, SGD}`.
+2. 100 trials con `HyperbandPruner`, `n_jobs=2`.
+3. Reportar `best_params`, `best_value`, y guardar el modelo final entrenado con esos params.
+4. Generar los 3 plots de visualización.
+
+**Criterio de aceptación**: val_accuracy del mejor modelo ≥ 0.89; `plot_param_importances` debe mostrar `lr` y/o `units` como las más importantes (típico).
+
+## ⚠️ Errores comunes
+
+| Síntoma / mensaje | Causa y cómo arreglar |
+|---|---|
+| LR muestreado uniforme entre `1e-5` y `1e-2` y nunca encuentra el óptimo | LR debe ser **log-uniform**. **Fix**: `trial.suggest_float('lr', 1e-5, 1e-2, log=True)`. |
+| Bayesian optimization parece random | Necesita >10-20 trials para que el modelo interno aprenda. Con <20 trials, Random es competitivo. |
+| Hyperband poda trials demasiado pronto | `factor` muy alto o `max_epochs` muy bajo. **Fix**: ajustar `factor=3, max_epochs=30`. |
+| `optuna` se cuelga al usar `n_jobs > 1` con Keras | TF tiene problemas con multi-threading. **Fix**: usar `n_jobs=1`, o lanzar procesos separados con storage compartido (SQLite/Postgres). |
+| Reportar el resultado del mejor trial **del set de val** | Eso es el resultado de búsqueda, no de evaluación. **Fix**: tener un test set separado e intacto para reportar el resultado final del mejor modelo. |
+
+## ❓ Preguntas frecuentes
+
+**❓ ¿Cuántos trials?**
+
+Mínimo 20–50 para Random / Hyperband. Bayesian se beneficia de más (100+). Si cada trial cuesta 1h → 100 trials = ~4 días en 1 GPU; con Ray Tune en 4 GPUs, ~1 día.
+
+**❓ ¿Tuning del LR primero o del resto?**
+
+LR primero, siempre. Es de lejos el hiperparámetro más sensible. Después arquitectura, después regularización.
+
+**❓ ¿Optuna o Keras Tuner para alguien que recién empieza?**
+
+Keras Tuner para entender la idea (más simple). Optuna apenas el problema es serio. La transición es rápida.
+
+**❓ ¿Cómo guardo el resultado del estudio Optuna?**
+
+`optuna.create_study(study_name='exp1', storage='sqlite:///optuna.db', load_if_exists=True)`. Persistencia gratis; podés agregar trials después.
+
+**❓ ¿Ray Tune en una sola máquina vale la pena?**
+
+Sí si tenés ≥ 4 cores o ≥ 2 GPUs. Optuna `n_jobs` también paraleliza pero Ray maneja mejor recursos heterogéneos y crashes.
+
+## 🔗 Referencias
+
+- Géron, **cap. 10** — *Fine-Tuning Neural Network Hyperparameters*.
+- Bergstra & Bengio (2012), *Random Search for Hyper-Parameter Optimization*, JMLR.
+- Li et al. (2017), *Hyperband*, JMLR.
+- Akiba et al. (2019), *Optuna: A Next-Generation Hyperparameter Optimization Framework*, KDD.
+- Liaw et al. (2018), *Tune: A Research Platform for Distributed Model Selection and Training*.
+- [Keras Tuner docs](https://keras.io/keras_tuner/), [Optuna docs](https://optuna.org/), [Ray Tune docs](https://docs.ray.io/en/latest/tune/index.html).
+
+## ➡️ Siguiente clase
+
+[Clase 096 — Vanishing/exploding gradients](../096-vanishing-exploding-gradients/README.md)

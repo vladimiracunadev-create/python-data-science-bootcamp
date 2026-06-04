@@ -29,33 +29,11 @@ Al finalizar la clase, el alumno podrá:
 | 5 | `multinomial` vs `ovr` | El primero es softmax real; el segundo entrena K binarios independientes. |
 | 6 | Predict_proba y calibración | El score no siempre es probabilidad confiable. |
 
-## 📌 Complemento: Calibración de probabilidades (Platt, isotonic, temperature scaling)
+## 📌 Versión profundizada — 2026
 
-Muchos clasificadores devuelven un `.predict_proba()` que **no es una probabilidad bien calibrada**: `RandomForest` tiende a empujar scores al medio, las SVM (vía Platt interno) suelen quedar sub-confiadas, y los boosting trees como `XGBoost` salen sobre-confiados. Que el modelo diga "0.9" no implica que 9 de cada 10 instancias con ese score sean realmente positivas. Si solo te importa `argmax` (la clase predicha) da igual; si **vas a tomar decisiones con la probabilidad** (threshold, expected loss, ranking, pricing), importa muchísimo.
+El tema moderno que antes vivía como complemento dentro de esta clase ahora tiene su(s) clase(s) propia(s) con patrón completo, ejercicios y homework:
 
-**Diagnóstico — reliability diagram**: con `sklearn.calibration.calibration_curve(y_true, y_proba, n_bins=10)` particionás las predicciones en bins por score y graficás la fracción real de positivos contra el score promedio del bin. Un modelo calibrado cae sobre la diagonal y=x. El **Brier score** (MSE entre probabilidad y label 0/1) resume la calibración en un número — más bajo, mejor.
-
-**Platt scaling**: ajusta una **regresión logística 1D sobre los scores** del modelo base usando un conjunto de calibración. Tiene 2 parámetros (a, b) → poco data-hungry, ~1000 ejemplos alcanzan. Asume que la mis-calibración tiene forma sigmoidea (típico en SVM). En sklearn: `CalibratedClassifierCV(method='sigmoid')`.
-
-**Isotonic regression**: ajusta una **función monótona no-decreciente** por partes — no paramétrica, mucho más flexible que Platt, pero requiere más datos (~10k+) o sobreajusta. Es la opción default cuando hay datos abundantes. En sklearn: `CalibratedClassifierCV(method='isotonic')`.
-
-**Temperature scaling** (más usado en deep learning): se aprende un único escalar **T** sobre el set de validación y se reemplazan los logits `z` por `z/T` antes del softmax. T > 1 suaviza (modelo era sobre-confiado), T < 1 afina. No está en sklearn pero son ~10 líneas con scipy.optimize. Ventaja: **no cambia el argmax**, solo recalibra magnitudes — útil cuando ya tenés un modelo en producción y solo querés arreglar las probabilidades sin retocar el clasificador.
-
-```python
-from sklearn.calibration import CalibratedClassifierCV, calibration_curve
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import brier_score_loss
-
-base = RandomForestClassifier(n_estimators=200, random_state=42)
-calibrado = CalibratedClassifierCV(estimator=base, cv=5, method='isotonic')
-calibrado.fit(X_train, y_train)
-
-proba = calibrado.predict_proba(X_test)[:, 1]
-print("Brier:", brier_score_loss(y_test, proba))
-frac_pos, mean_pred = calibration_curve(y_test, proba, n_bins=10)
-```
-
-**Cuándo importa**: decisiones con **costos asimétricos** (un FN cuesta 10× un FP → el threshold óptimo depende de p, no de argmax); cómputos de **expected loss** o pricing actuarial; **threshold tuning** explícito; **fairness** (paridad demográfica que compara P(ŷ=1|grupo) entre grupos requiere que esas probabilidades sean comparables); ensembles que promedian probabilidades de modelos heterogéneos.
+- 👉 [Clase 067a — Calibración de probabilidades: Platt, isotonic, temperature scaling](../067a-calibracion-de-probabilidades-platt-isotonic/README.md)
 
 ## 📖 Definiciones y características
 
@@ -149,4 +127,4 @@ Platt e isotonic son **monótonas no-decrecientes** → no cambian el ranking ni
 
 ## ➡️ Siguiente clase
 
-[Clase 068 — SVM lineal](../068-svm-lineal/README.md)
+[Clase 067a — Calibración de probabilidades: Platt, isotonic, temperature scaling](../067a-calibracion-de-probabilidades-platt-isotonic/README.md)

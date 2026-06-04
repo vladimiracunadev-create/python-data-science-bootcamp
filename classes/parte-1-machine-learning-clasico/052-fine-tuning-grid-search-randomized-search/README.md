@@ -30,58 +30,11 @@ Al finalizar la clase, el alumno podrá:
 | 6 | Pipelines + HPO con sintaxis `step__hparam` | Evita leakage del scaler/imputer al hacer CV. |
 | 7 | Inspeccionar `cv_results_` | DataFrame con todos los trials; sirve para decidir si refinar el grid. |
 
-## 📌 Complemento: HPO moderno con Optuna, optimización bayesiana y Halving Search
+## 📌 Versión profundizada — 2026
 
-Grid y random search son la baseline obligatoria, pero **no son la última palabra**. Grid escala mal (10 hparams × 5 valores = 9.7M de fits) y random, aunque mejor, **no aprende del trial anterior**: tira dardos a ciegas. Cuando un solo fit cuesta minutos u horas (XGBoost en N grande, redes neuronales), tirar 200 dardos al azar es plata quemada.
+El tema moderno que antes vivía como complemento dentro de esta clase ahora tiene su(s) clase(s) propia(s) con patrón completo, ejercicios y homework:
 
-### Halving Search (sklearn experimental)
-
-`HalvingGridSearchCV` y `HalvingRandomSearchCV` implementan **successive halving**: arrancan con muchos candidatos pero poco "recurso" (pocas filas o pocos árboles), descartan la mitad peor, duplican el recurso a los sobrevivientes, y repiten. Ganan tiempo cuando el ranking de candidatos se estabiliza temprano. Importante: hay que habilitarlo explícitamente porque sigue siendo experimental.
-
-```python
-from sklearn.experimental import enable_halving_search_cv  # noqa
-from sklearn.model_selection import HalvingRandomSearchCV
-```
-
-### Optimización bayesiana — la intuición
-
-En lugar de muestrear al azar, **modelás `f(hiperparámetros) → score`** con un surrogate barato (típicamente un Gaussian Process o un TPE — Tree-structured Parzen Estimator) y, dado lo que ya viste, elegís el próximo trial donde la **sorpresa esperada es mayor**: o muy prometedor (explotación), o muy incierto (exploración). El criterio se llama *acquisition function* (Expected Improvement, UCB). Resultado: con 50 trials bayesianos solés llegar a donde random llega con 500.
-
-### Optuna — la librería de referencia hoy
-
-```python
-import optuna
-from sklearn.model_selection import cross_val_score
-from sklearn.ensemble import RandomForestRegressor
-
-def objective(trial):
-    max_depth = trial.suggest_int('max_depth', 2, 20)
-    n_estimators = trial.suggest_int('n_estimators', 50, 500)
-    max_features = trial.suggest_float('max_features', 0.1, 1.0)
-    model = RandomForestRegressor(
-        max_depth=max_depth,
-        n_estimators=n_estimators,
-        max_features=max_features,
-        n_jobs=-1,
-        random_state=42,
-    )
-    return cross_val_score(model, X_train, y_train, cv=5,
-                           scoring='neg_root_mean_squared_error').mean()
-
-study = optuna.create_study(direction='maximize')
-study.optimize(objective, n_trials=100)
-print(study.best_params)
-```
-
-Ventajas concretas: define-by-run (el espacio se construye dentro de `objective`, podés ramificar con `if`), persistencia del study en SQLite, dashboard web (`optuna-dashboard`), integración con MLflow.
-
-### Pruners — cortar trials malos pronto
-
-Optuna permite **pruning**: si un trial va para atrás en las primeras épocas/folds, lo matás antes de completarlo. El `MedianPruner` corta cualquier trial cuyo intermedio quede por debajo de la mediana de los completados al mismo paso. Combinado con TPE, suele dar 3-5× speedup.
-
-### Alternativas
-
-`hyperopt` (TPE, predecesor histórico de Optuna), `scikit-optimize` (`BayesSearchCV`, API sklearn-like), `ray.tune` (distribuido sobre cluster, combina HPO + ASHA + bayes), `Ax` / `BoTorch` (Meta, multi-objetivo serio).
+- 👉 [Clase 052a — Optuna y HPO bayesiano dedicado](../052a-optuna-bayesian-hpo-dedicado/README.md)
 
 ## 📖 Definiciones y características
 
@@ -177,4 +130,4 @@ Con CV adentro de `GridSearchCV` ya tenés validación honesta sobre folds del t
 
 ## ➡️ Siguiente clase
 
-[Clase 053 — Launch, monitoreo y mantenimiento](../053-launch-monitoreo-y-mantenimiento/README.md)
+[Clase 052a — Optuna y HPO bayesiano dedicado](../052a-optuna-bayesian-hpo-dedicado/README.md)

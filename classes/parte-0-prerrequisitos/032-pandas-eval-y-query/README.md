@@ -108,4 +108,4 @@ Para filtros, sí (mismo nivel expresivo). Para joins y aggregations, no — usa
 
 ## ➡️ Siguiente clase
 
-[Clase 033 — Matplotlib: anatomía figura/axes](../033-matplotlib-anatomia-figura-axes/README.md)
+[Clase 032a — Polars: DataFrames modernos](../032a-polars-dataframes-modernos/README.md)

@@ -2,9 +2,41 @@
 
 > [⬅️ Volver al programa](../../README.md) · [📚 Índice completo](../README.md) · [⏮️ Parte anterior](../parte-1-machine-learning-clasico/README.md) · [⏭️ Parte siguiente](../parte-3-estadistica-inferencial/README.md)
 
-**56 clases** · ~13–14 semanas
+**71 clases** · ~16–18 semanas · ✅ Contenido completo (expansión 2026: PyTorch dedicado, SAM/YOLOv11, CLIP/Whisper, LoRA/DPO/vLLM, MCP, agentes, eval, SDXL, ONNX, JAX)
 
-**Fuente principal:** **Géron** ([*Hands-On ML*, 3ª ed.](https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/)) — capítulos 10–19, con incorporación de LLMs modernos, RAG y modelos de difusión.
+**Fuente principal:** **Géron** ([*Hands-On ML*, 3ª ed.](https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/)) — capítulos 10–19. Complementado con **Howard & Gugger** (*Deep Learning for Coders with fastai & PyTorch*), **Prince** (*Understanding Deep Learning*, 2024), papers seminales de Transformers/LLMs y documentación oficial de PyTorch, Hugging Face, JAX y ONNX.
+
+Cada clase tiene su `README.md` con objetivo, resultados de aprendizaje verificables, dataset recomendado, 5 ejercicios y homework con criterio de aceptación. Todas las 71 clases incluyen las tres secciones del patrón pedagógico v2.2.0:
+
+- **📖 Definiciones y características** — términos técnicos con explicación y características clave.
+- **⚠️ Errores comunes** — tabla de síntomas/mensajes con causa y solución concretas (CUDA OOM, NaN loss, gradient explosion, etc.).
+- **❓ Preguntas frecuentes** — FAQs auténticas que aparecen al estudiar cada tema.
+
+**📌 Cobertura moderna (audit 2026) — 4 complementos integrados + 15 clases dedicadas:**
+
+Complementos integrados dentro de la clase original:
+
+- Clase 095 → **Optuna** y **Ray Tune** como alternativas multi-framework a Keras Tuner.
+- Clase 102 → optimizadores 2023+: **Lion** (Chen et al.), **Sophia** y la corrección moderna de **AdamW**.
+- Clase 104 → regularización moderna: **Stochastic Depth**, **DropPath**, **Layer Drop** (más allá del dropout clásico).
+- Clase 126 → **Flash Attention v2/v3**, **RoPE** (Rotary Position Embeddings), **Grouped-Query Attention (GQA)** — lo que hace a los LLMs actuales rápidos.
+
+Clases dedicadas (expansión 2026 con patrón completo + ejercicios + homework propios):
+
+- Clase **108a** / **108b** → PyTorch fundamentos + PyTorch Lightning — el stack dominante en industria.
+- Clase **117b** → Segment Anything (SAM / SAM 2) — foundation model de segmentación.
+- Clase **117c** → YOLOv11 práctico — detección, segmentación, pose, tracking.
+- Clase **127a** → CLIP / SigLIP — embeddings multimodales.
+- Clase **127b** → Whisper — ASR / transcripción / traducción de audio.
+- Clase **128a** → LoRA / QLoRA — fine-tuning eficiente de LLMs.
+- Clase **128b** → DPO / RLHF — alineamiento de LLMs.
+- Clase **128c** → vLLM / TGI — serving de LLMs en producción.
+- Clase **129a** → MCP (Model Context Protocol) — herramientas y datos para LLMs.
+- Clase **129b** → Agentes — tool use, ReAct, multi-agent.
+- Clase **129c** → LLM Evaluation — MMLU, MT-Bench, LLM-as-judge.
+- Clase **133a** → Stable Diffusion XL + ControlNet — generación visual moderna.
+- Clase **139a** → ONNX / ONNX Runtime — portabilidad e inference optimizada.
+- Clase **144a** → JAX / Flax — stack moderno de Google.
 
 ---
 
@@ -67,6 +99,8 @@ Al finalizar esta parte, el estudiante podrá:
 - [106 — Losses, métricas, capas, modelos custom](106-losses-metricas-capas-modelos-custom/README.md)
 - [107 — Funciones y grafos (autograph)](107-funciones-y-grafos-autograph/README.md)
 - [108 — Custom training loops](108-custom-training-loops/README.md)
+- [108a — PyTorch fundamentos: tensores, autograd, nn.Module](108a-pytorch-fundamentos-tensores-autograd/README.md) 🆕
+- [108b — PyTorch Lightning: Trainer + distributed](108b-pytorch-lightning-trainer-distribuido/README.md) 🆕
 - [109 — tf.data API](109-tf-data-api/README.md)
 - [110 — TFRecord](110-tfrecord/README.md)
 - [111 — Keras preprocessing layers](111-keras-preprocessing-layers/README.md)
@@ -76,6 +110,8 @@ Al finalizar esta parte, el estudiante podrá:
 - [115 — Arquitecturas CNN: LeNet, AlexNet, VGG, GoogLeNet, ResNet, Xception, SENet, EfficientNet](115-arquitecturas-cnn-lenet-alexnet-vgg-googlenet-resnet-xception-senet-ef/README.md)
 - [116 — Transfer learning con CNNs preentrenadas](116-transfer-learning-con-cnns-preentrenadas/README.md)
 - [117 — Localización, detección (YOLO, Faster R-CNN), segmentación semántica](117-localizacion-deteccion-yolo-faster-r-cnn-segmentacion-semantica/README.md)
+- [117b — Segment Anything (SAM / SAM 2)](117b-segment-anything-sam-sam2/README.md) 🆕
+- [117c — YOLOv11 práctico: detección, segmentación, pose, tracking](117c-yolov11-deteccion-segmentacion-practica/README.md) 🆕
 - [118 — RNNs: neuronas recurrentes, BPTT](118-rnns-neuronas-recurrentes-bptt/README.md)
 - [119 — Forecasting de series con RNN](119-forecasting-de-series-con-rnn/README.md)
 - [120 — LSTM, GRU](120-lstm-gru/README.md)
@@ -86,23 +122,34 @@ Al finalizar esta parte, el estudiante podrá:
 - [125 — Mecanismos de atención](125-mecanismos-de-atencion/README.md)
 - [126 — Transformers: arquitectura, BERT, GPT](126-transformers-arquitectura-bert-gpt/README.md)
 - [127 — Hugging Face Transformers (uso práctico)](127-hugging-face-transformers-uso-practico/README.md)
+- [127a — CLIP, SigLIP: multimodal embeddings](127a-clip-siglip-multimodal-embeddings/README.md) 🆕
+- [127b — Whisper: ASR, transcripción, traducción de audio](127b-whisper-asr-audio-transcripcion-traduccion/README.md) 🆕
 - [128 — LLMs aplicados: fine-tuning, prompting](128-llms-aplicados-fine-tuning-prompting/README.md)
+- [128a — LoRA / QLoRA: fine-tuning eficiente de LLMs](128a-lora-qlora-fine-tuning-eficiente/README.md) 🆕
+- [128b — DPO y RLHF: alineamiento de LLMs](128b-dpo-rlhf-alineamiento-de-llms/README.md) 🆕
+- [128c — vLLM y TGI: serving de LLMs en producción](128c-vllm-tgi-serving-llm-produccion/README.md) 🆕
 - [129 — RAG básico y embeddings](129-rag-basico-y-embeddings/README.md)
+- [129a — MCP (Model Context Protocol)](129a-mcp-model-context-protocol/README.md) 🆕
+- [129b — Agentes: tool use, ReAct, multi-agent](129b-agentes-tool-use-react-multi-agent/README.md) 🆕
+- [129c — LLM Evaluation: MMLU, MT-Bench, LLM-as-judge](129c-llm-evaluation-mmlu-mtbench-llm-as-judge/README.md) 🆕
 - [130 — Autoencoders: undercomplete, stacked, denoising, sparse](130-autoencoders-undercomplete-stacked-denoising-sparse/README.md)
 - [131 — Variational Autoencoders (VAE)](131-variational-autoencoders-vae/README.md)
 - [132 — GANs: DCGAN, Progressive GAN, StyleGAN](132-gans-dcgan-progressive-gan-stylegan/README.md)
 - [133 — Modelos de difusión (DDPM, score-based)](133-modelos-de-difusion-ddpm-score-based/README.md)
+- [133a — Stable Diffusion XL + ControlNet en profundidad](133a-stable-diffusion-xl-controlnet/README.md) 🆕
 - [134 — RL: aprendizaje por recompensa, OpenAI Gymnasium](134-rl-aprendizaje-por-recompensa-openai-gymnasium/README.md)
 - [135 — Policy gradients](135-policy-gradients/README.md)
 - [136 — Markov Decision Processes](136-markov-decision-processes/README.md)
 - [137 — TD Learning, Q-Learning, Deep Q-Networks](137-td-learning-q-learning-deep-q-networks/README.md)
 - [138 — RL moderno: A3C, PPO, SAC (vista general)](138-rl-moderno-a3c-ppo-sac-vista-general/README.md)
 - [139 — TF Serving + gRPC](139-tf-serving-grpc/README.md)
+- [139a — ONNX y ONNX Runtime: portabilidad e inference optimizada](139a-onnx-onnx-runtime-portabilidad/README.md) 🆕
 - [140 — Despliegue en Vertex AI](140-despliegue-en-vertex-ai/README.md)
 - [141 — TF Lite (mobile/embedded)](141-tf-lite-mobile-embedded/README.md)
 - [142 — TensorFlow.js (navegador)](142-tensorflow-js-navegador/README.md)
 - [143 — Aceleración con GPU](143-aceleracion-con-gpu/README.md)
 - [144 — Entrenamiento multi-dispositivo, tf.distribute](144-entrenamiento-multi-dispositivo-tf-distribute/README.md)
+- [144a — JAX y Flax: el stack moderno de Google para DL](144a-jax-flax-fundamentos/README.md) 🆕
 - [145 — Entrenamiento a escala con Vertex AI](145-entrenamiento-a-escala-con-vertex-ai/README.md)
 
 ---

@@ -113,4 +113,4 @@ Respeta. Aumentar agresividad (proxies, rotating User-Agents) puede ser ilegal e
 
 ## ➡️ Siguiente clase
 
-[Clase ../ — Parte 1 — Panorama del ML](../../parte-1-machine-learning-clasico/047-panorama-del-ml-tipos-batch-vs-online-instance-vs-model-based/README.md)
+[Clase 046a — async / httpx / aiohttp para data scientists](../046a-async-httpx-aiohttp-para-data-scientists/README.md)

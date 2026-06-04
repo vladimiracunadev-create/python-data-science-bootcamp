@@ -30,59 +30,11 @@ Al finalizar la clase, el alumno podrá:
 | 6 | Accuracy y por qué falla con clases desbalanceadas | Paradoja del 99% inútil. |
 | 7 | Class imbalance: class_weight, SMOTE, threshold tuning | Cuándo aplicar cada uno. |
 
-## 📌 Complemento: Class imbalance (SMOTE, class_weight, threshold tuning)
+## 📌 Versión profundizada — 2026
 
-En muchos problemas reales la clase positiva es rara: fraude (~0.1%), churn (~5%), diagnóstico de enfermedad rara (~1%). Un modelo que predice **"todo negativo"** alcanza 99% accuracy y **cero utilidad** — recall = 0, precision indefinida. Detectar y mitigar el imbalance es parte del trabajo, no un detalle.
+El tema moderno que antes vivía como complemento dentro de esta clase ahora tiene su(s) clase(s) propia(s) con patrón completo, ejercicios y homework:
 
-Hay tres enfoques principales, y suelen combinarse:
-
-**1. `class_weight` (lo más simple, primer intento siempre).**
-Casi todos los modelos de sklearn aceptan `class_weight='balanced'`, que pondera la loss inversamente proporcional a la frecuencia de cada clase. Cero cambios al dataset, cero leakage posible.
-
-```python
-from sklearn.linear_model import LogisticRegression
-clf = LogisticRegression(class_weight='balanced', max_iter=1000)
-clf.fit(X_train, y_train)
-```
-
-**2. Resampling (SMOTE para oversampling, RandomUnderSampler para undersampling).**
-**SMOTE** (*Synthetic Minority Over-sampling Technique*) genera ejemplos sintéticos de la clase minoritaria **interpolando** entre cada muestra y sus k-vecinos más cercanos en el espacio de features. No duplica filas (eso es random oversampling y suele overfittear), sino que crea puntos nuevos sobre los segmentos que unen vecinos. Librería: `imbalanced-learn` (`pip install imbalanced-learn`).
-
-```python
-from imblearn.over_sampling import SMOTE
-from imblearn.pipeline import Pipeline  # ojo: el de imblearn, NO el de sklearn
-from sklearn.linear_model import LogisticRegression
-
-pipe = Pipeline([
-    ('smote', SMOTE(random_state=42)),
-    ('clf', LogisticRegression(max_iter=1000)),
-])
-pipe.fit(X_train, y_train)  # SMOTE solo se aplica en fit, no en predict
-```
-
-**3. Threshold tuning (mover el umbral del 0.5 por defecto).**
-`predict()` usa 0.5 como umbral sobre `predict_proba()`. En problemas desbalanceados ese 0.5 es arbitrario y casi nunca es óptimo. Conviene calcular `precision_recall_curve` sobre un set de validación y elegir el umbral que maximiza F1 (o F-beta si te importa más recall):
-
-```python
-from sklearn.metrics import precision_recall_curve, f1_score
-import numpy as np
-
-probs = clf.predict_proba(X_val)[:, 1]
-prec, rec, thr = precision_recall_curve(y_val, probs)
-f1s = 2 * prec * rec / (prec + rec + 1e-12)
-best_thr = thr[np.argmax(f1s[:-1])]  # thr tiene 1 elem menos
-y_pred = (clf.predict_proba(X_test)[:, 1] >= best_thr).astype(int)
-```
-
-> ⚠️ **Warning SMOTE — leakage.** NUNCA aplicar SMOTE antes del train/test split, ni antes del CV split. Solo dentro del **train fold**, vía `imblearn.pipeline.Pipeline`. Aplicarlo sobre el dataset completo "filtra" información del test al train (vecinos sintéticos del minoritario se construyen viendo el test) e infla las métricas de manera fraudulenta.
-
-**Variantes útiles** (todas en `imbalanced-learn`):
-
-- **`ADASYN`** — como SMOTE pero genera más sintéticos en las zonas donde la clase minoritaria es difícil de clasificar.
-- **`BorderlineSMOTE`** — solo sintetiza cerca de la frontera de decisión.
-- **`TomekLinks`** — undersampling que elimina pares de vecinos de clases distintas (limpia la frontera). Suele combinarse con SMOTE → `SMOTETomek`.
-
-**Regla práctica de elección:** empezá con `class_weight='balanced'`. Si no alcanza, sumá threshold tuning. SMOTE/ADASYN como tercer recurso cuando los dos anteriores no rinden y tenés evidencia de que el modelo no separa bien la frontera.
+- 👉 [Clase 056a — Class imbalance: SMOTE, ADASYN, class_weight, threshold tuning](../056a-class-imbalance-smote-adasyn-class-weight/README.md)
 
 ## 📖 Definiciones y características
 
@@ -176,4 +128,4 @@ Casi nunca — es el default de `predict()` pero no tiene base teórica. Con `pr
 
 ## ➡️ Siguiente clase
 
-[Clase 057 — Precision/Recall trade-off](../057-precision-recall-tradeoff/README.md)
+[Clase 056a — Class imbalance: SMOTE, ADASYN, class_weight, threshold tuning](../056a-class-imbalance-smote-adasyn-class-weight/README.md)

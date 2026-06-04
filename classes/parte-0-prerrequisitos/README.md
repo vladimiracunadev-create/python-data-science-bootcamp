@@ -2,7 +2,7 @@
 
 > [⬅️ Volver al programa](../../README.md) · [📚 Índice completo](../README.md) · [⏭️ Parte siguiente](../parte-1-machine-learning-clasico/README.md)
 
-**46 clases · ~10–12 semanas a ritmo moderado · ✅ Contenido completo**
+**49 clases · ~11–13 semanas a ritmo moderado · ✅ Contenido completo**
 
 **Fuentes (por bloque):**
 
@@ -14,7 +14,7 @@
 
 Cada clase tiene su `README.md` con objetivo, resultados de aprendizaje verificables, dataset recomendado, 5 ejercicios y homework con criterio de aceptación. Cada `notebook.ipynb` trae 10–18 celdas mezclando markdown explicativo + código ejecutable (basado en VanderPlas/Ramalho donde aplica).
 
-**✨ Ampliación pedagógica (v2.2.0):** todas las 46 clases incluyen además tres secciones nuevas:
+**✨ Ampliación pedagógica (v2.2.0):** todas las 49 clases incluyen además tres secciones nuevas:
 
 - **📖 Definiciones y características** — términos técnicos con explicación y características clave.
 - **⚠️ Errores comunes** — tabla de síntomas/mensajes con causa y solución concretas (los bugs que ven los alumnos en clase).
@@ -57,7 +57,7 @@ Al finalizar esta parte, el estudiante podrá:
 - **SQL** — clases 041–043 — desde fundamentos a window functions y conexión desde Python.
 - **Acceso a datos externos** — clases 044–046 — MongoDB, APIs REST, web scraping con BeautifulSoup.
 
-## 📚 Índice de clases (46)
+## 📚 Índice de clases (49)
 
 - [001 — Instalación de Python 3.12+ y entornos virtuales (venv, uv, conda)](001-instalacion-de-python-3-12-y-entornos-virtuales-venv-uv-conda/README.md)
 - [002 — Jupyter y JupyterLab: kernels, magics, debugging, profiling](002-jupyter-y-jupyterlab-kernels-magics-debugging-profiling/README.md)
@@ -91,6 +91,8 @@ Al finalizar esta parte, el estudiante podrá:
 - [030 — Pandas: operaciones vectorizadas sobre strings](030-pandas-operaciones-vectorizadas-sobre-strings/README.md)
 - [031 — Pandas: series de tiempo, resampling, rolling](031-pandas-series-de-tiempo-resampling-rolling/README.md)
 - [032 — Pandas: eval y query](032-pandas-eval-y-query/README.md)
+- [032a — Polars: DataFrames modernos](032a-polars-dataframes-modernos/README.md) 🆕
+- [032b — Parquet, Arrow, PyArrow, DuckDB](032b-parquet-arrow-pyarrow-duckdb/README.md) 🆕
 - [033 — Matplotlib: anatomía figura/axes](033-matplotlib-anatomia-figura-axes/README.md)
 - [034 — Matplotlib: line, scatter, bar, histogram, boxplot](034-matplotlib-line-scatter-bar-histogram-boxplot/README.md)
 - [035 — Matplotlib: subplots y gridspec](035-matplotlib-subplots-y-gridspec/README.md)
@@ -105,6 +107,7 @@ Al finalizar esta parte, el estudiante podrá:
 - [044 — NoSQL: MongoDB con pymongo](044-nosql-mongodb-con-pymongo/README.md)
 - [045 — APIs REST con requests](045-apis-rest-con-requests/README.md)
 - [046 — Web scraping con BeautifulSoup](046-web-scraping-con-beautifulsoup/README.md)
+- [046a — async / httpx / aiohttp para data scientists](046a-async-httpx-aiohttp-para-data-scientists/README.md) 🆕
 
 ---
 

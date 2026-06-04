@@ -17,7 +17,7 @@
 
 | 🎛️ Superficie | 🚦 Estado |
 |---|---|
-| 📚 Currículo (197 clases, 9 partes) | 🟢 **Partes 0 y 1 (89 clases) completas y ampliadas** (Definiciones · Errores · FAQ + 13 complementos modernos) · Partes 2-8 en desarrollo |
+| 📚 Currículo (224 clases, 9 partes) | 🟢 **Partes 0, 1, 2 y 3 (185 clases) completas y ampliadas v3** (Definiciones · Errores · FAQ + 27 clases dedicadas para temas modernos 2024-2026: Polars/Arrow/DuckDB, async, Optuna, Model Cards, SMOTE, calibración, SHAP profundo, PyTorch+Lightning, SAM/YOLOv11, CLIP/Whisper, LoRA/DPO/vLLM, MCP/Agentes/Eval, SDXL/ControlNet, ONNX, JAX/Flax, effect size, CUPED+sequential, DoubleML, Synthetic Controls) · Partes 4-8 en desarrollo |
 | 🧪 Laboratorio Flask | ✅ operativo |
 | 🖥️ App de escritorio Windows (pywebview) | 🟡 código operativo · binario pendiente de rebuild |
 | 📱 App Android | 🟡 APK debug publicado — pendiente migrar contenido al índice actual |
@@ -33,9 +33,9 @@
 
 - [x] **0️⃣ Parte 0 — Prerrequisitos (46 clases)** ✅ completada (mayo 2026), **ampliada con Definiciones, Errores comunes y FAQ por clase** y reforzada con **5 complementos modernos** (regex, pytest, Polars, Parquet/Arrow, async/httpx) — VanderPlas + Ramalho + Tanimura + Mitchell + docs oficiales
 - [x] **1️⃣ Parte 1 — ML clásico (43 clases)** ✅ completada (junio 2026), con patrón pedagógico completo y **8 complementos modernos integrados** (validación temporal, feature engineering avanzado + MICE, HPO con Optuna, model cards, class imbalance + SMOTE, calibración de probabilidades, SHAP/LIME) — Géron 3ª ed., caps. 1–9 + docs XGBoost/LightGBM/CatBoost
-- [ ] Desarrollar las 13 clases de la **3️⃣ Parte 3 — Estadística inferencial** (siguiente prioridad — soporta evaluación de modelos de Parte 1)
-- [ ] Desarrollar las 56 clases de la **2️⃣ Parte 2 — Deep Learning**
-- [ ] Desarrollar las 14 clases de la **4️⃣ Parte 4 — MLOps**
+- [x] **3️⃣ Parte 3 — Estadística inferencial y causal (13 clases)** ✅ completada (junio 2026), con patrón pedagógico completo y **6 complementos modernos integrados** (effect size con pingouin, BCa bootstrap + APIs scipy.stats modernas, CUPED + sequential testing + A/B bayesiano, DoubleML / EconML, Synthetic Control Method, stack PyMC v5 + NumPyro + ArviZ) — ISLP + Bruce & Bruce + Pearl + Hernán & Robins
+- [x] **2️⃣ Parte 2 — Deep Learning (56 clases)** ✅ completada (junio 2026), con patrón pedagógico completo y **10 complementos modernos integrados** (Optuna/Ray Tune, Lion/Sophia, Stochastic Depth/DropPath, PyTorch + Lightning, DETR/SAM/YOLOv11, Flash Attention/RoPE/GQA, LoRA/QLoRA/DPO/vLLM, hybrid search + cross-encoder rerank + MCP, SDXL/ControlNet/LCM, ONNX/TensorRT/vLLM/TGI) — Géron 3ª ed. caps. 10-19 + papers seminales + HuggingFace ecosystem
+- [ ] Desarrollar las 14 clases de la **4️⃣ Parte 4 — MLOps** (siguiente prioridad)
 - [ ] Desarrollar las 25 clases restantes (Partes 5, 6, 7, 8)
 
 ### 🔄 Superficies pendientes de migración
