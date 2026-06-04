@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 165 — RL moderno: A3C, PPO, SAC (vista general) | Python Data Science Program</title>
+  <meta name="description" content="Clase 165 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 2 — Deep Learning</a><span class="sep">›</span><span>165</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-2-deep-learning/165-rl-moderno-a3c-ppo-sac-vista-general/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-165-rl-moderno-a3c-ppo-sac-vista-general">Clase 165 — RL moderno: A3C, PPO, SAC (vista general)</h1>
+<blockquote>
+<p>Parte: <strong>2 — Deep Learning</strong> · Fuente: papers A3C (Mnih 2016), PPO (Schulman 2017), SAC (Haarnoja 2018) + docs Stable-Baselines3. ⏱️ Duración estimada: <strong>65 min</strong>.</p>
+</blockquote>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Vista general (sin implementación desde cero) de los <strong>3 algoritmos modernos de RL</strong>: <strong>A3C</strong> (Asynchronous Advantage Actor-Critic), <strong>PPO</strong> (Proximal Policy Optimization — el default industrial), y <strong>SAC</strong> (Soft Actor-Critic — off-policy, continuous actions). Saber cuál elegir y cómo usarlos con <strong>Stable-Baselines3</strong>.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar, el estudiante podrá:</p>
+<ul>
+<li>Diferenciar <strong>on-policy</strong> (A3C, PPO) de <strong>off-policy</strong> (SAC, DQN).</li>
+<li>Reconocer la idea de <strong>Actor-Critic</strong>: dos redes — actor (policy) + critic (value).</li>
+<li>Entender el <strong>clipped objective de PPO</strong>: limita updates a <code>[1-ε, 1+ε]</code> veces el old policy → estabilidad.</li>
+<li>Usar Stable-Baselines3: <code>PPO('MlpPolicy', env).learn(total_timesteps=100_000)</code>.</li>
+<li>Elegir: PPO para discreto/continuo, on-policy. SAC para continuo, off-policy, sample-efficient.</li>
+</ul>
+<h2 id="temas">🗺️ Temas</h2>
+<ul>
+<li>Actor-Critic: actor da policy, critic da <code>V(s)</code>. Advantage = <code>G - V(s)</code>.</li>
+<li>A3C: async + advantage actor-critic. Paralelización con multiples workers.</li>
+<li>A2C: variante sincrónica (más simple).</li>
+<li>PPO: clipped surrogate objective.</li>
+<li>SAC: actor-critic off-policy + entropy regularization.</li>
+<li>Stable-Baselines3 como librería estándar.</li>
+</ul>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<ul>
+<li><strong>Actor</strong>: red de policy <code>π_θ(a|s)</code>.</li>
+<li><strong>Critic</strong>: red de valor <code>V_φ(s)</code> o <code>Q_φ(s,a)</code>.</li>
+<li><strong>Advantage <code>A(s, a)</code></strong>: cuán mejor es <code>a</code> que el promedio.</li>
+<li><strong>GAE (Generalized Advantage Estimation)</strong>: estimador robusto del advantage usado en PPO.</li>
+<li><strong>PPO clip</strong>: <code>min(ratio · A, clip(ratio, 1-ε, 1+ε) · A)</code> con <code>ratio = π_new/π_old</code>.</li>
+<li><strong>SAC entropy bonus</strong>: <code>H(π)</code> se maximiza junto al return → exploración natural.</li>
+</ul>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<ul>
+<li>LunarLander, CartPole, Pendulum.</li>
+<li>Librerías: <code>gymnasium</code>, <code>stable-baselines3</code> (<code>pip install stable-baselines3[extra]</code>).</li>
+</ul>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>PPO con SB3</strong>: <code>from stable_baselines3 import PPO; model = PPO('MlpPolicy', 'CartPole-v1', verbose=1); model.learn(50_000)</code>. Evaluar.</li>
+<li><strong>SAC en Pendulum</strong>: <code>SAC('MlpPolicy', 'Pendulum-v1').learn(20_000)</code>.</li>
+<li><strong>Comparar</strong>: PPO vs SAC en LunarLander; reportar return y sample efficiency.</li>
+<li><strong>TensorBoard</strong>: <code>PPO(..., tensorboard_log='./tb/')</code> y ver curvas.</li>
+<li><strong>Custom callback</strong>: <code>EvalCallback</code> para evaluar cada N steps y guardar mejor modelo.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Entrenar PPO en LunarLander-v3:</p>
+<ol>
+<li><code>PPO('MlpPolicy', 'LunarLander-v3', verbose=1, tensorboard_log='./tb/')</code>.</li>
+<li><code>model.learn(total_timesteps=500_000)</code>.</li>
+<li>Evaluar 100 episodios; reportar mean reward.</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: mean reward ≥ 200 (problema resuelto); TensorBoard muestra curva ascendente.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PPO no converge</td>
+<td>LR alto o env muy complejo. <strong>Fix</strong>: <code>learning_rate=3e-4</code> (default), <code>n_steps=2048</code>, batch_size=64.</td>
+</tr>
+<tr>
+<td>SAC en discrete actions</td>
+<td>SAC es continuous. <strong>Fix</strong>: PPO o DQN para discreto.</td>
+</tr>
+<tr>
+<td>Reward "stuck" en ~0</td>
+<td>El env tal vez no es resoluble con MLP. <strong>Fix</strong>: probar otra policy network.</td>
+</tr>
+<tr>
+<td>Training muy lento</td>
+<td>Pocos parallel envs. <strong>Fix</strong>: <code>make_vec_env('CartPole-v1', n_envs=8)</code>.</td>
+</tr>
+<tr>
+<td>Modelo guardado no carga</td>
+<td>Versión de SB3 incompatible. <strong>Fix</strong>: <code>model = PPO.load('m')</code> con misma versión.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿PPO o SAC?</strong></p>
+<ul>
+<li>PPO: discreto o continuo, on-policy, más estable, default industrial.</li>
+<li>SAC: continuo, off-policy, sample-efficient, mejor performance pico.</li>
+<li>Estándar: PPO primero; SAC si necesitás más sample efficiency.</li>
+</ul>
+<p><strong>❓ ¿Cuántos steps?</strong></p>
+<p>CartPole: 50k. LunarLander: 500k. Atari: 10M+. Robótica MuJoCo: 1M-10M.</p>
+<p><strong>❓ ¿RL para LLM (RLHF)?</strong></p>
+<p>PPO es el algo estándar de RLHF. DPO (clase 128) lo reemplazó por simplicidad.</p>
+<p><strong>❓ ¿Cuándo NO usar RL?</strong></p>
+<p>Si el problema es supervised (clasificación, regresión), no uses RL. RL es sample-inefficient y caro.</p>
+<p><strong>❓ ¿Hyperparameter tuning?</strong></p>
+<p>Optuna sobre SB3 o <code>rl_zoo3</code> que tiene hyperparams pre-tuneados para muchos envs.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Mnih et al. (2016), <em>Asynchronous Methods for Deep Reinforcement Learning (A3C)</em>, ICML.</li>
+<li>Schulman et al. (2017), <em>PPO</em>.</li>
+<li>Haarnoja et al. (2018), <em>Soft Actor-Critic</em>, ICML.</li>
+<li><a href="https://stable-baselines3.readthedocs.io/">Stable-Baselines3 docs</a>.</li>
+<li>Sutton &amp; Barto, capítulos avanzados.</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../166-tf-serving-grpc/index.html">Clase 166 — TF Serving + gRPC (+ ONNX, TensorRT, vLLM/TGI)</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-2-deep-learning/165-rl-moderno-a3c-ppo-sac-vista-general/"><code>classes/parte-2-deep-learning/165-rl-moderno-a3c-ppo-sac-vista-general/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

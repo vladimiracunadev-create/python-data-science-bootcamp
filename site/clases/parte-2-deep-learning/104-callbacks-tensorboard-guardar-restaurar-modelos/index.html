@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 104 — Callbacks, TensorBoard, guardar/restaurar modelos | Python Data Science Program</title>
+  <meta name="description" content="Clase 104 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 2 — Deep Learning</a><span class="sep">›</span><span>104</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-2-deep-learning/104-callbacks-tensorboard-guardar-restaurar-modelos/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-104-callbacks-tensorboard-guardarrestaurar-modelos">Clase 104 — Callbacks, TensorBoard, guardar/restaurar modelos</h1>
+<blockquote>
+<p>Parte: <strong>2 — Deep Learning</strong> · Fuente: Géron, <strong>cap. 10</strong> § <em>Using Callbacks</em> y § <em>Using TensorBoard for Visualization</em>. ⏱️ Duración estimada: <strong>60 min</strong>.</p>
+</blockquote>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Inyectar lógica al loop de entrenamiento sin modificarlo, mediante <strong>callbacks</strong> (EarlyStopping, ModelCheckpoint, ReduceLROnPlateau, custom). Visualizar el progreso del training en <strong>TensorBoard</strong> (loss, métricas, histogramas de pesos, embeddings). Saber <strong>guardar y restaurar</strong> correctamente — arquitectura + pesos + estado del optimizador.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar, el estudiante podrá:</p>
+<ul>
+<li>Aplicar los 4 callbacks más usados: <code>EarlyStopping</code>, <code>ModelCheckpoint</code>, <code>ReduceLROnPlateau</code>, <code>TensorBoard</code>.</li>
+<li>Configurar TensorBoard: <code>keras.callbacks.TensorBoard(log_dir='./logs')</code> y abrirlo con <code>tensorboard --logdir=./logs</code>.</li>
+<li>Escribir un callback custom heredando de <code>keras.callbacks.Callback</code> con hooks como <code>on_epoch_end</code>.</li>
+<li>Distinguir guardado completo (<code>model.save('m.keras')</code>) vs solo pesos (<code>model.save_weights('w.weights.h5')</code>).</li>
+<li>Restaurar y continuar entrenamiento desde checkpoint sin pérdida.</li>
+</ul>
+<h2 id="temas">🗺️ Temas</h2>
+<ul>
+<li>Callbacks: hooks (<code>on_train_begin</code>, <code>on_epoch_end</code>, <code>on_batch_end</code>, ...).</li>
+<li><code>EarlyStopping(monitor='val_loss', patience=10, restore_best_weights=True)</code>.</li>
+<li><code>ModelCheckpoint(filepath, save_best_only=True, monitor='val_accuracy', mode='max')</code>.</li>
+<li><code>ReduceLROnPlateau(factor=0.5, patience=5)</code> — bajar LR cuando se estanca.</li>
+<li>TensorBoard: scalars, histograms, distributions, images, projector (embeddings).</li>
+<li>Custom callbacks: <code>class MyCallback(keras.callbacks.Callback): def on_epoch_end(self, epoch, logs): ...</code>.</li>
+</ul>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<ul>
+<li><strong>Callback</strong>: objeto con métodos hook que Keras invoca en momentos específicos del training. Permite logging, early stopping, LR scheduling, etc.</li>
+<li><strong>EarlyStopping</strong>: monitorea una métrica y corta cuando deja de mejorar. <code>restore_best_weights=True</code> revierte a los mejores pesos vistos.</li>
+<li><strong>ModelCheckpoint</strong>: guarda el modelo (o solo pesos) cuando una métrica mejora.</li>
+<li><strong>ReduceLROnPlateau</strong>: reduce el LR multiplicándolo por <code>factor</code> cuando la métrica se estanca por <code>patience</code> épocas.</li>
+<li><strong>TensorBoard</strong>: la herramienta de visualización oficial de TF. Sirve via <code>tensorboard --logdir=...</code>.</li>
+<li><strong><code>logs</code> dict</strong>: contiene <code>loss</code>, <code>val_loss</code>, métricas, etc. Disponible en hooks <code>on_epoch_end</code>.</li>
+</ul>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<ul>
+<li>Fashion-MNIST o cualquier modelo entrenable de clases anteriores.</li>
+<li>Librerías: <code>tensorflow</code>, <code>keras</code>, <code>tensorboard</code> (incluido).</li>
+</ul>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>EarlyStopping + Checkpoint</strong>: entrenar Fashion-MNIST con ambos callbacks. Verificar que cortó cuando <code>val_loss</code> se estancó y que <code>'best.keras'</code> contiene los mejores pesos.</li>
+<li><strong>TensorBoard</strong>: agregar <code>TensorBoard(log_dir=f'./logs/run-{time}')</code>, entrenar 10 épocas. Lanzar <code>tensorboard --logdir=./logs</code> y revisar scalars + histograms.</li>
+<li><strong>ReduceLROnPlateau</strong>: configurar <code>factor=0.5, patience=3, min_lr=1e-6</code>. Graficar el LR a lo largo de las épocas (usar el logs del callback).</li>
+<li><strong>Custom callback</strong>: escribir uno que loggee a un CSV el <code>(epoch, loss, val_loss, lr_actual)</code> para análisis offline.</li>
+<li><strong>Restaurar y continuar</strong>: entrenar 10 épocas, guardar, recargar y continuar 5 épocas más. Verificar que el optimizer state (momentum de Adam) se preservó.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Entrenamiento "production-ready" sobre Fashion-MNIST:</p>
+<ol>
+<li>MLP <code>[300, 100]</code>.</li>
+<li>Callbacks: <code>EarlyStopping(patience=10)</code>, <code>ModelCheckpoint('best.keras', save_best_only=True)</code>, <code>ReduceLROnPlateau(patience=3)</code>, <code>TensorBoard('./logs/')</code>.</li>
+<li>Entrenar <code>epochs=100</code> (sabiendo que EarlyStopping cortará antes).</li>
+<li>Recargar <code>best.keras</code> y evaluar en test.</li>
+<li>Capturar un screenshot del TensorBoard mostrando <code>loss</code> y <code>val_loss</code> a lo largo del training.</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: el modelo final restaurado debe ser el del epoch con menor <code>val_loss</code>; accuracy en test ≥ 0.87.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>EarlyStopping</code> corta en la primera época con <code>patience=0</code></td>
+<td>Default es <code>patience=0</code>. <strong>Fix</strong>: <code>patience=5-10</code> razonable.</td>
+</tr>
+<tr>
+<td><code>ModelCheckpoint</code> guarda en cada época con <code>save_best_only=False</code></td>
+<td>Llena el disco. <strong>Fix</strong>: <code>save_best_only=True</code>.</td>
+</tr>
+<tr>
+<td><code>model.save_weights('w.h5')</code> y al cargar dice "model not built"</td>
+<td>Hay que reconstruir la arquitectura <strong>antes</strong> de cargar pesos. <strong>Fix</strong>: guardar el modelo completo con <code>.keras</code>, o reconstruir + <code>load_weights</code>.</td>
+</tr>
+<tr>
+<td>TensorBoard no muestra nada en <code>localhost:6006</code></td>
+<td>El <code>log_dir</code> está mal o aún no se escribió nada. <strong>Fix</strong>: verificar que <code>logs/...</code> tiene archivos <code>events.out.tfevents.*</code>.</td>
+</tr>
+<tr>
+<td><code>ReduceLROnPlateau</code> y <code>LearningRateScheduler</code> juntos</td>
+<td>Conflicto, ambos cambian el LR. <strong>Fix</strong>: elegí uno (RLOP para reactivo, scheduler para proactivo).</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿<code>save_best_only=True</code> con qué métrica?</strong></p>
+<p><code>monitor='val_loss'</code> por default (modo <code>min</code>). Si monitoreás accuracy, agregá <code>mode='max'</code>.</p>
+<p><strong>❓ ¿Puedo usar varios <code>ModelCheckpoint</code>?</strong></p>
+<p>Sí. Útil para guardar el mejor por val_loss y el mejor por val_accuracy en dos archivos.</p>
+<p><strong>❓ ¿TensorBoard funciona en Colab?</strong></p>
+<p>Sí: <code>%load_ext tensorboard</code> + <code>%tensorboard --logdir=./logs</code>. Funciona inline.</p>
+<p><strong>❓ ¿Custom callback necesita herencia explícita?</strong></p>
+<p>Sí: <code>class MyCB(keras.callbacks.Callback)</code>. La base provee <code>self.model</code> y manejo de <code>logs</code>.</p>
+<p><strong>❓ ¿Format <code>.keras</code> vs <code>.h5</code>?</strong></p>
+<p><code>.keras</code> (Keras 3+) es zip transparente, futuro-proof. <code>.h5</code> aún funciona pero deprecado para nuevos proyectos.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Géron, <strong>cap. 10</strong> — <em>Using Callbacks</em> y <em>Using TensorBoard</em>.</li>
+<li><a href="https://keras.io/api/callbacks/">Keras callbacks</a>.</li>
+<li><a href="https://www.tensorflow.org/tensorboard/get_started">TensorBoard quickstart</a>.</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../105-keras-tuner/index.html">Clase 105 — Keras Tuner (+ Optuna, Ray Tune)</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-2-deep-learning/104-callbacks-tensorboard-guardar-restaurar-modelos/"><code>classes/parte-2-deep-learning/104-callbacks-tensorboard-guardar-restaurar-modelos/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

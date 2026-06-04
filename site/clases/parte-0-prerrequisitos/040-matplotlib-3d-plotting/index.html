@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 040 — Matplotlib: 3D plotting | Python Data Science Program</title>
+  <meta name="description" content="Clase 040 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 0 — Prerrequisitos</a><span class="sep">›</span><span>040</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-0-prerrequisitos/040-matplotlib-3d-plotting/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-040-matplotlib-3d-plotting">Clase 040 — Matplotlib: 3D plotting</h1>
+<blockquote>
+<p>Parte: <strong>0 — Prerrequisitos</strong> · Fuente: VanderPlas, <strong>cap. 4</strong> § 4.12 <em>Three-Dimensional Plotting in Matplotlib</em>.
+⏱️ Duración estimada: <strong>45 min</strong>.</p>
+</blockquote>
+<hr>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Que el alumno sepa cuándo (raramente) usar 3D y cómo hacerlo bien: scatter 3D, superficies (<code>plot_surface</code>), wireframes y contornos. Spoiler: la mayoría de las veces un buen 2D + color comunica mejor.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar la clase, el alumno podrá:</p>
+<ol>
+<li><strong>Crear axes 3D</strong> con <code>projection='3d'</code>.</li>
+<li><strong>Scatter, line, surface, wireframe, contour</strong> en 3D.</li>
+<li><strong>Controlar ángulo de vista</strong> con <code>ax.view_init(elev, azim)</code>.</li>
+<li><strong>Reconocer cuándo NO usar 3D</strong>: la mayoría de las veces hay una alternativa 2D mejor.</li>
+</ol>
+<h2 id="temas">🗺️ Temas</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Tema</th>
+<th>Por qué importa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><code>projection='3d'</code></td>
+<td>Habilita el 3D toolkit.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Scatter 3D con codificación por color</td>
+<td>3 dims + 4 (color).</td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>plot_surface</code> para z = f(x, y)</td>
+<td>Funciones bivariadas.</td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>plot_wireframe</code> y <code>contour3D</code></td>
+<td>Alternativas más simples.</td>
+</tr>
+<tr>
+<td>5</td>
+<td><code>view_init</code>: rotar interactivo</td>
+<td>En notebooks con <code>%matplotlib widget</code>.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Cuándo NO usar 3D</td>
+<td>Casi siempre.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<dl>
+<dt><strong><code>projection='3d'</code></strong></dt>
+<dd>Parámetro al crear axes (<code>fig.add_subplot(111, projection='3d')</code>) que habilita el toolkit 3D (mplot3d). Sin esto, las llamadas 3D fallan.</dd>
+<dt><strong><code>plot_surface(X, Y, Z)</code></strong></dt>
+<dd>Superficie 3D para <code>z = f(x, y)</code>. Requiere mesh: <code>X, Y = np.meshgrid(x, y); Z = f(X, Y)</code>. Soporta <code>cmap</code> para color por valor de Z.</dd>
+<dt><strong><code>plot_wireframe(X, Y, Z)</code></strong></dt>
+<dd>Como surface pero solo líneas — más liviano, mejor para densidad alta, peor para forma.</dd>
+<dt><strong><code>view_init(elev, azim)</code></strong></dt>
+<dd>Define ángulo de cámara. <code>elev</code> elevación (0=horizontal, 90=vista superior). <code>azim</code> rotación horizontal en grados. Animar varia azim para 360°.</dd>
+<dt><strong>Oclusión</strong></dt>
+<dd>Limitación fundamental del 3D: objetos al frente tapan los del fondo, sin forma confiable de elegir qué ver. La razón principal por la que 3D es problemático.</dd>
+</dl>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<p>Sintético: superficie analítica + nube de puntos. Sin descarga.</p>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<p><strong>1.</strong> <strong>Scatter 3D.</strong> 200 puntos con coords (x, y, z) y color por una 4ª variable.</p>
+<p><strong>2.</strong> <strong>Superficie.</strong> <code>z = sin(sqrt(x² + y²))</code> en mesh 50×50. <code>plot_surface</code> con colormap.</p>
+<p><strong>3.</strong> <strong>Wireframe + contour.</strong> Misma función con <code>plot_wireframe</code>. Compara legibilidad con superficie llena.</p>
+<p><strong>4.</strong> <strong>view_init.</strong> Cambia <code>(elev, azim)</code> a 4 ángulos y graba una grilla 2×2.</p>
+<p><strong>5.</strong> <strong>Reto: 2D que vence al 3D.</strong> Para tu scatter 3D del ejercicio 1, propón un 2D + color/tamaño que comunique igual o mejor.</p>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Notebook: (a) scatter 3D con 4 dimensiones (xyz + color); (b) superficie z=f(x,y); (c) wireframe del mismo z; (d) grilla 2×2 con 4 view_init distintos; (e) ejercicio de "2D vence al 3D": versión 2D del scatter.</p>
+<p><strong>Criterio de aceptación:</strong> Plots 3D legibles (no espagueti). Versión 2D del scatter comparable.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>projection='3d'</code> da error "unknown projection"</td>
+<td>No importaste el toolkit. <strong>Fix</strong>: <code>from mpl_toolkits.mplot3d import Axes3D</code> (algunas versiones lo requieren), o asegúrate matplotlib es 3.0+.</td>
+</tr>
+<tr>
+<td>Surface plot tarda mucho con mesh grande</td>
+<td>100×100 mesh = 10k vertices. <strong>Fix</strong>: reduce resolución (<code>50×50</code>) o usa <code>rcount</code>/<code>ccount</code> parameters.</td>
+</tr>
+<tr>
+<td>3D scatter con miles de puntos = mancha</td>
+<td>Oclusión. <strong>Fix</strong>: reduce N (sampling), o usa scatter 2D con color codificando Z.</td>
+</tr>
+<tr>
+<td><code>view_init</code> no se aplica si llamado después de show</td>
+<td>El orden importa: configura ángulo ANTES de <code>plt.show()</code>.</td>
+</tr>
+<tr>
+<td>Labels Z se cortan o solapan</td>
+<td>3D tiene limitaciones de layout. <strong>Fix</strong>: ajusta <code>ax.zaxis.labelpad</code>, <code>figsize</code> más grande, o usa <code>set_zlabel</code> con rotación custom.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿Realmente necesito 3D?</strong></p>
+<p><strong>Pregúntate</strong>: ¿hay una versión 2D con color/tamaño que comunique igual? Casi siempre sí. 3D vale para superficies analíticas (<code>z = f(x,y)</code>), datos físicos 3D, o cuando es interactivo (rotable).</p>
+<p><strong>❓ ¿<code>%matplotlib widget</code> para rotar interactivo?</strong></p>
+<p>Sí — en JupyterLab/Notebook permite rotar con el mouse. Requiere <code>pip install ipympl</code>. Default <code>inline</code> da imagen estática.</p>
+<p><strong>❓ ¿plotly 3D mejor?</strong></p>
+<p><strong>Sí</strong> para uso interactivo en web/dashboard. <strong>No</strong> para reportes estáticos (mismo problema de oclusión, peso del HTML).</p>
+<p><strong>❓ ¿Animaciones 3D?</strong></p>
+<p><code>matplotlib.animation.FuncAnimation</code> + variando <code>view_init</code> por frame. Bonito pero costoso de generar. Considera plotly que es interactivo nativo.</p>
+<p><strong>❓ ¿<code>Axes3D</code> deprecated?</strong></p>
+<p>En matplotlib moderno, basta <code>subplot_kw={'projection': '3d'}</code> — no necesitas importar Axes3D explícitamente.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>VanderPlas, <strong>cap. 4</strong> § 4.12.</li>
+<li><a href="https://matplotlib.org/stable/users/explain/toolkits/mplot3d.html">matplotlib mplot3d tutorial</a></li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../041-seaborn-distribuciones-relaciones-categoricas-facetas/index.html">Clase 041 — Seaborn: distribuciones, relaciones, categóricas, facetas</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-0-prerrequisitos/040-matplotlib-3d-plotting/"><code>classes/parte-0-prerrequisitos/040-matplotlib-3d-plotting/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

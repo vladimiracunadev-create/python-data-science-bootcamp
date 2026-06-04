@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 145 — Hugging Face Transformers (uso práctico) | Python Data Science Program</title>
+  <meta name="description" content="Clase 145 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 2 — Deep Learning</a><span class="sep">›</span><span>145</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-2-deep-learning/145-hugging-face-transformers-uso-practico/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-145-hugging-face-transformers-uso-practico">Clase 145 — Hugging Face Transformers (uso práctico)</h1>
+<blockquote>
+<p>Parte: <strong>2 — Deep Learning</strong> · Fuente: HuggingFace docs + Géron, <strong>cap. 16</strong> § <em>Pretrained Transformer Models</em>. ⏱️ Duración estimada: <strong>80 min</strong>.</p>
+</blockquote>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Dominar <strong>Hugging Face Transformers</strong> — la librería estándar de la industria para usar modelos preentrenados (BERT, GPT, T5, Llama, Whisper, ViT...). Aprender el <strong>pipeline</strong> API (one-liner para 90 % de los casos), el <strong>Trainer</strong> API (fine-tuning con muy poco código) y los componentes manuales (Tokenizer + Model + DataLoader).</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar, el estudiante podrá:</p>
+<ul>
+<li>Usar <code>pipeline('sentiment-analysis')</code>, <code>pipeline('summarization')</code>, <code>pipeline('zero-shot-classification')</code>, etc. en 1 línea.</li>
+<li>Cargar manualmente: <code>tokenizer = AutoTokenizer.from_pretrained('bert-base-uncased')</code>, <code>model = AutoModelForSequenceClassification.from_pretrained('...')</code>.</li>
+<li>Tokenizar con <code>tokenizer(texts, padding=True, truncation=True, return_tensors='pt')</code>.</li>
+<li>Fine-tunear con <code>Trainer</code> sobre un dataset propio.</li>
+<li>Reconocer el <strong>Hub</strong> (huggingface.co/models) como catálogo de + de 500k modelos.</li>
+</ul>
+<h2 id="temas">🗺️ Temas</h2>
+<ul>
+<li><code>pipeline</code> API: lo más fácil. Tareas: sentiment, NER, QA, summarization, translation, fill-mask, zero-shot, etc.</li>
+<li><code>AutoTokenizer</code> + <code>AutoModel*</code>: API manual flexible.</li>
+<li>Tokenizers: BPE, WordPiece, SentencePiece, tiktoken.</li>
+<li><code>Trainer</code> + <code>TrainingArguments</code>: fine-tuning con 20 líneas.</li>
+<li>Hub: descubrir modelos, datasets, spaces.</li>
+<li><code>datasets</code> library: cargar datasets, preprocesar.</li>
+</ul>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<ul>
+<li><strong><code>AutoTokenizer</code></strong>: detecta el tokenizer adecuado para el modelo.</li>
+<li><strong><code>AutoModelFor&lt;Task&gt;</code></strong>: cabezas específicas (SequenceClassification, TokenClassification, CausalLM, Seq2SeqLM).</li>
+<li><strong>Subword tokenization (BPE/WP/SP)</strong>: tokens son piezas de palabras → vocab fijo (~32-64k), nada de OOV.</li>
+<li><strong>Special tokens</strong>: <code>[CLS]</code>, <code>[SEP]</code>, <code>&lt;s&gt;</code>, <code>&lt;/s&gt;</code>, <code>[PAD]</code>, <code>&lt;|im_start|&gt;</code>, etc. Dependen del modelo.</li>
+<li><strong>Hub</strong>: GitHub para modelos — cualquiera puede subir/descargar.</li>
+</ul>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<ul>
+<li>HuggingFace Hub: <a href="https://huggingface.co/models">https://huggingface.co/models</a>.</li>
+<li>Dataset: <code>load_dataset('imdb')</code>, <code>load_dataset('squad')</code>, etc.</li>
+<li>Librerías: <code>transformers</code>, <code>datasets</code>, <code>accelerate</code>, <code>evaluate</code>.</li>
+</ul>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>pipeline one-liner</strong>: <code>pipe = pipeline('sentiment-analysis'); pipe('I loved this movie!')</code>. Inspeccionar output.</li>
+<li><strong>Zero-shot classification</strong>: <code>pipeline('zero-shot-classification')(text, candidate_labels=['sports', 'politics', 'tech'])</code>. Sin training específico.</li>
+<li><strong>Manual</strong>: tokenizar texto con <code>bert-base-uncased</code>. Inspeccionar <code>input_ids</code>, <code>attention_mask</code>, <code>token_type_ids</code>.</li>
+<li><strong>Modelo + forward</strong>: <code>outputs = model(**inputs)</code>. Inspeccionar <code>outputs.logits</code>.</li>
+<li><strong>Tokenizer especiales</strong>: <code>tokenizer.decode([101, 7592, 102])</code> → <code>'[CLS] hello [SEP]'</code>.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Fine-tuning de <code>distilbert-base-uncased</code> sobre IMDB:</p>
+<ol>
+<li><code>load_dataset('imdb')</code>.</li>
+<li>Tokenizar con <code>tokenizer(texts, truncation=True, padding='max_length', max_length=256)</code>.</li>
+<li><code>AutoModelForSequenceClassification.from_pretrained(..., num_labels=2)</code>.</li>
+<li><code>TrainingArguments(output_dir, num_train_epochs=2, per_device_train_batch_size=16, eval_strategy='epoch')</code>.</li>
+<li><code>Trainer(...).train()</code>.</li>
+<li>Reportar accuracy en test.</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: accuracy ≥ 0.92 (DistilBERT con 2 épocas alcanza ~0.93 en IMDB).</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>OSError: Can't load tokenizer</code></td>
+<td>Modelo no existe o sin internet. <strong>Fix</strong>: verificar nombre exacto en Hub.</td>
+</tr>
+<tr>
+<td><code>RuntimeError: CUDA out of memory</code></td>
+<td>Modelo + batch demasiado grandes. <strong>Fix</strong>: reducir <code>per_device_train_batch_size</code> o usar gradient_accumulation.</td>
+</tr>
+<tr>
+<td>Tokenizer no agrega special tokens automáticamente</td>
+<td>Pasar <code>add_special_tokens=True</code> (default). Si manual, agregar manual.</td>
+</tr>
+<tr>
+<td><code>Trainer</code> no usa GPU</td>
+<td>Default lo detecta; sino <code>TrainingArguments(no_cuda=False)</code>.</td>
+</tr>
+<tr>
+<td>Fine-tuning de un modelo grande catastrophic forgetting</td>
+<td>LR alto. <strong>Fix</strong>: <code>learning_rate=2e-5</code> o menor para modelos grandes; usar LoRA (clase 128).</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿<code>pipeline</code> o <code>Trainer</code> o <code>AutoModel</code>?</strong></p>
+<p><code>pipeline</code> para usar un modelo preentrenado tal cual. <code>AutoModel</code> para custom training loop. <code>Trainer</code> para fine-tuning estándar (95 % de los casos).</p>
+<p><strong>❓ ¿PyTorch o TF backend?</strong></p>
+<p>PyTorch es estándar en HF — más modelos disponibles, mejor soportado. <code>transformers</code> soporta ambos pero los modelos modernos (Llama, Mistral) son solo PyTorch.</p>
+<p><strong>❓ ¿Tokenizer rápido?</strong></p>
+<p><code>AutoTokenizer.from_pretrained(..., use_fast=True)</code> (default). Implementado en Rust, 10-100× más rápido que la versión Python.</p>
+<p><strong>❓ ¿Cómo descubro qué modelo usar?</strong></p>
+<p><a href="https://huggingface.co/models">https://huggingface.co/models</a> con filtros por task, language, license. Modelos más descargados suelen ser buena apuesta.</p>
+<p><strong>❓ ¿Hugging Face Inference API en producción?</strong></p>
+<p>Sí, para prototipos. Para producción serio, self-host con <code>transformers</code> o <strong>vLLM</strong> / <strong>TGI</strong> (clase 139).</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li><a href="https://huggingface.co/docs/transformers/">Hugging Face Transformers docs</a>.</li>
+<li><a href="https://huggingface.co/learn/nlp-course">Hugging Face course</a> — el mejor recurso gratuito para empezar.</li>
+<li>Wolf et al. (2020), <em>Transformers: State-of-the-Art Natural Language Processing</em>, EMNLP demo.</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../146-clip-siglip-multimodal-embeddings/index.html">Clase 146 — CLIP, SigLIP: multimodal embeddings (visión + texto)</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-2-deep-learning/145-hugging-face-transformers-uso-practico/"><code>classes/parte-2-deep-learning/145-hugging-face-transformers-uso-practico/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

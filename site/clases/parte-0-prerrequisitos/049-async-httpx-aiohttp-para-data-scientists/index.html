@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 049 — async / httpx / aiohttp para data scientists | Python Data Science Program</title>
+  <meta name="description" content="Clase 049 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 0 — Prerrequisitos</a><span class="sep">›</span><span>049</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-0-prerrequisitos/049-async-httpx-aiohttp-para-data-scientists/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-parte">➡️ Siguiente parte</a></nav>
+<h1 id="clase-049-async-httpx-aiohttp-para-data-scientists">Clase 049 — async / httpx / aiohttp para data scientists</h1>
+<blockquote>
+<p>Parte: <strong>0 — Prerrequisitos</strong> · Fuente: docs <code>asyncio</code> + <code>httpx</code> + Beazley <em>Python Concurrency</em>. ⏱️ Duración estimada: <strong>80 min</strong>.</p>
+</blockquote>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Aprender <strong>asyncio</strong> y <strong>httpx</strong> —el HTTP client moderno con soporte sync + async + HTTP/2— para hacer <strong>scraping y consumo de APIs en paralelo</strong> sin bloquear. Pasar de "1 request por segundo" con <code>requests</code> a "100+ concurrentes" con <code>httpx.AsyncClient</code>. Comparar con <strong><code>aiohttp</code></strong> (alternativa popular) y <strong><code>concurrent.futures</code></strong> (parallelism con threads).</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar, el estudiante podrá:</p>
+<ul>
+<li>Definir <code>async def</code> y <code>await</code>; ejecutar con <code>asyncio.run</code>.</li>
+<li>Usar <code>httpx.AsyncClient</code> para fetches concurrentes con <code>asyncio.gather</code>.</li>
+<li>Limitar concurrencia con <code>asyncio.Semaphore</code> para no DOS-ear a la API.</li>
+<li>Implementar <strong>rate limiting</strong> + <strong>retries con backoff exponencial</strong>.</li>
+<li>Decidir entre asyncio, threading, multiprocessing según I/O-bound vs CPU-bound.</li>
+</ul>
+<h2 id="temas">🗺️ Temas</h2>
+<ul>
+<li>Event loop, coroutines, await.</li>
+<li>httpx: API unificada sync/async, HTTP/2, timeouts.</li>
+<li><code>asyncio.gather</code>, <code>asyncio.as_completed</code>.</li>
+<li>Semaphore para limitar concurrencia.</li>
+<li>Backoff exponencial con <code>tenacity</code> o <code>backoff</code> lib.</li>
+<li>aiohttp como alternativa (más antigua, más utilities).</li>
+<li>Cuándo NO async: tareas CPU-bound (usar <code>multiprocessing</code>).</li>
+</ul>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<ul>
+<li><strong>Coroutine</strong>: función <code>async def</code>, devuelve un objeto coroutine que el event loop ejecuta.</li>
+<li><strong><code>await</code></strong>: cede control al event loop hasta que la operación termina.</li>
+<li><strong>Event loop</strong>: scheduler que ejecuta coroutines cooperativamente.</li>
+<li><strong><code>asyncio.gather(*coros)</code></strong>: ejecuta varias coroutines concurrentemente, espera todas.</li>
+<li><strong><code>asyncio.as_completed(coros)</code></strong>: itera resultados a medida que llegan.</li>
+<li><strong><code>asyncio.Semaphore(n)</code></strong>: limita a n coroutines concurrentes.</li>
+<li><strong>httpx</strong>: HTTP client moderno (Tom Christie, dev de Django REST Framework).</li>
+<li><strong>aiohttp</strong>: client + server async. Más viejo, más maduro, sin sync API.</li>
+</ul>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<ul>
+<li>Una API pública lenta: <code>https://httpbin.org/delay/2</code> (espera 2 seg).</li>
+<li>Lista de 100 URLs para fetcher.</li>
+<li>Librerías: <code>httpx</code>, <code>aiohttp</code>, opcional <code>tenacity</code>.</li>
+</ul>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>Sync baseline</strong>: fetcher de 50 URLs con <code>requests.get</code> en loop. Medir tiempo.</li>
+<li><strong>Async con httpx</strong>: <code>async with httpx.AsyncClient() as c: results = await asyncio.gather(*[c.get(url) for url in urls])</code>. Comparar tiempo (debería ser ~20-50× más rápido).</li>
+<li><strong>Semaphore</strong>: limitar a 10 concurrent. Útil para no ser bloqueado por rate limits.</li>
+<li><strong>Retry exponencial</strong>: usar <code>tenacity.retry(stop=stop_after_attempt(5), wait=wait_exponential(min=1, max=30))</code> sobre un fetcher.</li>
+<li><strong>httpx vs aiohttp</strong>: hacer el mismo benchmark con ambos. Similar performance; httpx tiene mejor DX.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Scraper concurrente de 200 URLs (una página de Wikipedia o API pública):</p>
+<ol>
+<li>Implementar con <code>httpx.AsyncClient</code> + <code>asyncio.gather</code>.</li>
+<li>Limitar a 20 concurrent con <code>Semaphore</code>.</li>
+<li>Retry con backoff sobre errores 5xx.</li>
+<li>Reportar tiempo total y % de éxito.</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: tiempo total ≤ 1/10 de la versión sync; success rate ≥ 95 %.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>RuntimeError: This event loop is already running</code> en Jupyter</td>
+<td>Jupyter ya tiene un loop. <strong>Fix</strong>: <code>nest_asyncio.apply()</code> o <code>await ...</code> directo en celda.</td>
+</tr>
+<tr>
+<td>Olvido <code>await</code> → <code>coroutine never awaited</code> warning</td>
+<td><strong>Fix</strong>: <code>await coro()</code> o <code>asyncio.run(coro())</code>.</td>
+</tr>
+<tr>
+<td>Mezclar sync <code>requests</code> adentro de coroutine</td>
+<td>Bloquea el event loop. <strong>Fix</strong>: usar <code>httpx.AsyncClient</code> o <code>asyncio.to_thread</code> para sync code.</td>
+</tr>
+<tr>
+<td>Sin limit → API te banea</td>
+<td>Demasiada concurrencia. <strong>Fix</strong>: <code>Semaphore</code> + delays.</td>
+</tr>
+<tr>
+<td><code>AsyncClient</code> no cerrado</td>
+<td>Resource leak. <strong>Fix</strong>: <code>async with httpx.AsyncClient() as c:</code>.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ async o threading?</strong></p>
+<p>Async para I/O-bound (HTTP, DB) — más eficiente, menos overhead. Threading para I/O-bound legacy code. Multiprocessing para CPU-bound (cálculo numérico, ML training).</p>
+<p><strong>❓ httpx o aiohttp?</strong></p>
+<p>httpx es default moderno: API unificada sync/async, mejor DX, HTTP/2. aiohttp tiene más utilities (sessions, file uploads) pero solo async.</p>
+<p><strong>❓ async con pandas / numpy?</strong></p>
+<p>No tiene sentido — son CPU-bound. Async brilla cuando esperás de I/O externo.</p>
+<p><strong>❓ Test de async code?</strong></p>
+<p><code>pytest-asyncio</code> con <code>@pytest.mark.asyncio</code>.</p>
+<p><strong>❓ async en Django / Flask?</strong></p>
+<p>Django 4+ soporta async views. Flask 2+ también. FastAPI es async-native (default moderno).</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li><a href="https://www.python-httpx.org/">httpx docs</a></li>
+<li><a href="https://docs.python.org/3/library/asyncio.html">asyncio docs</a></li>
+<li><a href="https://docs.aiohttp.org/">aiohttp docs</a></li>
+<li>Beazley, D. <em>Python Concurrency from the Ground Up</em> (PyCon 2015).</li>
+<li><a href="https://tenacity.readthedocs.io/">tenacity</a> para retries.</li>
+</ul>
+<h2 id="siguiente-parte">➡️ Siguiente parte</h2>
+<p><a href="../../parte-1-machine-learning-clasico/050-panorama-del-ml-tipos-batch-vs-online-instance-vs-model-based/index.html">Clase 050 — Panorama del ML: tipos, batch vs online, instance vs model-based</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-0-prerrequisitos/049-async-httpx-aiohttp-para-data-scientists/"><code>classes/parte-0-prerrequisitos/049-async-httpx-aiohttp-para-data-scientists/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

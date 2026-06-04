@@ -119,4 +119,4 @@ NO. `.venv/` se reconstruye con `requirements.txt`. Datos grandes/sensibles van 
 
 ## ➡️ Siguiente clase
 
-[Clase 004 — Estructura reproducible de proyecto](../004-estructura-reproducible-de-proyecto-cookiecutter-data-science/README.md)
+[Clase 004 — Estructura reproducible de proyecto (cookiecutter-data-science)](../004-estructura-reproducible-de-proyecto-cookiecutter-data-science/README.md)

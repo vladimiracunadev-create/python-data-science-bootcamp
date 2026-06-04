@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 128 — Capas convolucionales, filtros, feature maps | Python Data Science Program</title>
+  <meta name="description" content="Clase 128 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 2 — Deep Learning</a><span class="sep">›</span><span>128</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-2-deep-learning/128-capas-convolucionales-filtros-feature-maps/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-128-capas-convolucionales-filtros-feature-maps">Clase 128 — Capas convolucionales, filtros, feature maps</h1>
+<blockquote>
+<p>Parte: <strong>2 — Deep Learning</strong> · Fuente: Géron, <strong>cap. 14</strong> § <em>Convolutional Layers</em>. ⏱️ Duración estimada: <strong>75 min</strong>.</p>
+</blockquote>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Entender la operación de <strong>convolución 2D</strong> — un filtro <code>K×K</code> se desliza sobre la imagen produciendo un <strong>feature map</strong> —, los hiperparámetros (<code>filters</code>, <code>kernel_size</code>, <code>strides</code>, <code>padding</code>), por qué las CNN son <strong>parameter-efficient</strong> vs MLPs (sharing + locality + translation invariance) y cómo aprenden jerarquías visuales (bordes → texturas → partes → objetos).</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar, el estudiante podrá:</p>
+<ul>
+<li>Aplicar <code>Conv2D(filters=32, kernel_size=3, strides=1, padding='same', activation='relu')</code>.</li>
+<li>Calcular el shape de la salida: <code>H' = (H - K + 2P)/S + 1</code>.</li>
+<li>Visualizar feature maps (activaciones intermedias) y filtros aprendidos.</li>
+<li>Diferenciar <code>padding='same'</code> (preserva tamaño) de <code>'valid'</code> (reduce).</li>
+<li>Calcular el # de parámetros de una Conv2D: <code>K * K * C_in * C_out + C_out</code> (mucho menos que Dense equivalente).</li>
+</ul>
+<h2 id="temas">🗺️ Temas</h2>
+<ul>
+<li>Operación convolución 2D paso a paso.</li>
+<li>Filters / kernels como features detectables.</li>
+<li>Feature maps como representación espacial.</li>
+<li>Stride: paso del filtro.</li>
+<li>Padding: bordes; 'same' agrega zeros para preservar shape.</li>
+<li>Parameter sharing: el mismo filtro se aplica en toda la imagen.</li>
+</ul>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<ul>
+<li><strong>Filter / kernel</strong>: matriz pequeña (3×3, 5×5) de pesos aprendibles.</li>
+<li><strong>Feature map</strong>: salida de aplicar un filtro a toda la imagen. Una capa con 32 filtros produce 32 feature maps.</li>
+<li><strong>Stride</strong>: cuántos píxeles se mueve el filtro entre aplicaciones. 1 = denso; 2 = subsampling.</li>
+<li><strong><code>padding='same'</code></strong>: agrega zeros para que la salida tenga la misma altura/ancho que la entrada.</li>
+<li><strong><code>padding='valid'</code></strong>: sin padding. Salida más chica.</li>
+<li><strong>Receptive field</strong>: porción de la imagen original que afecta una neurona específica del feature map.</li>
+</ul>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<ul>
+<li>MNIST / Fashion-MNIST (1 canal) o CIFAR-10 (3 canales).</li>
+<li>Librerías: <code>tensorflow</code>, <code>keras</code>, <code>matplotlib</code>.</li>
+</ul>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>Conv básica</strong>: <code>Conv2D(8, 3, padding='same', activation='relu')(input_28x28x1)</code>. Verificar shape de salida: <code>(batch, 28, 28, 8)</code>.</li>
+<li><strong>Conteo parámetros</strong>: para <code>Conv2D(32, kernel_size=5)</code> aplicado a entrada <code>(28, 28, 1)</code>, calcular params (<code>5*5*1*32 + 32 = 832</code>).</li>
+<li><strong>Stride 2</strong>: <code>Conv2D(32, 3, strides=2, padding='same')(x)</code>. Shape de salida: <code>(batch, H/2, W/2, 32)</code>.</li>
+<li><strong>Visualizar feature maps</strong>: entrenar una mini-CNN en MNIST; tomar las activaciones intermedias para una imagen y visualizar.</li>
+<li><strong>Filtros aprendidos</strong>: visualizar <code>model.layers[0].kernel.numpy()</code> para los primeros filtros. Para CIFAR, suelen verse bordes/colores básicos.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Mini-CNN para Fashion-MNIST:</p>
+<ol>
+<li><code>Conv(32, 3) → MaxPool(2) → Conv(64, 3) → MaxPool(2) → Flatten → Dense(128) → Dense(10)</code>.</li>
+<li>Entrenar y reportar accuracy.</li>
+<li>Visualizar feature maps de la primera Conv para 3 imágenes test.</li>
+<li>Calcular # parámetros total y compararlo con un MLP equivalente en tamaño (<code>Dense(128) → Dense(64) → Dense(10)</code> sin Conv).</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: accuracy de la CNN ≥ 0.91 (mejor que MLP); # parámetros de la CNN ≪ MLP equivalente.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Input shape error <code>expected ndim=4, got ndim=3</code></td>
+<td>Olvidaste el canal: MNIST viene <code>(60000, 28, 28)</code>, hace falta <code>(60000, 28, 28, 1)</code>. <strong>Fix</strong>: <code>x = x[..., np.newaxis]</code> o <code>x.reshape((-1, 28, 28, 1))</code>.</td>
+</tr>
+<tr>
+<td>Conv2D + Dense sin <code>Flatten</code> o <code>GlobalAveragePooling2D</code> en el medio</td>
+<td>Dense espera 2D. <strong>Fix</strong>: agregá <code>Flatten()</code> o <code>GlobalAveragePooling2D()</code> antes del primer Dense.</td>
+</tr>
+<tr>
+<td><code>padding='valid'</code> con muchas capas → shape se vuelve 0</td>
+<td>Cada conv reduce. <strong>Fix</strong>: usar <code>'same'</code> por default.</td>
+</tr>
+<tr>
+<td>Stride alto pierde información</td>
+<td><code>strides=4</code> con <code>kernel=3</code> salta píxeles. <strong>Fix</strong>: alternar conv (stride 1) + pool (stride 2).</td>
+</tr>
+<tr>
+<td>Filtros aprendidos no se ven nada</td>
+<td>Inicialización mala o modelo no entrenado. <strong>Fix</strong>: entrenar al menos unas épocas, verificar accuracy.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿Cuántos filtros?</strong></p>
+<p>Empieza chico y duplicá al profundizar. Patrón estándar: 32 → 64 → 128 → 256.</p>
+<p><strong>❓ ¿Kernel 3×3 o 5×5?</strong></p>
+<p>3×3 es default moderno (VGG, ResNet). Dos 3×3 apilados tienen el mismo receptive field que 5×5 con menos parámetros.</p>
+<p><strong>❓ ¿<code>stride</code> o <code>MaxPool</code> para downsampling?</strong></p>
+<p>Tradicionalmente MaxPool. ResNet moderno usa stride 2 en Convs y elimina pooling intermedio. Ambos funcionan.</p>
+<p><strong>❓ ¿Conv1D para series, Conv3D para video?</strong></p>
+<p>Sí. <code>Conv1D</code> para secuencias temporales (clase 121 WaveNet). <code>Conv3D</code> para video (T × H × W × C).</p>
+<p><strong>❓ ¿Convs vs Transformers en visión?</strong></p>
+<p>CNN domina en visión clásica (eficiente, buen prior espacial). ViT (Vision Transformer) supera con datasets muy grandes (&gt;10M imágenes). ConvNeXt (2022) recuperó terreno para CNN. Ver clase 126.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Géron, <strong>cap. 14</strong> — <em>Deep Computer Vision Using Convolutional Neural Networks</em>.</li>
+<li>LeCun et al. (1998), <em>Gradient-based learning applied to document recognition</em> — LeNet, paper canónico.</li>
+<li><a href="https://keras.io/api/layers/convolution_layers/convolution2d/">Keras Conv2D</a>.</li>
+<li><a href="https://cs231n.github.io/convolutional-networks/">CS231n CNN notes</a> — referencia clásica de Stanford.</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../129-pooling/index.html">Clase 129 — Pooling</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-2-deep-learning/128-capas-convolucionales-filtros-feature-maps/"><code>classes/parte-2-deep-learning/128-capas-convolucionales-filtros-feature-maps/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

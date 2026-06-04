@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 151 — vLLM y TGI: serving de LLMs en producción | Python Data Science Program</title>
+  <meta name="description" content="Clase 151 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 2 — Deep Learning</a><span class="sep">›</span><span>151</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-2-deep-learning/151-vllm-tgi-serving-llm-produccion/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-151-vllm-y-tgi-serving-de-llms-en-produccion">Clase 151 — vLLM y TGI: serving de LLMs en producción</h1>
+<blockquote>
+<p>Parte: <strong>2 — Deep Learning</strong> · Fuente: Kwon et al. (2023) vLLM + HuggingFace TGI docs. ⏱️ Duración estimada: <strong>80 min</strong>.</p>
+</blockquote>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Servir LLMs eficientemente en producción con <strong>vLLM</strong> (Berkeley) o <strong>TGI</strong> (HuggingFace). Cubrir: <strong>PagedAttention</strong>, <strong>continuous batching</strong>, <strong>prefill/decode</strong>, <strong>quantization</strong> (AWQ, GPTQ, FP8), <strong>structured output</strong> (JSON, function calling), <strong>streaming</strong>, <strong>OpenAI-compatible API</strong>.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar, el estudiante podrá:</p>
+<ul>
+<li>Levantar vLLM serving: <code>python -m vllm.entrypoints.openai.api_server --model X</code>.</li>
+<li>Hacer requests con OpenAI client apuntando a vLLM.</li>
+<li>Aplicar <strong>continuous batching</strong> y entender ganancia de throughput.</li>
+<li>Servir modelos cuantizados (AWQ, GPTQ, FP8) para reducir VRAM.</li>
+<li>Activar <strong>structured outputs</strong> con <code>guided_json</code> (JSON schema enforced).</li>
+</ul>
+<h2 id="temas">🗺️ Temas</h2>
+<ul>
+<li>KV cache: por qué crece con secuencia.</li>
+<li>PagedAttention (vLLM): page table como OS → no fragmentación.</li>
+<li>Continuous batching: nuevos requests entran sin esperar al batch.</li>
+<li>Prefill (compute KV) vs decode (1 token/step).</li>
+<li>Speculative decoding: predecir N tokens, verificar con modelo grande.</li>
+<li>Quantization: FP8 (H100), AWQ/GPTQ (4-bit weight-only).</li>
+</ul>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<ul>
+<li><strong>vLLM</strong>: framework serving open-source. PyTorch-based. ~5-20× throughput vs HF <code>pipeline</code>.</li>
+<li><strong>TGI (Text Generation Inference)</strong>: HF Hub-integrado. Similar a vLLM.</li>
+<li><strong>PagedAttention</strong>: KV cache paginado.</li>
+<li><strong>AWQ / GPTQ</strong>: 4-bit weight-only quantization, mantiene calidad ~98 %.</li>
+<li><strong>FP8</strong>: 8-bit float native en H100. Mejor que int8 numéricamente.</li>
+<li><strong>Speculative decoding</strong>: 2-3× speedup en decode con modelo draft.</li>
+</ul>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<ul>
+<li>Modelo: Mistral 7B Instruct, Llama 3 8B Instruct, o uno cuantizado AWQ.</li>
+<li>Librerías: <code>vllm</code>, <code>transformers</code>, <code>openai</code> (client).</li>
+</ul>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>vLLM básico</strong>: <code>python -m vllm.entrypoints.openai.api_server --model mistralai/Mistral-7B-Instruct-v0.2</code>. Cliente OpenAI.</li>
+<li><strong>Continuous batching benchmark</strong>: 100 requests paralelos vs 1 a la vez. Comparar throughput.</li>
+<li><strong>AWQ quantization</strong>: cargar <code>TheBloke/Mistral-7B-Instruct-v0.2-AWQ</code>. VRAM ~5 GB vs 14 GB fp16.</li>
+<li><strong>Structured JSON output</strong>: <code>extra_body={'guided_json': {schema}}</code> → forced JSON valid.</li>
+<li><strong>TGI</strong>: <code>docker run --gpus all ghcr.io/huggingface/text-generation-inference:latest --model-id X</code>.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Servir Mistral 7B Instruct AWQ con vLLM + cliente OpenAI:</p>
+<ol>
+<li>Levantar server vLLM.</li>
+<li>50 prompts batch en paralelo desde cliente.</li>
+<li>Medir throughput (tokens/sec total).</li>
+<li>Comparar contra <code>transformers.pipeline</code> generate.</li>
+<li>Activar <code>guided_json</code> para una tarea específica.</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: vLLM ≥ 5× throughput vs HF pipeline; structured output válido al 100 %.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>OOM al cargar</td>
+<td>Modelo + KV cache no entra. <strong>Fix</strong>: quantization o <code>--max-model-len 2048</code>.</td>
+</tr>
+<tr>
+<td>Throughput bajo en una sola request</td>
+<td>Con batch=1, vLLM es similar a HF. <strong>Fix</strong>: paralelizar requests.</td>
+</tr>
+<tr>
+<td>LoRA adapter no carga</td>
+<td><strong>Fix</strong>: vLLM soporta LoRA con <code>--enable-lora --lora-modules name=path</code>.</td>
+</tr>
+<tr>
+<td>Structured output formato inválido</td>
+<td><code>guided_json</code> schema mal. <strong>Fix</strong>: JSON Schema válido.</td>
+</tr>
+<tr>
+<td>TGI lento</td>
+<td>Versión vieja. <strong>Fix</strong>: usar imagen <code>latest</code>.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ vLLM vs TGI?</strong></p>
+<p>vLLM ligeramente más rápido en benchmarks; mejor LoRA support. TGI más integrado con HF Hub. Ambos buenos.</p>
+<p><strong>❓ Ollama / llama.cpp?</strong></p>
+<p>llama.cpp / Ollama: CPU-friendly, GGUF format. Para desktop, local, low traffic. vLLM/TGI para servers con GPU.</p>
+<p><strong>❓ Estructura JSON garantizada?</strong></p>
+<p>Sí con <code>guided_json</code> (vLLM uses outlines library). Mucho más confiable que prompt engineering.</p>
+<p><strong>❓ Speculative decoding?</strong></p>
+<p><code>--speculative-model X --num-speculative-tokens 5</code>. 2-3× decode speedup con calidad idéntica.</p>
+<p><strong>❓ Multi-GPU?</strong></p>
+<p><code>--tensor-parallel-size N</code> para shard del modelo en N GPUs.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Kwon et al. (2023), <em>Efficient Memory Management for LLM Serving with PagedAttention</em>, SOSP.</li>
+<li><a href="https://docs.vllm.ai/">vLLM docs</a>.</li>
+<li><a href="https://huggingface.co/docs/text-generation-inference">TGI docs</a>.</li>
+<li><a href="https://github.com/outlines-dev/outlines">Outlines (structured output)</a>.</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../152-rag-basico-y-embeddings/index.html">Clase 152 — RAG básico y embeddings (+ hybrid search, re-ranking, MCP)</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-2-deep-learning/151-vllm-tgi-serving-llm-produccion/"><code>classes/parte-2-deep-learning/151-vllm-tgi-serving-llm-produccion/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

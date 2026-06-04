@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 058 — Optuna y HPO bayesiano dedicado | Python Data Science Program</title>
+  <meta name="description" content="Clase 058 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 1 — ML clásico</a><span class="sep">›</span><span>058</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-1-machine-learning-clasico/058-optuna-bayesian-hpo-dedicado/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-058-optuna-y-hpo-bayesiano-dedicado">Clase 058 — Optuna y HPO bayesiano dedicado</h1>
+<blockquote>
+<p>Parte: <strong>1 — Machine Learning Clásico</strong> · Fuente: Akiba et al. (2019) + <a href="https://optuna.org/">Optuna docs</a>. ⏱️ Duración estimada: <strong>80 min</strong>.</p>
+</blockquote>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Profundizar en <strong>Optuna</strong> —el framework de hyperparameter optimization estándar industrial 2026— aplicado a ML clásico (sklearn, XGBoost, LightGBM, CatBoost). Pasar de Grid/Random Search (clase 052) a <strong>TPE (Tree-structured Parzen Estimator)</strong> + <strong>Hyperband Pruner</strong> + <strong>persistencia con SQLite</strong>. Aprender a interpretar <code>plot_optimization_history</code>, <code>plot_param_importances</code> y <code>plot_slice</code> para entender qué hiperparámetros mueven la aguja.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar, el estudiante podrá:</p>
+<ul>
+<li>Definir un <code>objective(trial)</code> con <code>suggest_int</code>, <code>suggest_float</code>, <code>suggest_categorical</code>, <code>suggest_float('lr', 1e-5, 1e-1, log=True)</code>.</li>
+<li>Aplicar <strong>TPE</strong> (default) vs <strong>CmaEs</strong> vs <strong>NSGAIISampler</strong> (multi-objective).</li>
+<li>Aplicar pruners (<strong>MedianPruner</strong>, <strong>HyperbandPruner</strong>) para cortar trials malos temprano.</li>
+<li>Persistir el study con <code>storage='sqlite:///study.db'</code> y resumir trials.</li>
+<li>Visualizar e interpretar los 5 plots de Optuna.</li>
+<li>Comparar costo total: Grid Search (1000 trials) vs Optuna (100 trials) llegan a mismo accuracy.</li>
+</ul>
+<h2 id="temas">🗺️ Temas</h2>
+<ul>
+<li>TPE: modela <code>P(x | y &lt; γ)</code> y <code>P(x | y ≥ γ)</code> con KDE; samplea de la primera.</li>
+<li>Pruning: callback que reporta progreso intermedio; si va mal vs históricos, kill.</li>
+<li>Multi-objective: optimizar accuracy AND latencia.</li>
+<li>Distributed: varios workers contra el mismo SQLite/PostgreSQL.</li>
+<li>Integration con sklearn, XGBoost, LightGBM, CatBoost.</li>
+</ul>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<ul>
+<li><strong><code>Trial</code></strong>: una corrida del objective.</li>
+<li><strong><code>Study</code></strong>: contenedor de trials; se persiste opcional.</li>
+<li><strong>TPE</strong>: Tree-structured Parzen Estimator. Modelo bayesiano con KDE bi-modal.</li>
+<li><strong><code>HyperbandPruner</code></strong>: combina successive halving con varios brackets.</li>
+<li><strong><code>storage</code></strong>: backend de persistencia. SQLite default; Postgres para distributed.</li>
+<li><strong><code>plot_param_importances</code></strong>: importancia fANOVA — cuánto contribuye cada hiperparámetro a la varianza del objetivo.</li>
+</ul>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<ul>
+<li><code>sklearn.datasets.fetch_california_housing</code> (regresión) o <code>fetch_openml('credit-g')</code> (clasificación).</li>
+<li>Librerías: <code>optuna</code>, <code>optuna-integration</code>, <code>scikit-learn</code>, <code>xgboost</code>, <code>lightgbm</code>.</li>
+</ul>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>Objective básico</strong>: tunear <code>LogisticRegression(C, penalty)</code> y <code>RandomForest(n_estimators, max_depth)</code> con TPE. 50 trials.</li>
+<li><strong>Search space compuesto</strong>: hiperparámetros condicionales (e.g., solver=<code>liblinear</code> solo permite ciertos <code>penalty</code>). Optuna lo maneja con <code>if</code>.</li>
+<li><strong>Pruning en XGBoost</strong>: usar <code>XGBoostPruningCallback</code> que reporta validación por boosting round → mata trials malos.</li>
+<li><strong>Persistencia</strong>: <code>optuna.create_study(study_name='exp1', storage='sqlite:///opt.db', load_if_exists=True)</code>. Re-correr y agregar trials.</li>
+<li><strong>Multi-objective</strong>: maximizar accuracy AND minimizar inference time; obtener Pareto front con <code>optuna.create_study(directions=['maximize', 'minimize'])</code>.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>HPO con Optuna sobre XGBoost en credit-g:</p>
+<ol>
+<li>Espacio: <code>n_estimators</code>, <code>max_depth</code>, <code>lr</code>, <code>subsample</code>, <code>colsample_bytree</code>, <code>reg_alpha</code>, <code>reg_lambda</code>.</li>
+<li>100 trials con TPE + Hyperband pruning.</li>
+<li>Reportar <code>best_params</code>, <code>best_value</code>, plot history + importances.</li>
+<li>Comparar contra RandomizedSearchCV(50 trials).</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: Optuna ≥ RandomizedSearch en AUC; <code>plot_param_importances</code> identifica <code>lr</code> y/o <code>max_depth</code> como las más importantes.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LR muestreado uniforme</td>
+<td><strong>Fix</strong>: <code>suggest_float('lr', 1e-5, 1e-1, log=True)</code>.</td>
+</tr>
+<tr>
+<td>TPE no parece "inteligente" en &lt; 20 trials</td>
+<td>El modelo interno necesita warmup. <strong>Fix</strong>: ≥ 50 trials.</td>
+</tr>
+<tr>
+<td><code>study.optimize(n_jobs=4)</code> se cuelga</td>
+<td>Race conditions con SQLite. <strong>Fix</strong>: usar Postgres para multi-job.</td>
+</tr>
+<tr>
+<td>Pruner muy agresivo mata trials buenos</td>
+<td><strong>Fix</strong>: ajustar <code>MedianPruner(n_startup_trials=10, n_warmup_steps=5)</code>.</td>
+</tr>
+<tr>
+<td>Olvido reportar valor intermedio para pruning</td>
+<td>El pruner no funciona sin <code>trial.report(value, step)</code>.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿TPE o CmaEs?</strong></p>
+<p>TPE para search spaces mezclados (cat + cont). CmaEs para puramente continuo, con poca cardinalidad — converge más rápido.</p>
+<p><strong>❓ ¿Cuántos trials?</strong></p>
+<p>Para ML clásico, 50-200 alcanza. Para DL caro (cada trial 1 h), 20-50 con pruning agresivo.</p>
+<p><strong>❓ ¿Distributed HPO?</strong></p>
+<p>Postgres storage + varios workers (Python processes en distintas máquinas). Optuna lo soporta nativo.</p>
+<p><strong>❓ ¿Pruning siempre?</strong></p>
+<p>Solo si el objective expone progreso intermedio (cada época en NN, cada boosting round en XGBoost). Para <code>fit().score()</code> directo, no aplica.</p>
+<p><strong>❓ ¿Visualizaciones para reportar al cliente?</strong></p>
+<p><code>plot_param_importances</code> y <code>plot_slice</code> son las más comunicables. Muestran "qué cambió y cuánto".</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Akiba et al. (2019), <em>Optuna</em>, KDD.</li>
+<li><a href="https://optuna.org/">Optuna docs</a> — tutorials y examples.</li>
+<li>Bergstra, Bardenet, Bengio &amp; Kégl (2011), <em>Algorithms for Hyper-Parameter Optimization</em>, NeurIPS — paper original TPE.</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../059-launch-monitoreo-y-mantenimiento/index.html">Clase 059 — Launch, monitoreo y mantenimiento de modelos</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-1-machine-learning-clasico/058-optuna-bayesian-hpo-dedicado/"><code>classes/parte-1-machine-learning-clasico/058-optuna-bayesian-hpo-dedicado/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 156 — Autoencoders: undercomplete, stacked, denoising, sparse | Python Data Science Program</title>
+  <meta name="description" content="Clase 156 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 2 — Deep Learning</a><span class="sep">›</span><span>156</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-2-deep-learning/156-autoencoders-undercomplete-stacked-denoising-sparse/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-156-autoencoders-undercomplete-stacked-denoising-sparse">Clase 156 — Autoencoders: undercomplete, stacked, denoising, sparse</h1>
+<blockquote>
+<p>Parte: <strong>2 — Deep Learning</strong> · Fuente: Géron, <strong>cap. 17</strong> § <em>Autoencoders, GANs, and Diffusion Models</em>. ⏱️ Duración estimada: <strong>70 min</strong>.</p>
+</blockquote>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Entender <strong>autoencoders</strong> — red <code>Encoder → bottleneck → Decoder</code> entrenada a <strong>reconstruir</strong> su input. Variantes que cubrimos: undercomplete (<code>dim_latent &lt; dim_input</code>, fuerza compresión), stacked (deep), <strong>denoising</strong> (input ruidoso → output limpio), sparse (penaliza activaciones latentes). Saber qué problemas resuelven (compresión, anomaly detection, pretraining) y cuándo VAEs/GANs/Diffusion los superan en generación.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar, el estudiante podrá:</p>
+<ul>
+<li>Construir un undercomplete AE con MLP/CNN y entrenarlo con MSE.</li>
+<li>Diferenciar <code>latent_dim &lt; input_dim</code> (compresión real) de <code>latent_dim &gt;&gt; input_dim</code> con regularización (sparse).</li>
+<li>Implementar <strong>Denoising AE</strong>: input <code>x + noise</code>, target <code>x</code>.</li>
+<li>Aplicar AE como <strong>anomaly detector</strong>: alta reconstruction error → anomalía.</li>
+<li>Reconocer que autoencoders <strong>no son buenos generadores</strong> (latent space irregular) → motivó VAE (clase 131).</li>
+</ul>
+<h2 id="temas">🗺️ Temas</h2>
+<ul>
+<li>Encoder + Decoder simétricos.</li>
+<li>Bottleneck: latent space.</li>
+<li>Undercomplete: dimensión chica.</li>
+<li>Stacked: varias capas Dense/Conv.</li>
+<li>Denoising: robusto a ruido.</li>
+<li>Sparse: penalizar <code>||latent||_1</code> para que pocas neuronas activas.</li>
+<li>AE para anomaly detection.</li>
+</ul>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<ul>
+<li><strong>Bottleneck</strong>: capa con menor dimensión que input, fuerza al modelo a comprimir.</li>
+<li><strong>Reconstruction loss</strong>: MSE o BCE pixel-wise.</li>
+<li><strong>Denoising AE</strong>: input contaminado → target original. Aprende invariancias.</li>
+<li><strong>Sparse AE</strong>: agrega L1 sobre las activaciones latentes a la loss.</li>
+<li><strong>Tied weights</strong>: usar <code>W^T</code> del encoder como decoder. Reduce parámetros.</li>
+</ul>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<ul>
+<li>Fashion-MNIST / MNIST.</li>
+<li>Librerías: <code>tensorflow</code>, <code>keras</code>.</li>
+</ul>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>AE simple</strong>: <code>Encoder: 784 → 64; Decoder: 64 → 784</code>. Entrenar en MNIST. Visualizar reconstrucciones.</li>
+<li><strong>Latent space 2D</strong>: <code>latent_dim=2</code>. Plot scatter de las representaciones de 1000 imágenes coloreadas por clase.</li>
+<li><strong>Denoising</strong>: <code>noise = 0.5 * rng.normal(x.shape)</code>, target = <code>x</code>. Mostrar que reconstruye limpio aunque input está ruidoso.</li>
+<li><strong>Sparse</strong>: agregar <code>keras.regularizers.l1(1e-3)</code> sobre la capa latente. Inspeccionar activaciones.</li>
+<li><strong>Anomaly detection</strong>: entrenar AE solo sobre clase "normal"; calcular reconstruction error en clase "anomalía"; usar como score.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>AE como anomaly detector en Fashion-MNIST:</p>
+<ol>
+<li>Entrenar AE convolucional solo sobre clase 0 (T-shirt).</li>
+<li>Calcular MSE de reconstrucción para todas las imágenes test.</li>
+<li>Plotear histograma del MSE separado por "T-shirt" vs "no T-shirt".</li>
+<li>ROC-AUC de "es T-shirt" usando MSE como score (negativo).</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: ROC-AUC ≥ 0.85; el histograma muestra clara separación.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>latent_dim</code> muy grande → AE copia el input</td>
+<td>No comprime nada. <strong>Fix</strong>: <code>latent_dim &lt; input_dim</code> o agregar sparse penalty.</td>
+</tr>
+<tr>
+<td>MSE pierde detalle</td>
+<td>Lo borronea. <strong>Fix</strong>: BCE pixel-wise o perceptual loss.</td>
+</tr>
+<tr>
+<td>Decoder con Dense para imágenes → mucho param</td>
+<td><strong>Fix</strong>: <code>Conv2DTranspose</code> para upsampling.</td>
+</tr>
+<tr>
+<td>Visualizar latent de <code>latent_dim=64</code> directamente</td>
+<td>No se puede visualizar 64D. <strong>Fix</strong>: t-SNE / UMAP (Parte 1 clase 084) o <code>latent_dim=2</code>.</td>
+</tr>
+<tr>
+<td>AE para generar nuevas imágenes → outputs raros</td>
+<td>Latent space no es continuo. <strong>Fix</strong>: VAE (131).</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿AE moderna?</strong></p>
+<p>Sí, especialmente como <strong>encoder backbone</strong> para auto-supervised pretraining (MAE — Masked Autoencoders en visión, He et al. 2022).</p>
+<p><strong>❓ ¿AE vs PCA?</strong></p>
+<p>Linear AE con MSE = PCA. AE con activaciones no lineales = PCA no lineal. Buena ganancia con datos no lineales.</p>
+<p><strong>❓ ¿Tied weights?</strong></p>
+<p>Reducen params 2× sin perder mucho. Usado históricamente, hoy raro porque GPUs y datos son abundantes.</p>
+<p><strong>❓ ¿Denoising AE en producción?</strong></p>
+<p>Sí, para imagen denoising, audio. Pero modelos de difusión (133) lo hacen mejor.</p>
+<p><strong>❓ ¿Sparse AE relevante?</strong></p>
+<p>Más histórico. Hoy se usan Vector Quantized AE (VQ-VAE) para representaciones discretas (audio, video → tokens).</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Géron, <strong>cap. 17</strong> — <em>Autoencoders</em>.</li>
+<li>Vincent et al. (2008), <em>Extracting and Composing Robust Features with Denoising Autoencoders</em>.</li>
+<li>He et al. (2022), <em>Masked Autoencoders Are Scalable Vision Learners (MAE)</em>, CVPR.</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../157-variational-autoencoders-vae/index.html">Clase 157 — Variational Autoencoders (VAE)</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-2-deep-learning/156-autoencoders-undercomplete-stacked-denoising-sparse/"><code>classes/parte-2-deep-learning/156-autoencoders-undercomplete-stacked-denoising-sparse/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

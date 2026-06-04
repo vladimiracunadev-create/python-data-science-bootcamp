@@ -2,9 +2,9 @@
 
 # 📚 Syllabus — Python Data Science Program
 
-### **197 clases · 9 partes · curriculum avanzado y completo**
+### **232 clases · 9 partes · curriculum avanzado y completo**
 
-[![Clases](https://img.shields.io/badge/clases-197-7c5cff?style=for-the-badge)](../classes/README.md)
+[![Clases](https://img.shields.io/badge/clases-232-7c5cff?style=for-the-badge)](../classes/README.md)
 [![Partes](https://img.shields.io/badge/partes-9-0ea5e9?style=for-the-badge)](#-mapa-curricular-por-partes)
 [![Fuentes](https://img.shields.io/badge/fuentes-5%20libros-f59e0b?style=for-the-badge)](#-fuentes-y-pauta)
 
@@ -76,13 +76,13 @@ Capaz de:
 | 6 | Sistemas de recomendación | 7 | [`parte-6-sistemas-de-recomendacion/`](../classes/parte-6-sistemas-de-recomendacion) |
 | 7 | Ética, fairness, privacidad | 6 | [`parte-7-etica-fairness-privacidad/`](../classes/parte-7-etica-fairness-privacidad) |
 | 8 | Capstones | 4 | [`parte-8-capstones/`](../classes/parte-8-capstones) |
-| | **Total** | **197** | |
+| | **Total** | **232** | |
 
 ## 📊 Estado de implementación
 
 | Componente | Estado |
 |---|---|
-| Estructura de carpetas (197) | ✅ creada |
+| Estructura de carpetas (232) | ✅ creada |
 | README por clase | ✅ Partes 0 y 1 (89) completos y ampliados · Partes 2-8 stubs |
 | `notebook.ipynb` por clase | ✅ Parte 0 (46) ejecutables · ⏳ Partes 1-8 stubs (notebooks pendientes de desarrollo aunque los README estén completos en Parte 1) |
 | Contenido pedagógico real | 🟢 Partes 0 y 1 completas (89 clases) · ⏳ 108 clases pendientes (Partes 2-8) |

@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 127 — TensorFlow Datasets (TFDS) | Python Data Science Program</title>
+  <meta name="description" content="Clase 127 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 2 — Deep Learning</a><span class="sep">›</span><span>127</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-2-deep-learning/127-tensorflow-datasets-tfds/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-127-tensorflow-datasets-tfds">Clase 127 — TensorFlow Datasets (TFDS)</h1>
+<blockquote>
+<p>Parte: <strong>2 — Deep Learning</strong> · Fuente: Géron, <strong>cap. 13</strong> § <em>The TensorFlow Datasets (TFDS) Project</em>. ⏱️ Duración estimada: <strong>40 min</strong>.</p>
+</blockquote>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Conocer <strong>TFDS</strong> —catálogo de datasets prearmados (CIFAR, ImageNet, IMDB, COCO, MNIST, GLUE, etc.)— y la alternativa moderna <strong>Hugging Face <code>datasets</code></strong> (estándar en NLP/LLMs). Cargar datasets de prueba, hacer splits, y entender por qué TFDS es práctico para benchmarks reproducibles.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar, el estudiante podrá:</p>
+<ul>
+<li>Listar datasets disponibles con <code>tfds.list_builders()</code>.</li>
+<li>Cargar con <code>tfds.load('cifar10', split=['train', 'test'], as_supervised=True)</code>.</li>
+<li>Hacer splits custom con la slicing API: <code>'train[:80%]'</code>, <code>'train[80%:]'</code>.</li>
+<li>Reconocer cuando usar <code>tfds</code> vs <code>huggingface_hub.datasets</code>.</li>
+</ul>
+<h2 id="temas">🗺️ Temas</h2>
+<ul>
+<li>Catálogo TFDS: 200+ datasets, descarga automática + cache.</li>
+<li><code>as_supervised=True</code> → tuplas <code>(x, y)</code>.</li>
+<li>Splits: <code>'train[:80%]'</code>, <code>'train[-20%:]'</code>, <code>'all'</code>.</li>
+<li><code>dataset.info</code> con metadata (shape, num_classes, etc.).</li>
+<li>Hugging Face <code>datasets</code>: estándar moderno multi-framework.</li>
+</ul>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<ul>
+<li><strong>TFDS</strong>: librería de Google con datasets pre-procesados en formato TFRecord.</li>
+<li><strong><code>as_supervised</code></strong>: si <code>True</code>, devuelve <code>(input, label)</code>. Si <code>False</code>, devuelve dict con todas las features.</li>
+<li><strong>Slicing API</strong>: notación tipo Python sobre los splits.</li>
+<li><strong>Hugging Face <code>datasets</code></strong>: equivalente moderno, basado en Arrow, soporta PyTorch/TF/JAX, comunidad enorme.</li>
+</ul>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<ul>
+<li>CIFAR-10 vía TFDS.</li>
+<li>IMDB vía HF datasets.</li>
+<li>Librerías: <code>tensorflow-datasets</code> (<code>pip install tensorflow-datasets</code>), opcional <code>datasets</code> (HF).</li>
+</ul>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>Listar</strong>: <code>tfds.list_builders()</code> → primeros 20 datasets.</li>
+<li><strong>CIFAR-10</strong>: <code>(ds_train, ds_test), info = tfds.load('cifar10', split=['train', 'test'], as_supervised=True, with_info=True)</code>. Imprimir <code>info</code>.</li>
+<li><strong>Slicing</strong>: cargar <code>train[:90%]</code> + <code>train[90%:]</code> como train/val split.</li>
+<li><strong>Pipeline</strong>: <code>ds_train.map(preprocess).cache().shuffle(1024).batch(32).prefetch(AUTOTUNE)</code>.</li>
+<li><strong>HF datasets</strong>: <code>from datasets import load_dataset; ds = load_dataset('imdb')</code>. Inspeccionar; convertir a tf.data con <code>ds.to_tf_dataset(...)</code>.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Entrenar un MLP simple en CIFAR-10 cargado vía TFDS:</p>
+<ol>
+<li>Cargar con <code>tfds.load(..., as_supervised=True)</code>.</li>
+<li>Pipeline con preprocessing, batch, prefetch.</li>
+<li>MLP <code>[1024, 512, 256, 10]</code> con BN + Dropout.</li>
+<li>Reportar accuracy en test.</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: accuracy en test ≥ 0.45 (MLP no es ideal para CIFAR — CNN gana — pero debe llegar a 45 %; clase 113+ lo mejora con CNN).</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Primera carga muy lenta</td>
+<td>TFDS descarga + procesa. Cachea en <code>~/tensorflow_datasets/</code>. <strong>Fix</strong>: paciencia la primera vez.</td>
+</tr>
+<tr>
+<td><code>OutOfRangeError</code> al iterar</td>
+<td>Te quedaste sin batches sin pasar <code>.repeat()</code>. <strong>Fix</strong>: agregar <code>.repeat()</code> si entrenás con <code>steps_per_epoch</code>.</td>
+</tr>
+<tr>
+<td>Olvidar <code>as_supervised=True</code></td>
+<td>El dataset devuelve dicts, modelo espera tuplas. <strong>Fix</strong>: agregar el flag.</td>
+</tr>
+<tr>
+<td><code>tfds.load(split='train+test')</code></td>
+<td>Concatena ambos splits. Para train/val: usar slicing.</td>
+</tr>
+<tr>
+<td>Disco lleno por datasets grandes (ImageNet ≈ 150 GB)</td>
+<td>TFDS cachea todo. <strong>Fix</strong>: borrar <code>~/tensorflow_datasets/imagenet*</code> cuando no lo necesites.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿TFDS o HF datasets?</strong></p>
+<p>Para benchmarks tradicionales (CIFAR, IMDB, MNIST) ambos sirven. Para NLP moderno (text generation, instruction datasets), <strong>HF</strong>. Para TF nativo + GCP/Vertex AI, <strong>TFDS</strong>.</p>
+<p><strong>❓ ¿TFDS funciona con PyTorch?</strong></p>
+<p>Sí, con <code>tfds.as_numpy(...)</code> o <code>tfds.load(..., builder_kwargs={'as_dataset_kwargs': ...})</code>. Pero HF es más natural.</p>
+<p><strong>❓ ¿Datasets propios cargo cómo?</strong></p>
+<p>Para datasets locales no listados: <code>tfds.folder_dataset.ImageFolder('/path')</code>, o construir un <code>DatasetBuilder</code> custom. En HF: <code>load_dataset('csv', data_files='...')</code>.</p>
+<p><strong>❓ ¿Datasets de imagen grandes (ImageNet)?</strong></p>
+<p>TFDS los maneja bien (shardea, cache). Para TPU + Vertex AI, ya está optimizado.</p>
+<p><strong>❓ ¿Versionado de datasets?</strong></p>
+<p>TFDS versiona por defecto (<code>'cifar10:3.0.2'</code>). HF también. Es importante reportarlo en papers/reports.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Géron, <strong>cap. 13</strong> — <em>The TensorFlow Datasets (TFDS) Project</em>.</li>
+<li><a href="https://www.tensorflow.org/datasets/catalog/overview">TFDS catalog</a>.</li>
+<li><a href="https://huggingface.co/docs/datasets/">Hugging Face datasets</a>.</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../128-capas-convolucionales-filtros-feature-maps/index.html">Clase 128 — Capas convolucionales, filtros, feature maps</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-2-deep-learning/127-tensorflow-datasets-tfds/"><code>classes/parte-2-deep-learning/127-tensorflow-datasets-tfds/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

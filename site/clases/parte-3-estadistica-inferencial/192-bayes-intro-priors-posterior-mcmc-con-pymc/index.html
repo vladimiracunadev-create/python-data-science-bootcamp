@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 192 — Bayes intro: priors, posterior, MCMC con PyMC | Python Data Science Program</title>
+  <meta name="description" content="Clase 192 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 3 — Estadística inferencial</a><span class="sep">›</span><span>192</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-3-estadistica-inferencial/192-bayes-intro-priors-posterior-mcmc-con-pymc/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#version-profundizada-2026">📌 Versión profundizada — 2026</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-parte">➡️ Siguiente parte</a></nav>
+<h1 id="clase-192-bayes-intro-priors-posterior-mcmc-con-pymc">Clase 192 — Bayes intro: priors, posterior, MCMC con PyMC</h1>
+<blockquote>
+<p>Parte: <strong>3 — Estadística Inferencial y Causal</strong> · Fuente: McElreath, <em>Statistical Rethinking</em> (2ª ed.) + Gelman et al., <em>Bayesian Data Analysis</em> (3ª ed.) + Martin, <em>Bayesian Modeling and Computation in Python</em>. ⏱️ Duración estimada: <strong>95 min</strong>.</p>
+</blockquote>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Entender la <strong>lógica bayesiana</strong> —prior + likelihood → posterior vía teorema de Bayes— y construir un modelo simple end-to-end con <strong>PyMC v5</strong> (regresión bayesiana sobre datos reales), interpretar el posterior con <strong>ArviZ</strong> (trace plots, posterior intervals, posterior predictive checks), y conocer el stack moderno: <strong>PyMC v5</strong> (post-Theano, sobre PyTensor), <strong>NumPyro</strong> (sobre JAX, GPU-friendly) y <strong>ArviZ</strong> (visualización + diagnóstico backend-agnóstico).</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar, el estudiante podrá:</p>
+<ul>
+<li>Escribir <code>posterior ∝ likelihood × prior</code> y aplicarlo a un caso conjugado (Beta-Binomial para una tasa de conversión).</li>
+<li>Construir un modelo lineal bayesiano con <code>pymc.Model() as m: ...</code> y muestrearlo con <code>pm.sample()</code> (NUTS).</li>
+<li>Inspeccionar trace con <code>arviz.plot_trace</code>, diagnosticar convergencia (<code>r_hat ≤ 1.01</code>, <code>ess_bulk ≥ 400</code>).</li>
+<li>Interpretar <strong>HDI (Highest Density Interval)</strong> como reemplazo del IC clásico — con interpretación directa de probabilidad.</li>
+<li>Hacer <strong>posterior predictive check</strong> (<code>pm.sample_posterior_predictive</code>) y entender por qué es la validación bayesiana fundamental.</li>
+<li>Conocer <strong>NumPyro</strong> y cuándo elegirlo sobre PyMC (modelos grandes, GPU/JAX, optimización stocástica via SVI).</li>
+</ul>
+<h2 id="temas">🗺️ Temas</h2>
+<ul>
+<li>Teorema de Bayes: <code>P(θ|D) = P(D|θ)·P(θ) / P(D)</code>.</li>
+<li>Conjugados: Beta–Binomial, Gamma–Poisson, Normal–Normal (intuición sin MCMC).</li>
+<li>MCMC: idea — muestrear de una distribución sin computarla analíticamente. NUTS (No U-Turn Sampler).</li>
+<li>HDI vs IC frecuentista: el HDI es interpretado directamente como <code>P(θ ∈ HDI | datos) = 0.94</code>.</li>
+<li>Posterior predictive: la distribución de datos <em>futuros</em> simulados desde el posterior. Test de modelo.</li>
+<li>Priors: no informativos (Uniform, HalfNormal con scale grande), débilmente informativos (recomendado), informativos (cuando hay expertise).</li>
+<li><strong>Complemento moderno</strong>: PyMC v5 (PyTensor backend, ya estable post-Theano), NumPyro (JAX, GPU), ArviZ (diagnóstico estándar).</li>
+</ul>
+<h2 id="version-profundizada-2026">📌 Versión profundizada — 2026</h2>
+<p>El tema moderno que vivía como complemento dentro de esta clase ahora tiene clase propia dedicada con patrón completo, ejercicios y homework:</p>
+<ul>
+<li>👉 <a href="../158b-pymc-v5-numpyro-arviz-stack-bayesiano/index.html">Clase 158b — Stack bayesiano moderno: PyMC v5, NumPyro, ArviZ</a></li>
+</ul>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<ul>
+<li><strong>Prior</strong> <code>P(θ)</code>: creencia sobre el parámetro <strong>antes</strong> de ver los datos.</li>
+<li><strong>Likelihood</strong> <code>P(D|θ)</code>: probabilidad de los datos dado el parámetro (misma que en MLE/frecuentista).</li>
+<li><strong>Posterior</strong> <code>P(θ|D)</code>: creencia sobre el parámetro <strong>después</strong> de los datos. Combina prior + likelihood vía Bayes.</li>
+<li><strong>MCMC (Markov Chain Monte Carlo)</strong>: técnica de muestreo de distribuciones complejas. NUTS es el algoritmo moderno default (extiende HMC).</li>
+<li><strong>HDI (Highest Density Interval)</strong>: intervalo de la distribución posterior que contiene la masa de probabilidad especificada Y tiene la mayor densidad. <strong>No confundir con IC</strong> — el HDI <strong>sí</strong> tiene interpretación de probabilidad directa.</li>
+<li><strong>Posterior predictive distribution</strong>: <code>P(ỹ | D) = ∫ P(ỹ|θ) · P(θ|D) dθ</code>. Distribución de datos <em>nuevos</em> integrando sobre la incertidumbre del parámetro.</li>
+<li><strong><code>r_hat</code></strong>: Gelman-Rubin convergence diagnostic. Compara varianza intra-cadena vs entre-cadenas.</li>
+<li><strong>ESS (effective sample size)</strong>: número de muestras independientes equivalentes. MCMC produce muestras correlacionadas, así que ESS &lt; N total.</li>
+<li><strong>Conjugate prior</strong>: prior cuya combinación con un likelihood específico da posterior de la misma familia. Beta-Binomial, Gamma-Poisson, Normal-Normal.</li>
+<li><strong>SVI (Stochastic Variational Inference)</strong>: aproxima el posterior con una familia paramétrica más simple (ej.: Normal) optimizando ELBO. Muchísimo más rápido que MCMC; menos exacto.</li>
+</ul>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<ul>
+<li><code>tips</code> (regresión bayesiana).</li>
+<li>Tasa de conversión sintética (Beta-Binomial conjugado).</li>
+<li>McElreath's <code>Howell1</code> (estatura vs peso) — el ejemplo canónico del libro.</li>
+<li>Librerías: <code>pymc</code> (≥ 5), <code>arviz</code>, <code>numpyro</code>, <code>seaborn</code>, <code>matplotlib</code>.</li>
+</ul>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>Conjugado a mano</strong>: 100 visitas, 8 conversiones. Prior Beta(1,1). Posterior = Beta(9, 93). Graficá prior y posterior; calculá HDI 94 % con <code>scipy.stats.beta.ppf</code>.</li>
+<li><strong>Regresión bayesiana</strong>: ajustá el modelo PyMC del ejemplo sobre <code>tips</code>. Reportá <code>summary</code> y <code>plot_trace</code>. Verificá <code>r_hat ≤ 1.01</code>.</li>
+<li><strong>Comparación</strong>: compará los coeficientes bayesianos (mean del posterior) con OLS de <code>statsmodels</code> sobre el mismo dataset. Con priors débiles, deberían ser casi idénticos.</li>
+<li><strong>Posterior predictive check</strong>: ejecutá <code>sample_posterior_predictive</code> y <code>az.plot_ppc</code>. Discutí si el modelo captura la asimetría de tips (probablemente no — sugerir cambiar a likelihood Gamma o lognormal).</li>
+<li><strong>NumPyro</strong>: traducí el modelo a NumPyro, ajustá, convertí con <code>az.from_numpyro</code> y verificá que los resultados son equivalentes. Comparar tiempo de ejecución.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Modelo bayesiano jerárquico simple sobre <code>tips</code>:</p>
+<ol>
+<li>Modelar la propina como <code>tip ~ Normal(α_día + β·total_bill, σ)</code> donde <code>α_día</code> varía por día (efecto aleatorio jerárquico): <code>α_día ~ Normal(μ_α, σ_α)</code>.</li>
+<li>Ajustar con PyMC v5, 4 cadenas, 2 000 muestras.</li>
+<li>Diagnosticar: <code>r_hat</code>, <code>ess_bulk</code>, trace plots, divergencias.</li>
+<li>Reportar HDI 94 % de <code>β</code> (efecto del bill sobre tip) y de los 4 <code>α_día</code>.</li>
+<li>Conclusión en 4 líneas: ¿qué día tiene mayor intercepto? ¿Cuán incierto es <code>β</code>?</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: el modelo converge (<code>r_hat ≤ 1.01</code> para todos los parámetros), <code>β</code> HDI no incluye 0 (efecto positivo claro del bill sobre tip), y la conclusión menciona la jerarquía como ventaja sobre 4 regresiones separadas.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>r_hat = 1.3</code> y reporto el resultado igual</td>
+<td>No convergió. <strong>Fix</strong>: más <code>tune</code>, <code>target_accept=0.95</code>, re-parametrizar (centered → non-centered), o mejor prior.</td>
+</tr>
+<tr>
+<td>Prior <code>Uniform(-10⁶, 10⁶)</code> "para ser objetivo"</td>
+<td>Priors muy planos hacen MCMC inestable y no son realmente "no informativos" en escalas no lineales. <strong>Fix</strong>: priors débilmente informativos (Normal con sigma grande pero finito).</td>
+</tr>
+<tr>
+<td>Interpreto el HDI como "intervalo de predicción"</td>
+<td>El HDI es del parámetro, no de futuras observaciones. <strong>Fix</strong>: para predicción, usar posterior predictive.</td>
+</tr>
+<tr>
+<td>MCMC se queda atascado con <code>divergences &gt; 100</code></td>
+<td>Posterior con geometría difícil (embudos). <strong>Fix</strong>: non-centered parameterization, <code>target_accept=0.99</code>.</td>
+</tr>
+<tr>
+<td>Comparar modelos por DIC</td>
+<td>DIC tiene problemas conocidos. <strong>Fix</strong>: usar <strong>LOO-CV</strong> (<code>az.loo</code>) o WAIC (<code>az.waic</code>) — mejores criterios bayesianos.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿Bayes o frecuentista?</strong></p>
+<p>No son enemigos — son herramientas distintas. Bayes brilla con n chico, modelos jerárquicos, interpretación directa de probabilidades. Frecuentista brilla con datasets enormes y modelos simples. Industria moderna: <strong>ambos</strong>, eligiendo por problema.</p>
+<p><strong>❓ ¿Cuánto tarda MCMC?</strong></p>
+<p>Para regresión lineal con 1 000 obs y 3 parámetros: segundos en PyMC v5. Para modelos jerárquicos con 100 grupos: 1-10 min. Para modelos con miles de parámetros: minutos a horas. NumPyro/JAX puede acelerar 10-50×.</p>
+<p><strong>❓ ¿Qué pasa si elijo un prior "malo"?</strong></p>
+<p>Con datos abundantes, el likelihood domina y el posterior es casi insensible al prior. Con datos escasos, el prior importa — y eso es <strong>bueno</strong>, refleja la realidad de que con n=10 no se puede aprender nada sin asumir algo. Hacé <strong>prior predictive check</strong> (<code>pm.sample_prior_predictive</code>) para verificar que los priors no generan datos absurdos.</p>
+<p><strong>❓ ¿Variational inference (VI) o MCMC?</strong></p>
+<p>MCMC es <strong>más exacto</strong> asintóticamente; VI es <strong>mucho más rápido</strong>. Para producción con modelos grandes, VI (en NumPyro o Pyro) es la opción. Para inferencia rigurosa, MCMC.</p>
+<p><strong>❓ ¿Cuál es la diferencia con regresión lineal "normal"?</strong></p>
+<p>OLS te da <code>β̂</code> puntual + IC frecuentista. Bayes te da <strong>distribución completa de <code>β</code></strong>, lo cual permite responder preguntas como <code>P(β &gt; 0.5 | datos)</code>, <code>P(β ∈ [0.3, 0.7])</code> directamente — sin pirueta interpretativa.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>McElreath, R. (2020), <em>Statistical Rethinking</em> (2ª ed.), CRC Press — el mejor libro para empezar.</li>
+<li>Gelman et al. (2013), <em>Bayesian Data Analysis</em> (3ª ed.) — la referencia técnica completa.</li>
+<li>Martin, O. (2024), <em>Bayesian Modeling and Computation in Python</em> — Python-first, con PyMC v5.</li>
+<li><a href="https://www.pymc.io/">PyMC v5 docs</a> — sección <em>Introductory Overview</em>.</li>
+<li><a href="https://num.pyro.ai/">NumPyro docs</a> — JAX-based.</li>
+<li><a href="https://arviz-devs.github.io/arviz/">ArviZ docs</a> — diagnóstico backend-agnóstico.</li>
+<li>Hoffman &amp; Gelman (2014), <em>The No-U-Turn Sampler</em>, JMLR — paper de NUTS.</li>
+</ul>
+<h2 id="siguiente-parte">➡️ Siguiente parte</h2>
+<p><a href="../193-pymc-v5-numpyro-arviz-stack-bayesiano/index.html">Clase 193 — Stack bayesiano moderno: PyMC v5, NumPyro, ArviZ</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-3-estadistica-inferencial/192-bayes-intro-priors-posterior-mcmc-con-pymc/"><code>classes/parte-3-estadistica-inferencial/192-bayes-intro-priors-posterior-mcmc-con-pymc/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

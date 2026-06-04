@@ -13,11 +13,11 @@
 
 ---
 
-## 📊 Estado actual — v2.3.0 (junio 2026)
+## 📊 Estado actual — v3.0.0 (junio 2026 — gran restructuración)
 
 | 🎛️ Superficie | 🚦 Estado |
 |---|---|
-| 📚 Currículo (224 clases, 9 partes) | 🟢 **Partes 0, 1, 2 y 3 (185 clases) completas y ampliadas v3** (Definiciones · Errores · FAQ + 27 clases dedicadas para temas modernos 2024-2026: Polars/Arrow/DuckDB, async, Optuna, Model Cards, SMOTE, calibración, SHAP profundo, PyTorch+Lightning, SAM/YOLOv11, CLIP/Whisper, LoRA/DPO/vLLM, MCP/Agentes/Eval, SDXL/ControlNet, ONNX, JAX/Flax, effect size, CUPED+sequential, DoubleML, Synthetic Controls) · Partes 4-8 en desarrollo |
+| 📚 Currículo (**232 clases**, 9 partes, numeración secuencial limpia 001-232) | 🟢 **Partes 0, 1, 2 y 3 (193 clases) completas y ampliadas v3.0** (Definiciones · Errores · FAQ en cada clase + 35 clases dedicadas a temas modernos 2024-2026: Polars/Arrow/DuckDB, async, validación temporal, FE+MICE, Optuna, Model Cards, SMOTE, calibración, SHAP profundo, Ray Tune, Lion/Sophia, Stochastic Depth, PyTorch+Lightning, SAM/YOLOv11, Flash Attention/RoPE/GQA, CLIP/Whisper, LoRA/DPO/vLLM, MCP/Agentes/Eval, SDXL/ControlNet, ONNX, JAX/Flax, effect size, BCa bootstrap, CUPED+sequential, DoubleML, Synthetic Controls, PyMC v5/NumPyro/ArviZ) · Partes 4-8 (39 clases) pendientes desarrollo |
 | 🧪 Laboratorio Flask | ✅ operativo |
 | 🖥️ App de escritorio Windows (pywebview) | 🟡 código operativo · binario pendiente de rebuild |
 | 📱 App Android | 🟡 APK debug publicado — pendiente migrar contenido al índice actual |
@@ -33,8 +33,8 @@
 
 - [x] **0️⃣ Parte 0 — Prerrequisitos (46 clases)** ✅ completada (mayo 2026), **ampliada con Definiciones, Errores comunes y FAQ por clase** y reforzada con **5 complementos modernos** (regex, pytest, Polars, Parquet/Arrow, async/httpx) — VanderPlas + Ramalho + Tanimura + Mitchell + docs oficiales
 - [x] **1️⃣ Parte 1 — ML clásico (43 clases)** ✅ completada (junio 2026), con patrón pedagógico completo y **8 complementos modernos integrados** (validación temporal, feature engineering avanzado + MICE, HPO con Optuna, model cards, class imbalance + SMOTE, calibración de probabilidades, SHAP/LIME) — Géron 3ª ed., caps. 1–9 + docs XGBoost/LightGBM/CatBoost
-- [x] **3️⃣ Parte 3 — Estadística inferencial y causal (13 clases)** ✅ completada (junio 2026), con patrón pedagógico completo y **6 complementos modernos integrados** (effect size con pingouin, BCa bootstrap + APIs scipy.stats modernas, CUPED + sequential testing + A/B bayesiano, DoubleML / EconML, Synthetic Control Method, stack PyMC v5 + NumPyro + ArviZ) — ISLP + Bruce & Bruce + Pearl + Hernán & Robins
-- [x] **2️⃣ Parte 2 — Deep Learning (56 clases)** ✅ completada (junio 2026), con patrón pedagógico completo y **10 complementos modernos integrados** (Optuna/Ray Tune, Lion/Sophia, Stochastic Depth/DropPath, PyTorch + Lightning, DETR/SAM/YOLOv11, Flash Attention/RoPE/GQA, LoRA/QLoRA/DPO/vLLM, hybrid search + cross-encoder rerank + MCP, SDXL/ControlNet/LCM, ONNX/TensorRT/vLLM/TGI) — Géron 3ª ed. caps. 10-19 + papers seminales + HuggingFace ecosystem
+- [x] **2️⃣ Parte 2 — Deep Learning (75 clases)** ✅ completada (junio 2026), patrón pedagógico completo + **19 clases dedicadas** para temas modernos 2024-2026 (Ray Tune, Lion/Sophia, Stochastic Depth, PyTorch+Lightning, SAM/YOLOv11, Flash Attention/RoPE/GQA, CLIP/SigLIP, Whisper, LoRA/QLoRA, DPO/RLHF, vLLM/TGI, MCP, Agentes ReAct, LLM Evaluation, SDXL+ControlNet, ONNX, JAX/Flax) — Géron 3ª ed. caps. 10-19 + papers seminales + HuggingFace + PyTorch ecosystem
+- [x] **3️⃣ Parte 3 — Estadística inferencial y causal (19 clases)** ✅ completada (junio 2026), patrón pedagógico completo + **6 clases dedicadas** modernas (effect size, BCa bootstrap, CUPED+sequential, DoubleML/EconML, Synthetic Controls, stack PyMC v5/NumPyro/ArviZ) — ISLP + Bruce & Bruce + Pearl + Hernán & Robins
 - [ ] Desarrollar las 14 clases de la **4️⃣ Parte 4 — MLOps** (siguiente prioridad)
 - [ ] Desarrollar las 25 clases restantes (Partes 5, 6, 7, 8)
 

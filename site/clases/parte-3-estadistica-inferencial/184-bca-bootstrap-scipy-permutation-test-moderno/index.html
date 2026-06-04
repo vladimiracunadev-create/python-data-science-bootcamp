@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 184 — BCa bootstrap y APIs modernas de scipy | Python Data Science Program</title>
+  <meta name="description" content="Clase 184 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 3 — Estadística inferencial</a><span class="sep">›</span><span>184</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-3-estadistica-inferencial/184-bca-bootstrap-scipy-permutation-test-moderno/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-184-bca-bootstrap-y-apis-modernas-de-scipy">Clase 184 — BCa bootstrap y APIs modernas de scipy</h1>
+<blockquote>
+<p>Parte: <strong>3 — Estadística Inferencial y Causal</strong> · Fuente: Efron (1987) BCa + DiCiccio &amp; Efron (1996) + <a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.bootstrap.html">scipy.stats.bootstrap docs</a>. ⏱️ Duración estimada: <strong>75 min</strong>.</p>
+</blockquote>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Profundizar el <strong>BCa (Bias-Corrected and accelerated) bootstrap</strong> —el default moderno (Efron 1987)— y las <strong>APIs modernas de scipy</strong> (<code>scipy.stats.bootstrap</code> ≥ 1.9, <code>scipy.stats.permutation_test</code> ≥ 1.8). Cubrir las correcciones que BCa hace sobre percentile clásico: <strong>bias correction</strong> (z₀) y <strong>acceleration</strong> (a) vía jackknife.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar, el estudiante podrá:</p>
+<ul>
+<li>Diferenciar bootstrap <strong>percentile</strong> vs <strong>basic</strong> vs <strong>BCa</strong>.</li>
+<li>Calcular <code>z₀</code> (bias correction) y <code>a</code> (acceleration) manualmente.</li>
+<li>Aplicar <code>scipy.stats.bootstrap((data,), statistic, method='BCa', n_resamples=10_000)</code>.</li>
+<li>Aplicar <code>permutation_test</code> para p-value de comparación de 2 grupos sin paramétrica.</li>
+<li>Reconocer cuándo BCa importa: estadísticos no lineales, distribuciones asimétricas.</li>
+</ul>
+<h2 id="temas">🗺️ Temas</h2>
+<ul>
+<li>Percentile bootstrap: cuantiles directos. Sub-cubre con asimetría.</li>
+<li>Basic bootstrap: reflexión <code>2θ̂ - q_{1-α/2}</code>.</li>
+<li>BCa: corrige bias (<code>z₀</code>) y aceleración (<code>a</code> vía jackknife).</li>
+<li>Studentized bootstrap: estandariza con SE bootstrap del SE.</li>
+<li>Scipy.stats.bootstrap API.</li>
+<li>Permutation test exacto.</li>
+</ul>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<ul>
+<li><strong><code>z₀</code></strong>: <code>Φ⁻¹(P(θ*_b ≤ θ̂))</code> — fracción de bootstraps por debajo del estimador.</li>
+<li><strong><code>a</code> (acceleration)</strong>: estima cómo SE depende del parámetro. Calculado con jackknife.</li>
+<li><strong>BCa interval</strong>: percentiles ajustados <code>α₁, α₂</code> función de <code>z₀, a, z_{α/2}</code>.</li>
+<li><strong><code>scipy.stats.bootstrap</code> desde 1.9</strong>: vectorizado, BCa default, IC + SE + bias estimate.</li>
+<li><strong><code>permutation_test</code></strong>: re-mezcla labels bajo H₀, calcula stat distribution.</li>
+</ul>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<ul>
+<li>Datos lognormales sintéticos.</li>
+<li><code>seaborn.load_dataset('diamonds')</code> para mediana de price.</li>
+<li>Librerías: <code>scipy.stats</code>, <code>numpy</code>, <code>matplotlib</code>.</li>
+</ul>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>Tres ICs</strong>: para mediana de <code>x = rng.lognormal(0, 1, 100)</code>, calcular IC con percentile, basic, BCa. Comparar.</li>
+<li><strong>z₀ a mano</strong>: implementar <code>z₀ = ppf((B_below_θ̂) / B)</code>. Verificar contra scipy.</li>
+<li><strong><code>a</code> con jackknife</strong>: implementar leave-one-out para cada <code>θ̂_(i)</code>. Calcular <code>a</code>.</li>
+<li><strong>Cobertura empírica</strong>: 1000 datasets <code>Exp(1)</code>, n=25; cobertura percentile vs BCa. BCa más cerca de 95 %.</li>
+<li><strong>Permutation_test</strong>: comparar dos lognormales con tamaño efecto chico. P-value exacto.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>IC del AUC de un clasificador binario:</p>
+<ol>
+<li><code>LogisticRegression</code> en breast cancer. AUC en test.</li>
+<li>Bootstrap BCa de <code>(y_test, y_proba)</code>: 5000 resamples.</li>
+<li>Reportar <code>AUC [BCa 95% CI]</code>.</li>
+<li>Comparar con percentile bootstrap (más estrecho, sub-cubre).</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: BCa CI asimétrico (refleja asimetría de AUC cerca de 1.0); más amplio que percentile.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BCa con <code>n_resamples=100</code></td>
+<td>Inestable. <strong>Fix</strong>: ≥ 5000, idealmente 10000.</td>
+</tr>
+<tr>
+<td>Estadístico no vectorizable lento</td>
+<td>Bootstrap es O(B). <strong>Fix</strong>: <code>vectorized=False</code> en scipy si statistic no vectoriza.</td>
+</tr>
+<tr>
+<td>Bootstrap sobre serie temporal</td>
+<td>Asume independencia. <strong>Fix</strong>: block bootstrap (clase de series).</td>
+</tr>
+<tr>
+<td><code>permutation_test</code> n_resamples=999</td>
+<td>Resolución del p-value <code>1/(n+1)</code>. <strong>Fix</strong>: 10_000+.</td>
+</tr>
+<tr>
+<td>Reportar percentile vs BCa indistintamente</td>
+<td>BCa tiene cobertura nominal. <strong>Fix</strong>: documentar el método.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ Cuándo BCa importa?</strong></p>
+<p>Con estadísticos sesgados (mediana en asimetría) o n chico. Para media + n grande, percentile basta.</p>
+<p><strong>❓ Studentized bootstrap mejor que BCa?</strong></p>
+<p>A veces. Requiere SE del SE → bootstrap doble → costoso. BCa es el compromiso pragmático.</p>
+<p><strong>❓ Para IC de proporciones?</strong></p>
+<p>Wilson o Clopper-Pearson son específicos y mejores que bootstrap genérico.</p>
+<p><strong>❓ <code>vectorized=True</code> en scipy?</strong></p>
+<p>Si tu statistic acepta <code>axis=</code>, sí — 100× más rápido.</p>
+<p><strong>❓ Block bootstrap para series?</strong></p>
+<p><code>scipy</code> no lo tiene; <code>arch.bootstrap.MovingBlockBootstrap</code> sí.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Efron (1987), <em>Better Bootstrap Confidence Intervals</em>, JASA.</li>
+<li>DiCiccio &amp; Efron (1996), <em>Bootstrap Confidence Intervals</em>, Statistical Science.</li>
+<li><a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.bootstrap.html"><code>scipy.stats.bootstrap</code></a>.</li>
+<li><a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.permutation_test.html"><code>scipy.stats.permutation_test</code></a>.</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../185-a-b-testing-tamano-de-muestra-poder-estadistico/index.html">Clase 185 — A/B testing: tamaño de muestra, poder estadístico</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-3-estadistica-inferencial/184-bca-bootstrap-scipy-permutation-test-moderno/"><code>classes/parte-3-estadistica-inferencial/184-bca-bootstrap-scipy-permutation-test-moderno/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

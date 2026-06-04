@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 044 — SQL avanzado: CTEs, window functions, subqueries correlacionadas | Python Data Science Program</title>
+  <meta name="description" content="Clase 044 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 0 — Prerrequisitos</a><span class="sep">›</span><span>044</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-0-prerrequisitos/044-sql-avanzado-ctes-window-functions-subqueries-correlacionadas/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-044-sql-avanzado-ctes-window-functions-subqueries-correlacionadas">Clase 044 — SQL avanzado: CTEs, window functions, subqueries correlacionadas</h1>
+<blockquote>
+<p>Parte: <strong>0 — Prerrequisitos</strong> · Fuente: Tanimura, <em>SQL for Data Scientists</em> caps. 4-5 · PostgreSQL docs (window functions).
+⏱️ Duración estimada: <strong>120 min</strong>.</p>
+</blockquote>
+<hr>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Que el alumno escriba SQL legible y potente: <strong>CTEs</strong> (<code>WITH</code>) para descomponer queries complejas, <strong>window functions</strong> (<code>OVER</code>) para rankings/totales corridos/lag/lead sin perder filas, y <strong>subqueries correlacionadas</strong> cuando aportan.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar la clase, el alumno podrá:</p>
+<ol>
+<li><strong>Escribir CTEs</strong> con <code>WITH name AS (...)</code> para mejorar legibilidad.</li>
+<li><strong>Encadenar múltiples CTEs</strong>: <code>WITH a AS (...), b AS (...) SELECT ...</code>.</li>
+<li><strong>Aplicar window functions</strong>: <code>ROW_NUMBER()</code>, <code>RANK()</code>, <code>LAG()</code>, <code>LEAD()</code>, <code>SUM() OVER (PARTITION BY ... ORDER BY ...)</code>.</li>
+<li><strong>Calcular ranking</strong> por grupo con <code>ROW_NUMBER() OVER (PARTITION BY ...)</code>.</li>
+<li><strong>Diferenciar</strong> subquery (independiente) vs correlacionada (depende de la outer).</li>
+</ol>
+<h2 id="temas">🗺️ Temas</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Tema</th>
+<th>Por qué importa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>CTEs: <code>WITH name AS (...)</code></td>
+<td>Descomponer queries largas.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Múltiples CTEs encadenadas</td>
+<td>Pipeline legible.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Recursive CTEs</td>
+<td>Jerarquías, grafos.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Window functions: <code>OVER (PARTITION BY ... ORDER BY ...)</code></td>
+<td>Agregar sin colapsar filas.</td>
+</tr>
+<tr>
+<td>5</td>
+<td><code>ROW_NUMBER</code>, <code>RANK</code>, <code>DENSE_RANK</code></td>
+<td>Diferencias sutiles.</td>
+</tr>
+<tr>
+<td>6</td>
+<td><code>LAG</code>, <code>LEAD</code>: comparar con fila anterior/siguiente</td>
+<td>Series temporales.</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Subqueries correlacionadas</td>
+<td>Cuando la subquery depende de la outer.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<dl>
+<dt><strong>CTE (Common Table Expression)</strong></dt>
+<dd>Vista temporal dentro de una query con <code>WITH nombre AS (...)</code>. Descompone queries complejas en pasos legibles. Puedes encadenar múltiples: <code>WITH a AS (...), b AS (...) SELECT ...</code>.</dd>
+<dt><strong>Recursive CTE</strong></dt>
+<dd>CTE que se referencia a sí misma. Útil para jerarquías (árbol organizacional), grafos, generar series (calendario diario). Sintaxis: <code>WITH RECURSIVE t AS (caso_base UNION ALL caso_recursivo)</code>.</dd>
+<dt><strong>Window function</strong></dt>
+<dd>Agregación que <strong>no colapsa filas</strong> — añade el resultado por fila. Sintaxis: <code>FUNC() OVER (PARTITION BY col ORDER BY col2)</code>. Ejemplos: <code>ROW_NUMBER</code>, <code>RANK</code>, <code>LAG</code>, <code>LEAD</code>, <code>SUM() OVER (...)</code>.</dd>
+<dt><strong><code>PARTITION BY</code> vs <code>GROUP BY</code></strong></dt>
+<dd><strong>PARTITION BY</strong> (en window): subgrupos para la función, pero mantiene cada fila. <strong>GROUP BY</strong>: reduce a una fila por grupo.</dd>
+<dt><strong><code>LAG</code> / <code>LEAD</code></strong></dt>
+<dd>Acceden a la fila anterior/siguiente dentro de la partition. <code>LAG(monto, 1) OVER (PARTITION BY cliente ORDER BY fecha)</code>. Útil para diffs, growth rates.</dd>
+<dt><strong>Subquery correlacionada</strong></dt>
+<dd>Subquery que <strong>depende</strong> de la outer query (referencia sus columnas). Se ejecuta una vez por cada fila de la outer. Más lenta que JOIN equivalente.</dd>
+</dl>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<p>SQLite con <code>ordenes</code> (cliente_id, fecha, monto) de clase 041 — extendido. Sin descarga.</p>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<p><strong>1.</strong> <strong>CTE básica.</strong> Reescribe una query con subquery anidada usando <code>WITH</code>.</p>
+<p><strong>2.</strong> <strong>ROW_NUMBER por grupo.</strong> Top-1 orden por cliente (mayor monto).</p>
+<p><strong>3.</strong> <strong>Total corrido.</strong> <code>SUM(monto) OVER (PARTITION BY cliente_id ORDER BY fecha)</code> — total acumulado por cliente.</p>
+<p><strong>4.</strong> <strong>LAG.</strong> Por cliente, diferencia entre el monto actual y el anterior.</p>
+<p><strong>5.</strong> <strong>Recursive CTE.</strong> Genera serie de fechas día a día desde 2024-01-01 a 2024-01-31.</p>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Notebook: (a) 3 versiones de la misma query (anidada → CTE → CTEs múltiples) comparando legibilidad; (b) top-3 órdenes por cliente con <code>ROW_NUMBER</code>; (c) total corrido y delta vs orden anterior; (d) recursive CTE para calendario diario.</p>
+<p><strong>Criterio de aceptación:</strong> Las 3 versiones devuelven exactamente el mismo resultado. Window functions sin error.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>syntax error at or near "OVER"</code></td>
+<td>Motor sin soporte de window functions (SQLite &lt;3.25, MySQL &lt;8). <strong>Fix</strong>: actualiza motor o reescribe con subqueries / self-join.</td>
+</tr>
+<tr>
+<td><code>ROW_NUMBER()</code> da números repetidos</td>
+<td>Olvidaste <code>OVER (...)</code>. Sin él, no es window function. <strong>Fix</strong>: <code>ROW_NUMBER() OVER (ORDER BY col)</code>.</td>
+</tr>
+<tr>
+<td>CTE recursiva nunca termina</td>
+<td>Caso base falta o caso recursivo no converge. <strong>Fix</strong>: añade <code>LIMIT N</code> para debug, asegura que cada iteración acerca al caso base.</td>
+</tr>
+<tr>
+<td><code>LAG(x) OVER (ORDER BY fecha)</code> da NULL en la primera fila</td>
+<td>Comportamiento esperado — no hay fila anterior. <strong>Fix</strong>: <code>LAG(x, 1, 0)</code> para default 0, o filtra con <code>WHERE row &gt; 1</code>.</td>
+</tr>
+<tr>
+<td>CTE da mismo resultado pero más lento que subquery</td>
+<td>Algunos motores no inlineaban CTEs (PostgreSQL &lt;12). <strong>Fix</strong>: actualiza, o reescribe como subquery temporalmente.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿CTE o subquery?</strong></p>
+<p><strong>CTE</strong> si el lector necesita entender qué hace cada paso (legibilidad). <strong>Subquery</strong> si es trivial y de un solo uso. Para queries &gt;10 líneas, CTE casi siempre gana.</p>
+<p><strong>❓ ¿<code>ROW_NUMBER</code>, <code>RANK</code> o <code>DENSE_RANK</code>?</strong></p>
+<p>Para valores <code>[10, 20, 20, 30]</code>: <strong>ROW_NUMBER</strong> <code>[1,2,3,4]</code> (siempre único). <strong>RANK</strong> <code>[1,2,2,4]</code> (huecos). <strong>DENSE_RANK</strong> <code>[1,2,2,3]</code> (sin huecos). Elige según semántica.</p>
+<p><strong>❓ ¿Window function es lo mismo que groupby+merge en pandas?</strong></p>
+<p>Conceptualmente sí — <code>g.transform(...)</code> en pandas hace lo equivalente. Window functions son la versión SQL más eficiente.</p>
+<p><strong>❓ ¿Cuándo subquery correlacionada vs JOIN?</strong></p>
+<p>Casi siempre <strong>JOIN o window function</strong> es más rápido. Correlacionada solo cuando no tiene equivalente JOIN (raro) o el optimizador del motor la maneja bien (motores modernos).</p>
+<p><strong>❓ ¿Top-N por grupo?</strong></p>
+<p><strong>Patrón estándar</strong>: <code>WITH ranked AS (SELECT *, ROW_NUMBER() OVER (PARTITION BY grupo ORDER BY metric DESC) rn FROM tabla) SELECT * FROM ranked WHERE rn &lt;= N</code>.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Tanimura, <em>SQL for Data Scientists</em>, caps. 4-5.</li>
+<li><a href="https://www.postgresql.org/docs/current/tutorial-window.html">PostgreSQL window functions tutorial</a></li>
+<li><a href="https://modern-sql.com/feature/with">Modern SQL — CTEs</a></li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../045-sql-desde-python-sqlite3-sqlalchemy-duckdb/index.html">Clase 045 — SQL desde Python: sqlite3, SQLAlchemy, DuckDB</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-0-prerrequisitos/044-sql-avanzado-ctes-window-functions-subqueries-correlacionadas/"><code>classes/parte-0-prerrequisitos/044-sql-avanzado-ctes-window-functions-subqueries-correlacionadas/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

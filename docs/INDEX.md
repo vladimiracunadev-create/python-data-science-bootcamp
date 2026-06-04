@@ -4,13 +4,13 @@
 
 ### **Punto de entrada canónico por audiencia y objetivo**
 
-[![197 clases](https://img.shields.io/badge/clases-197-7c5cff?style=for-the-badge)](../classes/README.md)
+[![232 clases](https://img.shields.io/badge/clases-232-7c5cff?style=for-the-badge)](../classes/README.md)
 [![9 partes](https://img.shields.io/badge/partes-9-0ea5e9?style=for-the-badge)](syllabus.md)
 [![Audiencias](https://img.shields.io/badge/audiencias-8-3fb950?style=for-the-badge)](#-lectura-recomendada-por-perfil)
 
 </div>
 
-> 📌 El currículo tiene **197 clases en 9 partes**. Este repositorio nació como muestra de habilidades técnicas y pedagógicas, y hoy se desarrolla como recurso personal de aprendizaje y enseñanza, abierto a cualquier persona.
+> 📌 El currículo tiene **232 clases en 9 partes**. Este repositorio nació como muestra de habilidades técnicas y pedagógicas, y hoy se desarrolla como recurso personal de aprendizaje y enseñanza, abierto a cualquier persona.
 
 ---
 
@@ -74,8 +74,8 @@
 
 | 📖 Documento | Rol |
 |---|---|
-| 📚 [syllabus.md](syllabus.md) | **Currículo completo: 197 clases en 9 partes, pauta avanzada** |
-| 🗂️ [../classes/README.md](../classes/README.md) | Índice navegable de las 197 clases con enlaces directos |
+| 📚 [syllabus.md](syllabus.md) | **Currículo completo: 232 clases en 9 partes, pauta avanzada** |
+| 🗂️ [../classes/README.md](../classes/README.md) | Índice navegable de las 232 clases con enlaces directos |
 | 📅 [cronograma-referencial.md](cronograma-referencial.md) | Distribución temporal sugerida |
 | 🧠 [metodologia-docente.md](metodologia-docente.md) | Marco pedagógico del producto |
 | 👩‍🏫 [instructor-guide.md](instructor-guide.md) | Playbook para quien imparte el programa |
@@ -91,7 +91,7 @@
 2. 🎯 [../RECRUITER.md](../RECRUITER.md) — evidencia técnica
 3. ✅ [GUIA_EVALUACION.md](GUIA_EVALUACION.md) — valor y límites
 4. 📦 [CATALOGO_PRODUCTO.md](CATALOGO_PRODUCTO.md) — superficies y artefactos
-5. 📚 [syllabus.md](syllabus.md) — pauta completa de 197 clases
+5. 📚 [syllabus.md](syllabus.md) — pauta completa de 232 clases
 
 ---
 

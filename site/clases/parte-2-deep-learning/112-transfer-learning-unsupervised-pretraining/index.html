@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 112 — Transfer learning, unsupervised pretraining | Python Data Science Program</title>
+  <meta name="description" content="Clase 112 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 2 — Deep Learning</a><span class="sep">›</span><span>112</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-2-deep-learning/112-transfer-learning-unsupervised-pretraining/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-112-transfer-learning-unsupervised-pretraining">Clase 112 — Transfer learning, unsupervised pretraining</h1>
+<blockquote>
+<p>Parte: <strong>2 — Deep Learning</strong> · Fuente: Géron, <strong>cap. 11</strong> § <em>Reusing Pretrained Layers</em>. ⏱️ Duración estimada: <strong>70 min</strong>.</p>
+</blockquote>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Aplicar <strong>transfer learning</strong> — el patrón dominante en producción cuando hay pocos datos: tomar un modelo preentrenado (ImageNet para visión, BERT/GPT para texto), reemplazar la cabeza, <strong>congelar</strong> las capas base, fine-tunear la cabeza, y opcionalmente <strong>descongelar gradualmente</strong> para una segunda fase con LR muy bajo. Conocer <strong>unsupervised pretraining</strong> como hermano histórico (autoencoders, contrastive learning).</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar, el estudiante podrá:</p>
+<ul>
+<li>Cargar un modelo preentrenado: <code>keras.applications.MobileNetV3Small(weights='imagenet', include_top=False)</code>.</li>
+<li>Congelar capas: <code>base.trainable = False</code>.</li>
+<li>Construir un modelo nuevo con la base + un head custom (<code>GlobalAveragePooling2D + Dense</code>).</li>
+<li>Fine-tunear en dos etapas: (a) solo head con LR normal, (b) toda la red con LR 10× más bajo.</li>
+<li>Reconocer cuándo NO usar transfer (dataset muy distinto al de origen).</li>
+</ul>
+<h2 id="temas">🗺️ Temas</h2>
+<ul>
+<li>Por qué funciona: las capas tempranas aprenden features generales (bordes, texturas); las tardías son task-specific.</li>
+<li>Pipeline estándar: load → freeze → new head → fit → unfreeze → fit con LR bajo.</li>
+<li>LR diferencial: capas tempranas más bajo (<code>1e-5</code>), capas tardías más alto (<code>1e-3</code>).</li>
+<li>Unsupervised pretraining: autoencoders (clase 130), contrastive (SimCLR, MoCo, CLIP).</li>
+<li>Self-supervised: cómo BERT/GPT se pre-entrenan sin labels (masked LM / autoregressive).</li>
+</ul>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<ul>
+<li><strong>Transfer learning</strong>: reusar pesos preentrenados en una tarea como punto de partida para otra.</li>
+<li><strong>Feature extraction</strong>: usar el modelo base como extractor fijo (<code>trainable=False</code>) y entrenar solo la cabeza.</li>
+<li><strong>Fine-tuning</strong>: descongelar (parte o todo) el modelo base y continuar entrenando con LR bajo.</li>
+<li><strong>Catastrophic forgetting</strong>: si descongelás y usás LR alto, el modelo "olvida" lo aprendido. Por eso LR bajo en fine-tuning.</li>
+<li><strong>Frozen / Trainable</strong>: <code>layer.trainable = False</code> excluye los pesos del backprop.</li>
+<li><strong>Self-supervised</strong>: pre-entrenar con un objetivo derivado de los propios datos (predecir palabra masked, contrastar augmentaciones).</li>
+</ul>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<ul>
+<li><strong>Visión</strong>: dataset chico de 2-5 clases (perros/gatos, flores). <code>tf.keras.utils.image_dataset_from_directory</code>.</li>
+<li><strong>Modelo base</strong>: <code>MobileNetV3Small</code> o <code>EfficientNetB0</code> (más liviano que ResNet50).</li>
+<li>Librerías: <code>tensorflow</code>, <code>keras</code>, <code>keras.applications</code>.</li>
+</ul>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>Carga</strong>: <code>base = MobileNetV3Small(weights='imagenet', include_top=False, input_shape=(224,224,3)); base.trainable = False</code>.</li>
+<li><strong>Modelo completo</strong>: <code>model = Sequential([base, GlobalAveragePooling2D(), Dropout(0.2), Dense(num_classes, activation='softmax')])</code>.</li>
+<li><strong>Etapa 1</strong>: compilar con <code>Adam(1e-3)</code> y entrenar 10 épocas. Reportar accuracy.</li>
+<li><strong>Etapa 2</strong>: <code>base.trainable = True</code> y recompilar con <code>Adam(1e-5)</code>. Entrenar 10 épocas más. Verificar mejora.</li>
+<li><strong>Sin transfer</strong>: entrenar la misma arquitectura desde cero (<code>weights=None</code>). Comparar cuántas épocas necesita para igualar accuracy de transfer (típicamente: nunca lo iguala con dataset chico).</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Clasificación de un dataset propio de imágenes (≥ 3 clases, ≥ 100 imágenes por clase):</p>
+<ol>
+<li>Pipeline con <code>image_dataset_from_directory</code> + <code>augmentation</code> (RandomFlip, RandomRotation).</li>
+<li>Transfer learning con EfficientNetB0.</li>
+<li>Reportar accuracy de las dos etapas (frozen y unfreeze).</li>
+<li>Comparar contra entrenar desde cero.</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: la etapa 2 (unfreeze + LR bajo) debe mejorar la etapa 1 por ≥ 2 pp; el modelo desde cero queda al menos 10 pp por debajo.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Olvido <code>base.trainable = False</code> y la etapa 1 va lentísima</td>
+<td>Está entrenando millones de params. <strong>Fix</strong>: congelar antes de la primera <code>fit</code>.</td>
+</tr>
+<tr>
+<td>Recompilar entre etapas pero <code>trainable</code> cambia sin <code>compile()</code></td>
+<td>El cambio de <code>trainable</code> requiere recompilar. <strong>Fix</strong>: <code>model.compile(...)</code> después de tocar <code>trainable</code>.</td>
+</tr>
+<tr>
+<td>Imágenes en <code>[0, 255]</code> cuando el modelo espera <code>[-1, 1]</code></td>
+<td>Pre-procesar con <code>keras.applications.&lt;modelo&gt;.preprocess_input</code>. <strong>Fix</strong>: agregar la capa correcta.</td>
+</tr>
+<tr>
+<td>BN en <code>training=True</code> se actualiza en fine-tuning incluso si "está congelado"</td>
+<td>Sin cuidado, las moving averages se siguen actualizando. <strong>Fix</strong>: pasar <code>training=False</code> al base durante fine-tuning controlado, o congelar BN explícitamente.</td>
+</tr>
+<tr>
+<td>Catastrophic forgetting</td>
+<td>LR demasiado alto al descongelar. <strong>Fix</strong>: 10-100× más bajo que en etapa 1.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿Cuántas imágenes mínimas para transfer learning?</strong></p>
+<p>Para fine-tuning: 100-500 por clase. Para feature extraction (solo head): incluso 20-50 por clase puede funcionar.</p>
+<p><strong>❓ ¿Qué modelo base elijo?</strong></p>
+<p>Empezá con <code>MobileNetV3Small</code> o <code>EfficientNetB0</code> (chicos, rápidos). Si necesitás más capacidad y tenés GPU, <code>EfficientNetB3</code>-<code>B5</code> o <code>ConvNeXt</code>.</p>
+<p><strong>❓ ¿Cuántas capas descongelo?</strong></p>
+<p>Empezá con todo descongelado + LR bajo. Si overfittea, congelar las primeras N capas (las más genéricas).</p>
+<p><strong>❓ ¿Transfer funciona para datos médicos / satelitales?</strong></p>
+<p>Sí, pero menos: las features de ImageNet son menos relevantes. Aún así, suele superar entrenar desde cero. Para datasets muy específicos, considerar pretraining con <strong>MAE</strong> o <strong>SimCLR</strong> sobre los datos propios.</p>
+<p><strong>❓ ¿Y para texto?</strong></p>
+<p>Misma idea: cargar <code>bert-base</code> o <code>distilbert</code> desde Hugging Face (clase 127), agregar head, fine-tunear. Estándar industrial.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Géron, <strong>cap. 11</strong> — <em>Reusing Pretrained Layers</em>.</li>
+<li><a href="https://keras.io/api/applications/">Keras Applications</a> — catálogo de modelos preentrenados.</li>
+<li>Pan &amp; Yang (2010), <em>A Survey on Transfer Learning</em>, IEEE TKDE.</li>
+<li>Chen et al. (2020), <em>A Simple Framework for Contrastive Learning of Visual Representations (SimCLR)</em>, ICML.</li>
+<li>He et al. (2022), <em>Masked Autoencoders Are Scalable Vision Learners (MAE)</em>, CVPR.</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../113-optimizadores-momentum-nesterov-adagrad-rmsprop-adam-adamw/index.html">Clase 113 — Optimizadores: Momentum, Nesterov, AdaGrad, RMSProp, Adam, AdamW (+ Lion, Sophia)</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-2-deep-learning/112-transfer-learning-unsupervised-pretraining/"><code>classes/parte-2-deep-learning/112-transfer-learning-unsupervised-pretraining/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

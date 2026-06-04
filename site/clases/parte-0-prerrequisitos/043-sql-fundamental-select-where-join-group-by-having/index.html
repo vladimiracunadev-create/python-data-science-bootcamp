@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 043 — SQL fundamental: SELECT, WHERE, JOIN, GROUP BY, HAVING | Python Data Science Program</title>
+  <meta name="description" content="Clase 043 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 0 — Prerrequisitos</a><span class="sep">›</span><span>043</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-0-prerrequisitos/043-sql-fundamental-select-where-join-group-by-having/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-043-sql-fundamental-select-where-join-group-by-having">Clase 043 — SQL fundamental: SELECT, WHERE, JOIN, GROUP BY, HAVING</h1>
+<blockquote>
+<p>Parte: <strong>0 — Prerrequisitos</strong> · Fuente: <em>SQL for Data Scientists</em> (Tanimura) caps. 1-3 · SQLite docs · DuckDB docs.
+⏱️ Duración estimada: <strong>120 min</strong>.</p>
+</blockquote>
+<hr>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Que el alumno escriba consultas SQL no triviales — SELECT con filtros, JOINs (inner/left), agregaciones con GROUP BY y filtros sobre agregados con HAVING. Y entienda <strong>el orden de ejecución lógico</strong> (FROM → WHERE → GROUP BY → HAVING → SELECT → ORDER BY → LIMIT), que es lo que confunde a todo el mundo al principio.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar la clase, el alumno podrá:</p>
+<ol>
+<li><strong>Escribir SELECT</strong> con filtros WHERE y operadores (=, &lt;&gt;, IN, BETWEEN, LIKE, IS NULL).</li>
+<li><strong>Hacer JOIN</strong> (INNER, LEFT, RIGHT, FULL) y reconocer cuándo cada uno.</li>
+<li><strong>Agrupar y agregar</strong> con GROUP BY + COUNT, SUM, AVG, MAX, MIN.</li>
+<li><strong>Filtrar agregados</strong> con HAVING (no se puede con WHERE).</li>
+<li><strong>Recitar el orden lógico</strong>: FROM → WHERE → GROUP BY → HAVING → SELECT → ORDER BY → LIMIT.</li>
+</ol>
+<h2 id="temas">🗺️ Temas</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Tema</th>
+<th>Por qué importa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>SELECT, FROM, WHERE</td>
+<td>Lo básico, sin trampa.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Operadores WHERE</td>
+<td>=, &lt;&gt;, IN, BETWEEN, LIKE, IS NULL.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>JOINs (inner/left/right/full)</td>
+<td>Análogos a pandas merge.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>GROUP BY + agregadas</td>
+<td>COUNT/SUM/AVG/MAX/MIN.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>HAVING vs WHERE</td>
+<td>HAVING filtra después de GROUP BY.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>ORDER BY, LIMIT, OFFSET</td>
+<td>Final del pipeline.</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Orden lógico ≠ orden escrito</td>
+<td>El gran malentendido.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<dl>
+<dt><strong>SQL (Structured Query Language)</strong></dt>
+<dd>Lenguaje declarativo para bases de datos relacionales. Describes <strong>qué</strong> quieres (no cómo) y el motor lo ejecuta. Estandarizado pero con dialectos (SQLite, PostgreSQL, MySQL, BigQuery).</dd>
+<dt><strong>Orden lógico vs escrito</strong></dt>
+<dd><strong>Escribes</strong>: SELECT-FROM-WHERE-GROUP-HAVING-ORDER. <strong>Ejecuta</strong>: FROM-WHERE-GROUP-HAVING-SELECT-ORDER-LIMIT. Por eso <code>WHERE SUM(...)</code> falla (aún no agrupado) — usa HAVING.</dd>
+<dt><strong>JOIN</strong></dt>
+<dd>Combina filas de 2+ tablas por una key. Tipos: INNER (intersección), LEFT (todo left + match right), RIGHT (espejo), FULL OUTER (todo unión), CROSS (producto cartesiano).</dd>
+<dt><strong>GROUP BY + HAVING</strong></dt>
+<dd><strong>GROUP BY</strong>: agrupa filas por valor(es). <strong>HAVING</strong>: filtra los <strong>grupos</strong> después de agregar (no se puede con WHERE).</dd>
+<dt><strong>Funciones de agregación</strong></dt>
+<dd>Operan sobre grupos: <code>COUNT(*)</code>, <code>COUNT(DISTINCT x)</code>, <code>SUM</code>, <code>AVG</code>, <code>MIN</code>, <code>MAX</code>, <code>STDDEV</code>. Devuelven UN valor por grupo.</dd>
+<dt><strong>DuckDB</strong></dt>
+<dd>Motor SQL embebido (como SQLite) pero <strong>columnar</strong> y optimizado para analytics. Lee CSV/Parquet directo (<code>FROM 'file.csv'</code>). Drop-in para queries analíticas, mucho más rápido que SQLite en agregados.</dd>
+</dl>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<p>SQLite en memoria con 2 tablas sintéticas: <code>clientes</code> (10 filas) y <code>ordenes</code> (30 filas). Generado en el notebook con <code>sqlite3</code> stdlib. Sin descarga.</p>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<p><strong>1.</strong> <strong>SELECT básico.</strong> Lista de clientes con país = 'ES'.</p>
+<p><strong>2.</strong> <strong>JOIN.</strong> Cada orden con el nombre del cliente.</p>
+<p><strong>3.</strong> <strong>LEFT JOIN.</strong> Todos los clientes, sumando órdenes (NaN si no tienen).</p>
+<p><strong>4.</strong> <strong>GROUP BY + HAVING.</strong> Clientes con más de 3 órdenes y monto total &gt; 200.</p>
+<p><strong>5.</strong> <strong>Orden lógico.</strong> Explica con tus palabras por qué <code>WHERE total &gt; 100</code> no funciona si total es <code>SUM(monto)</code> — necesitas HAVING.</p>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Notebook con SQLite en memoria: (a) crea 2 tablas y carga datos sintéticos; (b) 5 consultas progresivas (filter, join, group, having, top-N); (c) explica el orden lógico con un ejemplo; (d) mismo ejercicio con <code>DuckDB</code> (sustituye <code>sqlite3.connect(':memory:')</code>).</p>
+<p><strong>Criterio de aceptación:</strong> Las 5 consultas producen el resultado esperado; DuckDB devuelve igual.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>column "x" must appear in GROUP BY clause or be used in an aggregate function</code></td>
+<td>Seleccionaste col no agregada ni en GROUP BY. <strong>Fix</strong>: añade a GROUP BY, o agrega con <code>MAX(x)</code>, <code>MIN(x)</code> (cuando da igual).</td>
+</tr>
+<tr>
+<td><code>WHERE SUM(monto) &gt; 100</code> falla</td>
+<td>WHERE corre ANTES de GROUP. <strong>Fix</strong>: usa <code>HAVING SUM(monto) &gt; 100</code>.</td>
+</tr>
+<tr>
+<td>INNER JOIN pierde filas que esperaba ver</td>
+<td>La key no matchea (NULL, tipos, espacios). <strong>Fix</strong>: LEFT JOIN + <code>WHERE r.id IS NULL</code> para diagnóstico.</td>
+</tr>
+<tr>
+<td><code>COUNT(col)</code> devuelve menos que <code>COUNT(*)</code></td>
+<td><code>COUNT(col)</code> ignora NULL en esa columna. <strong>Fix</strong>: si quieres todas las filas, <code>COUNT(*)</code>.</td>
+</tr>
+<tr>
+<td><code>SELECT *</code> después de JOIN trae cols duplicadas con mismo nombre</td>
+<td>Ambas tablas tienen <code>id</code>. <strong>Fix</strong>: aliasea: <code>SELECT c.id AS cliente_id, o.id AS orden_id</code>.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿<code>COUNT(*)</code> o <code>COUNT(1)</code>?</strong></p>
+<p><strong>Equivalentes</strong> en motores modernos (parser optimiza). <code>COUNT(*)</code> es más legible — úsalo.</p>
+<p><strong>❓ ¿Cuándo <code>DISTINCT</code>?</strong></p>
+<p>Cuando hay filas duplicadas que no deberían contarse. <strong>Cuidado</strong>: en SELECT con muchas cols puede ser caro. Mejor agrupa con GROUP BY si vas a agregar después.</p>
+<p><strong>❓ ¿<code>UNION</code> o <code>UNION ALL</code>?</strong></p>
+<p><strong><code>UNION</code></strong> quita duplicados (más caro). <strong><code>UNION ALL</code></strong> mantiene todo (más rápido). Usa ALL si sabes que no hay duplicados (más común).</p>
+<p><strong>❓ ¿SQLite o PostgreSQL para aprender?</strong></p>
+<p><strong>SQLite</strong> para arrancar (sin servidor, 1 archivo). El SQL es 90% igual. Migras a PostgreSQL cuando necesites: tipos avanzados, concurrencia, escala, JSON nativo.</p>
+<p><strong>❓ ¿Cómo trato fechas en SQL?</strong></p>
+<p>Cada motor su dialecto. SQLite: strings ISO <code>'2024-01-15'</code> + <code>date()</code>, <code>strftime()</code>. PostgreSQL: tipo <code>DATE</code>/<code>TIMESTAMP</code> nativo. Estándar: <code>DATE '2024-01-15'</code>.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Tanimura, <em>SQL for Data Scientists</em>, caps. 1-3.</li>
+<li><a href="https://www.sqlite.org/lang_select.html">SQLite SELECT docs</a></li>
+<li><a href="https://duckdb.org/docs/">DuckDB docs</a></li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../044-sql-avanzado-ctes-window-functions-subqueries-correlacionadas/index.html">Clase 044 — SQL avanzado: CTEs, window functions, subqueries correlacionadas</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-0-prerrequisitos/043-sql-fundamental-select-where-join-group-by-having/"><code>classes/parte-0-prerrequisitos/043-sql-fundamental-select-where-join-group-by-having/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 083 — Voting classifiers: hard y soft | Python Data Science Program</title>
+  <meta name="description" content="Clase 083 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 1 — ML clásico</a><span class="sep">›</span><span>083</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-1-machine-learning-clasico/083-voting-classifiers-hard-soft/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-083-voting-classifiers-hard-y-soft">Clase 083 — Voting classifiers: hard y soft</h1>
+<blockquote>
+<p>Parte: <strong>1 — Machine Learning Clásico</strong> · Fuente: Géron, <strong>cap. 7</strong>. ⏱️ Duración estimada: <strong>45 min</strong>.</p>
+</blockquote>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Combinar varios modelos heterogéneos en un <strong>ensemble por votación</strong> y entender cuándo conviene <strong>hard voting</strong> (voto por mayoría) versus <strong>soft voting</strong> (promedio de probabilidades), apoyándonos en el principio de <em>wisdom of the crowd</em>.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar la clase, el estudiante podrá:</p>
+<ul>
+<li>Explicar por qué un ensemble de clasificadores diversos suele superar al mejor modelo individual.</li>
+<li>Implementar un <code>VotingClassifier</code> de scikit-learn con <code>voting="hard"</code> y <code>voting="soft"</code>.</li>
+<li>Decidir entre hard y soft voting según si los modelos base estiman probabilidades calibradas.</li>
+<li>Comparar la accuracy del ensemble contra la de cada modelo base en un dataset de clasificación.</li>
+<li>Identificar errores frecuentes al armar el ensemble (modelos correlacionados, probabilidades mal calibradas, pesos sin justificar).</li>
+</ul>
+<h2 id="temas">🗺️ Temas</h2>
+<ul>
+<li><em>Wisdom of the crowd</em>: por qué combinar predicciones reduce error.</li>
+<li>Hard voting: predicción final = clase con más votos entre los modelos base.</li>
+<li>Soft voting: predicción final = clase con mayor <strong>promedio de probabilidades</strong> estimadas.</li>
+<li>Requisitos para soft voting: que cada modelo exponga <code>predict_proba</code> y esté bien calibrado.</li>
+<li>Diversidad entre modelos base (algoritmos distintos, no sólo hiperparámetros distintos).</li>
+<li><code>VotingClassifier(estimators=[...], voting=..., weights=...)</code>.</li>
+<li>Limitaciones: si los modelos se equivocan en los mismos ejemplos, el ensemble no ayuda.</li>
+</ul>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<ul>
+<li><strong>Hard voting</strong>: cada clasificador del ensemble emite una predicción discreta y se elige la clase con más votos (moda). No requiere <code>predict_proba</code>.</li>
+<li><strong>Soft voting</strong>: se promedian las probabilidades estimadas por cada modelo (opcionalmente ponderadas) y se elige la clase con mayor probabilidad promedio. Suele rendir mejor que hard voting cuando las probabilidades son confiables.</li>
+<li><strong><code>VotingClassifier</code></strong> (sklearn.ensemble): meta-estimador que envuelve una lista de <code>(nombre, estimador)</code> y expone <code>fit</code>, <code>predict</code>, <code>predict_proba</code> (sólo si <code>voting="soft"</code>).</li>
+<li><strong>Weak learner / strong learner</strong>: un <em>weak learner</em> apenas supera el azar; al combinar muchos <em>weak learners</em> diversos se obtiene un <em>strong learner</em>. Ley de los grandes números aplicada a clasificadores <strong>independientes</strong>.</li>
+<li><strong>Wisdom of the crowd</strong>: si los errores de los modelos son independientes, la probabilidad de que la mayoría se equivoque cae exponencialmente con el número de modelos.</li>
+<li><strong>Diversidad</strong>: condición clave para que el ensemble funcione. Se logra usando algoritmos distintos (logística, SVM, árbol, kNN, etc.), no copias del mismo modelo con seeds distintos.</li>
+<li><strong>Calibración</strong>: un modelo está calibrado si <code>predict_proba</code> ≈ frecuencia empírica. SVM con <code>probability=True</code> y árboles puros suelen estar <strong>mal calibrados</strong>, lo que degrada el soft voting.</li>
+</ul>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<ul>
+<li>Dataset sugerido: <code>make_moons(n_samples=500, noise=0.30, random_state=42)</code> (mismo que usa Géron en el cap. 7).</li>
+<li>Alternativa: <code>load_breast_cancer()</code> de <code>sklearn.datasets</code> para un caso real.</li>
+<li>Imports clave: <code>LogisticRegression</code>, <code>RandomForestClassifier</code>, <code>SVC</code>, <code>VotingClassifier</code>, <code>train_test_split</code>, <code>accuracy_score</code>.</li>
+</ul>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li>Cargar <code>make_moons</code> y partir en train/test (80/20, <code>random_state=42</code>). Entrenar por separado <code>LogisticRegression</code>, <code>RandomForestClassifier</code> y <code>SVC(probability=True)</code>. Reportar accuracy de cada uno.</li>
+<li>Armar un <code>VotingClassifier</code> con esos tres modelos y <code>voting="hard"</code>. Comparar accuracy contra cada modelo base.</li>
+<li>Repetir con <code>voting="soft"</code> (recordá <code>SVC(probability=True)</code>). ¿Mejora? ¿Por qué?</li>
+<li>Probar <code>weights=[1, 2, 1]</code> favoreciendo al Random Forest. ¿Cómo cambia la performance? Justificar.</li>
+<li>Reemplazar uno de los modelos por una copia casi idéntica de otro (ej.: dos regresiones logísticas con <code>C</code> muy parecido). Observar y explicar por qué el ensemble deja de ganar.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Entregar un script <code>voting.py</code> que:</p>
+<ol>
+<li>Cargue <code>make_moons(n_samples=500, noise=0.30, random_state=42)</code>.</li>
+<li>Entrene tres modelos base distintos y un <code>VotingClassifier</code> en modo <code>hard</code> y otro en modo <code>soft</code>.</li>
+<li>Imprima la accuracy en test de los cinco (3 base + 2 ensembles).</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: el <code>VotingClassifier</code> en modo <code>soft</code> debe alcanzar accuracy <strong>≥ que el mejor modelo base individual</strong> sobre el test split. Si no lo logra, justificar en un comentario qué modelo está rompiendo la diversidad o la calibración.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<ul>
+<li><strong>Usar <code>voting="soft"</code> con modelos no calibrados</strong> (ej.: <code>SVC</code> sin <code>probability=True</code>, o árboles muy profundos). Las probabilidades estimadas son ruido y el promedio empeora la predicción.</li>
+<li><strong>Olvidar <code>probability=True</code> en <code>SVC</code></strong>: sin eso, <code>SVC</code> no expone <code>predict_proba</code> y <code>voting="soft"</code> falla con <code>AttributeError</code>.</li>
+<li><strong>Modelos base correlacionados</strong> (tres árboles, o tres regresiones logísticas con hiperparámetros parecidos): no hay diversidad, el ensemble no aporta nada.</li>
+<li><strong>Pesos arbitrarios en <code>weights=</code></strong> sin validación cruzada que los respalde. Mejor empezar con pesos iguales y ajustar con evidencia.</li>
+<li><strong>No fijar <code>random_state</code></strong> en los modelos estocásticos: los resultados no son reproducibles y dificultan la comparación.</li>
+</ul>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<ul>
+<li><strong>¿Soft voting es siempre mejor que hard?</strong> No. Es mejor <em>si</em> los modelos base están bien calibrados. Con modelos mal calibrados, hard voting puede ganarle.</li>
+<li><strong>¿Cuántos modelos conviene meter?</strong> Géron muestra que con 3-5 modelos diversos ya hay ganancia notoria. Más allá, los rendimientos decrecen.</li>
+<li><strong>¿Puedo mezclar modelos lineales y no lineales?</strong> Sí, y es lo recomendado: la diversidad de sesgos inductivos es justo lo que hace funcionar al ensemble.</li>
+<li><strong>¿Diferencia con bagging?</strong> Bagging usa el <strong>mismo algoritmo</strong> entrenado en distintos bootstraps. Voting usa <strong>algoritmos distintos</strong> sobre el mismo dataset. Se cubre en la clase 075.</li>
+<li><strong>¿Y si un modelo base es mucho peor que los demás?</strong> Suele convenir sacarlo o bajarle el peso; arrastra al ensemble, sobre todo en hard voting.</li>
+</ul>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Géron, A. <em>Hands-On Machine Learning with Scikit-Learn, Keras &amp; TensorFlow</em> (3ª ed.), cap. 7 — sección "Voting Classifiers".</li>
+<li>scikit-learn — <a href="https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.VotingClassifier.html"><code>VotingClassifier</code></a>.</li>
+<li>scikit-learn — <a href="https://scikit-learn.org/stable/modules/ensemble.html#voting-classifier">Ensemble methods: voting classifier</a>.</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../084-bagging-y-pasting/index.html">Clase 084 — Bagging y pasting</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-1-machine-learning-clasico/083-voting-classifiers-hard-soft/"><code>classes/parte-1-machine-learning-clasico/083-voting-classifiers-hard-soft/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

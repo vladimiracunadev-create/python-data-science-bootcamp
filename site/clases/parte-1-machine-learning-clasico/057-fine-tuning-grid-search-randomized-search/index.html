@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 057 — Fine-tuning: grid search y randomized search | Python Data Science Program</title>
+  <meta name="description" content="Clase 057 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 1 — ML clásico</a><span class="sep">›</span><span>057</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-1-machine-learning-clasico/057-fine-tuning-grid-search-randomized-search/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#version-profundizada-2026">📌 Versión profundizada — 2026</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-057-fine-tuning-grid-search-y-randomized-search">Clase 057 — Fine-tuning: grid search y randomized search</h1>
+<blockquote>
+<p>Parte: <strong>1 — Machine Learning Clásico</strong> · Fuente: Géron, <strong>cap. 2</strong>. ⏱️ Duración estimada: <strong>70 min</strong>.</p>
+</blockquote>
+<hr>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Que el alumno deje de tunear hiperparámetros "a ojo" y use búsquedas sistemáticas con validación cruzada — <code>GridSearchCV</code> cuando el espacio es chico y discreto, <code>RandomizedSearchCV</code> cuando es grande o continuo — integradas dentro de un <code>Pipeline</code> para evitar data leakage del preprocesamiento.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar la clase, el alumno podrá:</p>
+<ol>
+<li><strong>Distinguir</strong> parámetros entrenados (pesos del modelo) de <strong>hiperparámetros</strong> (los que vos fijás antes del fit).</li>
+<li><strong>Configurar <code>GridSearchCV</code></strong> con <code>param_grid</code>, <code>cv</code>, <code>scoring</code>, <code>n_jobs=-1</code> y leer <code>best_params_</code> / <code>best_estimator_</code> / <code>cv_results_</code>.</li>
+<li><strong>Usar <code>RandomizedSearchCV</code></strong> con <code>param_distributions</code> (scipy.stats: <code>randint</code>, <code>uniform</code>, <code>loguniform</code>) y <code>n_iter</code> para presupuestar trials.</li>
+<li><strong>Integrar HPO dentro de un <code>Pipeline</code></strong> usando claves del tipo <code>'step__hparam'</code> para tunear preprocesamiento + modelo juntos.</li>
+<li><strong>Decidir grid vs random vs bayesiano</strong> según tamaño del espacio, costo por fit y continuidad de los hiperparámetros.</li>
+</ol>
+<h2 id="temas">🗺️ Temas</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Tema</th>
+<th>Por qué importa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Hiperparámetros vs parámetros</td>
+<td>El error conceptual #1 al arrancar con sklearn.</td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>param_grid</code> y <code>scoring</code></td>
+<td>Definís el espacio y la métrica que querés maximizar — pesa más que el modelo.</td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>cv</code> y <code>n_jobs=-1</code></td>
+<td>CV honesto + paralelismo gratis sobre todos los cores.</td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>GridSearchCV</code></td>
+<td>Producto cartesiano completo. Garantiza encontrar el mejor del grid; muere combinatorialmente.</td>
+</tr>
+<tr>
+<td>5</td>
+<td><code>RandomizedSearchCV</code> con distribuciones (<code>randint</code>, <code>loguniform</code>)</td>
+<td>Muestrea <code>n_iter</code> puntos; gana cuando pocos hparams importan.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Pipelines + HPO con sintaxis <code>step__hparam</code></td>
+<td>Evita leakage del scaler/imputer al hacer CV.</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Inspeccionar <code>cv_results_</code></td>
+<td>DataFrame con todos los trials; sirve para decidir si refinar el grid.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="version-profundizada-2026">📌 Versión profundizada — 2026</h2>
+<p>El tema moderno que antes vivía como complemento dentro de esta clase ahora tiene su(s) clase(s) propia(s) con patrón completo, ejercicios y homework:</p>
+<ul>
+<li>👉 <a href="../052a-optuna-bayesian-hpo-dedicado/index.html">Clase 052a — Optuna y HPO bayesiano dedicado</a></li>
+</ul>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<dl>
+<dt><strong>Hiperparámetro</strong></dt>
+<dd>Parámetro que vos fijás <em>antes</em> del entrenamiento y que el <code>fit</code> no aprende. Ej.: <code>max_depth</code>, <code>C</code>, <code>n_estimators</code>. Distinto de los parámetros aprendidos (pesos, splits del árbol).</dd>
+<dt><strong><code>GridSearchCV(estimator, param_grid, cv, scoring, n_jobs)</code></strong></dt>
+<dd>Evalúa el <strong>producto cartesiano</strong> de <code>param_grid</code> con CV. Total de fits = ∏ |valores| × <code>cv</code>. Determinista y exhaustivo dentro del grid.</dd>
+<dt><strong><code>RandomizedSearchCV(estimator, param_distributions, n_iter, cv, scoring)</code></strong></dt>
+<dd>Muestrea <code>n_iter</code> combinaciones de las distribuciones. Acepta tanto listas (como grid) como distribuciones scipy (<code>randint</code>, <code>uniform</code>, <code>loguniform</code>). Gana cuando algunos hparams son irrelevantes.</dd>
+<dt><strong><code>param_distributions</code></strong></dt>
+<dd>Dict <code>{'hparam': distribución_o_lista}</code>. Para escalas tipo learning rate o <code>C</code> de SVM, usá <code>loguniform(1e-4, 1e0)</code> — random uniforme en log-space, no lineal.</dd>
+<dt><strong><code>refit=True</code> (default)</strong></dt>
+<dd>Tras encontrar la mejor combinación, re-entrena el estimador sobre <strong>todo</strong> el train set con esos hparams. Por eso <code>best_estimator_</code> viene listo para predecir.</dd>
+<dt><strong><code>best_params_</code></strong></dt>
+<dd>Dict con la combinación ganadora.</dd>
+<dt><strong><code>best_estimator_</code></strong></dt>
+<dd>El modelo ya re-entrenado en train completo. Es el que usás para <code>.predict()</code> en test.</dd>
+<dt><strong><code>scoring</code></strong></dt>
+<dd>Métrica a maximizar. Strings como <code>'accuracy'</code>, <code>'f1'</code>, <code>'neg_root_mean_squared_error'</code> (negados porque sklearn <strong>maximiza</strong> siempre). También callables custom con <code>make_scorer</code>.</dd>
+<dt><strong><code>cv_results_</code></strong></dt>
+<dd>Dict-of-arrays con todos los trials: parámetros, mean/std de score por fold, tiempos. Lo cargás en un DataFrame para decidir si refinar.</dd>
+</dl>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<p><code>fetch_california_housing()</code> de sklearn (mismo que viene usando Géron en cap. 2). Para los ejercicios con clasificación, <code>load_breast_cancer()</code>.</p>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<p><strong>1.</strong> <strong>GridSearchCV sobre <code>RandomForestRegressor</code>.</strong> California Housing. <code>param_grid</code> con <code>n_estimators ∈ {50, 100, 200}</code> y <code>max_features ∈ {4, 6, 8}</code>. <code>cv=5</code>, <code>scoring='neg_root_mean_squared_error'</code>, <code>n_jobs=-1</code>. Reportá <code>best_params_</code> y RMSE en test.</p>
+<p><strong>2.</strong> <strong>RandomizedSearchCV con distribuciones.</strong> Mismo dataset, ahora con <code>n_estimators=randint(50, 500)</code>, <code>max_features=randint(2, 8)</code>, <code>min_samples_leaf=randint(1, 20)</code>. <code>n_iter=30</code>. Compará tiempo y score vs el grid del ej. 1.</p>
+<p><strong>3.</strong> <strong>Pipeline + HPO.</strong> Construí <code>Pipeline([('scaler', StandardScaler()), ('svr', SVR())])</code>. Tuneá <code>svr__C</code> con <code>loguniform(1e-1, 1e3)</code> y <code>svr__gamma</code> con <code>loguniform(1e-4, 1e-1)</code>. Mostrá por qué meter el <code>StandardScaler</code> afuera del CV sería data leakage.</p>
+<p><strong>4.</strong> <strong>Inspección de <code>cv_results_</code>.</strong> Cargá <code>search.cv_results_</code> en un DataFrame, ordenalo por <code>mean_test_score</code> y plotteá score vs <code>n_estimators</code>. ¿Hay meseta? ¿Vale subir más?</p>
+<p><strong>5.</strong> <strong>Optuna sobre el mismo problema.</strong> Repetí el ej. 2 pero con Optuna (<code>n_trials=30</code>, <code>TPESampler</code>, <code>MedianPruner</code>). Compará score final y tiempo con <code>RandomizedSearchCV</code>. Mostrá <code>study.best_params</code> y un plot de <code>optuna.visualization.plot_optimization_history</code>.</p>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Notebook que: (a) baseline con <code>RandomForestRegressor</code> sin tunear; (b) <code>GridSearchCV</code> con grid chico (≤27 combos); (c) <code>RandomizedSearchCV</code> con <code>n_iter=30</code> y distribuciones log; (d) Optuna con <code>n_trials=30</code> y <code>MedianPruner</code>; (e) tabla comparativa con RMSE en test, tiempo de búsqueda y mejor combinación de cada método.</p>
+<p><strong>Criterio de aceptación:</strong> los tres métodos (grid/random/Optuna) mejoran sobre el baseline. La tabla final tiene RMSE_test, segundos y <code>best_params</code>. El <code>Pipeline</code> se usa en todos para evitar leakage del scaler.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ValueError: Invalid parameter 'C' for estimator Pipeline</code></td>
+<td>Estás pasando <code>'C'</code> pero dentro de un Pipeline hay que prefijar con el nombre del step. <strong>Fix</strong>: <code>'svr__C'</code> (doble underscore).</td>
+</tr>
+<tr>
+<td><code>GridSearchCV</code> tarda eternidades</td>
+<td>Producto cartesiano explotó. <strong>Fix</strong>: pasá a <code>RandomizedSearchCV</code> con <code>n_iter</code> acotado, o a <code>HalvingRandomSearchCV</code>, o a Optuna.</td>
+</tr>
+<tr>
+<td>RMSE de CV mucho mejor que en test</td>
+<td>Data leakage: aplicaste <code>StandardScaler.fit()</code> o <code>SimpleImputer.fit()</code> sobre <strong>todo</strong> X antes del CV. <strong>Fix</strong>: meté el preprocesamiento dentro del <code>Pipeline</code> para que <code>fit</code> se haga por fold.</td>
+</tr>
+<tr>
+<td><code>ImportError: cannot import name 'HalvingGridSearchCV'</code></td>
+<td>Sigue siendo experimental en sklearn. <strong>Fix</strong>: <code>from sklearn.experimental import enable_halving_search_cv  # noqa</code> <strong>antes</strong> del import del estimador.</td>
+</tr>
+<tr>
+<td><code>scoring='rmse'</code> tira <code>ValueError: 'rmse' is not a valid scoring value</code></td>
+<td>sklearn no tiene <code>'rmse'</code> directo; maximiza siempre. <strong>Fix</strong>: usá <code>scoring='neg_root_mean_squared_error'</code> y acordate de que el "mejor" será el menos negativo.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿GridSearch, RandomSearch u Optuna?</strong></p>
+<p>Regla de bolsillo: <strong>espacio chico y discreto (≤50 combos)</strong> → Grid, te asegura el óptimo del grid. <strong>Espacio mediano o con hparams continuos</strong> → Random con <code>loguniform</code> para los que viven en escala log. <strong>Cada fit cuesta caro (XGBoost grande, red neuronal) o el espacio es enorme</strong> → Optuna con TPE + MedianPruner. Para producción seria hoy, Optuna es default.</p>
+<p><strong>❓ ¿Cuántos <code>n_iter</code> en RandomizedSearchCV?</strong></p>
+<p>Bergstra &amp; Bengio (2012) mostraron que <strong>60 trials random</strong> alcanzan el top-5% del espacio con probabilidad &gt;95% si pocos hparams dominan. Empezá con 30-60 y subí si <code>cv_results_</code> muestra que el top-N todavía mejora.</p>
+<p><strong>❓ ¿<code>n_jobs=-1</code> en el search o en el modelo?</strong></p>
+<p>Si lo ponés en los dos, se pelean por los cores. <strong>Recomendación</strong>: <code>n_jobs=-1</code> en el search (paraleliza folds × candidatos) y <code>n_jobs=1</code> dentro del estimador. Para modelos que ya paralelizan internamente y son rápidos (RandomForest chico), a veces es al revés — medilo.</p>
+<p><strong>❓ ¿<code>cv=5</code> o <code>cv=10</code>?</strong></p>
+<p><code>cv=5</code> es el sweet spot por costo/varianza. <code>cv=10</code> baja un poco la varianza pero duplica tiempo. Para datasets chicos (≤1k filas), <code>cv=10</code> o incluso LOO. Para datasets grandes, <code>cv=3</code> ya alcanza.</p>
+<p><strong>❓ ¿Tuneo sobre train y evalúo sobre test, o necesito un set de validación aparte?</strong></p>
+<p>Con CV adentro de <code>GridSearchCV</code> ya tenés validación honesta sobre folds del train. <strong>Test set se toca una sola vez al final</strong>, con el <code>best_estimator_</code> ya elegido. Si vas a hacer muchas iteraciones de exploración manual encima, dejá un set de validación separado para no contaminar test.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Géron, <strong>cap. 2</strong> § <em>Fine-Tune Your Model</em>.</li>
+<li><a href="https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.GridSearchCV.html">sklearn — <code>GridSearchCV</code></a></li>
+<li><a href="https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.RandomizedSearchCV.html">sklearn — <code>RandomizedSearchCV</code></a></li>
+<li><a href="https://scikit-learn.org/stable/modules/grid_search.html#successive-halving-user-guide">sklearn — Successive Halving (experimental)</a></li>
+<li><a href="https://optuna.readthedocs.io/">Optuna docs</a> — TPE, pruners, dashboard.</li>
+<li>Bergstra &amp; Bengio (2012), <em>Random Search for Hyper-Parameter Optimization</em>, JMLR.</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../058-optuna-bayesian-hpo-dedicado/index.html">Clase 058 — Optuna y HPO bayesiano dedicado</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-1-machine-learning-clasico/057-fine-tuning-grid-search-randomized-search/"><code>classes/parte-1-machine-learning-clasico/057-fine-tuning-grid-search-randomized-search/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

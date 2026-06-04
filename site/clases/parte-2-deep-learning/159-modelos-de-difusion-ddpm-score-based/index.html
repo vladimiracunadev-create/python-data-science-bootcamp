@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 159 — Modelos de difusión (+ Stable Diffusion XL, ControlNet, LCM) | Python Data Science Program</title>
+  <meta name="description" content="Clase 159 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 2 — Deep Learning</a><span class="sep">›</span><span>159</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-2-deep-learning/159-modelos-de-difusion-ddpm-score-based/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#version-profundizada-2026">📌 Versión profundizada — 2026</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-159-modelos-de-difusion-stable-diffusion-xl-controlnet-lcm">Clase 159 — Modelos de difusión (+ Stable Diffusion XL, ControlNet, LCM)</h1>
+<blockquote>
+<p>Parte: <strong>2 — Deep Learning</strong> · Fuente: Géron, <strong>cap. 17</strong> § <em>Diffusion Models</em> + Ho et al. (2020) DDPM + papers SDXL, ControlNet, LCM. ⏱️ Duración estimada: <strong>105 min</strong>.</p>
+</blockquote>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Entender <strong>modelos de difusión</strong> — la familia que destronó a GANs en 2022 (DALL-E 2, Stable Diffusion, Midjourney). Idea: <strong>forward process</strong> agrega ruido gaussiano gradualmente; <strong>reverse process</strong> (aprendido) lo elimina paso a paso. Conocer <strong>DDPM</strong> clásico, <strong>latent diffusion</strong> (Stable Diffusion), <strong>ControlNet</strong> para condicionamiento espacial, <strong>LCM</strong> (Latent Consistency Models) para inference rápida.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar, el estudiante podrá:</p>
+<ul>
+<li>Implementar un <strong>DDPM</strong> sencillo: forward <code>q(x_t | x_0)</code>, U-Net que predice el ruido <code>ε_θ(x_t, t)</code>.</li>
+<li>Aplicar el sampling DDPM: 1000 steps de denoising desde <code>x_T ~ N(0,I)</code>.</li>
+<li>Reconocer <strong>latent diffusion</strong>: aplicar difusión en el espacio comprimido de un VAE (1/64 del tamaño) → 8× más rápido.</li>
+<li>Usar <strong>Stable Diffusion XL</strong> con <code>diffusers</code> library: prompt → imagen en 3 líneas.</li>
+<li>Aplicar <strong>ControlNet</strong> para condicionar generación en pose, edge, depth, segmentation.</li>
+<li>Acelerar inference con <strong>LCM</strong> o <strong>Turbo</strong> (1-4 steps en lugar de 50).</li>
+</ul>
+<h2 id="temas">🗺️ Temas</h2>
+<ul>
+<li>Forward process: <code>q(x_t | x_{t-1}) = N(√(1-β_t) x_{t-1}, β_t I)</code>.</li>
+<li>Closed form: <code>q(x_t | x_0) = N(√α̅_t · x_0, (1-α̅_t) I)</code>.</li>
+<li>Loss simple (Ho 2020): <code>MSE(ε, ε_θ(x_t, t))</code> — predecir el ruido.</li>
+<li>U-Net architecture (encoder-decoder con skip connections).</li>
+<li>Sampling DDPM vs DDIM vs DPM-Solver: 1000 → 50 → 20 steps.</li>
+<li><strong>Complemento moderno</strong>: Stable Diffusion XL, ControlNet, LCM/Turbo.</li>
+</ul>
+<h2 id="version-profundizada-2026">📌 Versión profundizada — 2026</h2>
+<p>El tema moderno que antes vivía como complemento dentro de esta clase ahora tiene su(s) clase(s) propia(s) con patrón completo, ejercicios y homework:</p>
+<ul>
+<li>👉 <a href="../133a-stable-diffusion-xl-controlnet/index.html">Clase 133a — Stable Diffusion XL + ControlNet en profundidad</a></li>
+</ul>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<ul>
+<li><strong>Forward (diffusion) process</strong>: <code>q(x_t | x_{t-1})</code> agrega ruido. Markov chain.</li>
+<li><strong>Reverse process</strong>: <code>p_θ(x_{t-1} | x_t)</code> aprendido, denoise.</li>
+<li><strong>Schedule</strong>: <code>β_t</code> o <code>α̅_t</code> — cuánto ruido en cada step. Linear o cosine.</li>
+<li><strong>U-Net</strong>: arquitectura encoder-decoder con skip connections, usada como denoiser.</li>
+<li><strong>DDIM</strong>: sampler deterministic más rápido que DDPM (Song et al. 2021).</li>
+<li><strong>Classifier-Free Guidance (CFG)</strong>: en inference, mezcla condicional + uncondicional para control.</li>
+<li><strong>ControlNet</strong>: adapter para control espacial.</li>
+<li><strong>LCM</strong>: distillation a 1-4 steps.</li>
+</ul>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<ul>
+<li>Fashion-MNIST como playground.</li>
+<li>HF Hub para modelos pre-trained.</li>
+<li>Librerías: <code>diffusers</code>, <code>transformers</code>, <code>accelerate</code>, <code>controlnet_aux</code>.</li>
+</ul>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>DDPM en MNIST</strong>: U-Net chico + DDPM scheduler. Entrenar 50 épocas; samplear 64 imágenes.</li>
+<li><strong>SDXL inference</strong>: cargar SDXL y generar 4 imágenes desde prompts.</li>
+<li><strong>CFG</strong>: variar <code>guidance_scale ∈ {1, 5, 15}</code>. Ver cómo afecta fidelidad al prompt vs diversidad.</li>
+<li><strong>ControlNet Canny</strong>: tomar una foto, extraer bordes con OpenCV, generar variantes condicionadas con SDXL+ControlNet.</li>
+<li><strong>LCM</strong>: comparar SDXL base (30 steps) vs SDXL + LCM-LoRA (4 steps). Tiempo y calidad.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Pipeline de generación SDXL controlado:</p>
+<ol>
+<li>Imagen base (e.g., una foto de un edificio).</li>
+<li>Extraer Canny con OpenCV.</li>
+<li>Generar 3 variantes con SDXL+ControlNet con prompts distintos.</li>
+<li>Comparar tiempo SDXL vs SDXL+LCM.</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: las 3 variantes preservan la estructura del edificio según los Canny; LCM es ≥ 5× más rápido con calidad razonable.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>OOM al cargar SDXL en GPU 8 GB</td>
+<td>Modelo muy grande. <strong>Fix</strong>: <code>fp16</code>, <code>enable_attention_slicing</code>, <code>enable_vae_tiling</code>.</td>
+</tr>
+<tr>
+<td>Imagenes borrosas con LCM</td>
+<td>Steps insuficientes. <strong>Fix</strong>: subir a 4-8; ajustar <code>guidance_scale=1.0</code>.</td>
+</tr>
+<tr>
+<td>ControlNet no obedece el control</td>
+<td><code>controlnet_conditioning_scale</code> muy bajo. <strong>Fix</strong>: subir a 0.8-1.0.</td>
+</tr>
+<tr>
+<td>Generación con prompts pobres da resultados feos</td>
+<td>Prompt engineering es real. <strong>Fix</strong>: estilo "a photo of X, highly detailed, 4k, professional photography".</td>
+</tr>
+<tr>
+<td>Difusión propia entrenada genera ruido</td>
+<td>No converge. <strong>Fix</strong>: verificar la schedule, U-Net, normalización.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿GAN o Diffusion en 2026?</strong></p>
+<p>Diffusion gana en calidad y controlabilidad. GAN (StyleGAN3) sigue siendo competitivo para caras (1 forward pass).</p>
+<p><strong>❓ ¿DDPM o DDIM o DPM-Solver?</strong></p>
+<p>Para inference: DPM-Solver / DPM++ (Lu et al. 2022) — 20 steps con misma calidad que DDPM 1000. Default en <code>diffusers</code>.</p>
+<p><strong>❓ ¿Cómo fine-tunear SDXL en estilo propio?</strong></p>
+<p><strong>LoRA</strong> sobre el U-Net con <code>diffusers</code> examples. 20-50 imágenes alcanza para un estilo. ~1 hora en GPU consumer.</p>
+<p><strong>❓ ¿Difusión para video?</strong></p>
+<p>Sí. Sora, Veo, Stable Video Diffusion. Más caro computacionalmente.</p>
+<p><strong>❓ ¿Difusión para texto?</strong></p>
+<p>Sí pero menos competitivo que LLMs autoregresivos. Áreas activas de investigación.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Géron, <strong>cap. 17</strong> — <em>Diffusion Models</em>.</li>
+<li>Ho, Jain &amp; Abbeel (2020), <em>Denoising Diffusion Probabilistic Models</em>, NeurIPS.</li>
+<li>Rombach et al. (2022), <em>Stable Diffusion</em>, CVPR.</li>
+<li>Zhang, Rao &amp; Agrawala (2023), <em>ControlNet</em>, ICCV.</li>
+<li>Luo et al. (2023), <em>Latent Consistency Models</em>.</li>
+<li><a href="https://huggingface.co/docs/diffusers">diffusers docs</a>.</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../160-stable-diffusion-xl-controlnet/index.html">Clase 160 — Stable Diffusion XL + ControlNet en profundidad</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-2-deep-learning/159-modelos-de-difusion-ddpm-score-based/"><code>classes/parte-2-deep-learning/159-modelos-de-difusion-ddpm-score-based/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

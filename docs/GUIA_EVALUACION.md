@@ -14,10 +14,10 @@
 
 ## 🎯 Executive summary
 
-Este repositorio es una **pauta avanzada y completa de Python y Data Science** organizada en 197 clases y 9 partes. La pauta está derivada de referentes profesionales: *Hands-On ML* (Géron, 3ª ed.), *Python Data Science Handbook* (VanderPlas), *Designing ML Systems* (Huyen), *ISLP* (James et al) y *Fairness and ML* (Barocas/Hardt/Narayanan).
+Este repositorio es una **pauta avanzada y completa de Python y Data Science** organizada en 232 clases y 9 partes. La pauta está derivada de referentes profesionales: *Hands-On ML* (Géron, 3ª ed.), *Python Data Science Handbook* (VanderPlas), *Designing ML Systems* (Huyen), *ISLP* (James et al) y *Fairness and ML* (Barocas/Hardt/Narayanan).
 
 ```
-v2.3.0:  197 clases · 9 partes · Partes 0 y 1 (89) completas y ampliadas · Partes 2-8 scaffold
+v2.3.0:  232 clases · 9 partes · Partes 0 y 1 (89) completas y ampliadas · Partes 2-8 scaffold
 ```
 
 Incluye laboratorio interactivo local (Flask), app de escritorio nativa para Windows, app Android y una familia documental que distingue producto, operación y seguridad.
@@ -30,7 +30,7 @@ Incluye laboratorio interactivo local (Flask), app de escritorio nativa para Win
 
 | Área | Evidencia concreta | Dónde verla |
 |---|---|---|
-| Diseño curricular profesional | 197 clases en 9 partes con prerrequisitos, ML, DL, MLOps, ética, capstones | `classes/README.md` · `docs/syllabus.md` |
+| Diseño curricular profesional | 232 clases en 9 partes con prerrequisitos, ML, DL, MLOps, ética, capstones | `classes/README.md` · `docs/syllabus.md` |
 | Fuentes acreditadas del currículo | pauta derivada de 5 libros referentes en el campo | `docs/syllabus.md` |
 | Laboratorio operativo | Flask local con ejecución Python en tiempo real | `app/` → `python run_program.py` |
 | Distribución de escritorio | App nativa Windows con Edge WebView2, sin navegador, sin Python instalado | `installer/` · `launcher.py` |
@@ -46,7 +46,7 @@ Incluye laboratorio interactivo local (Flask), app de escritorio nativa para Win
 
 ```
 1. README.md                        → qué es, estado actual, superficies, inicio rápido
-2. docs/syllabus.md                 → pauta completa de 197 clases
+2. docs/syllabus.md                 → pauta completa de 232 clases
 3. classes/README.md                → índice navegable
 4. docs/CATALOGO_PRODUCTO.md        → qué superficies existen y qué entrega cada una hoy
 5. docs/ARQUITECTURA_PRODUCTO.md    → capas, diagramas de flujo, fronteras
@@ -70,7 +70,7 @@ Incluye laboratorio interactivo local (Flask), app de escritorio nativa para Win
 | 6 | Recomendadores | 7 | 🟡 scaffold |
 | 7 | Ética, fairness, privacidad | 6 | 🟡 scaffold |
 | 8 | Capstones | 4 | 🟡 scaffold |
-| | **Total** | **197** | **89 desarrolladas, 108 scaffold** |
+| | **Total** | **232** | **89 desarrolladas, 108 scaffold** |
 
 **Partes 0 y 1 desarrolladas** (89): `README.md` con objetivo + resultados + temas + dataset + ejercicios + homework + **📖 Definiciones** + **⚠️ Errores comunes** + **❓ FAQ** + referencias. En Parte 0 los `notebook.ipynb` traen 13–21 celdas ejecutables. En Parte 1 los notebooks siguen como stub — el contenido pedagógico vive en los README.
 

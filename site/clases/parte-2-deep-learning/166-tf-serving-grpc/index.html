@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 166 — TF Serving + gRPC (+ ONNX, TensorRT, vLLM/TGI) | Python Data Science Program</title>
+  <meta name="description" content="Clase 166 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 2 — Deep Learning</a><span class="sep">›</span><span>166</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-2-deep-learning/166-tf-serving-grpc/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#version-profundizada-2026">📌 Versión profundizada — 2026</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-166-tf-serving-grpc-onnx-tensorrt-vllmtgi">Clase 166 — TF Serving + gRPC (+ ONNX, TensorRT, vLLM/TGI)</h1>
+<blockquote>
+<p>Parte: <strong>2 — Deep Learning</strong> · Fuente: Géron, <strong>cap. 19</strong> § <em>Deploying a Model to a Service</em> + docs ONNX, TensorRT, vLLM, TGI. ⏱️ Duración estimada: <strong>100 min</strong>.</p>
+</blockquote>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Servir un modelo entrenado a producción. Aprender <strong>TF Serving</strong> (oficial de TensorFlow, gRPC/REST, batching) y las <strong>alternativas modernas multi-framework</strong>: <strong>ONNX + ONNX Runtime</strong> (portable a cualquier framework / runtime), <strong>TensorRT</strong> (NVIDIA, máxima velocidad en GPU NVIDIA), y para <strong>LLMs</strong>: <strong>vLLM</strong> y <strong>TGI</strong> (Text Generation Inference) — específicos del caso autoregresivo con continuous batching.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar, el estudiante podrá:</p>
+<ul>
+<li>Exportar un modelo Keras a SavedModel: <code>model.save('servable/1/', save_format='tf')</code>.</li>
+<li>Levantar TF Serving con Docker: <code>docker run -p 8501:8501 -v $PWD/servable:/models/m tensorflow/serving --model_name=m</code>.</li>
+<li>Hacer requests REST/gRPC.</li>
+<li>Exportar a <strong>ONNX</strong> con <code>tf2onnx</code> / <code>torch.onnx.export</code>, servir con <strong>ONNX Runtime</strong>.</li>
+<li>Conocer cuándo usar <strong>TensorRT</strong> (latencia mínima en GPU NVIDIA) o <strong>vLLM/TGI</strong> (LLMs).</li>
+</ul>
+<h2 id="temas">🗺️ Temas</h2>
+<ul>
+<li>SavedModel format (TF nativo).</li>
+<li>TF Serving: configuración, versioning, model warm-up, batching.</li>
+<li>gRPC vs REST: gRPC más rápido (binary protobuf); REST más simple.</li>
+<li><strong>Complemento moderno</strong>: ONNX/ONNX Runtime, TensorRT, vLLM/TGI.</li>
+</ul>
+<h2 id="version-profundizada-2026">📌 Versión profundizada — 2026</h2>
+<p>El tema moderno que antes vivía como complemento dentro de esta clase ahora tiene su(s) clase(s) propia(s) con patrón completo, ejercicios y homework:</p>
+<ul>
+<li>👉 <a href="../139a-onnx-onnx-runtime-portabilidad/index.html">Clase 139a — ONNX y ONNX Runtime: portabilidad e inference optimizada</a></li>
+</ul>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<ul>
+<li><strong>SavedModel</strong>: formato TF para modelos servibles (variables + graph + signature).</li>
+<li><strong>Signature</strong>: contrato del modelo (<code>predict</code> con inputs/outputs nombrados).</li>
+<li><strong>TF Serving</strong>: server escrito en C++, batching automático, versioning.</li>
+<li><strong>gRPC</strong>: protocolo binario sobre HTTP/2. Más rápido que REST.</li>
+<li><strong>ONNX</strong>: formato intermedio standard.</li>
+<li><strong>TensorRT</strong>: optimizador NVIDIA específico.</li>
+<li><strong>Triton</strong>: servidor multi-framework.</li>
+</ul>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<ul>
+<li>Un modelo ya entrenado de las clases previas (Fashion-MNIST MLP).</li>
+<li>Librerías: <code>tensorflow</code>, <code>tensorflow-serving-api</code>, <code>tf2onnx</code>, <code>onnxruntime</code>, opcional <code>tensorrt</code>.</li>
+</ul>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>Export SavedModel</strong>: <code>model.export('servable/1/')</code> (Keras 3). Inspeccionar la estructura <code>assets</code>, <code>variables</code>, <code>saved_model.pb</code>.</li>
+<li><strong>TF Serving con Docker</strong>: levantar el container con el modelo montado, hacer una request REST a <code>localhost:8501/v1/models/m:predict</code>.</li>
+<li><strong>ONNX export</strong>: convertir el TF model a ONNX con <code>tf2onnx</code>. Cargar con ONNX Runtime y verificar misma predicción.</li>
+<li><strong>vLLM</strong>: levantar <code>vllm</code> con <code>mistralai/Mistral-7B-Instruct</code>. Cliente OpenAI-style. Medir tokens/sec.</li>
+<li><strong>Latencia comparada</strong>: TF Serving REST vs gRPC vs ONNX Runtime CPU vs TensorRT GPU sobre el mismo modelo. Reportar latencia P50 y P99.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Servir un modelo de Fashion-MNIST con TF Serving y comparar con ONNX:</p>
+<ol>
+<li><code>model.export('servable/1/')</code>.</li>
+<li>Docker run TF Serving.</li>
+<li>Convert TF → ONNX.</li>
+<li>Inference con ambos sobre los mismos 100 inputs; verificar outputs idénticos (±1e-5).</li>
+<li>Comparar latencia.</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: predicciones de TF Serving y ONNX Runtime coinciden; latencia reportada para ambos.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TF Serving no encuentra modelo</td>
+<td>Estructura de carpetas mal. <strong>Fix</strong>: <code>model_name/1/saved_model.pb</code> (el <code>1/</code> es el version).</td>
+</tr>
+<tr>
+<td>Outputs cambian entre TF y ONNX</td>
+<td>Conversión incompleta (capas custom). <strong>Fix</strong>: verificar <code>opset_version</code> compatible.</td>
+</tr>
+<tr>
+<td>TensorRT engine no portable entre GPUs</td>
+<td>Es específico al hardware. <strong>Fix</strong>: rebuild en cada target GPU.</td>
+</tr>
+<tr>
+<td>vLLM no carga modelo cuantizado</td>
+<td>Algunas quantizations no soportadas. <strong>Fix</strong>: GPTQ o AWQ pre-quantizados.</td>
+</tr>
+<tr>
+<td>Latencia P99 alta</td>
+<td>Sin warm-up. <strong>Fix</strong>: <code>warmup_count=10</code> en TF Serving config.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿REST o gRPC?</strong></p>
+<p>gRPC para producción serio (más rápido). REST para debugging y compatibilidad universal.</p>
+<p><strong>❓ ¿ONNX es siempre más rápido que TF Serving?</strong></p>
+<p>No siempre. ONNX brilla en CPU + casos específicos. TF Serving está más optimizado para batching en GPU.</p>
+<p><strong>❓ ¿TensorRT necesario?</strong></p>
+<p>Solo si latencia es crítica. Para 99 % de los casos, ONNX Runtime + GPU es suficiente.</p>
+<p><strong>❓ ¿Cómo manejo versioning de modelos?</strong></p>
+<p>TF Serving por default sirve el "latest" entre las carpetas numeradas. Para A/B: serve varias versiones, configurar weights en <code>model_config_list</code>.</p>
+<p><strong>❓ ¿LLM en TF Serving o vLLM?</strong></p>
+<p><strong>vLLM siempre</strong> para LLMs. TF Serving es ineficiente para autoregresivo.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Géron, <strong>cap. 19</strong> — <em>Deploying a Model to a Service</em>.</li>
+<li><a href="https://www.tensorflow.org/tfx/guide/serving">TF Serving docs</a>.</li>
+<li><a href="https://onnx.ai/">ONNX docs</a>, <a href="https://onnxruntime.ai/">ONNX Runtime</a>.</li>
+<li><a href="https://github.com/triton-inference-server/server">Triton Inference Server</a>.</li>
+<li><a href="https://docs.vllm.ai/">vLLM docs</a>, <a href="https://huggingface.co/docs/text-generation-inference">TGI docs</a>.</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../167-onnx-onnx-runtime-portabilidad/index.html">Clase 167 — ONNX y ONNX Runtime: portabilidad e inference optimizada</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-2-deep-learning/166-tf-serving-grpc/"><code>classes/parte-2-deep-learning/166-tf-serving-grpc/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

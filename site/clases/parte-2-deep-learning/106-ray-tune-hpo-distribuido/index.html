@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 106 — Ray Tune: HPO distribuido y a escala | Python Data Science Program</title>
+  <meta name="description" content="Clase 106 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 2 — Deep Learning</a><span class="sep">›</span><span>106</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-2-deep-learning/106-ray-tune-hpo-distribuido/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-106-ray-tune-hpo-distribuido-y-a-escala">Clase 106 — Ray Tune: HPO distribuido y a escala</h1>
+<blockquote>
+<p>Parte: <strong>2 — Deep Learning</strong> · Fuente: Liaw et al. (2018) Ray Tune + <a href="https://docs.ray.io/en/latest/tune/index.html">Ray docs</a>. ⏱️ Duración estimada: <strong>75 min</strong>.</p>
+</blockquote>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Escalar hyperparameter tuning de DL a cluster con <strong>Ray Tune</strong> — el framework distribuido que la industria (Uber, Anyscale, OpenAI) usa cuando los trials toman horas y se necesitan decenas en paralelo. Cubrir orquestación, schedulers modernos (<strong>ASHA</strong>, <strong>PBT</strong> Population Based Training), integración con <strong>W&amp;B</strong>, <strong>MLflow</strong>, y combinación con <strong>Optuna</strong> como search algorithm.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar, el estudiante podrá:</p>
+<ul>
+<li>Definir <code>trainable(config)</code> y reportar progreso con <code>tune.report(loss=...)</code>.</li>
+<li>Configurar <strong>ASHA (Async Successive Halving)</strong> para podar trials malos.</li>
+<li>Aplicar <strong>Population Based Training (PBT)</strong> para evolución de hyperparams durante training.</li>
+<li>Asignar recursos: <code>resources_per_trial={'cpu': 2, 'gpu': 1}</code>.</li>
+<li>Usar <code>OptunaSearch</code> como search algorithm + Ray Tune como orchestrator.</li>
+</ul>
+<h2 id="temas">🗺️ Temas</h2>
+<ul>
+<li>Ray cluster: local vs multi-node.</li>
+<li>Trainable: function-based vs class-based.</li>
+<li>ASHA scheduler — async successive halving.</li>
+<li>PBT — evoluciona hyperparams + checkpoints.</li>
+<li>BOHB — Bayesian opt + Hyperband.</li>
+<li>Loggers: TensorBoard, W&amp;B, MLflow.</li>
+</ul>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<ul>
+<li><strong>Trial</strong>: una corrida del trainable.</li>
+<li><strong>Scheduler</strong>: decide qué trial para, cuál sigue.</li>
+<li><strong>ASHA</strong>: variante asíncrona de Successive Halving — mata trials malos rápido.</li>
+<li><strong>PBT</strong>: evolutionary — copia weights de mejores + perturba hyperparams.</li>
+<li><strong>Search algorithm</strong>: cómo se eligen configs (random, TPE via Optuna, etc.).</li>
+</ul>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<ul>
+<li>Fashion-MNIST o cualquier dataset DL.</li>
+<li>Librerías: <code>ray[tune]</code>, opcional <code>optuna</code>, <code>lightning</code>.</li>
+</ul>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>Trainable básico</strong>: train de CNN con metric report each epoch. <code>tune.run(trainable, num_samples=20)</code>.</li>
+<li><strong>ASHA</strong>: <code>ASHAScheduler(metric='val_loss', mode='min', max_t=20, grace_period=3)</code>. Verificar pruning.</li>
+<li><strong>PBT</strong>: 8 workers, copy + perturb each 5 epochs. Plot evolution de LR.</li>
+<li><strong>OptunaSearch + ASHA</strong>: combination — Optuna sugiere, ASHA poda.</li>
+<li><strong>Resources</strong>: <code>gpus_per_trial=0.5</code> (fractional GPU sharing).</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Sobre Fashion-MNIST con CNN simple:</p>
+<ol>
+<li>Tunear LR, batch_size, dropout con Ray Tune.</li>
+<li>50 trials, ASHA, OptunaSearch.</li>
+<li>W&amp;B logging.</li>
+<li>Reportar mejor config + tiempo total.</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: convergencia visible en W&B; pruning de ASHA mata ≥ 30 % trials malos temprano; mejor config supera baseline.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Ray cluster crash con OOM</td>
+<td>Workers piden mucha RAM. <strong>Fix</strong>: <code>resources_per_trial</code>.</td>
+</tr>
+<tr>
+<td>PBT requiere checkpointing</td>
+<td>Si no lo implementás, PBT falla. <strong>Fix</strong>: <code>tune.checkpoint_dir</code>.</td>
+</tr>
+<tr>
+<td>Trainable con loop infinito sin <code>tune.report</code></td>
+<td>Tune no sabe progreso. <strong>Fix</strong>: report cada epoch.</td>
+</tr>
+<tr>
+<td>ASHA + grace_period bajo</td>
+<td>Mata trials antes de aprender. <strong>Fix</strong>: grace_period &gt;= 5.</td>
+</tr>
+<tr>
+<td>Multi-node sin configurar Ray cluster</td>
+<td>Trials van a 1 node. <strong>Fix</strong>: <code>ray.init(address='auto')</code>.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ Ray Tune vs Optuna directo?</strong></p>
+<p>Optuna: single-machine, simple. Ray Tune: cluster, mejor orquestación de recursos.</p>
+<p><strong>❓ PBT cuándo?</strong></p>
+<p>LLM training, modelos largos donde LR decay schedule matter. Para HPO simple, ASHA basta.</p>
+<p><strong>❓ Cuántos workers?</strong></p>
+<p>Tantos como GPUs disponibles. Local: cpu_count - 2.</p>
+<p><strong>❓ Combinar con Lightning?</strong></p>
+<p>Sí — <code>ray_lightning</code> para trainer distribuido + Tune para HPO. Más compleja la setup.</p>
+<p><strong>❓ Anyscale (Ray managed)?</strong></p>
+<p>Cloud service from Ray creators. Para producción serio sin manejar infra propia.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Liaw et al. (2018), <em>Tune: A Research Platform for Distributed Model Selection and Training</em>.</li>
+<li>Li et al. (2018), <em>ASHA</em>.</li>
+<li>Jaderberg et al. (2017), <em>Population Based Training</em>, DeepMind.</li>
+<li><a href="https://docs.ray.io/en/latest/tune/index.html">Ray Tune docs</a>.</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../107-vanishing-exploding-gradients/index.html">Clase 107 — Vanishing/exploding gradients</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-2-deep-learning/106-ray-tune-hpo-distribuido/"><code>classes/parte-2-deep-learning/106-ray-tune-hpo-distribuido/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

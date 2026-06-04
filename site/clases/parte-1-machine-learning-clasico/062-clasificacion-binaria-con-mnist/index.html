@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 062 — Clasificación binaria con MNIST | Python Data Science Program</title>
+  <meta name="description" content="Clase 062 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 1 — ML clásico</a><span class="sep">›</span><span>062</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-1-machine-learning-clasico/062-clasificacion-binaria-con-mnist/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-062-clasificacion-binaria-con-mnist">Clase 062 — Clasificación binaria con MNIST</h1>
+<blockquote>
+<p>Parte: <strong>1 — Machine Learning Clásico</strong> · Fuente: Géron, <strong>cap. 3</strong>. ⏱️ Duración estimada: <strong>60 min</strong>.</p>
+</blockquote>
+<hr>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Que el alumno arme su primer clasificador binario "de verdad" sobre MNIST (¿este dígito es un 5 o no?), entrenando un <code>SGDClassifier</code>, evaluándolo con <code>cross_val_score</code> sobre <code>StratifiedKFold</code>, y entendiendo por qué la <strong>accuracy sola miente</strong> cuando las clases están desbalanceadas.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar la clase, el alumno podrá:</p>
+<ol>
+<li><strong>Cargar MNIST</strong> con <code>fetch_openml('mnist_784', as_frame=False)</code> y separar train/test respetando el split original (60k/10k).</li>
+<li><strong>Construir un target binario</strong> <code>y_train_5 = (y_train == 5)</code> y entrenar un <code>SGDClassifier</code> sobre él.</li>
+<li><strong>Predecir y obtener scores</strong> con <code>predict()</code> y <code>decision_function()</code>, entendiendo la diferencia entre clase y score continuo.</li>
+<li><strong>Validar con cross_val_score</strong> sobre <code>StratifiedKFold</code> y leer los 3 valores que devuelve.</li>
+<li><strong>Detectar el accuracy paradox</strong>: comparar contra un clasificador trivial "nunca-5" y ver que también saca ~90%.</li>
+</ol>
+<h2 id="temas">🗺️ Temas</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Tema</th>
+<th>Por qué importa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><code>fetch_openml('mnist_784')</code></td>
+<td>Dataset estándar de entrada a CV/ML; 70k imágenes 28×28 ya vectorizadas.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Target binario 5 vs no-5</td>
+<td>Forma canónica de empezar antes de meterse con multiclase.</td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>SGDClassifier(random_state=42)</code></td>
+<td>Lineal, escalable, online; el "hola mundo" de sklearn para clasificación.</td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>cross_val_score</code> + <code>StratifiedKFold</code></td>
+<td>Mantiene la proporción de clases en cada fold — clave con desbalanceo.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Accuracy paradox</td>
+<td>90% suena bien hasta que ves que <code>Never5Classifier</code> también lo saca.</td>
+</tr>
+<tr>
+<td>6</td>
+<td><code>predict</code> vs <code>decision_function</code> vs <code>predict_proba</code></td>
+<td>Score continuo es lo que después te deja mover el umbral (clase 056).</td>
+</tr>
+</tbody>
+</table>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<dl>
+<dt><strong>MNIST</strong></dt>
+<dd>Dataset de 70.000 imágenes de dígitos manuscritos (0-9), 28×28 píxeles en escala de grises, aplanadas a vectores de 784 features. Split convencional: 60k train + 10k test, ya barajado. Es el "hello world" de ML — chico, limpio, sin sorpresas.</dd>
+<dt><strong><code>SGDClassifier</code></strong></dt>
+<dd>Clasificador lineal entrenado con Stochastic Gradient Descent. Procesa instancias <strong>de a una</strong> (o mini-batch), lo que lo hace ideal para datasets grandes y aprendizaje online. Sensible al <code>random_state</code> (fijarlo siempre para reproducibilidad).</dd>
+<dt><strong><code>decision_function(X)</code></strong></dt>
+<dd>Devuelve el <strong>score crudo</strong> (distancia firmada al hiperplano de decisión), no la clase. Score &gt; 0 → clase positiva, score &lt; 0 → negativa. Es lo que vas a necesitar después para mover el umbral y construir curvas PR/ROC.</dd>
+<dt><strong>Accuracy</strong></dt>
+<dd><code>(TP + TN) / total</code>. Métrica obvia pero traicionera: si el 90% de tus instancias son de la clase negativa, predecir "siempre negativo" te da 90% sin haber aprendido nada.</dd>
+<dt><strong>Baseline trivial (dummy classifier)</strong></dt>
+<dd>Modelo que predice siempre la clase mayoritaria (o aleatorio). Sirve de <strong>piso</strong>: si tu modelo no le gana al dummy, no aprendió. En 5-vs-no-5, el dummy "nunca-5" saca ~90.9% (porque solo ~9.1% de los dígitos son 5).</dd>
+<dt><strong><code>StratifiedKFold</code></strong></dt>
+<dd>Variante de K-Fold que <strong>conserva la proporción de clases</strong> en cada fold. Imprescindible con desbalanceo: con K-Fold común podrías terminar con un fold sin un solo 5.</dd>
+<dt><strong><code>cross_val_score(clf, X, y, cv=3, scoring='accuracy')</code></strong></dt>
+<dd>Entrena y evalúa <code>clf</code> en <code>cv</code> folds y devuelve un array de <code>cv</code> scores. Por default usa <code>StratifiedKFold</code> cuando la tarea es clasificación.</dd>
+</dl>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<p><strong>MNIST vía <code>fetch_openml</code></strong> (se cachea localmente en <code>~/scikit_learn_data/</code> después de la primera descarga):</p>
+<pre><code class="language-python">from sklearn.datasets import fetch_openml
+mnist = fetch_openml('mnist_784', as_frame=False, parser='auto')
+X, y = mnist.data, mnist.target.astype(int)
+X_train, X_test = X[:60000], X[60000:]
+y_train, y_test = y[:60000], y[60000:]
+y_train_5 = (y_train == 5)
+y_test_5  = (y_test == 5)
+</code></pre>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<p><strong>1.</strong> <strong>Cargar y explorar.</strong> Cargá MNIST, imprimí <code>X.shape</code> y <code>y.shape</code>, mostrá un dígito con <code>matplotlib.imshow(X[0].reshape(28, 28), cmap='binary')</code> y verificá que <code>y[0] == 5</code>.</p>
+<p><strong>2.</strong> <strong>Target binario + SGD.</strong> Construí <code>y_train_5</code>, entrená <code>SGDClassifier(random_state=42)</code> y predecí sobre <code>X[0]</code>. ¿Devuelve <code>True</code>?</p>
+<p><strong>3.</strong> <strong>decision_function.</strong> Sobre la misma instancia, llamá a <code>decision_function([X[0]])</code> y compará el signo con el resultado de <code>predict</code>.</p>
+<p><strong>4.</strong> <strong>Cross-validation.</strong> Corré <code>cross_val_score(sgd, X_train, y_train_5, cv=3, scoring='accuracy')</code>. ¿Qué tres valores te da? ¿Cuál es el promedio?</p>
+<p><strong>5.</strong> <strong>Baseline trampa.</strong> Implementá un <code>Never5Classifier</code> (clase con <code>fit</code> que no hace nada y <code>predict</code> que devuelve <code>np.zeros(len(X), dtype=bool)</code>) y corré el mismo <code>cross_val_score</code>. Comparalo con el SGD: ¿la diferencia es la que esperabas?</p>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Notebook que: (a) carga MNIST y arma el target 5-vs-no-5; (b) entrena <code>SGDClassifier(random_state=42)</code> sobre el train completo; (c) reporta accuracy 3-fold con <code>cross_val_score</code>; (d) reporta accuracy 3-fold del <code>Never5Classifier</code>; (e) en una celda markdown, explica en 2-3 líneas por qué ambos modelos están "cerca" en accuracy y por qué eso <strong>no</strong> significa que sean equivalentes.</p>
+<p><strong>Criterio de aceptación:</strong> Accuracy del SGD ≥ 0.95 en los 3 folds, accuracy del dummy ≈ 0.909 en los 3 folds, y la celda markdown menciona explícitamente el desbalanceo (~9% de 5s) como causa del paradox.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"¡Mi modelo saca 90% de accuracy, está genial!"</td>
+<td><strong>Trampa clásica con clases desbalanceadas.</strong> Solo el 9.1% del dataset son 5s, así que predecir "nunca 5" ya te da 90.9%. <strong>Fix</strong>: compará contra un baseline trivial (<code>Never5Classifier</code>) y usá precision/recall/F1 (clase 056).</td>
+</tr>
+<tr>
+<td><code>fetch_openml</code> tarda eternidades o falla</td>
+<td>La primera vez descarga ~55MB y a veces el server de OpenML responde lento. <strong>Fix</strong>: paciencia + <code>parser='auto'</code>; queda cacheado en <code>~/scikit_learn_data/</code>.</td>
+</tr>
+<tr>
+<td><code>y</code> viene como strings (<code>'5'</code>, <code>'0'</code>, ...) y la comparación <code>y == 5</code> da todo <code>False</code></td>
+<td>Por default OpenML devuelve labels como string. <strong>Fix</strong>: <code>y = mnist.target.astype(int)</code> antes de comparar.</td>
+</tr>
+<tr>
+<td>Resultados distintos cada vez que entrenás</td>
+<td><code>SGDClassifier</code> es estocástico. <strong>Fix</strong>: <code>SGDClassifier(random_state=42)</code> siempre.</td>
+</tr>
+<tr>
+<td><code>decision_function</code> no existe / <code>AttributeError</code></td>
+<td>Algunos clasificadores (como <code>RandomForest</code>) no exponen <code>decision_function</code>, solo <code>predict_proba</code>. <strong>Fix</strong>: chequeá la API del modelo; para SGD sí está disponible.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿Por qué arrancar con clasificación binaria si MNIST es multiclase?</strong></p>
+<p>Pedagógico: binario aísla los conceptos de score, umbral, precision/recall sin el ruido de "¿es 3 o 8?". Multiclase viene en la clase 059 (One-vs-Rest, One-vs-One).</p>
+<p><strong>❓ ¿<code>SGDClassifier</code> con <code>loss='hinge'</code> (default) es lo mismo que SVM?</strong></p>
+<p>Es un SVM lineal entrenado con SGD en vez de con el optimizador cuadrático de <code>SVC</code>. Misma frontera teórica, distinta forma de llegar. Para datasets grandes, SGD le gana en tiempo.</p>
+<p><strong>❓ ¿Por qué <code>cv=3</code> y no <code>cv=10</code>?</strong></p>
+<p>Géron usa 3 porque MNIST es grande (60k×784) y 10 folds tarda. En datasets chicos, 5-10 es lo habitual. La regla: más folds = menos varianza en la estimación pero más cómputo.</p>
+<p><strong>❓ ¿<code>predict_proba</code> está disponible en <code>SGDClassifier</code>?</strong></p>
+<p>Solo si entrenás con <code>loss='log_loss'</code> (regresión logística) o <code>loss='modified_huber'</code>. Con el default <code>'hinge'</code> no — usás <code>decision_function</code>.</p>
+<p><strong>❓ ¿Hace falta escalar las features de MNIST?</strong></p>
+<p>Para <code>SGDClassifier</code> sí, conviene (los píxeles 0-255 son grandes y SGD es sensible a escala). Géron en el cap. 3 lo omite para simplificar; en la práctica <code>StandardScaler</code> o dividir por 255 ayuda a la convergencia.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Géron, <strong>cap. 3</strong> § "Training a Binary Classifier" y "Measuring Accuracy Using Cross-Validation".</li>
+<li><a href="https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.SGDClassifier.html">sklearn <code>SGDClassifier</code></a></li>
+<li><a href="https://scikit-learn.org/stable/modules/generated/sklearn.datasets.fetch_openml.html">sklearn <code>fetch_openml</code></a></li>
+<li><a href="https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.StratifiedKFold.html">sklearn <code>StratifiedKFold</code></a></li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../063-metricas-confusion-matrix-precision-recall-f1/index.html">Clase 063 — Métricas: confusion matrix, precision, recall, F1</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-1-machine-learning-clasico/062-clasificacion-binaria-con-mnist/"><code>classes/parte-1-machine-learning-clasico/062-clasificacion-binaria-con-mnist/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

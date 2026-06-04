@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 109 — Activaciones: ReLU, ELU, GELU, Swish, Mish | Python Data Science Program</title>
+  <meta name="description" content="Clase 109 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 2 — Deep Learning</a><span class="sep">›</span><span>109</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-2-deep-learning/109-activaciones-relu-elu-gelu-swish-mish/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-109-activaciones-relu-elu-gelu-swish-mish">Clase 109 — Activaciones: ReLU, ELU, GELU, Swish, Mish</h1>
+<blockquote>
+<p>Parte: <strong>2 — Deep Learning</strong> · Fuente: Géron, <strong>cap. 11</strong> § <em>Better Activation Functions</em>. ⏱️ Duración estimada: <strong>60 min</strong>.</p>
+</blockquote>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Conocer la familia de activaciones modernas — desde <strong>ReLU</strong> (Krizhevsky et al. 2012) hasta <strong>GELU</strong> (BERT, GPT) y <strong>Swish/SiLU</strong> (EfficientNet) — entendiendo qué problema resuelve cada una y por qué los Transformers modernos usan GELU y no ReLU. Saber elegir según arquitectura.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar, el estudiante podrá:</p>
+<ul>
+<li>Definir matemáticamente las 5 activaciones: ReLU, Leaky ReLU, ELU, GELU, Swish (SiLU), Mish.</li>
+<li>Identificar <strong>dying ReLU</strong> y aplicar Leaky ReLU / ELU como mitigación.</li>
+<li>Reconocer que <strong>GELU</strong> es la activación default en Transformers (BERT, GPT, ViT) y <strong>Swish/SiLU</strong> en EfficientNet, modelos modernos de visión.</li>
+<li>Aplicar cada activación en Keras: <code>Dense(64, activation='relu' | 'gelu' | 'swish' | 'elu' | LeakyReLU())</code>.</li>
+<li>Saber que el costo computacional de GELU/Swish es mayor (sigmoid/erf internos) pero el beneficio supera en arquitecturas profundas.</li>
+</ul>
+<h2 id="temas">🗺️ Temas</h2>
+<ul>
+<li><strong>ReLU</strong>: <code>max(0, x)</code>. Rápida, simple, default histórico. Dying ReLU.</li>
+<li><strong>Leaky ReLU</strong>: <code>max(αx, x)</code> con α≈0.01. Sin dying.</li>
+<li><strong>ELU</strong> (Clevert et al. 2015): <code>x si x&gt;0, α(eˣ-1) si x&lt;0</code>. Suave, sin dying, pero más cara.</li>
+<li><strong>GELU</strong> (Hendrycks &amp; Gimpel 2016): <code>x · Φ(x)</code> (Φ = CDF gaussiana). Suave, no monótona. Default en Transformers.</li>
+<li><strong>Swish / SiLU</strong> (Ramachandran et al. 2017): <code>x · sigmoid(x)</code>. Encontrada por NAS. Casi idéntica a GELU.</li>
+<li><strong>Mish</strong> (Misra 2019): <code>x · tanh(softplus(x))</code>. Marginalmente mejor en algunos benchmarks.</li>
+</ul>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<ul>
+<li><strong>Función de activación</strong>: no linealidad aplicada elementwise tras la transformación lineal de una capa.</li>
+<li><strong>Saturación</strong>: cuando la derivada se acerca a 0 → vanishing.</li>
+<li><strong>Monótona</strong>: f(x) creciente en todo el dominio. ReLU/ELU/Leaky lo son; GELU/Swish/Mish no estrictamente.</li>
+<li><strong>Bounded</strong>: salida acotada. Sigmoid (0,1), tanh (-1,1), softmax. La mayoría modernas no son bounded.</li>
+<li><strong>Smooth</strong>: derivable continuamente. ReLU no en <code>x=0</code>; las demás sí.</li>
+</ul>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<ul>
+<li>Fashion-MNIST.</li>
+<li>Librerías: <code>tensorflow</code>, <code>keras</code>.</li>
+</ul>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>Plot de funciones</strong>: graficar las 6 activaciones en <code>x ∈ [-3, 3]</code>.</li>
+<li><strong>Comparación empírica</strong>: entrenar MLP <code>[256, 128, 64]</code> con cada activación, mismo init He, mismo LR. Comparar val_accuracy tras 15 épocas.</li>
+<li><strong>Dying ReLU</strong>: con LR alto (0.1), entrenar con ReLU. Contar cuántas neuronas tienen <code>mean(activation) = 0</code> al final.</li>
+<li><strong>Leaky ReLU al rescate</strong>: repetir con Leaky. Verificar que el % de neuronas muertas baja.</li>
+<li><strong>GELU vs ReLU en profundidad</strong>: armar un MLP de 12 capas. Comparar GELU vs ReLU. GELU suele ganar.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Sobre Fashion-MNIST, MLP <code>[300, 200, 100, 50, 10]</code>:</p>
+<ol>
+<li>Entrenar 4 modelos con: ReLU, Leaky ReLU(α=0.1), ELU, GELU.</li>
+<li>Reportar val_accuracy y tiempo por época.</li>
+<li>Para el mejor, inspeccionar % de neuronas "muertas" por capa.</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: GELU o ELU debe ganar en accuracy; Leaky/ELU/GELU deben tener &lt; 5 % neuronas muertas; ReLU posiblemente más.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cambio de ReLU a sigmoid en capa oculta para "ser más suave"</td>
+<td>Vanishing immediato en redes profundas. <strong>Fix</strong>: usar GELU o Swish para suavidad sin vanishing.</td>
+</tr>
+<tr>
+<td>Leaky ReLU con α=0.5</td>
+<td>Casi lineal, pierde la no linealidad útil. <strong>Fix</strong>: α ∈ [0.01, 0.1].</td>
+</tr>
+<tr>
+<td><code>activation='swish'</code> no reconocido</td>
+<td>Keras antiguo lo llama <code>'swish'</code>, TF moderno también soporta. Si error, usar <code>keras.layers.Activation(keras.activations.swish)</code>.</td>
+</tr>
+<tr>
+<td>GELU en CPU es lento</td>
+<td>Es ≈ 2× más caro que ReLU por la <code>erf</code>. En CPU se nota; en GPU/TPU casi no.</td>
+</tr>
+<tr>
+<td>Mish en GPU sin implementación optimizada</td>
+<td>TF puede no tener kernel cuda eficiente para Mish exacto. <strong>Fix</strong>: usar Mish aproximado (<code>x * tanh(softplus(x))</code> puro) o cambiar a Swish.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿Qué activación uso por default en 2026?</strong></p>
+<ul>
+<li><strong>MLP/CNN clásica</strong>: ReLU o GELU.</li>
+<li><strong>Transformers</strong>: GELU (es lo que usan BERT, GPT, ViT).</li>
+<li><strong>EfficientNet/MobileNet</strong>: Swish (= SiLU).</li>
+<li><strong>Modelos profundos sin BN</strong>: ELU o GELU (más estables).</li>
+</ul>
+<p><strong>❓ Swish y SiLU son lo mismo?</strong></p>
+<p>Sí, mismo formato (<code>x · sigmoid(x)</code>). SiLU es el nombre PyTorch; Swish es el nombre de Google.</p>
+<p><strong>❓ ¿Por qué GELU en Transformers?</strong></p>
+<p>Históricamente: BERT (2018) la eligió porque parecía funcionar mejor empíricamente. Hoy es estándar más por inercia/compatibilidad que por una ventaja categórica. En benchmarks recientes, Swish es competitiva.</p>
+<p><strong>❓ ¿GELU exacta o aproximada?</strong></p>
+<p><code>tf.keras.activations.gelu(x, approximate=False)</code> usa <code>erf</code> exacta. <code>True</code> usa la aproximación tanh, ≈10× más rápida en GPU. La diferencia numérica es &lt; 0.001.</p>
+<p><strong>❓ ¿La salida del modelo también lleva GELU?</strong></p>
+<p>No. La activación final depende del problema (linear, sigmoid, softmax). GELU/ReLU son para capas ocultas.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Géron, <strong>cap. 11</strong> — <em>Better Activation Functions</em>.</li>
+<li>Krizhevsky et al. (2012), <em>AlexNet</em> — ReLU al mainstream.</li>
+<li>Clevert et al. (2015), <em>ELU</em>, ICLR.</li>
+<li>Hendrycks &amp; Gimpel (2016), <em>Gaussian Error Linear Units (GELUs)</em>.</li>
+<li>Ramachandran et al. (2017), <em>Searching for Activation Functions</em>, ICLR — Swish.</li>
+<li>Misra (2019), <em>Mish: A Self Regularized Non-Monotonic Activation Function</em>.</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../110-batch-normalization-layer-normalization/index.html">Clase 110 — Batch Normalization, Layer Normalization</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-2-deep-learning/109-activaciones-relu-elu-gelu-swish-mish/"><code>classes/parte-2-deep-learning/109-activaciones-relu-elu-gelu-swish-mish/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

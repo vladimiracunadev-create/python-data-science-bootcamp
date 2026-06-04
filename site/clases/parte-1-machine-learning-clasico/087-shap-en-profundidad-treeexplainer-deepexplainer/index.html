@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 087 — SHAP en profundidad: TreeExplainer, KernelExplainer, DeepExplainer | Python Data Science Program</title>
+  <meta name="description" content="Clase 087 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 1 — ML clásico</a><span class="sep">›</span><span>087</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-1-machine-learning-clasico/087-shap-en-profundidad-treeexplainer-deepexplainer/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-087-shap-en-profundidad-treeexplainer-kernelexplainer-deepexplainer">Clase 087 — SHAP en profundidad: TreeExplainer, KernelExplainer, DeepExplainer</h1>
+<blockquote>
+<p>Parte: <strong>1 — Machine Learning Clásico</strong> · Fuente: Lundberg &amp; Lee (2017) + <a href="https://shap.readthedocs.io/">shap docs</a>. ⏱️ Duración estimada: <strong>90 min</strong>.</p>
+</blockquote>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Dominar <strong>SHAP</strong> (SHapley Additive exPlanations) en profundidad: teoría de Shapley values (teoría de juegos cooperativos), <strong>TreeExplainer</strong> (rápido y exacto para árboles), <strong>KernelExplainer</strong> (model-agnostic, lento), <strong>DeepExplainer</strong> (para NN), y los plots clave: <code>summary_plot</code>, <code>waterfall_plot</code>, <code>force_plot</code>, <code>dependence_plot</code>, <code>decision_plot</code>.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar, el estudiante podrá:</p>
+<ul>
+<li>Explicar <strong>Shapley value</strong> intuitivamente: contribución marginal promedio sobre todos los órdenes de inclusión.</li>
+<li>Aplicar TreeExplainer en XGBoost/LightGBM/RF (segundos para millones de samples).</li>
+<li>Generar e interpretar los 5 plots SHAP principales.</li>
+<li>Diferenciar explicación <strong>global</strong> (<code>summary_plot</code> beeswarm) de <strong>local</strong> (<code>waterfall</code> de una predicción).</li>
+<li>Reconocer las limitaciones: SHAP asume cierta forma de "feature attribution" pero <strong>no es causal</strong>.</li>
+</ul>
+<h2 id="temas">🗺️ Temas</h2>
+<ul>
+<li>Shapley value: <code>φ_i = Σ |S|!(M-|S|-1)! / M! · [v(S ∪ {i}) - v(S)]</code>.</li>
+<li>4 propiedades únicas: efficiency, symmetry, dummy, additivity.</li>
+<li>TreeExplainer: exacto para tree-based, O(TLD²).</li>
+<li>KernelExplainer: LIME-style con kernel especial → SHAP values aproximados.</li>
+<li>DeepExplainer: para Keras/PyTorch.</li>
+<li>Permutation explainer: alternativa moderna sin necesidad de árbol/red.</li>
+</ul>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<ul>
+<li><strong>Shapley value</strong>: única atribución que satisface las 4 propiedades.</li>
+<li><strong><code>shap_values</code></strong>: matriz <code>(n_samples, n_features)</code> con contribución de cada feature a cada predicción.</li>
+<li><strong><code>expected_value</code></strong>: predicción promedio del modelo (baseline). <code>Σ shap_values[i] + expected_value ≈ predicción[i]</code>.</li>
+<li><strong><code>summary_plot</code> beeswarm</strong>: para cada feature, distribución de SHAP values; color = valor de la feature.</li>
+<li><strong><code>waterfall_plot</code></strong>: para una predicción específica, contribución acumulada feature por feature.</li>
+<li><strong><code>dependence_plot</code></strong>: feature en x, SHAP value en y; revela no-linearidades e interacciones.</li>
+</ul>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<ul>
+<li><code>fetch_california_housing</code> o <code>load_breast_cancer</code>.</li>
+<li>Librerías: <code>shap</code> (<code>pip install shap</code>), <code>xgboost</code>, <code>matplotlib</code>.</li>
+</ul>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>TreeExplainer</strong>: XGBoost en California Housing → <code>explainer = shap.TreeExplainer(model); shap_values = explainer(X_test)</code>.</li>
+<li><strong>Summary plot</strong>: <code>shap.summary_plot(shap_values, X_test)</code>. Identificar las 3 features más importantes y su dirección.</li>
+<li><strong>Waterfall</strong>: elegir 1 muestra concreta → <code>shap.waterfall_plot(shap_values[0])</code>. Sumar contribuciones y verificar que reconstruye la predicción.</li>
+<li><strong>Dependence plot</strong>: <code>shap.dependence_plot('MedInc', shap_values.values, X_test)</code>. Detectar non-linearity.</li>
+<li><strong>Interaction values</strong>: <code>shap_interaction = explainer.shap_interaction_values(X_test)</code>. Identificar par de features con mayor interacción.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>XGBoost sobre California Housing + análisis SHAP completo:</p>
+<ol>
+<li>Modelo entrenado.</li>
+<li>SHAP values con TreeExplainer.</li>
+<li>Summary plot + force_plot de 3 predicciones (alta, media, baja).</li>
+<li>Dependence plots para top-3 features.</li>
+<li>Reporte de 1 página: insights de qué mueve el precio (en lenguaje no técnico).</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: el reporte identifica correctamente las features dominantes; las explicaciones individuales suman al valor del modelo (±0.01).</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>KernelExplainer</code> sobre tree → muy lento</td>
+<td>Usa el equivocado. <strong>Fix</strong>: TreeExplainer.</td>
+</tr>
+<tr>
+<td>Asumir SHAP es causal</td>
+<td>No lo es — atribución es estadística, no causal. <strong>Fix</strong>: clase 156 para causalidad.</td>
+</tr>
+<tr>
+<td>Interpretar SHAP sobre train data</td>
+<td>Sesgo por overfit. <strong>Fix</strong>: explicar sobre val/test.</td>
+</tr>
+<tr>
+<td><code>force_plot</code> no renderiza en Jupyter</td>
+<td>Sin <code>shap.initjs()</code>. <strong>Fix</strong>: ejecutar al inicio del notebook.</td>
+</tr>
+<tr>
+<td>Features muy correlacionadas → SHAP distribuye arbitrario</td>
+<td>Limitación inherente. <strong>Fix</strong>: agrupar correlacionadas o usar <code>clustering=</code>.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ SHAP vs LIME?</strong></p>
+<p>SHAP: fundamento teórico, exacto en tree-based, determinista. LIME: model-agnostic, rápido pero inestable. SHAP gana hoy.</p>
+<p><strong>❓ ¿<code>explainer(X)</code> o <code>explainer.shap_values(X)</code>?</strong></p>
+<p>API moderna (≥ 0.40): <code>explainer(X)</code> devuelve <code>Explanation</code> object. Compatible con todos los plots. Recomendado.</p>
+<p><strong>❓ ¿SHAP para clasificación multiclase?</strong></p>
+<p><code>shap_values</code> es lista/tensor con valores por clase. Plot por clase con <code>shap.summary_plot(shap_values[class_idx])</code>.</p>
+<p><strong>❓ ¿SHAP en LLM?</strong></p>
+<p>Existe pero costoso por la combinatoria. Para LLMs se usan otras técnicas (attention rollout, integrated gradients).</p>
+<p><strong>❓ ¿En producción reporto SHAP por predicción?</strong></p>
+<p>Sí — para decisiones high-stake (crédito, medicina), el SHAP por predicción ayuda al human-in-the-loop a entender qué pasó.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Lundberg &amp; Lee (2017), <em>A Unified Approach to Interpreting Model Predictions</em>, NeurIPS.</li>
+<li>Lundberg et al. (2020), <em>From local explanations to global understanding with explainable AI for trees</em>, Nature Machine Intelligence.</li>
+<li><a href="https://shap.readthedocs.io/">SHAP docs</a>.</li>
+<li>Molnar, C. <em>Interpretable Machine Learning</em> — cap. SHAP.</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../088-boosting-adaboost-gradient-boosting/index.html">Clase 088 — Boosting: AdaBoost y Gradient Boosting</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-1-machine-learning-clasico/087-shap-en-profundidad-treeexplainer-deepexplainer/"><code>classes/parte-1-machine-learning-clasico/087-shap-en-profundidad-treeexplainer-deepexplainer/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

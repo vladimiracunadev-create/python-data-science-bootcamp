@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 175 — Distribuciones: normal, binomial, Poisson, exponencial | Python Data Science Program</title>
+  <meta name="description" content="Clase 175 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 3 — Estadística inferencial</a><span class="sep">›</span><span>175</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-3-estadistica-inferencial/175-distribuciones-normal-binomial-poisson-exponencial/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-175-distribuciones-normal-binomial-poisson-exponencial">Clase 175 — Distribuciones: normal, binomial, Poisson, exponencial</h1>
+<blockquote>
+<p>Parte: <strong>3 — Estadística Inferencial y Causal</strong> · Fuente: ISLP, <strong>cap. 2</strong> + Bruce &amp; Bruce, <strong>cap. 2</strong> <em>Data and Sampling Distributions</em>. ⏱️ Duración estimada: <strong>70 min</strong>.</p>
+</blockquote>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Reconocer las cuatro distribuciones de probabilidad que aparecen en el 90 % de los problemas reales de data science —<strong>normal, binomial, Poisson, exponencial</strong>— sabiendo qué fenómeno modela cada una, cuáles son sus parámetros, cómo simularlas con <code>scipy.stats</code> / <code>numpy.random</code>, y cómo verificar empíricamente si los datos <em>realmente</em> siguen esa distribución antes de aplicar un test que la asuma.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar, el estudiante podrá:</p>
+<ul>
+<li>Identificar la distribución apropiada para un fenómeno descrito en lenguaje natural (conteos raros → Poisson, éxitos/fracasos → binomial, tiempos entre eventos → exponencial, sumas/promedios → normal por TCL).</li>
+<li>Calcular media, varianza y cuantiles teóricos con <code>scipy.stats.{norm, binom, poisson, expon}</code> (<code>.mean()</code>, <code>.var()</code>, <code>.ppf()</code>, <code>.pdf()</code>/<code>.pmf()</code>).</li>
+<li>Simular muestras con <code>rng = np.random.default_rng(seed)</code> y comparar histograma vs PDF/PMF teórica.</li>
+<li>Aplicar un <strong>Q-Q plot</strong> (<code>scipy.stats.probplot</code>) y un <strong>Kolmogorov-Smirnov</strong> (<code>scipy.stats.kstest</code>) para validar normalidad.</li>
+<li>Reconocer cuándo el <strong>Teorema Central del Límite</strong> justifica usar normal aunque los datos crudos no lo sean.</li>
+</ul>
+<h2 id="temas">🗺️ Temas</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Tema</th>
+<th>Por qué importa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Distribución normal <code>N(μ, σ²)</code></td>
+<td>Base de t-test, ANOVA, intervalos de confianza clásicos.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Distribución binomial <code>Bin(n, p)</code></td>
+<td>Conversiones A/B, click-through rate, proporciones.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Distribución de Poisson <code>Poi(λ)</code></td>
+<td>Eventos raros por unidad de tiempo/área (fraudes/día, llamados/hora).</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Distribución exponencial <code>Exp(λ)</code></td>
+<td>Tiempos entre eventos Poisson (churn, time-to-failure).</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Teorema Central del Límite (TCL)</td>
+<td>Por qué la normal aparece <em>aunque los datos no sean normales</em>.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Verificación empírica: Q-Q plot + KS test</td>
+<td>Antes de asumir, mirá.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<ul>
+<li><strong>PDF (Probability Density Function)</strong>: para variables continuas. <code>f(x)</code> no es probabilidad; la probabilidad es <code>∫ f(x) dx</code> sobre un intervalo. <code>f(x)</code> puede ser &gt; 1.</li>
+<li><strong>PMF (Probability Mass Function)</strong>: para variables discretas. <code>P(X = k)</code> directo. Siempre en <code>[0, 1]</code>.</li>
+<li><strong>CDF (Cumulative Distribution Function)</strong> <code>F(x) = P(X ≤ x)</code>: en scipy <code>.cdf()</code>. Su inversa es <code>.ppf()</code> (quantile function), útil para construir intervalos.</li>
+<li><strong>Normal <code>N(μ, σ²)</code></strong>: simétrica, soporte en <code>ℝ</code>. Regla 68-95-99.7 (1σ, 2σ, 3σ). Es la única distribución cuya suma de variables independientes sigue siendo de la misma familia exacta.</li>
+<li><strong>Binomial <code>Bin(n, p)</code></strong>: suma de <code>n</code> ensayos Bernoulli independientes con éxito <code>p</code>. <code>E[X]=np</code>, <code>Var[X]=np(1-p)</code>. Para <code>n</code> grande y <code>p</code> no extrema, ≈ <code>N(np, np(1-p))</code> — esto es lo que justifica los z-tests de proporciones.</li>
+<li><strong>Poisson <code>Poi(λ)</code></strong>: conteo de eventos raros independientes en un intervalo fijo. <code>E[X]=Var[X]=λ</code> (¡equidispersión!). Si tus datos tienen <code>Var/Mean ≫ 1</code>, hay <strong>sobre-dispersión</strong> y Poisson no aplica — considerar binomial negativa.</li>
+<li><strong>Exponencial <code>Exp(λ)</code></strong>: tiempo entre eventos Poisson. Memoryless: <code>P(X &gt; s+t | X &gt; s) = P(X &gt; t)</code>. Por eso modela mal cosas con desgaste (un motor de 10 años no falla igual que uno nuevo).</li>
+<li><strong>TCL</strong>: si <code>X_1, …, X_n</code> son i.i.d. con media <code>μ</code> y varianza finita <code>σ²</code>, entonces <code>(X̄ - μ) / (σ/√n) → N(0, 1)</code> cuando <code>n → ∞</code>. Regla práctica: <code>n ≥ 30</code> alcanza, salvo distribuciones muy asimétricas.</li>
+<li><strong>Q-Q plot</strong>: scatter de cuantiles muestrales vs cuantiles teóricos. Si los puntos caen sobre la diagonal, los datos siguen la distribución.</li>
+</ul>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<ul>
+<li><strong>Conteo de llamados a un call center por hora</strong> (sintético): <code>rng.poisson(lam=4.2, size=10_000)</code> → Poisson.</li>
+<li><strong>Datos reales</strong>: <code>seaborn.load_dataset('tips')</code> para chequear normalidad de <code>total_bill</code> (no es normal, asimétrico positivo — buen contraejemplo).</li>
+<li>Librerías: <code>numpy</code>, <code>scipy.stats</code>, <code>matplotlib</code>, <code>seaborn</code>.</li>
+</ul>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>Simulación y PDF/PMF</strong>: con <code>rng = np.random.default_rng(42)</code>, generá 10 000 muestras de cada una de las 4 distribuciones con parámetros razonables. Para cada una: histograma con <code>density=True</code> superpuesto con la PDF/PMF teórica de <code>scipy.stats</code>.</li>
+<li><strong>Cuantiles</strong>: calculá <code>scipy.stats.norm(loc=100, scale=15).ppf([0.025, 0.5, 0.975])</code> (IQ test → IC 95 % poblacional) y verificá que el 2.5 % y 97.5 % muestrales de una simulación con <code>n=100_000</code> se acerquen.</li>
+<li><strong>TCL en acción</strong>: tomá <code>Exp(λ=1)</code> (claramente no normal). Generá 5 000 promedios de tamaños <code>n ∈ {1, 5, 30, 100}</code> y graficá los 4 histogramas lado a lado. Verificá cómo se va volviendo simétrico y campaniforme.</li>
+<li><strong>Q-Q plot</strong>: <code>scipy.stats.probplot(tips.total_bill, dist='norm', plot=plt)</code>. Anotá qué muestra el extremo derecho (asimetría positiva → cola larga arriba de la diagonal).</li>
+<li><strong>¿Poisson o no?</strong>: con los conteos por hora del dataset sintético, calculá <code>mean()</code> y <code>var()</code>. Si <code>var/mean ∈ [0.8, 1.2]</code>, equidispersión → Poisson plausible. Probá con <code>lam=4.2</code> (deberías ver ratio ≈ 1) y con datos contaminados (mezclá con <code>rng.poisson(20, size=200)</code> para ver overdispersión).</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Notebook que:</p>
+<ol>
+<li>Carga <code>tips.total_bill</code> de seaborn.</li>
+<li>Genera un Q-Q plot contra <code>'norm'</code> y otro contra <code>'lognorm'</code>.</li>
+<li>Aplica <code>scipy.stats.kstest</code> contra ambas (estandarizando los datos).</li>
+<li>Concluye por escrito qué distribución modela mejor <code>total_bill</code> y por qué (≤ 3 líneas).</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: el p-value del KS contra lognormal debe ser <strong>mayor</strong> que contra normal, y la conclusión debe mencionar que <code>total_bill</code> está acotado por abajo en 0 y tiene cola derecha — incompatible con normal.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>kstest</code> da <code>p=0.0</code> aunque los datos "se ven normales"</td>
+<td>Probablemente no estandarizaste. KS contra <code>'norm'</code> por default usa <code>N(0,1)</code>. <strong>Fix</strong>: <code>kstest((x - x.mean())/x.std(ddof=1), 'norm')</code> — o mejor, usar Shapiro-Wilk (<code>scipy.stats.shapiro</code>) que es más sensible.</td>
+</tr>
+<tr>
+<td>Histograma no coincide con la PDF teórica</td>
+<td>Olvidaste <code>density=True</code> en <code>plt.hist</code>. Sin eso, el eje y son frecuencias, no densidad.</td>
+</tr>
+<tr>
+<td>Aplico Poisson y la varianza es mucho mayor que la media</td>
+<td>Sobre-dispersión: hay heterogeneidad oculta (mezcla de poblaciones, exceso de ceros). <strong>Fix</strong>: binomial negativa (<code>scipy.stats.nbinom</code>) o un GLM con <code>statsmodels</code>.</td>
+</tr>
+<tr>
+<td><code>np.random.seed(42)</code> no me da resultados reproducibles</td>
+<td>El estado global está deprecado para análisis serios. <strong>Fix</strong>: <code>rng = np.random.default_rng(42)</code> y usar <code>rng.normal(...)</code>, <code>rng.binomial(...)</code>.</td>
+</tr>
+<tr>
+<td>Asumo normalidad con <code>n=8</code> porque "el TCL lo garantiza"</td>
+<td>El TCL es asintótico. Con <code>n</code> chico y distribución asimétrica, la media muestral sigue siendo no-normal. <strong>Fix</strong>: bootstrap (Clase 153) o test no paramétrico (Clase 150).</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿Cuándo uso <code>scipy.stats.norm(loc, scale)</code> vs <code>np.random.normal(mu, sigma)</code>?</strong></p>
+<p>Para <strong>simular</strong> muestras: ambos funcionan, pero <code>rng = np.random.default_rng(seed); rng.normal(...)</code> es el patrón moderno reproducible. Para <strong>calcular PDF, CDF, cuantiles</strong>: <code>scipy.stats.norm</code>, que es un objeto distribución con todos los métodos.</p>
+<p><strong>❓ ¿Poisson y binomial con <code>n</code> grande y <code>p</code> chica se parecen?</strong></p>
+<p>Sí: si <code>n → ∞</code> y <code>p → 0</code> con <code>np = λ</code> constante, <code>Bin(n, p) → Poi(λ)</code>. Por eso "1 cada 1000" se modela igual con cualquiera de las dos. En la práctica, si <code>n ≥ 100</code> y <code>p ≤ 0.05</code>, son intercambiables.</p>
+<p><strong>❓ ¿La distribución t-Student es lo mismo que la normal?</strong></p>
+<p>No, pero converge. <code>t(ν)</code> con <code>ν → ∞</code> tiende a <code>N(0,1)</code>. Para <code>ν ≥ 30</code> son visualmente idénticas. La diferencia importa en muestras chicas (la t tiene colas más pesadas, lo que produce intervalos de confianza más anchos — correcto cuando estimás σ).</p>
+<p><strong>❓ ¿Mis datos tienen que ser normales para hacer un t-test?</strong></p>
+<p>No exactamente. Lo que tiene que ser ≈ normal es la <strong>distribución muestral de la media</strong>, y por TCL eso pasa con <code>n ≥ 30</code> aunque los datos crudos no lo sean. Si <code>n &lt; 30</code> y los datos están sesgados, usá bootstrap (Clase 153) o Mann-Whitney (Clase 150).</p>
+<p><strong>❓ ¿Por qué exponencial es "sin memoria"?</strong></p>
+<p>Porque <code>P(X &gt; s + t | X &gt; s) = P(X &gt; t)</code>. Aplicado a un servidor que lleva 3 h sin caer: la probabilidad de aguantar otra hora es la misma que la de aguantar una hora desde 0. Para sistemas con desgaste (motores, humanos), usá Weibull o Gamma.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>ISLP (James et al.), <strong>cap. 2</strong> — <em>Statistical Learning</em>, sección sobre distribuciones.</li>
+<li>Bruce, P. &amp; Bruce, A. <em>Practical Statistics for Data Scientists</em> (2ª ed., O'Reilly), <strong>cap. 2</strong> <em>Data and Sampling Distributions</em>.</li>
+<li><a href="https://docs.scipy.org/doc/scipy/reference/stats.html">scipy.stats reference</a> — objetos <code>norm</code>, <code>binom</code>, <code>poisson</code>, <code>expon</code>.</li>
+<li><a href="https://numpy.org/doc/stable/reference/random/generator.html"><code>numpy.random.Generator</code></a> — API moderna recomendada desde NumPy 1.17.</li>
+<li>3Blue1Brown — <em>Why π appears in the normal distribution</em> (intuición visual del TCL).</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../176-test-t-una-muestra-dos-muestras-pareado/index.html">Clase 176 — Test t (una muestra, dos muestras, pareado)</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-3-estadistica-inferencial/175-distribuciones-normal-binomial-poisson-exponencial/"><code>classes/parte-3-estadistica-inferencial/175-distribuciones-normal-binomial-poisson-exponencial/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

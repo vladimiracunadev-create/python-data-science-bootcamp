@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 105 — Keras Tuner (+ Optuna, Ray Tune) | Python Data Science Program</title>
+  <meta name="description" content="Clase 105 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 2 — Deep Learning</a><span class="sep">›</span><span>105</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-2-deep-learning/105-keras-tuner/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#version-profundizada-2026">📌 Versión profundizada — 2026</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-105-keras-tuner-optuna-ray-tune">Clase 105 — Keras Tuner (+ Optuna, Ray Tune)</h1>
+<blockquote>
+<p>Parte: <strong>2 — Deep Learning</strong> · Fuente: Géron, <strong>cap. 10</strong> § <em>Fine-Tuning Neural Network Hyperparameters</em> + docs Keras Tuner / Optuna / Ray Tune. ⏱️ Duración estimada: <strong>85 min</strong>.</p>
+</blockquote>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Hacer <strong>hyperparameter tuning</strong> sistemático en redes neuronales — buscar <code>n_layers</code>, <code>units</code>, <code>lr</code>, <code>dropout</code>, etc. con estrategias modernas: Random Search, <strong>Hyperband</strong> y <strong>Bayesian Optimization</strong>. Conocer las tres herramientas estándar de Python — <strong>Keras Tuner</strong> (TF-native, simple), <strong>Optuna</strong> (multi-framework, default industrial) y <strong>Ray Tune</strong> (distribuido, escalable a clusters).</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar, el estudiante podrá:</p>
+<ul>
+<li>Definir un <code>model-building function</code> con hiperparámetros declarados vía <code>hp.Int</code>, <code>hp.Float</code>, <code>hp.Choice</code>.</li>
+<li>Lanzar tuners de Keras Tuner: <code>RandomSearch</code>, <code>Hyperband</code>, <code>BayesianOptimization</code>.</li>
+<li>Migrar el mismo problema a <strong>Optuna</strong> con <code>optuna.create_study(direction='minimize')</code> y <code>trial.suggest_float</code>.</li>
+<li>Lanzar <strong>Ray Tune</strong> con <code>tune.run</code> para distribuir trials en múltiples GPUs/nodos.</li>
+<li>Comparar las 3 estrategias (Random vs Hyperband vs Bayesian) en términos de eficiencia.</li>
+</ul>
+<h2 id="temas">🗺️ Temas</h2>
+<ul>
+<li>¿Por qué tuning? Los defaults (Adam <code>lr=1e-3</code>, dropout <code>0.5</code>) rara vez son óptimos.</li>
+<li><strong>Random Search</strong> vs Grid Search: Bergstra &amp; Bengio (2012) — random gana casi siempre por el "curse of low effective dimensionality".</li>
+<li><strong>Hyperband</strong> (Li et al. 2017): asignar más cómputo a configs prometedoras (successive halving).</li>
+<li><strong>Bayesian Optimization</strong> (TPE, GP): construye un modelo del paisaje y elige el siguiente trial inteligentemente.</li>
+<li>Trade-off cómputo vs ganancia: típicamente 50-200 trials para una primera optimización.</li>
+<li><strong>Complemento moderno</strong>: Optuna y Ray Tune como alternativas multi-framework.</li>
+</ul>
+<h2 id="version-profundizada-2026">📌 Versión profundizada — 2026</h2>
+<p>El tema moderno que vivía como complemento dentro de esta clase ahora tiene clase propia dedicada con patrón completo, ejercicios y homework:</p>
+<ul>
+<li>👉 <a href="../../parte-1-machine-learning-clasico/052a-optuna-bayesian-hpo-dedicado/index.html">Clase 052a — Optuna y HPO bayesiano dedicado (ML clásico)</a></li>
+<li>👉 <a href="../095b-ray-tune-hpo-distribuido/index.html">Clase 095b — Ray Tune: HPO distribuido y a escala</a></li>
+</ul>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<ul>
+<li><strong>Search space</strong>: el rango/conjunto donde busca cada hiperparámetro.</li>
+<li><strong>Trial</strong>: una corrida de entrenamiento con una config específica.</li>
+<li><strong>Random Search</strong>: muestrea trials al azar del espacio.</li>
+<li><strong>Hyperband</strong>: corre muchos trials cortos, mata a los peores, sigue con los buenos por más épocas (successive halving en múltiples brackets).</li>
+<li><strong>Bayesian Optimization / TPE (Tree-structured Parzen Estimator)</strong>: modela P(config | resultado bueno) y muestrea de ahí.</li>
+<li><strong>Pruner</strong>: lógica para matar trials sin terminar (callback en cada época).</li>
+<li><strong><code>log=True</code></strong> en <code>suggest_float</code>: muestreo log-uniform — esencial para LR.</li>
+</ul>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<ul>
+<li>Fashion-MNIST como dataset chico para iterar rápido.</li>
+<li>Librerías: <code>keras-tuner</code> (<code>pip install keras-tuner</code>), <code>optuna</code>, <code>ray[tune]</code>.</li>
+</ul>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>Keras Tuner — RandomSearch</strong>: tunear <code>units</code> ∈ <code>{32, 64, 128}</code> y <code>lr</code> ∈ <code>[1e-4, 1e-2]</code> log con 20 trials. Reportar mejores hiperparámetros y val_accuracy.</li>
+<li><strong>Keras Tuner — Hyperband</strong>: el mismo espacio, 50 trials con Hyperband. Comparar tiempo total vs RandomSearch.</li>
+<li><strong>Optuna</strong>: traducir el espacio a Optuna; correr 50 trials con <code>HyperbandPruner</code>; graficar <code>plot_optimization_history</code> y <code>plot_param_importances</code>.</li>
+<li><strong>Multi-objective</strong>: optimizar simultáneamente <code>val_accuracy</code> (max) y <code>n_params</code> (min) con <code>optuna.create_study(directions=['maximize', 'minimize'])</code>. Inspeccionar la Pareto front.</li>
+<li><strong>Visualización</strong>: con Optuna, generar <code>plot_parallel_coordinate(study)</code> y entender qué dimensiones son las más sensibles.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Tunear un MLP sobre Fashion-MNIST con Optuna:</p>
+<ol>
+<li>Espacio: <code>n_layers ∈ [1, 4]</code>, <code>units ∈ {32, 64, 128, 256}</code>, <code>dropout ∈ [0, 0.5]</code>, <code>lr ∈ [1e-5, 1e-2] log</code>, <code>optimizer ∈ {Adam, SGD}</code>.</li>
+<li>100 trials con <code>HyperbandPruner</code>, <code>n_jobs=2</code>.</li>
+<li>Reportar <code>best_params</code>, <code>best_value</code>, y guardar el modelo final entrenado con esos params.</li>
+<li>Generar los 3 plots de visualización.</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: val_accuracy del mejor modelo ≥ 0.89; <code>plot_param_importances</code> debe mostrar <code>lr</code> y/o <code>units</code> como las más importantes (típico).</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LR muestreado uniforme entre <code>1e-5</code> y <code>1e-2</code> y nunca encuentra el óptimo</td>
+<td>LR debe ser <strong>log-uniform</strong>. <strong>Fix</strong>: <code>trial.suggest_float('lr', 1e-5, 1e-2, log=True)</code>.</td>
+</tr>
+<tr>
+<td>Bayesian optimization parece random</td>
+<td>Necesita &gt;10-20 trials para que el modelo interno aprenda. Con &lt;20 trials, Random es competitivo.</td>
+</tr>
+<tr>
+<td>Hyperband poda trials demasiado pronto</td>
+<td><code>factor</code> muy alto o <code>max_epochs</code> muy bajo. <strong>Fix</strong>: ajustar <code>factor=3, max_epochs=30</code>.</td>
+</tr>
+<tr>
+<td><code>optuna</code> se cuelga al usar <code>n_jobs &gt; 1</code> con Keras</td>
+<td>TF tiene problemas con multi-threading. <strong>Fix</strong>: usar <code>n_jobs=1</code>, o lanzar procesos separados con storage compartido (SQLite/Postgres).</td>
+</tr>
+<tr>
+<td>Reportar el resultado del mejor trial <strong>del set de val</strong></td>
+<td>Eso es el resultado de búsqueda, no de evaluación. <strong>Fix</strong>: tener un test set separado e intacto para reportar el resultado final del mejor modelo.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿Cuántos trials?</strong></p>
+<p>Mínimo 20–50 para Random / Hyperband. Bayesian se beneficia de más (100+). Si cada trial cuesta 1h → 100 trials = ~4 días en 1 GPU; con Ray Tune en 4 GPUs, ~1 día.</p>
+<p><strong>❓ ¿Tuning del LR primero o del resto?</strong></p>
+<p>LR primero, siempre. Es de lejos el hiperparámetro más sensible. Después arquitectura, después regularización.</p>
+<p><strong>❓ ¿Optuna o Keras Tuner para alguien que recién empieza?</strong></p>
+<p>Keras Tuner para entender la idea (más simple). Optuna apenas el problema es serio. La transición es rápida.</p>
+<p><strong>❓ ¿Cómo guardo el resultado del estudio Optuna?</strong></p>
+<p><code>optuna.create_study(study_name='exp1', storage='sqlite:///optuna.db', load_if_exists=True)</code>. Persistencia gratis; podés agregar trials después.</p>
+<p><strong>❓ ¿Ray Tune en una sola máquina vale la pena?</strong></p>
+<p>Sí si tenés ≥ 4 cores o ≥ 2 GPUs. Optuna <code>n_jobs</code> también paraleliza pero Ray maneja mejor recursos heterogéneos y crashes.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Géron, <strong>cap. 10</strong> — <em>Fine-Tuning Neural Network Hyperparameters</em>.</li>
+<li>Bergstra &amp; Bengio (2012), <em>Random Search for Hyper-Parameter Optimization</em>, JMLR.</li>
+<li>Li et al. (2017), <em>Hyperband</em>, JMLR.</li>
+<li>Akiba et al. (2019), <em>Optuna: A Next-Generation Hyperparameter Optimization Framework</em>, KDD.</li>
+<li>Liaw et al. (2018), <em>Tune: A Research Platform for Distributed Model Selection and Training</em>.</li>
+<li><a href="https://keras.io/keras_tuner/">Keras Tuner docs</a>, <a href="https://optuna.org/">Optuna docs</a>, <a href="https://docs.ray.io/en/latest/tune/index.html">Ray Tune docs</a>.</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../106-ray-tune-hpo-distribuido/index.html">Clase 106 — Ray Tune: HPO distribuido y a escala</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-2-deep-learning/105-keras-tuner/"><code>classes/parte-2-deep-learning/105-keras-tuner/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

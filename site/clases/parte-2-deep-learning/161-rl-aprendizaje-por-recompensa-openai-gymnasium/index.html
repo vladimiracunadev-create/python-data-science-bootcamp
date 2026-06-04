@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 161 — RL: aprendizaje por recompensa, Gymnasium (Farama) | Python Data Science Program</title>
+  <meta name="description" content="Clase 161 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 2 — Deep Learning</a><span class="sep">›</span><span>161</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-2-deep-learning/161-rl-aprendizaje-por-recompensa-openai-gymnasium/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-161-rl-aprendizaje-por-recompensa-gymnasium-farama">Clase 161 — RL: aprendizaje por recompensa, Gymnasium (Farama)</h1>
+<blockquote>
+<p>Parte: <strong>2 — Deep Learning</strong> · Fuente: Géron, <strong>cap. 18</strong> § <em>Introduction to Reinforcement Learning</em> + docs Gymnasium. ⏱️ Duración estimada: <strong>75 min</strong>.</p>
+</blockquote>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Entender el paradigma de <strong>Reinforcement Learning</strong> — un <strong>agente</strong> interactúa con un <strong>environment</strong>, observa <strong>states</strong>, toma <strong>actions</strong>, recibe <strong>rewards</strong>, y aprende una <strong>policy</strong> que maximiza recompensa acumulada. Conocer <strong>Gymnasium</strong> (Farama Foundation, fork del antiguo OpenAI Gym que dejó de mantenerse en 2022) — la librería estándar de environments para benchmarks.</p>
+<blockquote>
+<p><strong>Nota</strong>: el nombre "OpenAI Gym" es histórico. Desde 2022, OpenAI dejó de mantenerlo y la <strong>Farama Foundation</strong> tomó el relevo creando <strong>Gymnasium</strong> — drop-in replacement con mejor mantenimiento.</p>
+</blockquote>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar, el estudiante podrá:</p>
+<ul>
+<li>Definir los 5 componentes RL: agent, environment, state, action, reward.</li>
+<li>Usar <code>gymnasium</code>: <code>env = gym.make('CartPole-v1'); obs, _ = env.reset(); obs, reward, terminated, truncated, info = env.step(action)</code>.</li>
+<li>Implementar un policy random como baseline.</li>
+<li>Reconocer la diferencia entre <strong>on-policy</strong> (PPO, A2C) y <strong>off-policy</strong> (DQN, SAC).</li>
+<li>Saber dónde RL es apropiado (juegos, robótica, navegación) vs donde no (clasificación, regresión típicas).</li>
+</ul>
+<h2 id="temas">🗺️ Temas</h2>
+<ul>
+<li>Bloque básico: state → action → reward → next_state.</li>
+<li>Episodic vs continuous tasks.</li>
+<li>Discrete vs continuous action spaces.</li>
+<li>Discount factor γ: balance entre recompensa inmediata y futura.</li>
+<li>Gymnasium API estándar (<code>reset</code>, <code>step</code>).</li>
+<li>Environments populares: CartPole, MountainCar, Atari, MuJoCo, BipedalWalker.</li>
+</ul>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<ul>
+<li><strong>Policy π(a|s)</strong>: la estrategia — distribución sobre acciones dado state.</li>
+<li><strong>Trajectory / episode</strong>: secuencia <code>(s_0, a_0, r_0, s_1, a_1, ...)</code> hasta done.</li>
+<li><strong>Return</strong>: suma de recompensas futuras <code>G_t = Σ γ^k r_{t+k}</code>.</li>
+<li><strong>Value function <code>V(s)</code></strong>: expected return desde s siguiendo π.</li>
+<li><strong>Q-function <code>Q(s, a)</code></strong>: expected return tras tomar <code>a</code> desde <code>s</code>.</li>
+<li><strong>Gymnasium step</strong>: devuelve 5-tuple <code>(obs, reward, terminated, truncated, info)</code> (Gym original devolvía 4 — <code>done</code> combinaba terminated/truncated).</li>
+<li><strong>Action space</strong>: <code>Discrete(N)</code> o <code>Box(low, high, shape)</code>.</li>
+</ul>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<ul>
+<li><code>gymnasium</code> library (<code>pip install gymnasium</code>).</li>
+<li>Environments built-in: <code>CartPole-v1</code>, <code>LunarLander-v3</code>, <code>MountainCar-v0</code>.</li>
+<li>Librerías: <code>gymnasium</code>, <code>numpy</code>, <code>matplotlib</code>.</li>
+</ul>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>Entorno básico</strong>: <code>env = gym.make('CartPole-v1', render_mode='human')</code>. Correr 10 episodios con acciones random; reportar duración promedio.</li>
+<li><strong>Estructura del state</strong>: imprimir <code>env.observation_space</code> y <code>env.action_space</code> para CartPole, MountainCar, LunarLander.</li>
+<li><strong>Policy heurística</strong>: para CartPole, action = <code>0 if pole_angle &lt; 0 else 1</code> (push opuesto al tilt). Comparar contra random.</li>
+<li><strong>Return discounted</strong>: calcular <code>G_t = Σ γ^k r_{t+k}</code> con γ=0.99 sobre un episodio.</li>
+<li><strong>Render</strong>: usar <code>render_mode='rgb_array'</code> y guardar frames para crear un gif.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Sobre CartPole-v1:</p>
+<ol>
+<li>Implementar 3 policies: random, heurística simple, "siempre derecha".</li>
+<li>Correr 100 episodios de cada; reportar return promedio y desviación.</li>
+<li>Verificar que heurística supera random.</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: random ≈ 20 steps; heurística ≥ 80 steps; "siempre derecha" muere rápido.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>gym.make(...)</code> deprecated warning</td>
+<td>Estás usando el viejo OpenAI Gym. <strong>Fix</strong>: <code>pip install gymnasium</code> y <code>import gymnasium as gym</code>.</td>
+</tr>
+<tr>
+<td><code>env.step(action)</code> devuelve 4 valores</td>
+<td>Gym viejo. Gymnasium devuelve 5. <strong>Fix</strong>: actualizar.</td>
+</tr>
+<tr>
+<td><code>env.reset()</code> devuelve un solo valor en tutoriales viejos</td>
+<td>Gym pre-2022 devolvía <code>obs</code>. Gymnasium devuelve <code>(obs, info)</code>. <strong>Fix</strong>: <code>obs, _ = env.reset()</code>.</td>
+</tr>
+<tr>
+<td>Render no muestra ventana</td>
+<td><code>render_mode</code> no especificado al crear env. <strong>Fix</strong>: <code>gym.make(..., render_mode='human')</code>.</td>
+</tr>
+<tr>
+<td>Atari environments fail</td>
+<td>Requieren <code>pip install gymnasium[atari,accept-rom-license]</code>.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿RL vs supervised?</strong></p>
+<p>Supervised: aprende <code>f(x) = y</code> con labels. RL: aprende <code>π(s) = a</code> con feedback indirecto (rewards). Más cercano a humanos pero más difícil.</p>
+<p><strong>❓ ¿Cuándo RL?</strong></p>
+<p>Juegos (AlphaGo), robótica, navegación, sistemas de recomendación con feedback de usuarios. NO para clasificación / regresión típicas.</p>
+<p><strong>❓ ¿Gymnasium o RLlib o Stable-Baselines?</strong></p>
+<p>Gymnasium = environments. <strong>Stable-Baselines3</strong> (PyTorch) o <strong>RLlib</strong> (Ray) = algoritmos. Estándar 2026: SB3 para experimentos, RLlib para producción a escala.</p>
+<p><strong>❓ ¿RL con LLMs?</strong></p>
+<p>Sí — RLHF y DPO (clase 128) son aplicaciones de RL a LLMs.</p>
+<p><strong>❓ ¿Cuánto cuesta entrenar?</strong></p>
+<p>CartPole: 1 minuto. Atari: horas-días. AlphaGo: semanas en cluster. RL es <strong>muy costoso</strong> en datos (interacciones).</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Géron, <strong>cap. 18</strong> — <em>Reinforcement Learning</em>.</li>
+<li>Sutton &amp; Barto (2018), <em>Reinforcement Learning: An Introduction</em> (2nd ed.) — biblia del RL.</li>
+<li><a href="https://gymnasium.farama.org/">Gymnasium docs</a>.</li>
+<li><a href="https://stable-baselines3.readthedocs.io/">Stable-Baselines3 docs</a>.</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../162-policy-gradients/index.html">Clase 162 — Policy gradients</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-2-deep-learning/161-rl-aprendizaje-por-recompensa-openai-gymnasium/"><code>classes/parte-2-deep-learning/161-rl-aprendizaje-por-recompensa-openai-gymnasium/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

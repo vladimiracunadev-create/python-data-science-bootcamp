@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 114 — Optimizadores modernos: Lion, Sophia, Schedule-Free | Python Data Science Program</title>
+  <meta name="description" content="Clase 114 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 2 — Deep Learning</a><span class="sep">›</span><span>114</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-2-deep-learning/114-optimizadores-modernos-lion-sophia/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-114-optimizadores-modernos-lion-sophia-schedule-free">Clase 114 — Optimizadores modernos: Lion, Sophia, Schedule-Free</h1>
+<blockquote>
+<p>Parte: <strong>2 — Deep Learning</strong> · Fuente: Chen et al. (2023) Lion + Liu et al. (2023) Sophia + Defazio et al. (2024) Schedule-Free. ⏱️ Duración estimada: <strong>75 min</strong>.</p>
+</blockquote>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Conocer la <strong>nueva generación de optimizadores 2023-2024</strong> que está reemplazando a AdamW en LLM training a escala: <strong>Lion</strong> (Google, signo del gradiente), <strong>Sophia</strong> (Stanford, segundo orden aproximado), <strong>Schedule-Free</strong> (Meta, sin LR scheduling). Saber cuándo justifican el cambio.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar, el estudiante podrá:</p>
+<ul>
+<li>Aplicar <strong>Lion</strong> con LR 3-10× más chico que AdamW y weight_decay 3-10× más grande.</li>
+<li>Aplicar <strong>Sophia</strong> con estimación diagonal del Hessiano (Hutchinson sampling).</li>
+<li>Aplicar <strong>Schedule-Free</strong> (<code>schedulefree.AdamWScheduleFree</code>) sin warmup/cosine.</li>
+<li>Comparar memoria, velocidad y calidad final.</li>
+<li>Reconocer cuándo Lion supera AdamW (modelos grandes, ViT, CLIP) y cuándo no.</li>
+</ul>
+<h2 id="temas">🗺️ Temas</h2>
+<ul>
+<li>Lion: <code>update = sign(β·m + (1-β)·g)</code>. 1 buffer en lugar de 2.</li>
+<li>Sophia: pre-condicionador diagonal del Hessiano vía Hutchinson.</li>
+<li>Schedule-Free: aprende sin schedule explícito, sin warmup.</li>
+<li>Memory: Lion ahorra 50 % vs AdamW.</li>
+<li>Trade-off: Lion + LR alto explota fácilmente.</li>
+</ul>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<ul>
+<li><strong>Lion</strong>: signo del gradiente como dirección. β₁=0.9, β₂=0.99 típicos.</li>
+<li><strong>Sophia</strong>: actualiza <code>θ ← θ - η·clip(m/h, -ρ, ρ)</code>. Robusto a hessianas mal condicionadas.</li>
+<li><strong>Schedule-Free</strong>: averaging interpolation entre <code>z</code> (live) y <code>x</code> (averaged); no necesita LR schedule.</li>
+<li><strong>Memory cost</strong>: Adam 2× params, AdamW 2× params, Lion 1× params, Schedule-Free 2× params.</li>
+</ul>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<ul>
+<li>Fashion-MNIST o CIFAR-10 + ViT-Tiny.</li>
+<li>Librerías: <code>torch</code>, <code>torch.optim</code>, <code>schedulefree</code> (pip), implementaciones Lion/Sophia community.</li>
+</ul>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>AdamW baseline</strong>: ViT-Tiny en CIFAR-10. LR=1e-3, wd=0.05.</li>
+<li><strong>Lion</strong>: misma red, LR=1e-4, wd=0.5. Comparar accuracy y memoria.</li>
+<li><strong>Sophia</strong>: con Hutchinson cada 10 steps. Comparar convergencia.</li>
+<li><strong>Schedule-Free</strong>: <code>AdamWScheduleFree(lr=1e-3, warmup_steps=500)</code>. Sin cosine.</li>
+<li><strong>Memory</strong>: para modelo grande, medir VRAM con cada uno.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Comparar 4 optimizadores en ViT-Tiny + CIFAR-100:</p>
+<ol>
+<li>AdamW (baseline).</li>
+<li>Lion.</li>
+<li>Sophia.</li>
+<li>Schedule-Free AdamW.</li>
+</ol>
+<p>Reportar: accuracy final, wall-time, peak VRAM.</p>
+<p><strong>Criterio de aceptación</strong>: Lion debe ahorrar ≥ 30 % VRAM vs AdamW; al menos uno de los modernos iguala o supera AdamW en accuracy.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Lion con LR de AdamW → loss=nan</td>
+<td>LR debe ser 3-10× menor. <strong>Fix</strong>: 1e-4 a 3e-4 típico.</td>
+</tr>
+<tr>
+<td>Sophia muy lento</td>
+<td>Hutchinson costoso. <strong>Fix</strong>: estimar hessiano cada N steps (no cada uno).</td>
+</tr>
+<tr>
+<td>Schedule-Free + cosine schedule</td>
+<td>Conflicto. <strong>Fix</strong>: NO usar scheduler externo.</td>
+</tr>
+<tr>
+<td>Comparar wall-time sin igual cantidad de epochs</td>
+<td>Trampa. <strong>Fix</strong>: mismo epochs o early-stopping por accuracy threshold.</td>
+</tr>
+<tr>
+<td>Lion con weight_decay bajo</td>
+<td>Resultados peores. <strong>Fix</strong>: subir wd 3-10× respecto a AdamW.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ Lion o AdamW en 2026?</strong></p>
+<p>Para modelos &lt; 100M params: AdamW sigue siendo default seguro. Para LLM training a escala (&gt;1B), Lion ahorra mucha memoria y gana papers (Chen 2023).</p>
+<p><strong>❓ Sophia en producción?</strong></p>
+<p>Aún experimental. Google reportó 2× speedup en LLM pretraining (770M). Vale probar.</p>
+<p><strong>❓ Schedule-Free realmente funciona sin warmup?</strong></p>
+<p>Recomienda warmup corto (500-1000 steps). El resto sin cosine.</p>
+<p><strong>❓ Implementaciones?</strong></p>
+<p>Lion: implementaciones community (lucidrains/lion-pytorch). Sophia: similares. Schedule-Free: <code>schedulefree</code> package oficial Meta.</p>
+<p><strong>❓ Lion en CV / fine-tuning?</strong></p>
+<p>Sí — paper original lo demostró en ViT, CLIP, modelos de difusión. Especialmente bueno para fine-tuning grande.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Chen et al. (2023), <em>Symbolic Discovery of Optimization Algorithms (Lion)</em>, NeurIPS.</li>
+<li>Liu et al. (2023), <em>Sophia: A Scalable Stochastic Second-order Optimizer</em>.</li>
+<li>Defazio et al. (2024), <em>The Road Less Scheduled (Schedule-Free)</em>.</li>
+<li><a href="https://github.com/facebookresearch/schedule_free">schedulefree</a>.</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../115-learning-rate-scheduling/index.html">Clase 115 — Learning rate scheduling</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-2-deep-learning/114-optimizadores-modernos-lion-sophia/"><code>classes/parte-2-deep-learning/114-optimizadores-modernos-lion-sophia/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

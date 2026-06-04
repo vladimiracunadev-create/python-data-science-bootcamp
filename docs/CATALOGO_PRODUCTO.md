@@ -11,7 +11,7 @@
 
 > ⚠️ Si algún README, landing o presentación contradice este documento, **este tiene prioridad.**
 >
-> 📌 El currículo tiene **197 clases en 9 partes**. **Partes 0 y 1 (89 clases) están completas y ampliadas** con contenido pedagógico real + Definiciones/Errores/FAQ + 13 complementos modernos (regex, pytest, Polars, Parquet, async/httpx, validación temporal, FE avanzado, MICE, Optuna, model cards, class imbalance, calibración, SHAP/LIME). **Partes 2-8** tienen la estructura (scaffold) y se desarrollan por bloques. Pauta completa en [syllabus.md](syllabus.md), índice navegable en [../classes/README.md](../classes/README.md).
+> 📌 El currículo tiene **232 clases en 9 partes**. **Partes 0 y 1 (89 clases) están completas y ampliadas** con contenido pedagógico real + Definiciones/Errores/FAQ + 13 complementos modernos (regex, pytest, Polars, Parquet, async/httpx, validación temporal, FE avanzado, MICE, Optuna, model cards, class imbalance, calibración, SHAP/LIME). **Partes 2-8** tienen la estructura (scaffold) y se desarrollan por bloques. Pauta completa en [syllabus.md](syllabus.md), índice navegable en [../classes/README.md](../classes/README.md).
 
 ---
 
@@ -30,12 +30,12 @@
 
 | Superficie | Tipo | Estado | Audiencia | Qué entrega hoy |
 |---|---|---|---|---|
-| Laboratorio interactivo (`app/`) | núcleo operativo | operativo | docente / estudiante guiado | acceso a las 197 clases (stubs), notebooks editables, ejecución Python en tiempo real, captura de gráficos, guardado local |
+| Laboratorio interactivo (`app/`) | núcleo operativo | operativo | docente / estudiante guiado | acceso a las 232 clases (stubs), notebooks editables, ejecución Python en tiempo real, captura de gráficos, guardado local |
 | App de escritorio Windows (`launcher.py` + `installer/`) | distribución de escritorio | listo para build | alumno / docente en aula | ventana nativa Edge WebView2 sin navegador, sin Python instalado en el equipo del usuario, Flask interno transparente |
 | App Android (`mobile/`) | distribución móvil | **catálogo vacío** | alumno en movimiento | código operativo, pero `mobile/src/data/classes.js` quedó como stub; pendiente cargar entradas del currículo actual |
-| Portal del alumno (`site/`) | superficie pública | operativo | alumno | muestra el resumen de 197 clases en 9 partes con tarjeta por parte |
+| Portal del alumno (`site/`) | superficie pública | operativo | alumno | muestra el resumen de 232 clases en 9 partes con tarjeta por parte |
 | Vista institucional (`site/product/`) | superficie pública | operativo (mensaje genérico) | institución / evaluador | narrativa del producto, alcance, arquitectura visual |
-| Currículo modular (`classes/`) | base pedagógica | **Partes 0 y 1 (89) completas y ampliadas** · Partes 2-8 scaffold | docente / alumno | 197 clases organizadas en 9 partes (Prerrequisitos, ML clásico, Deep Learning, Estadística inferencial, MLOps, Ingeniería de datos, Recomendadores, Ética, Capstones). Partes 0 y 1 incluyen Definiciones, Errores comunes y FAQ por clase, más 13 complementos modernos (regex, pytest, Polars, Parquet, async/httpx, validación temporal, FE avanzado, MICE, Optuna, model cards, class imbalance, calibración, SHAP/LIME). |
+| Currículo modular (`classes/`) | base pedagógica | **Partes 0 y 1 (89) completas y ampliadas** · Partes 2-8 scaffold | docente / alumno | 232 clases organizadas en 9 partes (Prerrequisitos, ML clásico, Deep Learning, Estadística inferencial, MLOps, Ingeniería de datos, Recomendadores, Ética, Capstones). Partes 0 y 1 incluyen Definiciones, Errores comunes y FAQ por clase, más 13 complementos modernos (regex, pytest, Polars, Parquet, async/httpx, validación temporal, FE avanzado, MICE, Optuna, model cards, class imbalance, calibración, SHAP/LIME). |
 | Kit documental (`docs/`) | capa editorial | operativo | docente / stakeholder | metodología, operación, evaluación, seguridad y arquitectura |
 | PDFs (`docs/pdfs/`) | artefacto de apoyo | se regenera por bloque | docente / alumno / evaluador | guías PDF por clase al madurar el contenido |
 | Presentaciones (`docs/presentaciones/`) | artefacto de apoyo | se regenera por bloque | docente | decks `.pptx` por clase al madurar el contenido |
@@ -55,7 +55,7 @@
 | 6 | Sistemas de recomendación | 7 |
 | 7 | Ética, fairness, privacidad | 6 |
 | 8 | Capstones públicos | 4 |
-| | **Total** | **197** |
+| | **Total** | **232** |
 
 Cada clase vive en `classes/parte-N-slug/NNN-tema-slug/` con `README.md` (ficha) + `notebook.ipynb`. Materiales opcionales (`teoria.md`, `slides.md`, `ejercicios.md`, `homework.md`, `soluciones.ipynb`, `quiz.json`, PDF, PPTX) se añaden conforme cada clase madura.
 
@@ -81,7 +81,7 @@ Cada clase vive en `classes/parte-N-slug/NNN-tema-slug/` con `README.md` (ficha)
 
 | Artefacto | Rol | Estado |
 |---|---|---|
-| `classes/README.md` | índice navegable de las 197 clases | vigente |
+| `classes/README.md` | índice navegable de las 232 clases | vigente |
 | `scripts/generate_v2_curriculum.py` | regeneración idempotente de la estructura de carpetas | vigente |
 | `docs/pdfs/classes/` | guías imprimibles por clase | se regenera por bloque al madurar el contenido |
 | `docs/presentaciones/classes/` | decks de presentación por clase | mismo estado |
@@ -97,7 +97,7 @@ Cada clase vive en `classes/parte-N-slug/NNN-tema-slug/` con `README.md` (ficha)
 
 ### Lo que sí se puede afirmar
 
-- el repo contiene una pauta de curso completo de Python y Data Science **avanzado** (197 clases en 9 partes);
+- el repo contiene una pauta de curso completo de Python y Data Science **avanzado** (232 clases en 9 partes);
 - la pauta está derivada de referentes profesionales (Géron, VanderPlas, Huyen, ISLP, Barocas/Hardt/Narayanan);
 - el laboratorio interactivo es operativo como herramienta local de aula y consume la estructura del currículo;
 - existen superficies públicas funcionales para alumno e institución;
@@ -105,7 +105,7 @@ Cada clase vive en `classes/parte-N-slug/NNN-tema-slug/` con `README.md` (ficha)
 
 ### Lo que no se debe mezclar
 
-- **el currículo está parcialmente desarrollado**: Partes 0 y 1 (89 clases) completas y ampliadas con Definiciones/Errores/FAQ + 13 complementos modernos; Partes 2-8 son scaffold cuya estructura existe pero el contenido pedagógico debe desarrollarse — no afirmar "197 clases listas para dictar";
+- **el currículo está parcialmente desarrollado**: Partes 0 y 1 (89 clases) completas y ampliadas con Definiciones/Errores/FAQ + 13 complementos modernos; Partes 2-8 son scaffold cuya estructura existe pero el contenido pedagógico debe desarrollarse — no afirmar "232 clases listas para dictar";
 - el portal del alumno **no es** todo el producto;
 - la vista institucional **no reemplaza** el laboratorio;
 - la app Android **no ejecuta Python nativo** — usa Google Colab;

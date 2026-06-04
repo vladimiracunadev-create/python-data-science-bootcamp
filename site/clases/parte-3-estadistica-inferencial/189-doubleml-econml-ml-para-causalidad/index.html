@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 189 — DoubleML / EconML: Machine Learning para causalidad | Python Data Science Program</title>
+  <meta name="description" content="Clase 189 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 3 — Estadística inferencial</a><span class="sep">›</span><span>189</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-3-estadistica-inferencial/189-doubleml-econml-ml-para-causalidad/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-189-doubleml-econml-machine-learning-para-causalidad">Clase 189 — DoubleML / EconML: Machine Learning para causalidad</h1>
+<blockquote>
+<p>Parte: <strong>3 — Estadística Inferencial y Causal</strong> · Fuente: Chernozhukov et al. (2018) DML + docs DoubleML + EconML. ⏱️ Duración estimada: <strong>95 min</strong>.</p>
+</blockquote>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Aplicar <strong>Double Machine Learning</strong> (Chernozhukov 2018) y <strong>EconML</strong> (Microsoft Research) para estimar <strong>ATE</strong> y <strong>CATE</strong> (Conditional ATE — heterogeneidad del efecto) usando cualquier ML como <strong>nuisance estimator</strong> (Random Forest, XGBoost, neural net). Inference válida (CI, p-value) sin asumir linearidad de los confounders.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar, el estudiante podrá:</p>
+<ul>
+<li>Explicar Neyman-orthogonal score y por qué DML es doubly robust.</li>
+<li>Aplicar <code>DoubleMLPLR</code> para ATE con ML nuisance.</li>
+<li>Usar <code>CausalForestDML</code> de EconML para CATE personalizado.</li>
+<li>Cross-fitting: K-fold para evitar overfitting del nuisance.</li>
+<li>Inspeccionar policy óptimo: <code>policy_tree</code> para árbol de decisión de tratamiento.</li>
+</ul>
+<h2 id="temas">🗺️ Temas</h2>
+<ul>
+<li>Marco PLR (Partially Linear Regression): <code>Y = θT + g(X) + ε</code>, <code>T = m(X) + v</code>.</li>
+<li>Score orthogonal: derivada respecto a nuisances = 0 en expectation.</li>
+<li>Cross-fitting: estimar nuisances en fold A, evaluar en B.</li>
+<li>CATE: efecto por subgroup.</li>
+<li>Heterogeneity tests.</li>
+<li>Policy learning: decidir a quién tratar.</li>
+</ul>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<ul>
+<li><strong>ATE (Average Treatment Effect)</strong>: <code>E[Y(1) - Y(0)]</code>.</li>
+<li><strong>CATE</strong>: <code>E[Y(1) - Y(0) | X=x]</code>.</li>
+<li><strong>Nuisance functions</strong>: <code>g(X) = E[Y|X]</code>, <code>m(X) = E[T|X]</code>.</li>
+<li><strong>Doubly robust</strong>: consistente si o <code>g</code> o <code>m</code> es correctamente especificado.</li>
+<li><strong>Cross-fitting</strong>: K folds, estimar nuisance en train fold, evaluar score en test fold.</li>
+<li><strong><code>CausalForestDML</code></strong>: random forest entrenado para minimizar heterogeneidad del effect (no error de predicción).</li>
+</ul>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<ul>
+<li>Sintético con efectos conocidos (de <code>econml.tests.dgps</code>).</li>
+<li>Lalonde 1986 (NSW training program) — clásico.</li>
+<li>IHDP (Infant Health and Development).</li>
+<li>Librerías: <code>doubleml</code>, <code>econml</code>, <code>scikit-learn</code>, <code>xgboost</code>.</li>
+</ul>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>Sintético</strong>: simular <code>Y = 2·T + 3·X1 + X2² + ε</code>, <code>T = P(...|X)</code>. ATE verdadero = 2.</li>
+<li><strong>DML básico</strong>: <code>DoubleMLPLR(data, ml_g=RF, ml_m=RF, n_folds=5)</code>. Reportar θ̂.</li>
+<li><strong>Comparar OLS vs DML</strong>: OLS lineal con <code>Y ~ T + X1 + X2</code> sesgado por X2 no lineal. DML lo recupera.</li>
+<li><strong>CausalForestDML</strong>: con dataset heterogéneo, estimar CATE. Mapa por <code>X1</code>.</li>
+<li><strong>Policy tree</strong>: <code>econml.policy.PolicyTree</code> para decidir a quién tratar.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Estimar efecto causal sobre dataset con confounders no lineales:</p>
+<ol>
+<li>Generar dataset sintético (<code>econml.dgps.ihdp_surface_B</code> o custom).</li>
+<li>Estimar ATE con: (a) diferencia ingenua, (b) OLS lineal, (c) DML RF, (d) DML XGBoost.</li>
+<li>Reportar bias contra ground truth.</li>
+<li>CATE con CausalForestDML; visualizar heterogeneidad.</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: DML recupera ATE con bias &lt; 5 %; OLS lineal sesgado; CATE muestra variación por subgrupo.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DML con <code>n_folds=2</code> inestable</td>
+<td><strong>Fix</strong>: 5-10 folds.</td>
+</tr>
+<tr>
+<td>Confounders no observados → DML sesgado</td>
+<td>DML asume unconfoundedness. <strong>Fix</strong>: si hay IV o panel data, usar otros métodos.</td>
+</tr>
+<tr>
+<td><code>ml_g</code> muy expresivo overfittea</td>
+<td>Cross-fitting ayuda pero no inmune. <strong>Fix</strong>: regularización en nuisance.</td>
+</tr>
+<tr>
+<td>Reportar CATE sin IC</td>
+<td>Necesario para inference. <strong>Fix</strong>: <code>est.effect_interval(X)</code>.</td>
+</tr>
+<tr>
+<td>Asumir SUTVA cuando hay interferencia</td>
+<td><strong>Fix</strong>: ajustar diseño experimental.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ DML o regresión clásica?</strong></p>
+<p>Si confounders few + relación cerca-lineal: regresión OK. Si muchos / no lineales / interacciones: DML.</p>
+<p><strong>❓ DoubleML vs EconML?</strong></p>
+<p>DoubleML: más académico, claro framework. EconML: más features (instrumental variables, dynamic treatment, policy). En la práctica complementarios.</p>
+<p><strong>❓ Random Forest mejor que XGBoost como nuisance?</strong></p>
+<p>Suele dar similar. Probar ambos y elegir el mejor en out-of-fold prediction.</p>
+<p><strong>❓ Causal Forest = Random Forest?</strong></p>
+<p>NO. Causal Forest divide para minimizar heterogeneidad del efecto causal, no error de Y.</p>
+<p><strong>❓ Cuántos samples?</strong></p>
+<p>Mínimo 1000-5000 para CATE confiable. Para ATE, menos.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Chernozhukov, Chetverikov, Demirer et al. (2018), <em>Double/Debiased Machine Learning</em>, Econometrics Journal.</li>
+<li>Athey &amp; Wager (2019), <em>Estimating Treatment Effects with Causal Forests</em>.</li>
+<li>Imbens (2020), <em>Potential Outcome and Directed Acyclic Graph Approaches to Causality</em>.</li>
+<li><a href="https://docs.doubleml.org/">DoubleML docs</a>, <a href="https://econml.azurewebsites.net/">EconML docs</a>.</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../190-uplift-modeling-did-difference-in-differences/index.html">Clase 190 — Uplift modeling, DiD (difference-in-differences)</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-3-estadistica-inferencial/189-doubleml-econml-ml-para-causalidad/"><code>classes/parte-3-estadistica-inferencial/189-doubleml-econml-ml-para-causalidad/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

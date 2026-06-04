@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 150 — DPO y RLHF: alineamiento de LLMs | Python Data Science Program</title>
+  <meta name="description" content="Clase 150 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 2 — Deep Learning</a><span class="sep">›</span><span>150</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-2-deep-learning/150-dpo-rlhf-alineamiento-de-llms/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-150-dpo-y-rlhf-alineamiento-de-llms">Clase 150 — DPO y RLHF: alineamiento de LLMs</h1>
+<blockquote>
+<p>Parte: <strong>2 — Deep Learning</strong> · Fuente: Ouyang et al. (2022) InstructGPT/RLHF + Rafailov et al. (2023) DPO + papers IPO/KTO/ORPO. ⏱️ Duración estimada: <strong>95 min</strong>.</p>
+</blockquote>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Alinear LLMs con <strong>preferencias humanas</strong> (helpful, harmless, honest). Cubrir <strong>RLHF clásico</strong> (SFT → Reward Model → PPO, complejo) y <strong>DPO</strong> (Direct Preference Optimization, moderno y simple). Conocer variantes 2023-2024: <strong>IPO</strong>, <strong>KTO</strong>, <strong>ORPO</strong>.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar, el estudiante podrá:</p>
+<ul>
+<li>Explicar el pipeline RLHF de 3 etapas (SFT, RM, PPO).</li>
+<li>Aplicar <strong>DPO</strong> con <code>trl.DPOTrainer</code> sobre un dataset de preferencias.</li>
+<li>Diferenciar DPO (single-step) de KTO (no requiere pairs) y ORPO (combina SFT + alineamiento).</li>
+<li>Crear un dataset de preferencias: <code>(prompt, chosen, rejected)</code>.</li>
+<li>Evaluar alineamiento con MT-Bench, AlpacaEval, o LLM-as-judge.</li>
+</ul>
+<h2 id="temas">🗺️ Temas</h2>
+<ul>
+<li>Por qué alineamiento: LLM pretrained → genera pero no sigue instrucciones bien ni evita harm.</li>
+<li>SFT (Supervised Fine-Tuning): instruction tuning.</li>
+<li>Reward Model: regression entrenada con human preferences.</li>
+<li>PPO: optimizar el LLM contra el RM.</li>
+<li>DPO: derivación matemática que elimina el RM.</li>
+<li>IPO: variante con identity link, más estable.</li>
+<li>KTO: solo <code>chosen</code> o <code>rejected</code> (no necesita pairs).</li>
+<li>ORPO: alineamiento desde SFT directamente.</li>
+</ul>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<ul>
+<li><strong>SFT</strong>: training supervisado con <code>(prompt, response_humana)</code>.</li>
+<li><strong>Reward Model</strong>: predicen <code>r(prompt, response)</code>.</li>
+<li><strong>Bradley-Terry</strong>: modelo probabilístico <code>P(A &gt; B) = σ(r(A) - r(B))</code>.</li>
+<li><strong>DPO loss</strong>: <code>-log σ(β·(log π(chosen)/π_ref(chosen) - log π(rejected)/π_ref(rejected)))</code>.</li>
+<li><strong>β (DPO)</strong>: control del KL respecto al ref model. 0.1-0.5 típico.</li>
+<li><strong>Reference model</strong>: copia frozen del SFT, usada para regularizar.</li>
+</ul>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<ul>
+<li>Anthropic HH-RLHF, UltraFeedback, Argilla DPO datasets.</li>
+<li>Modelo base: SFT propio (clase 128a) o Mistral 7B Instruct.</li>
+<li>Librerías: <code>transformers</code>, <code>trl</code>, <code>peft</code>, <code>bitsandbytes</code>.</li>
+</ul>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>Dataset de preferencias</strong>: cargar <code>Anthropic/hh-rlhf</code>. Inspeccionar <code>chosen</code> y <code>rejected</code>.</li>
+<li><strong>DPO con TRL</strong>: <code>DPOTrainer(model, ref_model, ...)</code> con LoRA encima. Train 1 época.</li>
+<li><strong>Eval pre/post</strong>: generar respuestas a 20 prompts antes y después; comparar manualmente.</li>
+<li><strong>β sensitivity</strong>: probar <code>β ∈ {0.1, 0.3, 1.0}</code>. β alto → menos cambio; β bajo → más agresivo.</li>
+<li><strong>KTO</strong>: dataset con solo <code>chosen</code> (no pairs). Aplicar <code>KTOTrainer</code>.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>DPO sobre un dominio propio:</p>
+<ol>
+<li>Dataset de 200-500 pares (puede ser sintético con LLM como judge).</li>
+<li>Base: modelo SFT propio (de 128a).</li>
+<li>DPO con LoRA, β=0.1.</li>
+<li>Comparar 20 respuestas pre/post; evaluar con LLM-as-judge (e.g., Claude).</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: ≥ 60 % de los outputs post-DPO son juzgados mejores que pre.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DPO degrada calidad</td>
+<td>β muy bajo o demasiadas épocas. <strong>Fix</strong>: β=0.1-0.5, 1-2 épocas.</td>
+</tr>
+<tr>
+<td>Reward hacking en RLHF</td>
+<td>Modelo aprende a hacer trampas al RM. <strong>Fix</strong>: DPO no tiene este problema.</td>
+</tr>
+<tr>
+<td><code>ref_model</code> consume mucha VRAM</td>
+<td>Copia frozen del modelo. <strong>Fix</strong>: usar <code>ref_model=None</code> y el adapter LoRA — TRL infere ref desde base.</td>
+</tr>
+<tr>
+<td>Dataset de pairs muy ruidoso</td>
+<td>Annotators inconsistentes. <strong>Fix</strong>: filtering, quality control.</td>
+</tr>
+<tr>
+<td>Resultados malos sin SFT previo</td>
+<td>DPO asume modelo razonable. <strong>Fix</strong>: SFT primero, después DPO.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ DPO o RLHF clásico?</strong></p>
+<p>DPO por default 2024+ — más simple, casi igual calidad. RLHF si tenés team y reward model bueno (e.g., GPT-4 / Claude para producción).</p>
+<p><strong>❓ ¿IPO, KTO, ORPO cuál?</strong></p>
+<p>DPO sigue siendo default. IPO si DPO inestable. KTO si solo tenés <code>chosen</code>. ORPO combina SFT+pref → más eficiente, en alza.</p>
+<p><strong>❓ ¿Dataset de cuántos pairs?</strong></p>
+<p>10k-50k para alineamiento serio. 500-2000 para experimentos.</p>
+<p><strong>❓ Evaluación cómo?</strong></p>
+<p>LLM-as-judge (GPT-4/Claude evalúa pares), MT-Bench, AlpacaEval. Human eval para gold standard.</p>
+<p><strong>❓ ¿DPO en LLMs &gt; 70B?</strong></p>
+<p>Sí, con FSDP / DeepSpeed. Trabajo "expensive" pero factible.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Ouyang et al. (2022), <em>Training language models to follow instructions with human feedback (InstructGPT)</em>, NeurIPS.</li>
+<li>Rafailov et al. (2023), <em>Direct Preference Optimization</em>, NeurIPS.</li>
+<li>Ethayarajh et al. (2024), <em>KTO</em>, NeurIPS.</li>
+<li>Hong et al. (2024), <em>ORPO</em>.</li>
+<li><a href="https://huggingface.co/docs/trl">TRL docs</a>.</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../151-vllm-tgi-serving-llm-produccion/index.html">Clase 151 — vLLM y TGI: serving de LLMs en producción</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-2-deep-learning/150-dpo-rlhf-alineamiento-de-llms/"><code>classes/parte-2-deep-learning/150-dpo-rlhf-alineamiento-de-llms/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

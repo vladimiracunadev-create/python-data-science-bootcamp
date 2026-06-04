@@ -2,7 +2,7 @@
 
 > [⬅️ Volver al programa](../../README.md) · [📚 Índice completo](../README.md) · [⏭️ Parte siguiente](../parte-1-machine-learning-clasico/README.md)
 
-**49 clases · ~11–13 semanas a ritmo moderado · ✅ Contenido completo**
+**49 clases** · ~11–13 semanas a ritmo moderado · ✅ Contenido completo**
 
 **Fuentes (por bloque):**
 
@@ -52,21 +52,21 @@ Al finalizar esta parte, el estudiante podrá:
 - **Setup y reproducibilidad** — clases 001–005 — instalación, Jupyter, Git/GitHub, estructura de proyecto, editor.
 - **Python para data science** — clases 006–013 — tipos, comprehensions, funciones, OOP, pathlib, logging, type hints.
 - **NumPy (8 clases)** — clases 014–021 — creación, ufuncs, agregaciones, broadcasting, masks, álgebra lineal, aleatoriedad.
-- **pandas (11 clases)** — clases 022–032 — Series/DataFrame, indexación, joins, groupby, pivot, strings, series de tiempo.
-- **Visualización** — clases 033–040 — matplotlib en profundidad, seaborn, visualización geográfica.
-- **SQL** — clases 041–043 — desde fundamentos a window functions y conexión desde Python.
-- **Acceso a datos externos** — clases 044–046 — MongoDB, APIs REST, web scraping con BeautifulSoup.
+- **pandas + Polars + Parquet/Arrow (14 clases)** — clases 022–034 — Series/DataFrame, indexación, joins, groupby, pivot, strings, series de tiempo.
+- **Visualización** — clases 035–042 — matplotlib en profundidad, seaborn, visualización geográfica.
+- **SQL** — clases 043–045 — desde fundamentos a window functions y conexión desde Python.
+- **Acceso a datos externos** — clases 046–048 + 049 (async/httpx moderno) — MongoDB, APIs REST, web scraping con BeautifulSoup.
 
 ## 📚 Índice de clases (49)
 
 - [001 — Instalación de Python 3.12+ y entornos virtuales (venv, uv, conda)](001-instalacion-de-python-3-12-y-entornos-virtuales-venv-uv-conda/README.md)
-- [002 — Jupyter y JupyterLab: kernels, magics, debugging, profiling](002-jupyter-y-jupyterlab-kernels-magics-debugging-profiling/README.md)
+- [002 — Jupyter y JupyterLab — kernels, magics, debugging, profiling](002-jupyter-y-jupyterlab-kernels-magics-debugging-profiling/README.md)
 - [003 — Git y GitHub para data scientists](003-git-y-github-para-data-scientists/README.md)
 - [004 — Estructura reproducible de proyecto (cookiecutter-data-science)](004-estructura-reproducible-de-proyecto-cookiecutter-data-science/README.md)
 - [005 — VS Code / Cursor para Python y Jupyter](005-vs-code-cursor-para-python-y-jupyter/README.md)
 - [006 — Python: tipos, estructuras, control de flujo](006-python-tipos-estructuras-control-de-flujo/README.md)
 - [007 — Comprehensions y generadores](007-comprehensions-y-generadores/README.md)
-- [008 — Funciones, args, kwargs, lambdas, closures](008-funciones-args-kwargs-lambdas-closures/README.md)
+- [008 — Funciones: args, kwargs, lambdas, closures](008-funciones-args-kwargs-lambdas-closures/README.md)
 - [009 — Manejo de excepciones y context managers](009-manejo-de-excepciones-y-context-managers/README.md)
 - [010 — OOP básico, dataclasses, herencia](010-oop-basico-dataclasses-herencia/README.md)
 - [011 — pathlib, lectura y escritura de archivos](011-pathlib-lectura-y-escritura-de-archivos/README.md)
@@ -91,23 +91,23 @@ Al finalizar esta parte, el estudiante podrá:
 - [030 — Pandas: operaciones vectorizadas sobre strings](030-pandas-operaciones-vectorizadas-sobre-strings/README.md)
 - [031 — Pandas: series de tiempo, resampling, rolling](031-pandas-series-de-tiempo-resampling-rolling/README.md)
 - [032 — Pandas: eval y query](032-pandas-eval-y-query/README.md)
-- [032a — Polars: DataFrames modernos](032a-polars-dataframes-modernos/README.md) 🆕
-- [032b — Parquet, Arrow, PyArrow, DuckDB](032b-parquet-arrow-pyarrow-duckdb/README.md) 🆕
-- [033 — Matplotlib: anatomía figura/axes](033-matplotlib-anatomia-figura-axes/README.md)
-- [034 — Matplotlib: line, scatter, bar, histogram, boxplot](034-matplotlib-line-scatter-bar-histogram-boxplot/README.md)
-- [035 — Matplotlib: subplots y gridspec](035-matplotlib-subplots-y-gridspec/README.md)
-- [036 — Matplotlib: legends, colorbars, ticks, anotaciones](036-matplotlib-legends-colorbars-ticks-anotaciones/README.md)
-- [037 — Matplotlib: stylesheets](037-matplotlib-stylesheets/README.md)
-- [038 — Matplotlib: 3D plotting](038-matplotlib-3d-plotting/README.md)
-- [039 — Seaborn: distribuciones, relaciones, categóricas, facetas](039-seaborn-distribuciones-relaciones-categoricas-facetas/README.md)
-- [040 — Visualización geográfica (Plotly / folium)](040-visualizacion-geografica-plotly-folium/README.md)
-- [041 — SQL fundamental: SELECT, WHERE, JOIN, GROUP BY, HAVING](041-sql-fundamental-select-where-join-group-by-having/README.md)
-- [042 — SQL avanzado: CTEs, window functions, subqueries correlacionadas](042-sql-avanzado-ctes-window-functions-subqueries-correlacionadas/README.md)
-- [043 — SQL desde Python: sqlite3, SQLAlchemy, DuckDB](043-sql-desde-python-sqlite3-sqlalchemy-duckdb/README.md)
-- [044 — NoSQL: MongoDB con pymongo](044-nosql-mongodb-con-pymongo/README.md)
-- [045 — APIs REST con requests](045-apis-rest-con-requests/README.md)
-- [046 — Web scraping con BeautifulSoup](046-web-scraping-con-beautifulsoup/README.md)
-- [046a — async / httpx / aiohttp para data scientists](046a-async-httpx-aiohttp-para-data-scientists/README.md) 🆕
+- [033 — Polars: DataFrames modernos](033-polars-dataframes-modernos/README.md)
+- [034 — Parquet, Arrow, PyArrow, DuckDB](034-parquet-arrow-pyarrow-duckdb/README.md)
+- [035 — Matplotlib: anatomía figura/axes](035-matplotlib-anatomia-figura-axes/README.md)
+- [036 — Matplotlib: line, scatter, bar, histogram, boxplot](036-matplotlib-line-scatter-bar-histogram-boxplot/README.md)
+- [037 — Matplotlib: subplots y gridspec](037-matplotlib-subplots-y-gridspec/README.md)
+- [038 — Matplotlib: legends, colorbars, ticks, anotaciones](038-matplotlib-legends-colorbars-ticks-anotaciones/README.md)
+- [039 — Matplotlib: stylesheets](039-matplotlib-stylesheets/README.md)
+- [040 — Matplotlib: 3D plotting](040-matplotlib-3d-plotting/README.md)
+- [041 — Seaborn: distribuciones, relaciones, categóricas, facetas](041-seaborn-distribuciones-relaciones-categoricas-facetas/README.md)
+- [042 — Visualización geográfica (Plotly / folium)](042-visualizacion-geografica-plotly-folium/README.md)
+- [043 — SQL fundamental: SELECT, WHERE, JOIN, GROUP BY, HAVING](043-sql-fundamental-select-where-join-group-by-having/README.md)
+- [044 — SQL avanzado: CTEs, window functions, subqueries correlacionadas](044-sql-avanzado-ctes-window-functions-subqueries-correlacionadas/README.md)
+- [045 — SQL desde Python: sqlite3, SQLAlchemy, DuckDB](045-sql-desde-python-sqlite3-sqlalchemy-duckdb/README.md)
+- [046 — NoSQL: MongoDB con pymongo](046-nosql-mongodb-con-pymongo/README.md)
+- [047 — APIs REST con requests](047-apis-rest-con-requests/README.md)
+- [048 — Web scraping con BeautifulSoup](048-web-scraping-con-beautifulsoup/README.md)
+- [049 — async / httpx / aiohttp para data scientists](049-async-httpx-aiohttp-para-data-scientists/README.md)
 
 ---
 

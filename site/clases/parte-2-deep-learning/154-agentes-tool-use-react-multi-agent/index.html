@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 154 — Agentes: tool use, ReAct, multi-agent | Python Data Science Program</title>
+  <meta name="description" content="Clase 154 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 2 — Deep Learning</a><span class="sep">›</span><span>154</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-2-deep-learning/154-agentes-tool-use-react-multi-agent/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-154-agentes-tool-use-react-multi-agent">Clase 154 — Agentes: tool use, ReAct, multi-agent</h1>
+<blockquote>
+<p>Parte: <strong>2 — Deep Learning</strong> · Fuente: Yao et al. (2023) ReAct + Schick et al. (2023) Toolformer + Anthropic agent patterns (2024). ⏱️ Duración estimada: <strong>95 min</strong>.</p>
+</blockquote>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Construir <strong>agentes con LLMs</strong>: el LLM <strong>planifica</strong>, <strong>invoca tools</strong> (funciones, MCP servers, APIs), <strong>observa</strong> los resultados y <strong>decide el siguiente paso</strong>. Cubrir el paradigma <strong>ReAct</strong> (Reasoning + Acting), tool use moderno (function calling structured), y patrones <strong>multi-agent</strong> (workflows, swarms, supervisores).</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar, el estudiante podrá:</p>
+<ul>
+<li>Definir tools con JSON schema; pasar a la API del LLM.</li>
+<li>Implementar loop ReAct manual: prompt → LLM → tool call → execute → observation → prompt.</li>
+<li>Usar <strong>LangGraph</strong> o <strong>AutoGen</strong> o <strong>CrewAI</strong> para orquestar multi-agent.</li>
+<li>Diseñar <strong>patrones</strong>: workflow (lineal), router (decide ruta), evaluator-optimizer (loop con auto-crítica).</li>
+<li>Reconocer cuándo NO usar agentes (tareas determinísticas → workflow simple; agentes solo si hace falta razonamiento dinámico).</li>
+</ul>
+<h2 id="temas">🗺️ Temas</h2>
+<ul>
+<li>Tool use con OpenAI/Anthropic function calling.</li>
+<li>ReAct prompt template.</li>
+<li>Loops: while LLM produces tool_call, execute and feed observation.</li>
+<li>LangGraph: state machines para agentes.</li>
+<li>AutoGen / CrewAI: multi-agent frameworks.</li>
+<li>Patrones (Anthropic 2024): prompt chaining, routing, parallelization, orchestrator-workers, evaluator-optimizer.</li>
+<li>Token cost: agentes con loops pueden gastar mucho.</li>
+</ul>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<ul>
+<li><strong>Tool</strong>: función con schema + descripción que el LLM puede invocar.</li>
+<li><strong>Function calling</strong>: el LLM devuelve structured <code>{tool_name, arguments}</code> en lugar de texto.</li>
+<li><strong>ReAct</strong>: prompt template <code>Thought → Action → Observation → Thought → ...</code>.</li>
+<li><strong>Agent</strong>: LLM en loop con tools y memoria de pasos previos.</li>
+<li><strong>Supervisor pattern</strong>: 1 LLM coordina varios sub-agents.</li>
+<li><strong>Token bound</strong>: agentes pueden hacer N iteraciones; siempre poner max_iterations.</li>
+</ul>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<ul>
+<li>Anthropic Claude API o OpenAI API (function calling).</li>
+<li>Librerías: <code>anthropic</code>, <code>openai</code>, <code>langgraph</code>, <code>crewai</code>, <code>autogen</code>.</li>
+</ul>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>Tool básico</strong>: definir <code>weather(city)</code> y <code>search(query)</code> tools en Claude API. Pedirle que use ambos.</li>
+<li><strong>ReAct loop manual</strong>: implementar el loop sin librería, en Python puro.</li>
+<li><strong>LangGraph</strong>: definir un grafo: <code>router → tool → evaluator → end</code>. Compilar y ejecutar.</li>
+<li><strong>Multi-agent (CrewAI)</strong>: 3 agents (researcher, writer, editor) para producir un blog post.</li>
+<li><strong>Evaluator-optimizer</strong>: agent que escribe + agent que critica + loop hasta <code>approved=True</code>.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Agente de investigación con tools:</p>
+<ol>
+<li>Tools: <code>web_search</code>, <code>fetch_url</code>, <code>extract_text</code>, <code>save_note</code>.</li>
+<li>Prompt: "investigá X y produce un resumen de 200 palabras citando fuentes".</li>
+<li>Loop ReAct hasta produce el resumen.</li>
+<li>Reportar # de iteraciones, # de tool calls, costo en tokens.</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: resumen producido con ≥ 3 fuentes citadas; max_iterations no excedido.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Loop infinito</td>
+<td>LLM repite mismas tool calls. <strong>Fix</strong>: max_iterations, detección de loops.</td>
+</tr>
+<tr>
+<td>Tool falla, LLM no maneja</td>
+<td><strong>Fix</strong>: pasar el error como observation.</td>
+</tr>
+<tr>
+<td>Costo explota</td>
+<td>Agentes son caros. <strong>Fix</strong>: usar Haiku/GPT-mini para iteraciones, GPT-4/Claude solo para decisiones críticas.</td>
+</tr>
+<tr>
+<td>Tool schema mal</td>
+<td>LLM no llama. <strong>Fix</strong>: descriptions claras, schema válido.</td>
+</tr>
+<tr>
+<td>Output no estructurado</td>
+<td><strong>Fix</strong>: forzar JSON schema en respuesta final.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ Agentes vs workflows simples?</strong></p>
+<p>Workflow simple si la secuencia es fija. Agente cuando el path depende del input. Anthropic recomienda: <strong>empieza simple, agregá agentic complexity solo cuando justifica</strong>.</p>
+<p><strong>❓ LangGraph vs CrewAI vs AutoGen?</strong></p>
+<ul>
+<li>LangGraph: state machines explícitos, control fino.</li>
+<li>CrewAI: roles + delegation, fácil para multi-agent estilo "team".</li>
+<li>AutoGen: conversaciones entre agents, research-oriented.</li>
+</ul>
+<p><strong>❓ MCP en agentes?</strong></p>
+<p>Sí — los MCP servers son una fuente de tools estándar. Combinar MCP + agente.</p>
+<p><strong>❓ Eval de agentes?</strong></p>
+<p>Difícil. <strong>AgentBench</strong>, <strong>τ-Bench</strong>, <strong>SWE-Bench</strong> (coding). Para custom: LLM-as-judge + human spot check.</p>
+<p><strong>❓ Memoria persistent?</strong></p>
+<p>Vector DB + tool <code>recall(query)</code>. O frameworks como <strong>mem0</strong>.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Yao et al. (2023), <em>ReAct: Synergizing Reasoning and Acting</em>, ICLR.</li>
+<li>Schick et al. (2023), <em>Toolformer</em>, NeurIPS.</li>
+<li>Anthropic (2024), <em>Building Effective Agents</em> — patterns guide.</li>
+<li><a href="https://langchain-ai.github.io/langgraph/">LangGraph docs</a>, <a href="https://www.crewai.com/">CrewAI</a>, <a href="https://microsoft.github.io/autogen/">AutoGen</a>.</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../155-llm-evaluation-mmlu-mtbench-llm-as-judge/index.html">Clase 155 — LLM Evaluation: MMLU, MT-Bench, LLM-as-judge, evals propios</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-2-deep-learning/154-agentes-tool-use-react-multi-agent/"><code>classes/parte-2-deep-learning/154-agentes-tool-use-react-multi-agent/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

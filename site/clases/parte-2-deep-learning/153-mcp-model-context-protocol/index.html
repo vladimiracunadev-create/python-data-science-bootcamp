@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 153 — MCP (Model Context Protocol): herramientas y datos para LLMs | Python Data Science Program</title>
+  <meta name="description" content="Clase 153 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 2 — Deep Learning</a><span class="sep">›</span><span>153</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-2-deep-learning/153-mcp-model-context-protocol/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-153-mcp-model-context-protocol-herramientas-y-datos-para-llms">Clase 153 — MCP (Model Context Protocol): herramientas y datos para LLMs</h1>
+<blockquote>
+<p>Parte: <strong>2 — Deep Learning</strong> · Fuente: <a href="https://modelcontextprotocol.io/">MCP spec (Anthropic 2024)</a>. ⏱️ Duración estimada: <strong>80 min</strong>.</p>
+</blockquote>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Aprender <strong>MCP (Model Context Protocol)</strong> — estándar abierto publicado por Anthropic en noviembre 2024 que define <strong>cómo un LLM se conecta a herramientas externas</strong> (filesystems, databases, APIs, search engines, etc.). Antes de MCP, cada framework (LangChain, LlamaIndex, OpenAI plugins) tenía API propia. MCP unifica → portabilidad entre LLMs y clients.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar, el estudiante podrá:</p>
+<ul>
+<li>Explicar la arquitectura MCP: <strong>client</strong>, <strong>server</strong>, <strong>resources</strong>, <strong>tools</strong>, <strong>prompts</strong>.</li>
+<li>Conectar MCP servers existentes a Claude Desktop, Cursor, Zed.</li>
+<li>Escribir un <strong>MCP server propio</strong> en Python (con <code>fastmcp</code>).</li>
+<li>Diferenciar MCP de tool use clásico de OpenAI / LangChain.</li>
+<li>Usar MCP servers populares: filesystem, postgres, git, slack, brave-search.</li>
+</ul>
+<h2 id="temas">🗺️ Temas</h2>
+<ul>
+<li>Cliente (LLM app) vs Server (provee tools/resources/prompts).</li>
+<li>Transport: stdio (local) y SSE (network).</li>
+<li>Resources: read-only data (archivos, DB rows).</li>
+<li>Tools: funciones invocables (search, write).</li>
+<li>Prompts: templates reusables.</li>
+<li>Discovery: el client descubre dinámicamente qué hay disponible.</li>
+</ul>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<ul>
+<li><strong>MCP server</strong>: programa que expone resources/tools/prompts via JSON-RPC.</li>
+<li><strong>MCP client</strong>: typically un LLM app (Claude Desktop, Cursor, IDE plugins).</li>
+<li><strong>Resource URI</strong>: e.g., <code>file:///path/to/x</code>, <code>postgres://db/table</code>.</li>
+<li><strong>Tool schema</strong>: JSON Schema describing inputs/outputs.</li>
+<li><strong>fastmcp</strong>: librería Python para escribir servers MCP rápido.</li>
+</ul>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<ul>
+<li><a href="https://github.com/modelcontextprotocol/servers">MCP servers oficiales</a>.</li>
+<li>Librerías: <code>mcp</code> (Python SDK), <code>fastmcp</code>.</li>
+</ul>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>Conectar server existente</strong>: instalar <code>mcp-server-filesystem</code> en Claude Desktop. Hacer queries sobre archivos del file system.</li>
+<li><strong>Server propio</strong>: con <code>fastmcp</code>, exponer un tool <code>search_docs(query)</code> sobre un corpus local.</li>
+<li><strong>Resource</strong>: exponer archivos <code>.md</code> como resources lectura.</li>
+<li><strong>Prompt template</strong>: definir <code>summarize(file_uri)</code> como prompt reusable.</li>
+<li><strong>Multi-server</strong>: conectar 2-3 servers simultáneos a Claude Desktop; usar conjuntamente.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>MCP server propio para RAG sobre documentación:</p>
+<ol>
+<li><code>fastmcp</code> con tool <code>search(query)</code> que usa el RAG de clase 129.</li>
+<li>Resource <code>list_documents()</code> que lista archivos indexados.</li>
+<li>Conectar a Claude Desktop; usarlo en una conversación.</li>
+<li>Comparar UX vs hacer RAG manual en código.</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: el LLM cliente puede llamar al search tool naturalmente y trae resultados relevantes.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Server no aparece en client</td>
+<td>Config mal en <code>~/.config/claude/...</code>. <strong>Fix</strong>: ver docs del client.</td>
+</tr>
+<tr>
+<td>Tool schema rejected</td>
+<td>JSON Schema inválido. <strong>Fix</strong>: validar con un validator.</td>
+</tr>
+<tr>
+<td>stdio server no inicia</td>
+<td>Path al executable mal. <strong>Fix</strong>: paths absolutos.</td>
+</tr>
+<tr>
+<td>Server lento</td>
+<td>Llamadas síncronas. <strong>Fix</strong>: usar <code>async def</code> tools.</td>
+</tr>
+<tr>
+<td>Cliente no encuentra resource</td>
+<td>URI mal formado. <strong>Fix</strong>: schema correcto.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿MCP vs LangChain tools?</strong></p>
+<p>LangChain tools son Python objects acoplados al framework. MCP es un protocol — funciona con cualquier LLM client que lo soporte. Más portable.</p>
+<p><strong>❓ ¿OpenAI plugins / GPTs?</strong></p>
+<p>Más cerrados, especificos a OpenAI. MCP open + multi-vendor.</p>
+<p><strong>❓ Servers existentes utiles?</strong></p>
+<p>filesystem, git, postgres, sqlite, slack, brave-search, fetch (HTTP), memory, github, gdrive — muchos en el repo oficial.</p>
+<p><strong>❓ Seguridad?</strong></p>
+<p>Cada server corre con permisos del usuario. Cuidado con qué exponés. Auditar antes de instalar de terceros.</p>
+<p><strong>❓ ¿OpenAI agrega MCP?</strong></p>
+<p>Anthropic open-sourceó el spec; otros vendors lo están adoptando (Microsoft Copilot Studio, etc.). Está volviéndose estándar.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li><a href="https://modelcontextprotocol.io/">MCP spec</a>.</li>
+<li><a href="https://github.com/modelcontextprotocol/servers">MCP servers official repo</a>.</li>
+<li><a href="https://github.com/jlowin/fastmcp">fastmcp</a>.</li>
+<li>Anthropic blog (Nov 2024), <em>Introducing the Model Context Protocol</em>.</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../154-agentes-tool-use-react-multi-agent/index.html">Clase 154 — Agentes: tool use, ReAct, multi-agent</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-2-deep-learning/153-mcp-model-context-protocol/"><code>classes/parte-2-deep-learning/153-mcp-model-context-protocol/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

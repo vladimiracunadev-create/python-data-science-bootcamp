@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 160 — Stable Diffusion XL + ControlNet en profundidad | Python Data Science Program</title>
+  <meta name="description" content="Clase 160 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 2 — Deep Learning</a><span class="sep">›</span><span>160</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-2-deep-learning/160-stable-diffusion-xl-controlnet/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-160-stable-diffusion-xl-controlnet-en-profundidad">Clase 160 — Stable Diffusion XL + ControlNet en profundidad</h1>
+<blockquote>
+<p>Parte: <strong>2 — Deep Learning</strong> · Fuente: Rombach et al. (2022) SD + Podell et al. (2023) SDXL + Zhang et al. (2023) ControlNet. ⏱️ Duración estimada: <strong>90 min</strong>.</p>
+</blockquote>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Dominar <strong>Stable Diffusion XL</strong> (Stability AI 2023) en producción: pipeline completo (text encoder dual, U-Net, VAE), <strong>schedulers modernos</strong> (DPM-Solver++, Euler ancestral, UniPC), <strong>CFG (Classifier-Free Guidance)</strong>, <strong>prompt weighting</strong>. Combinar con <strong>ControlNet</strong> para condicionamiento espacial (Canny, depth, pose, segmentation, lineart). Conocer <strong>Flux</strong> (Black Forest Labs 2024) como sucesor open-source.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar, el estudiante podrá:</p>
+<ul>
+<li>Cargar SDXL: <code>StableDiffusionXLPipeline.from_pretrained('stabilityai/stable-diffusion-xl-base-1.0')</code>.</li>
+<li>Aplicar <strong>refiner</strong> opcional para detalle final.</li>
+<li>Usar <strong>schedulers</strong> distintos y entender trade-off speed/quality.</li>
+<li>Agregar <strong>ControlNet</strong> (canny, depth, openpose) sobre SDXL.</li>
+<li>Aplicar <strong>LoRA</strong> para estilo custom (<code>pipe.load_lora_weights('path')</code>).</li>
+<li>Reconocer <strong>Flux</strong> y <strong>SD3</strong> como sucesores.</li>
+</ul>
+<h2 id="temas">🗺️ Temas</h2>
+<ul>
+<li>Pipeline SDXL: text_encoder_1 (CLIP-L), text_encoder_2 (CLIP-G), U-Net 2.6B params, VAE.</li>
+<li>Schedulers: DDIM (50 steps), DPM-Solver++ (20 steps), Euler ancestral (creative), UniPC (10-20 steps).</li>
+<li>CFG: <code>guidance_scale=7.5</code> default; &gt; 12 over-fitting al prompt.</li>
+<li>Negative prompts.</li>
+<li>Refiner (paso opcional adicional).</li>
+<li>ControlNet variantes: Canny, Depth, OpenPose, Scribble, Lineart, MLSD, Tile.</li>
+</ul>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<ul>
+<li><strong>SDXL</strong>: 2.6B params U-Net, latent space 128×128×4 desde imagen 1024×1024.</li>
+<li><strong>Dual text encoder</strong>: CLIP-L (768d) + CLIP-G (1280d) concatenados.</li>
+<li><strong>CFG</strong>: <code>output = uncond + scale · (cond - uncond)</code>.</li>
+<li><strong>Negative prompt</strong>: lo que NO querés (ugly, blurry, low quality).</li>
+<li><strong>ControlNet</strong>: red adicional, freezeada o trained, que inyecta condicionamiento espacial.</li>
+<li><strong>LoRA</strong>: rank-low adapter, ~50-200 MB, para estilos.</li>
+<li><strong>Flux 1</strong>: sucesor open-source SDXL (2024), mejor calidad y prompt following.</li>
+</ul>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<ul>
+<li>HuggingFace: <code>stabilityai/stable-diffusion-xl-base-1.0</code>, ControlNets en <code>diffusers/controlnet-*-sdxl-1.0</code>.</li>
+<li>Librerías: <code>diffusers</code>, <code>transformers</code>, <code>accelerate</code>, <code>controlnet_aux</code>.</li>
+</ul>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>SDXL básico</strong>: prompt → imagen 1024². Comparar schedulers (DPM-Solver++, Euler a, UniPC).</li>
+<li><strong>CFG sweep</strong>: <code>guidance_scale ∈ {3, 7.5, 12, 18}</code>. Ver trade-off creativity/fidelity.</li>
+<li><strong>Negative prompt</strong>: agregar "blurry, watermark, low quality" y comparar.</li>
+<li><strong>ControlNet Canny</strong>: extraer Canny de una foto, generar variante manteniendo estructura.</li>
+<li><strong>LoRA estilo</strong>: cargar un LoRA de estilo (CivitAI), aplicar. Variar <code>cross_attention_kwargs={'scale': 0.8}</code>.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Pipeline visual: SDXL + ControlNet Canny + LoRA estilo:</p>
+<ol>
+<li>Foto base → Canny.</li>
+<li>SDXL + ControlNet, prompt + LoRA estilo.</li>
+<li>Generar 4 variantes; comparar.</li>
+<li>Reportar tiempo y memoria.</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: estructura preservada por Canny; estilo del LoRA visible; outputs de buena calidad.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>OOM en GPU 8 GB</td>
+<td>Modelo grande. <strong>Fix</strong>: <code>pipe.enable_attention_slicing(); pipe.enable_vae_tiling(); fp16</code>.</td>
+</tr>
+<tr>
+<td>Outputs raros, deformados</td>
+<td>CFG demasiado alto. <strong>Fix</strong>: <code>guidance_scale=5-8</code>.</td>
+</tr>
+<tr>
+<td>ControlNet no obedece estructura</td>
+<td><code>controlnet_conditioning_scale</code> muy bajo. <strong>Fix</strong>: 0.7-1.0.</td>
+</tr>
+<tr>
+<td>Manos deformadas</td>
+<td>Bug clásico de difusión. <strong>Fix</strong>: LoRA específica para manos, o usar inpainting.</td>
+</tr>
+<tr>
+<td>LoRA no se siente</td>
+<td>Scale muy bajo. <strong>Fix</strong>: <code>cross_attention_kwargs={'scale': 1.0}</code>.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ SDXL o Flux?</strong></p>
+<p>Flux (2024) mejor calidad y prompt following. SDXL más maduro, más LoRAs/ControlNets disponibles. Ambos viables.</p>
+<p><strong>❓ SD3 dónde está?</strong></p>
+<p>Stability AI lo publicó pero con licencia restrictiva → comunidad migró a Flux. SD3.5 medium open license.</p>
+<p><strong>❓ Refiner vale la pena?</strong></p>
+<p>A veces. Toma más tiempo. Probar con vs sin para tu caso.</p>
+<p><strong>❓ Cómo entreno LoRA para SDXL?</strong></p>
+<p><code>diffusers</code> examples + dataset de 10-30 imágenes + script de training. 1-2 horas GPU.</p>
+<p><strong>❓ Inpainting?</strong></p>
+<p><code>StableDiffusionXLInpaintPipeline</code>. Modificar regiones específicas con máscara.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Podell et al. (2023), <em>SDXL</em>.</li>
+<li>Zhang et al. (2023), <em>ControlNet</em>, ICCV.</li>
+<li><a href="https://huggingface.co/docs/diffusers">diffusers docs</a>.</li>
+<li><a href="https://blackforestlabs.ai/">Flux (Black Forest Labs)</a>.</li>
+<li><a href="https://civitai.com/">CivitAI</a> — comunidad LoRA/checkpoints.</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../161-rl-aprendizaje-por-recompensa-openai-gymnasium/index.html">Clase 161 — RL: aprendizaje por recompensa, Gymnasium (Farama)</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-2-deep-learning/160-stable-diffusion-xl-controlnet/"><code>classes/parte-2-deep-learning/160-stable-diffusion-xl-controlnet/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

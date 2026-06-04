@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 138 — 1D CNNs y WaveNet | Python Data Science Program</title>
+  <meta name="description" content="Clase 138 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 2 — Deep Learning</a><span class="sep">›</span><span>138</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-2-deep-learning/138-1d-cnns-y-wavenet/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-138-1d-cnns-y-wavenet">Clase 138 — 1D CNNs y WaveNet</h1>
+<blockquote>
+<p>Parte: <strong>2 — Deep Learning</strong> · Fuente: Géron, <strong>cap. 15</strong> § <em>Handling Long Sequences</em> + WaveNet paper (van den Oord et al. 2016). ⏱️ Duración estimada: <strong>60 min</strong>.</p>
+</blockquote>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Conocer la alternativa a RNN para secuencias: <strong>Conv1D</strong> y <strong>WaveNet</strong> (dilated causal convolutions). Más rápido que LSTM (paralelizable), receptive field amplio con pocas capas (dilated convolutions). Útil para audio, series temporales y como capa de preprocesamiento.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar, el estudiante podrá:</p>
+<ul>
+<li>Aplicar <code>Conv1D(filters, kernel_size, padding='causal')</code> sobre secuencias.</li>
+<li>Implementar <strong>dilated convolutions</strong> (kernel salta posiciones).</li>
+<li>Reconocer <strong>causal convolution</strong>: el output en <code>t</code> depende solo de inputs <code>≤ t</code>.</li>
+<li>Construir un mini-WaveNet con dilation rates exponenciales (1, 2, 4, 8, ...).</li>
+<li>Comparar Conv1D vs LSTM en speed/accuracy.</li>
+</ul>
+<h2 id="temas">🗺️ Temas</h2>
+<ul>
+<li>Conv1D fundamentos: stride, padding, dilation.</li>
+<li>Causal padding: para no ver el futuro.</li>
+<li>Dilated convolutions: receptive field grande sin más layers.</li>
+<li>WaveNet: stack de dilated causal convolutions (1, 2, 4, ..., 512).</li>
+<li>Conv1D vs LSTM: paralelización, receptive field, parameter count.</li>
+</ul>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<ul>
+<li><strong><code>Conv1D</code></strong>: convolución sobre una sola dimensión espacial/temporal.</li>
+<li><strong><code>padding='causal'</code></strong>: padding asimétrico de modo que <code>output[t]</code> depende solo de <code>input[0..t]</code>.</li>
+<li><strong><code>dilation_rate</code></strong>: gap entre los elementos del kernel. <code>dilation=2</code> con <code>kernel=3</code> → ve <code>t, t-2, t-4</code>.</li>
+<li><strong>Receptive field</strong>: rango temporal que afecta el output. Con dilated stack <code>1,2,4,8,16</code>: 2^N + 1.</li>
+<li><strong>WaveNet</strong>: red de Conv1D dilated causal stackeadas, originalmente para generación de audio.</li>
+</ul>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<ul>
+<li>Serie temporal del ejercicio 119.</li>
+<li>Audio simple (sintético: superposición de senos).</li>
+<li>Librerías: <code>tensorflow</code>, <code>keras</code>.</li>
+</ul>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>Conv1D vs LSTM</strong>: forecasting de serie. <code>Conv1D(32, 5, padding='causal') → Conv1D(32, 5, padding='causal') → Flatten → Dense(1)</code>. Comparar con LSTM equivalente.</li>
+<li><strong>Dilation rates</strong>: stack de 4 Conv1D con <code>dilation_rate ∈ {1, 2, 4, 8}</code>. Calcular receptive field.</li>
+<li><strong>Speed test</strong>: medir tiempo de training Conv1D vs LSTM para misma data. Conv1D suele ser 5-20× más rápido en GPU.</li>
+<li><strong>WaveNet mini</strong>: implementar stack de 10 Conv1D causal con dilations <code>{1, 2, 4, ..., 512}</code> para una serie larga.</li>
+<li><strong>Visualización del receptive field</strong>: para un output <code>[t]</code>, marcar qué <code>inputs</code> lo afectan.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Forecasting del dataset eléctrico (clase 119) con mini-WaveNet:</p>
+<ol>
+<li>Stack de 6 Conv1D causal dilated con rates <code>1, 2, 4, 8, 16, 32</code>.</li>
+<li>Cada capa con 32 filtros, kernel 2.</li>
+<li>Comparar MAE en test vs LSTM del ejercicio 119.</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: el WaveNet debe ser competitivo o mejor que LSTM, y notablemente más rápido en GPU.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>padding='same'</code> en forecasting causal</td>
+<td>Ve el futuro. <strong>Fix</strong>: <code>padding='causal'</code>.</td>
+</tr>
+<tr>
+<td>Stack sin dilation → receptive field chico</td>
+<td>Necesitás muchas capas. <strong>Fix</strong>: dilations exponenciales.</td>
+</tr>
+<tr>
+<td>Conv1D + Flatten → Dense con muchos params</td>
+<td>Modelo grande. <strong>Fix</strong>: GlobalAvgPool1D antes del Dense final.</td>
+</tr>
+<tr>
+<td>Mezclar Conv1D no causal y causal</td>
+<td>Inconsistente. <strong>Fix</strong>: si forecasting, todo causal.</td>
+</tr>
+<tr>
+<td>Audio en <code>[-1, 1]</code> con Conv1D sin normalizar</td>
+<td>Funcionar funciona, pero converge mejor con BN o LayerNorm.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿Conv1D supera a Transformer en algún caso?</strong></p>
+<p>Sí, en audio raw y series largas (&gt;1000 pasos) con patrones locales. Transformer atención O(N²) en memoria.</p>
+<p><strong>❓ ¿WaveNet sigue siendo state-of-the-art?</strong></p>
+<p>En generación de audio, fue reemplazada por modelos de difusión (clase 133) y autoregresivos sobre tokens de audio (EnCodec + Llama-style).</p>
+<p><strong>❓ ¿Combinar Conv1D + LSTM/Transformer?</strong></p>
+<p>Sí. Patrón "convs como tokenizer" + Transformer arriba es estándar en audio (Wav2Vec, Whisper).</p>
+<p><strong>❓ ¿<code>dilation_rate</code> y <code>kernel_size</code> cómo se combinan?</strong></p>
+<p><code>receptive_field = (kernel_size - 1) * dilation_rate + 1</code> para una sola capa. Stack: suma de eso por capa.</p>
+<p><strong>❓ ¿Por qué Conv1D paralelizable?</strong></p>
+<p>Todas las posiciones se computan en paralelo (no hay dependencia temporal explícita como RNN). Ideal para GPU.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Géron, <strong>cap. 15</strong> — <em>Using 1D Convolutional Layers</em> + <em>WaveNet</em>.</li>
+<li>van den Oord et al. (2016), <em>WaveNet</em>.</li>
+<li>Bai et al. (2018), <em>An Empirical Evaluation of Generic Convolutional and Recurrent Networks for Sequence Modeling</em>.</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../139-generacion-de-texto-char-rnn/index.html">Clase 139 — Generación de texto char-RNN</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-2-deep-learning/138-1d-cnns-y-wavenet/"><code>classes/parte-2-deep-learning/138-1d-cnns-y-wavenet/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

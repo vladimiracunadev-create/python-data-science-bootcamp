@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 079 — SVM para regresión (SVR) | Python Data Science Program</title>
+  <meta name="description" content="Clase 079 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 1 — ML clásico</a><span class="sep">›</span><span>079</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-1-machine-learning-clasico/079-svm-para-regresion/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-079-svm-para-regresion-svr">Clase 079 — SVM para regresión (SVR)</h1>
+<blockquote>
+<p>Parte: <strong>1 — Machine Learning Clásico</strong> · Fuente: Géron, <strong>cap. 5</strong>. ⏱️ Duración estimada: <strong>50 min</strong>.</p>
+</blockquote>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Aplicar Support Vector Machines al problema de regresión: entender el truco del <em>epsilon-insensitive loss</em> (ajustar dentro de un tubo de tolerancia en vez de minimizar el error puntual), entrenar <code>LinearSVR</code> y <code>SVR</code> con kernel, y elegir cuándo conviene SVR sobre regresión lineal clásica.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar la clase, vas a poder:</p>
+<ul>
+<li>Explicar la lógica de SVR: maximizar el ancho del tubo ε mientras se contienen la mayoría de los puntos dentro.</li>
+<li>Entrenar un <code>LinearSVR</code> y un <code>SVR(kernel="rbf")</code> de scikit-learn con sus hiperparámetros (<code>epsilon</code>, <code>C</code>, <code>gamma</code>).</li>
+<li>Interpretar el efecto de <code>epsilon</code> (ancho del tubo) y <code>C</code> (penalización por puntos fuera del tubo) en el bias-variance trade-off.</li>
+<li>Comparar SVR vs <code>LinearRegression</code> / <code>Ridge</code> en un dataset con outliers.</li>
+<li>Justificar cuándo SVR escala mal (<code>SVR</code> es O(m²–m³)) y conviene <code>LinearSVR</code> u otro modelo.</li>
+</ul>
+<h2 id="temas">🗺️ Temas</h2>
+<ol>
+<li>De SVM clasificación a SVM regresión: invertir el objetivo.</li>
+<li><em>Epsilon-insensitive loss</em>: errores menores a ε no se penalizan.</li>
+<li><code>LinearSVR</code>: caso lineal, escala bien (O(m)).</li>
+<li><code>SVR</code> con kernel RBF: regresión no lineal, costo cuadrático.</li>
+<li>Hiperparámetros clave: <code>epsilon</code>, <code>C</code>, <code>gamma</code>, <code>kernel</code>.</li>
+<li>Robustez frente a outliers comparada con OLS.</li>
+</ol>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<ul>
+<li><strong>SVR (Support Vector Regression):</strong> algoritmo de regresión que busca una función que se desvíe a lo sumo ε de cada target, manteniéndola lo más "plana" posible (margen máximo).</li>
+<li><strong>Epsilon-tube (tubo ε):</strong> banda de ancho 2ε alrededor de la predicción donde los errores no cuentan. Solo los puntos fuera del tubo aportan a la pérdida.</li>
+<li><strong>LinearSVR:</strong> implementación lineal de SVR basada en <code>liblinear</code>. Escala linealmente con el tamaño del dataset; no soporta kernels.</li>
+<li><strong>Kernel SVR:</strong> <code>SVR</code> de scikit-learn usa <code>libsvm</code>; soporta kernels (<code>rbf</code>, <code>poly</code>, <code>sigmoid</code>) para capturar no linealidad, pero su complejidad es entre O(m²) y O(m³).</li>
+<li><strong>Hiperparámetro C:</strong> controla la penalización por puntos fuera del tubo. <code>C</code> chico → modelo más regularizado (tubo "flexible"); <code>C</code> grande → ajuste más estricto.</li>
+<li><strong>Hiperparámetro epsilon:</strong> define el ancho del tubo de insensibilidad. ε grande → menos vectores de soporte, modelo más simple; ε chico → ajuste más fino, más vectores.</li>
+<li><strong>Robust regression:</strong> SVR es menos sensible que OLS a outliers porque la pérdida es lineal fuera del tubo (no cuadrática).</li>
+</ul>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<ul>
+<li><strong>California Housing</strong> (<code>sklearn.datasets.fetch_california_housing</code>) para regresión realista.</li>
+<li>Dataset sintético con outliers (<code>make_regression</code> + ruido pesado) para mostrar robustez.</li>
+<li>Géron, <em>Hands-On ML</em> (3ª ed.), cap. 5, sección "SVM Regression".</li>
+</ul>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>Tubo ε en 2D.</strong> Generá <code>y = 0.5x + ruido</code>, entrená <code>LinearSVR(epsilon=0.5)</code> y graficá la recta junto al tubo ±ε. Marcá los vectores de soporte (puntos fuera del tubo).</li>
+<li><strong>Efecto de <code>epsilon</code>.</strong> Repetí el ejercicio 1 con ε ∈ {0.1, 0.5, 1.5}. ¿Cómo cambia la cantidad de vectores de soporte y el MSE en test?</li>
+<li><strong>Kernel RBF.</strong> En un dataset no lineal (<code>y = sin(x) + ruido</code>), compará <code>LinearSVR</code> vs <code>SVR(kernel="rbf", gamma="scale")</code>. Reportá MAE y graficá ambas curvas.</li>
+<li><strong>Grid search.</strong> Sobre California Housing, hacé <code>GridSearchCV</code> con <code>SVR</code> variando <code>C ∈ {0.1, 1, 10}</code> y <code>gamma ∈ {"scale", 0.01, 0.1}</code>. No uses más de 5 000 muestras (cuidado con el costo cuadrático).</li>
+<li><strong>Robustez vs OLS.</strong> Inyectá 5% de outliers en un dataset lineal y compará <code>LinearRegression</code>, <code>Ridge</code> y <code>LinearSVR</code>. ¿Cuál degrada menos?</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Entregar un script <code>svr_california.py</code> que:</p>
+<ol>
+<li>Cargue California Housing y aplique <code>StandardScaler</code> (¡SVR exige escalado!).</li>
+<li>Entrene <code>LinearSVR(epsilon=0.5, C=1.0, random_state=42)</code> y un <code>SVR(kernel="rbf", C=10, gamma="scale")</code> sobre un subset de 5 000 muestras.</li>
+<li>Reporte RMSE en test para ambos modelos.</li>
+</ol>
+<p><strong>Criterio de aceptación:</strong> <code>LinearSVR</code> RMSE &lt; 0.85 y <code>SVR-RBF</code> RMSE &lt; 0.65 sobre el split de test (<code>train_test_split(random_state=42, test_size=0.2)</code>).</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<ul>
+<li><strong>No escalar los features.</strong> SVR es extremadamente sensible a la escala: sin <code>StandardScaler</code>, los hiperparámetros pierden sentido y el entrenamiento no converge.</li>
+<li><strong>Usar <code>SVR</code> con kernel sobre datasets grandes.</strong> Para más de ~10 000 muestras, <code>SVR</code> se vuelve impracticable. Usá <code>LinearSVR</code> o <code>SGDRegressor(loss="epsilon_insensitive")</code>.</li>
+<li><strong>Confundir <code>epsilon</code> de SVR con <code>epsilon</code> de optimizadores.</strong> Acá ε es el ancho del tubo de tolerancia, no una tolerancia numérica de convergencia.</li>
+<li><strong>Dejar <code>C</code> en el default sin tunear.</strong> El default <code>C=1.0</code> rara vez es óptimo; siempre validá con CV.</li>
+<li><strong>Comparar tiempos sin <code>dual="auto"</code>.</strong> En <code>LinearSVR</code>, el parámetro <code>dual</code> cambia drásticamente el tiempo según <code>n_samples</code> vs <code>n_features</code>.</li>
+</ul>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<ul>
+<li><strong>¿SVR vs Linear Regression cuándo conviene cuál?</strong> OLS minimiza el error cuadrático medio (sensible a outliers, óptimo si el ruido es gaussiano). SVR ignora errores chicos (dentro del tubo ε) y penaliza linealmente los grandes: más robusto a outliers y suele generalizar mejor con pocos datos ruidosos. Si tu dataset es limpio y grande, OLS/Ridge suele ser más simple y rápido.</li>
+<li><strong>¿Cómo elijo <code>epsilon</code>?</strong> Empezá con una fracción del desvío estándar del target (p. ej. ε ≈ 0.1·σ(y)) y ajustá con CV. Un ε muy chico convierte SVR en algo cercano a regresión cuadrática; uno muy grande genera un modelo casi constante.</li>
+<li><strong>¿SVR devuelve probabilidades o intervalos?</strong> No. SVR predice un valor puntual. Para intervalos de predicción usá <em>quantile regression</em>, <em>conformal prediction</em> o un modelo bayesiano.</li>
+<li><strong>¿Por qué SVR con kernel es tan lento?</strong> Calcula la matriz kernel (m × m) y resuelve un QP. La complejidad va de O(m²) a O(m³). Para datasets grandes, <code>LinearSVR</code> o <code>Nystroem</code> + <code>LinearSVR</code> (kernel approximation) son alternativas viables.</li>
+<li><strong>¿Conviene SVR para deep learning / problemas con millones de muestras?</strong> No. Para esas escalas, gradient boosting (XGBoost, LightGBM) o redes neuronales superan a SVR tanto en performance como en costo.</li>
+</ul>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Géron, A. <em>Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow</em> (3ª ed.), O'Reilly, cap. 5 — "SVM Regression".</li>
+<li>Smola, A. &amp; Schölkopf, B. <em>A Tutorial on Support Vector Regression</em> (2004).</li>
+<li>scikit-learn docs: <a href="https://scikit-learn.org/stable/modules/generated/sklearn.svm.SVR.html"><code>sklearn.svm.SVR</code></a> y <a href="https://scikit-learn.org/stable/modules/generated/sklearn.svm.LinearSVR.html"><code>sklearn.svm.LinearSVR</code></a>.</li>
+<li>scikit-learn user guide: <a href="https://scikit-learn.org/stable/modules/svm.html#regression">Support Vector Machines — Regression</a>.</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../080-arboles-de-decision-entrenamiento-visualizacion-cart/index.html">Clase 080 — Árboles de decisión: entrenamiento, visualización, CART</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-1-machine-learning-clasico/079-svm-para-regresion/"><code>classes/parte-1-machine-learning-clasico/079-svm-para-regresion/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

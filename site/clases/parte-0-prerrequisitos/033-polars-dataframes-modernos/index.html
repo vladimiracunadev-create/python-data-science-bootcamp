@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 033 — Polars: DataFrames modernos | Python Data Science Program</title>
+  <meta name="description" content="Clase 033 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 0 — Prerrequisitos</a><span class="sep">›</span><span>033</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-0-prerrequisitos/033-polars-dataframes-modernos/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-033-polars-dataframes-modernos">Clase 033 — Polars: DataFrames modernos</h1>
+<blockquote>
+<p>Parte: <strong>0 — Prerrequisitos</strong> · Fuente: <a href="https://docs.pola.rs/">Polars User Guide</a> + Vink (2020+) · ⏱️ Duración estimada: <strong>75 min</strong>.</p>
+</blockquote>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Conocer <strong>Polars</strong> — la librería de DataFrames moderna (Rust + Arrow) que está reemplazando a pandas en proyectos donde performance importa. Aprender su API (similar a pandas pero con <strong>expresiones lazy</strong> y <strong>paralelismo automático</strong>) y entender cuándo conviene Polars sobre pandas (datasets &gt; 1 GB, pipelines con muchas transformaciones, multi-core).</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar, el estudiante podrá:</p>
+<ul>
+<li>Instalar Polars (<code>pip install polars</code>) y leer datos con <code>pl.read_csv</code>, <code>pl.read_parquet</code>, <code>pl.scan_csv</code> (lazy).</li>
+<li>Aplicar la <strong>API de expresiones</strong>: <code>df.select(pl.col('precio').sum())</code>, <code>pl.col('x').filter(pl.col('y') &gt; 0).mean()</code>.</li>
+<li>Diferenciar <strong>eager</strong> (DataFrame) de <strong>lazy</strong> (LazyFrame) — y por qué lazy permite optimizaciones del query planner.</li>
+<li>Hacer groupby, join, pivot, unpivot con sintaxis Polars y comparar con pandas.</li>
+<li>Reconocer el speedup típico: 5-30× sobre pandas en operaciones comunes (single-machine, multi-core).</li>
+</ul>
+<h2 id="temas">🗺️ Temas</h2>
+<ul>
+<li>Polars vs pandas vs DuckDB: el panorama 2026.</li>
+<li>Arrow como formato columnar in-memory.</li>
+<li>Eager (<code>DataFrame</code>) vs Lazy (<code>LazyFrame</code>).</li>
+<li>Expresiones encadenables: <code>pl.col(...).operation()</code>.</li>
+<li>Query optimization automática: predicate pushdown, projection pushdown.</li>
+<li>Multi-threading automático.</li>
+</ul>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<ul>
+<li><strong>Polars</strong>: librería de DataFrames escrita en Rust, ABI estable en Python.</li>
+<li><strong><code>pl.DataFrame</code></strong>: estructura eager — los datos están en RAM.</li>
+<li><strong><code>pl.LazyFrame</code></strong>: descripción de pipeline; ejecución diferida hasta <code>.collect()</code>.</li>
+<li><strong>Expresión</strong> (<code>pl.col</code>, <code>pl.lit</code>): describe operación sobre columna; se compone y optimiza.</li>
+<li><strong><code>pl.scan_csv</code> / <code>scan_parquet</code></strong>: leer lazy — solo se materializa lo que necesitás.</li>
+<li><strong>Query optimization</strong>: el planner reordena filtros y projections para minimizar trabajo.</li>
+<li><strong><code>streaming</code></strong>: para datasets mayores que RAM (<code>collect(streaming=True)</code>).</li>
+</ul>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<ul>
+<li>NYC Taxi (~100 MB Parquet) o cualquier CSV &gt; 100 MB.</li>
+<li>Librerías: <code>polars</code>, <code>pandas</code> (para comparar), <code>pyarrow</code>.</li>
+</ul>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>Eager básico</strong>: <code>df = pl.read_csv('archivo.csv'); df.head(); df.describe()</code>. Comparar con pandas.</li>
+<li><strong>Expresiones</strong>: <code>df.filter(pl.col('precio') &gt; 100).group_by('categoria').agg(pl.col('precio').mean().alias('precio_medio'))</code>.</li>
+<li><strong>Lazy + collect</strong>: <code>lf = pl.scan_csv('big.csv').filter(...).group_by(...).agg(...); result = lf.collect()</code>. Comparar tiempo vs eager.</li>
+<li><strong>Query plan</strong>: <code>lf.explain()</code> muestra el plan optimizado. Identificar predicate pushdown.</li>
+<li><strong>Pandas ↔ Polars</strong>: <code>df.to_pandas()</code> y <code>pl.from_pandas(pd_df)</code>. Útil para mantener compatibilidad gradual.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Sobre un dataset &gt; 500 MB (NYC Taxi recomendado):</p>
+<ol>
+<li>Pipeline en pandas y en Polars (lazy): filtrar viajes con <code>tip_amount &gt; 5</code>, agrupar por hora del día, calcular media y desviación.</li>
+<li>Medir wall time de cada uno.</li>
+<li>Reportar speedup.</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: Polars debe ser ≥ 3× más rápido que pandas; los resultados numéricos deben coincidir (±0.001).</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Mezclar APIs (<code>df['col'].sum()</code> estilo pandas)</td>
+<td>Funciona pero no usa optimizaciones. <strong>Fix</strong>: <code>df.select(pl.col('col').sum())</code>.</td>
+</tr>
+<tr>
+<td><code>LazyFrame</code> no devuelve datos</td>
+<td>Es perezoso. <strong>Fix</strong>: <code>.collect()</code> al final del pipeline.</td>
+</tr>
+<tr>
+<td>Sin <code>streaming=True</code> en datasets enormes</td>
+<td>OOM. <strong>Fix</strong>: <code>lf.collect(streaming=True)</code>.</td>
+</tr>
+<tr>
+<td>Columnas con tipos string mezclados → schema errors</td>
+<td>Polars es estricto con tipos. <strong>Fix</strong>: <code>pl.read_csv(..., infer_schema_length=10_000)</code> o castear explícito.</td>
+</tr>
+<tr>
+<td>Esperar índices como en pandas</td>
+<td>Polars NO tiene índice. La columna que quieras como índice queda como columna normal.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿Polars reemplaza a pandas?</strong></p>
+<p>Para data engineering / pipelines: cada vez más sí. Para ad-hoc analysis en Jupyter y compatibilidad con todo el ecosistema (sklearn, statsmodels, plotting): pandas sigue siendo el default. Ambos coexisten.</p>
+<p><strong>❓ ¿Polars o DuckDB?</strong></p>
+<p>Polars: API DataFrame Python-first. DuckDB: SQL embebido, mejor para joins masivos y queries SQL. Se complementan: muchos pipelines usan DuckDB para reads grandes + Polars para transformaciones.</p>
+<p><strong>❓ ¿<code>pl.col</code> vs <code>df['col']</code>?</strong></p>
+<p><code>pl.col</code> es una <strong>expresión</strong> (reusable, optimizable). <code>df['col']</code> materializa una Series — útil para inspección pero no para pipelines.</p>
+<p><strong>❓ ¿Polars en producción?</strong></p>
+<p>Sí. Empresas como Goldman Sachs, Citadel, Bank of America lo usan. Estable, mantenimiento activo, sponsoreado por la compañía Polars Cloud.</p>
+<p><strong>❓ ¿Polars soporta lazy streaming desde S3?</strong></p>
+<p>Sí: <code>pl.scan_parquet('s3://bucket/*.parquet')</code> con credentials configuradas. Lee solo lo que necesita.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li><a href="https://docs.pola.rs/">Polars User Guide</a></li>
+<li><a href="https://docs.pola.rs/user-guide/expressions/">Polars Cookbook</a></li>
+<li>McKinney (2022 blog), <em>Apache Arrow and the "10 Things I Hate About pandas"</em>.</li>
+<li>Comparativa: <a href="https://h2oai.github.io/db-benchmark/">https://h2oai.github.io/db-benchmark/</a> — Polars consistentemente top.</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../034-parquet-arrow-pyarrow-duckdb/index.html">Clase 034 — Parquet, Arrow, PyArrow, DuckDB</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-0-prerrequisitos/033-polars-dataframes-modernos/"><code>classes/parte-0-prerrequisitos/033-polars-dataframes-modernos/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

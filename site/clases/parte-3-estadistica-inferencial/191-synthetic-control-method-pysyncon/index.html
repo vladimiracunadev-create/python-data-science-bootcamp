@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 191 — Synthetic Control Method dedicado (pysyncon, SparseSC) | Python Data Science Program</title>
+  <meta name="description" content="Clase 191 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 3 — Estadística inferencial</a><span class="sep">›</span><span>191</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-3-estadistica-inferencial/191-synthetic-control-method-pysyncon/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-191-synthetic-control-method-dedicado-pysyncon-sparsesc">Clase 191 — Synthetic Control Method dedicado (pysyncon, SparseSC)</h1>
+<blockquote>
+<p>Parte: <strong>3 — Estadística Inferencial y Causal</strong> · Fuente: Abadie, Diamond &amp; Hainmueller (2010) + Doudchenko &amp; Imbens (2016) + Arkhangelsky et al. (2021) Synthetic DiD. ⏱️ Duración estimada: <strong>80 min</strong>.</p>
+</blockquote>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Aplicar <strong>Synthetic Control Method</strong> (Abadie et al. 2010) — el estándar para evaluar políticas o intervenciones aplicadas a una <strong>única unidad</strong> (un país, un estado, una ciudad) sin grupo control natural. Construir un "control sintético" como combinación ponderada de donors. Conocer variantes modernas: <strong>Synthetic DiD</strong> (Arkhangelsky 2021), <strong>Generalized SC</strong> (Xu 2017), <strong>SparseSC</strong> (Microsoft Research).</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar, el estudiante podrá:</p>
+<ul>
+<li>Construir un Synthetic Control con <code>pysyncon</code>: tratado, donors, predictors, períodos pre/post.</li>
+<li>Interpretar pesos <code>W</code> (combinación convexa) y path plot.</li>
+<li>Aplicar <strong>placebo test</strong> (in-time y in-space) como inference informal.</li>
+<li>Conocer <strong>Synthetic DiD</strong> que combina lo mejor de DiD y SCM.</li>
+<li>Reconocer cuándo SCM no aplica (pocos donors, fit pre malo).</li>
+</ul>
+<h2 id="temas">🗺️ Temas</h2>
+<ul>
+<li>Setup: 1 tratado + N donors + features predictoras + período pre/post.</li>
+<li>Optimización: pesos minimizan <code>||Y_treat_pre - W·Y_donors_pre||²</code>.</li>
+<li>Constraint: <code>w_i ≥ 0</code>, <code>Σ w_i = 1</code> (combinación convexa) — clásico.</li>
+<li>Placebo test in-space: aplicar SCM a cada donor; comparar effect real vs distribución de placebos.</li>
+<li>Placebo in-time: aplicar antes del tratamiento real → debería dar 0.</li>
+<li>Synthetic DiD: relax constraints + agregar pesos temporales.</li>
+</ul>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<ul>
+<li><strong>Tratado</strong>: la única unidad que recibió intervención.</li>
+<li><strong>Donors</strong>: pool de unidades no tratadas, idealmente similares pre.</li>
+<li><strong>Predictores</strong>: covariables usadas para hacer matching pre.</li>
+<li><strong><code>Dataprep</code></strong>: clase pysyncon que estructura input.</li>
+<li><strong><code>Synth</code></strong>: optimizador que encuentra pesos.</li>
+<li><strong>Pre-RMSPE</strong>: error de matching pre-período. Si alto, malo.</li>
+<li><strong>Post-RMSPE / Pre-RMSPE ratio</strong>: indicador informal de magnitud del efecto.</li>
+</ul>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<ul>
+<li>California Prop 99 smoking (Abadie's dataset clásico).</li>
+<li>Cualquier panel de países × años con una intervención.</li>
+<li>Librerías: <code>pysyncon</code>, <code>SparseSC</code> (Microsoft), <code>numpy</code>, <code>pandas</code>.</li>
+</ul>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>California Prop 99</strong>: cargar dataset, definir tratado California, donors otros estados, pre 1970-1988, post 1989-2000.</li>
+<li><strong>Path plot</strong>: <code>synth.path_plot()</code> — California real vs sintética. Visualizar gap post-1989.</li>
+<li><strong>Pesos</strong>: imprimir <code>synth.weights</code>. Verificar que solo few estados tienen peso &gt; 0.</li>
+<li><strong>Placebo in-space</strong>: aplicar a cada otro estado; plot de gaps. California debe destacar.</li>
+<li><strong>Placebo in-time</strong>: tratamiento artificial en 1980 (5 años antes del real). Gap debería ser ≈ 0.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Estudio de caso: efecto de una política aplicada a 1 unidad (ej.: Brexit en UK, COVID lockdowns en una ciudad):</p>
+<ol>
+<li>Dataset panel, 10+ donors, ≥ 5 años pre.</li>
+<li>SCM con pysyncon.</li>
+<li>Path + gap plots.</li>
+<li>Placebo in-space.</li>
+<li>Interpretación: ¿el efecto observado está en el extremo de la distribución placebo?</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: pre-RMSPE bajo (good fit); diagnóstico de placebo informativo; conclusión justificada.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Pre-RMSPE alto</td>
+<td>Donors no comparables. <strong>Fix</strong>: filtrar donors irrelevantes, más predictores.</td>
+</tr>
+<tr>
+<td>Pocos donors (&lt;10)</td>
+<td>Pesos no robustos. <strong>Fix</strong>: ampliar donor pool.</td>
+</tr>
+<tr>
+<td>Predictores correlated → pesos inestables</td>
+<td><strong>Fix</strong>: SparseSC con regularización.</td>
+</tr>
+<tr>
+<td>Reportar p-value clásico</td>
+<td>No existe en SCM. <strong>Fix</strong>: placebo test ranks como inference.</td>
+</tr>
+<tr>
+<td>Aplicar SCM a tratamiento gradual</td>
+<td>SCM asume tratamiento discreto. <strong>Fix</strong>: Synthetic DiD o staggered methods.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ SCM vs DiD?</strong></p>
+<p>DiD necesita "parallel trends"; SCM construye control sintético. SCM mejor cuando 1 tratado; DiD mejor con many.</p>
+<p><strong>❓ Synthetic DiD cuándo?</strong></p>
+<p>Combina virtudes: usable con many tratados + permite no-parallel trends. Default 2024+ en muchos casos.</p>
+<p><strong>❓ Cuántos períodos pre necesarios?</strong></p>
+<p>5-10 mínimo. Más es mejor para fit confiable.</p>
+<p><strong>❓ SparseSC?</strong></p>
+<p>Microsoft Research lib que extiende SCM a paneles grandes con regularización L2.</p>
+<p><strong>❓ Bayesian SCM?</strong></p>
+<p>Existe (Bayesian Structural Time Series — CausalImpact de Google). Otra alternativa.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Abadie, Diamond &amp; Hainmueller (2010), <em>Synthetic Control Methods for Comparative Case Studies</em>, JASA.</li>
+<li>Doudchenko &amp; Imbens (2016), <em>Balancing, Regression, Difference-in-Differences and Synthetic Control Methods</em>.</li>
+<li>Arkhangelsky et al. (2021), <em>Synthetic Difference-in-Differences</em>, AER.</li>
+<li><a href="https://github.com/sdfordham/pysyncon">pysyncon</a>.</li>
+<li><a href="https://github.com/microsoft/SparseSC">SparseSC (Microsoft)</a>.</li>
+<li>Google CausalImpact (R / Python ports).</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../192-bayes-intro-priors-posterior-mcmc-con-pymc/index.html">Clase 192 — Bayes intro: priors, posterior, MCMC con PyMC</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-3-estadistica-inferencial/191-synthetic-control-method-pysyncon/"><code>classes/parte-3-estadistica-inferencial/191-synthetic-control-method-pysyncon/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

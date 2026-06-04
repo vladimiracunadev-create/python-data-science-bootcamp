@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 136 — Forecasting de series con RNN | Python Data Science Program</title>
+  <meta name="description" content="Clase 136 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 2 — Deep Learning</a><span class="sep">›</span><span>136</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-2-deep-learning/136-forecasting-de-series-con-rnn/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-136-forecasting-de-series-con-rnn">Clase 136 — Forecasting de series con RNN</h1>
+<blockquote>
+<p>Parte: <strong>2 — Deep Learning</strong> · Fuente: Géron, <strong>cap. 15</strong> § <em>Forecasting a Time Series</em>. ⏱️ Duración estimada: <strong>80 min</strong>.</p>
+</blockquote>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Aplicar RNN/LSTM/GRU a un problema real de <strong>forecasting de series temporales</strong>. Hacer split temporal (NO aleatorio), preparar windows, comparar contra <strong>baselines</strong> (naive, MA, ARIMA), y reportar métricas estándar (MAE, MAPE, RMSE).</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar, el estudiante podrá:</p>
+<ul>
+<li>Hacer split temporal (train: período antiguo, val/test: período más reciente).</li>
+<li>Construir samples de longitud <code>T</code> con <code>tf.keras.utils.timeseries_dataset_from_array</code>.</li>
+<li>Comparar contra el baseline naïve (<code>ŷ_t = y_{t-1}</code>) y media móvil.</li>
+<li>Reportar MAE, MAPE, RMSE.</li>
+<li>Reconocer cuándo Deep Learning es mejor que ARIMA / Prophet / XGBoost para series.</li>
+</ul>
+<h2 id="temas">🗺️ Temas</h2>
+<ul>
+<li>Split temporal estricto (no shuffle).</li>
+<li>Stationarity / diferenciación.</li>
+<li>Baseline naïve y por qué siempre comparar contra él.</li>
+<li>Windowing: cómo elegir tamaño de window (T) y horizonte.</li>
+<li>Forecasting multi-step: directo vs recursivo vs seq2seq.</li>
+</ul>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<ul>
+<li><strong>Window / lookback</strong>: cuántos pasos pasados usás para predecir.</li>
+<li><strong>Horizon</strong>: cuántos pasos hacia el futuro predecís.</li>
+<li><strong>Naïve forecast</strong>: predicción = último valor observado.</li>
+<li><strong>MAPE</strong>: <code>mean(|y - ŷ| / |y|) × 100</code> — error porcentual.</li>
+<li><strong><code>timeseries_dataset_from_array</code></strong>: helper Keras para crear ds de windows automáticamente.</li>
+</ul>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<ul>
+<li><code>seaborn</code> flights dataset o cualquier serie pública (e.g., consumo eléctrico).</li>
+<li><code>tfds.load('electricity_load_diagrams')</code> o sintético.</li>
+<li>Librerías: <code>tensorflow</code>, <code>keras</code>, <code>pandas</code>, <code>matplotlib</code>.</li>
+</ul>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>Split temporal</strong>: separar primer 70 % train, 15 % val, último 15 % test. <strong>No</strong> mezclar.</li>
+<li><strong>Baseline naïve</strong>: <code>y_pred = y_test.shift(1)</code>. Reportar MAE.</li>
+<li><strong>LSTM forecasting</strong>: <code>Sequential([LSTM(32), Dense(1)])</code>. Comparar contra naïve.</li>
+<li><strong>GRU</strong>: igual con GRU. Comparar performance y velocidad.</li>
+<li><strong>Multi-step</strong>: predecir 7 pasos directamente (<code>Dense(7)</code> al final). Comparar contra predicción recursiva.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Forecasting de consumo eléctrico:</p>
+<ol>
+<li>Dataset diario, 5 años; split 70/15/15 temporal.</li>
+<li>Baselines: naïve y MA(7).</li>
+<li>LSTM <code>[64]</code>, lookback=30 días, horizon=7 días.</li>
+<li>Reportar MAE en test para los 3.</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: LSTM debe superar a naive en MAE; comparable o mejor que MA(7). Documentar dónde gana y dónde pierde.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>train_test_split</code> con shuffle por costumbre</td>
+<td>Filtración de futuro al pasado. <strong>Fix</strong>: split temporal manual o <code>TimeSeriesSplit</code>.</td>
+</tr>
+<tr>
+<td>LSTM mejor que naïve por 0.001 → declarar victoria</td>
+<td>Sin significancia clara. <strong>Fix</strong>: usar pingouin para test pareado sobre los errores.</td>
+</tr>
+<tr>
+<td>Normalizar usando stats de todo el dataset (incluyendo test)</td>
+<td>Leakage. <strong>Fix</strong>: fitear solo en train.</td>
+</tr>
+<tr>
+<td>Predicción multi-step recursiva diverge</td>
+<td>Error acumulado. <strong>Fix</strong>: entrenar con teacher forcing + predicción directa.</td>
+</tr>
+<tr>
+<td>Reportar MAPE cuando hay valores cerca de 0</td>
+<td>MAPE explota. <strong>Fix</strong>: usar SMAPE o reportar MAE.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿DL siempre supera a ARIMA?</strong></p>
+<p>No. Para series cortas, regulares, sin features exógenas: ARIMA / ETS suelen igualar o ganar. DL gana con series largas + features adicionales + complejidad no lineal.</p>
+<p><strong>❓ ¿Lookback óptimo?</strong></p>
+<p>Empezar con 1-2 ciclos (e.g., 14 días si hay estacionalidad semanal). Tunear con val.</p>
+<p><strong>❓ ¿RNN o Transformer para series?</strong></p>
+<p>Transformers de series temporales (TFT, Informer, PatchTST 2023) son state-of-the-art para series largas con muchas features. Para series chicas, LSTM/GRU + features manuales gana.</p>
+<p><strong>❓ ¿Multi-step directo o recursivo?</strong></p>
+<p>Directo: 1 modelo predice todos los horizontes. Recursivo: feedback de cada paso. Directo más simple y a veces mejor en horizonte largo.</p>
+<p><strong>❓ ¿Cómo manejo estacionalidad?</strong></p>
+<p>Features explícitas (mes, día de semana, hora) ayudan mucho. Diferenciar la serie también.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Géron, <strong>cap. 15</strong> — <em>Forecasting a Time Series</em>.</li>
+<li>Hyndman &amp; Athanasopoulos (2021), <em>Forecasting: Principles and Practice</em> (libro gratuito).</li>
+<li>Lim et al. (2021), <em>Temporal Fusion Transformers</em>, IJF.</li>
+<li>Nie et al. (2023), <em>PatchTST</em>, ICLR.</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../137-lstm-gru/index.html">Clase 137 — LSTM, GRU</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-2-deep-learning/136-forecasting-de-series-con-rnn/"><code>classes/parte-2-deep-learning/136-forecasting-de-series-con-rnn/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

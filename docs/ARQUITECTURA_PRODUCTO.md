@@ -18,7 +18,7 @@
 
 El producto se organiza en tres capas coordinadas:
 
-- una **capa pedagógica reusable** (`classes/`, `datasets/`) — **197 clases en 9 partes** (Partes 0 y 1 con 89 clases completas y ampliadas + 13 complementos modernos integrados; Partes 2-8 en scaffold, contenido en desarrollo);
+- una **capa pedagógica reusable** (`classes/`, `datasets/`) — **232 clases en 9 partes** (Partes 0 y 1 con 89 clases completas y ampliadas + 13 complementos modernos integrados; Partes 2-8 en scaffold, contenido en desarrollo);
 - una **capa operativa local** para el laboratorio (`app/`, `launcher.py`, `mobile/`);
 - una **capa pública** para alumnos e institución (`site/`, GitHub Pages).
 
@@ -37,7 +37,7 @@ graph LR
     PRODUCT --> DOCS["📚 Documentación canónica\ndocs/"]
     PORTAL --> DOCS
     WIN --> LAB
-    MOBILE --> CLASSES["📂 Clases y materiales\nclasses/ — 197 clases · 9 partes"]
+    MOBILE --> CLASSES["📂 Clases y materiales\nclasses/ — 232 clases · 9 partes"]
     MOBILE --> COLAB["☁️ Google Colab\n(ejecución externa)"]
     LAB --> CLASSES
     LAB --> NOTEBOOKS["📓 Notebooks base\napp/notebooks/"]
@@ -61,7 +61,7 @@ graph TD
     UI --> RESETAPI["POST /api/reset"]
 
     CLASSAPI --> LOADER["content_loader.py\n_safe_resolve + markdown"]
-    LOADER --> CLASSES["classes/\n197 clases (rglob notebook.ipynb)"]
+    LOADER --> CLASSES["classes/\n232 clases (rglob notebook.ipynb)"]
     NBAPI --> TEMPLATES["app/notebooks/\ntemplates JSON precargados"]
     EXECAPI --> ENGINE["execution_engine.py\ntimeout 30s · max 100 sesiones"]
     ENGINE --> SESSION["Sesión en memoria\nnamespace Python persistente"]
@@ -109,7 +109,7 @@ graph LR
 
 ### `app/` — Laboratorio Flask
 
-- renderiza la experiencia local de clase con acceso a las **197 clases** (descubrimiento por `rglob("notebook.ipynb")`);
+- renderiza la experiencia local de clase con acceso a las **232 clases** (descubrimiento por `rglob("notebook.ipynb")`);
 - sirve endpoints de clases, notebooks y ejecución (`/api/class/<path:slug>`, `/api/notebook/`, `/api/execute`);
 - agrega headers de seguridad y endpoints de salud (`/health`, `/ready`);
 - mantiene el motor de ejecución con sesiones, timeout (30 s) y captura de salida.
@@ -122,7 +122,7 @@ graph LR
 
 ### `classes/` — Currículo modular
 
-Concentra el contenido de las **197 clases** en 9 partes. Pauta derivada de Géron (Hands-On ML 3ª ed.), VanderPlas, Huyen, ISLP y Barocas/Hardt/Narayanan.
+Concentra el contenido de las **232 clases** en 9 partes. Pauta derivada de Géron (Hands-On ML 3ª ed.), VanderPlas, Huyen, ISLP y Barocas/Hardt/Narayanan.
 
 | Parte | Tema | Clases |
 |---|---|---|
@@ -180,7 +180,7 @@ La asignación dataset → clase se hace al desarrollar el contenido pedagógico
 
 | Script | Función |
 |---|---|
-| `generate_v2_curriculum.py` | genera la estructura de carpetas + stubs de las 197 clases (idempotente) |
+| `generate_v2_curriculum.py` | genera la estructura de carpetas + stubs de las 232 clases (idempotente) |
 | `generate_class_docs.py` | genera PDFs y PPTXs por clase (pendiente adaptar al recorrido anidado) |
 | `generate_class_assets.py` | genera assets por clase (mismo estado) |
 | `generate_interview_pdfs.py` | regenera PDFs de entrevista |

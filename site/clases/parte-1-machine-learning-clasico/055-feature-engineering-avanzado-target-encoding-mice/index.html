@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 055 — Feature Engineering avanzado: target encoding + MICE imputation | Python Data Science Program</title>
+  <meta name="description" content="Clase 055 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 1 — ML clásico</a><span class="sep">›</span><span>055</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-1-machine-learning-clasico/055-feature-engineering-avanzado-target-encoding-mice/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-055-feature-engineering-avanzado-target-encoding-mice-imputation">Clase 055 — Feature Engineering avanzado: target encoding + MICE imputation</h1>
+<blockquote>
+<p>Parte: <strong>1 — Machine Learning Clásico</strong> · Fuente: Micci-Barreca (2001) target encoding + Van Buuren (2018) <em>Flexible Imputation of Missing Data</em>. ⏱️ Duración estimada: <strong>85 min</strong>.</p>
+</blockquote>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Dominar <strong>feature engineering moderno</strong> más allá de one-hot y <code>SimpleImputer</code>: <strong>target encoding</strong> con regularización + cross-validation (evita leakage), <strong>KNNImputer</strong> y <strong>IterativeImputer (MICE)</strong> para imputación multivariada inteligente, y <strong>category_encoders</strong> library para codificaciones modernas (CatBoost, James-Stein, hashing).</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar, el estudiante podrá:</p>
+<ul>
+<li>Aplicar <strong>target encoding</strong> con CV (no leak): <code>category_encoders.TargetEncoder(cv=5, smoothing=10.0)</code>.</li>
+<li>Aplicar <strong>KNNImputer</strong>: imputa basado en vecinos.</li>
+<li>Aplicar <strong>IterativeImputer (MICE)</strong> de sklearn — predice cada feature con modelo de las demás.</li>
+<li>Decidir entre métodos: SimpleImputer (baseline), KNN (correlaciones locales), MICE (multivariada).</li>
+<li>Reconocer leakage en target encoding y evitarlo con CV interno.</li>
+</ul>
+<h2 id="temas">🗺️ Temas</h2>
+<ul>
+<li>Target encoding clásico + smoothing bayesiano.</li>
+<li>Leak en target encoding sin CV: features ven sus propios targets.</li>
+<li>KNNImputer (sklearn): nearest neighbors por filas.</li>
+<li>IterativeImputer / MICE: estima cada feature con regresión.</li>
+<li>category_encoders: CatBoost, James-Stein, target, hashing.</li>
+<li>Pipeline-safe imputation.</li>
+</ul>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<ul>
+<li><strong>Target encoding</strong>: reemplazar categoría con su mean target. Con smoothing: combina con global mean.</li>
+<li><strong>Smoothing</strong>: <code>enc = (n·mean_cat + k·global) / (n + k)</code> — protege categorías raras.</li>
+<li><strong>CV target encoding</strong>: cada fold usa encoding fitted en otros folds → sin leakage.</li>
+<li><strong>KNNImputer</strong>: para cada NaN, promedia k vecinos en feature space.</li>
+<li><strong>MICE</strong>: iterativo — predice cada feature con regresión usando las demás.</li>
+<li><strong>CatBoostEncoder</strong>: variant de target encoding sin necesitar CV (ordering trick).</li>
+</ul>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<ul>
+<li><code>fetch_openml('credit-g')</code> o California Housing con NaN inyectados.</li>
+<li>Librerías: <code>category_encoders</code> (<code>pip install category_encoders</code>), <code>scikit-learn</code>, <code>pandas</code>.</li>
+</ul>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>Target encoding leak</strong>: encoding sobre train+test → métrica inflada. Mostrar.</li>
+<li><strong>Target encoding con CV</strong>: <code>TargetEncoder(cv=5, smoothing=10)</code> dentro de pipeline. Sin leak.</li>
+<li><strong>CatBoost encoder</strong>: alternativa sin CV. Comparar performance.</li>
+<li><strong>KNNImputer</strong>: con dataset con NaN, imputar con k=5; comparar contra SimpleImputer (mean).</li>
+<li><strong>MICE</strong>: <code>IterativeImputer(estimator=BayesianRidge(), max_iter=10)</code>. Comparar.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Sobre credit-g con NaN sintéticos (10 % de missing en 3 columnas):</p>
+<ol>
+<li>Pipeline 1: SimpleImputer + OneHot + LogReg.</li>
+<li>Pipeline 2: KNNImputer + TargetEncoder(CV) + LogReg.</li>
+<li>Pipeline 3: MICE + CatBoostEncoder + LogReg.</li>
+<li>Comparar accuracy + tiempo.</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: pipelines modernos (2, 3) superan SimpleImputer baseline en AUC por ≥ 0.5 pp; sin target leakage en target encoding.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Target encoding fitted sobre <code>X</code> completo → AUC infladísimo</td>
+<td>Leak. <strong>Fix</strong>: <code>TargetEncoder</code> dentro de pipeline + CV externo.</td>
+</tr>
+<tr>
+<td>MICE con <code>max_iter=2</code> poco convergente</td>
+<td><strong>Fix</strong>: 10-20 iterations.</td>
+</tr>
+<tr>
+<td>KNNImputer lento con N grande</td>
+<td>O(N²) en distancia. <strong>Fix</strong>: KNN con <code>n_neighbors=5</code> solo si N &lt; 100k.</td>
+</tr>
+<tr>
+<td>Smoothing=0 sobre categoría con n=1</td>
+<td>Encoding = ese 1 target → overfit. <strong>Fix</strong>: smoothing ≥ 5.</td>
+</tr>
+<tr>
+<td>OneHot para 10k+ categorías</td>
+<td>Curse of dimensionality. <strong>Fix</strong>: target encoding o hashing.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ Target encoding mejor que one-hot?</strong></p>
+<p>Para alta cardinalidad (&gt; 50 categorías), sí — mucho. Para baja, comparable o peor.</p>
+<p><strong>❓ MICE o KNN?</strong></p>
+<p>MICE mejor con features correlated (predice con modelo). KNN mejor con clusters locales. Probar.</p>
+<p><strong>❓ Smoothing value?</strong></p>
+<p>Empírico — 5-30 típicamente. Más smoothing = más conservador hacia global mean.</p>
+<p><strong>❓ category_encoders integrado en sklearn?</strong></p>
+<p>No, lib externa. sklearn tiene <code>TargetEncoder</code> desde 1.3, pero <code>category_encoders</code> tiene más options.</p>
+<p><strong>❓ Para tree-based (XGBoost)?</strong></p>
+<p>Mucho menos crítico — los árboles manejan categóricas razonable. Pero target encoding ayuda con cardinalidad alta.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Micci-Barreca (2001), <em>A Preprocessing Scheme for High-Cardinality Categorical Attributes</em>.</li>
+<li>Van Buuren (2018), <em>Flexible Imputation of Missing Data</em> (libro gratuito).</li>
+<li><a href="https://contrib.scikit-learn.org/category_encoders/">category_encoders docs</a>.</li>
+<li><a href="https://scikit-learn.org/stable/modules/generated/sklearn.impute.IterativeImputer.html"><code>sklearn IterativeImputer</code></a>.</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../056-seleccion-y-entrenamiento-de-modelo/index.html">Clase 056 — Selección y entrenamiento de modelo</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-1-machine-learning-clasico/055-feature-engineering-avanzado-target-encoding-mice/"><code>classes/parte-1-machine-learning-clasico/055-feature-engineering-avanzado-target-encoding-mice/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

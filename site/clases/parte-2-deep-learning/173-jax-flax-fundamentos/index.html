@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 173 — JAX y Flax: el stack moderno de Google para DL | Python Data Science Program</title>
+  <meta name="description" content="Clase 173 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 2 — Deep Learning</a><span class="sep">›</span><span>173</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-2-deep-learning/173-jax-flax-fundamentos/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-173-jax-y-flax-el-stack-moderno-de-google-para-dl">Clase 173 — JAX y Flax: el stack moderno de Google para DL</h1>
+<blockquote>
+<p>Parte: <strong>2 — Deep Learning</strong> · Fuente: <a href="https://jax.readthedocs.io/">JAX docs</a> + <a href="https://flax.readthedocs.io/">Flax NNX docs</a>. ⏱️ Duración estimada: <strong>85 min</strong>.</p>
+</blockquote>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Aprender <strong>JAX</strong> (Google 2018) y <strong>Flax</strong> (NN library on top of JAX) — el stack que sostiene AlphaFold, Gemini, MaxText, AlphaCode y muchos modelos modernos. Cubrir <code>jit</code>, <code>vmap</code>, <code>pmap</code>, <code>grad</code>, transformaciones funcionales, y <code>Flax NNX</code> (la nueva API 2024, similar a PyTorch).</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar, el estudiante podrá:</p>
+<ul>
+<li>Diferenciar JAX (NumPy + autodiff + XLA) de NumPy plano.</li>
+<li>Usar <code>jax.jit</code> para compilación XLA (2-10× speedup automático).</li>
+<li>Aplicar <code>jax.vmap</code> (vectorización automática) y <code>jax.grad</code> (autodiff funcional).</li>
+<li>Construir modelos con <strong>Flax NNX</strong> (API moderna similar a PyTorch).</li>
+<li>Reconocer cuándo elegir JAX sobre PyTorch (TPU, escala extrema, research).</li>
+</ul>
+<h2 id="temas">🗺️ Temas</h2>
+<ul>
+<li>Functional programming: funciones puras, no mutación.</li>
+<li><code>jit</code>, <code>grad</code>, <code>vmap</code>, <code>pmap</code> como transformaciones.</li>
+<li>XLA: compilación a hardware específico (CPU, GPU, TPU).</li>
+<li>PRNG explícito (<code>jax.random.PRNGKey</code>).</li>
+<li>Flax: NN library. Antes Linen (functional), ahora NNX (stateful, más parecido a PyTorch).</li>
+<li>Optax: optimizadores.</li>
+</ul>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<ul>
+<li><strong><code>jax.numpy</code></strong>: drop-in NumPy con autodiff + XLA.</li>
+<li><strong><code>jit</code></strong>: compila la función a XLA. Primera vez lento, después rápido.</li>
+<li><strong><code>grad</code></strong>: devuelve función que computa gradiente.</li>
+<li><strong><code>vmap</code></strong>: vectoriza sobre un eje. Como agregar batch dim.</li>
+<li><strong><code>pmap</code></strong>: paraleliza sobre dispositivos (multi-GPU/TPU).</li>
+<li><strong>PRNGKey</strong>: random determinista. <code>jax.random.split(key)</code> para usar varias veces.</li>
+<li><strong>NNX</strong>: API stateful de Flax 2024, reemplaza Linen.</li>
+</ul>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<ul>
+<li>Fashion-MNIST.</li>
+<li>Librerías: <code>jax</code>, <code>jaxlib</code>, <code>flax</code>, <code>optax</code>.</li>
+</ul>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>JAX basic</strong>: <code>import jax.numpy as jnp; x = jnp.array([1.,2.,3.]); jnp.sum(x**2)</code>. Comparar contra NumPy.</li>
+<li><strong>grad</strong>: <code>grad_f = jax.grad(lambda x: x**3); grad_f(2.)</code> → 12.</li>
+<li><strong>jit speedup</strong>: definir función numérica, medir tiempo con y sin <code>@jax.jit</code>. ≥ 5× speedup.</li>
+<li><strong>vmap</strong>: función para una muestra → <code>vmap</code> para procesar batch.</li>
+<li><strong>Flax NNX MLP</strong>: definir modelo, training step, entrenar Fashion-MNIST.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Re-entrenar Fashion-MNIST en JAX/Flax:</p>
+<ol>
+<li>Modelo Flax NNX con 2 capas Dense.</li>
+<li>Optax <code>adam(1e-3)</code>.</li>
+<li>Training loop con <code>jit</code>.</li>
+<li>Reportar accuracy + tiempo vs equivalente PyTorch.</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: accuracy ≥ 0.87; JIT activo (segunda llamada mucho más rápida que primera).</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Primera ejecución muy lenta</td>
+<td>Compilación XLA. <strong>Fix</strong>: paciencia, después es rápido.</td>
+</tr>
+<tr>
+<td><code>TracerError</code></td>
+<td>Mutación dentro de jit. <strong>Fix</strong>: pure functions, no mutar arrays.</td>
+</tr>
+<tr>
+<td>OOM en TPU</td>
+<td>Modelo grande sin sharding. <strong>Fix</strong>: <code>pmap</code> o <code>pjit</code>.</td>
+</tr>
+<tr>
+<td>Random no determinista</td>
+<td>Olvidaste split del PRNGKey. <strong>Fix</strong>: <code>key, subkey = jax.random.split(key)</code>.</td>
+</tr>
+<tr>
+<td>Comparar PyTorch vs JAX wall-clock sin JIT</td>
+<td>Sin JIT, JAX es lento. <strong>Fix</strong>: siempre con <code>@jit</code>.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ JAX o PyTorch?</strong></p>
+<p>PyTorch ecosystem es más grande. JAX brilla en research / TPU / extrema escala. Para 99 % de DL aplicado, PyTorch.</p>
+<p><strong>❓ Linen o NNX?</strong></p>
+<p>NNX (2024) — más fácil, stateful, parecido a PyTorch. Linen es legacy.</p>
+<p><strong>❓ TPU en cloud?</strong></p>
+<p>Google Cloud TPU v4/v5e/v5p. Vertex AI lo wrappea. Caro pero performance excelente para batch grande.</p>
+<p><strong>❓ Hugging Face soporta JAX?</strong></p>
+<p>Sí, muchos modelos tienen versión JAX. Pero la mayoría de la actividad es PyTorch.</p>
+<p><strong>❓ ¿AlphaFold en JAX?</strong></p>
+<p>Sí. JAX brilla en numerical computing (física, chemistry, biology).</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li><a href="https://jax.readthedocs.io/">JAX docs</a>.</li>
+<li><a href="https://flax.readthedocs.io/">Flax docs</a>.</li>
+<li><a href="https://optax.readthedocs.io/">Optax docs</a>.</li>
+<li>Bradbury et al. (2018), <em>JAX: composable transformations of Python+NumPy programs</em>.</li>
+<li><a href="https://github.com/google/maxtext">MaxText</a> — LLM training en JAX.</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../174-entrenamiento-a-escala-con-vertex-ai/index.html">Clase 174 — Entrenamiento a escala con Vertex AI</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-2-deep-learning/173-jax-flax-fundamentos/"><code>classes/parte-2-deep-learning/173-jax-flax-fundamentos/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

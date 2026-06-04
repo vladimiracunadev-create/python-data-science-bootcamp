@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 131 — Transfer learning con CNNs preentrenadas | Python Data Science Program</title>
+  <meta name="description" content="Clase 131 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 2 — Deep Learning</a><span class="sep">›</span><span>131</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-2-deep-learning/131-transfer-learning-con-cnns-preentrenadas/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-131-transfer-learning-con-cnns-preentrenadas">Clase 131 — Transfer learning con CNNs preentrenadas</h1>
+<blockquote>
+<p>Parte: <strong>2 — Deep Learning</strong> · Fuente: Géron, <strong>cap. 14</strong> § <em>Using Pretrained Models from Keras</em>. ⏱️ Duración estimada: <strong>70 min</strong>.</p>
+</blockquote>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Aplicar transfer learning <strong>específicamente en visión</strong> — el caso de uso más común del campo. Profundizar la clase 101 con receta industrial: data augmentation, fine-tuning gradual, learning rate diferencial, y manejo de <strong>BatchNorm en fine-tuning</strong> (un gotcha clásico).</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar, el estudiante podrá:</p>
+<ul>
+<li>Construir pipeline con <code>image_dataset_from_directory</code> + augmentation (<code>RandomFlip</code>, <code>RandomRotation</code>, <code>RandomZoom</code>).</li>
+<li>Aplicar el <code>preprocess_input</code> específico del modelo base.</li>
+<li>Hacer fine-tuning en 2 fases con LR diferencial.</li>
+<li>Manejar correctamente BatchNorm en fine-tuning (mantenerlo en inference mode si descongelaste pocas capas).</li>
+<li>Comparar <code>feature extraction</code> (frozen base + nueva head) vs <code>fine-tune</code> (descongelar todo) según tamaño del dataset.</li>
+</ul>
+<h2 id="temas">🗺️ Temas</h2>
+<ul>
+<li>Augmentation como capa: <code>RandomFlip</code>, <code>RandomRotation</code>, <code>RandomZoom</code>, <code>RandomCrop</code>, <code>RandomContrast</code>.</li>
+<li><code>preprocess_input</code> por modelo (cada red espera su escalado).</li>
+<li>2-stage training: freeze + head warmup → unfreeze + LR bajo.</li>
+<li>BN gotcha: cuando descongelás, BN sigue actualizando moving averages → puede dañar pretraining.</li>
+<li><code>MixUp</code>, <code>CutMix</code>, <code>RandAugment</code> como augmentations modernas (anticipo).</li>
+</ul>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<ul>
+<li><strong>Augmentation layer</strong>: capa Keras que transforma random las imágenes durante training, no en inference.</li>
+<li><strong><code>preprocess_input</code></strong>: función específica del modelo (<code>keras.applications.&lt;modelo&gt;.preprocess_input</code>).</li>
+<li><strong>Feature extraction</strong>: base frozen, solo entreno head. Bueno para <code>n &lt; 1000</code>.</li>
+<li><strong>Fine-tune</strong>: descongelar parte/total y reentrenar con LR muy bajo.</li>
+<li><strong>LR diferencial</strong>: capas tempranas LR bajo (<code>1e-5</code>), tardías más alto (<code>1e-4</code>).</li>
+</ul>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<ul>
+<li>Dataset chico propio o <code>tfds.load('cats_vs_dogs')</code> o <code>tfds.load('tf_flowers')</code>.</li>
+<li>Modelo base: <code>EfficientNetB0</code> o <code>MobileNetV3Small</code>.</li>
+<li>Librerías: <code>tensorflow</code>, <code>keras</code>, <code>keras.applications</code>.</li>
+</ul>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>Pipeline con augmentation</strong>: <code>RandomFlip + RandomRotation(0.1) + RandomZoom(0.1)</code> como capas. Visualizar imágenes augmentadas.</li>
+<li><strong>Modelo con base + head</strong>: <code>base = EfficientNetB0(include_top=False, weights='imagenet')</code>; <code>base.trainable = False</code>; <code>model = Sequential([data_aug, preprocess_input, base, GlobalAvgPool, Dropout, Dense(num_classes)])</code>.</li>
+<li><strong>Etapa 1 (head warmup)</strong>: <code>Adam(1e-3)</code>, entrenar 5 épocas.</li>
+<li><strong>Etapa 2 (fine-tune)</strong>: <code>base.trainable = True</code>, recompilar con <code>Adam(1e-5)</code>. Entrenar 10 épocas. Verificar mejora.</li>
+<li><strong>BN gotcha</strong>: con <code>base.trainable = True</code> pero pasando <code>training=False</code> a la base durante fine-tuning → BN no se actualiza. Comparar.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Sobre un dataset de 5 categorías (e.g., flores):</p>
+<ol>
+<li>Pipeline completo con augmentation.</li>
+<li>Transfer learning con EfficientNetB0 en 2 fases.</li>
+<li>Reportar accuracy de cada fase.</li>
+<li>Comparar contra entrenar EfficientNet desde cero (sin transfer).</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: la etapa 2 mejora la 1 en ≥ 2 pp; transfer learning supera "desde cero" por mucho margen con dataset chico.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Imágenes pasadas en <code>[0, 255]</code> cuando el modelo espera <code>[-1, 1]</code></td>
+<td><strong>Fix</strong>: agregar <code>preprocess_input</code> correcto.</td>
+</tr>
+<tr>
+<td>Augmentation aplicada en val/test también</td>
+<td>Augmentation debe ser solo en train. <strong>Fix</strong>: capa de augmentation con <code>training=True</code> solo en train data (Keras lo maneja con la <code>training</code> flag automáticamente).</td>
+</tr>
+<tr>
+<td>Fine-tuning con LR=1e-3 → catastrophic forgetting</td>
+<td><strong>Fix</strong>: LR 10-100× más bajo.</td>
+</tr>
+<tr>
+<td>Forgot to recompile después de cambiar <code>trainable</code></td>
+<td>El optimizer no ve los nuevos pesos como trainable. <strong>Fix</strong>: <code>model.compile(...)</code> después de tocar trainable.</td>
+</tr>
+<tr>
+<td>BatchNorm en fine-tuning actualiza moving avgs y "olvida" pretrain</td>
+<td>Para datasets chicos, mantener BN en inference: <code>base(x, training=False)</code> o <code>for layer in base.layers: if isinstance(layer, BatchNormalization): layer.trainable = False</code>.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿Cuántas imágenes mínimas?</strong></p>
+<p>50-100 por clase para feature extraction. 200-500 por clase para fine-tuning completo. &lt; 50 → considerar data augmentation agresiva o few-shot learning.</p>
+<p><strong>❓ ¿Qué proporción de capas descongelo?</strong></p>
+<p>Empezá con todo. Si overfittea, congelar las primeras N. Si underfittea, descongelar todo.</p>
+<p><strong>❓ ¿<code>include_top=False</code> siempre?</strong></p>
+<p>Sí para transfer learning (querés head custom).</p>
+<p><strong>❓ ¿Augmentation en GPU o CPU?</strong></p>
+<p>GPU es más rápido si está disponible (<code>with tf.device('/GPU:0')</code>). Augmentation pesada es lo más comúnmente bottleneck en CPU.</p>
+<p><strong>❓ ¿Test-time augmentation (TTA)?</strong></p>
+<p>Predecir varias versiones augmentadas de la misma imagen y promediar. Mejora accuracy 0.5-2 pp. Buen truco para Kaggle.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Géron, <strong>cap. 14</strong> — <em>Using Pretrained Models from Keras</em>.</li>
+<li>Yosinski et al. (2014), <em>How transferable are features in deep neural networks?</em>, NeurIPS.</li>
+<li>Cubuk et al. (2020), <em>RandAugment</em>.</li>
+<li><a href="https://keras.io/api/data_loading/image/">Keras — Image data preprocessing</a>.</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../132-localizacion-deteccion-yolo-faster-r-cnn-segmentacion-semantica/index.html">Clase 132 — Localización, detección, segmentación (+ DETR, Segment Anything, YOLOv11)</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-2-deep-learning/131-transfer-learning-con-cnns-preentrenadas/"><code>classes/parte-2-deep-learning/131-transfer-learning-con-cnns-preentrenadas/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

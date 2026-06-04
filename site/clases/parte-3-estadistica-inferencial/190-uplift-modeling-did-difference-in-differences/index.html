@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 190 — Uplift modeling, DiD (difference-in-differences) | Python Data Science Program</title>
+  <meta name="description" content="Clase 190 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 3 — Estadística inferencial</a><span class="sep">›</span><span>190</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-3-estadistica-inferencial/190-uplift-modeling-did-difference-in-differences/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#version-profundizada-2026">📌 Versión profundizada — 2026</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-190-uplift-modeling-did-difference-in-differences">Clase 190 — Uplift modeling, DiD (difference-in-differences)</h1>
+<blockquote>
+<p>Parte: <strong>3 — Estadística Inferencial y Causal</strong> · Fuente: Gutierrez &amp; Gerardy (2017), <em>Causal Inference and Uplift Modeling</em> + Abadie, Diamond &amp; Hainmueller (2010), <em>Synthetic Control Methods</em>. ⏱️ Duración estimada: <strong>90 min</strong>.</p>
+</blockquote>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Dominar las dos técnicas causales más usadas en industria cuando hay datos panel/observacionales: <strong>DiD (Difference-in-Differences)</strong> —comparar la evolución antes/después en grupo tratado vs control— y <strong>uplift modeling</strong> —predecir a quién conviene tratar (heterogeneidad del efecto causal a nivel individuo). Conocer el complemento moderno <strong>Synthetic Control Method</strong> para cuando no hay grupo de control natural y solo se trata una unidad (una ciudad, un país).</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar, el estudiante podrá:</p>
+<ul>
+<li>Aplicar <strong>DiD</strong> clásico con OLS: <code>Y = β₀ + β₁·tratado + β₂·post + β₃·(tratado×post) + ε</code>. El coeficiente <code>β₃</code> es el efecto causal bajo <strong>parallel trends</strong>.</li>
+<li>Diagnosticar la asunción de <strong>parallel trends</strong> con un gráfico antes/después y un placebo test.</li>
+<li>Construir modelos de <strong>uplift</strong>: T-learner, S-learner, X-learner (Künzel et al. 2019), Causal Forest (<code>econml</code>).</li>
+<li>Evaluar uplift con <strong>Qini curve</strong> y <strong>uplift@k</strong> (no con AUC clásico — uplift es individual, no global).</li>
+<li>Aplicar <strong>Synthetic Control</strong> con <code>pysyncon</code> o <code>SparseSC</code> cuando una sola unidad recibe tratamiento (estudio de caso).</li>
+</ul>
+<h2 id="temas">🗺️ Temas</h2>
+<ul>
+<li>DiD: comparación dos-por-dos en panel (2 grupos × 2 tiempos).</li>
+<li>Asunción crítica: <strong>parallel trends</strong> — sin tratamiento, ambos grupos hubieran evolucionado paralelos.</li>
+<li>Generalización: DiD con muchos tiempos, two-way fixed effects (TWFE), event study designs.</li>
+<li>Uplift = CATE individual = <code>E[Y(1) - Y(0) | X=x]</code>.</li>
+<li>4 cuadrantes de uplift: persuadables, sure things, lost causes, do-not-disturb (no tocarlos).</li>
+<li>Métricas: Qini, uplift@k, AUUC (area under uplift curve).</li>
+<li><strong>Complemento moderno</strong>: Synthetic Control Method (Abadie et al.) — construye un "país sintético" como combinación convexa de unidades no tratadas que replica la trayectoria pre-tratamiento.</li>
+</ul>
+<h2 id="version-profundizada-2026">📌 Versión profundizada — 2026</h2>
+<p>El tema moderno que antes vivía como complemento dentro de esta clase ahora tiene su(s) clase(s) propia(s) con patrón completo, ejercicios y homework:</p>
+<ul>
+<li>👉 <a href="../157a-synthetic-control-method-pysyncon/index.html">Clase 157a — Synthetic Control Method dedicado (pysyncon, SparseSC)</a></li>
+</ul>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<ul>
+<li><strong>DiD</strong>: estima <code>(Y_tratado,post - Y_tratado,pre) - (Y_control,post - Y_control,pre)</code>. Equivale al coeficiente de la interacción <code>tratado × post</code> en OLS.</li>
+<li><strong>Parallel trends</strong>: sin el tratamiento, ambos grupos hubieran tenido la misma trayectoria. NO testeable directamente; sí en el pre.</li>
+<li><strong>TWFE (Two-Way Fixed Effects)</strong>: regresión con dummies de unidad + dummies de tiempo + tratamiento. Generaliza DiD a panel.</li>
+<li><strong>Event study</strong>: grafica los coeficientes de <code>dummy × (t - t_tratamiento)</code> para cada t. Permite ver dinámica del efecto y testear pre-tendencias.</li>
+<li><strong>Uplift / CATE</strong>: <code>τ(x) = E[Y(1) - Y(0) | X=x]</code>. Diferencia entre lo que pasa con tratamiento vs sin.</li>
+<li><strong>T-learner</strong>: ajustar dos modelos separados, uno por grupo (<code>μ₁(x) = E[Y|X, T=1]</code>, <code>μ₀(x) = E[Y|X, T=0]</code>); restar.</li>
+<li><strong>S-learner</strong>: un solo modelo con <code>T</code> como feature; predecir con <code>T=1</code> y <code>T=0</code> y restar.</li>
+<li><strong>X-learner</strong> (Künzel et al. 2019): combina T y S, usando propensity para ponderar; mejor con grupos desbalanceados.</li>
+<li><strong>Causal Forest</strong> (<code>econml.CausalForestDML</code>): random forest entrenado para minimizar heterogeneidad del efecto, con IC válidos.</li>
+<li><strong>Qini curve</strong>: ranking individuos por uplift predicho; eje x = % tratado; eje y = ganancia incremental acumulada vs random.</li>
+</ul>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<ul>
+<li>DiD clásico: Card &amp; Krueger 1994 (mínimum wage en NJ vs PA).</li>
+<li>Uplift: <strong>Hillstrom email dataset</strong> (criteo), <strong>Lenta uplift dataset</strong>.</li>
+<li>Synthetic Control: California Prop 99 (smoking) — clásico de Abadie.</li>
+<li>Librerías: <code>linearmodels</code> (PanelOLS), <code>econml</code>, <code>causalml</code> (Uber), <code>pysyncon</code>, <code>SparseSC</code>.</li>
+</ul>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>DiD ingenuo</strong>: simulá panel con 2 grupos y 2 períodos. Aplicá DiD con OLS y verificá que <code>β₃</code> recupera el efecto verdadero. Probá violar parallel trends y ver el sesgo.</li>
+<li><strong>Event study</strong>: con panel 10 períodos (5 pre, 5 post), graficá coeficientes por período. Si los pre son ≈ 0 → parallel trends plausible.</li>
+<li><strong>T-learner</strong>: en Hillstrom (binario tratamiento email), entrená dos <code>RandomForestClassifier</code> y predecí uplift = <code>p₁(x) - p₀(x)</code>.</li>
+<li><strong>Qini curve</strong>: con las predicciones del ej. 3, calculá Qini con <code>sklift.metrics.qini_score</code> o a mano. Compará contra "tratar al azar".</li>
+<li><strong>Synthetic Control</strong>: con un dataset panel simulado (10 estados × 20 años, tratamiento en California año 11), ajustá pesos con <code>pysyncon</code> y graficá <code>path_plot</code> + <code>gaps_plot</code>. Aplicá <code>placebo_test</code>.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Sobre el dataset Card &amp; Krueger (mínimum wage NJ vs PA, 1992):</p>
+<ol>
+<li>Cargar datos, calcular promedio de empleo por estado en pre (Feb 1992) y post (Nov 1992).</li>
+<li>Aplicar DiD con OLS y reportar <code>β₃</code> con IC95 %.</li>
+<li>Hacer un event study si hay más de 2 períodos disponibles, o el gráfico 2×2 si no.</li>
+<li>Discutir en 4 líneas: ¿se cumple parallel trends? ¿Cómo se relaciona el <code>β₃</code> con el debate clásico (Card vs Neumark)?</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: el coeficiente DiD debe ser positivo y ≈ +2.7 empleados (consistente con el paper original); la discusión menciona parallel trends y un riesgo concreto (sesgo de selección de stores, attrition).</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Aplico DiD sin verificar parallel trends</td>
+<td>Si los grupos tenían trayectorias divergentes pre, el DiD captura esa divergencia, no el efecto. <strong>Fix</strong>: event study con pre-período, placebo test.</td>
+</tr>
+<tr>
+<td>Uplift evaluado con AUC</td>
+<td>AUC mide clasificación, no uplift. Un modelo que predice bien <code>P(Y=1|X)</code> puede ser pésimo para uplift. <strong>Fix</strong>: Qini, uplift@k.</td>
+</tr>
+<tr>
+<td>T-learner con un grupo mucho más chico que el otro</td>
+<td>El modelo del grupo chico overfittea. <strong>Fix</strong>: X-learner o causal forest.</td>
+</tr>
+<tr>
+<td>Synthetic control con pre-período de 2 años</td>
+<td>Pesos no convergen a algo confiable. <strong>Fix</strong>: mínimo 5-10 períodos pre.</td>
+</tr>
+<tr>
+<td>Interpreto el sintético como "lo que hubiera pasado" sin placebo test</td>
+<td>Sin placebo, no podés saber si tu "efecto" es real o ruido. <strong>Fix</strong>: placebo test sobre cada control no tratado, comparar contra el efecto real.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿DiD funciona con un solo período pre y un solo post?</strong></p>
+<p>Sí (es el "2×2 DiD"), pero <strong>no podés testear parallel trends</strong> — solo asumirlo. Con más períodos, podés hacer event study y verificarlo.</p>
+<p><strong>❓ ¿Uplift modeling vs causal forest?</strong></p>
+<p>Causal forest <strong>es</strong> uplift modeling — produce CATE por instancia con IC. Las otras (T/S/X-learner) son métodos clásicos. En la práctica, X-learner y causal forest tienen el mejor performance en benchmarks.</p>
+<p><strong>❓ ¿Cuántas unidades de control mínimas para synthetic control?</strong></p>
+<p>10-20 idealmente; con menos los pesos saturan en 1 o 2 unidades y pierde robustez. Si pocas unidades pero muchos períodos: <strong>synthetic DiD</strong> o <strong>factor models</strong>.</p>
+<p><strong>❓ ¿Negative weights en synthetic control?</strong></p>
+<p>El método clásico fuerza <code>w ≥ 0</code> (combinación convexa). Variantes modernas (Doudchenko &amp; Imbens 2016, <code>SparseSC</code>) relajan esto y permiten negativos con regularización — más flexible pero menos interpretable.</p>
+<p><strong>❓ ¿DiD con TWFE es siempre correcto?</strong></p>
+<p>No con tratamientos <strong>escalonados</strong> (unidades tratadas en momentos distintos). TWFE puede pesar con signo negativo períodos donde unidades "ya tratadas" sirven de control de "recién tratadas". <strong>Fix</strong>: Callaway &amp; Sant'Anna 2021, <code>did</code> package en R o <code>differences</code> en Python.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Angrist &amp; Pischke (2009), <em>Mostly Harmless Econometrics</em>, cap. 5 (DiD).</li>
+<li>Künzel, Sekhon, Bickel &amp; Yu (2019), <em>Metalearners for estimating heterogeneous treatment effects using ML</em>, PNAS.</li>
+<li>Abadie, Diamond &amp; Hainmueller (2010), <em>Synthetic Control Methods</em>, JASA.</li>
+<li>Callaway &amp; Sant'Anna (2021), <em>Difference-in-Differences with Multiple Time Periods</em>, J. of Econometrics.</li>
+<li>Gutierrez &amp; Gerardy (2017), <em>Causal Inference and Uplift Modeling</em>, JMLR Workshop.</li>
+<li><a href="https://econml.azurewebsites.net/">econml</a>, <a href="https://github.com/uber/causalml">causalml</a> (Uber), <a href="https://github.com/sdfordham/pysyncon">pysyncon</a>, <a href="https://github.com/microsoft/SparseSC">SparseSC</a>.</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../191-synthetic-control-method-pysyncon/index.html">Clase 191 — Synthetic Control Method dedicado (pysyncon, SparseSC)</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-3-estadistica-inferencial/190-uplift-modeling-did-difference-in-differences/"><code>classes/parte-3-estadistica-inferencial/190-uplift-modeling-did-difference-in-differences/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

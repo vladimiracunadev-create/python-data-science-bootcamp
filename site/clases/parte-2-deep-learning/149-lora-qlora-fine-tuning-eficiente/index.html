@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 149 — LoRA / QLoRA: fine-tuning eficiente de LLMs | Python Data Science Program</title>
+  <meta name="description" content="Clase 149 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 2 — Deep Learning</a><span class="sep">›</span><span>149</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-2-deep-learning/149-lora-qlora-fine-tuning-eficiente/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-149-lora-qlora-fine-tuning-eficiente-de-llms">Clase 149 — LoRA / QLoRA: fine-tuning eficiente de LLMs</h1>
+<blockquote>
+<p>Parte: <strong>2 — Deep Learning</strong> · Fuente: Hu et al. (2021) LoRA + Dettmers et al. (2023) QLoRA. ⏱️ Duración estimada: <strong>100 min</strong>.</p>
+</blockquote>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Hacer fine-tuning de LLMs (Llama 3, Mistral, Qwen 2) <strong>en una GPU consumer</strong> con <strong>LoRA</strong> y <strong>QLoRA</strong>. Cubrir hyperparámetros (r, alpha, dropout, target_modules), inspección de trainable params, merge LoRA con base, y deployment.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar, el estudiante podrá:</p>
+<ul>
+<li>Aplicar LoRA con <code>peft.LoraConfig</code> y <code>get_peft_model</code>.</li>
+<li>Configurar QLoRA con <code>bitsandbytes</code> 4-bit + <code>BitsAndBytesConfig(load_in_4bit=True, bnb_4bit_quant_type='nf4')</code>.</li>
+<li>Elegir rank <code>r</code> (típico 8-64), <code>alpha</code> (típico 2×r), <code>target_modules</code>.</li>
+<li>Mergear el LoRA adapter con el base para deploy: <code>model.merge_and_unload()</code>.</li>
+<li>Calcular trainable params vs total: ~0.1-1 % es el ratio típico.</li>
+</ul>
+<h2 id="temas">🗺️ Temas</h2>
+<ul>
+<li>LoRA matemáticamente: <code>W' = W + (B·A)·alpha/r</code>.</li>
+<li>QLoRA: NF4 quantization + double quant + paged optimizers.</li>
+<li>target_modules: <code>['q_proj', 'k_proj', 'v_proj', 'o_proj']</code> clásico; o <code>all-linear</code>.</li>
+<li>Save / load: solo el adapter (~10-50 MB) en lugar del full model.</li>
+<li>Merge + serve vs separated adapter.</li>
+</ul>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<ul>
+<li><strong>LoRA</strong>: matrices rank-r entrenables agregadas a Linear layers.</li>
+<li><strong>r (rank)</strong>: 8-16 para tareas chicas; 32-64 para datos grandes/cambios fuertes.</li>
+<li><strong>alpha</strong>: scaling. Convención: <code>alpha = 2r</code>.</li>
+<li><strong>NF4</strong>: NormalFloat 4-bit, optimizado para weights de redes pre-trained.</li>
+<li><strong>Double quantization</strong>: cuantizar los scales también; ahorra ~0.4 bits/param.</li>
+<li><strong><code>merge_and_unload()</code></strong>: devuelve un modelo "normal" con LoRA aplicado.</li>
+</ul>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<ul>
+<li>HuggingFace dataset de instrucción (Alpaca, Dolly, OpenAssistant).</li>
+<li>Modelo base: Llama 3 8B Instruct, Mistral 7B Instruct, Qwen 2 7B Instruct.</li>
+<li>Librerías: <code>transformers</code>, <code>peft</code>, <code>bitsandbytes</code>, <code>accelerate</code>, <code>trl</code>.</li>
+</ul>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>LoRA básico</strong>: cargar Mistral 7B Instruct sin quantization; aplicar LoRA r=16. Inspeccionar trainable params (~0.5 %).</li>
+<li><strong>QLoRA</strong>: ahora con <code>load_in_4bit=True</code>. Verificar uso VRAM (~6 GB).</li>
+<li><strong>Train con TRL</strong>: <code>SFTTrainer</code> sobre 500 ejemplos custom. ~30 min en GPU consumer.</li>
+<li><strong>Inference con adapter</strong>: cargar base + LoRA y predecir.</li>
+<li><strong>Merge</strong>: <code>model.merge_and_unload()</code> → save como modelo normal.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Fine-tune Mistral 7B Instruct con QLoRA para un dominio propio:</p>
+<ol>
+<li>Dataset: 200-500 pares <code>(instrucción, respuesta)</code>.</li>
+<li>QLoRA r=16, target=all-linear, 3 épocas.</li>
+<li>Inference con el adapter: 10 ejemplos test.</li>
+<li>Reportar mejora cualitativa vs base.</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: respuestas más alineadas al dominio que el base; uso de VRAM &lt; 16 GB durante training.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>OOM en Llama 7B + Adam</td>
+<td>Sin quantization. <strong>Fix</strong>: QLoRA + <code>paged_adamw_8bit</code>.</td>
+</tr>
+<tr>
+<td>LoRA target_modules='all-linear' lento</td>
+<td>Demasiados adapters. <strong>Fix</strong>: solo q/v y luego experimentar.</td>
+</tr>
+<tr>
+<td>Trainable params 0</td>
+<td>Olvidaste <code>get_peft_model</code>. <strong>Fix</strong>: aplicarlo a <code>model</code>.</td>
+</tr>
+<tr>
+<td>Resultados peor que base</td>
+<td>LR mal, <code>target_modules</code> incompleto, o pocos datos. <strong>Fix</strong>: LR=2e-4, target=all-linear, más data.</td>
+</tr>
+<tr>
+<td><code>merge_and_unload</code> modifica el base</td>
+<td>Por design, en place. <strong>Fix</strong>: si necesitás base intacto, save antes.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ rank r óptimo?</strong></p>
+<p>Empieza con 16. Tareas pequeñas: 8. Datos grandes / cambios sustanciales: 32-64.</p>
+<p><strong>❓ ¿LoRA o QLoRA?</strong></p>
+<p>QLoRA si la GPU no aguanta. Sino LoRA, ligeramente mejor calidad final.</p>
+<p><strong>❓ Multi-adapter?</strong></p>
+<p>Sí — entrenar varios adapters (uno por tarea/idioma) y switchear en inference con <code>model.set_adapter('name')</code>.</p>
+<p><strong>❓ ¿LoRA en visión / difusión?</strong></p>
+<p>Sí, mismo concepto. <code>diffusers</code> tiene LoRA support para SDXL fine-tuning.</p>
+<p><strong>❓ DoRA, AdaLoRA?</strong></p>
+<p>Variantes: DoRA (weight-decomposed) y AdaLoRA (rank adaptativo). Mejoras marginales. LoRA "vanilla" sigue siendo default.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Hu et al. (2021), <em>LoRA</em>, ICLR.</li>
+<li>Dettmers et al. (2023), <em>QLoRA</em>, NeurIPS.</li>
+<li><a href="https://huggingface.co/docs/peft">PEFT docs</a>.</li>
+<li><a href="https://huggingface.co/docs/trl">TRL docs</a>.</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../150-dpo-rlhf-alineamiento-de-llms/index.html">Clase 150 — DPO y RLHF: alineamiento de LLMs</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-2-deep-learning/149-lora-qlora-fine-tuning-eficiente/"><code>classes/parte-2-deep-learning/149-lora-qlora-fine-tuning-eficiente/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

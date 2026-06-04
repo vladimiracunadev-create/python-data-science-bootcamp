@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 158 — GANs: DCGAN, Progressive GAN, StyleGAN | Python Data Science Program</title>
+  <meta name="description" content="Clase 158 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 2 — Deep Learning</a><span class="sep">›</span><span>158</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-2-deep-learning/158-gans-dcgan-progressive-gan-stylegan/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-158-gans-dcgan-progressive-gan-stylegan">Clase 158 — GANs: DCGAN, Progressive GAN, StyleGAN</h1>
+<blockquote>
+<p>Parte: <strong>2 — Deep Learning</strong> · Fuente: Géron, <strong>cap. 17</strong> § <em>Generative Adversarial Networks</em> + Goodfellow (2014). ⏱️ Duración estimada: <strong>80 min</strong>.</p>
+</blockquote>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Construir un <strong>GAN</strong> (Generative Adversarial Network, Goodfellow 2014) — dos redes en juego adversarial: <strong>Generador</strong> crea muestras desde noise; <strong>Discriminador</strong> distingue real de falso. El equilibrio Nash de este juego = generador que genera muestras indistinguibles de la distribución real. Conocer las variantes principales: <strong>DCGAN</strong>, <strong>Progressive GAN</strong>, <strong>StyleGAN</strong> (caras hiperrealistas).</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar, el estudiante podrá:</p>
+<ul>
+<li>Implementar un DCGAN sencillo con Generator + Discriminator convolucionales sobre MNIST/Fashion.</li>
+<li>Escribir custom training loop alternando G y D updates.</li>
+<li>Diagnosticar 3 problemas clásicos: <strong>mode collapse</strong> (G produce 1 sola cosa), <strong>vanishing G gradient</strong> (D demasiado bueno), <strong>training inestable</strong>.</li>
+<li>Aplicar <strong>label smoothing</strong> (real labels = 0.9 en lugar de 1.0), <strong>noise</strong> en D inputs, y <strong>WGAN-GP</strong> (Wasserstein) para mejor estabilidad.</li>
+<li>Reconocer que GANs perdieron terreno frente a Diffusion (clase 133) en 2022+, pero <strong>StyleGAN</strong> sigue siendo competitivo para caras.</li>
+</ul>
+<h2 id="temas">🗺️ Temas</h2>
+<ul>
+<li>Loss original (min-max): <code>min_G max_D E[log D(x)] + E[log(1 - D(G(z)))]</code>.</li>
+<li>DCGAN: arquitecturas convolucionales (Radford et al. 2015).</li>
+<li>Modos de fallo: mode collapse, D demasiado fuerte/débil.</li>
+<li>WGAN, WGAN-GP, spectral norm.</li>
+<li>Progressive GAN: empezar con 4×4, ir subiendo resolución.</li>
+<li>StyleGAN: AdaIN, style mixing, latent W intermedio.</li>
+<li>Métricas: <strong>FID</strong> (Fréchet Inception Distance), IS.</li>
+</ul>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<ul>
+<li><strong>Generator</strong>: red que toma <code>z ~ N(0,I)</code> → genera muestra.</li>
+<li><strong>Discriminator</strong>: clasificador binario real/fake.</li>
+<li><strong>Mode collapse</strong>: G genera diversidad reducida (1 o pocos modos).</li>
+<li><strong>Vanishing gradient (G)</strong>: cuando D distingue perfectamente, su gradiente sobre G se desvanece.</li>
+<li><strong>WGAN-GP</strong>: cambia la loss a Wasserstein-1 + gradient penalty. Estabilidad superior.</li>
+<li><strong>FID</strong>: distancia entre features de InceptionV3 de reales vs falsas; menor = mejor.</li>
+<li><strong>StyleGAN</strong>: latent <code>z</code> se mapea a <code>w</code> y se inyecta vía AdaIN en cada capa del generador.</li>
+</ul>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<ul>
+<li>MNIST / Fashion-MNIST como playground.</li>
+<li>Celeb-A para caras (más serio).</li>
+<li>Librerías: <code>tensorflow</code>, <code>keras</code>.</li>
+</ul>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>DCGAN básico</strong>: G y D convolucionales. Custom training loop con dos <code>tf.function</code> (<code>train_d</code>, <code>train_g</code>).</li>
+<li><strong>Diagnóstico</strong>: graficar <code>D_loss</code> y <code>G_loss</code> por step. Si <code>D_loss → 0</code>, G está perdiendo.</li>
+<li><strong>Mode collapse</strong>: tras N épocas, generar 64 samples. Si todos son la misma cosa → collapse.</li>
+<li><strong>WGAN-GP</strong>: implementar gradient penalty en la D loss. Comparar estabilidad vs DCGAN.</li>
+<li><strong>FID</strong>: implementar (o usar <code>tensorflow_gan.eval.fid</code>) y reportar FID del modelo.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>DCGAN en Fashion-MNIST:</p>
+<ol>
+<li>Generator: <code>Dense(7*7*128) → reshape → Conv2DTranspose × 3</code> hasta 28×28.</li>
+<li>Discriminator: <code>Conv2D × 3 → Dense(1)</code>.</li>
+<li>Entrenar 50 épocas; generar grid 8×8.</li>
+<li>Reportar <code>D_loss</code> y <code>G_loss</code> finales; visual del grid.</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: las muestras generadas son reconocibles como prendas (aunque imperfectas); el training es razonablemente estable (sin colapsar a un solo modo).</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Mode collapse</td>
+<td>D muy fuerte, G no puede engañar. <strong>Fix</strong>: WGAN-GP, batch normalization en G, bajar <code>lr_D</code>.</td>
+</tr>
+<tr>
+<td>Training inestable, oscilaciones</td>
+<td>LR alto en ambos. <strong>Fix</strong>: <code>Adam(2e-4, beta_1=0.5)</code> clásico DCGAN.</td>
+</tr>
+<tr>
+<td><code>D_loss = 0</code></td>
+<td>D resolvió. <strong>Fix</strong>: hacer D más débil o agregar noise/dropout a inputs de D.</td>
+</tr>
+<tr>
+<td>Outputs muy borrosos</td>
+<td>Underfit de G. <strong>Fix</strong>: G más expresivo, más épocas.</td>
+</tr>
+<tr>
+<td>Outputs de baja resolución bien, alta resolución pésimo</td>
+<td>Sin Progressive Growing. <strong>Fix</strong>: usar StyleGAN o difusión.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿GAN sigue relevante en 2026?</strong></p>
+<p>StyleGAN3 sigue siendo competitivo para caras y generación en general "rápida" (1 forward pass). Difusión gana en calidad para texto-to-image complejo.</p>
+<p><strong>❓ ¿FID o IS?</strong></p>
+<p>FID es mejor (más robusta a artifacts). IS está deprecada.</p>
+<p><strong>❓ ¿Conditional GAN?</strong></p>
+<p>cGAN (Mirza &amp; Osindero 2014): condicionar en label o texto. Permite control sobre qué generar.</p>
+<p><strong>❓ ¿GAN inversion?</strong></p>
+<p>Encontrar <code>z</code> tal que <code>G(z) ≈ imagen_dada</code>. Útil para edición. Difícil; StyleGAN tiene buenas implementaciones.</p>
+<p><strong>❓ ¿Por qué Diffusion ganó?</strong></p>
+<p>Más estable de entrenar (sin min-max), mejor calidad de outputs, controllable con text. La explicación más simple: optimiza <code>log p(x)</code> directamente, GAN optimiza un divergence relacionado pero no la log-likelihood.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Géron, <strong>cap. 17</strong> — <em>Generative Adversarial Networks</em>.</li>
+<li>Goodfellow et al. (2014), <em>Generative Adversarial Networks</em>, NeurIPS.</li>
+<li>Radford et al. (2015), <em>DCGAN</em>, ICLR.</li>
+<li>Karras et al. (2018), <em>Progressive Growing of GANs</em>, ICLR.</li>
+<li>Karras et al. (2019, 2020, 2021), <em>StyleGAN1/2/3</em>, NeurIPS/CVPR.</li>
+<li>Gulrajani et al. (2017), <em>WGAN-GP</em>, NeurIPS.</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../159-modelos-de-difusion-ddpm-score-based/index.html">Clase 159 — Modelos de difusión (+ Stable Diffusion XL, ControlNet, LCM)</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-2-deep-learning/158-gans-dcgan-progressive-gan-stylegan/"><code>classes/parte-2-deep-learning/158-gans-dcgan-progressive-gan-stylegan/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

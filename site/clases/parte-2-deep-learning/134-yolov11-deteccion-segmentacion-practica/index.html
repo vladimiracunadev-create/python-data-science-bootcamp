@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 134 — YOLOv11 práctico: detección, segmentación, pose, tracking | Python Data Science Program</title>
+  <meta name="description" content="Clase 134 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 2 — Deep Learning</a><span class="sep">›</span><span>134</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-2-deep-learning/134-yolov11-deteccion-segmentacion-practica/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-134-yolov11-practico-deteccion-segmentacion-pose-tracking">Clase 134 — YOLOv11 práctico: detección, segmentación, pose, tracking</h1>
+<blockquote>
+<p>Parte: <strong>2 — Deep Learning</strong> · Fuente: <a href="https://docs.ultralytics.com/">Ultralytics YOLOv11 docs</a>. ⏱️ Duración estimada: <strong>85 min</strong>.</p>
+</blockquote>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Dominar <strong>YOLOv11</strong> (Ultralytics, 2024) — el detector default industrial 2026: inference real-time, fine-tuning sencillo, export a ONNX/TensorRT/CoreML/TFLite con un kwarg. Cubrir las 4 tareas: detection, segmentation, pose estimation, oriented bounding boxes (OBB).</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar, el estudiante podrá:</p>
+<ul>
+<li>Inferir con un modelo COCO-pretrained: <code>YOLO('yolo11n.pt')(img)</code>.</li>
+<li>Fine-tunear con dataset propio en formato YOLO (txt por imagen).</li>
+<li>Aplicar las 4 tareas: detection (<code>yolo11n.pt</code>), segmentation (<code>yolo11n-seg.pt</code>), pose (<code>yolo11n-pose.pt</code>), OBB (<code>yolo11n-obb.pt</code>).</li>
+<li>Tracking de objetos en video con ByteTrack / BoT-SORT integrado.</li>
+<li>Exportar a ONNX/TensorRT para deploy.</li>
+</ul>
+<h2 id="temas">🗺️ Temas</h2>
+<ul>
+<li>Modelos: <code>n</code> (nano), <code>s</code>, <code>m</code>, <code>l</code>, <code>x</code>. Trade-off speed vs accuracy.</li>
+<li>Formato YOLO de anotación: <code>class cx cy w h</code> (normalizado).</li>
+<li><code>dataset.yaml</code>: paths + nombres de clases.</li>
+<li>Fine-tuning: <code>model.train(data='dataset.yaml', epochs=100, imgsz=640)</code>.</li>
+<li>Modes: predict, val, train, export, benchmark.</li>
+<li>Tracking integrado.</li>
+</ul>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<ul>
+<li><strong><code>YOLO</code></strong>: clase Ultralytics que carga cualquier variante.</li>
+<li><strong><code>results[0]</code></strong>: objeto con boxes, masks (seg), keypoints (pose), probs.</li>
+<li><strong>OBB (Oriented Bounding Box)</strong>: caja rotada — útil para aerial, documents.</li>
+<li><strong><code>model.export(format='onnx')</code></strong>: 1 línea para ONNX/TensorRT/CoreML/TFLite.</li>
+<li><strong>mAP@0.5</strong>: métrica standard, threshold IoU 0.5.</li>
+</ul>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<ul>
+<li>COCO pre-trained para inference.</li>
+<li>Roboflow Universe para dataset propio.</li>
+<li>Librerías: <code>ultralytics</code> (<code>pip install ultralytics</code>).</li>
+</ul>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>Inference</strong>: <code>model = YOLO('yolo11n.pt'); results = model('zidane.jpg'); results[0].show()</code>.</li>
+<li><strong>Segmentation</strong>: <code>YOLO('yolo11n-seg.pt')</code>. Visualizar máscaras.</li>
+<li><strong>Pose</strong>: <code>YOLO('yolo11n-pose.pt')</code>. Detectar keypoints en una foto.</li>
+<li><strong>Fine-tune</strong>: dataset propio (50-100 imágenes anotadas). <code>model.train(data='ds.yaml', epochs=50, imgsz=640)</code>.</li>
+<li><strong>Tracking</strong>: <code>model.track('video.mp4', tracker='botsort.yaml')</code>.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Detector custom de 2 clases:</p>
+<ol>
+<li>Etiquetar ~100 imágenes con Roboflow / LabelImg → formato YOLO.</li>
+<li><code>dataset.yaml</code> correcto.</li>
+<li>Train YOLOv11n por 100 épocas.</li>
+<li>Reportar mAP@0.5; visualizar 3 inferencias.</li>
+<li>Exportar a ONNX y verificar que predice igual.</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: mAP@0.5 ≥ 0.7; ONNX produce predicciones consistentes.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>dataset.yaml</code> paths mal</td>
+<td>Errores de path. <strong>Fix</strong>: usar paths absolutos en yaml.</td>
+</tr>
+<tr>
+<td>mAP bajo con dataset chico</td>
+<td>Pocos datos. <strong>Fix</strong>: ≥ 100 ejemplos por clase, augmentation.</td>
+</tr>
+<tr>
+<td>Inference lento en CPU</td>
+<td>YOLO es para GPU. <strong>Fix</strong>: <code>device='cuda'</code> o exportar a ONNX/TensorRT.</td>
+</tr>
+<tr>
+<td>Class names mismatched</td>
+<td>Orden en yaml debe coincidir con anotaciones. <strong>Fix</strong>: revisar <code>names:</code> en yaml.</td>
+</tr>
+<tr>
+<td>Anotaciones con coords absolutas</td>
+<td>YOLO espera normalizadas [0,1]. <strong>Fix</strong>: convertir.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ YOLOv11 vs versiones anteriores?</strong></p>
+<p>v11 mejor accuracy/latency. v8 sigue siendo válido y muy usado. v5 legacy pero funciona.</p>
+<p><strong>❓ Tareas además de detección?</strong></p>
+<p>Segmentation, pose estimation (COCO keypoints), classification, OBB. Una sola API.</p>
+<p><strong>❓ Producción cómo deploy?</strong></p>
+<p>Export → ONNX → ONNX Runtime / TensorRT. O TF Lite para mobile. Soportado nativo.</p>
+<p><strong>❓ Licencia?</strong></p>
+<p>AGPL para uso open-source. Para uso comercial cerrado, license enterprise.</p>
+<p><strong>❓ Augmentation automática?</strong></p>
+<p>Sí, mosaic/mixup/etc. Built-in. Tunear con <code>model.train(augment=True)</code>.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li><a href="https://docs.ultralytics.com/">Ultralytics YOLOv11</a>.</li>
+<li>Redmon et al. (2016), <em>You Only Look Once</em> — paper original.</li>
+<li><a href="https://universe.roboflow.com/">Roboflow Universe</a> — datasets pre-anotados.</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../135-rnns-neuronas-recurrentes-bptt/index.html">Clase 135 — RNNs: neuronas recurrentes, BPTT</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-2-deep-learning/134-yolov11-deteccion-segmentacion-practica/"><code>classes/parte-2-deep-learning/134-yolov11-deteccion-segmentacion-practica/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

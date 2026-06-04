@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 143 — Transformers: arquitectura, BERT, GPT (+ Flash Attention, RoPE, GQA) | Python Data Science Program</title>
+  <meta name="description" content="Clase 143 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 2 — Deep Learning</a><span class="sep">›</span><span>143</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-2-deep-learning/143-transformers-arquitectura-bert-gpt/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#version-profundizada-2026">📌 Versión profundizada — 2026</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-143-transformers-arquitectura-bert-gpt-flash-attention-rope-gqa">Clase 143 — Transformers: arquitectura, BERT, GPT (+ Flash Attention, RoPE, GQA)</h1>
+<blockquote>
+<p>Parte: <strong>2 — Deep Learning</strong> · Fuente: Géron, <strong>cap. 16</strong> § <em>The Transformer Architecture</em> + Vaswani et al. (2017) + papers BERT, GPT, FlashAttention. ⏱️ Duración estimada: <strong>100 min</strong>.</p>
+</blockquote>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Dominar la arquitectura <strong>Transformer</strong> —encoder, decoder, ambas variantes (BERT encoder-only, GPT decoder-only, T5 encoder-decoder)— a nivel de poder implementarla a mano. Conocer las <strong>mejoras clave 2022-2024</strong> que hacen a los LLMs modernos rápidos y eficientes: <strong>Flash Attention v2/v3</strong>, <strong>RoPE</strong> (Rotary Position Embeddings), <strong>Grouped-Query Attention (GQA)</strong>.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar, el estudiante podrá:</p>
+<ul>
+<li>Dibujar el block de Transformer: <code>LayerNorm → MultiHeadAttention → +residual → LayerNorm → FFN → +residual</code>.</li>
+<li>Implementar <strong>positional encoding</strong> sinusoidal o aprendible.</li>
+<li>Reconocer 3 variantes: <strong>encoder-only (BERT)</strong>, <strong>decoder-only (GPT)</strong>, <strong>encoder-decoder (T5, Whisper)</strong>.</li>
+<li>Saber qué hace cada mejora moderna: Flash Attention (O(N) memoria, 2-3× speedup), RoPE (mejor extrapolación a secuencias largas), GQA (compartir KV heads → menos KV cache en inference).</li>
+<li>Cargar y usar un Transformer chico con <code>keras.layers.MultiHeadAttention</code> o desde Hugging Face.</li>
+</ul>
+<h2 id="temas">🗺️ Temas</h2>
+<ul>
+<li>Block Transformer: LN → MHA → res → LN → FFN → res.</li>
+<li>Positional encoding: por qué se necesita (attention es permutation-invariant) — sin → aprendible → RoPE.</li>
+<li>BERT: encoder-only, MLM + NSP, bidireccional.</li>
+<li>GPT: decoder-only, next-token, causal mask.</li>
+<li>T5 / BART: encoder-decoder, span-corruption / denoising.</li>
+<li><strong>Complemento moderno</strong>: Flash Attention, RoPE, GQA, MQA.</li>
+</ul>
+<h2 id="version-profundizada-2026">📌 Versión profundizada — 2026</h2>
+<p>El tema moderno que vivía como complemento dentro de esta clase ahora tiene clase propia dedicada con patrón completo, ejercicios y homework:</p>
+<ul>
+<li>👉 <a href="../126b-flash-attention-rope-gqa-llm-engines/index.html">Clase 126b — Flash Attention v2/v3, RoPE, GQA: el motor de los LLMs modernos</a></li>
+</ul>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<ul>
+<li><strong>Transformer block</strong>: bloque básico repetido N veces.</li>
+<li><strong>MHA (Multi-Head Attention)</strong>: H heads paralelos, cada uno con Q, K, V proyectados.</li>
+<li><strong>Positional encoding</strong>: información de orden inyectada en embeddings.</li>
+<li><strong>BERT</strong>: encoder-only, bidirectional, masked LM pre-training.</li>
+<li><strong>GPT</strong>: decoder-only, causal mask, autoregressive pre-training.</li>
+<li><strong>T5</strong>: encoder-decoder, span-corruption pre-training.</li>
+<li><strong>Flash Attention</strong>: implementación memory-efficient de scaled-dot-product attention.</li>
+<li><strong>RoPE</strong>: rotación de Q/K en función de posición.</li>
+<li><strong>GQA</strong>: heads de KV compartidos entre grupos de heads de Q.</li>
+<li><strong>KV cache</strong>: almacenamiento de K y V de tokens previos para inference autoregresiva eficiente.</li>
+</ul>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<ul>
+<li>WikiText-2 o similar.</li>
+<li>Modelos preentrenados desde HF (clase 127).</li>
+<li>Librerías: <code>tensorflow</code>, <code>keras</code>, <code>transformers</code>.</li>
+</ul>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>Transformer block desde cero</strong>: implementar <code>def transformer_block(x): x = x + mha(LN(x)); x = x + ffn(LN(x)); return x</code> con <code>MultiHeadAttention</code> y FFN.</li>
+<li><strong>Positional encoding sinusoidal</strong>: implementar la fórmula original de Vaswani; visualizar como heatmap.</li>
+<li><strong>Mini-GPT</strong>: 4 capas Transformer con causal mask. Entrenar en next-token sobre Tiny Shakespeare. Comparar con char-RNN (122).</li>
+<li><strong>RoPE manual</strong>: implementar la rotación. Aplicar y verificar que <code>attention(Q_rot, K_rot)</code> da diferencia relativa.</li>
+<li><strong>HuggingFace check</strong>: cargar <code>bert-base-uncased</code> y <code>gpt2</code>; imprimir <code>model.config</code>. Identificar <code>num_attention_heads</code>, <code>hidden_size</code>, <code>intermediate_size</code>.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Entrenar un <strong>mini-GPT desde cero</strong> sobre Tiny Shakespeare:</p>
+<ol>
+<li>4 capas Transformer decoder con causal mask.</li>
+<li><code>d_model=128</code>, <code>n_heads=4</code>, <code>vocab=char-level</code>.</li>
+<li>Train 20 épocas; generar 1000 caracteres con temperatura 0.7.</li>
+<li>Comparar val_loss y muestras vs char-RNN (clase 122).</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: val_loss &lt; 1.3 (mejor que char-RNN); samples más coherentes con estructura de obra teatral.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Modelo entrena pero outputs son random</td>
+<td>Olvido del causal mask en decoder. <strong>Fix</strong>: <code>use_causal_mask=True</code>.</td>
+</tr>
+<tr>
+<td>LayerNorm antes vs después: dudas</td>
+<td>"Pre-LN" (antes) entrena mucho mejor que "Post-LN" (Vaswani original) — todos los modelos modernos usan pre-LN.</td>
+</tr>
+<tr>
+<td>Positional encoding aprendible explota</td>
+<td>Init mal. <strong>Fix</strong>: small std (0.02) o usar RoPE/sinusoidal.</td>
+</tr>
+<tr>
+<td>Sin gradient checkpointing → OOM en secuencia larga</td>
+<td><strong>Fix</strong>: <code>tf.recompute_grad</code> o gradient checkpointing manual.</td>
+</tr>
+<tr>
+<td>FFN sin expansión</td>
+<td>Default es <code>d_ff = 4 * d_model</code>. <strong>Fix</strong>: respetar el ratio.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿Encoder-only o decoder-only o ambos?</strong></p>
+<p>Encoder-only (BERT): clasificación, NER, similaridad. Decoder-only (GPT): generación, LLMs modernos. Encoder-decoder (T5, Whisper): traducción, transcripción.</p>
+<p><strong>❓ ¿GPT-style "es todo lo que necesitás" hoy?</strong></p>
+<p>Para LLMs generales sí. BERT-style sigue siendo eficiente para clasificación.</p>
+<p><strong>❓ ¿LayerNorm o RMSNorm?</strong></p>
+<p>RMSNorm (Zhang &amp; Sennrich 2019) es estándar moderno — más rápida sin pérdida de calidad. Lo usan Llama, Mistral, etc.</p>
+<p><strong>❓ ¿Por qué RoPE en lugar de aprendible?</strong></p>
+<p>(a) Mejor extrapolación a longitudes no vistas, (b) propiedad relativa útil, (c) no agrega parámetros.</p>
+<p><strong>❓ ¿GQA solo para inference?</strong></p>
+<p>Se entrena con GQA desde el principio. Beneficio principal es inference; training también es marginalmente más rápido.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Géron, <strong>cap. 16</strong> — <em>The Transformer Architecture</em>.</li>
+<li>Vaswani et al. (2017), <em>Attention Is All You Need</em>, NeurIPS.</li>
+<li>Devlin et al. (2018), <em>BERT</em>, NAACL.</li>
+<li>Radford et al. (2018-2019), <em>GPT, GPT-2</em>, OpenAI.</li>
+<li>Dao et al. (2022, 2023, 2024), <em>FlashAttention v1/v2/v3</em>.</li>
+<li>Su et al. (2021), <em>RoFormer: Enhanced Transformer with Rotary Position Embedding</em>.</li>
+<li>Ainslie et al. (2023), <em>GQA: Training Generalized Multi-Query Transformer Models</em>.</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../144-flash-attention-rope-gqa-llm-engines/index.html">Clase 144 — Flash Attention v2/v3, RoPE, GQA: el motor de los LLMs modernos</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-2-deep-learning/143-transformers-arquitectura-bert-gpt/"><code>classes/parte-2-deep-learning/143-transformers-arquitectura-bert-gpt/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

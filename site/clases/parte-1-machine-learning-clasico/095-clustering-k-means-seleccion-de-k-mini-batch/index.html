@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 095 — Clustering K-Means: selección de K, MiniBatch | Python Data Science Program</title>
+  <meta name="description" content="Clase 095 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 1 — ML clásico</a><span class="sep">›</span><span>095</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-1-machine-learning-clasico/095-clustering-k-means-seleccion-de-k-mini-batch/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-095-clustering-k-means-seleccion-de-k-minibatch">Clase 095 — Clustering K-Means: selección de K, MiniBatch</h1>
+<blockquote>
+<p>Parte: <strong>1 — Machine Learning Clásico</strong> · Fuente: Géron, <strong>cap. 9</strong>. ⏱️ Duración estimada: <strong>70 min</strong>.</p>
+</blockquote>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Aplicar K-Means para segmentar datos no etiquetados, elegir el número de clusters <code>K</code> con criterios reproducibles (elbow, silhouette) y escalar el algoritmo con <code>MiniBatchKMeans</code> cuando el dataset no entra cómodo en memoria.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar, vas a poder:</p>
+<ul>
+<li>Explicar el algoritmo de Lloyd y por qué <code>K-Means++</code> mejora la inicialización aleatoria.</li>
+<li>Ajustar <code>KMeans</code> de scikit-learn fijando <code>n_init</code> y <code>random_state</code> para resultados estables.</li>
+<li>Elegir <code>K</code> combinando <strong>elbow method</strong> (inercia vs K) y <strong>silhouette score</strong>.</li>
+<li>Reemplazar <code>KMeans</code> por <code>MiniBatchKMeans</code> y discutir el trade-off velocidad / calidad.</li>
+<li>Diagnosticar por qué K-Means falla sin escalado o frente a clusters no esféricos.</li>
+</ul>
+<h2 id="temas">🗺️ Temas</h2>
+<ol>
+<li>Clustering no supervisado: planteo del problema.</li>
+<li>Algoritmo de Lloyd: asignación + actualización de centroides.</li>
+<li>Inicialización: random vs <code>K-Means++</code>; rol de <code>n_init</code>.</li>
+<li>Inercia (within-cluster sum of squares) como objetivo.</li>
+<li>Selección de K: elbow method, silhouette score, gap statistic (mención).</li>
+<li><code>MiniBatchKMeans</code> para datasets grandes / streaming.</li>
+<li>Limitaciones: clusters no convexos, densidades distintas, sensibilidad al escalado.</li>
+</ol>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<ul>
+<li><strong>K-Means</strong> — algoritmo iterativo que parte el espacio de features en <code>K</code> regiones de Voronoi minimizando la suma de distancias cuadradas a los centroides.</li>
+<li><strong>K-Means++</strong> — esquema de inicialización que elige centroides iniciales separados entre sí; baja la varianza entre corridas y suele converger en menos iteraciones.</li>
+<li><strong>Inertia</strong> — suma de distancias cuadradas de cada punto a su centroide asignado (<code>model.inertia_</code>). Monótona decreciente con <code>K</code>; sirve para el elbow.</li>
+<li><strong>Elbow method</strong> — graficar <code>inertia_</code> vs <code>K</code> y elegir el <code>K</code> donde la curva "se quiebra" (la mejora marginal se aplana).</li>
+<li><strong>Silhouette score</strong> — métrica en <code>[-1, 1]</code> que combina cohesión intra-cluster y separación inter-cluster. Más alto = mejor; útil para comparar <code>K</code>.</li>
+<li><strong>MiniBatchKMeans</strong> — variante que actualiza centroides con mini-lotes en vez de pasar por todo <code>X</code> en cada iteración. ~5-10× más rápido, inercia levemente peor.</li>
+<li><strong>Centroides</strong> — vectores <code>(K, n_features)</code> que representan el "centro" de cada cluster; en <code>KMeans</code> es la media de los puntos asignados.</li>
+<li><strong><code>n_init</code></strong> — cantidad de corridas con distintas semillas; scikit-learn se queda con la de menor inercia. Default <code>10</code> (sklearn ≥1.4: <code>"auto"</code>).</li>
+</ul>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<ul>
+<li><code>sklearn.datasets.make_blobs(n_samples=2000, centers=5, cluster_std=0.8, random_state=42)</code> para los ejercicios de exploración.</li>
+<li><code>sklearn.datasets.load_digits()</code> (1797 × 64) para el ejercicio de <code>MiniBatchKMeans</code>.</li>
+<li>Opcional: dataset <code>Mall_Customers.csv</code> o cualquier CSV tabular numérico ya escalado.</li>
+</ul>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li>Generá blobs con 5 centros, ajustá <code>KMeans(n_clusters=5, n_init=10, random_state=42)</code> y graficá los puntos coloreados por etiqueta junto con <code>cluster_centers_</code>.</li>
+<li>Para <code>K</code> en <code>range(2, 11)</code>, calculá <code>inertia_</code> y <code>silhouette_score</code>. Graficá ambas curvas y justificá el <code>K</code> elegido.</li>
+<li>Repetí el ajuste <strong>sin escalar</strong> un dataset donde una feature tenga escala 100× mayor que la otra. Compará con <code>StandardScaler</code> previo y comentá el cambio en las etiquetas.</li>
+<li>Sobre <code>load_digits()</code>, ajustá <code>KMeans(n_clusters=10)</code> y <code>MiniBatchKMeans(n_clusters=10, batch_size=256)</code>. Cronometrá ambos con <code>%timeit</code> y compará inercias.</li>
+<li>Probá K-Means sobre <code>make_moons(noise=0.05)</code>. Mostrá visualmente por qué falla y proponé qué algoritmo usarías en su lugar (te lo vamos a contestar en la clase 086).</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Entregá un script <code>homework_085.py</code> que:</p>
+<ol>
+<li>Cargue <code>make_blobs</code> con <code>random_state=42</code>, 4 centros reales.</li>
+<li>Recorra <code>K = 2..8</code> y guarde inercia + silhouette en un DataFrame.</li>
+<li>Imprima el <code>K</code> óptimo según silhouette y genere <code>elbow.png</code> + <code>silhouette.png</code>.</li>
+</ol>
+<p><strong>Criterio de aceptación:</strong> el script corre sin errores con <code>python homework_085.py</code>, imprime <code>K óptimo = 4</code>, y produce los dos PNG con ejes y título legibles.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<ol>
+<li><strong>No escalar features</strong> — K-Means usa distancia euclídea; una feature en miles domina a otra en décimas. Aplicá <code>StandardScaler</code> salvo que tengas razón explícita para no hacerlo.</li>
+<li><strong>No fijar <code>n_init</code></strong> (o dejarlo en 1) — una sola corrida puede caer en un mínimo local malo. Mantené <code>n_init &gt;= 10</code> y <code>random_state</code> fijo para reproducibilidad.</li>
+<li><strong>Elegir <code>K</code> mirando solo la inercia</strong> — la inercia siempre baja al subir <code>K</code>. Sin elbow visible ni silhouette, el criterio queda arbitrario.</li>
+<li><strong>Asumir clusters esféricos</strong> — K-Means no sirve para "lunas", anillos o densidades muy distintas; ahí necesitás DBSCAN o GMM.</li>
+<li><strong>Usar <code>MiniBatchKMeans</code> con <code>batch_size</code> muy chico</strong> — la varianza entre updates explota y los centroides oscilan. Mantenelo en <code>256–1024</code> salvo benchmarks específicos.</li>
+</ol>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<ol>
+<li><strong>¿Elbow o silhouette?</strong> Silhouette es más objetivo cuando no hay codo claro; usá ambos y, si discrepan, priorizá silhouette + criterio de negocio.</li>
+<li><strong>¿Cuántas iteraciones máximas?</strong> El default <code>max_iter=300</code> alcanza casi siempre. Si convergés antes, sklearn corta solo.</li>
+<li><strong>¿K-Means es determinístico?</strong> No: depende de la inicialización. Fijá <code>random_state</code> y <code>n_init</code> para resultados reproducibles.</li>
+<li><strong>¿Cuándo usar <code>MiniBatchKMeans</code>?</strong> Cuando <code>n_samples &gt; 10⁵</code> o el dataset llega en streaming. Para datasets chicos, el K-Means clásico es más preciso y suficientemente rápido.</li>
+<li><strong>¿Sirve para detectar outliers?</strong> No directamente; los outliers distorsionan los centroides. Para outliers usá DBSCAN o IsolationForest.</li>
+</ol>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Géron, A. <em>Hands-On Machine Learning</em> (3ra ed.), cap. 9 — sección "K-Means".</li>
+<li>scikit-learn user guide: <a href="https://scikit-learn.org/stable/modules/clustering.html#k-means">Clustering — K-Means</a>.</li>
+<li>Arthur, D. &amp; Vassilvitskii, S. (2007). <em>k-means++: The Advantages of Careful Seeding</em>.</li>
+<li>Sculley, D. (2010). <em>Web-Scale K-Means Clustering</em> (paper original de MiniBatchKMeans).</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../096-dbscan/index.html">Clase 096 — DBSCAN</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-1-machine-learning-clasico/095-clustering-k-means-seleccion-de-k-mini-batch/"><code>classes/parte-1-machine-learning-clasico/095-clustering-k-means-seleccion-de-k-mini-batch/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 113 — Optimizadores: Momentum, Nesterov, AdaGrad, RMSProp, Adam, AdamW (+ Lion, Sophia) | Python Data Science Program</title>
+  <meta name="description" content="Clase 113 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 2 — Deep Learning</a><span class="sep">›</span><span>113</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-2-deep-learning/113-optimizadores-momentum-nesterov-adagrad-rmsprop-adam-adamw/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#version-profundizada-2026">📌 Versión profundizada — 2026</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-113-optimizadores-momentum-nesterov-adagrad-rmsprop-adam-adamw-lion-sophia">Clase 113 — Optimizadores: Momentum, Nesterov, AdaGrad, RMSProp, Adam, AdamW (+ Lion, Sophia)</h1>
+<blockquote>
+<p>Parte: <strong>2 — Deep Learning</strong> · Fuente: Géron, <strong>cap. 11</strong> § <em>Faster Optimizers</em> + papers Lion (Chen et al. 2023), Sophia (Liu et al. 2023). ⏱️ Duración estimada: <strong>80 min</strong>.</p>
+</blockquote>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Conocer la <strong>evolución de los optimizadores</strong> —SGD → Momentum → Nesterov → AdaGrad → RMSProp → Adam → AdamW— entendiendo qué problema resuelve cada uno. Aplicar los <strong>optimizadores 2023+ (Lion, Sophia)</strong> que están reemplazando a Adam en LLMs grandes por mejor performance y memoria. Saber elegir según contexto (Adam para casi todo, SGD+momentum para visión clásica, Lion para LLMs).</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar, el estudiante podrá:</p>
+<ul>
+<li>Explicar la fórmula de cada uno: SGD (<code>w ← w - η·g</code>), Momentum (acumulación), Nesterov (lookahead), Adam (mom 1er + 2do orden).</li>
+<li>Diferenciar Adam vs <strong>AdamW</strong> — la corrección de weight decay que Loshchilov &amp; Hutter (2019) demostraron esencial.</li>
+<li>Usar Lion (<code>tf.keras.optimizers.Lion</code> en Keras 3+) con LR 3-10× más bajo que Adam.</li>
+<li>Reconocer cuándo SGD+Momentum supera a Adam: visión clásica con datasets grandes (ImageNet), donde el modelo final generaliza mejor.</li>
+<li>Inspeccionar y entender los hiperparámetros <code>beta_1</code>, <code>beta_2</code>, <code>epsilon</code>, <code>weight_decay</code>.</li>
+</ul>
+<h2 id="temas">🗺️ Temas</h2>
+<ul>
+<li>SGD vanilla y por qué es lento en cañones (zigzaguea).</li>
+<li>Momentum (Polyak 1964): acelera en direcciones consistentes.</li>
+<li>Nesterov (1983): "miro hacia adelante" antes de calcular gradiente.</li>
+<li>AdaGrad: tasa adaptativa por parámetro; bueno para sparse data, malo para LR que decae a 0.</li>
+<li>RMSProp (Hinton, sin publicar): suaviza AdaGrad con EMA.</li>
+<li>Adam (Kingma &amp; Ba 2014): Momentum + RMSProp = caballito industrial.</li>
+<li>AdamW (Loshchilov &amp; Hutter 2019): weight decay separado del gradiente.</li>
+<li><strong>Complemento moderno</strong>: Lion (Chen et al. 2023, signo en lugar de gradient adaptive), Sophia (Liu et al. 2023, Hessian aproximada).</li>
+</ul>
+<h2 id="version-profundizada-2026">📌 Versión profundizada — 2026</h2>
+<p>El tema moderno que vivía como complemento dentro de esta clase ahora tiene clase propia dedicada con patrón completo, ejercicios y homework:</p>
+<ul>
+<li>👉 <a href="../102b-optimizadores-modernos-lion-sophia/index.html">Clase 102b — Optimizadores modernos: Lion, Sophia, Schedule-Free</a></li>
+</ul>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<ul>
+<li><strong>SGD</strong>: <code>w ← w - η · g</code>. La base.</li>
+<li><strong>Momentum</strong>: <code>v ← β·v + g; w ← w - η·v</code>. β típicamente 0.9.</li>
+<li><strong>Nesterov</strong>: como momentum, pero calcula el gradiente en el punto adelantado.</li>
+<li><strong>AdaGrad</strong>: <code>s += g²; w ← w - η·g/√s</code>. LR efectivo decrece para parámetros frecuentes.</li>
+<li><strong>RMSProp</strong>: como AdaGrad pero con EMA: <code>s ← β·s + (1-β)·g²</code>.</li>
+<li><strong>Adam</strong>: combina momentum (1er momento) + RMSProp (2do momento) + bias correction.</li>
+<li><strong>AdamW</strong>: aplica weight decay como una operación separada del gradiente (decoupled), no como L2.</li>
+<li><strong>Lion</strong>: gradient sign + momentum. Menos memoria.</li>
+<li><strong><code>beta_1</code></strong>: decay del primer momento (default 0.9).</li>
+<li><strong><code>beta_2</code></strong>: decay del segundo momento (default 0.999 Adam / 0.99 Lion).</li>
+<li><strong><code>epsilon</code></strong>: estabilidad numérica del √. Default 1e-7. En LLMs a veces 1e-8 / 1e-5.</li>
+<li><strong><code>weight_decay</code></strong>: en AdamW, el coeficiente de "tirar pesos hacia 0" — regularización L2 implícita.</li>
+</ul>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<ul>
+<li>Fashion-MNIST + un modelo razonable.</li>
+<li>Librerías: <code>tensorflow</code>, <code>keras</code> (Lion incluido en Keras 3+).</li>
+</ul>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>Comparar 5 optimizadores</strong>: SGD(0.01), SGD+Momentum(0.9), Adam(1e-3), AdamW(1e-3, wd=1e-2), Lion(1e-4, wd=0.1). Mismo modelo, mismo dataset, 20 épocas. Graficar val_loss.</li>
+<li><strong>Tuning del LR</strong>: para Adam y Lion, hacer un sweep de LR ∈ <code>[1e-5, 1e-2]</code> log. Encontrar el LR óptimo de cada uno. Verificar que el de Lion es ~5× más chico.</li>
+<li><strong>AdamW vs Adam con L2</strong>: comparar Adam + <code>keras.regularizers.L2(1e-2)</code> en cada capa vs AdamW con <code>weight_decay=1e-2</code>. AdamW gana en val_loss.</li>
+<li><strong>Inspección de buffer</strong>: imprimir <code>optimizer.variables</code>. Adam tiene <code>m</code> y <code>v</code> por parámetro; Lion solo <code>m</code>. Verificar memoria total.</li>
+<li><strong>LR alto + Momentum</strong>: SGD con LR=0.1 explota; SGD+Momentum(0.9) con LR=0.1 puede funcionar. Probar.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Sobre Fashion-MNIST + un MLP <code>[300, 100, 10]</code>:</p>
+<ol>
+<li>Encontrar el LR óptimo para 3 optimizadores: SGD, AdamW, Lion (sweep de 5 valores cada uno).</li>
+<li>Con el LR óptimo, entrenar 30 épocas y reportar val_accuracy.</li>
+<li>Comparar wall time y memoria.</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: AdamW debe igualar o superar a Adam por ≥ 0.3 pp en val_accuracy; Lion con buen LR debe ser competitivo y consumir menos memoria del optimizer.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cambiar de Adam a Lion sin cambiar LR</td>
+<td>Lion necesita LR mucho más chico. <strong>Fix</strong>: dividir LR de Adam por 3-10.</td>
+</tr>
+<tr>
+<td>Adam con <code>weight_decay</code> en Keras viejo</td>
+<td>Lo aplica como L2 (mal). <strong>Fix</strong>: usar <code>AdamW</code>.</td>
+</tr>
+<tr>
+<td>SGD plano sin schedule en redes profundas</td>
+<td>Convergencia lentísima. <strong>Fix</strong>: SGD + Momentum + LR schedule (clase 103).</td>
+</tr>
+<tr>
+<td><code>epsilon=1e-7</code> produce inestabilidad en bf16</td>
+<td>Para mixed precision en LLMs, <code>epsilon=1e-5</code> o <code>1e-4</code>.</td>
+</tr>
+<tr>
+<td>Asumir que Adam es siempre mejor</td>
+<td>En visión clásica con suficiente data, SGD+Momentum+cosine generaliza mejor. <strong>Fix</strong>: probar ambos.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿Adam o AdamW por default?</strong></p>
+<p><strong>AdamW siempre que uses weight decay</strong>. Adam con <code>weight_decay &gt; 0</code> está mal implementado en muchos frameworks antiguos.</p>
+<p><strong>❓ ¿Lion en producción ya?</strong></p>
+<p>Sí, desde 2023. Google lo usa en internamente. Estable y bien probado.</p>
+<p><strong>❓ ¿Cuándo SGD gana a Adam?</strong></p>
+<p>Cuando podés permitirte LR + momentum + cosine schedule bien tuneados, sobre datasets grandes (ImageNet). El modelo final generaliza ~0.5-1 pp mejor. Pero requiere más tuning.</p>
+<p><strong>❓ ¿<code>epsilon</code> cuándo lo toco?</strong></p>
+<p>Casi nunca con fp32. En mixed precision (bf16/fp16), subir a <code>1e-4</code> para estabilidad.</p>
+<p><strong>❓ ¿<code>beta_2</code> por qué 0.999 en Adam y 0.99 en Lion?</strong></p>
+<p>Adam el 2do momento debe ser estable (decay muy lento). Lion no tiene 2do momento — <code>beta_2</code> define cómo se mezcla <code>m_{t-1}</code> con <code>g_t</code> en el lookahead, similar a Nesterov.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Géron, <strong>cap. 11</strong> — <em>Faster Optimizers</em>.</li>
+<li>Kingma &amp; Ba (2014), <em>Adam</em>, ICLR.</li>
+<li>Loshchilov &amp; Hutter (2019), <em>Decoupled Weight Decay Regularization (AdamW)</em>, ICLR.</li>
+<li>Chen et al. (2023), <em>Symbolic Discovery of Optimization Algorithms (Lion)</em>, NeurIPS.</li>
+<li>Liu et al. (2023), <em>Sophia: A Scalable Stochastic Second-order Optimizer</em>.</li>
+<li><a href="https://keras.io/api/optimizers/">Keras optimizers</a>.</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../114-optimizadores-modernos-lion-sophia/index.html">Clase 114 — Optimizadores modernos: Lion, Sophia, Schedule-Free</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-2-deep-learning/113-optimizadores-momentum-nesterov-adagrad-rmsprop-adam-adamw/"><code>classes/parte-2-deep-learning/113-optimizadores-momentum-nesterov-adagrad-rmsprop-adam-adamw/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

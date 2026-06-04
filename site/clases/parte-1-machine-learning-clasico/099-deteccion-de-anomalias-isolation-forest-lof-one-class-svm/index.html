@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 099 — Detección de anomalías: Isolation Forest, LOF, One-Class SVM | Python Data Science Program</title>
+  <meta name="description" content="Clase 099 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 1 — ML clásico</a><span class="sep">›</span><span>099</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-1-machine-learning-clasico/099-deteccion-de-anomalias-isolation-forest-lof-one-class-svm/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-099-deteccion-de-anomalias-isolation-forest-lof-one-class-svm">Clase 099 — Detección de anomalías: Isolation Forest, LOF, One-Class SVM</h1>
+<blockquote>
+<p>Parte: <strong>1 — Machine Learning Clásico</strong> · Fuente: Géron, <strong>cap. 9</strong> + sklearn outlier detection. ⏱️ Duración estimada: <strong>70 min</strong>.</p>
+</blockquote>
+<hr>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Que el alumno detecte puntos anómalos (fraude, fallas, outliers) en datos sin etiquetas, eligiendo entre <strong>Isolation Forest</strong>, <strong>LOF</strong>, <strong>One-Class SVM</strong> y <strong>Elliptic Envelope</strong> según la geometría del problema, y entendiendo la diferencia entre <em>outlier detection</em> (entrenar con datos sucios) y <em>novelty detection</em> (entrenar limpio, predecir sobre nuevos).</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar la clase, el alumno podrá:</p>
+<ol>
+<li><strong>Distinguir</strong> outlier detection vs novelty detection y elegir el algoritmo acorde.</li>
+<li><strong>Entrenar <code>IsolationForest</code></strong> y ajustar el hiperparámetro <code>contamination</code>.</li>
+<li><strong>Usar <code>LocalOutlierFactor</code></strong> en modo <code>novelty=False</code> (fit_predict) y <code>novelty=True</code> (predict).</li>
+<li><strong>Aplicar <code>OneClassSVM</code></strong> y <code>EllipticEnvelope</code>, reconociendo sus supuestos (kernel, gaussianidad).</li>
+<li><strong>Evaluar</strong> detectores de anomalías con <code>score_samples</code>, ROC-AUC y reglas de negocio (top-k).</li>
+</ol>
+<h2 id="temas">🗺️ Temas</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Tema</th>
+<th>Por qué importa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Outlier vs novelty detection</td>
+<td>Define cómo se entrena y qué se predice.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Isolation Forest</td>
+<td>Default sólido en alta dimensión, escala bien.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Local Outlier Factor (LOF)</td>
+<td>Detecta anomalías locales por densidad.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>One-Class SVM</td>
+<td>Frontera no lineal con kernel RBF; sensible a escala.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Elliptic Envelope</td>
+<td>Asume distribución gaussiana; útil en datos limpios.</td>
+</tr>
+<tr>
+<td>6</td>
+<td><code>score_samples</code> y umbrales</td>
+<td>Salida continua &gt; etiqueta binaria.</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Evaluación sin labels</td>
+<td>Top-k, inspección manual, ROC si hay ground truth parcial.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<dl>
+<dt><strong>Anomaly / outlier detection</strong></dt>
+<dd>Tarea no supervisada de identificar instancias que difieren significativamente de la mayoría. Entrena sobre un dataset <strong>contaminado</strong> (con algunas anomalías) y las marca dentro del mismo dataset. Salida sklearn: <code>+1</code> (inlier) / <code>-1</code> (outlier).</dd>
+<dt><strong>Novelty detection</strong></dt>
+<dd>Variante donde el entrenamiento se hace sobre datos <strong>limpios</strong> (solo inliers), y luego en inferencia se predice si nuevos puntos son normales o novedosos. <code>LocalOutlierFactor(novelty=True)</code> y <code>OneClassSVM</code> operan en este modo.</dd>
+<dt><strong>Isolation Forest</strong></dt>
+<dd>Ensemble de árboles que aíslan puntos eligiendo features y splits al azar. Las anomalías quedan aisladas con <strong>menos splits</strong> (path corto). Escala bien a alta dimensión y N grande. Default recomendado.</dd>
+<dt><strong><code>contamination</code></strong></dt>
+<dd>Hiperparámetro que indica la <strong>fracción esperada de anomalías</strong> en los datos (entre 0 y 0.5, o <code>'auto'</code>). Define el umbral del score. Si te equivocás mucho, calibrá con <code>score_samples</code> y elegí el umbral a mano.</dd>
+<dt><strong>Local Outlier Factor (LOF)</strong></dt>
+<dd>Compara la densidad local de un punto con la de sus k vecinos. Si la densidad es mucho menor que la de sus vecinos, es outlier. Bueno para anomalías <strong>locales</strong> (un punto raro dentro de un cluster). No escala bien a N muy grande.</dd>
+<dt><strong>One-Class SVM</strong></dt>
+<dd>Aprende una frontera (típicamente con kernel RBF) que envuelve la región "normal" del espacio. Sensible a escala (estandarizar siempre) y al hiperparámetro <code>nu</code> (cota superior de la fracción de outliers). Lento en N grande; preferir <code>SGDOneClassSVM</code> para datasets grandes.</dd>
+<dt><strong>Elliptic Envelope</strong></dt>
+<dd>Ajusta una <strong>gaussiana robusta</strong> a los datos y marca como outliers los puntos fuera de un elipsoide de confianza. Asume distribución unimodal aproximadamente gaussiana — si los datos son multimodales o tienen estructura compleja, falla.</dd>
+<dt><strong><code>score_samples(X)</code></strong></dt>
+<dd>Devuelve un score continuo de "normalidad" por instancia (más alto = más normal). Útil para rankear top-k anomalías o elegir el umbral a mano en lugar de confiar en <code>contamination</code>.</dd>
+</dl>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<p>Sintético con <code>make_blobs</code> + outliers uniformes inyectados, o <code>sklearn.datasets.fetch_kddcup99</code> (detección de intrusiones, real y con labels para evaluar).</p>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<p><strong>1.</strong> <strong>Isolation Forest baseline.</strong> Generá 2 blobs + 5% de outliers uniformes. Ajustá <code>IsolationForest(contamination=0.05)</code>. Plot 2D con inliers vs outliers detectados.</p>
+<p><strong>2.</strong> <strong>LOF local.</strong> Usá el mismo dataset pero metiendo un outlier <em>dentro</em> de uno de los blobs (anomalía local). Comparar Isolation Forest vs <code>LocalOutlierFactor(n_neighbors=20)</code>: ¿cuál lo agarra?</p>
+<p><strong>3.</strong> <strong>One-Class SVM con escalado.</strong> Entrená <code>OneClassSVM(kernel='rbf', nu=0.05)</code> con y sin <code>StandardScaler</code>. Comparar fronteras de decisión.</p>
+<p><strong>4.</strong> <strong>Top-k con <code>score_samples</code>.</strong> Usá <code>score_samples</code> de Isolation Forest, ordená ascendente, y devolvé los 10 puntos más anómalos. Inspeccionálos visualmente.</p>
+<p><strong>5.</strong> <strong>Evaluación con labels.</strong> Sobre <code>fetch_kddcup99</code> (subset), entrená Isolation Forest sin usar labels. Después calculá ROC-AUC contra las labels reales (<code>normal.</code> vs ataque). Reportá AUC.</p>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Notebook con dataset de transacciones sintéticas (montos, hora, comercio): (a) inyectar 2% de transacciones anómalas (montos extremos, horarios raros); (b) entrenar Isolation Forest, LOF y One-Class SVM; (c) generar tabla comparativa con precision@k=20, recall y tiempo de entrenamiento; (d) elegir el ganador y justificar.</p>
+<p><strong>Criterio de aceptación:</strong> los tres modelos están entrenados sobre los mismos datos escalados, la tabla compara las 3 métricas, y la justificación menciona supuestos (densidad local vs global, escalabilidad).</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>LocalOutlierFactor</code> no tiene <code>predict</code></td>
+<td>Por default <code>novelty=False</code> y solo expone <code>fit_predict</code>. <strong>Fix</strong>: <code>LocalOutlierFactor(novelty=True)</code> si querés <code>predict</code> sobre nuevos datos.</td>
+</tr>
+<tr>
+<td>One-Class SVM marca todo como outlier (o todo inlier)</td>
+<td>Datos sin escalar — el kernel RBF es ultra sensible a escala. <strong>Fix</strong>: <code>StandardScaler</code> antes, y tunear <code>nu</code> y <code>gamma</code>.</td>
+</tr>
+<tr>
+<td><code>IsolationForest</code> con <code>contamination</code> muy off</td>
+<td>Si la fracción real difiere mucho del valor seteado, el umbral queda mal. <strong>Fix</strong>: usá <code>score_samples</code> y elegí el umbral mirando la distribución de scores.</td>
+</tr>
+<tr>
+<td>Elliptic Envelope falla con datos multimodales</td>
+<td>Asume una sola gaussiana. <strong>Fix</strong>: cambiá a Isolation Forest o LOF si hay múltiples clusters.</td>
+</tr>
+<tr>
+<td>Evaluar con accuracy sobre clases desbalanceadas (99% normal)</td>
+<td>El modelo "todo normal" da 99% accuracy y no detecta nada. <strong>Fix</strong>: usá ROC-AUC, PR-AUC o precision@k.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿Isolation Forest, LOF o One-Class SVM?</strong></p>
+<p><strong>Isolation Forest</strong> primero, casi siempre: escala bien, pocos hiperparámetros, robusto en alta dimensión. <strong>LOF</strong> si sospechás anomalías <strong>locales</strong> (raros dentro de un cluster denso). <strong>One-Class SVM</strong> si el dataset es chico/mediano y la frontera "normal" es claramente no lineal — pero estandarizá sí o sí. <strong>Elliptic Envelope</strong> solo si los datos son unimodales y aproximadamente gaussianos.</p>
+<p><strong>❓ ¿Cómo elijo <code>contamination</code>?</strong></p>
+<p>Si conocés la prevalencia esperada (ej. 1% de fraude), poné ese valor. Si no, dejá <code>'auto'</code> y después calibrá mirando la distribución de <code>score_samples</code> — buscá un quiebre natural en el histograma.</p>
+<p><strong>❓ ¿Necesito escalar las features?</strong></p>
+<p>Para One-Class SVM y LOF, <strong>sí</strong> (ambos usan distancias). Para Isolation Forest, <strong>no es estrictamente necesario</strong> porque parte features con splits — pero no hace daño.</p>
+<p><strong>❓ ¿Sirve para series de tiempo?</strong></p>
+<p>No directamente — estos modelos asumen i.i.d. Para series, mirá descomposición + residuos, ARIMA, Prophet, o modelos específicos como <code>PyOD</code> con ventanas deslizantes.</p>
+<p><strong>❓ ¿Cómo evalúo si no tengo labels?</strong></p>
+<p>Inspección manual del top-k con <code>score_samples</code>. Si hay labels parciales o un sample anotado, ROC-AUC y precision@k. Sin nada de eso, sanity check: ¿los outliers detectados tienen sentido para el negocio?</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Géron, <strong>cap. 9</strong> § <em>Anomaly Detection</em>.</li>
+<li><a href="https://scikit-learn.org/stable/modules/outlier_detection.html">sklearn — Novelty and Outlier Detection</a></li>
+<li><a href="https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.IsolationForest.html">sklearn — IsolationForest</a></li>
+<li><a href="https://scikit-learn.org/stable/modules/generated/sklearn.neighbors.LocalOutlierFactor.html">sklearn — LocalOutlierFactor</a></li>
+<li>Liu, Ting &amp; Zhou (2008), <em>Isolation Forest</em>, ICDM.</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../../parte-2-deep-learning/100-perceptron-mlp-y-backpropagation/index.html">Clase 100 — Perceptrón, MLP y backpropagation</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-1-machine-learning-clasico/099-deteccion-de-anomalias-isolation-forest-lof-one-class-svm/"><code>classes/parte-1-machine-learning-clasico/099-deteccion-de-anomalias-isolation-forest-lof-one-class-svm/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

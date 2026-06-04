@@ -1,6 +1,6 @@
 # 🛡 Despliegue seguro y operación del programa
 
-> **Estado v2:** este documento describe metodología y enfoque pedagógico — vigente independientemente del número de clases. El currículo creció de 31 (v1) a **197 clases en 9 partes** (v2). Ver [syllabus.md](syllabus.md) para la pauta actual.
+> **Estado v2:** este documento describe metodología y enfoque pedagógico — vigente independientemente del número de clases. El currículo creció de 31 (v1) a **232 clases en 9 partes** (v2). Ver [syllabus.md](syllabus.md) para la pauta actual.
 
 Documento de postura técnica para explicar como se opera este repositorio hoy, que controles existen, que CI/CD ya esta disponible y que cambios harían falta para escenarios más expuestos.
 

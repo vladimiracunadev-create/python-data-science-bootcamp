@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 056 — Selección y entrenamiento de modelo | Python Data Science Program</title>
+  <meta name="description" content="Clase 056 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 1 — ML clásico</a><span class="sep">›</span><span>056</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-1-machine-learning-clasico/056-seleccion-y-entrenamiento-de-modelo/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-056-seleccion-y-entrenamiento-de-modelo">Clase 056 — Selección y entrenamiento de modelo</h1>
+<blockquote>
+<p>Parte: <strong>1 — Machine Learning Clásico</strong> · Fuente: Géron, <strong>cap. 2</strong> § <em>Select and Train a Model</em>.
+⏱️ Duración estimada: <strong>60 min</strong>.</p>
+</blockquote>
+<hr>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Que el alumno entrene varios modelos baseline sobre el pipeline ya preparado (California Housing), los compare con <strong>cross-validation</strong> en vez de un único split, identifique sub/overfitting con <strong>learning curves</strong>, y elija el candidato más prometedor para pasar a fine-tuning — sin malgastar tiempo afinando un modelo que no tiene techo.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar la clase, el alumno podrá:</p>
+<ol>
+<li><strong>Entrenar baselines</strong> (<code>LinearRegression</code>, <code>DecisionTreeRegressor</code>, <code>RandomForestRegressor</code>) sobre el <code>X_prepared</code> del pipeline de la clase anterior.</li>
+<li><strong>Evaluar con <code>cross_val_score</code></strong> usando K-Fold y <code>scoring='neg_root_mean_squared_error'</code> en vez de un solo train/test.</li>
+<li><strong>Leer learning curves</strong> para diagnosticar bias vs varianza (underfitting vs overfitting).</li>
+<li><strong>Comparar modelos</strong> con media ± desvío de los folds y decidir cuál merece HPO.</li>
+<li><strong>Persistir el modelo elegido</strong> con <code>joblib.dump(...)</code> para retomarlo en la próxima clase.</li>
+</ol>
+<h2 id="temas">🗺️ Temas</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Tema</th>
+<th>Por qué importa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Entrenar baseline <code>LinearRegression</code> y medir RMSE en train</td>
+<td>Punto de comparación honesto. Si el lineal ya está bien, no hace falta un bosque.</td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>DecisionTreeRegressor</code> con RMSE = 0 en train</td>
+<td>Caso canónico de overfitting; te enseña a no confiar en el train score.</td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>cross_val_score(..., cv=10, scoring='neg_root_mean_squared_error')</code></td>
+<td>Estimación robusta de error de generalización sin tocar el test set.</td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>RandomForestRegressor</code> y comparación con los anteriores</td>
+<td>Baseline fuerte en tabular; suele ganar antes de pensar en HPO.</td>
+</tr>
+<tr>
+<td>5</td>
+<td><code>learning_curve</code> — train vs validation score vs tamaño de muestra</td>
+<td>Diagnóstico visual de bias/varianza.</td>
+</tr>
+<tr>
+<td>6</td>
+<td><code>validation_curve</code> — score vs un hiperparámetro</td>
+<td>Antesala del grid search de la clase siguiente.</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Decidir cuándo pasar a HPO vs cuándo seguir feature-engineering</td>
+<td>Criterio de corte; evita el agujero del tuning prematuro.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<dl>
+<dt><strong>Baseline model</strong></dt>
+<dd>Modelo simple (lineal, árbol corto, dummy) contra el cual se compara cualquier modelo más complejo. Si un Random Forest no le gana al <code>LinearRegression</code> por margen claro, el feature engineering está fallando — no el modelo.</dd>
+<dt><strong><code>cross_val_score(estimator, X, y, cv, scoring)</code></strong></dt>
+<dd>Entrena <code>cv</code> veces sobre folds disjuntos y devuelve un array de scores. En sklearn, <strong>scoring siempre es "más alto es mejor"</strong> — por eso para RMSE se usa <code>neg_root_mean_squared_error</code> (negado) y después se invierte el signo.</dd>
+<dt><strong><code>scoring</code></strong></dt>
+<dd>String que selecciona la métrica. Para regresión: <code>'neg_root_mean_squared_error'</code>, <code>'neg_mean_absolute_error'</code>, <code>'r2'</code>. Para clasificación: <code>'accuracy'</code>, <code>'f1'</code>, <code>'roc_auc'</code>. La lista completa está en <a href="https://scikit-learn.org/stable/modules/model_evaluation.html#scoring-parameter">Scoring parameter</a>.</dd>
+<dt><strong>Learning curve</strong></dt>
+<dd>Gráfico de score (train y validation) en función del <strong>tamaño del training set</strong>. Diagnostica: brecha grande train ↔ val = overfitting (varianza alta); ambas curvas bajas y juntas = underfitting (bias alto); ambas convergen alto = modelo OK.</dd>
+<dt><strong>Validation curve</strong></dt>
+<dd>Gráfico de score (train y validation) en función de un <strong>hiperparámetro</strong> (<code>max_depth</code>, <code>n_estimators</code>, etc.). Te muestra a ojo el rango interesante antes de tirar un grid search.</dd>
+<dt><strong>Model card</strong></dt>
+<dd>Documento corto (markdown, una página) que registra: dataset, features, modelo, métricas en CV, hiperparámetros, fecha, supuestos y limitaciones. Práctica de Google/Hugging Face. Te salva cuando volvés al proyecto 3 meses después.</dd>
+<dt><strong><code>joblib.dump</code> / <code>joblib.load</code></strong></dt>
+<dd>Serialización optimizada para objetos sklearn (matrices NumPy grandes). Preferido sobre <code>pickle</code> puro. Convención: <code>modelo.pkl</code> o <code>modelo.joblib</code>.</dd>
+</dl>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<p>Seguimos con <strong>California Housing</strong> y el <code>X_prepared</code> que sale del pipeline construido en las clases 049-050. Si arrancás esta clase fresca, el notebook regenera el pipeline desde <code>fetch_california_housing()</code> para que sea autocontenido.</p>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<p><strong>1.</strong> <strong>Baseline lineal.</strong> Entrená <code>LinearRegression()</code> sobre <code>X_prepared</code>, predecí sobre los primeros 5 ejemplos, compará con los <code>y</code> reales. Calculá RMSE sobre todo el train. Esperá algo en el orden de <strong>~68k USD</strong>.</p>
+<p><strong>2.</strong> <strong>Árbol que memoriza.</strong> Entrená <code>DecisionTreeRegressor(random_state=42)</code> sin restringir profundidad. Calculá RMSE sobre train. Vas a obtener <strong>0</strong> (o casi). Discutí en una celda markdown por qué eso <strong>no</strong> significa que el modelo sea bueno.</p>
+<p><strong>3.</strong> <strong>Cross-validation honesto.</strong> Corré <code>cross_val_score(tree, X_prepared, y, scoring='neg_root_mean_squared_error', cv=10)</code>. Reportá media y desvío del RMSE (recordá negar el signo). Compará con el lineal evaluado con el mismo <code>cv=10</code>.</p>
+<p><strong>4.</strong> <strong>Random Forest.</strong> Entrená <code>RandomForestRegressor(n_estimators=100, random_state=42)</code> y evaluá con CV de 10 folds. Esperá que la media baje a <strong>~50k USD</strong>. Hacé una tabla markdown con los 3 modelos: media ± desvío.</p>
+<p><strong>5.</strong> <strong>Learning curve.</strong> Usá <code>sklearn.model_selection.learning_curve</code> sobre el Random Forest con <code>train_sizes=np.linspace(0.1, 1.0, 5)</code>. Plotteá train_score y val_score vs tamaño. Diagnosticá: ¿alta varianza, alto bias, o convergencia?</p>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Notebook que: (a) entrene los 3 baselines sobre <code>X_prepared</code>; (b) corra CV de 10 folds para cada uno y guarde los arrays de scores; (c) genere una tabla comparativa con <code>RMSE media</code>, <code>RMSE desvío</code>, <code>tiempo de fit</code>; (d) elija el modelo más prometedor con justificación de 3 líneas en markdown; (e) plottee la learning curve del elegido; (f) serialice el modelo entrenado en <code>models/modelo_baseline.pkl</code> con <code>joblib.dump</code>.</p>
+<p><strong>Criterio de aceptación:</strong> El Random Forest aparece con RMSE-CV menor al lineal y al árbol pelado. El archivo <code>.pkl</code> se puede recargar con <code>joblib.load</code> y predice sin errores sobre los primeros 5 ejemplos de <code>X_prepared</code>.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Reporto el RMSE como un número enorme positivo viniendo de <code>cross_val_score</code></td>
+<td>Olvidaste que sklearn devuelve <strong>scores negados</strong> (<code>neg_root_mean_squared_error</code>). <strong>Fix</strong>: <code>rmse = -scores</code> o <code>rmse = np.sqrt(-scores)</code> si usaste <code>neg_mean_squared_error</code>.</td>
+</tr>
+<tr>
+<td>Decision tree con RMSE = 0 en train y lo declaro ganador</td>
+<td>Estás midiendo en el mismo set en que entrenó. <strong>Fix</strong>: usá <code>cross_val_score</code> o un hold-out, nunca el RMSE de train para comparar modelos.</td>
+</tr>
+<tr>
+<td><code>cross_val_score</code> tarda eternidad con Random Forest y <code>cv=10</code></td>
+<td>Cada fold reentrena el bosque entero. <strong>Fix</strong>: bajá a <code>cv=5</code> mientras iterás, y <code>n_jobs=-1</code> para paralelizar.</td>
+</tr>
+<tr>
+<td>Learning curve plana en train y val ambas bajas</td>
+<td>Underfitting. <strong>Fix</strong>: no es problema de datos — el modelo es muy simple o las features no informan. Sumá features o subí complejidad.</td>
+</tr>
+<tr>
+<td>Hago <code>cross_val_score</code> sobre el <code>X</code> crudo (sin pipeline) y los scores son terribles</td>
+<td>Te salteaste el preprocessing. <strong>Fix</strong>: pasale el <code>Pipeline</code> completo, no el estimador final solo. Así el CV preprocesa <strong>dentro</strong> de cada fold y evita data leakage.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿Por qué CV de 10 y no un train/test split?</strong></p>
+<p>Un solo split te da <strong>un solo número</strong> con varianza alta — podés tener mala/buena suerte con esa partición. CV te da 10 números: media + desvío. Si el desvío entre folds es grande, el modelo es inestable y un score puntual miente.</p>
+<p><strong>❓ ¿<code>neg_root_mean_squared_error</code> o <code>neg_mean_squared_error</code>?</strong></p>
+<p><code>neg_root_mean_squared_error</code> está disponible desde sklearn 0.22 y te devuelve directo el RMSE negado. Si tu versión es vieja, usá <code>neg_mean_squared_error</code> y aplicá <code>np.sqrt(-scores)</code> a mano.</p>
+<p><strong>❓ ¿Cuándo dejo de probar baselines y paso a HPO?</strong></p>
+<p>Cuando el mejor baseline ya le saca margen claro al segundo, y la learning curve muestra que más datos no van a mover la aguja. Si seguís en bias alto, antes de HPO sumá features o subí la familia de modelo.</p>
+<p><strong>❓ ¿Sirve mirar el RMSE de train?</strong></p>
+<p>Sí, pero solo como <strong>diagnóstico</strong>, no como métrica de selección. Train bajo + val alto = overfitting. Train alto + val alto = underfitting. La métrica que ranquea modelos es siempre la de validation (o CV).</p>
+<p><strong>❓ ¿Cuál es la diferencia entre <code>learning_curve</code> y <code>validation_curve</code>?</strong></p>
+<p><code>learning_curve</code> varía <strong>el tamaño del training set</strong> (¿necesito más datos?). <code>validation_curve</code> varía <strong>un hiperparámetro</strong> con N fijo (¿qué <code>max_depth</code> conviene?). Las dos comparten el formato train-vs-val pero responden preguntas distintas.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Géron, <strong>cap. 2</strong> § <em>Select and Train a Model</em> + § <em>Better Evaluation Using Cross-Validation</em>.</li>
+<li><a href="https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.cross_val_score.html">sklearn <code>cross_val_score</code></a></li>
+<li><a href="https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.learning_curve.html">sklearn <code>learning_curve</code></a></li>
+<li><a href="https://scikit-learn.org/stable/modules/model_evaluation.html#scoring-parameter">sklearn Scoring parameter</a></li>
+<li><a href="https://arxiv.org/abs/1810.03993">Model Cards for Model Reporting (Mitchell et al., 2019)</a></li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../057-fine-tuning-grid-search-randomized-search/index.html">Clase 057 — Fine-tuning: grid search y randomized search</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-1-machine-learning-clasico/056-seleccion-y-entrenamiento-de-modelo/"><code>classes/parte-1-machine-learning-clasico/056-seleccion-y-entrenamiento-de-modelo/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

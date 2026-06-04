@@ -39,13 +39,13 @@ Al finalizar esta parte, el estudiante podrá:
 
 ## 📚 Índice de clases (7)
 
-- [181 — Filtrado colaborativo user-based e item-based](181-filtrado-colaborativo-user-based-e-item-based/README.md)
-- [182 — Factorización de matrices: SVD, ALS](182-factorizacion-de-matrices-svd-als/README.md)
-- [183 — Content-based filtering](183-content-based-filtering/README.md)
-- [184 — Recomendadores híbridos](184-recomendadores-hibridos/README.md)
-- [185 — Métricas: MAP@k, NDCG, recall@k](185-metricas-map-k-ndcg-recall-k/README.md)
-- [186 — Cold-start problem](186-cold-start-problem/README.md)
-- [187 — Librerías: LightFM, Implicit, Surprise](187-librerias-lightfm-implicit-surprise/README.md)
+- [216 — Filtrado colaborativo user-based e item-based](216-filtrado-colaborativo-user-based-e-item-based/README.md)
+- [217 — Factorización de matrices: SVD, ALS](217-factorizacion-de-matrices-svd-als/README.md)
+- [218 — Content-based filtering](218-content-based-filtering/README.md)
+- [219 — Recomendadores híbridos](219-recomendadores-hibridos/README.md)
+- [220 — Métricas: MAP@k, NDCG, recall@k](220-metricas-map-k-ndcg-recall-k/README.md)
+- [221 — Cold-start problem](221-cold-start-problem/README.md)
+- [222 — Librerías: LightFM, Implicit, Surprise](222-librerias-lightfm-implicit-surprise/README.md)
 
 ---
 

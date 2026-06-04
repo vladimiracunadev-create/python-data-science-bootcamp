@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 177 — Effect size dedicado: Cohen&#x27;s d, Hedges&#x27; g, Cliff&#x27;s δ con pingouin | Python Data Science Program</title>
+  <meta name="description" content="Clase 177 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 3 — Estadística inferencial</a><span class="sep">›</span><span>177</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-3-estadistica-inferencial/177-effect-size-cohen-d-hedges-g-cliff-delta-pingouin/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-177-effect-size-dedicado-cohens-d-hedges-g-cliffs-con-pingouin">Clase 177 — Effect size dedicado: Cohen's d, Hedges' g, Cliff's δ con pingouin</h1>
+<blockquote>
+<p>Parte: <strong>3 — Estadística Inferencial y Causal</strong> · Fuente: Cohen (1988) + Lakens (2013) + Vallat (2018) pingouin. ⏱️ Duración estimada: <strong>75 min</strong>.</p>
+</blockquote>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Dominar <strong>effect size</strong> —la métrica que el p-value no responde: "cuán grande es la diferencia"—. Cubrir 6 medidas: <strong>Cohen's d</strong> (means, varianzas similares), <strong>Hedges' g</strong> (bias-corrected para n chico), <strong>Glass's Δ</strong> (varianza del control como denominador), <strong>Cliff's δ</strong> (no paramétrico), <strong>r de correlación</strong>, <strong>odds ratio</strong>. Aplicar con <code>pingouin</code> en una sola llamada. Reportar correctamente: APA 7 lo exige.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar, el estudiante podrá:</p>
+<ul>
+<li>Calcular Cohen's d a mano y con <code>pingouin.compute_effsize</code>.</li>
+<li>Aplicar la corrección de Hedges (recomendada cuando n &lt; 50/grupo).</li>
+<li>Interpretar magnitudes (Cohen 1988): 0.2 / 0.5 / 0.8 = small / medium / large.</li>
+<li>Calcular Cliff's δ para datos ordinales / muy asimétricos.</li>
+<li>Reportar effect size con IC95 % bootstrap.</li>
+<li>Diseñar tabla APA-7 con <code>mean ± SD</code>, <code>Cohen's d [95% CI]</code>, <code>t</code>, <code>p</code>.</li>
+</ul>
+<h2 id="temas">🗺️ Temas</h2>
+<ul>
+<li>Cohen's d: <code>(x̄₁ - x̄₂) / s_pooled</code>.</li>
+<li>Hedges' g: <code>d · (1 - 3/(4·gl - 1))</code>.</li>
+<li>Glass's Δ: usar <code>s_control</code> como denominator. Útil cuando control y treatment tienen varianza distinta.</li>
+<li>Cliff's δ: probabilistic dominance.</li>
+<li>Effect size para correlación: r (= Pearson) o R².</li>
+<li>Effect size para chi-cuadrado: Cramér's V, phi.</li>
+<li>IC95 % de effect size: bootstrap o fórmulas paramétricas.</li>
+</ul>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<ul>
+<li><strong>Cohen's d</strong>: estándar para 2 grupos independientes.</li>
+<li><strong><code>s_pooled</code></strong>: <code>sqrt(((n1-1)·s1² + (n2-1)·s2²) / (n1+n2-2))</code>.</li>
+<li><strong>Hedges' g</strong>: corrección para muestras chicas; siempre menor que d.</li>
+<li><strong>Cliff's δ</strong>: en <code>[-1, 1]</code>. Interpretación Romano (2006): &lt; 0.147 negligible, &lt; 0.33 small, &lt; 0.474 medium, ≥ 0.474 large.</li>
+<li><strong>CLES (Common Language Effect Size)</strong>: P(rand X &gt; rand Y). Más interpretable para no-técnicos.</li>
+</ul>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<ul>
+<li><code>seaborn.load_dataset('tips')</code>.</li>
+<li>Librerías: <code>pingouin</code>, <code>scipy.stats</code>, <code>numpy</code>.</li>
+</ul>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>Cohen's d a mano</strong>: para <code>tip</code> por <code>sex</code>, calcular manualmente con <code>s_pooled</code>.</li>
+<li><strong><code>pingouin.compute_effsize</code></strong>: verificar contra cálculo manual. Probar <code>eftype='cohen' | 'hedges' | 'glass' | 'CLES'</code>.</li>
+<li><strong>Hedges' g</strong>: con n=10 por grupo, ver diferencia entre d y g (Hedges &lt; d).</li>
+<li><strong>Cliff's δ</strong>: para datos Likert ordinales o muy asimétricos, calcular y interpretar.</li>
+<li><strong>Effect size + IC</strong>: bootstrap del Cohen's d → IC95 %.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Análisis estadístico riguroso de <code>tips</code>:</p>
+<ol>
+<li>Comparar <code>tip</code> por <code>time</code> (Lunch/Dinner) y por <code>day</code>.</li>
+<li>Reportar Cohen's d (o Hedges' g si n &lt; 30) con IC95 % bootstrap.</li>
+<li>Para <code>day</code> (4 niveles), reportar partial η² del ANOVA.</li>
+<li>Conclusión APA-7 estilo: "M ± SD, t(df) = X, p = Y, d [95% CI]".</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: tabla bien formada con todas las columnas; conclusión no usa solo p-value.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Reportar solo <code>p &lt; 0.05</code></td>
+<td>Mala práctica desde 1999. <strong>Fix</strong>: agregar effect size con IC.</td>
+</tr>
+<tr>
+<td>Cohen's d sobre datos muy asimétricos</td>
+<td>Sesgado. <strong>Fix</strong>: Cliff's δ.</td>
+</tr>
+<tr>
+<td>Mismo Cohen's d en 2 estudios sin contexto</td>
+<td>Magnitudes 0.2/0.5/0.8 son orientativas — depende del dominio. <strong>Fix</strong>: comparar contra meta-analyses del campo.</td>
+</tr>
+<tr>
+<td>Effect size sin IC</td>
+<td>Incompleto. <strong>Fix</strong>: bootstrap CI.</td>
+</tr>
+<tr>
+<td>Confundir d con η²</td>
+<td>Distintos rangos y significados. <strong>Fix</strong>: d para 2 grupos, η² para ANOVA.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ Cohen's d o Hedges' g?</strong></p>
+<p>Hedges siempre si n &lt; 50/grupo. Para n grande son indistinguibles.</p>
+<p><strong>❓ Magnitudes 0.2/0.5/0.8 son universales?</strong></p>
+<p>No. Son orientación. En medicina pueden ser muy distintas. Reporte tu d, dejá que el lector compare con su literatura.</p>
+<p><strong>❓ CLES interpretable?</strong></p>
+<p>Sí — "65 % chance que una persona random del grupo A tenga mayor valor que una random del B". Comunicable a no-técnicos.</p>
+<p><strong>❓ Effect size para A/B testing?</strong></p>
+<p>Sí — Cohen's h para proporciones, Cohen's d para continuous. Ver clase 154.</p>
+<p><strong>❓ Effect size negativo?</strong></p>
+<p>Solo indica dirección. La magnitud <code>|d|</code> es lo que se interpreta.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Cohen (1988), <em>Statistical Power Analysis for the Behavioral Sciences</em>.</li>
+<li>Lakens (2013), <em>Calculating and reporting effect sizes to facilitate cumulative science</em>, Frontiers in Psychology.</li>
+<li>Romano et al. (2006), <em>Cliff's δ interpretation</em>.</li>
+<li><a href="https://pingouin-stats.org/">pingouin docs</a>.</li>
+<li>APA Publication Manual 7th ed.</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../178-test-chi-cuadrado-de-independencia-y-bondad-de-ajuste/index.html">Clase 178 — Test chi-cuadrado de independencia y bondad de ajuste</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-3-estadistica-inferencial/177-effect-size-cohen-d-hedges-g-cliff-delta-pingouin/"><code>classes/parte-3-estadistica-inferencial/177-effect-size-cohen-d-hedges-g-cliff-delta-pingouin/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

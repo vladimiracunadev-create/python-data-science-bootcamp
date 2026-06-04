@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 036 — Matplotlib: line, scatter, bar, histogram, boxplot | Python Data Science Program</title>
+  <meta name="description" content="Clase 036 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 0 — Prerrequisitos</a><span class="sep">›</span><span>036</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-0-prerrequisitos/036-matplotlib-line-scatter-bar-histogram-boxplot/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-036-matplotlib-line-scatter-bar-histogram-boxplot">Clase 036 — Matplotlib: line, scatter, bar, histogram, boxplot</h1>
+<blockquote>
+<p>Parte: <strong>0 — Prerrequisitos</strong> · Fuente: VanderPlas, <strong>cap. 4</strong> §§ 4.2–4.5 <em>Simple Line/Scatter/Bar/Histogram Plots</em>.
+⏱️ Duración estimada: <strong>75 min</strong>.</p>
+</blockquote>
+<hr>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Que el alumno conozca los <strong>5 plots básicos</strong> que cubren el 80% del trabajo de EDA, y sepa <strong>cuándo cada uno</strong>: line (tendencia temporal), scatter (relación dos variables), bar (categóricas), histogram (distribución), boxplot (5 estadísticos + outliers).</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar la clase, el alumno podrá:</p>
+<ol>
+<li><strong>Elegir el plot correcto</strong> según el tipo de variables (continua/categórica) y el objetivo.</li>
+<li><strong>Ajustar marker, color, linestyle, alpha</strong> para legibilidad.</li>
+<li><strong>Construir histogramas</strong> con bins adecuados (regla de Freedman-Diaconis o <code>'auto'</code>).</li>
+<li><strong>Interpretar boxplot</strong>: mediana, Q1/Q3, whiskers, outliers.</li>
+<li><strong>Combinar</strong> bar + error bars para mostrar incertidumbre.</li>
+</ol>
+<h2 id="temas">🗺️ Temas</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Tema</th>
+<th>Por qué importa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Line: tendencias y series temporales</td>
+<td>El más fácil de leer mal.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Scatter: relación entre dos variables</td>
+<td>Con <code>c=</code> y <code>s=</code> para 3ª/4ª dimensión.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Bar y barh: categóricas</td>
+<td>Vertical vs horizontal.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Histogram: distribución de una continua</td>
+<td>Bins importan.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Boxplot: distribución resumida + outliers</td>
+<td>Cuando hay muchos grupos.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Errorbar y fill_between</td>
+<td>Mostrar incertidumbre.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<dl>
+<dt><strong>Line plot</strong></dt>
+<dd>Une puntos con líneas. Implica continuidad/orden en X — solo úsalo cuando X tiene <strong>orden natural</strong> (tiempo, espacio, secuencia).</dd>
+<dt><strong>Scatter</strong></dt>
+<dd>Puntos no conectados. Muestra <strong>relación</strong> entre 2 continuas. Con <code>c=</code> codificas 3ª dim (color), con <code>s=</code> 4ª (tamaño). Más de 4 dims sobrecarga.</dd>
+<dt><strong>Bar / barh</strong></dt>
+<dd>Barras para <strong>categóricas</strong>. Vertical (<code>bar</code>) si etiquetas son cortas, horizontal (<code>barh</code>) si son largas o muchas.</dd>
+<dt><strong>Histogram</strong></dt>
+<dd>Distribución de UNA continua. Bins importan: pocos esconden estructura, muchos generan ruido. <code>bins='auto'</code> usa Freedman-Diaconis (buen default).</dd>
+<dt><strong>Boxplot</strong></dt>
+<dd>Resumen de distribución: mediana (línea), Q1-Q3 (caja), whiskers (1.5×IQR), outliers (puntos). Útil para comparar muchos grupos rápido.</dd>
+<dt><strong>Errorbar</strong></dt>
+<dd>Barra + línea vertical/horizontal indicando incertidumbre (std, IC95%). Sin esto, las barras mienten visualmente.</dd>
+</dl>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<p>Palmer Penguins. Sin descarga adicional.</p>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<p><strong>1.</strong> <strong>Line.</strong> Serie temporal de ventas mensuales (sintética). Anota máximo con flecha.</p>
+<p><strong>2.</strong> <strong>Scatter.</strong> body_mass vs bill_length, color por species. Adicionalmente: <code>s=</code> con flipper_length para tamaño.</p>
+<p><strong>3.</strong> <strong>Bar.</strong> Count por species, ordenado descendente. Vertical y horizontal — compara legibilidad.</p>
+<p><strong>4.</strong> <strong>Histogram.</strong> Distribución de body_mass con bins='auto' y bins=10. Compara.</p>
+<p><strong>5.</strong> <strong>Boxplot.</strong> body_mass por species: 3 cajas lado a lado. Identifica outliers.</p>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Notebook con penguins: (a) 5 plots básicos cada uno bien etiquetado; (b) scatter decorado con color y tamaño codificando 3 dimensiones; (c) bar con errorbars de std; (d) boxplot agrupado con interpretación de outliers.</p>
+<p><strong>Criterio de aceptación:</strong> Cada plot tiene título, labels, leyenda donde aplica. Bins justificados.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Line plot entre 2 categorías "A", "B"</td>
+<td>Conectar categorías con línea <strong>engaña</strong> (sugiere continuidad inexistente). <strong>Fix</strong>: usa <code>bar</code> o <code>scatter</code>.</td>
+</tr>
+<tr>
+<td>Histograma con escala Y rara</td>
+<td>Por default <code>density=False</code> (counts). Si quieres comparar distribuciones de tamaños distintos, <code>density=True</code> (probabilidad).</td>
+</tr>
+<tr>
+<td>Boxplot todos iguales por outliers extremos</td>
+<td>Outliers dominan visualmente; cajas quedan apretadas. <strong>Fix</strong>: <code>ax.set_ylim(p5, p95)</code> recorta vista, o reporta los outliers aparte.</td>
+</tr>
+<tr>
+<td>Bar chart con colores random distrae</td>
+<td>Sin codificación significativa, color = ruido. <strong>Fix</strong>: un color único para todas; reserva color para grupos reales.</td>
+</tr>
+<tr>
+<td>Scatter con miles de puntos = blob negro</td>
+<td>Overplotting. <strong>Fix</strong>: <code>alpha=0.3</code>, hexbin (<code>plt.hexbin</code>), o agrupar por bin antes.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿Pie chart cuándo?</strong></p>
+<p><strong>Casi nunca.</strong> El ojo humano compara mal ángulos. Para proporciones: bar o stacked bar. Pie tolerable solo con 2-3 categorías y proporciones muy distintas.</p>
+<p><strong>❓ ¿Cuántos bins en un histograma?</strong></p>
+<p><code>bins='auto'</code> (Freedman-Diaconis) es buen default. Si es estudios académicos: regla de Sturges (<code>bins=int(np.log2(n)+1)</code>). Experimenta con 10/30/50 si dudas.</p>
+<p><strong>❓ ¿Boxplot o violinplot?</strong></p>
+<p><strong>Boxplot</strong>: rápido, 5 estadísticos, outliers claros. <strong>Violinplot</strong>: muestra distribución completa (multimodalidad). Para comparar 3-10 grupos, ambos OK. Para &gt;10, boxplot gana en densidad.</p>
+<p><strong>❓ ¿Errorbars con std o con IC?</strong></p>
+<p><strong>Std</strong>: dispersión natural de los datos. <strong>IC95% de la media</strong>: incertidumbre del estimador (más pequeño con N grande). Para inferencia, IC. Para describir, std.</p>
+<p><strong>❓ ¿Plot 3D buen idea?</strong></p>
+<p><strong>Casi nunca.</strong> Oclusión + perspectiva engañan. 2D con color/tamaño suele comunicar mejor. Excepción: superficies analíticas <code>z = f(x, y)</code>.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>VanderPlas, <strong>cap. 4</strong> §§ 4.2-4.5.</li>
+<li><a href="https://matplotlib.org/stable/gallery/index.html">matplotlib gallery</a></li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../037-matplotlib-subplots-y-gridspec/index.html">Clase 037 — Matplotlib: subplots y gridspec</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-0-prerrequisitos/036-matplotlib-line-scatter-bar-histogram-boxplot/"><code>classes/parte-0-prerrequisitos/036-matplotlib-line-scatter-bar-histogram-boxplot/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

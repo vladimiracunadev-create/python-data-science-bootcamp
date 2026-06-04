@@ -1,0 +1,35 @@
+# Clase 222 — Librerías: LightFM, Implicit, Surprise
+
+> Parte: **6-sistemas-de-recomendacion**
+> Estado: **stub** (pendiente desarrollar contenido).
+
+## Objetivo
+
+Describir el resultado de aprendizaje concreto de esta clase.
+
+## Resultados esperados
+
+Al finalizar, el estudiante podrá:
+
+- (resultado 1)
+- (resultado 2)
+- (resultado 3)
+
+## Temas clave
+
+- (subtema 1)
+- (subtema 2)
+- (subtema 3)
+
+## Materiales
+
+- `README.md` — esta ficha
+- `notebook.ipynb` — cuaderno de la clase
+
+## Prerrequisitos
+
+Ver índice general en `classes/README.md` para dependencias entre clases.
+
+## ➡️ Siguiente parte
+
+[Clase 223 — Tipos de sesgo algorítmico y orígenes](../../parte-7-etica-fairness-privacidad/223-tipos-de-sesgo-algoritmico-y-origenes/README.md)

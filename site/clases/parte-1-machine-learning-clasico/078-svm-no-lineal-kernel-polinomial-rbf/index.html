@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 078 — SVM no lineal: kernel polinomial y RBF | Python Data Science Program</title>
+  <meta name="description" content="Clase 078 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 1 — ML clásico</a><span class="sep">›</span><span>078</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-1-machine-learning-clasico/078-svm-no-lineal-kernel-polinomial-rbf/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-078-svm-no-lineal-kernel-polinomial-y-rbf">Clase 078 — SVM no lineal: kernel polinomial y RBF</h1>
+<blockquote>
+<p>Parte: <strong>1 — Machine Learning Clásico</strong> · Fuente: Géron, <strong>cap. 5</strong>. ⏱️ Duración estimada: <strong>70 min</strong>.</p>
+</blockquote>
+<hr>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Que el alumno entrene SVMs sobre datos <strong>no linealmente separables</strong> usando el <strong>kernel trick</strong>: en lugar de generar features polinómicas a mano (caro en memoria), <code>SVC</code> calcula el producto interno en el espacio expandido vía una función kernel. Foco en kernel <strong>polinomial</strong> y <strong>RBF (Gaussian)</strong>, y cómo <code>gamma</code> y <code>C</code> controlan el bias-variance trade-off.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar la clase, el alumno podrá:</p>
+<ol>
+<li><strong>Explicar el kernel trick</strong>: por qué <code>K(x, x')</code> evita materializar el feature map <code>φ(x)</code>.</li>
+<li><strong>Entrenar <code>SVC(kernel='poly')</code> y <code>SVC(kernel='rbf')</code></strong> en datasets no lineales (moons, circles).</li>
+<li><strong>Tunear <code>gamma</code> y <code>C</code></strong> con <code>GridSearchCV</code> entendiendo el efecto en la frontera.</li>
+<li><strong>Elegir kernel</strong> según geometría del problema (polinomial vs RBF vs lineal).</li>
+<li><strong>Reconocer el límite computacional</strong> de <code>SVC</code>: complejidad entre <strong>O(n²)</strong> y <strong>O(n³)</strong>, no escala a &gt;100k filas.</li>
+</ol>
+<h2 id="temas">🗺️ Temas</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Tema</th>
+<th>Por qué importa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Datos no linealmente separables (moons, circles)</td>
+<td>Motivación: lineal no alcanza.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Polynomial features manuales vs kernel trick</td>
+<td>Kernel evita explosión combinatoria.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Kernel polinomial: <code>degree</code>, <code>coef0</code>, <code>gamma</code></td>
+<td>Captura interacciones de orden d.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Kernel RBF (Gaussian): <code>gamma</code> como inverso del ancho</td>
+<td>Default robusto en sklearn.</td>
+</tr>
+<tr>
+<td>5</td>
+<td><code>C</code> (regularización) × <code>gamma</code> (forma)</td>
+<td>Grid 2D clásico.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Complejidad O(n²)–O(n³) y <code>LinearSVC</code> / <code>SGDClassifier</code> para N grande</td>
+<td>Cuándo NO usar <code>SVC</code>.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<dl>
+<dt><strong>Kernel trick</strong></dt>
+<dd>Truco matemático que reemplaza el producto interno <code>φ(x)·φ(x')</code> en el espacio expandido por una función <code>K(x, x')</code> calculable directamente en el espacio original. Permite trabajar en espacios de dimensión infinita (RBF) sin materializarlos. Requisito: <code>K</code> debe ser definida positiva (<strong>condición de Mercer</strong>).</dd>
+<dt><strong>Kernel RBF (Gaussian)</strong></dt>
+<dd><code>K(x, x') = exp(-γ · ||x - x'||²)</code>. Mide similitud por distancia: 1 si <code>x = x'</code>, → 0 cuando se alejan. Equivale a un feature map infinito-dimensional. Default razonable cuando no sabés qué kernel usar.</dd>
+<dt><strong><code>gamma</code> (γ)</strong></dt>
+<dd>Inverso del ancho del kernel RBF. <strong>γ alto</strong> → cada punto influye solo en su vecindad inmediata → frontera muy ondulada → <strong>overfitting</strong>. <strong>γ bajo</strong> → influencia amplia → frontera suave → <strong>underfitting</strong>. En sklearn: <code>gamma='scale'</code> (default) = <code>1 / (n_features · X.var())</code>.</dd>
+<dt><strong>Kernel polinomial</strong></dt>
+<dd><code>K(x, x') = (γ · x·x' + coef0)^degree</code>. Captura interacciones hasta orden <code>degree</code>. <code>coef0</code> controla el peso de los términos de orden alto vs bajo. Típicamente <code>degree=2</code> o <code>3</code>; más alto suele overfittear.</dd>
+<dt><strong>Kernel sigmoid</strong></dt>
+<dd><code>K(x, x') = tanh(γ · x·x' + coef0)</code>. Rara vez supera a RBF en la práctica; se mantiene por razones históricas (similitud con redes neuronales).</dd>
+<dt><strong>Complejidad O(n²)–O(n³)</strong></dt>
+<dd><code>SVC</code> resuelve un QP cuadrático sobre los <code>n</code> ejemplos. En la práctica, libsvm escala <strong>entre O(n²) y O(n³)</strong> según la fracción de support vectors. Para &gt;50k–100k filas: usar <code>LinearSVC</code> (si es lineal) o <code>SGDClassifier(loss='hinge')</code>.</dd>
+<dt><strong>Condición de Mercer</strong></dt>
+<dd>Para que una función <code>K</code> sea un kernel válido, su matriz de Gram <code>[K(xᵢ, xⱼ)]</code> debe ser <strong>semidefinida positiva</strong> para cualquier conjunto finito de puntos. RBF, polinomial y lineal la cumplen; sigmoid solo bajo ciertos parámetros.</dd>
+<dt><strong><code>C</code> (regularización)</strong></dt>
+<dd>Inverso del parámetro de regularización L2. <strong>C alto</strong> → poca tolerancia a violaciones del margen → margen estrecho, posible overfit. <strong>C bajo</strong> → margen amplio, más violaciones permitidas, modelo más simple.</dd>
+</dl>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<ul>
+<li><code>sklearn.datasets.make_moons(n_samples=500, noise=0.15)</code> — clásico no lineal.</li>
+<li><code>sklearn.datasets.make_circles(n_samples=500, noise=0.1, factor=0.4)</code> — radial puro, ideal para mostrar RBF.</li>
+</ul>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<p><strong>1.</strong> <strong>Lineal falla.</strong> Entrená <code>SVC(kernel='linear')</code> sobre <code>make_moons</code>. Reportá accuracy y graficá la frontera. Mostrá visualmente que es inadecuada.</p>
+<p><strong>2.</strong> <strong>Polynomial kernel.</strong> <code>SVC(kernel='poly', degree=3, coef0=1, C=5)</code> sobre <code>moons</code>. Comparar accuracy y forma de la frontera vs lineal.</p>
+<p><strong>3.</strong> <strong>RBF kernel.</strong> <code>SVC(kernel='rbf', gamma=5, C=1)</code> sobre <code>circles</code>. Variar <code>gamma ∈ {0.1, 1, 10, 100}</code> con el mismo <code>C</code> y graficar las 4 fronteras lado a lado.</p>
+<p><strong>4.</strong> <strong>Grid search 2D.</strong> <code>GridSearchCV</code> sobre <code>gamma ∈ {0.01, 0.1, 1, 10}</code> × <code>C ∈ {0.1, 1, 10, 100}</code> con <code>cv=5</code> sobre <code>moons</code>. Reportar el mejor par y matriz de scores como heatmap.</p>
+<p><strong>5.</strong> <strong>Pipeline con StandardScaler.</strong> SVMs son sensibles a escala. Armá <code>Pipeline([('sc', StandardScaler()), ('svc', SVC(kernel='rbf'))])</code> y comparar accuracy con y sin scaler en un dataset con features de magnitudes muy distintas.</p>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Notebook con <code>make_moons(n_samples=1000, noise=0.2)</code>. Train/test split 80/20. Entrenar tres modelos: (a) <code>SVC(kernel='linear')</code>, (b) <code>SVC(kernel='poly', degree=3)</code>, (c) <code>SVC(kernel='rbf')</code> con <code>gamma</code> y <code>C</code> tuneados vía <code>GridSearchCV(cv=5)</code>. Reportar accuracy en test de los tres y graficar las tres fronteras de decisión en una grilla 1×3.</p>
+<p><strong>Criterio de aceptación:</strong> El modelo RBF tuneado supera al lineal en al menos <strong>+15 puntos</strong> de accuracy. El notebook incluye el heatmap de <code>GridSearchCV</code> y las tres fronteras visualizadas.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Usar <code>SVC</code> en datasets &gt;100k filas</strong> y que el <code>.fit()</code> no termine</td>
+<td>Complejidad O(n²)–O(n³). <strong>Fix</strong>: si el problema es lineal, <code>LinearSVC</code> (O(n)); si no, <code>SGDClassifier(loss='hinge')</code> o aproximar el kernel con <code>Nystroem</code> / <code>RBFSampler</code>.</td>
+</tr>
+<tr>
+<td>Accuracy pésima sin escalar features</td>
+<td>RBF y polinomial dependen de distancias. Una feature de magnitud 1000 domina. <strong>Fix</strong>: siempre <code>StandardScaler</code> antes de <code>SVC</code>.</td>
+</tr>
+<tr>
+<td><code>gamma</code> alto da 100% en train y 60% en test</td>
+<td>Overfitting clásico: γ alto = frontera ondulada que memoriza. <strong>Fix</strong>: bajar <code>gamma</code>, usar <code>GridSearchCV</code> con <code>cv</code>.</td>
+</tr>
+<tr>
+<td><code>SVC(kernel='poly', degree=10)</code> tarda eternidades</td>
+<td>Polinomios de alto grado explotan numéricamente y agregan support vectors. <strong>Fix</strong>: rara vez <code>degree &gt; 3</code> ayuda; preferir RBF.</td>
+</tr>
+<tr>
+<td>No setear <code>random_state</code> y resultados irreproducibles</td>
+<td><code>SVC</code> con <code>probability=True</code> o algunos solvers usan RNG. <strong>Fix</strong>: <code>random_state=42</code> en <code>SVC</code> y en el split.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿RBF o polynomial?</strong></p>
+<p>Si no sabés nada del problema: <strong>RBF</strong> (default robusto, un solo hiperparámetro relevante <code>gamma</code>). Polynomial conviene si tenés razones para creer que las interacciones son de <strong>orden bajo y fijo</strong> (ej. features físicas que se multiplican). RBF tiende a ganar en benchmarks tabulares.</p>
+<p><strong>❓ ¿Qué pasa si γ → 0 en RBF?</strong></p>
+<p>El kernel tiende a constante → todos los puntos parecen iguales → modelo equivale a clasificar por mayoría. Frontera trivial (clase mayoritaria en todo el espacio).</p>
+<p><strong>❓ ¿Cuántos support vectors es "muchos"?</strong></p>
+<p>Si <code>len(svm.support_) &gt; 0.5 · n_train</code>, el modelo está overfitteando o <code>C</code> es muy alto. SVMs eficientes tienen pocos SVs (los del borde).</p>
+<p><strong>❓ ¿Por qué <code>gamma='scale'</code> y no <code>'auto'</code>?</strong></p>
+<p><code>'scale'</code> = <code>1 / (n_features · X.var())</code> — tiene en cuenta la varianza de los datos, robusto a escala. <code>'auto'</code> = <code>1 / n_features</code> (default viejo, deprecado conceptualmente). Usá <code>'scale'</code> o un valor explícito tuneado.</p>
+<p><strong>❓ ¿Puedo usar SVM kernelizada con 1M de filas?</strong></p>
+<p><strong>No con <code>SVC</code></strong>. Alternativas: (a) <code>LinearSVC</code> si el problema es separable linealmente tras feature engineering; (b) <code>Nystroem</code> + <code>LinearSVC</code> para aproximar RBF en O(n); (c) <code>SGDClassifier(loss='hinge')</code>; (d) cambiar de modelo (Gradient Boosting suele ganar en tabular grande).</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Géron, <strong>cap. 5</strong> — <em>Nonlinear SVM Classification</em> y <em>The Kernel Trick</em>.</li>
+<li><a href="https://scikit-learn.org/stable/modules/generated/sklearn.svm.SVC.html">sklearn — SVC</a></li>
+<li><a href="https://scikit-learn.org/stable/auto_examples/svm/plot_rbf_parameters.html">sklearn — RBF kernel intuition</a></li>
+<li><a href="https://scikit-learn.org/stable/modules/kernel_approximation.html">sklearn — Kernel approximation (Nystroem)</a></li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../079-svm-para-regresion/index.html">Clase 079 — SVM para regresión (SVR)</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-1-machine-learning-clasico/078-svm-no-lineal-kernel-polinomial-rbf/"><code>classes/parte-1-machine-learning-clasico/078-svm-no-lineal-kernel-polinomial-rbf/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

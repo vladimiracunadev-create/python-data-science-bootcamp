@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 065 — Precision/Recall tradeoff | Python Data Science Program</title>
+  <meta name="description" content="Clase 065 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 1 — ML clásico</a><span class="sep">›</span><span>065</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-1-machine-learning-clasico/065-precision-recall-tradeoff/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-065-precisionrecall-tradeoff">Clase 065 — Precision/Recall tradeoff</h1>
+<blockquote>
+<p>Parte: <strong>1 — Machine Learning Clásico</strong> · Fuente: Géron, <strong>cap. 3</strong>. ⏱️ Duración estimada: <strong>50 min</strong>.</p>
+</blockquote>
+<hr>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Que el alumno entienda que <strong>no se puede maximizar precision y recall al mismo tiempo</strong>: mover el threshold de decisión sube uno y baja el otro. La clase enseña a usar <code>decision_function</code> + <code>precision_recall_curve</code> para elegir el threshold según el costo del negocio, no según el default de <code>0</code>.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar la clase, el alumno podrá:</p>
+<ol>
+<li><strong>Explicar el tradeoff</strong> entre precision y recall en términos del threshold del clasificador.</li>
+<li><strong>Obtener scores crudos</strong> con <code>decision_function(X)</code> (o <code>predict_proba</code>) en vez de quedarse con <code>predict</code>.</li>
+<li><strong>Calcular la curva</strong> con <code>precision_recall_curve(y_true, scores)</code> y graficarla.</li>
+<li><strong>Elegir un threshold</strong> que cumpla una restricción del negocio (ej: precision ≥ 90%).</li>
+<li><strong>Reportar <code>average_precision_score</code></strong> como métrica resumen única de la curva.</li>
+</ol>
+<h2 id="temas">🗺️ Temas</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Tema</th>
+<th>Por qué importa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Threshold de decisión: el default <code>0</code> no es sagrado</td>
+<td>Define cuántos FP y FN tolerás.</td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>decision_function</code> vs <code>predict_proba</code> vs <code>predict</code></td>
+<td>El primero devuelve score crudo, el último ya aplicó threshold.</td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>precision_recall_curve</code></td>
+<td>Te da los 3 arrays: precision, recall, thresholds.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Elegir threshold según restricción de negocio</td>
+<td>"Precision ≥ 90%" o "Recall ≥ 95%" — depende del costo.</td>
+</tr>
+<tr>
+<td>5</td>
+<td><code>average_precision_score</code> (AP)</td>
+<td>Resumen escalar del área bajo la curva PR.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Cuándo PR &gt; ROC</td>
+<td>Datasets muy desbalanceados (la próxima clase lo cierra).</td>
+</tr>
+</tbody>
+</table>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<dl>
+<dt><strong><code>decision_function(X)</code></strong></dt>
+<dd>Devuelve el <strong>score crudo</strong> del clasificador (distancia al hiperplano en SGD/SVM). Valores &gt; threshold → clase positiva. El default de <code>predict</code> es threshold = 0.</dd>
+<dt><strong>Threshold de decisión</strong></dt>
+<dd>Punto de corte sobre el score. Subirlo → menos positivos predichos → <strong>más precision, menos recall</strong>. Bajarlo → más positivos predichos → <strong>más recall, menos precision</strong>.</dd>
+<dt><strong><code>precision_recall_curve(y_true, scores)</code></strong></dt>
+<dd>Devuelve <code>(precisions, recalls, thresholds)</code> para todos los thresholds posibles. Notar que <code>precisions</code> y <code>recalls</code> tienen un elemento más que <code>thresholds</code> (el extremo donde recall=0).</dd>
+<dt><strong><code>precision_score(y_true, y_pred)</code></strong></dt>
+<dd><code>TP / (TP + FP)</code>. "De los que predije positivos, cuántos lo eran". Costo de FP alto → maximizar precision.</dd>
+<dt><strong><code>recall_score(y_true, y_pred)</code></strong></dt>
+<dd><code>TP / (TP + FN)</code>. "De los positivos reales, cuántos encontré". Costo de FN alto (cáncer, fraude) → maximizar recall.</dd>
+<dt><strong><code>average_precision_score(y_true, scores)</code> (AP)</strong></dt>
+<dd>Área bajo la curva precision-recall, calculada como promedio ponderado de precisions en cada threshold. Métrica resumen — mejor que F1 cuando hay desbalance fuerte.</dd>
+<dt><strong><code>cross_val_predict(..., method='decision_function')</code></strong></dt>
+<dd>Variante de <code>cross_val_predict</code> que devuelve scores crudos en vez de labels. Imprescindible para construir la curva PR sin leakage.</dd>
+</dl>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<p>MNIST (clasificador binario "es el 5 vs no") — mismo dataset que la clase 056. Permite reusar el <code>SGDClassifier</code> ya entrenado.</p>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<p><strong>1.</strong> <strong>Score crudo.</strong> Entrená <code>SGDClassifier</code> sobre MNIST binario "es 5". Para una imagen concreta, llamá <code>sgd.decision_function([X[0]])</code> y compará con <code>sgd.predict([X[0]])</code>. Mostrá que <code>predict</code> es <code>decision_function &gt; 0</code>.</p>
+<p><strong>2.</strong> <strong>Curva PR.</strong> Con <code>cross_val_predict(sgd, X_train, y_train_5, cv=3, method='decision_function')</code> obtené <code>y_scores</code>. Pasalos a <code>precision_recall_curve</code> y graficá precision y recall <strong>vs threshold</strong> en el mismo eje.</p>
+<p><strong>3.</strong> <strong>Threshold para precision ≥ 90%.</strong> Encontrá el threshold mínimo que garantice <code>precision &gt;= 0.90</code>. Pista: <code>thresholds[np.argmax(precisions &gt;= 0.90)]</code>. Aplicalo: <code>y_pred_90 = (y_scores &gt;= threshold_90)</code> y verificá precision y recall resultantes.</p>
+<p><strong>4.</strong> <strong>Curva precision vs recall.</strong> Graficá <code>precision</code> (eje Y) contra <code>recall</code> (eje X) — la forma canónica de la curva PR. Marcá el punto correspondiente al threshold por default (0).</p>
+<p><strong>5.</strong> <strong>Average precision.</strong> Calculá <code>average_precision_score(y_train_5, y_scores)</code>. Compará con el F1 que sacaste en la clase 056. ¿Cuál te parece más informativo?</p>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Notebook con MNIST binario (es 5 vs no): (a) entrenar <code>SGDClassifier</code>; (b) obtener <code>y_scores</code> con <code>cross_val_predict(method='decision_function')</code>; (c) graficar las dos curvas (precision/recall vs threshold y precision vs recall); (d) encontrar el threshold que da precision ≥ 90% y reportar el recall en ese punto; (e) reportar <code>average_precision_score</code>.</p>
+<p><strong>Criterio de aceptación:</strong> El threshold elegido para precision ≥ 90% verifica esa cota cuando se aplica sobre <code>y_scores</code>. Las dos curvas están graficadas con ejes etiquetados.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>precisions</code> y <code>thresholds</code> tienen distinto largo y rompe el plot</td>
+<td>Es por diseño: <code>precision_recall_curve</code> devuelve <code>len(thresholds)+1</code> elementos en precision/recall. <strong>Fix</strong>: graficá <code>precisions[:-1]</code> y <code>recalls[:-1]</code> contra <code>thresholds</code>.</td>
+</tr>
+<tr>
+<td>Usás <code>predict</code> y querés mover el threshold</td>
+<td><code>predict</code> ya colapsó el score a label. <strong>Fix</strong>: usá <code>decision_function</code> (o <code>predict_proba</code>) y aplicá vos el threshold con <code>(scores &gt;= t)</code>.</td>
+</tr>
+<tr>
+<td>Sacaste la curva con <code>y_pred</code> en vez de <code>y_scores</code></td>
+<td>La curva PR necesita scores continuos, no labels. <strong>Fix</strong>: <code>cross_val_predict(..., method='decision_function')</code>.</td>
+</tr>
+<tr>
+<td>Threshold elegido sobre train, no sobre validación</td>
+<td>Overfitting del threshold. <strong>Fix</strong>: elegí threshold con <code>cross_val_predict</code> (out-of-fold) o con un split de validación dedicado.</td>
+</tr>
+<tr>
+<td>Modelos sin <code>decision_function</code> (ej: <code>RandomForestClassifier</code>)</td>
+<td>No todos los estimadores la exponen. <strong>Fix</strong>: usá <code>predict_proba(X)[:, 1]</code> como score equivalente.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿Precision o recall — cuál priorizo?</strong></p>
+<p>Depende del <strong>costo asimétrico</strong>. Filtro de spam: un FP (mail bueno marcado como spam) cuesta más que un FN → priorizá precision. Detección de cáncer: un FN (cáncer no detectado) cuesta vidas → priorizá recall. No hay respuesta universal, hay análisis de costos.</p>
+<p><strong>❓ ¿<code>decision_function</code> o <code>predict_proba</code>?</strong></p>
+<p>Son intercambiables a los fines de la curva PR (ambas son scores monótonos). <code>predict_proba</code> devuelve probabilidades calibradas en [0,1] (más interpretable); <code>decision_function</code> devuelve scores sin acotar. Para <code>SGDClassifier</code> usá <code>decision_function</code>; para <code>RandomForestClassifier</code> usá <code>predict_proba(X)[:, 1]</code>.</p>
+<p><strong>❓ ¿Por qué la curva PR tiene esa forma escalonada?</strong></p>
+<p>Cada salto corresponde a un sample que cambia de lado del threshold. Con N muestras hay hasta N thresholds distintos. En datasets chicos se nota más; con 10k+ samples se ve suave.</p>
+<p><strong>❓ ¿F1 o average precision?</strong></p>
+<p><strong>F1</strong> es a un threshold fijo (típicamente 0.5) — útil cuando el threshold ya está definido. <strong>Average precision</strong> integra sobre todos los thresholds — útil para comparar modelos sin fijar threshold. Para selección de modelo, AP es más informativo.</p>
+<p><strong>❓ ¿Y si la clase positiva es la minoría extrema (&lt;1%)?</strong></p>
+<p>Ahí la curva PR brilla y la ROC engaña. Lo cierra la clase 058 (ROC y AUC).</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Géron, <strong>cap. 3</strong> § <em>Precision/Recall Tradeoff</em> y § <em>The ROC Curve</em>.</li>
+<li><a href="https://scikit-learn.org/stable/modules/generated/sklearn.metrics.precision_recall_curve.html">scikit-learn — <code>precision_recall_curve</code></a></li>
+<li><a href="https://scikit-learn.org/stable/modules/generated/sklearn.metrics.average_precision_score.html">scikit-learn — <code>average_precision_score</code></a></li>
+<li><a href="https://scikit-learn.org/stable/auto_examples/model_selection/plot_precision_recall.html">scikit-learn — Precision-Recall example</a></li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../066-curva-roc-y-auc/index.html">Clase 066 — Curva ROC y AUC</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-1-machine-learning-clasico/065-precision-recall-tradeoff/"><code>classes/parte-1-machine-learning-clasico/065-precision-recall-tradeoff/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

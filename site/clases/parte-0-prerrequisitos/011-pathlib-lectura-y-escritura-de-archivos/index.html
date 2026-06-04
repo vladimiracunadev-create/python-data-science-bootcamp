@@ -24,7 +24,7 @@
   </header>
   <main class="cur-main">
     <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-0-prerrequisitos/011-pathlib-lectura-y-escritura-de-archivos/notebook.ipynb">📓 Abrir notebook en GitHub</a>
-<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#complemento-formatos-columnares-parquet-arrow-feather">📌 Complemento: Formatos columnares (Parquet, Arrow, Feather)</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#version-profundizada-2026">📌 Versión profundizada — 2026</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
 <h1 id="clase-011-pathlib-lectura-y-escritura-de-archivos">Clase 011 — pathlib, lectura y escritura de archivos</h1>
 <blockquote>
 <p>Parte: <strong>0 — Prerrequisitos</strong> · Fuente: <em>Python Tutorial</em> cap. 10 · <code>pathlib</code> docs · <em>Effective Python</em> (Slatkin) ítem 38.
@@ -84,68 +84,11 @@
 </tr>
 </tbody>
 </table>
-<h2 id="complemento-formatos-columnares-parquet-arrow-feather">📌 Complemento: Formatos columnares (Parquet, Arrow, Feather)</h2>
-<p>Los formatos columnares almacenan los datos por columna en lugar de por fila, lo que permite <strong>compresión 5-10× mayor</strong> que CSV, <strong>lectura selectiva de columnas</strong> (no cargás todo el archivo para leer 2 columnas), y <strong>tipos preservados</strong> (no perdés <code>datetime</code>, <code>int64</code> vs <code>float</code>, ni <code>category</code>). Son el estándar de facto en data lakes modernos, Spark, DuckDB, Polars y todo el ecosistema de data engineering.</p>
-<table>
-<thead>
-<tr>
-<th>Aspecto</th>
-<th>CSV</th>
-<th>Parquet</th>
-<th>Feather / Arrow IPC</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Tamaño típico (mismo dataset)</td>
-<td>100% (baseline)</td>
-<td>10-20%</td>
-<td>30-50%</td>
-</tr>
-<tr>
-<td>Velocidad de lectura</td>
-<td>Lenta (parseo de texto)</td>
-<td>Muy rápida</td>
-<td>Máxima (memory-mapped)</td>
-</tr>
-<tr>
-<td>Tipado</td>
-<td>Se pierde (todo string)</td>
-<td>Preservado + schema</td>
-<td>Preservado + schema</td>
-</tr>
-<tr>
-<td>Streaming / lectura parcial</td>
-<td>Línea a línea</td>
-<td>Por row group y columna</td>
-<td>Por record batch</td>
-</tr>
-<tr>
-<td>Herramientas que lo leen</td>
-<td>Todas (incluso Excel)</td>
-<td>pandas, Spark, DuckDB, Polars</td>
-<td>pandas, R, Arrow ecosystem</td>
-</tr>
-</tbody>
-</table>
-<p>Mini-ejemplo (requiere <code>pip install pyarrow</code>):</p>
-<pre><code class="language-python">import pandas as pd
-from pathlib import Path
-
-df = pd.DataFrame({&quot;id&quot;: [1, 2, 3], &quot;fecha&quot;: pd.to_datetime([&quot;2026-01-01&quot;, &quot;2026-01-02&quot;, &quot;2026-01-03&quot;])})
-
-# Parquet — almacenamiento y data lake
-df.to_parquet(Path(&quot;data&quot;) / &quot;ventas.parquet&quot;)
-df2 = pd.read_parquet(Path(&quot;data&quot;) / &quot;ventas.parquet&quot;, columns=[&quot;id&quot;])  # solo lee 1 columna
-
-# Feather (Arrow IPC) — cache rápido entre procesos
-df.to_feather(Path(&quot;data&quot;) / &quot;ventas.feather&quot;)
-df3 = pd.read_feather(Path(&quot;data&quot;) / &quot;ventas.feather&quot;)
-</code></pre>
-<p><strong>¿Cuándo usar cada uno?</strong> <strong>CSV</strong> cuando tenés que intercambiar con humanos, Excel o sistemas legacy — es feo pero universal. <strong>Parquet</strong> para almacenamiento permanente, particionado por fecha en data lakes, o cualquier dataset que vas a releer varias veces. <strong>Feather/Arrow IPC</strong> para cache temporal entre procesos Python (o entre Python y R) donde priorizás velocidad bruta sobre compresión.</p>
-<blockquote>
-<p>Nota: desde pandas 2.0 podés usar Arrow como backend de tipos con <code>pd.read_parquet(..., dtype_backend="pyarrow")</code> — obtenés <code>string[pyarrow]</code> en lugar de <code>object</code>, menos memoria y operaciones más rápidas.</p>
-</blockquote>
+<h2 id="version-profundizada-2026">📌 Versión profundizada — 2026</h2>
+<p>El tema moderno que vivía como complemento dentro de esta clase ahora tiene clase propia dedicada:</p>
+<ul>
+<li>👉 <a href="../032b-parquet-arrow-pyarrow-duckdb/index.html">Clase 032b — Parquet, Arrow, PyArrow, DuckDB</a></li>
+</ul>
 <h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
 <dl>
 <dt><strong><code>Path</code></strong></dt>

@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 137 — LSTM, GRU | Python Data Science Program</title>
+  <meta name="description" content="Clase 137 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 2 — Deep Learning</a><span class="sep">›</span><span>137</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-2-deep-learning/137-lstm-gru/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-137-lstm-gru">Clase 137 — LSTM, GRU</h1>
+<blockquote>
+<p>Parte: <strong>2 — Deep Learning</strong> · Fuente: Géron, <strong>cap. 15</strong> § <em>Tackling Short-Term Memory Problems</em>. ⏱️ Duración estimada: <strong>70 min</strong>.</p>
+</blockquote>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Entender <strong>LSTM</strong> (Hochreiter &amp; Schmidhuber 1997) y <strong>GRU</strong> (Cho et al. 2014) — celdas recurrentes con <strong>gates</strong> que solucionan el vanishing gradient de SimpleRNN: la información puede fluir sin atenuación por la <strong>cell state</strong>, y los gates aprenden qué olvidar, recordar y emitir.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar, el estudiante podrá:</p>
+<ul>
+<li>Explicar los 3 gates de LSTM: <strong>forget</strong>, <strong>input</strong>, <strong>output</strong>, y la <strong>cell state</strong> que viaja "horizontal".</li>
+<li>Diferenciar LSTM (3 gates + 2 estados) de GRU (2 gates + 1 estado, más simple, casi igual de bueno).</li>
+<li>Usar <code>keras.layers.LSTM</code> y <code>keras.layers.GRU</code> con <code>return_sequences</code>, <code>return_state</code>, <code>recurrent_dropout</code>.</li>
+<li>Aplicar Bidirectional cuando la tarea lo permite.</li>
+<li>Reconocer que con <code>T &gt; 100</code>, incluso LSTM lucha — preferir Transformers.</li>
+</ul>
+<h2 id="temas">🗺️ Temas</h2>
+<ul>
+<li>Cell state <code>c_t</code> (memoria larga) vs hidden state <code>h_t</code> (memoria corta).</li>
+<li>Forget gate: cuánto borrar de <code>c_{t-1}</code>.</li>
+<li>Input gate: cuánto agregar nuevo a <code>c_t</code>.</li>
+<li>Output gate: cuánto exponer en <code>h_t</code>.</li>
+<li>GRU: combina forget e input en una sola "update gate".</li>
+<li>Bidirectional + stacked LSTMs como receta clásica pre-Transformers.</li>
+</ul>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<ul>
+<li><strong>LSTM cell</strong>: 3 gates con sigmoid (0-1) que controlan flujo, + tanh para candidatos.</li>
+<li><strong>GRU cell</strong>: update + reset gate. Menos parámetros que LSTM.</li>
+<li><strong><code>recurrent_dropout</code></strong>: dropout aplicado a las conexiones recurrentes (entre timesteps).</li>
+<li><strong>CuDNN kernel</strong>: LSTM/GRU tienen implementación cuDNN ultra rápida si cumplís restricciones (default activation tanh, recurrent activation sigmoid, no <code>recurrent_dropout</code>).</li>
+<li><strong>Stacked LSTM</strong>: apilar varios → mejor capacidad pero más caro.</li>
+</ul>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<ul>
+<li>IMDB para sentimiento.</li>
+<li>Serie temporal del ejercicio anterior.</li>
+<li>Librerías: <code>tensorflow</code>, <code>keras</code>.</li>
+</ul>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>LSTM vs SimpleRNN</strong>: en una serie de 100 pasos con dependencia long-range, comparar accuracy.</li>
+<li><strong>GRU vs LSTM</strong>: misma tarea, comparar. GRU ~ 25 % menos params; accuracy casi igual.</li>
+<li><strong>Stacked</strong>: 2-3 capas LSTM apiladas con <code>return_sequences=True</code> en las primeras.</li>
+<li><strong>Bidirectional</strong>: para sentimiento IMDB, comparar <code>LSTM</code> vs <code>Bidirectional(LSTM)</code>.</li>
+<li><strong>cuDNN check</strong>: medir velocidad LSTM vanilla vs con <code>recurrent_dropout</code> (desactiva cuDNN).</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Clasificación de sentimiento sobre IMDB con LSTM:</p>
+<ol>
+<li>Tokenizar con <code>TextVectorization(max_tokens=20_000, output_sequence_length=200)</code>.</li>
+<li><code>Embedding(20_000, 128) → Bidirectional(LSTM(64)) → Dense(64) → Dense(1, sigmoid)</code>.</li>
+<li>Entrenar 5 épocas.</li>
+<li>Reportar accuracy y comparar contra una baseline <code>Dense</code> sin RNN.</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: accuracy ≥ 0.85; el modelo recurrente claramente supera al baseline Dense.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LSTM lento en GPU</td>
+<td>Tal vez <code>recurrent_dropout &gt; 0</code> o <code>unroll=True</code> desactivan cuDNN. <strong>Fix</strong>: usar config default.</td>
+</tr>
+<tr>
+<td>Padding/masking ignorado</td>
+<td><code>mask_zero=True</code> en Embedding + <code>LSTM</code> que respeta mask. Verificar.</td>
+</tr>
+<tr>
+<td>Bidirectional rompe en task causal (forecasting)</td>
+<td>Bidirectional ve el futuro. <strong>Fix</strong>: solo Forward para tareas causales.</td>
+</tr>
+<tr>
+<td>Stacked LSTM overfittea</td>
+<td>Demasiado expresivo. <strong>Fix</strong>: dropout entre capas, menos units.</td>
+</tr>
+<tr>
+<td>GRU vs LSTM comparados sin suficientes seeds</td>
+<td>Diferencia chica puede ser ruido. <strong>Fix</strong>: ≥ 3 seeds.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿LSTM o GRU?</strong></p>
+<p>Empezá con LSTM (más conocido). GRU si necesitás eficiencia. La diferencia de accuracy es típicamente &lt; 0.5 pp.</p>
+<p><strong>❓ ¿LSTM aún se usa en 2026?</strong></p>
+<p>Sí, para forecasting de series temporales chicas, sistemas embedded, NER simple. Para NLP serio → Transformers.</p>
+<p><strong>❓ ¿Cuántas capas?</strong></p>
+<p>1-3. Más de 3 raramente justifica el costo. Para tareas serias, mejor un Transformer.</p>
+<p><strong>❓ ¿<code>recurrent_dropout</code> vs <code>dropout</code>?</strong></p>
+<p><code>dropout</code> se aplica a inputs (entre capas); <code>recurrent_dropout</code> entre timesteps (intra-secuencia). El segundo desactiva cuDNN.</p>
+<p><strong>❓ ¿Cómo manejo secuencias de longitud variable?</strong></p>
+<p><code>Embedding(..., mask_zero=True)</code> + padding con 0s. LSTM/GRU respetan la máscara automáticamente.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Géron, <strong>cap. 15</strong> — <em>Tackling Short-Term Memory Problems</em>.</li>
+<li>Hochreiter &amp; Schmidhuber (1997), <em>Long Short-Term Memory</em>, Neural Computation.</li>
+<li>Cho et al. (2014), <em>Learning Phrase Representations using RNN Encoder–Decoder (GRU)</em>, EMNLP.</li>
+<li>Chung et al. (2014), <em>Empirical Evaluation of Gated Recurrent Neural Networks</em>.</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../138-1d-cnns-y-wavenet/index.html">Clase 138 — 1D CNNs y WaveNet</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-2-deep-learning/137-lstm-gru/"><code>classes/parte-2-deep-learning/137-lstm-gru/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

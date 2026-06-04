@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 117 — Regularización moderna: Stochastic Depth, DropPath, LayerDrop | Python Data Science Program</title>
+  <meta name="description" content="Clase 117 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 2 — Deep Learning</a><span class="sep">›</span><span>117</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-2-deep-learning/117-stochastic-depth-droppath-layerdrop/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-117-regularizacion-moderna-stochastic-depth-droppath-layerdrop">Clase 117 — Regularización moderna: Stochastic Depth, DropPath, LayerDrop</h1>
+<blockquote>
+<p>Parte: <strong>2 — Deep Learning</strong> · Fuente: Huang et al. (2016) Stochastic Depth + Fan et al. (2020) LayerDrop + DropPath en ViT/Swin/ConvNeXt. ⏱️ Duración estimada: <strong>70 min</strong>.</p>
+</blockquote>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Aplicar <strong>regularización por paths/bloques</strong> —más allá del dropout clásico— en arquitecturas profundas modernas (ResNet, ViT, ConvNeXt, Swin Transformer). Cubrir <strong>Stochastic Depth</strong> (drop bloque residual), <strong>DropPath</strong> (drop path en transformer), <strong>LayerDrop</strong> (drop layer completa). Beneficio doble: regularización + reducción de cómputo durante training.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar, el estudiante podrá:</p>
+<ul>
+<li>Aplicar <code>keras.layers.StochasticDepth(rate)</code> o <code>DropPath(rate)</code> en bloques residuales.</li>
+<li>Diseñar <strong>rate lineal por profundidad</strong>: capa 0 → 0.0, capa N → 0.2.</li>
+<li>Aplicar <strong>LayerDrop</strong> durante pretraining para permitir inference con menos capas.</li>
+<li>Diferenciar Dropout (neurona) vs Stochastic Depth (bloque) vs LayerDrop (layer).</li>
+<li>Reconocer el speedup de training: 25 % más rápido en ResNet-110 (Huang 2016).</li>
+</ul>
+<h2 id="temas">🗺️ Temas</h2>
+<ul>
+<li>Dropout clásico vs Stochastic Depth.</li>
+<li>DropPath = Stochastic Depth para Transformers.</li>
+<li>Rate lineal: <code>p_i = i/N · p_max</code>.</li>
+<li>LayerDrop para compresión de Transformers.</li>
+<li>Combinaciones: Dropout + DropPath + Label Smoothing.</li>
+</ul>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<ul>
+<li><strong>Stochastic Depth</strong>: <code>y = x + drop(b(x))</code> con prob <code>p_i</code>. En inference, scale por <code>1 - p_i</code>.</li>
+<li><strong>DropPath</strong>: igual idea aplicada a attention y FFN paths.</li>
+<li><strong>LayerDrop</strong>: dropear layer entera del Transformer.</li>
+<li><strong>Linear rate schedule</strong>: capas tempranas seguras (p≈0), tardías regularizadas (p≈0.2).</li>
+</ul>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<ul>
+<li>CIFAR-10/100 con ResNet propia.</li>
+<li>ViT-Tiny preentrenado.</li>
+<li>Librerías: <code>torch</code>, <code>timm</code> (donde DropPath es default).</li>
+</ul>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>ResNet con Stochastic Depth</strong>: implementar <code>BasicBlock</code> con <code>StochasticDepth(p)</code>. Train CIFAR-10.</li>
+<li><strong>Rate lineal</strong>: aplicar <code>p_i = i/N · 0.2</code> en cada bloque. Comparar contra rate constante.</li>
+<li><strong>ViT con DropPath</strong>: <code>timm.create_model('vit_tiny_patch16_224', drop_path_rate=0.1)</code>. Comparar contra <code>0.0</code>.</li>
+<li><strong>LayerDrop</strong>: simular con 12-layer BERT mini — drop 50 % layers. Verificar accuracy aún razonable.</li>
+<li><strong>Speed</strong>: medir wall-clock training con vs sin Stochastic Depth.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>ResNet-50 en CIFAR-100:</p>
+<ol>
+<li>Entrenar con y sin Stochastic Depth (rate lineal a 0.2 final).</li>
+<li>Reportar accuracy + tiempo total.</li>
+<li>Verificar regularización: gap train-val.</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: Stochastic Depth reduce gap train-val ≥ 1 pp; speedup en wall-time visible (~10-20 %).</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Rate constante 0.5 en todas las capas</td>
+<td>Mata bloques iniciales (críticos). <strong>Fix</strong>: lineal con final p≈0.2.</td>
+</tr>
+<tr>
+<td>Olvido scale en inference</td>
+<td>Sesgo. <strong>Fix</strong>: librerías lo manejan; verificar con <code>model.eval()</code>.</td>
+</tr>
+<tr>
+<td>DropPath sin residual</td>
+<td>Sin sentido — no hay path para droppear. <strong>Fix</strong>: solo en bloques residuales.</td>
+</tr>
+<tr>
+<td>Aplicar a 1ª y última capa</td>
+<td>Generalmente innecesario. <strong>Fix</strong>: layers intermedias.</td>
+</tr>
+<tr>
+<td>Combinar Dropout + Stochastic Depth + Label Smoothing sin tunear</td>
+<td>Overregularization. <strong>Fix</strong>: ajustar individualmente.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ Stochastic Depth o Dropout?</strong></p>
+<p>Para CNN/ViT profundas: ambos. Stochastic Depth en bloques residuales, Dropout en MLP final.</p>
+<p><strong>❓ Rate final 0.1 o 0.2 o 0.5?</strong></p>
+<p>0.1-0.2 para ResNet/ViT base. 0.3-0.5 para modelos enormes (LayerDrop en BERT-Large).</p>
+<p><strong>❓ LayerDrop sirve para inference?</strong></p>
+<p>Sí — <code>train con LayerDrop=0.5, inference con k random layers</code>. Habilita modelos compactos sin re-training.</p>
+<p><strong>❓ timm vs implementación propia?</strong></p>
+<p>Usá <code>timm</code> siempre que se pueda — DropPath bien implementado, rate scheduling automático.</p>
+<p><strong>❓ En LLMs modernos (Llama)?</strong></p>
+<p>Less común. Llama no usa DropPath. BERT/RoBERTa sí.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Huang et al. (2016), <em>Deep Networks with Stochastic Depth</em>, ECCV.</li>
+<li>Fan et al. (2020), <em>Reducing Transformer Depth on Demand with Structured Dropout (LayerDrop)</em>, ICLR.</li>
+<li>Dosovitskiy et al. (2020), <em>ViT</em> — DropPath aplicado.</li>
+<li><a href="https://timm.fast.ai/">timm DropPath</a>.</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../118-tensorflow-tensores-variables-operaciones/index.html">Clase 118 — TensorFlow: tensores, variables, operaciones</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-2-deep-learning/117-stochastic-depth-droppath-layerdrop/"><code>classes/parte-2-deep-learning/117-stochastic-depth-droppath-layerdrop/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

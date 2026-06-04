@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 188 — Inferencia causal: DAGs, confounders, instrumentos | Python Data Science Program</title>
+  <meta name="description" content="Clase 188 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 3 — Estadística inferencial</a><span class="sep">›</span><span>188</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-3-estadistica-inferencial/188-inferencia-causal-dags-confounders-instrumentos/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#version-profundizada-2026">📌 Versión profundizada — 2026</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-188-inferencia-causal-dags-confounders-instrumentos">Clase 188 — Inferencia causal: DAGs, confounders, instrumentos</h1>
+<blockquote>
+<p>Parte: <strong>3 — Estadística Inferencial y Causal</strong> · Fuente: Pearl, <em>The Book of Why</em> + Hernán &amp; Robins, <em>Causal Inference: What If</em> (libro gratuito, 2024) + Imbens &amp; Rubin. ⏱️ Duración estimada: <strong>95 min</strong>.</p>
+</blockquote>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Distinguir <strong>correlación de causalidad</strong> con rigor: dibujar <strong>DAGs</strong> (Directed Acyclic Graphs), identificar <strong>confounders</strong>, <strong>colliders</strong> y <strong>mediators</strong>, aplicar el <strong>backdoor criterion</strong> para decidir qué variables controlar, y usar <strong>variables instrumentales (IV)</strong> cuando la randomización no es posible. Conocer la herramienta moderna <strong>Double Machine Learning (DoubleML / EconML)</strong> para estimar <strong>ATE/CATE</strong> con ML como nuisance estimator.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar, el estudiante podrá:</p>
+<ul>
+<li>Dibujar un DAG para un problema de negocio e identificar los tres tipos de estructura: chain (X → M → Y), fork (X ← Z → Y, confounder), collider (X → C ← Y).</li>
+<li>Aplicar el <strong>backdoor criterion</strong> de Pearl: encontrar el conjunto mínimo de variables a controlar para identificar el efecto causal.</li>
+<li>Reconocer que controlar por un <strong>collider</strong> o un <strong>mediator</strong> introduce sesgo, NO lo elimina.</li>
+<li>Estimar ATE (Average Treatment Effect) con regresión + controles, IPW (Inverse Probability Weighting) y matching.</li>
+<li>Usar <strong>2SLS (Two-Stage Least Squares)</strong> con <code>linearmodels.iv</code> cuando hay un instrumento válido.</li>
+<li>Aplicar <strong>Double Machine Learning</strong> con <code>doubleml</code> / <code>econml</code> para estimar ATE/CATE con ML como nuisance (sin asumir linealidad).</li>
+</ul>
+<h2 id="temas">🗺️ Temas</h2>
+<ul>
+<li>Correlación ≠ causalidad: el clásico ejemplo "helado y ahogamientos" — confounder: temperatura.</li>
+<li>DAGs: nodos = variables, flechas = relación causal.</li>
+<li>3 estructuras canónicas: chain, fork, collider.</li>
+<li><strong>Backdoor criterion</strong>: bloquear todos los caminos no causales de X a Y; <strong>no abrir</strong> colliders.</li>
+<li>ATE = <code>E[Y | do(T=1)] - E[Y | do(T=0)]</code>. El "do" indica intervención, no observación.</li>
+<li>Identificación: ¿se puede expresar <code>E[Y | do(T)]</code> con datos observacionales? Si sí → estimar.</li>
+<li>IV: variable Z que afecta T pero NO a Y excepto vía T. Permite identificar el efecto cuando hay confounders no observados.</li>
+<li><strong>Complemento moderno</strong>: Double Machine Learning (Chernozhukov et al. 2018) — usa ML para estimar las "nuisance functions" y separa la inferencia causal de la complejidad del fit.</li>
+</ul>
+<h2 id="version-profundizada-2026">📌 Versión profundizada — 2026</h2>
+<p>El tema moderno que antes vivía como complemento dentro de esta clase ahora tiene su(s) clase(s) propia(s) con patrón completo, ejercicios y homework:</p>
+<ul>
+<li>👉 <a href="../156a-doubleml-econml-ml-para-causalidad/index.html">Clase 156a — DoubleML / EconML: Machine Learning para causalidad</a></li>
+</ul>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<ul>
+<li><strong>DAG</strong>: grafo dirigido acíclico que representa relaciones causales. Cada flecha es una hipótesis causal.</li>
+<li><strong>Confounder (fork)</strong>: <code>T ← Z → Y</code>. Z causa tanto T como Y; controlando Z se identifica el efecto.</li>
+<li><strong>Collider</strong>: <code>T → C ← Y</code>. Controlar C <strong>introduce</strong> asociación espuria (sesgo de selección). Ejemplo clásico: Berkson's bias.</li>
+<li><strong>Mediator (chain)</strong>: <code>T → M → Y</code>. Controlar M <strong>bloquea</strong> el efecto causal indirecto y solo deja el directo (a veces útil, a veces no).</li>
+<li><strong>Backdoor criterion</strong> (Pearl): un set Z de variables identifica el efecto causal de T sobre Y si: (a) bloquea todos los caminos backdoor (que empiezan con flecha entrando a T), y (b) no contiene descendientes de T.</li>
+<li><strong>ATE (Average Treatment Effect)</strong>: <code>E[Y(1) - Y(0)]</code> — efecto promedio si todos vs nadie recibiera tratamiento.</li>
+<li><strong>CATE (Conditional ATE)</strong>: <code>E[Y(1) - Y(0) | X=x]</code> — efecto para individuos con características X=x.</li>
+<li><strong>Instrumento (IV)</strong>: variable Z que satisface (a) <strong>relevancia</strong> (afecta a T), (b) <strong>exclusión</strong> (no afecta Y excepto vía T), (c) <strong>independencia</strong> (no comparte confounders con Y).</li>
+<li><strong>2SLS</strong>: estima IV ajustando <code>T = αZ + ε₁</code> (1ª etapa), reemplazando <code>T̂</code> en <code>Y = θT̂ + ε₂</code> (2ª etapa).</li>
+<li><strong>DML</strong>: ML para nuisance + Neyman-orthogonal score + cross-fitting → inferencia causal robusta.</li>
+</ul>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<ul>
+<li>Ejemplos simulados de Pearl: smoking-cancer con tar como mediator.</li>
+<li><code>econml.tests.dgps</code> para datos sintéticos con efectos heterogéneos conocidos.</li>
+<li>Lalonde 1986 (NSW job training program) — clásico de causal inference.</li>
+<li>Librerías: <code>doubleml</code>, <code>econml</code>, <code>linearmodels</code>, <code>pgmpy</code> (DAG inference), <code>dowhy</code> (Microsoft, framework completo).</li>
+</ul>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>DAG en código</strong>: con <code>pgmpy</code> (o <code>networkx</code>), definí un DAG con T, Y, Z (confounder), C (collider). Identificá visualmente paths y aplicá <code>dowhy</code> para encontrar el adjustment set.</li>
+<li><strong>Sesgo del collider</strong>: simulá <code>T ~ N(0,1)</code>, <code>Y ~ N(T, 1)</code>, <code>C = T + Y + ε</code>. Estimá <code>Y ~ T</code> sin controlar C y controlando C. Mostrá que controlar el collider <strong>destruye</strong> la relación causal.</li>
+<li><strong>Backdoor ajustando confounder</strong>: simulá <code>Z, T = f(Z) + ε, Y = 2T + 3Z + δ</code>. OLS <code>Y ~ T</code> sesgado. OLS <code>Y ~ T + Z</code> recupera el 2.</li>
+<li><strong>2SLS</strong>: simular un IV <code>Z → T → Y</code> con confounder no observado entre T y Y. Aplicar <code>linearmodels.iv.IV2SLS.from_formula('Y ~ 1 + [T ~ Z]', data).fit()</code>. Recuperar el efecto verdadero.</li>
+<li><strong>DML con random forest</strong>: dataset sintético con confounders no lineales. Comparar OLS ingenuo vs OLS con polinomios vs <code>DoubleMLPLR(ml_g=RF, ml_m=RF)</code>. Verificar que DML es el menos sesgado.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Sobre un dataset simulado de "efecto de un programa de capacitación sobre salario":</p>
+<ol>
+<li>Generar <code>X</code> (edad, educación, experiencia) como confounders. Generar <code>T</code> (participa) con <code>P(T|X)</code> no trivial. Generar <code>Y</code> con efecto causal <code>θ_true = 2_000</code>.</li>
+<li>Estimar el efecto con: (a) diferencia ingenua de medias, (b) OLS con controles lineales, (c) DoubleML con RF.</li>
+<li>Comparar contra <code>θ_true</code>. Reportar bias y IC95 %.</li>
+<li>Dibujar el DAG (puede ser un comentario con notación o un grafo simple).</li>
+<li>Discutir en 3 líneas qué pasaría si hubieras controlado por un mediator (ej.: "horas trabajadas").</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: DML debe recuperar <code>θ_true ± 200</code>. OLS lineal puede estar sesgado si la relación X→Y no es lineal. La diferencia ingenua debe estar fuertemente sesgada. La discusión debe mencionar que controlar mediators sesga hacia 0.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Controlo "todo lo que tengo" en la regresión para "estar seguro"</td>
+<td>Si entre esos hay colliders o mediators, <strong>introducís sesgo</strong>. <strong>Fix</strong>: dibujar DAG primero, aplicar backdoor criterion.</td>
+</tr>
+<tr>
+<td>Asumo que el coeficiente OLS es causal cuando hay confounders no observados</td>
+<td>No lo es. <strong>Fix</strong>: IV (si tenés instrumento), DiD (con paneles), o decir explícitamente que la estimación es asociacional.</td>
+</tr>
+<tr>
+<td>Uso un instrumento débil (correlación con T &lt; 0.1)</td>
+<td>2SLS con IV débil tiene sesgo y SE inflado. <strong>Fix</strong>: F-statistic de la 1ª etapa ≥ 10 (regla de Stock &amp; Yogo).</td>
+</tr>
+<tr>
+<td><code>doubleml</code> con <code>n_folds=2</code> y muestra chica</td>
+<td>Cross-fitting con pocos folds no estabiliza. <strong>Fix</strong>: <code>n_folds=5</code> mínimo.</td>
+</tr>
+<tr>
+<td>Interpreto un coeficiente OLS como ATE sin verificar identificación</td>
+<td>OLS = ATE solo bajo unconfoundedness. <strong>Fix</strong>: dibujar DAG y justificar.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿Cómo sé si dibujé bien el DAG?</strong></p>
+<p>No hay método estadístico para validarlo completamente — el DAG codifica supuestos sustantivos (de dominio). Lo que sí podés hacer: <strong>falsificación condicional</strong> — el DAG implica ciertas independencias condicionales; testealas con los datos y si fallan, el DAG está mal. <code>dowhy.refute_estimate</code> automatiza muchos refutation tests.</p>
+<p><strong>❓ ¿IV o DML cuando tengo ambos?</strong></p>
+<p>Si tenés un IV válido y confiable, IV es <strong>identificación más fuerte</strong> (resiste confounders no observados). DML solo aguanta confounders observados. Lo ideal: triangular con ambos.</p>
+<p><strong>❓ ¿Causal forest vs random forest clásico?</strong></p>
+<p>Causal forest no minimiza error de predicción; minimiza heterogeneidad del efecto causal entre hojas. Cada hoja contiene unidades con efecto causal similar.</p>
+<p><strong>❓ ¿Qué tan robusto es DML a especificación errónea?</strong></p>
+<p>DML es <strong>doubly robust</strong>: si o el modelo de <code>g</code> o el de <code>m</code> está bien especificado, el estimador del efecto es consistente. Cero modelos correctos → sesgo. Es la mejor garantía actual sin randomización.</p>
+<p><strong>❓ ¿Inferencia causal con datos observacionales puede reemplazar un RCT?</strong></p>
+<p>No completamente. RCT randomiza el tratamiento → corta todas las flechas backdoor por diseño. Observacional siempre depende de supuestos no testables (unconfoundedness, IV exclusion). El estándar es: RCT cuando se puede; cuasi-experimental (DiD, IV, RDD) cuando no; y reportar sensitivity analyses.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Pearl, J. (2018), <em>The Book of Why</em> — intuición sin matemática pesada.</li>
+<li>Pearl, J., Glymour, M. &amp; Jewell, N. (2016), <em>Causal Inference in Statistics: A Primer</em> — el libro técnico corto.</li>
+<li>Hernán, M. &amp; Robins, J. (2024), <em>Causal Inference: What If</em>. <a href="https://www.hsph.harvard.edu/miguel-hernan/causal-inference-book/">Libro gratuito</a>.</li>
+<li>Chernozhukov et al. (2018), <em>Double/Debiased Machine Learning for Treatment and Structural Parameters</em>, Econometrics Journal.</li>
+<li><a href="https://docs.doubleml.org/">doubleml docs</a> (Python + R).</li>
+<li><a href="https://econml.azurewebsites.net/">EconML docs</a> — Microsoft Research.</li>
+<li><a href="https://www.pywhy.org/dowhy/">DoWhy</a> — framework de identificación + estimación + refutación.</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../189-doubleml-econml-ml-para-causalidad/index.html">Clase 189 — DoubleML / EconML: Machine Learning para causalidad</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-3-estadistica-inferencial/188-inferencia-causal-dags-confounders-instrumentos/"><code>classes/parte-3-estadistica-inferencial/188-inferencia-causal-dags-confounders-instrumentos/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

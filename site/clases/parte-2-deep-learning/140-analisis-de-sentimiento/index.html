@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 140 — Análisis de sentimiento | Python Data Science Program</title>
+  <meta name="description" content="Clase 140 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 2 — Deep Learning</a><span class="sep">›</span><span>140</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-2-deep-learning/140-analisis-de-sentimiento/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-140-analisis-de-sentimiento">Clase 140 — Análisis de sentimiento</h1>
+<blockquote>
+<p>Parte: <strong>2 — Deep Learning</strong> · Fuente: Géron, <strong>cap. 16</strong> § <em>Sentiment Analysis</em>. ⏱️ Duración estimada: <strong>65 min</strong>.</p>
+</blockquote>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Aplicar un modelo de <strong>clasificación de texto</strong> sobre IMDB reviews — la tarea NLP más clásica para benchmarks. Pipeline completo: <code>TextVectorization</code> → <code>Embedding</code> → arquitectura (Dense / CNN / RNN / Transformer) → <code>Dense(1, sigmoid)</code>. Comparar el zoo de approaches y reconocer que con Hugging Face hoy se hace en 3 líneas (clase 127).</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar, el estudiante podrá:</p>
+<ul>
+<li>Tokenizar y vectorizar texto con <code>TextVectorization(max_tokens=20_000, output_sequence_length=200)</code>.</li>
+<li>Aplicar <code>Embedding(vocab_size, dim)</code> y entender que es una lookup table aprendible.</li>
+<li>Construir 4 arquitecturas: bag-of-embeddings (sin orden), Conv1D, LSTM, Bidirectional LSTM.</li>
+<li>Comparar accuracy de las 4 vs un baseline <code>TfidfVectorizer + LogisticRegression</code>.</li>
+<li>Usar <code>Embedding(..., mask_zero=True)</code> para manejar padding correctamente.</li>
+</ul>
+<h2 id="temas">🗺️ Temas</h2>
+<ul>
+<li>TextVectorization moderno (Keras 3+).</li>
+<li>Embedding: lookup table inicializada random y entrenable.</li>
+<li>BagOfEmbeddings (mean pooling) como baseline DL.</li>
+<li>Conv1D para texto: capta n-gramas.</li>
+<li>LSTM + Bidirectional: captura contexto largo y bidireccional.</li>
+<li>Pre-trained embeddings (GloVe, Word2Vec) — históricamente importantes; hoy reemplazados por embeddings de transformers.</li>
+</ul>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<ul>
+<li><strong>Embedding</strong>: matriz <code>(vocab_size, embed_dim)</code>. La fila <code>i</code> es la representación aprendida del token <code>i</code>.</li>
+<li><strong>Pooling</strong>: tras Embedding tenés <code>(batch, T, dim)</code>; pooling reduce a <code>(batch, dim)</code>. Mean, max, attention.</li>
+<li><strong>Masking</strong>: ignorar posiciones con padding (<code>0</code> por convención).</li>
+<li><strong>Bidirectional</strong>: corre LSTM forward + backward y concatena.</li>
+</ul>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<ul>
+<li><code>keras.datasets.imdb.load_data()</code> o <code>tfds.load('imdb_reviews')</code>.</li>
+<li>Librerías: <code>tensorflow</code>, <code>keras</code>.</li>
+</ul>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>Baseline ML clásico</strong>: TfidfVectorizer + LogisticRegression. Accuracy de referencia (~0.88).</li>
+<li><strong>Bag-of-embeddings</strong>: <code>Embedding → GlobalAveragePooling1D → Dense(1, sigmoid)</code>. Reportar accuracy.</li>
+<li><strong>Conv1D</strong>: <code>Embedding → Conv1D(64, 5) → GlobalMaxPool1D → Dense(1, sigmoid)</code>.</li>
+<li><strong>Bidirectional LSTM</strong>: <code>Embedding → Bidirectional(LSTM(64)) → Dense(1, sigmoid)</code>.</li>
+<li><strong>Pre-trained</strong>: cargar GloVe 100d y inicializar la matriz de Embedding con ellos. Comparar accuracy contra inicialización random.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>IMDB sentiment classifier con 3 arquitecturas:</p>
+<ol>
+<li>Pipeline <code>TextVectorization(20_000, 200)</code>.</li>
+<li>Tres modelos: Conv1D, Bidirectional LSTM, BagOfEmbeddings.</li>
+<li>Reportar accuracy en test para cada uno.</li>
+<li>Comparar contra TFIDF + LogReg.</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: al menos uno de los modelos DL debe ≥ 0.88. Bidirectional LSTM suele ganar pero por margen pequeño vs Conv1D.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>output_sequence_length</code> muy chico</td>
+<td>Trunca reviews largos. <strong>Fix</strong>: 200-500 para reviews IMDB.</td>
+</tr>
+<tr>
+<td>Olvido <code>mask_zero=True</code> en Embedding</td>
+<td>LSTM/GRU aún ven el padding como token válido. <strong>Fix</strong>: <code>mask_zero=True</code>.</td>
+</tr>
+<tr>
+<td>Sin pooling antes del Dense → shapes incompatibles</td>
+<td><strong>Fix</strong>: <code>GlobalAveragePooling1D()</code>.</td>
+</tr>
+<tr>
+<td>GloVe sin escalado de dimensiones</td>
+<td>Embeddings vienen pre-trained con norma específica. <strong>Fix</strong>: usar como están, no normalizar.</td>
+</tr>
+<tr>
+<td>Reviews en otros idiomas con tokenizer entrenado en inglés</td>
+<td>Mal performance. <strong>Fix</strong>: usar un tokenizer multilenguaje o pre-entrenar embeddings.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿Sentimiento en 2026: TextVectorization o HF?</strong></p>
+<p>Para producción serio: HuggingFace + <code>distilbert-base-uncased-finetuned-sst-2-english</code> (94 % accuracy, 5 líneas de código). Esta clase es pedagógica.</p>
+<p><strong>❓ ¿Embeddings pre-trained todavía importan?</strong></p>
+<p>Para tokens "raw" no — todo modelo moderno tiene su propio embedding integrado. Para visualizar relaciones semánticas (analogías), sí.</p>
+<p><strong>❓ ¿Cuántos tokens y cuánta longitud?</strong></p>
+<p>IMDB: <code>max_tokens=20_000</code> cubre vocab; <code>output_sequence_length=200</code> cubre el 90 % de reviews.</p>
+<p><strong>❓ ¿Bidirectional siempre mejor?</strong></p>
+<p>Para clasificación (non-causal), sí. Para generación o real-time, NO (necesitarías ver el futuro).</p>
+<p><strong>❓ ¿Sentimiento multi-clase (estrellas 1-5)?</strong></p>
+<p>Cambiar última capa a <code>Dense(5, softmax)</code> + <code>sparse_categorical_crossentropy</code>. Para sentiment ordinal, considerar ordinal regression.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Géron, <strong>cap. 16</strong> — <em>Sentiment Analysis</em>.</li>
+<li>Maas et al. (2011), <em>Learning Word Vectors for Sentiment Analysis</em> — IMDB dataset.</li>
+<li>Pennington et al. (2014), <em>GloVe</em>, EMNLP.</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../141-encoder-decoder-para-traduccion/index.html">Clase 141 — Encoder-Decoder para traducción</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-2-deep-learning/140-analisis-de-sentimiento/"><code>classes/parte-2-deep-learning/140-analisis-de-sentimiento/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

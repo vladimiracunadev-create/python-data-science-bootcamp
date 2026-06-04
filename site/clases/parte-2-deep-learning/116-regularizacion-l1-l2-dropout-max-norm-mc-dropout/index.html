@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 116 — Regularización: L1/L2, dropout, max-norm, MC dropout (+ Stochastic Depth, DropPath) | Python Data Science Program</title>
+  <meta name="description" content="Clase 116 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 2 — Deep Learning</a><span class="sep">›</span><span>116</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-2-deep-learning/116-regularizacion-l1-l2-dropout-max-norm-mc-dropout/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#version-profundizada-2026">📌 Versión profundizada — 2026</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-116-regularizacion-l1l2-dropout-max-norm-mc-dropout-stochastic-depth-droppath">Clase 116 — Regularización: L1/L2, dropout, max-norm, MC dropout (+ Stochastic Depth, DropPath)</h1>
+<blockquote>
+<p>Parte: <strong>2 — Deep Learning</strong> · Fuente: Géron, <strong>cap. 11</strong> § <em>Regularization</em> + Huang et al. (2016) <em>Deep Networks with Stochastic Depth</em>. ⏱️ Duración estimada: <strong>80 min</strong>.</p>
+</blockquote>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Conocer las técnicas de <strong>regularización en DL</strong> —L1/L2, <strong>dropout</strong> (Srivastava et al. 2014), max-norm, <strong>MC dropout</strong> para incertidumbre— y las técnicas modernas que se usan en arquitecturas profundas (ResNets, ViT, Transformers): <strong>Stochastic Depth</strong>, <strong>DropPath</strong> y <strong>LayerDrop</strong>.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar, el estudiante podrá:</p>
+<ul>
+<li>Aplicar <code>keras.regularizers.l1(...)</code>, <code>l2(...)</code>, <code>l1_l2(...)</code> en una capa.</li>
+<li>Aplicar <code>Dropout(rate=0.5)</code> y entender qué hace en train vs en inference (default desactivado).</li>
+<li>Implementar <strong>Monte Carlo dropout</strong> (<code>Dropout(0.5)</code> activo en inference → predicciones diferentes → incertidumbre).</li>
+<li>Aplicar <strong>Stochastic Depth</strong> en una ResNet: dropear bloques residuales completos al azar durante training.</li>
+<li>Aplicar <strong>DropPath</strong> (estándar en ViT, Swin Transformer, ConvNeXt).</li>
+</ul>
+<h2 id="temas">🗺️ Temas</h2>
+<ul>
+<li>L1/L2 como penalización en la loss. <code>λ</code> típicamente 1e-4 a 1e-2.</li>
+<li>Dropout: enmascarar fracción <code>r</code> de las activaciones por batch.</li>
+<li>Inverted dropout: en inference no se hace nada porque train ya escala por <code>1/(1-r)</code>.</li>
+<li>Max-norm constraint: <code>||w|| ≤ c</code> por neurona después de cada update.</li>
+<li>MC Dropout (Gal &amp; Ghahramani 2016): incertidumbre bayesiana aproximada.</li>
+<li><strong>Complemento moderno</strong>: Stochastic Depth, DropPath (= Stochastic Depth aplicado a paths de attention/FFN), LayerDrop (Fan et al. 2020).</li>
+</ul>
+<h2 id="version-profundizada-2026">📌 Versión profundizada — 2026</h2>
+<p>El tema moderno que vivía como complemento dentro de esta clase ahora tiene clase propia dedicada con patrón completo, ejercicios y homework:</p>
+<ul>
+<li>👉 <a href="../104b-stochastic-depth-droppath-layerdrop/index.html">Clase 104b — Regularización moderna: Stochastic Depth, DropPath, LayerDrop</a></li>
+</ul>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<ul>
+<li><strong>L1 regularization</strong>: agrega <code>λ·Σ|w|</code> a la loss. Promueve sparsity.</li>
+<li><strong>L2 regularization (weight decay)</strong>: agrega <code>λ·Σw²</code>. Mantiene pesos chicos.</li>
+<li><strong>Dropout</strong>: enmascara fracción <code>r</code> de neuronas por batch. Forzar redundancia.</li>
+<li><strong>MC Dropout</strong>: hacer N predicciones con dropout activo → distribución de predicciones → incertidumbre.</li>
+<li><strong>Max-norm</strong>: constraint sobre la norma de los pesos por unidad.</li>
+<li><strong>Stochastic Depth</strong>: dropear bloques residuales enteros durante training.</li>
+<li><strong>DropPath</strong>: como Stochastic Depth pero para paths en transformer (attention o FFN).</li>
+</ul>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<ul>
+<li>Fashion-MNIST + un MLP propenso a overfit.</li>
+<li>Librerías: <code>tensorflow</code>, <code>keras</code>, <code>matplotlib</code>.</li>
+</ul>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>Sin regularización</strong>: entrenar un MLP grande (<code>[512, 256, 128]</code>) en Fashion-MNIST y observar overfitting (gap train/val ≥ 5 pp).</li>
+<li><strong>L2</strong>: agregar <code>kernel_regularizer=keras.regularizers.l2(1e-3)</code> a cada Dense. Comparar.</li>
+<li><strong>Dropout</strong>: agregar <code>Dropout(0.3)</code> entre Dense layers. Comparar.</li>
+<li><strong>MC Dropout</strong>: para 1 sample de test, hacer 100 predicciones con <code>model(x, training=True)</code>. Calcular <code>mean ± std</code> de las probabilidades. Interpretar la incertidumbre.</li>
+<li><strong>Stochastic Depth simulado</strong>: en un mini ResNet con 8 bloques, dropear cada bloque con prob 0.1 lineal. Comparar contra sin stochastic depth.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Sobre Fashion-MNIST con MLP <code>[512, 256, 128, 64]</code>:</p>
+<ol>
+<li>Entrenar 4 versiones: sin regularización; L2(1e-3); Dropout(0.3); L2 + Dropout combinados.</li>
+<li>Reportar train_acc y val_acc; calcular el gap.</li>
+<li>Para el mejor modelo, hacer MC Dropout con 50 muestras sobre 5 imágenes ambiguas y reportar incertidumbre.</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: el modelo regularizado tiene gap train-val menor a 3 pp (vs ~6 pp del baseline) y val_acc igual o mejor. MC dropout debe asignar mayor std a las imágenes ambiguas.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Dropout en inferencia da resultados distintos cada vez</td>
+<td>Pasaste <code>training=True</code> por error. <strong>Fix</strong>: en inference, <code>training=False</code> (default de <code>model.predict</code>).</td>
+</tr>
+<tr>
+<td>L2 con <code>λ=1.0</code> y modelo no aprende</td>
+<td>Penalización demasiado fuerte. <strong>Fix</strong>: <code>λ</code> típico 1e-4 a 1e-3.</td>
+</tr>
+<tr>
+<td>Dropout(0.5) en la última capa antes de softmax</td>
+<td>Distorsiona logits. <strong>Fix</strong>: dropout en capas ocultas; no justo antes de la softmax.</td>
+</tr>
+<tr>
+<td>L2 + AdamW con weight_decay → doble penalización</td>
+<td>Usar uno: AdamW(wd=...) <strong>o</strong> kernel_regularizer L2, no ambos.</td>
+</tr>
+<tr>
+<td>Stochastic Depth con <code>p_i</code> constante en lugar de lineal</td>
+<td>Funciona pero menos óptimo. <strong>Fix</strong>: <code>p_i = i/N · p_max</code>.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿Dropout 0.5 siempre?</strong></p>
+<p><code>0.5</code> para capas Dense grandes. Para capas Conv: <code>0.1-0.2</code>. Para embeddings y attention en Transformers: <code>0.1</code>.</p>
+<p><strong>❓ ¿BN ya regulariza, necesito dropout también?</strong></p>
+<p>Depende. En CNNs/MLPs con BN, dropout a veces ya no aporta. En Transformers, sí (BN no se usa allí; LN + dropout + DropPath).</p>
+<p><strong>❓ ¿MC Dropout es bayesiano "de verdad"?</strong></p>
+<p>Aproxima un proceso gaussiano variacional. No es bayesiano riguroso pero es una excelente aproximación práctica para incertidumbre.</p>
+<p><strong>❓ ¿Stochastic Depth en CNN no residual?</strong></p>
+<p>No tiene sentido — Stochastic Depth necesita la skip connection para que dropear no rompa el forward.</p>
+<p><strong>❓ ¿Cuánta dropout/droppath en ViT base?</strong></p>
+<p>ViT-Base original: <code>dropout=0.1</code> en attention, <code>droppath=0.1</code> lineal en cada bloque. Para fine-tuning, suele bajarse a 0.0.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Géron, <strong>cap. 11</strong> — <em>Regularization Using Dropout</em>.</li>
+<li>Srivastava et al. (2014), <em>Dropout</em>, JMLR.</li>
+<li>Gal &amp; Ghahramani (2016), <em>Dropout as a Bayesian Approximation</em>, ICML — MC dropout.</li>
+<li>Huang et al. (2016), <em>Deep Networks with Stochastic Depth</em>, ECCV.</li>
+<li>Fan et al. (2020), <em>Reducing Transformer Depth on Demand with Structured Dropout (LayerDrop)</em>.</li>
+<li><a href="https://keras.io/api/layers/regularization_layers/">keras DropPath / StochasticDepth</a>.</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../117-stochastic-depth-droppath-layerdrop/index.html">Clase 117 — Regularización moderna: Stochastic Depth, DropPath, LayerDrop</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-2-deep-learning/116-regularizacion-l1-l2-dropout-max-norm-mc-dropout/"><code>classes/parte-2-deep-learning/116-regularizacion-l1-l2-dropout-max-norm-mc-dropout/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

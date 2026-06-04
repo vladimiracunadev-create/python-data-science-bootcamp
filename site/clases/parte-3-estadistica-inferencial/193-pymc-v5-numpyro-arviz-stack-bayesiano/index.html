@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 193 — Stack bayesiano moderno: PyMC v5, NumPyro, ArviZ | Python Data Science Program</title>
+  <meta name="description" content="Clase 193 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 3 — Estadística inferencial</a><span class="sep">›</span><span>193</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-3-estadistica-inferencial/193-pymc-v5-numpyro-arviz-stack-bayesiano/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-parte">➡️ Siguiente parte</a></nav>
+<h1 id="clase-193-stack-bayesiano-moderno-pymc-v5-numpyro-arviz">Clase 193 — Stack bayesiano moderno: PyMC v5, NumPyro, ArviZ</h1>
+<blockquote>
+<p>Parte: <strong>3 — Estadística Inferencial y Causal</strong> · Fuente: <a href="https://www.pymc.io/">PyMC v5 docs</a> + <a href="https://num.pyro.ai/">NumPyro docs</a> + <a href="https://arviz-devs.github.io/arviz/">ArviZ docs</a>. ⏱️ Duración estimada: <strong>90 min</strong>.</p>
+</blockquote>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Aprender el <strong>stack bayesiano moderno post-Theano</strong> —<strong>PyMC v5</strong> (PyTensor), <strong>NumPyro</strong> (JAX), <strong>ArviZ</strong> (visualización backend-agnóstica)— a nivel de poder construir modelos jerárquicos serios, diagnosticar convergencia (<code>r_hat</code>, <code>ess_bulk</code>, divergences), comparar modelos con <strong>LOO-CV</strong> y <strong>WAIC</strong>, y elegir backend según escala.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar, el estudiante podrá:</p>
+<ul>
+<li>Construir modelo jerárquico no-centered en PyMC v5.</li>
+<li>Diagnosticar: <code>r_hat ≤ 1.01</code>, <code>ess_bulk ≥ 400</code>, divergences = 0.</li>
+<li>Aplicar <strong>non-centered parameterization</strong> para evitar funnel posteriors.</li>
+<li>Comparar modelos con <code>az.compare([m1, m2], ic='loo')</code>.</li>
+<li>Migrar modelo de PyMC a NumPyro para 10-50× speedup en CPU.</li>
+<li>Aplicar <strong>SVI</strong> (Stochastic Variational Inference) en NumPyro como alternativa rápida a MCMC.</li>
+</ul>
+<h2 id="temas">🗺️ Temas</h2>
+<ul>
+<li>PyMC v5: PyTensor backend, sintaxis estable.</li>
+<li>NumPyro: JAX backend, JIT + autograd + GPU/TPU.</li>
+<li>Centered vs non-centered parametrization.</li>
+<li>Posterior predictive check con ArviZ.</li>
+<li>LOO-CV y WAIC para comparación.</li>
+<li>SVI con <code>AutoNormal</code> / <code>AutoMultivariateNormal</code>.</li>
+</ul>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<ul>
+<li><strong>PyTensor</strong>: sucesor de Theano (archivado 2017). Backend nativo de PyMC.</li>
+<li><strong>NumPyro</strong>: probabilistic programming en JAX. 5-50× más rápido en CPU, GPU/TPU nativo.</li>
+<li><strong>r_hat</strong>: Gelman-Rubin convergence. ≤ 1.01 → OK.</li>
+<li><strong>ess_bulk / ess_tail</strong>: effective sample size. ≥ 400 bulk para inferencia.</li>
+<li><strong>Non-centered</strong>: <code>x = μ + σ·z, z ~ N(0,1)</code> en vez de <code>x ~ N(μ, σ)</code>. Evita funnel.</li>
+<li><strong>LOO-CV (Vehtari)</strong>: leave-one-out con Pareto smoothed importance sampling.</li>
+<li><strong>SVI</strong>: aproximación variational; cierra el gap MCMC con velocidad.</li>
+</ul>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<ul>
+<li><code>tips</code> (regresión jerárquica por <code>day</code>).</li>
+<li>McElreath's <code>Howell1</code> o <code>chimpanzees</code> (modelos clásicos).</li>
+<li>Librerías: <code>pymc</code> (≥ 5), <code>numpyro</code>, <code>arviz</code>, <code>jax</code>.</li>
+</ul>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>PyMC v5 hierarchical</strong>: tip ~ Normal(α_day + β·bill, σ); α_day ~ Normal(μα, σα).</li>
+<li><strong>Non-centered</strong>: re-parametrizar el modelo con <code>α_day = μα + σα · z_day, z_day ~ N(0,1)</code>. Comparar divergences.</li>
+<li><strong>PPC</strong>: <code>pm.sample_posterior_predictive</code> + <code>az.plot_ppc</code>. Decidir si modelo razonable.</li>
+<li><strong>NumPyro version</strong>: traducir, comparar tiempo.</li>
+<li><strong>LOO compare</strong>: 3 modelos (intercepto solo, + slope, + jerárquico). <code>az.compare</code>.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Modelo bayesiano completo sobre <code>tips</code>:</p>
+<ol>
+<li>PyMC v5 jerárquico con day como nivel.</li>
+<li>NumPyro mismo modelo.</li>
+<li>SVI en NumPyro como alternativa rápida.</li>
+<li>Comparar 3 enfoques: MCMC PyMC, MCMC NumPyro, SVI NumPyro.</li>
+<li><code>az.plot_trace</code>, <code>az.summary</code>, <code>az.compare</code> para 2 variantes del modelo.</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: convergencia (<code>r_hat ≤ 1.01</code>); SVI cierra gap con MCMC en &lt; 30 s; ArviZ plots producidos.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Divergences &gt; 100</td>
+<td>Funnel posterior. <strong>Fix</strong>: non-centered parameterization.</td>
+</tr>
+<tr>
+<td><code>r_hat = 1.3</code></td>
+<td>No convergió. <strong>Fix</strong>: más tune, target_accept=0.95, mejor init.</td>
+</tr>
+<tr>
+<td>Prior <code>Uniform(-1e6, 1e6)</code></td>
+<td>Plano no es "no informativo". <strong>Fix</strong>: weakly informative (Normal sigma grande).</td>
+</tr>
+<tr>
+<td>SVI con resultados raros</td>
+<td>Posterior multimodal o <code>AutoNormal</code> no aplica. <strong>Fix</strong>: <code>AutoMultivariateNormal</code> o MCMC.</td>
+</tr>
+<tr>
+<td>Comparar modelos con DIC</td>
+<td>Deprecated. <strong>Fix</strong>: LOO o WAIC.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ PyMC v5 o NumPyro?</strong></p>
+<p>PyMC v5 si tu modelo ya está en PyMC3/v4 (migración fácil). NumPyro si necesitás velocidad o GPU/TPU.</p>
+<p><strong>❓ SVI o MCMC?</strong></p>
+<p>MCMC para inferencia rigurosa. SVI para producción donde latencia importa.</p>
+<p><strong>❓ Stan?</strong></p>
+<p>Sí, alternativa madura. <code>cmdstanpy</code>. Sintaxis Stan propia. ArviZ integra.</p>
+<p><strong>❓ Edward2 / TFP?</strong></p>
+<p>TensorFlow Probability. Menos comunidad que PyMC/NumPyro. Bueno si ya en TF.</p>
+<p><strong>❓ Modelos jerárquicos cuándo non-centered?</strong></p>
+<p>Casi siempre. Centered solo si hay mucho data por nivel.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Salvatier, Wiecki &amp; Fonnesbeck (2016), <em>PyMC3</em> — original paper.</li>
+<li>Phan, Pradhan &amp; Jankowiak (2019), <em>NumPyro</em>.</li>
+<li>Vehtari et al. (2017), <em>Practical Bayesian model evaluation using leave-one-out cross-validation and WAIC</em>.</li>
+<li>McElreath (2020), <em>Statistical Rethinking</em> — best book intro bayesiano.</li>
+</ul>
+<h2 id="siguiente-parte">➡️ Siguiente parte</h2>
+<p><a href="../../parte-4-mlops/194-versionado-de-datos-con-dvc/index.html">Clase 194 — Versionado de datos con DVC</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-3-estadistica-inferencial/193-pymc-v5-numpyro-arviz-stack-bayesiano/"><code>classes/parte-3-estadistica-inferencial/193-pymc-v5-numpyro-arviz-stack-bayesiano/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

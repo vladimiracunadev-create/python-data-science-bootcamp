@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 042 — Visualización geográfica (Plotly / folium) | Python Data Science Program</title>
+  <meta name="description" content="Clase 042 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 0 — Prerrequisitos</a><span class="sep">›</span><span>042</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-0-prerrequisitos/042-visualizacion-geografica-plotly-folium/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-042-visualizacion-geografica-plotly-folium">Clase 042 — Visualización geográfica (Plotly / folium)</h1>
+<blockquote>
+<p>Parte: <strong>0 — Prerrequisitos</strong> · Fuente: Plotly Choropleth docs · folium docs · <em>Cartographies of the Mind</em> (background).
+⏱️ Duración estimada: <strong>60 min</strong>.</p>
+</blockquote>
+<hr>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Que el alumno construya mapas básicos cuando los datos tienen componente geográfico: <strong>folium</strong> (mapas Leaflet interactivos, markers, choropleth), <strong>plotly</strong> (choropleth, scatter geo). Sin entrar a GIS profundo (eso es geopandas, fuera del scope de Parte 0).</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar la clase, el alumno podrá:</p>
+<ol>
+<li><strong>Crear mapa folium</strong> centrado, con tile layer básico.</li>
+<li><strong>Añadir markers</strong> con popup, tooltip, color según valor.</li>
+<li><strong>Construir choropleth</strong> (mapa de calor por región) con folium o plotly.</li>
+<li><strong>Decidir entre folium y plotly geo</strong> según destino (HTML standalone vs dashboard).</li>
+<li><strong>Citar fuentes</strong> de tiles y GeoJSON públicos.</li>
+</ol>
+<h2 id="temas">🗺️ Temas</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Tema</th>
+<th>Por qué importa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Sistemas de coordenadas: lat/lng</td>
+<td>Convención: lat primero en folium, lng primero en plotly.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>folium: mapa + markers + popups</td>
+<td>Mapas Leaflet en notebook.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>folium choropleth con GeoJSON</td>
+<td>Mapas de calor por país/región.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>plotly choropleth y scatter_geo</td>
+<td>Cuando ya usas plotly.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Tile providers (OSM, CartoDB)</td>
+<td>Estética y licencia.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Cuándo geopandas</td>
+<td>Análisis geoespacial real.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<dl>
+<dt><strong>Coordenadas geográficas (lat, lng)</strong></dt>
+<dd><strong>Latitud</strong> (-90 a 90): N/S del ecuador. <strong>Longitud</strong> (-180 a 180): E/W de Greenwich. Convención y orden varía: folium <code>[lat, lng]</code>, GeoJSON <code>[lng, lat]</code> — fuente clásica de bugs.</dd>
+<dt><strong>folium</strong></dt>
+<dd>Wrapper Python de Leaflet.js. Mapas interactivos (zoom, pan, popups) embebidos en notebook como HTML. Ideal para exploración.</dd>
+<dt><strong>plotly geo</strong></dt>
+<dd>Mapas en plotly (scatter_geo, choropleth). Bonitos, interactivos, integran con dashboards Plotly/Dash. Para choropleth de países usa códigos ISO-3.</dd>
+<dt><strong>Choropleth</strong></dt>
+<dd>Mapa de calor por región: color de cada polígono representa un valor (PIB, población, casos). Requiere GeoJSON con las shapes.</dd>
+<dt><strong>Tile provider</strong></dt>
+<dd>Servidor de "baldosas" (imágenes 256×256) que componen el mapa de fondo. OpenStreetMap (default), CartoDB (limpio), Mapbox (premium).</dd>
+<dt><strong>geopandas</strong></dt>
+<dd>Extensión de pandas con geometrías (Shapely). Para <strong>análisis</strong> espacial (intersection, buffer, dissolve), no solo visualizar. Fuera del scope Parte 0.</dd>
+</dl>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<p>Sintético: lista de ciudades con coords + métrica simulada. GeoJSON de países público desde un CDN para choropleth.</p>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<p><strong>1.</strong> <strong>Mapa con markers.</strong> 5 ciudades españolas con marker y popup mostrando nombre + población.</p>
+<p><strong>2.</strong> <strong>Markers coloreados.</strong> Mismo, pero color verde si pop&gt;1M, rojo si &lt;500k.</p>
+<p><strong>3.</strong> <strong>Choropleth folium.</strong> Mapa mundial con un valor sintético por país (ej: PIB).</p>
+<p><strong>4.</strong> <strong>Choropleth plotly.</strong> Lo mismo con <code>plotly.express.choropleth</code>.</p>
+<p><strong>5.</strong> <strong>Comparar.</strong> ¿Cuándo folium (mapa físico explorable) vs plotly (integra con dashboard)?</p>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Notebook: (a) mapa folium con 10+ markers + popups + tooltips; (b) choropleth folium de un dataset por país; (c) mismo choropleth con plotly express; (d) reporte 1-párrafo comparando ambos.</p>
+<p><strong>Criterio de aceptación:</strong> Mapas funcionales en notebook; popups muestran info correcta; choropleth con leyenda.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Marcadores aparecen en medio del océano</td>
+<td>Invertiste lat/lng. <strong>Fix</strong>: folium espera <code>[lat, lng]</code>. Para Madrid: <code>[40.42, -3.70]</code> (lat positiva, lng negativa).</td>
+</tr>
+<tr>
+<td>Mapa folium no se renderiza en VS Code</td>
+<td>Algunas extensiones de notebook no muestran HTML inline complejo. <strong>Fix</strong>: <code>m.save('mapa.html')</code> y abre en navegador.</td>
+</tr>
+<tr>
+<td>choropleth plotly sale gris</td>
+<td>El código ISO no matchea con el shape. <strong>Fix</strong>: usa ISO-3 (<code>'ESP'</code> no <code>'ES'</code>). Verifica que los códigos del dataset coinciden con los esperados.</td>
+</tr>
+<tr>
+<td>Mapa pesa MB y carga lento</td>
+<td>Demasiados markers (&gt;1000). <strong>Fix</strong>: usa <code>MarkerCluster</code> (<code>folium.plugins.MarkerCluster</code>) que agrupa por zoom level.</td>
+</tr>
+<tr>
+<td>Tiles fallan a cargar</td>
+<td>Provider con rate limit (Mapbox sin token, Stamen down). <strong>Fix</strong>: usa <code>'OpenStreetMap'</code> o <code>'CartoDB positron'</code> que son gratis sin token.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿folium o plotly?</strong></p>
+<p><strong>folium</strong> para exploración interactiva en notebook (mapa real con zoom/pan/popups). <strong>plotly</strong> para integrar en dashboard o cuando ya usas plotly. Ambos producen HTML standalone.</p>
+<p><strong>❓ ¿Cómo encuentro lat/lng de un lugar?</strong></p>
+<p>Click derecho en Google Maps → "¿Qué hay aquí?". O geocodifica con <code>geopy</code> (<code>from geopy.geocoders import Nominatim</code>).</p>
+<p><strong>❓ ¿GeoJSON dónde lo consigo?</strong></p>
+<p>Para países: <a href="https://www.naturalearthdata.com/">Natural Earth</a> (público). Para regiones: portal gov del país. Para custom: dibuja en geojson.io.</p>
+<p><strong>❓ ¿Cuándo necesito geopandas?</strong></p>
+<p>Análisis espacial real: "¿cuántos puntos caen en este polígono?", "buffer de 1km alrededor", re-proyección entre CRS. Para solo visualizar puntos en mapa: folium basta.</p>
+<p><strong>❓ ¿Mapas offline?</strong></p>
+<p>Tiles son online por default. Para offline: descarga tiles con <code>mbtiles</code>, sirve local con <code>folium.raster_layers.TileLayer(url='file://...')</code>. Setup complejo, considera si vale.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li><a href="https://python-visualization.github.io/folium/">folium docs</a></li>
+<li><a href="https://plotly.com/python/choropleth-maps/">plotly choropleth docs</a></li>
+<li><a href="https://datahub.io/core/geo-countries">Natural Earth GeoJSON</a></li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../043-sql-fundamental-select-where-join-group-by-having/index.html">Clase 043 — SQL fundamental: SELECT, WHERE, JOIN, GROUP BY, HAVING</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-0-prerrequisitos/042-visualizacion-geografica-plotly-folium/"><code>classes/parte-0-prerrequisitos/042-visualizacion-geografica-plotly-folium/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

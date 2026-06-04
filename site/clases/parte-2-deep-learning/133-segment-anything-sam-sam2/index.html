@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 133 — Segment Anything (SAM / SAM 2): foundation model para segmentación | Python Data Science Program</title>
+  <meta name="description" content="Clase 133 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 2 — Deep Learning</a><span class="sep">›</span><span>133</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-2-deep-learning/133-segment-anything-sam-sam2/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-133-segment-anything-sam-sam-2-foundation-model-para-segmentacion">Clase 133 — Segment Anything (SAM / SAM 2): foundation model para segmentación</h1>
+<blockquote>
+<p>Parte: <strong>2 — Deep Learning</strong> · Fuente: Kirillov et al. (2023) + Ravi et al. (2024) SAM 2. ⏱️ Duración estimada: <strong>85 min</strong>.</p>
+</blockquote>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Usar <strong>Segment Anything</strong> (Meta AI 2023) y <strong>SAM 2</strong> (2024) — el <strong>foundation model para segmentación</strong>: entrenado en 11M imágenes + 1.1B máscaras (SAM 2 agrega video). Segmenta <strong>cualquier objeto</strong> dado un prompt (punto, caja, máscara, "todo"). Zero-shot — no requiere training para empezar.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar, el estudiante podrá:</p>
+<ul>
+<li>Instalar y cargar SAM/SAM 2 con <code>pip install 'git+https://github.com/facebookresearch/segment-anything-2'</code>.</li>
+<li>Aplicar prompts: punto, caja, multi-punto positivo/negativo.</li>
+<li>Generar máscaras en modo "everything" (segmenta cada objeto automáticamente).</li>
+<li>Tracking de máscaras en video con SAM 2 (memoria temporal).</li>
+<li>Combinar SAM con detector (YOLO) para pipeline detection → segmentation.</li>
+</ul>
+<h2 id="temas">🗺️ Temas</h2>
+<ul>
+<li>Arquitectura SAM: ViT encoder + prompt encoder + mask decoder.</li>
+<li>Promptable: una sola red, múltiples interfaces.</li>
+<li>SAM 2: adds memory + tracking en video.</li>
+<li>Variants: <code>vit_h</code> (mejor calidad), <code>vit_l</code>, <code>vit_b</code> (más rápido).</li>
+<li>Pipeline detección + segmentación: YOLO/Grounding DINO → boxes → SAM → masks.</li>
+<li>Fine-tuning SAM (rara vez necesario, casos médicos / dominios muy específicos).</li>
+</ul>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<ul>
+<li><strong>Promptable segmentation</strong>: input = imagen + prompt (punto/caja/mask) → output = mask.</li>
+<li><strong>Mask decoder</strong>: producirá hasta 3 máscaras por prompt (handles ambigüedad).</li>
+<li><strong><code>SamPredictor</code></strong>: API estándar para una imagen.</li>
+<li><strong><code>SamAutomaticMaskGenerator</code></strong>: modo "everything" — segmenta toda la imagen automáticamente.</li>
+<li><strong>SAM 2 memory</strong>: bank de features previas para tracking en video.</li>
+</ul>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<ul>
+<li>Imágenes propias o cualquier dataset visual.</li>
+<li>Modelos pretrained: <a href="https://github.com/facebookresearch/segment-anything-2">https://github.com/facebookresearch/segment-anything-2</a>.</li>
+<li>Librerías: <code>segment-anything-2</code> (PyTorch).</li>
+</ul>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>SAM setup</strong>: descargar checkpoint <code>vit_h</code>. Cargar con <code>SamPredictor</code>.</li>
+<li><strong>Punto prompt</strong>: <code>predictor.set_image(img); masks, scores, _ = predictor.predict(point_coords=[[x,y]], point_labels=[1])</code>.</li>
+<li><strong>Box prompt</strong>: pasar <code>box=[x1,y1,x2,y2]</code>; útil después de YOLO.</li>
+<li><strong>Everything mode</strong>: <code>SamAutomaticMaskGenerator(sam).generate(img)</code> → lista de masks.</li>
+<li><strong>SAM 2 video tracking</strong>: tomar un punto en frame 0, propagar a través del video.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Pipeline YOLO + SAM para anotación semi-automática:</p>
+<ol>
+<li>YOLOv11 detecta objects → boxes.</li>
+<li>Para cada box, SAM produce máscara precisa.</li>
+<li>Visualizar overlay sobre imagen.</li>
+<li>Reportar tiempo por imagen.</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: las máscaras son visualmente correctas (alineadas a contornos); pipeline corre en GPU &lt; 1s por imagen.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SAM lento en CPU</td>
+<td>Es enorme. <strong>Fix</strong>: usar <code>vit_b</code> o GPU.</td>
+</tr>
+<tr>
+<td>Máscara incluye background</td>
+<td>Prompt ambiguo. <strong>Fix</strong>: agregar puntos negativos (<code>labels=0</code>).</td>
+</tr>
+<tr>
+<td>Out-of-memory con ViT-H</td>
+<td>4-8 GB VRAM necesarios. <strong>Fix</strong>: <code>vit_l</code> o ViT-B.</td>
+</tr>
+<tr>
+<td>Mask decoder devuelve 3 masks, ¿cuál uso?</td>
+<td>El score más alto suele ser la correcta. <strong>Fix</strong>: <code>multimask_output=False</code> para 1 sola.</td>
+</tr>
+<tr>
+<td>SAM 2 tracking pierde objeto en video</td>
+<td>Re-prompt cada N frames.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿SAM reemplaza segmentación supervisada?</strong></p>
+<p>Para uso interactivo / anotación, sí. Para producción con clases específicas sin intervención humana, fine-tune un segmentador clásico (DeepLabV3+, YOLO-seg) es más eficiente.</p>
+<p><strong>❓ ¿Open vocabulary?</strong></p>
+<p>SAM solo: NO. Para "segmenta el perro" con texto: combinar con <strong>Grounding DINO</strong> (detector text-grounded) → caja → SAM → mask. O usar <strong>Grounded-SAM</strong> end-to-end.</p>
+<p><strong>❓ ¿SAM en mobile?</strong></p>
+<p>Hay versiones distilled: <strong>MobileSAM</strong>, <strong>EfficientSAM</strong> — 10× más rápidas, ligera pérdida de calidad.</p>
+<p><strong>❓ ¿Fine-tune SAM?</strong></p>
+<p>Posible pero rara vez vale la pena. Casos médicos / dominios muy distintos.</p>
+<p><strong>❓ ¿Licencia?</strong></p>
+<p>Apache 2.0. Comercialmente OK.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Kirillov et al. (2023), <em>Segment Anything</em>, ICCV.</li>
+<li>Ravi et al. (2024), <em>SAM 2: Segment Anything in Images and Videos</em>.</li>
+<li><a href="https://segment-anything.com/">Segment Anything project</a>.</li>
+<li><a href="https://github.com/IDEA-Research/Grounded-Segment-Anything">Grounded-SAM</a>.</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../134-yolov11-deteccion-segmentacion-practica/index.html">Clase 134 — YOLOv11 práctico: detección, segmentación, pose, tracking</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-2-deep-learning/133-segment-anything-sam-sam2/"><code>classes/parte-2-deep-learning/133-segment-anything-sam-sam2/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

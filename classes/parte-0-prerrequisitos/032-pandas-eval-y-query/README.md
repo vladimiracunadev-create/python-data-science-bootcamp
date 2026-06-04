@@ -108,4 +108,4 @@ Para filtros, sí (mismo nivel expresivo). Para joins y aggregations, no — usa
 
 ## ➡️ Siguiente clase
 
-[Clase 032a — Polars: DataFrames modernos](../032a-polars-dataframes-modernos/README.md)
+[Clase 033 — Polars: DataFrames modernos](../033-polars-dataframes-modernos/README.md)

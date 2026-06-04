@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 096 — DBSCAN | Python Data Science Program</title>
+  <meta name="description" content="Clase 096 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 1 — ML clásico</a><span class="sep">›</span><span>096</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-1-machine-learning-clasico/096-dbscan/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-096-dbscan">Clase 096 — DBSCAN</h1>
+<blockquote>
+<p>Parte: <strong>1 — Machine Learning Clásico</strong> · Fuente: Géron, <strong>cap. 9</strong>. ⏱️ Duración estimada: <strong>55 min</strong>.</p>
+</blockquote>
+<hr>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Que el alumno aplique <strong>DBSCAN</strong> (Density-Based Spatial Clustering of Applications with Noise) para descubrir clusters de forma arbitraria e identificar outliers nativamente, sin tener que predefinir <code>k</code> como en K-Means. Que sepa elegir <code>eps</code> con un k-distance plot y entienda cuándo conviene escalar a <strong>HDBSCAN</strong>.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar la clase, el alumno podrá:</p>
+<ol>
+<li><strong>Ejecutar DBSCAN</strong> con <code>sklearn.cluster.DBSCAN</code> y tunear <code>eps</code> y <code>min_samples</code> para un dataset 2D.</li>
+<li><strong>Elegir <code>eps</code></strong> mirando el codo del k-distance plot (no a ojo).</li>
+<li><strong>Identificar outliers</strong> vía la etiqueta <code>-1</code> que DBSCAN asigna a los puntos ruido.</li>
+<li><strong>Distinguir</strong> core / border / noise points y entender la noción de density-reachable.</li>
+<li><strong>Comparar</strong> DBSCAN vs K-Means y saber cuándo usar <strong>HDBSCAN</strong> (eps variable, clusters de densidad mixta).</li>
+</ol>
+<h2 id="temas">🗺️ Temas</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Tema</th>
+<th>Por qué importa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Intuición de densidad vs centroides</td>
+<td>DBSCAN encuentra "regiones densas" — no necesita <code>k</code> ni asume forma esférica.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Hiperparámetros <code>eps</code> y <code>min_samples</code></td>
+<td>Son los dos botones del modelo. Mal puestos = un solo cluster gigante o todo ruido.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Core / border / noise points</td>
+<td>Vocabulario base para leer la salida y depurar.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>k-distance plot para elegir <code>eps</code></td>
+<td>Método estándar para no ir a ciegas.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Etiqueta <code>-1</code> y detección de outliers</td>
+<td>DBSCAN es de los pocos clusterers que detecta anomalías sin un modelo aparte.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Limitaciones: densidad uniforme, curse of dimensionality</td>
+<td>Por qué falla en datasets reales con clusters de densidades distintas.</td>
+</tr>
+<tr>
+<td>7</td>
+<td>HDBSCAN como evolución</td>
+<td><code>eps</code> jerárquico: maneja densidad variable y suele ser el default moderno.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<dl>
+<dt><strong>DBSCAN</strong></dt>
+<dd>Algoritmo de clustering basado en densidad. Agrupa puntos que están densamente conectados y marca como ruido los que quedan en regiones de baja densidad. <strong>No requiere <code>k</code></strong>. Complejidad ~<code>O(n log n)</code> con índice espacial.</dd>
+<dt><strong><code>eps</code> (epsilon)</strong></dt>
+<dd>Radio de la vecindad alrededor de cada punto. Define qué se considera "cerca". Es el hiperparámetro más sensible — un cambio chico colapsa o explota los clusters.</dd>
+<dt><strong><code>min_samples</code></strong></dt>
+<dd>Cantidad mínima de puntos (incluyendo el propio) dentro de <code>eps</code> para que un punto se considere <strong>core</strong>. Regla práctica: <code>min_samples ≥ dim + 1</code>, típicamente 4–10 para 2D.</dd>
+<dt><strong>Core point</strong></dt>
+<dd>Punto con al menos <code>min_samples</code> vecinos dentro de <code>eps</code>. Es el "núcleo" desde el cual crece el cluster.</dd>
+<dt><strong>Border point</strong></dt>
+<dd>Punto que está dentro del <code>eps</code> de un core, pero él mismo no tiene <code>min_samples</code> vecinos. Pertenece al cluster pero no propaga.</dd>
+<dt><strong>Noise point (outlier)</strong></dt>
+<dd>Punto que no es core ni border. DBSCAN lo etiqueta como <code>-1</code>. Sale gratis del modelo, sin entrenar un detector aparte.</dd>
+<dt><strong>Density-reachable</strong></dt>
+<dd>Relación que conecta dos puntos vía una cadena de core points. Es la definición formal de "pertenecer al mismo cluster" en DBSCAN.</dd>
+<dt><strong>HDBSCAN</strong> (Hierarchical DBSCAN)</dt>
+<dd>Evolución de DBSCAN que reemplaza <code>eps</code> por una jerarquía. Maneja clusters de densidades distintas, expone un parámetro más intuitivo (<code>min_cluster_size</code>) y devuelve probabilidades de pertenencia. Es el default moderno para clustering no supervisado.</dd>
+</dl>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<ul>
+<li><code>make_moons(n_samples=1000, noise=0.05)</code> de scikit-learn — dos lunas entrelazadas, el caso canónico donde K-Means falla y DBSCAN brilla.</li>
+<li><code>make_blobs</code> con densidades distintas para mostrar la limitación de DBSCAN y motivar HDBSCAN.</li>
+</ul>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<p><strong>1.</strong> <strong>DBSCAN sobre moons.</strong> Entrená <code>DBSCAN(eps=0.2, min_samples=5)</code> sobre <code>make_moons</code>. Graficá los clusters y contá cuántos puntos quedaron como <code>-1</code>.</p>
+<p><strong>2.</strong> <strong>K-distance plot.</strong> Calculá la distancia al k-ésimo vecino más cercano (<code>k=min_samples</code>) para todos los puntos, ordenala y graficala. Identificá el codo y usalo como <code>eps</code>.</p>
+<p><strong>3.</strong> <strong>Sensibilidad a <code>eps</code>.</strong> Probá <code>eps ∈ {0.05, 0.1, 0.2, 0.5}</code> y reportá número de clusters y % de ruido en cada caso. Mostrá cómo <code>eps</code> chico = todo ruido y <code>eps</code> grande = un cluster.</p>
+<p><strong>4.</strong> <strong>DBSCAN vs K-Means.</strong> Sobre el mismo <code>make_moons</code>, corré ambos con <code>k=2</code>. Mostrá visualmente que K-Means parte las lunas por la mitad y DBSCAN las separa bien.</p>
+<p><strong>5.</strong> <strong>HDBSCAN sobre densidades mixtas.</strong> Generá blobs con <code>cluster_std</code> distinto por blob. Mostrá que un <code>eps</code> único en DBSCAN no puede capturar ambos, y que <code>HDBSCAN(min_cluster_size=20)</code> sí.</p>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Notebook que sobre un dataset 2D sintético (moons + outliers inyectados a mano) haga: (a) k-distance plot y elección razonada de <code>eps</code>; (b) DBSCAN con esos hiperparámetros; (c) reporte de % de outliers detectados vs inyectados; (d) comparación visual con K-Means; (e) corrida con HDBSCAN sobre blobs de densidad mixta.</p>
+<p><strong>Criterio de aceptación:</strong> <code>eps</code> justificado con el codo del k-distance plot (no a ojo). DBSCAN recupera al menos el 80% de los outliers inyectados. La comparación con K-Means muestra explícitamente la falla de los centroides en datos no convexos.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Elegir <code>eps</code> a ojo y obtener un solo cluster o todo ruido</td>
+<td>El parámetro es altamente sensible y depende de la escala de las features. <strong>Fix</strong>: hacé el <strong>k-distance plot</strong> (<code>NearestNeighbors(n_neighbors=min_samples).kneighbors</code>), ordená las distancias y agarrá el codo. Eso es el método estándar, no ir tanteando.</td>
+</tr>
+<tr>
+<td>DBSCAN sobre features sin escalar</td>
+<td><code>eps</code> es una distancia euclidiana; si una feature va de 0–1 y otra de 0–10000, domina la segunda. <strong>Fix</strong>: <code>StandardScaler</code> o <code>MinMaxScaler</code> siempre antes.</td>
+</tr>
+<tr>
+<td><code>min_samples=1</code> o <code>min_samples=2</code></td>
+<td>Todo termina siendo core point, no hay ruido y los clusters se fusionan. <strong>Fix</strong>: usar <code>min_samples ≥ dim + 1</code> (típicamente 4–10 en 2D).</td>
+</tr>
+<tr>
+<td>Aplicar DBSCAN en alta dimensión (&gt;10)</td>
+<td>Curse of dimensionality: las distancias se "achatan" y <code>eps</code> deja de discriminar. <strong>Fix</strong>: reducí con PCA/UMAP antes, o usá HDBSCAN que es algo más robusto.</td>
+</tr>
+<tr>
+<td>Pedirle <code>predict()</code> a DBSCAN</td>
+<td>DBSCAN <strong>no tiene</strong> <code>predict</code> — no hay forma natural de asignar un punto nuevo a un cluster. <strong>Fix</strong>: usar <code>fit_predict</code> para los datos de entrenamiento, o entrenar un clasificador aparte sobre las etiquetas si necesitás predecir online.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿K-Means o DBSCAN?</strong></p>
+<p><strong>K-Means</strong> si los clusters son aproximadamente esféricos, de tamaño parecido, y sabés (o podés estimar) <code>k</code>. <strong>DBSCAN</strong> si los clusters tienen forma arbitraria, no sabés cuántos hay, o necesitás detectar outliers en la misma pasada. Para producción moderna: <strong>HDBSCAN</strong> suele ganar a ambos cuando no tenés intuición previa.</p>
+<p><strong>❓ ¿Por qué DBSCAN devuelve <code>-1</code>?</strong></p>
+<p>Es la etiqueta convencional para <strong>noise points</strong> — puntos que no pertenecen a ningún cluster. No es un cluster más, es la salida natural del algoritmo para outliers.</p>
+<p><strong>❓ ¿Cómo elijo <code>min_samples</code>?</strong></p>
+<p>Regla práctica: <code>min_samples = 2 * dim</code>. Para 2D, usá 4. Para 3D, 6. Más grande = clusters más robustos pero más ruido. En la práctica, <code>min_samples</code> mueve menos la aguja que <code>eps</code>.</p>
+<p><strong>❓ ¿DBSCAN escala a millones de puntos?</strong></p>
+<p>Con <code>algorithm='ball_tree'</code> o <code>'kd_tree'</code> queda en ~<code>O(n log n)</code>. Para &gt;1M puntos en alta dimensión, considerá <code>HDBSCAN</code> o aproximaciones tipo <code>sklearn.cluster.OPTICS</code>.</p>
+<p><strong>❓ ¿Cuándo HDBSCAN vence a DBSCAN?</strong></p>
+<p>Siempre que los clusters tengan <strong>densidades distintas</strong> entre sí. DBSCAN usa un <code>eps</code> global; HDBSCAN construye una jerarquía y elige el corte óptimo por cluster. Además expone <code>min_cluster_size</code> que es más intuitivo de tunear que <code>eps</code>.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Géron, <strong>cap. 9</strong> § "DBSCAN".</li>
+<li><a href="https://scikit-learn.org/stable/modules/clustering.html#dbscan">scikit-learn DBSCAN user guide</a></li>
+<li><a href="https://hdbscan.readthedocs.io/">HDBSCAN docs</a></li>
+<li>Ester et al. (1996), <em>A Density-Based Algorithm for Discovering Clusters in Large Spatial Databases with Noise</em> — paper original.</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../097-clustering-agglomerative-birch-mean-shift-affinity-propagation-spectra/index.html">Clase 097 — Agglomerative, BIRCH, Mean Shift, Affinity Propagation, Spectral</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-1-machine-learning-clasico/096-dbscan/"><code>classes/parte-1-machine-learning-clasico/096-dbscan/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

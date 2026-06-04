@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 119 — Losses, métricas, capas, modelos custom | Python Data Science Program</title>
+  <meta name="description" content="Clase 119 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 2 — Deep Learning</a><span class="sep">›</span><span>119</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-2-deep-learning/119-losses-metricas-capas-modelos-custom/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-119-losses-metricas-capas-modelos-custom">Clase 119 — Losses, métricas, capas, modelos custom</h1>
+<blockquote>
+<p>Parte: <strong>2 — Deep Learning</strong> · Fuente: Géron, <strong>cap. 12</strong> § <em>Customizing Models and Training Algorithms</em>. ⏱️ Duración estimada: <strong>70 min</strong>.</p>
+</blockquote>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Crear <strong>losses, métricas y capas custom</strong> cuando los builtins de Keras no alcanzan: focal loss, métrica F1 macro, una capa con normalización custom, modelo subclassed con <code>train_step</code> propio. Diferenciar <strong>stateless</strong> (función) de <strong>stateful</strong> (clase con estado acumulado por época).</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar, el estudiante podrá:</p>
+<ul>
+<li>Definir loss custom como función: <code>def my_loss(y_true, y_pred): return ...</code>.</li>
+<li>Definir métrica stateful heredando <code>keras.metrics.Metric</code> con <code>update_state</code>, <code>result</code>, <code>reset_state</code>.</li>
+<li>Crear capa custom heredando <code>keras.layers.Layer</code> con <code>build</code> (declara pesos) y <code>call</code> (forward).</li>
+<li>Overridar <code>train_step</code> de un modelo subclassed (<code>Model</code>) para custom training logic.</li>
+<li>Saber cuándo usar custom vs cuándo los builtins de Keras alcanzan (casi siempre).</li>
+</ul>
+<h2 id="temas">🗺️ Temas</h2>
+<ul>
+<li>Loss como función simple: 2 args <code>(y_true, y_pred)</code>, devuelve un tensor.</li>
+<li>Métrica stateless (función) vs stateful (<code>Metric</code> class).</li>
+<li>Capa custom: <code>__init__</code> (config), <code>build</code> (pesos), <code>call</code> (forward).</li>
+<li><code>Model</code> subclass con <code>train_step(self, data)</code> custom.</li>
+</ul>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<ul>
+<li><strong>Loss</strong>: función que devuelve un escalar (o vector por sample) que minimizamos.</li>
+<li><strong>Métrica stateful</strong>: acumula a lo largo del epoch (necesario para F1, precision, recall, AUC).</li>
+<li><strong><code>build(input_shape)</code></strong>: hook donde Keras te dice las dims; ahí declarás pesos con <code>self.add_weight</code>.</li>
+<li><strong><code>get_config()</code></strong>: serialización — necesario si querés <code>model.save()</code>.</li>
+<li><strong><code>train_step</code></strong>: lo que Keras llama por cada batch durante <code>fit</code>. Default es: forward, compute loss, backward, optimizer step.</li>
+</ul>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<ul>
+<li>Fashion-MNIST o cualquier dataset previo.</li>
+<li>Librerías: <code>tensorflow</code>, <code>keras</code>.</li>
+</ul>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>Loss custom</strong>: implementar <strong>Focal Loss</strong> <code>FL(p_t) = -α(1-p_t)^γ log(p_t)</code> (Lin et al. 2017, útil para imbalance). Aplicar a Fashion-MNIST y comparar contra cross-entropy.</li>
+<li><strong>Métrica F1 macro</strong>: heredar <code>keras.metrics.Metric</code>, mantener confusion matrix acumulada por época, calcular F1 macro en <code>result()</code>.</li>
+<li><strong>Capa custom</strong>: <code>class L2Normalize(Layer)</code> que normaliza cada vector a norma 1. Probarla en un modelo.</li>
+<li><strong>Modelo con train_step custom</strong>: subclass que en cada batch aplica gradient clipping manual + logging extra.</li>
+<li><strong>get_config</strong>: agregar a una capa custom; verificar que <code>model.save()</code> y <code>load_model(custom_objects=...)</code> funciona.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Sobre un dataset desbalanceado (simular o usar uno con clase minoritaria al 5 %):</p>
+<ol>
+<li>Entrenar con cross-entropy estándar; reportar F1 macro.</li>
+<li>Entrenar con Focal Loss custom (γ=2.0, α=0.25); reportar F1.</li>
+<li>Implementar una métrica F1 macro custom y usarla durante el training.</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: Focal Loss debe mejorar F1 macro en ≥ 2 pp respecto a cross-entropy en el caso desbalanceado.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Loss custom devuelve shape incorrecto</td>
+<td>Debe ser <code>(batch,)</code> o escalar. <strong>Fix</strong>: revisar reductions.</td>
+</tr>
+<tr>
+<td>Métrica custom devuelve siempre el mismo valor</td>
+<td>Olvidaste <code>reset_state</code> entre épocas. Keras lo llama automáticamente; tu <code>reset_state</code> debe limpiar los estados internos.</td>
+</tr>
+<tr>
+<td><code>model.save()</code> falla con capa custom</td>
+<td>Falta <code>get_config</code>. <strong>Fix</strong>: implementarlo y <code>cls.from_config(config)</code>.</td>
+</tr>
+<tr>
+<td>Pesos creados en <code>__init__</code> en vez de <code>build</code></td>
+<td>Funciona pero pierde la flexibilidad de shape dinámica. <strong>Fix</strong>: usar <code>build</code>.</td>
+</tr>
+<tr>
+<td>Override <code>train_step</code> y se pierde el logging de métricas Keras</td>
+<td>Hay que actualizar <code>self.compiled_metrics.update_state(y, y_pred)</code> y devolver <code>{m.name: m.result() for m in self.metrics}</code>.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿Custom loss o <code>tf.keras.losses.Loss</code> subclass?</strong></p>
+<p>Función para casos simples; subclass cuando tenés estado o configs complejas.</p>
+<p><strong>❓ ¿Métrica función vs subclass?</strong></p>
+<p>Función para batch-wise (accuracy). Subclass para cualquier cosa que necesite acumular (precision, recall, F1, AUC).</p>
+<p><strong>❓ ¿<code>call</code> o <code>__call__</code> en capa custom?</strong></p>
+<p>Definí <code>call</code>; Keras envuelve para llamar a través de <code>__call__</code> agregando training/masking.</p>
+<p><strong>❓ ¿Custom training loop o subclass con <code>train_step</code>?</strong></p>
+<p>Subclass <code>train_step</code> cuando podés (preserva <code>fit</code>, callbacks, etc.). Custom loop completo solo si necesitás control de flujo realmente complejo (clase 108).</p>
+<p><strong>❓ ¿Por qué <code>add_weight</code> y no <code>tf.Variable</code>?</strong></p>
+<p><code>add_weight</code> registra automáticamente la variable como peso entrenable del modelo, gestiona dtype, initializer, regularizer y nombre.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Géron, <strong>cap. 12</strong> — <em>Custom Loss Functions, Metrics, Layers and Models</em>.</li>
+<li>Lin et al. (2017), <em>Focal Loss for Dense Object Detection</em>, ICCV.</li>
+<li><a href="https://keras.io/guides/making_new_layers_and_models_via_subclassing/">Keras — Making new layers and models</a>.</li>
+<li><a href="https://keras.io/guides/customizing_what_happens_in_fit/">Keras — Customize what happens in <code>fit()</code></a>.</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../120-funciones-y-grafos-autograph/index.html">Clase 120 — Funciones y grafos (autograph)</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-2-deep-learning/119-losses-metricas-capas-modelos-custom/"><code>classes/parte-2-deep-learning/119-losses-metricas-capas-modelos-custom/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

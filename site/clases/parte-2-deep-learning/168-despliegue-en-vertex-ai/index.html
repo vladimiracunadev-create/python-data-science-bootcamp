@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 168 — Despliegue en Vertex AI | Python Data Science Program</title>
+  <meta name="description" content="Clase 168 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 2 — Deep Learning</a><span class="sep">›</span><span>168</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-2-deep-learning/168-despliegue-en-vertex-ai/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-168-despliegue-en-vertex-ai">Clase 168 — Despliegue en Vertex AI</h1>
+<blockquote>
+<p>Parte: <strong>2 — Deep Learning</strong> · Fuente: Géron, <strong>cap. 19</strong> § <em>Deploying a Model to Vertex AI</em> + docs Vertex AI. ⏱️ Duración estimada: <strong>60 min</strong>.</p>
+</blockquote>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Desplegar un modelo a <strong>Vertex AI</strong> (GCP) — el servicio managed de Google para servir modelos sin maintener infrastructure. Conocer alternativas: <strong>AWS SageMaker</strong>, <strong>Azure ML</strong>, <strong>Modal</strong>, <strong>Replicate</strong>, <strong>HuggingFace Inference Endpoints</strong>.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar, el estudiante podrá:</p>
+<ul>
+<li>Subir un modelo a Vertex AI Model Registry.</li>
+<li>Crear un Endpoint y deployar el modelo.</li>
+<li>Hacer requests a un endpoint Vertex AI.</li>
+<li>Comparar managed (Vertex/SageMaker) vs self-hosted (TF Serving + GKE/EKS).</li>
+<li>Conocer alternativas modernas (Modal, Replicate) para deploy serverless.</li>
+</ul>
+<h2 id="temas">🗺️ Temas</h2>
+<ul>
+<li>Vertex AI Model Registry.</li>
+<li>Endpoint creation + traffic split (A/B testing).</li>
+<li>gcloud CLI: <code>gcloud ai models upload</code>, <code>gcloud ai endpoints deploy-model</code>.</li>
+<li>Pricing: pay per CPU/GPU hour + requests.</li>
+<li>Alternativas: SageMaker, Azure ML, Modal, Replicate.</li>
+</ul>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<ul>
+<li><strong>Model Registry</strong>: catálogo de modelos versionados.</li>
+<li><strong>Endpoint</strong>: URL HTTP para inference.</li>
+<li><strong>Traffic split</strong>: routing parcial entre versiones (A/B).</li>
+<li><strong>Auto-scaling</strong>: replicas automáticas según carga.</li>
+<li><strong>Prebuilt containers</strong>: TF/PyTorch/sklearn containers oficiales.</li>
+</ul>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<ul>
+<li>Modelo de clases previas exportado.</li>
+<li>GCP account con billing habilitado (free tier limitado).</li>
+<li>Librerías: <code>google-cloud-aiplatform</code>.</li>
+</ul>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>Setup</strong>: <code>gcloud init</code>, <code>gcloud auth application-default login</code>. Crear bucket GCS.</li>
+<li><strong>Upload model</strong>: <code>gcloud ai models upload --display-name=fashion --container-image-uri=...</code>.</li>
+<li><strong>Deploy endpoint</strong>: con <code>n1-standard-4</code>. Min/max replicas 1-3.</li>
+<li><strong>Predict request</strong>: <code>from google.cloud import aiplatform; ep = aiplatform.Endpoint(...); ep.predict(...)</code>.</li>
+<li><strong>A/B traffic</strong>: deploy v2 con 20 % traffic, observar logs.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Deploy del modelo Fashion-MNIST a Vertex AI:</p>
+<ol>
+<li>Subir a GCS.</li>
+<li>Upload model en Vertex Model Registry.</li>
+<li>Crear endpoint y deploy.</li>
+<li>Hacer 10 predicciones desde notebook local.</li>
+<li>(Opcional) cleanup para no gastar.</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: predicciones llegan correctamente; cost report &lt; $1.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>PERMISSION_DENIED</code> al deploy</td>
+<td>IAM mal configurado. <strong>Fix</strong>: rol <code>aiplatform.admin</code>.</td>
+</tr>
+<tr>
+<td>Endpoint queda corriendo y factura $$$</td>
+<td>Olvidaste undeploy. <strong>Fix</strong>: <code>gcloud ai endpoints undeploy-model</code> o usar Cloud Function de cleanup.</td>
+</tr>
+<tr>
+<td>Modelo no carga</td>
+<td>Formato no soportado. <strong>Fix</strong>: SavedModel format o container custom.</td>
+</tr>
+<tr>
+<td>Predicciones lentas (cold start)</td>
+<td>Auto-scale a 0 y arranque toma 30-60s. <strong>Fix</strong>: <code>min_replica_count=1</code>.</td>
+</tr>
+<tr>
+<td>Output incomprensible</td>
+<td>Signature mal definida. <strong>Fix</strong>: documentar inputs/outputs en <code>serving_default</code>.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿Vertex AI o SageMaker?</strong></p>
+<p>Depende del ecosistema. Si ya estás en AWS → SageMaker. En GCP → Vertex. Funcionalmente similares.</p>
+<p><strong>❓ ¿Modal / Replicate cuándo?</strong></p>
+<p>Para deployment rápido (serverless, pay-per-request) y para LLMs/diffusion específicamente. Modal es excelente DX, Replicate tiene modelos pre-built.</p>
+<p><strong>❓ ¿Self-host con K8s en lugar de managed?</strong></p>
+<p>Si tenés equipo de ops y volumen alto, sale más barato. Para empezar o equipos chicos, managed gana.</p>
+<p><strong>❓ ¿Costos típicos?</strong></p>
+<p>Endpoint con <code>n1-standard-4</code> 24/7 ≈ $100/mes. Con GPU T4 ≈ $250/mes. Si auto-scale a 0 entre requests, mucho menos.</p>
+<p><strong>❓ ¿Inferencia batch para datasets grandes?</strong></p>
+<p><code>gcloud ai batch-predict-jobs create</code> — más barato que endpoint para volúmenes grandes sin necesidad real-time.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Géron, <strong>cap. 19</strong> — <em>Deploying a Model to Vertex AI</em>.</li>
+<li><a href="https://cloud.google.com/vertex-ai/docs">Vertex AI docs</a>.</li>
+<li><a href="https://docs.aws.amazon.com/sagemaker/">SageMaker docs</a>.</li>
+<li><a href="https://modal.com/">Modal</a>, <a href="https://replicate.com/">Replicate</a>.</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../169-tf-lite-mobile-embedded/index.html">Clase 169 — TF Lite (mobile/embedded)</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-2-deep-learning/168-despliegue-en-vertex-ai/"><code>classes/parte-2-deep-learning/168-despliegue-en-vertex-ai/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

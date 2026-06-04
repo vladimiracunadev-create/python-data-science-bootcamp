@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 090 — Stacking (stacked generalization) | Python Data Science Program</title>
+  <meta name="description" content="Clase 090 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 1 — ML clásico</a><span class="sep">›</span><span>090</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-1-machine-learning-clasico/090-stacking/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-090-stacking-stacked-generalization">Clase 090 — Stacking (stacked generalization)</h1>
+<blockquote>
+<p>Parte: <strong>1 — Machine Learning Clásico</strong> · Fuente: Géron, <strong>cap. 7</strong>. ⏱️ Duración estimada: <strong>60 min</strong>.</p>
+</blockquote>
+<hr>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Que el alumno combine modelos heterogéneos vía <strong>stacking</strong>: entrenar varios modelos base, generar predicciones out-of-fold, y entrenar un meta-modelo (<strong>blender</strong>) sobre esas predicciones — todo con <code>StackingClassifier</code> / <code>StackingRegressor</code> de sklearn, sin leakage.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar la clase, el alumno podrá:</p>
+<ol>
+<li><strong>Explicar la idea de stacking</strong> como ensamble donde un meta-modelo aprende a combinar las predicciones de los base learners.</li>
+<li><strong>Construir un <code>StackingClassifier</code></strong> con varios estimadores base y un blender (típicamente regresión logística).</li>
+<li><strong>Justificar las predicciones out-of-fold (CV interna)</strong> como mecanismo para evitar que el blender vea predicciones in-sample.</li>
+<li><strong>Comparar stacking contra voting</strong> y contra un solo modelo bien tuneado, en accuracy y costo computacional.</li>
+<li><strong>Usar <code>passthrough=True</code></strong> para que el blender vea también las features originales, no solo las predicciones de los base.</li>
+</ol>
+<h2 id="temas">🗺️ Temas</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Tema</th>
+<th>Por qué importa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Idea: ensamble de dos niveles</td>
+<td>El meta-modelo aprende los errores correlacionados entre base learners.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Base learners heterogéneos</td>
+<td>Diversidad reduce varianza del ensamble.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Meta-modelo (blender)</td>
+<td>Suele ser simple (logística, lineal) para no overfitear.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Out-of-fold predictions</td>
+<td>Sin esto hay leakage: el blender ve scores in-sample.</td>
+</tr>
+<tr>
+<td>5</td>
+<td><code>StackingClassifier</code> / <code>StackingRegressor</code></td>
+<td>API sklearn que hace el CV interno por vos.</td>
+</tr>
+<tr>
+<td>6</td>
+<td><code>passthrough</code></td>
+<td>Concatenar features originales al input del blender.</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Costo y cuándo conviene</td>
+<td>N entrenamientos × K folds — caro, no siempre paga.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<dl>
+<dt><strong>Stacking (stacked generalization)</strong></dt>
+<dd>Técnica de ensamble donde se entrenan <strong>M modelos base</strong> sobre el train set; sus predicciones (out-of-fold) se usan como features para entrenar un <strong>meta-modelo</strong> que aprende a combinarlas. Introducido por Wolpert (1992).</dd>
+<dt><strong>Base learners (nivel 0)</strong></dt>
+<dd>Los modelos individuales del ensamble. Conviene que sean <strong>heterogéneos</strong> (p. ej. RandomForest + SVM + KNN) — si todos cometen los mismos errores, stackearlos no agrega información.</dd>
+<dt><strong>Meta-modelo / blender (nivel 1)</strong></dt>
+<dd>Modelo que toma como input las predicciones de los base learners y produce la predicción final. Suele ser <strong>simple</strong> (LogisticRegression, Ridge) porque su input ya es altamente predictivo y un modelo complejo overfitearía.</dd>
+<dt><strong><code>StackingClassifier</code> / <code>StackingRegressor</code></strong></dt>
+<dd>Implementación de sklearn (<code>sklearn.ensemble</code>). API: <code>StackingClassifier(estimators=[(nombre, modelo), ...], final_estimator=Logistic(), cv=5)</code>. Internamente entrena los base con CV para generar predicciones out-of-fold, después reentrena cada base sobre todo el train, y entrena el blender sobre las predicciones OOF.</dd>
+<dt><strong>Out-of-fold predictions (OOF)</strong></dt>
+<dd>Para cada fila del train, su predicción del base learner se genera cuando esa fila estuvo en el <strong>fold de validación</strong> (no en el de entrenamiento). Esto garantiza que el blender ve predicciones generadas por un modelo que no vio esa fila — evita el leakage.</dd>
+<dt><strong><code>cv</code> en stacking</strong></dt>
+<dd>Número de folds para generar las predicciones OOF. Default 5. Más folds → menos varianza en las features del blender, pero más costo (cada base se entrena <code>cv</code> veces).</dd>
+<dt><strong><code>passthrough=True</code></strong></dt>
+<dd>Concatena las <strong>features originales <code>X</code></strong> al input del blender, junto con las predicciones de los base. El blender puede así aprovechar tanto los meta-features como las features crudas. Útil cuando los base learners no capturan toda la señal.</dd>
+<dt><strong>Stacking vs voting</strong></dt>
+<dd>Voting (hard/soft) <strong>promedia</strong> o <strong>vota</strong> las predicciones de los base con pesos fijos. Stacking <strong>aprende los pesos</strong> (y combinaciones no lineales) vía el blender. Más expresivo pero más caro y más propenso a overfit si el blender es complejo.</dd>
+</dl>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<p><code>load_breast_cancer</code> o <code>make_classification(n_samples=2000)</code> de sklearn — suficiente para mostrar el patrón sin tiempos largos de CV.</p>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<p><strong>1.</strong> <strong>Stacking básico.</strong> Construí un <code>StackingClassifier</code> con tres base learners (RandomForest, SVC con <code>probability=True</code>, KNN) y <code>LogisticRegression</code> como blender. Reportá accuracy con <code>cross_val_score(cv=5)</code>.</p>
+<p><strong>2.</strong> <strong>Comparación contra base learners solos.</strong> Evaluá los tres base learners individualmente con el mismo CV. ¿El stacking supera al mejor solo? ¿Por cuánto?</p>
+<p><strong>3.</strong> <strong><code>passthrough=True</code>.</strong> Repetí el ejercicio 1 con <code>passthrough=True</code>. ¿Mejora la accuracy? Pensá por qué (el blender ve features originales además de las predicciones).</p>
+<p><strong>4.</strong> <strong>Variando <code>cv</code>.</strong> Probá <code>cv=3</code>, <code>cv=5</code>, <code>cv=10</code> en el stacking. Mirá accuracy y tiempo de entrenamiento. Trade-off típico.</p>
+<p><strong>5.</strong> <strong>Stacking vs Voting.</strong> Entrená un <code>VotingClassifier(voting='soft')</code> con los mismos tres base. Compará accuracy contra stacking. Discutí costo computacional.</p>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Notebook con <code>make_classification(n_samples=3000, n_features=20, n_informative=10, random_state=42)</code>: (a) entrenar 3 base learners individuales y reportar CV-accuracy; (b) entrenar <code>StackingClassifier</code> con esos 3 + <code>LogisticRegression</code> blender; (c) repetir con <code>passthrough=True</code>; (d) entrenar <code>VotingClassifier(voting='soft')</code> con los mismos base; (e) tabla comparativa final con accuracy, std y tiempo de entrenamiento.</p>
+<p><strong>Criterio de aceptación:</strong> El stacking iguala o supera al mejor base learner individual. La tabla comparativa muestra los 5 modelos (3 base + stacking + voting) con accuracy media ± std y tiempo.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>El stacking da peor que el mejor base learner solo</td>
+<td>Base learners poco diversos (todos árboles, p. ej.) o blender overfitea. <strong>Fix</strong>: usá modelos heterogéneos y un blender simple (logística con regularización).</td>
+</tr>
+<tr>
+<td>Blender entrenado sobre las mismas predicciones que vio el base → <strong>leakage</strong></td>
+<td>Pasaste predicciones in-sample al blender en vez de OOF. <strong>Fix</strong>: usá <code>StackingClassifier</code> (hace el CV interno) o, si lo armás manual, <code>cross_val_predict</code> para generar las predicciones del blender.</td>
+</tr>
+<tr>
+<td><code>SVC</code> no se puede usar en <code>StackingClassifier</code> con <code>final_estimator</code> que pide <code>predict_proba</code></td>
+<td>SVC por default no expone probas. <strong>Fix</strong>: <code>SVC(probability=True)</code> — pero ojo, calibra con CV interna y es lento.</td>
+</tr>
+<tr>
+<td>Stacking tarda 10× más que un solo modelo</td>
+<td>Es esperable: <code>M base × K folds + 1 blender</code>. <strong>Fix</strong>: bajá <code>cv</code>, usá <code>n_jobs=-1</code>, o evaluá si el upside en accuracy justifica el costo.</td>
+</tr>
+<tr>
+<td><code>passthrough=True</code> empeora el resultado</td>
+<td>El blender se confunde con muchas features irrelevantes. <strong>Fix</strong>: dejá <code>passthrough=False</code> (default) o usá un blender con regularización fuerte (Ridge, Lasso).</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿Stacking vs voting — cuándo cuál?</strong></p>
+<p><strong>Voting</strong> si querés algo rápido, simple y los base learners son razonablemente parejos: promedia probas (soft) o vota clases (hard) con pesos fijos. <strong>Stacking</strong> si tenés tiempo de CV y los base learners cometen errores <strong>distintos</strong> — el blender aprende a explotar esa diversidad. Stacking suele ganar ~1-3 pp de accuracy a costa de 5-10× más cómputo.</p>
+<p><strong>❓ ¿Qué modelo conviene como blender?</strong></p>
+<p>Algo <strong>simple y regularizado</strong>: <code>LogisticRegression</code> (clasificación) o <code>Ridge</code> (regresión) son la elección estándar. Modelos complejos (RandomForest, XGBoost) como blender suelen overfitear las M predicciones OOF.</p>
+<p><strong>❓ ¿Cuántos base learners?</strong></p>
+<p>3-5 está bien. Más allá, la ganancia marginal cae rápido y el costo escala lineal. Lo importante es que sean <strong>heterogéneos</strong> (familias distintas), no que sean muchos.</p>
+<p><strong>❓ ¿Puedo apilar stackings (multinivel)?</strong></p>
+<p>Técnicamente sí (Kaggle lo hace), pero la ganancia marginal vs costo es brutal y el riesgo de overfit explota. Para producción: un solo nivel de stacking es el sweet spot.</p>
+<p><strong>❓ ¿Sirve stacking si tengo poca data?</strong></p>
+<p>Mal. Con N chico, las predicciones OOF tienen mucha varianza y el blender no encuentra señal estable. Bajo ese régimen, un modelo solo bien tuneado o un VotingClassifier suelen ganarle.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Géron, <strong>cap. 7</strong> § <em>Stacking</em>.</li>
+<li>Wolpert, D. (1992). <em>Stacked Generalization</em>. Neural Networks 5(2).</li>
+<li><a href="https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.StackingClassifier.html">sklearn <code>StackingClassifier</code></a></li>
+<li><a href="https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.StackingRegressor.html">sklearn <code>StackingRegressor</code></a></li>
+<li><a href="https://scikit-learn.org/stable/modules/ensemble.html#stacked-generalization">sklearn user guide — Stacked generalization</a></li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../091-maldicion-de-la-dimensionalidad/index.html">Clase 091 — La maldición de la dimensionalidad</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-1-machine-learning-clasico/090-stacking/"><code>classes/parte-1-machine-learning-clasico/090-stacking/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

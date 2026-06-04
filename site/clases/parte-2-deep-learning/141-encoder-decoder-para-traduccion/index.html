@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 141 — Encoder-Decoder para traducción | Python Data Science Program</title>
+  <meta name="description" content="Clase 141 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 2 — Deep Learning</a><span class="sep">›</span><span>141</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-2-deep-learning/141-encoder-decoder-para-traduccion/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-141-encoder-decoder-para-traduccion">Clase 141 — Encoder-Decoder para traducción</h1>
+<blockquote>
+<p>Parte: <strong>2 — Deep Learning</strong> · Fuente: Géron, <strong>cap. 16</strong> § <em>Encoder–Decoder Network for Neural Machine Translation</em>. ⏱️ Duración estimada: <strong>80 min</strong>.</p>
+</blockquote>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Implementar la arquitectura <strong>seq2seq</strong> (Sutskever, Vinyals &amp; Le 2014) — un <strong>encoder</strong> que comprime la oración fuente en un vector de contexto + un <strong>decoder</strong> que genera la oración destino token por token. Conocer <strong>teacher forcing</strong> (durante training, el decoder ve los targets reales como input) vs <strong>inference autoregresiva</strong>. Esta arquitectura es la antesala de <strong>atención</strong> (clase 125) y de Transformers (clase 126).</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar, el estudiante podrá:</p>
+<ul>
+<li>Construir un seq2seq con dos LSTM: encoder devuelve <code>state</code>, decoder usa ese <code>state</code> como inicialización.</li>
+<li>Aplicar <strong>teacher forcing</strong>: en training, decoder input = target shifted; en inference, autoregresivo.</li>
+<li>Tokens especiales: <code>&lt;start&gt;</code>, <code>&lt;end&gt;</code>, <code>&lt;pad&gt;</code>, <code>&lt;unk&gt;</code>.</li>
+<li>Reconocer la limitación del <strong>cuello de botella</strong> (todo el meaning de la oración fuente en un vector fijo) — motivación para atención.</li>
+<li>Evaluar traducción con <strong>BLEU</strong> (<code>nltk.translate.bleu_score</code>).</li>
+</ul>
+<h2 id="temas">🗺️ Temas</h2>
+<ul>
+<li>Arquitectura clásica seq2seq con 2 LSTM.</li>
+<li>Teacher forcing vs scheduled sampling.</li>
+<li>Inference autoregresiva con generate loop.</li>
+<li>Beam search (mejor que greedy).</li>
+<li>BLEU como métrica.</li>
+<li>Limitación del bottleneck → motivó atención (Bahdanau 2014).</li>
+</ul>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<ul>
+<li><strong>Encoder</strong>: LSTM que procesa la fuente, devuelve <code>final_state = (h_T, c_T)</code>.</li>
+<li><strong>Decoder</strong>: LSTM inicializado con <code>final_state</code> del encoder; genera target.</li>
+<li><strong>Teacher forcing</strong>: durante training, decoder recibe el target real (shifted) en lugar de su propia predicción.</li>
+<li><strong><code>&lt;start&gt;</code> / <code>&lt;end&gt;</code> tokens</strong>: marcadores para iniciar/parar generación.</li>
+<li><strong>BLEU</strong>: métrica de calidad de traducción basada en n-grams overlapping. Va de 0 a 100.</li>
+<li><strong>Beam search</strong>: durante inference, mantiene los <code>k</code> mejores prefijos en lugar de greedy.</li>
+</ul>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<ul>
+<li>Tatoeba English-Spanish (small): https://www.manythings.org/anki/</li>
+<li>Librerías: <code>tensorflow</code>, <code>keras</code>, <code>nltk</code> (para BLEU).</li>
+</ul>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>Preparar datos</strong>: tokenizar source y target, agregar <code>&lt;start&gt;</code> y <code>&lt;end&gt;</code> al target, padding.</li>
+<li><strong>Encoder</strong>: <code>Embedding → LSTM(256, return_state=True)</code>. Mantener <code>state_h, state_c</code>.</li>
+<li><strong>Decoder en training</strong>: <code>Embedding(decoder_input) → LSTM(256, initial_state=encoder_state) → Dense(target_vocab, softmax)</code>.</li>
+<li><strong>Inference loop</strong>: feed <code>&lt;start&gt;</code>, predecir, alimentar prediction como next input, hasta <code>&lt;end&gt;</code> o max_len.</li>
+<li><strong>BLEU</strong>: calcular sobre el test set.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Traducción inglés → español con seq2seq:</p>
+<ol>
+<li>Dataset Tatoeba (~10k frases).</li>
+<li>Encoder + decoder LSTM con 256 units.</li>
+<li>Train 30 épocas con teacher forcing.</li>
+<li>Inference autoregresiva + BLEU.</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: BLEU &gt; 10 en test (modesto pero válido para LSTM básico); muestras de traducción reconocibles aunque imperfectas.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Modelo genera <code>&lt;end&gt;</code> inmediatamente</td>
+<td>El bias del decoder lleva siempre a <code>&lt;end&gt;</code>. <strong>Fix</strong>: balancear longitudes, más training, scheduled sampling.</td>
+</tr>
+<tr>
+<td>Greedy inference repite palabras</td>
+<td>"the the the". <strong>Fix</strong>: beam search o repetition penalty.</td>
+</tr>
+<tr>
+<td>Inference más lento que esperado</td>
+<td>Loop Python en cada token. <strong>Fix</strong>: usar <code>tf.function</code> o <code>keras.layers.LSTMCell</code> para hacer todo en grafo.</td>
+</tr>
+<tr>
+<td>BLEU = 0</td>
+<td>Mismatch en tokens entre prediction y reference. <strong>Fix</strong>: aplicar mismo preprocessing en ambos.</td>
+</tr>
+<tr>
+<td>Vocabulario target muy grande</td>
+<td>Sample softmax o tied embeddings. <strong>Fix</strong>: limitar vocab a top-N.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿seq2seq aún se usa?</strong></p>
+<p>Conceptualmente sí (Transformer es seq2seq con atención). Como RNN-seq2seq pure: solo histórico o casos muy específicos. Para traducción seria → Transformer + Hugging Face (clase 127).</p>
+<p><strong>❓ ¿Bottleneck del estado fijo?</strong></p>
+<p>Una sola tupla <code>(h, c)</code> para resumir 50 tokens de input es muy pobre. Atención (clase 125) resuelve dando al decoder acceso a TODOS los estados del encoder.</p>
+<p><strong>❓ ¿Teacher forcing vs scheduled sampling?</strong></p>
+<p>Teacher forcing = siempre target real. Funciona, pero hay mismatch entre train y inference. Scheduled sampling alterna entre target y predicción propia → mejor.</p>
+<p><strong>❓ ¿Cómo manejo vocabulario grande?</strong></p>
+<p>BPE / SentencePiece (clase 127). Vocab típico 32k subwords cubre cualquier idioma con OOV manejable.</p>
+<p><strong>❓ ¿BLEU es buena métrica?</strong></p>
+<p>Aceptable para traducción "literal". Falla con paráfrasis. Para evaluación humana o LLM-as-judge, mejores opciones.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Géron, <strong>cap. 16</strong> — <em>Encoder-Decoder Network for Neural Machine Translation</em>.</li>
+<li>Sutskever, Vinyals &amp; Le (2014), <em>Sequence to Sequence Learning with Neural Networks</em>, NeurIPS.</li>
+<li>Cho et al. (2014), <em>Learning Phrase Representations using RNN Encoder-Decoder</em>.</li>
+<li>Papineni et al. (2002), <em>BLEU</em>, ACL.</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../142-mecanismos-de-atencion/index.html">Clase 142 — Mecanismos de atención</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-2-deep-learning/141-encoder-decoder-para-traduccion/"><code>classes/parte-2-deep-learning/141-encoder-decoder-para-traduccion/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

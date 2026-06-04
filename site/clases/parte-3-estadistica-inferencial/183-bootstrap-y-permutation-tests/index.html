@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 183 — Bootstrap y permutation tests | Python Data Science Program</title>
+  <meta name="description" content="Clase 183 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 3 — Estadística inferencial</a><span class="sep">›</span><span>183</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-3-estadistica-inferencial/183-bootstrap-y-permutation-tests/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#version-profundizada-2026">📌 Versión profundizada — 2026</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-183-bootstrap-y-permutation-tests">Clase 183 — Bootstrap y permutation tests</h1>
+<blockquote>
+<p>Parte: <strong>3 — Estadística Inferencial y Causal</strong> · Fuente: ISLP, <strong>cap. 5</strong> <em>Resampling Methods</em> + Efron &amp; Tibshirani, <em>An Introduction to the Bootstrap</em>. ⏱️ Duración estimada: <strong>85 min</strong>.</p>
+</blockquote>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Sustituir los supuestos paramétricos (normalidad, homocedasticidad, fórmulas cerradas) por <strong>resampling</strong>: el <strong>bootstrap</strong> estima la distribución muestral de cualquier estadístico re-muestreando <em>con reemplazo</em>, y los <strong>permutation tests</strong> calculan un p-value re-mezclando etiquetas de tratamiento. Aprender a usar las APIs modernas de scipy (<code>bootstrap</code>, <code>permutation_test</code>, ≥ 1.9) y a interpretar las tres variantes de IC bootstrap (percentil, basic, <strong>BCa</strong>).</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar, el estudiante podrá:</p>
+<ul>
+<li>Implementar bootstrap a mano: <code>B</code> resamples con reemplazo del mismo tamaño que la muestra original, calcular el estadístico en cada uno, sacar cuantiles α/2 y 1-α/2.</li>
+<li>Usar <code>scipy.stats.bootstrap(data, statistic, n_resamples=9_999, method='BCa')</code> y entender por qué BCa corrige sesgo y asimetría.</li>
+<li>Diseñar un permutation test bilateral con <code>scipy.stats.permutation_test((a, b), statistic, n_resamples=10_000, alternative='two-sided')</code>.</li>
+<li>Saber cuándo usar bootstrap (IC de estadísticos no estándar: mediana, R², AUC) vs permutación (p-value de comparación entre grupos sin supuestos).</li>
+<li>Reconocer las limitaciones del bootstrap (muestra muy chica n&lt;20, dependencia temporal — usar block bootstrap).</li>
+</ul>
+<h2 id="temas">🗺️ Temas</h2>
+<ul>
+<li>Intuición del bootstrap: "tratá la muestra como si fuera la población y resampleá".</li>
+<li>Tres intervalos bootstrap: <strong>percentile</strong>, <strong>basic</strong> (reflejado), <strong>BCa</strong> (bias-corrected + accelerated).</li>
+<li>¿Cuántos resamples? <code>B = 10_000</code> para IC95 % (los percentiles 2.5 y 97.5 se estabilizan).</li>
+<li>Permutation test: intercambiar etiquetas de tratamiento bajo <code>H₀</code> de "no diferencia".</li>
+<li>Diferencia conceptual: bootstrap estima <strong>variabilidad</strong> del estadístico; permutación produce un <strong>p-value exacto</strong> condicional a los datos.</li>
+<li>Block bootstrap para series temporales (preserva autocorrelación).</li>
+<li><strong>Complemento moderno</strong>: APIs <code>scipy.stats.bootstrap</code> y <code>permutation_test</code> desde scipy 1.9, vectorizadas y con BCa por default.</li>
+</ul>
+<h2 id="version-profundizada-2026">📌 Versión profundizada — 2026</h2>
+<p>El tema moderno que vivía como complemento dentro de esta clase ahora tiene clase propia dedicada con patrón completo, ejercicios y homework:</p>
+<ul>
+<li>👉 <a href="../153b-bca-bootstrap-scipy-permutation-test-moderno/index.html">Clase 153b — BCa bootstrap y APIs modernas de scipy</a></li>
+</ul>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<ul>
+<li><strong>Bootstrap (Efron 1979)</strong>: re-muestreo con reemplazo de la muestra original, del mismo tamaño <code>n</code>. Cada resample produce un valor del estadístico; el conjunto aproxima la distribución muestral.</li>
+<li><strong>B (número de resamples)</strong>: 1 000 alcanza para SE; <strong>10 000</strong> para IC95 %; 100 000 para colas o p-values pequeños.</li>
+<li><strong>Percentile IC</strong>: cuantiles <code>(α/2, 1-α/2)</code> de la distribución bootstrap.</li>
+<li><strong>Basic IC</strong>: <code>(2·θ̂ - q_{1-α/2}, 2·θ̂ - q_{α/2})</code>. Refleja respecto al estimador puntual.</li>
+<li><strong>BCa IC</strong>: percentile ajustado por sesgo (<code>z₀</code>) y aceleración (<code>a</code>). Default moderno.</li>
+<li><strong>Permutation test</strong>: bajo <code>H₀</code> de no efecto, las etiquetas son intercambiables. Re-mezclar las etiquetas y recalcular el estadístico genera la distribución exacta bajo <code>H₀</code>.</li>
+<li><strong>p-value de permutación</strong>: <code>(# permutations con |stat| ≥ |stat_obs| + 1) / (n_resamples + 1)</code>. El <code>+1</code> se llama corrección de continuidad y evita <code>p=0</code>.</li>
+<li><strong>Block bootstrap</strong>: para series temporales, resamplea bloques contiguos en vez de observaciones individuales. Preserva autocorrelación.</li>
+</ul>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<ul>
+<li><code>seaborn.load_dataset('diamonds')</code>: bootstrap del <strong>mediana del precio</strong> por <code>cut</code>.</li>
+<li>Modelos: AUC de un clasificador entrenado — IC bootstrap sobre la AUC en test.</li>
+<li>Librerías: <code>scipy.stats</code> (≥ 1.9), <code>numpy</code>, <code>sklearn</code>.</li>
+</ul>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>Bootstrap a mano</strong>: para <code>tips.tip</code>, hacé <code>B=10_000</code> resamples con <code>rng.choice(x, size=len(x), replace=True)</code>, calculá la media, sacá los cuantiles 2.5 y 97.5. Verificá contra <code>scipy.stats.bootstrap(..., method='percentile')</code>.</li>
+<li><strong>BCa vs percentile</strong>: con datos lognormales <code>rng.lognormal(0, 1, 50)</code>, calculá IC de la mediana con <code>method='percentile'</code> y con <code>method='BCa'</code>. Comprobá que BCa es asimétrico hacia la cola derecha (refleja la asimetría real).</li>
+<li><strong>IC para AUC</strong>: entrenar un <code>LogisticRegression</code> en breast cancer, calcular AUC en test. Bootstrap <code>n_resamples=2_000</code> sobre <code>(y_true_test, y_proba_test)</code> con un statistic que devuelva <code>roc_auc_score</code>. Reportar IC95 % BCa.</li>
+<li><strong>Permutation test bilateral</strong>: con <code>tips.tip</code> por <code>sex</code>, ejecutá <code>scipy.stats.permutation_test</code> y comparalo con el <code>mannwhitneyu</code> de la Clase 150.</li>
+<li><strong>Cobertura</strong>: simulá 1 000 datasets de <code>Exp(1)</code> con <code>n=25</code>. Para cada uno, calculá IC95 % de la mediana con BCa y con percentile. Contá la cobertura empírica. BCa debería estar más cerca de 95 % que percentile.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Sobre <code>diamonds</code>:</p>
+<ol>
+<li>Bootstrap BCa (B=10 000) para la <strong>mediana</strong> de <code>price</code> global.</li>
+<li>Bootstrap BCa para la <strong>diferencia de medianas</strong> entre <code>cut='Ideal'</code> y <code>cut='Fair'</code>.</li>
+<li>Permutation test sobre la misma diferencia, p-value.</li>
+<li>Reportar mediana ± IC95 % BCa por categoría de <code>cut</code> (un gráfico con 5 puntos + bigotes).</li>
+<li>Conclusión en 4 líneas: relacionar el p-value de permutación con el hecho de que el IC de la diferencia no incluye 0.</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: la diferencia de medianas tiene IC95 % BCa positivo (Ideal &lt; Fair en precio mediano, contraintuitivo — los diamantes Fair son más grandes), <code>p</code> por permutación &lt; 0.001, y la conclusión menciona que IC y p coinciden cualitativamente.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Bootstrap con <code>n_resamples=100</code> y conclusiones</td>
+<td>Demasiado poco para IC. <strong>Fix</strong>: 10 000 mínimo para IC95 %.</td>
+</tr>
+<tr>
+<td>Aplico bootstrap a una serie temporal sin block</td>
+<td>Asume independencia → IC demasiado angosto. <strong>Fix</strong>: <code>arch.bootstrap.MovingBlockBootstrap</code> o stationary bootstrap.</td>
+</tr>
+<tr>
+<td>Reporto <code>p=0</code> en un permutation test</td>
+<td>Significa que ninguna permutación produjo un estadístico tan extremo. <strong>Fix</strong>: reportar <code>p &lt; 1/(n_resamples+1)</code>.</td>
+</tr>
+<tr>
+<td>Uso bootstrap para n=8</td>
+<td>Sesga el SE hacia abajo. <strong>Fix</strong>: bootstrap funciona razonable con <code>n ≥ 20-30</code>; con menos, IC paramétrico (t) o métodos exactos.</td>
+</tr>
+<tr>
+<td>Bootstrap del R² da IC negativo</td>
+<td>Pasa cuando hay un mal fit; significa que el modelo es peor que la media. <strong>Fix</strong>: revisar el modelo, no el bootstrap.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿Bootstrap o cross-validation?</strong></p>
+<p>Distintos objetivos. CV estima el <strong>error de generalización</strong> de un modelo. Bootstrap estima la <strong>variabilidad de un estimador</strong> (cualquiera). Para "qué tan bueno es mi modelo en datos nuevos", CV. Para "qué IC tiene el AUC reportado", bootstrap.</p>
+<p><strong>❓ ¿Por qué BCa no es siempre el default?</strong></p>
+<p>Porque requiere jackknife (n recálculos del estadístico), lo cual es caro para modelos costosos. Para estadísticos baratos (media, mediana), siempre BCa. Para estadísticos caros (AUC de un modelo), percentile o basic puede ser un compromiso aceptable.</p>
+<p><strong>❓ ¿Permutation test es exacto?</strong></p>
+<p>Es <strong>exacto condicional a los datos observados</strong>: si hicieras todas las permutaciones (no una muestra de 10 000), el p-value sería exacto. Con 10 000 permutaciones, el SE del p-value es pequeño (≈ √(p(1-p)/n)).</p>
+<p><strong>❓ ¿Bootstrap funciona para cualquier estadístico?</strong></p>
+<p>No para todos. Falla con estadísticos no suaves (máximo, percentiles extremos en datasets chicos). En esos casos, <em>subsampling</em> o <em>jackknife</em> son alternativas. Para estadísticos suaves (media, mediana, percentiles centrales, regresión), funciona excelente.</p>
+<p><strong>❓ ¿Y el out-of-bag de Random Forest es bootstrap?</strong></p>
+<p>Sí — Random Forest hace bootstrap sobre filas para cada árbol, y las muestras <strong>no incluidas</strong> (out-of-bag, ≈ 37 % por árbol) se usan para estimar error sin necesidad de CV. Es bootstrap aplicado a ensembles.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>ISLP, <strong>cap. 5</strong> — <em>Resampling Methods</em>.</li>
+<li>Efron, B. &amp; Tibshirani, R. (1993), <em>An Introduction to the Bootstrap</em>, Chapman &amp; Hall.</li>
+<li>Efron, B. (1987), <em>Better Bootstrap Confidence Intervals</em>, JASA — paper original de BCa.</li>
+<li>DiCiccio &amp; Efron (1996), <em>Bootstrap Confidence Intervals</em>, Statistical Science.</li>
+<li><a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.bootstrap.html"><code>scipy.stats.bootstrap</code></a> y <a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.permutation_test.html"><code>permutation_test</code></a>.</li>
+<li><a href="https://arch.readthedocs.io/en/latest/bootstrap/bootstrap.html">arch.bootstrap</a> — block bootstrap para series temporales.</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../184-bca-bootstrap-scipy-permutation-test-moderno/index.html">Clase 184 — BCa bootstrap y APIs modernas de scipy</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-3-estadistica-inferencial/183-bootstrap-y-permutation-tests/"><code>classes/parte-3-estadistica-inferencial/183-bootstrap-y-permutation-tests/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

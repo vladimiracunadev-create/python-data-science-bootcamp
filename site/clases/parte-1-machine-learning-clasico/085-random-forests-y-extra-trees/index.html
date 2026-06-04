@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 085 — Random Forests y Extra Trees | Python Data Science Program</title>
+  <meta name="description" content="Clase 085 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 1 — ML clásico</a><span class="sep">›</span><span>085</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-1-machine-learning-clasico/085-random-forests-y-extra-trees/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-085-random-forests-y-extra-trees">Clase 085 — Random Forests y Extra Trees</h1>
+<blockquote>
+<p>Parte: <strong>1 — Machine Learning Clásico</strong> · Fuente: Géron, <strong>cap. 7</strong>. ⏱️ Duración estimada: <strong>60 min</strong>.</p>
+</blockquote>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Entender Random Forests y Extra Trees como ensambles de árboles decorrelacionados, diferenciar sus mecanismos de aleatoriedad y elegir hiperparámetros razonables para problemas reales de clasificación y regresión.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al terminar la clase vas a poder:</p>
+<ol>
+<li>Explicar <strong>por qué un Random Forest reduce varianza</strong> respecto a un árbol único, usando los conceptos de bagging y subsampling de features.</li>
+<li>Diferenciar <strong>Random Forest vs Extra Trees</strong> (thresholds óptimos vs aleatorios) y argumentar cuándo conviene cada uno.</li>
+<li>Configurar los hiperparámetros clave (<code>n_estimators</code>, <code>max_features</code>, <code>max_depth</code>, <code>bootstrap</code>, <code>min_samples_leaf</code>) con criterios fundados.</li>
+<li>Entrenar y comparar <code>RandomForestClassifier</code> y <code>ExtraTreesClassifier</code> de scikit-learn en un dataset tabular, midiendo accuracy y tiempo.</li>
+<li>Interpretar <code>oob_score_</code> como estimación honesta del error de generalización sin necesidad de validación cruzada.</li>
+</ol>
+<h2 id="temas">🗺️ Temas</h2>
+<ul>
+<li>Repaso de bagging: bootstrap + agregación → reducción de varianza.</li>
+<li>Random Forest: bagging de árboles + <strong>subsampling de features</strong> en cada split.</li>
+<li>Extra Trees (Extremely Randomized Trees): thresholds <strong>aleatorios</strong> en lugar de óptimos.</li>
+<li>Hiperparámetros: <code>n_estimators</code>, <code>max_features</code>, <code>max_depth</code>, <code>min_samples_leaf</code>, <code>bootstrap</code>, <code>oob_score</code>.</li>
+<li>Out-of-Bag (OOB) score y su uso como reemplazo de CV.</li>
+<li>Comparativa empírica: bias, varianza, tiempo de entrenamiento.</li>
+</ul>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<ul>
+<li><strong>Random Forest</strong>: ensamble de árboles de decisión entrenados sobre muestras bootstrap del dataset; en cada split solo se considera un subconjunto aleatorio de features. La predicción final es voto mayoritario (clasificación) o promedio (regresión).</li>
+<li><strong>Extra Trees</strong>: variante de Random Forest donde, para cada feature candidata en un split, <strong>el threshold se elige al azar</strong> en lugar de buscar el óptimo. Esto añade más aleatoriedad → mayor reducción de varianza a costa de un poco más de sesgo, y es <strong>más rápido</strong> de entrenar.</li>
+<li><strong><code>n_estimators</code></strong>: cantidad de árboles. Más árboles → mejor performance y mayor estabilidad, pero rendimiento decreciente. Valores típicos: 100–500.</li>
+<li><strong><code>max_features</code></strong>: cantidad de features consideradas por split. Default <code>sqrt(n_features)</code> para clasificación, <code>n_features</code> (o <code>1.0</code>) para regresión. Bajarlo aumenta decorrelación entre árboles.</li>
+<li><strong><code>bootstrap</code></strong>: si <code>True</code> (default en RF), cada árbol se entrena sobre una muestra bootstrap; si <code>False</code> (default en ExtraTrees), sobre todo el dataset. Solo con <code>bootstrap=True</code> se puede calcular OOB.</li>
+<li><strong>Feature subsampling</strong>: técnica clave que diferencia RF de un simple bagging de árboles; obliga a cada árbol a explorar diferentes combinaciones, <strong>decorrelacionando</strong> sus errores.</li>
+<li><strong>Decorrelación</strong>: cuanto menos correlacionados estén los errores de los árboles, mayor la reducción de varianza del ensamble (el promedio de variables correlacionadas reduce varianza más lento que el de independientes).</li>
+<li><strong>OOB score (<code>oob_score_</code>)</strong>: precisión calculada sobre las muestras que no entraron en el bootstrap de cada árbol; estima generalización sin gastar un split de validación.</li>
+</ul>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<ul>
+<li><strong>Dataset principal</strong>: <code>sklearn.datasets.load_breast_cancer()</code> (569 muestras, 30 features, binario).</li>
+<li><strong>Dataset secundario</strong> (regresión): <code>sklearn.datasets.fetch_california_housing()</code>.</li>
+<li><strong>Librerías</strong>: <code>scikit-learn &gt;= 1.3</code>, <code>numpy</code>, <code>pandas</code>, <code>matplotlib</code>.</li>
+<li><strong>Notebook</strong>: <code>notebook.ipynb</code> con ejemplos guiados.</li>
+</ul>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>Baseline</strong>: entrená un <code>DecisionTreeClassifier</code> único sobre <code>load_breast_cancer</code> con <code>random_state=42</code> y reportá accuracy en test (split 80/20).</li>
+<li><strong>Random Forest</strong>: entrená un <code>RandomForestClassifier(n_estimators=200, random_state=42)</code> y compará accuracy y tiempo contra el árbol único.</li>
+<li><strong>Extra Trees</strong>: entrená un <code>ExtraTreesClassifier(n_estimators=200, random_state=42)</code> y compará contra RF en accuracy y tiempo de entrenamiento.</li>
+<li><strong>OOB</strong>: entrená un RF con <code>oob_score=True, bootstrap=True</code> y compará <code>oob_score_</code> contra el accuracy de test; ¿se parecen?</li>
+<li><strong>Sensibilidad a <code>max_features</code></strong>: variá <code>max_features</code> en <code>[1, 'sqrt', 'log2', 0.5, 1.0]</code> y graficá accuracy de CV; identificá el óptimo.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Sobre <code>fetch_california_housing</code>:</p>
+<ol>
+<li>Entrená <code>RandomForestRegressor</code> y <code>ExtraTreesRegressor</code> con <code>n_estimators=300, random_state=42</code>.</li>
+<li>Reportá <code>R²</code> en test (split 80/20) y tiempo de entrenamiento de cada uno.</li>
+<li>Tuneá <code>max_features</code> con <code>GridSearchCV</code> (cv=3) sobre <code>[0.3, 0.5, 0.7, 1.0]</code> para el mejor de los dos.</li>
+</ol>
+<p><strong>Criterio de aprobación</strong>: el mejor modelo tuneado alcanza <strong>R² ≥ 0.80</strong> en test, y entregás una tabla comparativa con accuracy, tiempo y <code>max_features</code> óptimo.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<ul>
+<li><strong>Confundir <code>bootstrap=False</code> con desactivar el ensamble</strong>: los árboles siguen siendo distintos por el subsampling de features y, en ExtraTrees, por los thresholds aleatorios.</li>
+<li><strong>Pedir <code>oob_score=True</code> con <code>bootstrap=False</code></strong>: scikit-learn lanza error; el OOB requiere muestras fuera del bootstrap.</li>
+<li><strong>Inflar <code>n_estimators</code> sin medir</strong>: pasar de 500 a 2000 árboles rara vez mueve la aguja y multiplica tiempo/memoria. Medí la curva.</li>
+<li><strong>No fijar <code>random_state</code></strong>: hace que los resultados no sean reproducibles entre corridas; siempre fijalo en ejercicios y benchmarks.</li>
+<li><strong>Usar <code>max_features=1.0</code> en clasificación</strong>: anula el subsampling de features y degrada la decorrelación; quedate con <code>'sqrt'</code> salvo evidencia en contra.</li>
+</ul>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<ul>
+<li><strong>¿RF o ExtraTrees?</strong> Si tenés mucho ruido en los features o el dataset es grande y el tiempo importa, probá <strong>ExtraTrees</strong> (más rápido, más reducción de varianza). Si querés OOB score o el dataset es chico/limpio, <strong>RF</strong> suele ser un poco mejor. En la práctica: probá los dos, la diferencia suele ser &lt; 1%.</li>
+<li><strong>¿Cuántos árboles necesito?</strong> Empezá con 100, subí a 300–500 si ves margen. Más allá, ganancias marginales.</li>
+<li><strong>¿Random Forest sufre overfitting?</strong> Mucho menos que un árbol único, pero sí puede sobreajustar con datasets muy chicos o con árboles demasiado profundos sin regularización (<code>min_samples_leaf</code>).</li>
+<li><strong>¿Sirven para features categóricas?</strong> Sí, pero scikit-learn requiere encoding previo (OneHot o Ordinal). Otros frameworks (LightGBM, CatBoost) los manejan nativamente.</li>
+<li><strong>¿Por qué el OOB es una buena estimación?</strong> Cada muestra queda fuera de ~37% de los árboles (por la matemática del bootstrap), lo que da un estimador casi insesgado del error de generalización, gratis.</li>
+</ul>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Géron, A. <em>Hands-On Machine Learning with Scikit-Learn, Keras &amp; TensorFlow</em> (3ra ed.), <strong>cap. 7 — Ensemble Learning and Random Forests</strong>, sección "Random Forests".</li>
+<li>Breiman, L. (2001). <em>Random Forests</em>. Machine Learning, 45(1), 5–32.</li>
+<li>Geurts, P., Ernst, D., &amp; Wehenkel, L. (2006). <em>Extremely Randomized Trees</em>. Machine Learning, 63(1), 3–42.</li>
+<li>Documentación scikit-learn: <a href="https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html"><code>RandomForestClassifier</code></a> y <a href="https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.ExtraTreesClassifier.html"><code>ExtraTreesClassifier</code></a>.</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../086-feature-importance/index.html">Clase 086 — Feature importance</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-1-machine-learning-clasico/085-random-forests-y-extra-trees/"><code>classes/parte-1-machine-learning-clasico/085-random-forests-y-extra-trees/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

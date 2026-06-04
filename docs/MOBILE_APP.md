@@ -1,6 +1,6 @@
 # Guía: App Móvil Android
 
-> **Estado v2:** el código de la app está operativo (UI, navegación, AsyncStorage, integración con Colab) pero `mobile/src/data/classes.js` quedó como **stub vacío** en la migración. La adaptación de las 197 clases del currículo v2 a una UX móvil está pendiente — ver `ROADMAP.md`. Esta guía describe la arquitectura del código que ya existe.
+> **Estado v2:** el código de la app está operativo (UI, navegación, AsyncStorage, integración con Colab) pero `mobile/src/data/classes.js` quedó como **stub vacío** en la migración. La adaptación de las 232 clases del currículo v2 a una UX móvil está pendiente — ver `ROADMAP.md`. Esta guía describe la arquitectura del código que ya existe.
 
 App React Native (Expo) standalone diseñada para que los alumnos lean el contenido del programa, vean los ejemplos de código con resaltado de sintaxis y abran los notebooks directamente en Google Colab desde su celular.
 

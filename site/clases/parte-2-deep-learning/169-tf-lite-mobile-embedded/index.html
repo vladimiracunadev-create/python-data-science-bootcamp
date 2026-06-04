@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 169 — TF Lite (mobile/embedded) | Python Data Science Program</title>
+  <meta name="description" content="Clase 169 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 2 — Deep Learning</a><span class="sep">›</span><span>169</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-2-deep-learning/169-tf-lite-mobile-embedded/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-169-tf-lite-mobileembedded">Clase 169 — TF Lite (mobile/embedded)</h1>
+<blockquote>
+<p>Parte: <strong>2 — Deep Learning</strong> · Fuente: Géron, <strong>cap. 19</strong> § <em>Deploying a Model to a Mobile or Embedded Device</em>. ⏱️ Duración estimada: <strong>55 min</strong>.</p>
+</blockquote>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Convertir y desplegar un modelo a <strong>TensorFlow Lite (LiteRT)</strong> — runtime optimizado para móviles (Android/iOS), IoT y embedded (Raspberry Pi, microcontroladores). Aplicar <strong>quantization</strong> (int8) para reducir tamaño 4× y acelerar 2-4× en CPU móvil.</p>
+<blockquote>
+<p><strong>Nota</strong>: TF Lite fue renombrado a <strong>LiteRT</strong> en 2024 (mismo proyecto, nuevo branding bajo el paraguas de "AI Edge").</p>
+</blockquote>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar, el estudiante podrá:</p>
+<ul>
+<li>Convertir SavedModel a <code>.tflite</code>: <code>converter = tf.lite.TFLiteConverter.from_saved_model('servable/1/'); tflite_model = converter.convert()</code>.</li>
+<li>Aplicar quantization post-training (dynamic range, int8 full).</li>
+<li>Cargar y ejecutar inference con <code>tf.lite.Interpreter</code>.</li>
+<li>Conocer alternativas modernas: <strong>ONNX Runtime Mobile</strong>, <strong>CoreML</strong> (iOS), <strong>NNAPI</strong> (Android).</li>
+<li>Reconocer trade-off accuracy vs tamaño/velocidad.</li>
+</ul>
+<h2 id="temas">🗺️ Temas</h2>
+<ul>
+<li>TF Lite vs TF: subset de ops, runtime minimal.</li>
+<li>Conversión SavedModel → tflite.</li>
+<li>Quantization types: dynamic range (weights int8), int8 full (weights + activations), float16.</li>
+<li><code>tf.lite.Interpreter</code> API.</li>
+<li>Mobile delegates: NNAPI, GPU, CoreML.</li>
+</ul>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<ul>
+<li><strong>TF Lite</strong>: runtime para edge devices.</li>
+<li><strong>Quantization</strong>: convertir float32 → int8/float16 → modelo más chico y rápido.</li>
+<li><strong>Calibration dataset</strong>: ~100 ejemplos para calibrar quantization de activaciones.</li>
+<li><strong>Delegate</strong>: hardware-specific accelerator (NNAPI en Android, CoreML en iOS, Edge TPU).</li>
+<li><strong><code>.tflite</code></strong>: archivo binario compacto.</li>
+</ul>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<ul>
+<li>Modelo Fashion-MNIST.</li>
+<li>Librerías: <code>tensorflow</code>.</li>
+</ul>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>Convert</strong>: <code>TFLiteConverter.from_saved_model(...).convert()</code> → guardar <code>.tflite</code>. Comparar tamaño vs SavedModel.</li>
+<li><strong>Inference</strong>: cargar <code>.tflite</code> y hacer predict con <code>Interpreter</code>. Verificar misma predicción que el modelo original.</li>
+<li><strong>Dynamic range quant</strong>: <code>converter.optimizations = [tf.lite.Optimize.DEFAULT]</code>. Tamaño 4× menor.</li>
+<li><strong>Full int8</strong>: definir <code>representative_dataset</code> y <code>converter.target_spec.supported_ops = [tf.lite.OpsSet.TFLITE_BUILTINS_INT8]</code>. Comparar tamaño y accuracy.</li>
+<li><strong>Latencia</strong>: medir tiempo de inference en CPU laptop. Comparar versión float32 vs int8.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Pipeline de Fashion-MNIST a TF Lite:</p>
+<ol>
+<li>Convertir + 3 quantizations (none, dynamic, int8 full).</li>
+<li>Para cada uno: tamaño + accuracy en test + latencia.</li>
+<li>Reportar tabla comparativa.</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: int8 reduce tamaño ~4× con &lt; 1 pp accuracy loss; latencia 2-3× más rápida.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>op not supported</code> al convertir</td>
+<td>Algunas ops Keras no son TFLite-compatibles. <strong>Fix</strong>: <code>select_tf_ops=True</code> (incluye TF runtime, modelo más grande) o reemplazar la op.</td>
+</tr>
+<tr>
+<td>int8 full quant con representative dataset chico</td>
+<td>Mala calibración. <strong>Fix</strong>: ≥ 100 ejemplos diversos.</td>
+</tr>
+<tr>
+<td>Tamaño del <code>.tflite</code> no baja con quant</td>
+<td>El modelo era pequeño. Quantization brilla con modelos grandes.</td>
+</tr>
+<tr>
+<td>Inference más lenta de lo esperado</td>
+<td>Sin delegate. <strong>Fix</strong>: NNAPI (Android), CoreML (iOS), GPU delegate (mobile GPU).</td>
+</tr>
+<tr>
+<td>Predicciones distintas float vs int8</td>
+<td>Esperable; verificar accuracy en test set.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿TFLite o ONNX Runtime Mobile?</strong></p>
+<p>TFLite si entrenas en TF; ONNX para portabilidad multi-framework. Funcionalmente comparable.</p>
+<p><strong>❓ ¿iOS — TFLite o CoreML?</strong></p>
+<p>CoreML mejor integración con iOS (Neural Engine de Apple). Convertir TFLite → CoreML con <code>coremltools</code>.</p>
+<p><strong>❓ ¿Microcontroladores ARM Cortex-M?</strong></p>
+<p><strong>TF Lite Micro</strong> (TFLM) o <strong>MicroPython TF</strong> — para inference en MCU con KB de RAM. Modelos diminutos (&lt; 100 KB).</p>
+<p><strong>❓ ¿Quantization durante training?</strong></p>
+<p>QAT (Quantization-Aware Training) — entrenar simulando los efectos de int8. Mejor accuracy que post-training quant.</p>
+<p><strong>❓ ¿Cuándo NO desplegar a mobile?</strong></p>
+<p>Modelos grandes (&gt;100 MB) o que requieren GPU server (LLMs grandes). Para LLMs en mobile, ver MLC LLM o llama.cpp con quantization GGUF.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Géron, <strong>cap. 19</strong> — <em>Deploying a Model to a Mobile or Embedded Device</em>.</li>
+<li><a href="https://ai.google.dev/edge/litert">TensorFlow Lite (LiteRT) docs</a>.</li>
+<li><a href="https://onnxruntime.ai/docs/tutorials/mobile/">ONNX Runtime Mobile</a>.</li>
+<li><a href="https://coremltools.readme.io/">CoreML Tools</a>.</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../170-tensorflow-js-navegador/index.html">Clase 170 — TensorFlow.js (navegador)</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-2-deep-learning/169-tf-lite-mobile-embedded/"><code>classes/parte-2-deep-learning/169-tf-lite-mobile-embedded/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

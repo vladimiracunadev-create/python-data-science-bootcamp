@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 110 — Batch Normalization, Layer Normalization | Python Data Science Program</title>
+  <meta name="description" content="Clase 110 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 2 — Deep Learning</a><span class="sep">›</span><span>110</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-2-deep-learning/110-batch-normalization-layer-normalization/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-110-batch-normalization-layer-normalization">Clase 110 — Batch Normalization, Layer Normalization</h1>
+<blockquote>
+<p>Parte: <strong>2 — Deep Learning</strong> · Fuente: Géron, <strong>cap. 11</strong> § <em>Batch Normalization</em>. ⏱️ Duración estimada: <strong>75 min</strong>.</p>
+</blockquote>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Entender <strong>BatchNorm</strong> (Ioffe &amp; Szegedy 2015) — la técnica que destrabó el entrenamiento de redes muy profundas estandarizando las activaciones en cada capa — y su variante <strong>LayerNorm</strong> (Ba, Kiros &amp; Hinton 2016) — usada en Transformers y RNN porque no depende del batch. Saber dónde poner BN en la arquitectura, qué problemas tiene (batch chico, distribución entre train/inference) y cuándo preferir LN.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar, el estudiante podrá:</p>
+<ul>
+<li>Aplicar <code>BatchNormalization()</code> antes o después de la activación (debate clásico — moderno: <strong>antes</strong> suele ser mejor para ReLU, <strong>después</strong> para GELU).</li>
+<li>Explicar qué hace BN en train (normaliza con stats del batch) vs inference (usa moving averages acumulados).</li>
+<li>Aplicar <code>LayerNormalization()</code> en RNN y Transformers; saber por qué allí BN falla.</li>
+<li>Reconocer las 3 variantes: BN, LN, GroupNorm (Wu &amp; He 2018, para batch chico en visión).</li>
+<li>Diagnosticar el problema de "train-test mismatch" cuando el batch en inference es muy distinto al de train.</li>
+</ul>
+<h2 id="temas">🗺️ Temas</h2>
+<ul>
+<li>BN: <code>y = γ · (x - μ_batch)/σ_batch + β</code>. γ, β trainables.</li>
+<li>Beneficios: convergencia más rápida, regularización mild, permite LR más altos.</li>
+<li>BN en train vs inference: moving avg de <code>μ, σ</code> acumulados.</li>
+<li>LN: normaliza sobre los features de una sola muestra (no sobre el batch).</li>
+<li>GroupNorm: agrupa canales, normaliza dentro de cada grupo. Para batch chico (segmentación, detección).</li>
+<li>¿Antes o después de la activación? Géron y la práctica moderna: <strong>antes</strong> funciona mejor con ReLU, <strong>después</strong> con GELU/Swish.</li>
+</ul>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<ul>
+<li><strong>BatchNorm</strong>: normaliza cada feature usando la media y varianza del <strong>batch actual</strong> durante training.</li>
+<li><strong>γ (scale), β (shift)</strong>: parámetros learnables que permiten al modelo deshacer la normalización si necesita.</li>
+<li><strong>Moving averages</strong>: durante training, mantiene EMAs de <code>μ, σ</code>. En inference usa esos valores fijos.</li>
+<li><strong>LayerNorm</strong>: normaliza sobre <strong>features de una sola muestra</strong>, independiente del batch. Default en NLP/Transformers.</li>
+<li><strong>GroupNorm</strong>: agrupa N canales y normaliza dentro de cada grupo. Funciona con batch_size=1.</li>
+<li><strong>InstanceNorm</strong>: como BN pero por sample individual (estilo style transfer).</li>
+</ul>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<ul>
+<li>Fashion-MNIST + un modelo profundo (<code>[512, 256, 128, 64, 10]</code>).</li>
+<li>Librerías: <code>tensorflow</code>, <code>keras</code>.</li>
+</ul>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>BN vs sin BN</strong>: entrenar el mismo MLP con y sin BN. Comparar curvas de val_loss y tiempo hasta llegar a accuracy 0.85.</li>
+<li><strong>¿Antes o después de la activación?</strong>: probar las dos variantes (<code>Dense → BN → ReLU</code> vs <code>Dense → ReLU → BN</code>). Comparar.</li>
+<li><strong>Inference mode</strong>: entrenar con BN, cambiar a <code>training=False</code>, predecir un batch y comparar con <code>training=True</code>. Las predicciones cambian (correcto).</li>
+<li><strong>Batch chico</strong>: forzar <code>batch_size=4</code> y entrenar con BN. Observar inestabilidad. Cambiar a <code>LayerNormalization</code> y verificar que se estabiliza.</li>
+<li><strong>LayerNorm en RNN</strong>: aplicar <code>keras.layers.LSTM</code> con <code>recurrent_activation</code> y un <code>LayerNormalization</code> previo. Útil como anticipo de Transformers.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Sobre MLP <code>[512, 256, 128, 64, 10]</code> en Fashion-MNIST:</p>
+<ol>
+<li>Entrenar 3 versiones: sin norm, con BN, con LN.</li>
+<li>Reportar val_accuracy + épocas hasta <code>val_loss &lt; 0.4</code>.</li>
+<li>Entrenar BN con <code>batch_size=128</code> y luego inferir batch por batch de tamaño 1. Verificar que el accuracy no se rompe (gracias a moving averages).</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: BN debe acelerar la convergencia ≥ 30 % (menos épocas para mismo loss); LN debe ser estable también pero típicamente algo peor en MLP feedforward.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BN en <code>batch_size=1</code> → entrenamiento inestable</td>
+<td>μ del batch es la muestra misma → σ=0. <strong>Fix</strong>: GroupNorm o LayerNorm.</td>
+</tr>
+<tr>
+<td>Métricas en val muy distintas de train para el mismo modelo</td>
+<td>Las stats de BN en inference son distintas (moving avg) de las de train. <strong>Diagnóstico</strong>: pasar <code>training=True</code> en val también y ver si converge. <strong>Fix</strong>: más datos / más épocas / <code>momentum</code> más alto en BN.</td>
+</tr>
+<tr>
+<td>Olvidar pasar <code>training=True/False</code> en custom training loop</td>
+<td>Por default es <code>False</code> → BN usa moving avg incluso en training → no aprende. <strong>Fix</strong>: <code>model(x, training=True)</code>.</td>
+</tr>
+<tr>
+<td>BN en una RNN</td>
+<td>Las estadísticas cambian con la longitud de secuencia → inestable. <strong>Fix</strong>: LayerNorm.</td>
+</tr>
+<tr>
+<td>Aplicar BN a la última capa antes de softmax</td>
+<td>Generalmente innecesario y a veces dañino (los logits estaban diseñados para ser interpretables). <strong>Fix</strong>: BN en capas ocultas, no en la salida.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿BN reemplaza dropout?</strong></p>
+<p>Parcialmente. BN tiene efecto regularizador mild (el ruido del batch). En CNNs/MLPs profundos suele alcanzar; en Transformers se usa LN + dropout juntos.</p>
+<p><strong>❓ ¿LN o BN en Transformers?</strong></p>
+<p>LN siempre. BN falla porque (a) batch chico es común, (b) longitudes variables rompen las estadísticas.</p>
+<p><strong>❓ ¿Por qué LN no es default también en CNN?</strong></p>
+<p>Empíricamente BN gana en visión (los canales se benefician de stats compartidos). LN gana en NLP donde el orden temporal importa más.</p>
+<p><strong>❓ ¿<code>fused=True</code> qué hace?</strong></p>
+<p><code>BatchNormalization(fused=True)</code> usa una implementación CUDA optimizada que fusiona ops. Default <code>auto</code> lo elige cuando puede. Velocidad ~ 20 % más rápido.</p>
+<p><strong>❓ ¿Cuánto cuesta BN en cómputo?</strong></p>
+<p>Casi gratis en GPU (ops elementwise + pocas reducciones). En CPU es notable pero negligible en práctica.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Géron, <strong>cap. 11</strong> — <em>Batch Normalization</em>.</li>
+<li>Ioffe &amp; Szegedy (2015), <em>Batch Normalization</em>, ICML.</li>
+<li>Ba, Kiros &amp; Hinton (2016), <em>Layer Normalization</em>.</li>
+<li>Wu &amp; He (2018), <em>Group Normalization</em>, ECCV.</li>
+<li>Santurkar et al. (2018), <em>How Does Batch Normalization Help Optimization?</em>, NeurIPS — explicación moderna.</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../111-gradient-clipping/index.html">Clase 111 — Gradient clipping</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-2-deep-learning/110-batch-normalization-layer-normalization/"><code>classes/parte-2-deep-learning/110-batch-normalization-layer-normalization/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 178 — Test chi-cuadrado de independencia y bondad de ajuste | Python Data Science Program</title>
+  <meta name="description" content="Clase 178 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 3 — Estadística inferencial</a><span class="sep">›</span><span>178</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-3-estadistica-inferencial/178-test-chi-cuadrado-de-independencia-y-bondad-de-ajuste/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-178-test-chi-cuadrado-de-independencia-y-bondad-de-ajuste">Clase 178 — Test chi-cuadrado de independencia y bondad de ajuste</h1>
+<blockquote>
+<p>Parte: <strong>3 — Estadística Inferencial y Causal</strong> · Fuente: ISLP, <strong>cap. 4</strong> + Bruce &amp; Bruce, <strong>cap. 3</strong> <em>Chi-Square Test</em>. ⏱️ Duración estimada: <strong>70 min</strong>.</p>
+</blockquote>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Aplicar el test <strong>chi-cuadrado de Pearson</strong> en sus dos formas: (a) <strong>independencia</strong> en una tabla de contingencia de dos variables categóricas, y (b) <strong>bondad de ajuste</strong> entre una distribución observada y una teórica. Reconocer cuándo el test es válido (frecuencias esperadas ≥ 5 por celda) y cuándo hay que recurrir a <strong>Fisher exact</strong> o a la simulación de Monte Carlo.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar, el estudiante podrá:</p>
+<ul>
+<li>Construir una tabla de contingencia con <code>pd.crosstab</code> y aplicar <code>scipy.stats.chi2_contingency</code> interpretando <code>chi2</code>, <code>dof</code>, <code>pvalue</code> y <code>expected</code>.</li>
+<li>Verificar el supuesto de <strong>frecuencias esperadas mínimas</strong> (regla de Cochran: ≥ 5 en ≥ 80 % de celdas).</li>
+<li>Decidir entre chi-cuadrado, <strong>Fisher exact</strong> (<code>scipy.stats.fisher_exact</code>, tablas 2×2 con conteos chicos) y <strong>chi-cuadrado con simulación</strong> (<code>lambda_='log-likelihood'</code> o <code>montecarlo</code>).</li>
+<li>Calcular <strong>Cramér's V</strong> como effect size para tablas r×c (análogo al Cohen's d categórico).</li>
+<li>Aplicar bondad de ajuste con <code>scipy.stats.chisquare</code> para validar dados, ruedas de roulette o conteos en bins.</li>
+</ul>
+<h2 id="temas">🗺️ Temas</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Tema</th>
+<th>Por qué importa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Tablas de contingencia</td>
+<td>Estructura natural de datos categóricos cruzados.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Estadístico χ² = Σ (O - E)² / E</td>
+<td>Lo que mide el test: distancia entre observado y esperado bajo independencia.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Grados de libertad <code>(r-1)·(c-1)</code></td>
+<td>Determinan la distribución de referencia.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Supuesto de E ≥ 5 (Cochran)</td>
+<td>Si se viola, el p-value asintótico es incorrecto.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Fisher exact para 2×2 con n chico</td>
+<td>Alternativa exacta cuando chi² no sirve.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Cramér's V</td>
+<td>Effect size — qué tan fuerte es la asociación.</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Bondad de ajuste vs independencia</td>
+<td>Misma fórmula, distinto problema.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<ul>
+<li><strong>Tabla de contingencia</strong>: matriz r×c donde <code>O_{ij}</code> es la frecuencia observada del cruce (fila i, columna j).</li>
+<li><strong>Frecuencia esperada bajo independencia</strong>: <code>E_{ij} = (row_i_total · col_j_total) / n</code>. Es lo que esperaríamos si las dos variables fueran independientes.</li>
+<li><strong>Estadístico χ²</strong>: <code>Σ (O_{ij} - E_{ij})² / E_{ij}</code>. Sigue χ² con <code>(r-1)·(c-1)</code> gl si las E son suficientemente grandes.</li>
+<li><strong>Test de independencia</strong>: <code>H₀</code>: las variables categóricas son independientes. Se aplica a una tabla cruzada de dos variables.</li>
+<li><strong>Test de bondad de ajuste</strong>: <code>H₀</code>: la muestra proviene de una distribución teórica especificada. Las E vienen de la distribución teórica, no del producto de marginales.</li>
+<li><strong>Cochran's rule</strong>: el test asintótico es válido si <strong>todas las E ≥ 1</strong> y <strong>al menos 80 % de las celdas tienen E ≥ 5</strong>. Si no, usar Fisher (2×2) o Monte Carlo (&gt;2×2).</li>
+<li><strong>Fisher exact test</strong>: calcula el p-value exacto enumerando todas las tablas con las mismas marginales. Computacionalmente caro para n grande.</li>
+<li><strong>Cramér's V</strong>: <code>V = √(χ² / (n · min(r-1, c-1)))</code>. Va de 0 a 1. Interpretación cualitativa con <code>min(r-1, c-1) = 1</code>: 0.1 small, 0.3 medium, 0.5 large (Cohen 1988).</li>
+<li><strong>Test de homogeneidad</strong>: matemáticamente idéntico al de independencia, pero el diseño muestral es distinto (se fijan los marginales de una variable). El cálculo y la interpretación práctica son los mismos.</li>
+</ul>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<ul>
+<li><code>seaborn.load_dataset('titanic')</code>: cruzar <code>survived</code> × <code>class</code> o <code>survived</code> × <code>sex</code>.</li>
+<li><code>seaborn.load_dataset('tips')</code>: <code>smoker</code> × <code>day</code>.</li>
+<li>Bondad de ajuste: simular tiradas de un dado posiblemente cargado y testear contra distribución uniforme.</li>
+<li>Librerías: <code>pandas</code>, <code>scipy.stats</code>, <code>pingouin</code> (que tiene <code>pg.chi2_independence</code> con Cramér's V incluido).</li>
+</ul>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>Tabla cruzada</strong>: <code>pd.crosstab(titanic.survived, titanic['class'])</code>. Aplicá <code>chi2, p, dof, expected = scipy.stats.chi2_contingency(tabla)</code>. Reportá los cuatro valores e interpretá.</li>
+<li><strong>Effect size</strong>: calculá Cramér's V manualmente: <code>V = sqrt(chi2 / (n * min(r-1, c-1)))</code>. Verificá contra <code>pingouin.chi2_independence(titanic, x='survived', y='class')</code>.</li>
+<li><strong>Cochran check</strong>: imprimí la matriz <code>expected</code> y contá cuántas celdas tienen <code>E &lt; 5</code>. Si supera el 20 %, recalculá con <code>chi2_contingency(tabla, lambda_='log-likelihood')</code> (G-test, mejor para celdas chicas).</li>
+<li><strong>Fisher exact (2×2)</strong>: tomá la subtabla <code>survived × sex</code> y aplicá <code>scipy.stats.fisher_exact(tabla_2x2)</code>. Comparalo con chi-cuadrado.</li>
+<li><strong>Bondad de ajuste</strong>: simulá <code>rng = np.random.default_rng(7); tiros = rng.choice([1,2,3,4,5,6], size=600, p=[0.18, 0.16, 0.17, 0.17, 0.16, 0.16])</code>. Hipótesis: el dado es justo (p uniforme). Aplicá <code>scipy.stats.chisquare(observado, f_exp=esperado)</code> con <code>esperado = [100]*6</code>. ¿Rechazás <code>H₀</code>?</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Notebook que sobre <code>titanic</code>:</p>
+<ol>
+<li>Cruza <code>survived × class</code> y <code>survived × sex</code> por separado.</li>
+<li>Para cada cruce: chi², gl, p-value, Cramér's V.</li>
+<li>Identifica cuál de los dos tiene <strong>asociación más fuerte</strong> (mayor V) y cuál tiene <strong>evidencia estadística más fuerte</strong> (menor p).</li>
+<li>En 3 líneas, explica por qué <code>p</code> y <code>V</code> pueden ordenar distinto cuando <code>n</code> cambia entre comparaciones.</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: ambos tests deben rechazar <code>H₀</code> al 5 %; Cramér's V debe ser mayor para <code>sex</code> que para <code>class</code>; la conclusión debe distinguir tamaño de efecto de evidencia.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>expected</code> tiene celdas con valores <code>&lt; 5</code> y reporto el chi² igual</td>
+<td>El p-value asintótico no es confiable. <strong>Fix</strong>: Fisher exact (2×2), G-test (<code>lambda_='log-likelihood'</code>), o <code>scipy.stats.chi2_contingency(..., correction=True)</code> para Yates en 2×2.</td>
+</tr>
+<tr>
+<td>Aplico chi² sobre una columna numérica continua</td>
+<td>Chi² es solo para categóricas / conteos. <strong>Fix</strong>: binnear primero (<code>pd.cut</code>) o usar Kolmogorov-Smirnov (Clase 146).</td>
+</tr>
+<tr>
+<td>Confundo "asociación" con "causalidad" porque <code>p &lt; 0.05</code></td>
+<td>Chi² detecta dependencia estadística, no relaciones causales. Cualquier confounder puede generarla. <strong>Fix</strong>: ver Clase 156 (DAGs y confounders).</td>
+</tr>
+<tr>
+<td>Reporto solo <code>p &lt; 0.05</code> con <code>n = 10⁵</code> y declaro "fuerte asociación"</td>
+<td>Con n gigante, asociaciones triviales son significativas. <strong>Fix</strong>: Cramér's V — si V &lt; 0.1, la asociación es débil aunque el p sea minúsculo.</td>
+</tr>
+<tr>
+<td>Bondad de ajuste con <code>f_exp</code> proporcional pero no sumando al total</td>
+<td><code>chisquare(obs, f_exp)</code> requiere que <code>f_exp.sum() == obs.sum()</code> (frecuencias absolutas). <strong>Fix</strong>: escalar <code>f_exp = p_teorica * obs.sum()</code>.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿Cuándo Fisher exact y cuándo chi-cuadrado?</strong></p>
+<p>Fisher cuando alguna E &lt; 5 en una tabla 2×2. Para tablas mayores, Fisher es costoso; mejor usar Monte Carlo simulation (<code>scipy.stats.chi2_contingency(..., method='monte-carlo')</code> desde scipy 1.11) o G-test.</p>
+<p><strong>❓ ¿Qué es la corrección de Yates?</strong></p>
+<p>Para tablas 2×2, resta 0.5 al <code>|O - E|</code> antes de elevar al cuadrado. Hace el test más conservador. <code>scipy.stats.chi2_contingency</code> la aplica por default en 2×2 (<code>correction=True</code>). En la práctica, con n moderado, casi no cambia el p-value.</p>
+<p><strong>❓ ¿Por qué <code>dof = (r-1)·(c-1)</code>?</strong></p>
+<p>Porque al fijar los totales marginales (r+c-1 restricciones), solo <code>(r-1)·(c-1)</code> celdas son libres de variar — las otras quedan determinadas por aritmética.</p>
+<p><strong>❓ ¿G-test es mejor que chi-cuadrado?</strong></p>
+<p>Asintóticamente equivalentes, pero G-test tiene mejor comportamiento con celdas chicas y se generaliza mejor (es el log-likelihood ratio test). En scipy: <code>chi2_contingency(tabla, lambda_='log-likelihood')</code>.</p>
+<p><strong>❓ ¿Puedo usar chi-cuadrado para validar la salida de un modelo de clasificación?</strong></p>
+<p>Sí — <code>crosstab(y_true, y_pred)</code> da la <strong>confusion matrix</strong>, y un chi² sobre esa tabla testea si la predicción es independiente de la verdad (<code>H₀</code>: clasificador trivial). Pero ojo: prefieres métricas específicas (accuracy, F1, Kappa de Cohen) — chi² no captura el balance de clases.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>ISLP, <strong>cap. 4</strong> — <em>Classification</em>, parte sobre datos categóricos.</li>
+<li>Bruce &amp; Bruce, <strong>cap. 3</strong> — sección <em>Chi-Square Test</em>.</li>
+<li>Cochran, W.G. (1954), <em>Some Methods for Strengthening the Common χ² Tests</em>, Biometrics.</li>
+<li><a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.chi2_contingency.html"><code>scipy.stats.chi2_contingency</code></a> y <a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.fisher_exact.html"><code>fisher_exact</code></a>.</li>
+<li><a href="https://pingouin-stats.org/generated/pingouin.chi2_independence.html">pingouin.chi2_independence</a> — reporta Cramér's V automáticamente.</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../179-anova-one-way-two-way/index.html">Clase 179 — ANOVA (one-way, two-way)</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-3-estadistica-inferencial/178-test-chi-cuadrado-de-independencia-y-bondad-de-ajuste/"><code>classes/parte-3-estadistica-inferencial/178-test-chi-cuadrado-de-independencia-y-bondad-de-ajuste/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

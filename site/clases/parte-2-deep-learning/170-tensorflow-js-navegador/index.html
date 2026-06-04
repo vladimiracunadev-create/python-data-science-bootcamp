@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 170 — TensorFlow.js (navegador) | Python Data Science Program</title>
+  <meta name="description" content="Clase 170 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 2 — Deep Learning</a><span class="sep">›</span><span>170</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-2-deep-learning/170-tensorflow-js-navegador/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-170-tensorflowjs-navegador">Clase 170 — TensorFlow.js (navegador)</h1>
+<blockquote>
+<p>Parte: <strong>2 — Deep Learning</strong> · Fuente: Géron, <strong>cap. 19</strong> § <em>Running a Model in a Web Page</em> + TF.js docs. ⏱️ Duración estimada: <strong>55 min</strong>.</p>
+</blockquote>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Servir modelos directamente en el <strong>navegador</strong> con <strong>TensorFlow.js</strong> — corre client-side (privacidad, sin server cost, sin latency network). Alternativas modernas: <strong>ONNX Runtime Web</strong>, <strong>WebGPU-accelerated inference</strong>, <strong>transformers.js</strong> (Hugging Face) para LLMs en el browser.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar, el estudiante podrá:</p>
+<ul>
+<li>Convertir un Keras model a TF.js format con <code>tensorflowjs_converter</code>.</li>
+<li>Cargar y hacer inference desde JavaScript en el browser.</li>
+<li>Conocer <strong>WebGL backend</strong> (default TF.js) y <strong>WebGPU</strong> (nuevo, más rápido).</li>
+<li>Usar <strong>transformers.js</strong> para correr modelos NLP/visión en browser.</li>
+<li>Reconocer cuándo conviene client-side vs server-side.</li>
+</ul>
+<h2 id="temas">🗺️ Temas</h2>
+<ul>
+<li>Conversion: <code>tensorflowjs_converter --input_format=keras model.keras tfjs_model/</code>.</li>
+<li>JS API: <code>const model = await tf.loadLayersModel('tfjs_model/model.json')</code>.</li>
+<li>Backends: WebGL (default), WASM, WebGPU.</li>
+<li>transformers.js: ONNX en browser, soporta BERT, GPT-2, Whisper.</li>
+<li>Edge cases: tamaño del modelo (~5-50 MB ideal), latencia primer load.</li>
+</ul>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<ul>
+<li><strong>TF.js</strong>: implementación de TF en JavaScript.</li>
+<li><strong>WebGL backend</strong>: usa GPU del browser, default.</li>
+<li><strong>WebGPU</strong>: API moderna, 2-5× más rápida que WebGL.</li>
+<li><strong>WASM backend</strong>: CPU-only pero portable.</li>
+<li><strong>transformers.js</strong>: HuggingFace en browser, ONNX-based.</li>
+</ul>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<ul>
+<li>Modelo Fashion-MNIST.</li>
+<li>Librerías: <code>tensorflowjs</code>, <code>tensorflowjs-converter</code>.</li>
+</ul>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>Convert</strong>: <code>tensorflowjs_converter --input_format=keras_saved_model servable/ tfjs_model/</code>. Inspeccionar archivos.</li>
+<li><strong>HTML page</strong>: pagina simple que carga <code>model.json</code>, dibuja una imagen 28×28 en canvas, predice.</li>
+<li><strong>WebGPU</strong>: <code>await tf.setBackend('webgpu')</code>. Comparar velocidad vs WebGL.</li>
+<li><strong>transformers.js</strong>: <code>import { pipeline } from '@xenova/transformers'</code>. Correr sentiment-analysis en browser. 1 línea.</li>
+<li><strong>PWA</strong>: empaquetar como Progressive Web App con service worker para offline inference.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Demo de Fashion-MNIST en browser:</p>
+<ol>
+<li>Convertir modelo a TF.js.</li>
+<li>Página HTML con canvas donde el usuario dibuja.</li>
+<li>Botón "Predict" → muestra clase + probabilidades.</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: la demo funciona en Chrome/Firefox; predicciones son razonables para dibujos sencillos.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>model.json not found</code></td>
+<td>Path mal o servidor no sirve archivos estáticos. <strong>Fix</strong>: usar <code>npx serve</code>.</td>
+</tr>
+<tr>
+<td>OOM en browser con modelo grande</td>
+<td>TF.js no es para GB-scale models. <strong>Fix</strong>: modelo &lt; 50 MB, quantization.</td>
+</tr>
+<tr>
+<td>WebGL fail en algunos browsers</td>
+<td>Falta WebGL2. <strong>Fix</strong>: fallback a WASM.</td>
+</tr>
+<tr>
+<td>Predicciones diferentes vs server</td>
+<td>Diferencia en preprocesamiento. <strong>Fix</strong>: hacer mismo preprocess en JS.</td>
+</tr>
+<tr>
+<td>Modelo carga lento</td>
+<td>Sin caching. <strong>Fix</strong>: Service Worker + cache.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿TF.js o ONNX Runtime Web?</strong></p>
+<p>TF.js para modelos TF; ORT Web para portabilidad. ORT Web también soporta WebGPU.</p>
+<p><strong>❓ ¿LLMs en browser?</strong></p>
+<p>Sí — modelos chicos (DistilBERT, TinyLlama, Whisper tiny) con quantization. WebLLM proyecto usa MLC y WebGPU para Llama 2 7B en browser.</p>
+<p><strong>❓ ¿Privacidad?</strong></p>
+<p>Client-side = data nunca sale del navegador. Ideal para healthcare, finanzas.</p>
+<p><strong>❓ ¿WebAssembly (WASM) vs WebGL?</strong></p>
+<p>WASM es CPU portable, lento. WebGL usa GPU. WebGPU es el futuro (5× WebGL).</p>
+<p><strong>❓ ¿Cuándo NO usar client-side?</strong></p>
+<p>Modelos grandes (&gt;100 MB), datasets propietarios (no quieres exponerlos), latencia inaceptable en primer load.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Géron, <strong>cap. 19</strong> — <em>Running a Model in a Web Page</em>.</li>
+<li><a href="https://www.tensorflow.org/js">TensorFlow.js docs</a>.</li>
+<li><a href="https://huggingface.co/docs/transformers.js">transformers.js</a>.</li>
+<li><a href="https://onnxruntime.ai/docs/tutorials/web/">ONNX Runtime Web</a>.</li>
+<li><a href="https://webllm.mlc.ai/">MLC WebLLM</a>.</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../171-aceleracion-con-gpu/index.html">Clase 171 — Aceleración con GPU</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-2-deep-learning/170-tensorflow-js-navegador/"><code>classes/parte-2-deep-learning/170-tensorflow-js-navegador/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

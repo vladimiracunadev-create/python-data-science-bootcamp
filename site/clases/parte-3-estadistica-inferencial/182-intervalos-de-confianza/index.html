@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 182 — Intervalos de confianza | Python Data Science Program</title>
+  <meta name="description" content="Clase 182 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 3 — Estadística inferencial</a><span class="sep">›</span><span>182</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-3-estadistica-inferencial/182-intervalos-de-confianza/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-182-intervalos-de-confianza">Clase 182 — Intervalos de confianza</h1>
+<blockquote>
+<p>Parte: <strong>3 — Estadística Inferencial y Causal</strong> · Fuente: ISLP, <strong>cap. 5</strong> + Bruce &amp; Bruce, <strong>cap. 2</strong> <em>Confidence Intervals</em>. ⏱️ Duración estimada: <strong>70 min</strong>.</p>
+</blockquote>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Construir e interpretar correctamente intervalos de confianza para <strong>media</strong> (t-based, z-based, bootstrap) y <strong>proporción</strong> (Wald, Wilson, Clopper-Pearson), entendiendo que un IC95 % <strong>NO</strong> significa "95 % de probabilidad de que el parámetro caiga en el intervalo" sino "si repitiéramos el experimento muchas veces, el 95 % de los intervalos construidos contendrían el parámetro". Saber elegir el método según <code>n</code> y la métrica.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar, el estudiante podrá:</p>
+<ul>
+<li>Construir un IC para la media usando la distribución t: <code>x̄ ± t_{α/2, n-1} · (s/√n)</code> con <code>scipy.stats.t.interval</code>.</li>
+<li>Construir un IC para la proporción con tres métodos y entender cuándo cada uno falla (Wald falla con <code>p</code> cerca de 0/1; Wilson y Clopper-Pearson son robustos).</li>
+<li>Usar <code>scipy.stats.bootstrap</code> (≥ 1.7) para IC sin supuestos paramétricos (anticipa Clase 153).</li>
+<li>Interpretar correctamente la frase "intervalo de confianza al 95 %" (es una propiedad del <strong>procedimiento</strong>, no del intervalo específico).</li>
+<li>Relacionar IC y test de hipótesis: si el IC95 % de la diferencia <strong>no incluye 0</strong>, el test bilateral al α=5 % rechaza <code>H₀</code>.</li>
+</ul>
+<h2 id="temas">🗺️ Temas</h2>
+<ul>
+<li>IC para la media (varianza desconocida): t de Student con <code>n-1</code> gl.</li>
+<li>IC para la media (varianza conocida o n grande): z.</li>
+<li>IC para proporción: Wald (<code>p̂ ± z·√(p̂(1-p̂)/n)</code>) vs <strong>Wilson score</strong> (recomendado por Agresti &amp; Coull 1998) vs Clopper-Pearson (exacto, conservador).</li>
+<li>IC bootstrap percentil (anticipa Clase 153).</li>
+<li>IC del <em>odds ratio</em>, riesgo relativo (medicina/epidemiología).</li>
+<li>Margen de error (ME = <code>z·SE</code>) y cómo determina <code>n</code>.</li>
+</ul>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<ul>
+<li><strong>Intervalo de confianza (IC) al <code>1-α</code></strong>: par <code>(L, U)</code> calculado a partir de la muestra tal que, sobre repeticiones del experimento, <code>P(L ≤ θ ≤ U) = 1-α</code>. El parámetro <code>θ</code> es fijo (no aleatorio); lo aleatorio son <code>L</code> y <code>U</code>.</li>
+<li><strong>Cobertura nominal vs real</strong>: la cobertura "nominal" es 95 %; la "real" depende del método y la distribución. Wald infla error con <code>n</code> chico o <code>p</code> extrema.</li>
+<li><strong>Standard error (SE)</strong> de la media: <code>s / √n</code>. Se reduce con <code>√n</code> — para reducir el SE a la mitad necesitás 4× la muestra.</li>
+<li><strong>t-distribution</strong>: para IC de la media cuando estimás σ. Tiene colas más anchas que la normal, lo que <strong>infla</strong> correctamente el IC con n chico.</li>
+<li><strong>Wilson score interval</strong>: usa la fórmula <code>(p̂ + z²/(2n) ± z·√(p̂(1-p̂)/n + z²/(4n²))) / (1 + z²/n)</code>. Mantiene cobertura ≈ nominal incluso con <code>p̂</code> cerca de 0 o 1.</li>
+<li><strong>Clopper-Pearson</strong>: intervalo exacto basado en la distribución binomial. Garantiza cobertura ≥ nominal (puede ser conservador).</li>
+<li><strong>Bootstrap percentile interval</strong>: cuantiles <code>α/2</code> y <code>1-α/2</code> de la distribución bootstrap del estadístico. No requiere supuestos paramétricos.</li>
+<li><strong>Margen de error (ME)</strong>: mitad del ancho del IC. Para <code>n</code> requerido al planificar un estudio: <code>n = (z·σ/ME)²</code>.</li>
+</ul>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<ul>
+<li><code>seaborn.load_dataset('tips')</code>: IC de la propina media.</li>
+<li>Encuesta sintética: simular <code>n=500</code> respuestas binarias con <code>p=0.03</code> (proporción chica → Wald falla).</li>
+<li>Librerías: <code>scipy.stats</code>, <code>statsmodels.stats.proportion</code>, <code>pingouin</code>.</li>
+</ul>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>IC t para la media</strong>: con <code>tips.total_bill</code>, calculá el IC95 % con <code>scipy.stats.t.interval(0.95, n-1, loc=mean, scale=sem)</code>. Verificá contra <code>pingouin.compute_bootci</code>.</li>
+<li><strong>IC para proporción extrema</strong>: con <code>rng.binomial(1, 0.03, 100)</code> (proporción de eventos raros), calculá IC con <code>statsmodels.stats.proportion.proportion_confint(count, n, method='normal')</code> (Wald), <code>'wilson'</code> y <code>'beta'</code> (Clopper-Pearson). Observá cómo Wald da límite inferior negativo (¡imposible!) y los otros dos no.</li>
+<li><strong>Cobertura empírica</strong>: simulá 5 000 muestras de tamaño 30 de <code>N(50, 10)</code>. Para cada una, construí IC95 % t. Contá qué % contiene <code>μ=50</code>. Debería ser ≈ 95 %.</li>
+<li><strong>Bootstrap IC</strong>: con <code>tips.total_bill</code>, aplicá <code>scipy.stats.bootstrap((tips.total_bill,), statistic=np.mean, n_resamples=10_000, method='percentile')</code>. Compará con el IC t.</li>
+<li><strong>Sample size</strong>: querés estimar una proporción con margen de error de ±2 %, asumiendo <code>p̂ ≈ 0.5</code> (peor caso). Calculá el <code>n</code> requerido para 95 % de confianza.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Diseñar un estudio para estimar la proporción de clientes satisfechos en una tienda:</p>
+<ol>
+<li>Determinar <code>n</code> requerido para margen de error ±3 % con 95 % de confianza asumiendo <code>p̂ ≈ 0.5</code>.</li>
+<li>Simular el experimento con esa <code>n</code> y <code>p_verdadera=0.78</code>.</li>
+<li>Construir los 3 IC (Wald, Wilson, Clopper-Pearson) y comparar anchos.</li>
+<li>En 3 líneas: justificar cuál reportarías y por qué.</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: <code>n ≈ 1068</code>. Los 3 IC contienen <code>0.78</code>. La justificación debe mencionar que Wilson tiene buen comportamiento general (cobertura ≈ nominal con menos ancho que Clopper-Pearson) y es el recomendado actual.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"Hay 95 % de probabilidad de que <code>μ</code> esté entre 18.5 y 21.3"</td>
+<td>Interpretación frecuentista incorrecta. <strong>Fix</strong>: "Estoy 95 % confiado de que el procedimiento captura <code>μ</code>" o pasar a interpretación bayesiana (Clase 158, donde sí podés decir "P(μ ∈ [L,U]</td>
+</tr>
+<tr>
+<td>Wald da IC con límite negativo para proporción</td>
+<td>Pasa con <code>p̂</code> cerca de 0/1 o <code>n</code> chico. <strong>Fix</strong>: Wilson o Clopper-Pearson.</td>
+</tr>
+<tr>
+<td>IC del 95 % se interpreta como "el dato cae ahí el 95 % de las veces"</td>
+<td>No, eso sería un <strong>intervalo de predicción</strong> (mucho más ancho). El IC es para el <strong>parámetro</strong>, no para observaciones futuras.</td>
+</tr>
+<tr>
+<td>Construyo IC asumiendo normalidad con n=8 y datos asimétricos</td>
+<td><code>t.interval</code> requiere normalidad o <code>n</code> grande. <strong>Fix</strong>: bootstrap (Clase 153).</td>
+</tr>
+<tr>
+<td>Comparo dos IC: "se solapan, no hay diferencia"</td>
+<td>Solapamiento de ICs <strong>no implica</strong> p &gt; 0.05. Pueden solaparse y aún así rechazar la igualdad. <strong>Fix</strong>: testear la diferencia directamente (IC de <code>μ_a - μ_b</code>).</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿Por qué a veces uso z y a veces t?</strong></p>
+<p>z cuando conocés σ poblacional (raro) o <code>n ≥ 30</code> (TCL hace que la diferencia sea trivial). t cuando estimás σ con la muestra y <code>n</code> es chico. En la práctica moderna, <strong>siempre t</strong> (con <code>n</code> grande coincide con z, así que no perdés nada).</p>
+<p><strong>❓ ¿Wilson o Clopper-Pearson para proporciones?</strong></p>
+<p><strong>Wilson</strong> por default (Agresti &amp; Coull 1998, Brown et al. 2001 lo recomiendan). Clopper-Pearson si necesitás garantizar cobertura ≥ nominal (FDA, ensayos clínicos).</p>
+<p><strong>❓ ¿Bootstrap siempre es mejor?</strong></p>
+<p>No siempre. Si tus supuestos paramétricos se cumplen, t-based es más eficiente (intervalos un poco más cortos). Bootstrap brilla con <code>n</code> chico no normal, estadísticos no estándar (mediana, percentil, R²), o estimadores complejos donde no hay fórmula cerrada.</p>
+<p><strong>❓ ¿IC95 % es siempre simétrico?</strong></p>
+<p>Para la media t-based, sí. Para proporciones y bootstrap, <strong>no</strong> — sobre todo cerca de los bordes. Eso es una característica, no un bug: refleja la asimetría real de la distribución muestral.</p>
+<p><strong>❓ ¿Cómo le explico el IC al cliente sin entrar en frecuentismo?</strong></p>
+<p>"Si repitiéramos el experimento muchas veces con muestras del mismo tamaño, el 95 % de los rangos que produciríamos contendrían el valor real. Este rango es uno de esos 95 % en promedio." O directamente: "el valor real está plausiblemente entre L y U; rangos más angostos requieren más datos".</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>ISLP, <strong>cap. 5</strong> — <em>Resampling Methods</em>.</li>
+<li>Bruce &amp; Bruce, <strong>cap. 2</strong> — <em>Confidence Intervals</em>.</li>
+<li>Agresti, A. &amp; Coull, B. (1998), <em>Approximate is Better than 'Exact' for Interval Estimation of Binomial Proportions</em>, American Statistician.</li>
+<li>Brown, Cai &amp; DasGupta (2001), <em>Interval Estimation for a Binomial Proportion</em>, Statistical Science — review de métodos.</li>
+<li><a href="https://www.statsmodels.org/stable/generated/statsmodels.stats.proportion.proportion_confint.html"><code>statsmodels.stats.proportion.proportion_confint</code></a>.</li>
+<li><a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.bootstrap.html"><code>scipy.stats.bootstrap</code></a> — API moderna.</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../183-bootstrap-y-permutation-tests/index.html">Clase 183 — Bootstrap y permutation tests</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-3-estadistica-inferencial/182-intervalos-de-confianza/"><code>classes/parte-3-estadistica-inferencial/182-intervalos-de-confianza/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

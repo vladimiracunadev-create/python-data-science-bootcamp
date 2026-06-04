@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 059 — Launch, monitoreo y mantenimiento de modelos | Python Data Science Program</title>
+  <meta name="description" content="Clase 059 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 1 — ML clásico</a><span class="sep">›</span><span>059</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-1-machine-learning-clasico/059-launch-monitoreo-y-mantenimiento/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#version-profundizada-2026">📌 Versión profundizada — 2026</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-059-launch-monitoreo-y-mantenimiento-de-modelos">Clase 059 — Launch, monitoreo y mantenimiento de modelos</h1>
+<blockquote>
+<p>Parte: <strong>1 — Machine Learning Clásico</strong> · Fuente: Géron, <strong>cap. 2</strong> § <em>Launch, Monitor, and Maintain Your System</em>.
+⏱️ Duración estimada: <strong>60 min</strong>.</p>
+</blockquote>
+<hr>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Que el alumno entienda que <strong>entrenar el modelo es la mitad del trabajo</strong>: el resto es ponerlo en producción de forma segura, monitorearlo para detectar degradación (data drift, model drift) y mantenerlo vivo con un ciclo de retraining. Además, documentar el modelo con una <strong>Model Card</strong> para que terceros (compliance, negocio, usuarios) sepan qué hace, dónde falla y qué no hay que hacerle.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar la clase, el alumno podrá:</p>
+<ol>
+<li><strong>Diseñar un pipeline de deploy</strong> mínimo (serialización con <code>joblib</code>, servicio detrás de una API, versionado del artefacto).</li>
+<li><strong>Distinguir data drift de model drift</strong> y elegir métricas para cada uno (PSI, KS, accuracy en holdout móvil).</li>
+<li><strong>Definir un retraining trigger</strong> (calendario fijo vs. trigger por drift vs. trigger por caída de KPI de negocio).</li>
+<li><strong>Comparar estrategias de release</strong> (canary, shadow deploy, A/B test) y elegir según riesgo.</li>
+<li><strong>Redactar una Model Card</strong> con secciones mínimas (uso previsto, métricas por subgrupo, limitaciones).</li>
+</ol>
+<h2 id="temas">🗺️ Temas</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Tema</th>
+<th>Por qué importa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Pipeline de deploy: <code>joblib.dump</code>, contenedor, endpoint</td>
+<td>El modelo serializado es el artefacto productivo.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Data drift (inputs cambian) vs. model drift (performance baja)</td>
+<td>Se monitorean distinto; confundirlos te lleva a falsos retraining.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Métricas de drift: PSI, KS-test, distancia de Wasserstein</td>
+<td>Cuantifican el cambio en distribución antes de que la métrica de negocio caiga.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Retraining: calendario, trigger por drift, trigger por KPI</td>
+<td>Cuándo reentrenar sin gastar de más ni quedarse corto.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Estrategias de release: shadow, canary, A/B</td>
+<td>Bajan el riesgo de un modelo malo en producción.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Alertas y observabilidad</td>
+<td>Logueo de inputs/outputs, dashboards, on-call.</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Model Cards y Datasheets</td>
+<td>Documentación responsable del modelo y de los datos.</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Governance y rollback</td>
+<td>Versionar modelos como código; poder volver atrás.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="version-profundizada-2026">📌 Versión profundizada — 2026</h2>
+<p>El tema moderno que antes vivía como complemento dentro de esta clase ahora tiene su(s) clase(s) propia(s) con patrón completo, ejercicios y homework:</p>
+<ul>
+<li>👉 <a href="../053a-model-cards-y-responsible-ml/index.html">Clase 053a — Model Cards y Responsible ML</a></li>
+</ul>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<dl>
+<dt><strong>Deployment</strong></dt>
+<dd>Proceso de exponer un modelo entrenado como servicio consumible (REST, batch, edge). Incluye serialización del artefacto (<code>joblib</code>, <code>pickle</code>, ONNX), versionado y contenedorización.</dd>
+<dt><strong>Model drift (concept drift)</strong></dt>
+<dd>La relación entre <code>X</code> e <code>y</code> cambia con el tiempo. Ejemplo: hábitos de compra post-pandemia. Se detecta midiendo accuracy/AUC sobre una ventana móvil con labels reales (cuando llegan).</dd>
+<dt><strong>Data drift (covariate shift)</strong></dt>
+<dd>La distribución de los <em>inputs</em> <code>X</code> cambia, aunque la relación <code>X→y</code> siga estable. Se detecta sin necesidad de labels — comparás la distribución de cada feature en producción vs. la del set de entrenamiento (PSI, KS).</dd>
+<dt><strong>Retraining trigger</strong></dt>
+<dd>Regla que decide cuándo reentrenar. Tres familias: (a) calendario fijo (cada N días), (b) drift detectado (PSI &gt; 0.25), (c) caída de KPI de negocio (conversion baja &gt; X%).</dd>
+<dt><strong>A/B test</strong></dt>
+<dd>Dos versiones del modelo sirven tráfico en paralelo (e.g. 50/50). Se compara KPI de negocio con significancia estadística. Requiere volumen.</dd>
+<dt><strong>Shadow deploy</strong></dt>
+<dd>El modelo nuevo recibe los mismos requests que el viejo pero <strong>sus predicciones no se devuelven al usuario</strong> — se loguean para comparar. Cero riesgo, ideal para validar en datos reales antes del switch.</dd>
+<dt><strong>Model card</strong></dt>
+<dd>Documento estandarizado que describe modelo, uso previsto, métricas (overall + por subgrupo), datos, limitaciones y consideraciones éticas. Formalizado por Mitchell et al. (2019).</dd>
+<dt><strong>Governance</strong></dt>
+<dd>Conjunto de políticas: quién aprueba un deploy, cómo se versiona el modelo, cómo se hace rollback, qué se loguea para auditoría. Equivalente del "code review" para modelos.</dd>
+</dl>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<p>Sintético: dos snapshots de un dataset tabular (mes 1 y mes 6) para simular drift. Plantilla Markdown de Model Card en <code>model_card_template.md</code>.</p>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<p><strong>1.</strong> <strong>Serializar y cargar.</strong> Entrená un <code>RandomForestClassifier</code> sobre Titanic. Guardalo con <code>joblib.dump</code>. Cargalo en otro notebook y verificá que predice idéntico.</p>
+<p><strong>2.</strong> <strong>Detectar data drift con PSI.</strong> Calculá Population Stability Index entre dos snapshots de la feature <code>edad</code>. Interpretá: PSI &lt; 0.1 estable, 0.1-0.25 leve, &gt; 0.25 drift significativo.</p>
+<p><strong>3.</strong> <strong>KS-test para drift.</strong> Aplicá <code>scipy.stats.ks_2samp</code> a la feature <code>monto</code> entre snapshot1 y snapshot2. ¿p-valor &lt; 0.05?</p>
+<p><strong>4.</strong> <strong>Simular shadow deploy.</strong> Tenés modelo A (viejo) y B (nuevo). Pasá 1000 requests por ambos, logueá las predicciones y reportá tasa de desacuerdo.</p>
+<p><strong>5.</strong> <strong>Redactar una Model Card.</strong> Tomá tu mejor modelo de la Parte 1 hasta ahora y completá una model card con las 7 secciones del complemento. Incluí al menos una métrica desagregada por subgrupo.</p>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Notebook que: (a) entrene un clasificador, (b) lo serialice con <code>joblib</code>, (c) simule un mes de tráfico productivo con una feature drifteada, (d) calcule PSI por feature, (e) dispare una alerta si PSI &gt; 0.25, (f) entregue un archivo <code>MODEL_CARD.md</code> completo en la carpeta del homework.</p>
+<p><strong>Criterio de aceptación:</strong> El notebook detecta el drift inyectado artificialmente. La Model Card tiene las 7 secciones mínimas con valores reales (no placeholders), incluye al menos una métrica por subgrupo y declara explícitamente un <em>out-of-scope use</em>.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>El modelo cargado con <code>joblib.load</code> predice distinto al original</td>
+<td>Cambió la versión de sklearn entre <code>dump</code> y <code>load</code>. <strong>Fix</strong>: pinear versiones en <code>requirements.txt</code> y guardar la versión usada dentro del propio artefacto (metadata).</td>
+</tr>
+<tr>
+<td>Reentreno cada semana "por las dudas" y el modelo empeora</td>
+<td>Retraining sin trigger real introduce ruido y reentrena sobre cohortes no representativas. <strong>Fix</strong>: definí trigger por PSI o por caída de KPI, no por calendario ciego.</td>
+</tr>
+<tr>
+<td>PSI da siempre 0 o <code>inf</code></td>
+<td>División por cero cuando un bin queda vacío. <strong>Fix</strong>: sumá un epsilon pequeño (<code>1e-6</code>) a cada bin antes de calcular el log.</td>
+</tr>
+<tr>
+<td>El A/B test "no da significativo" después de 2 días</td>
+<td>Volumen insuficiente. <strong>Fix</strong>: hacé power analysis <em>antes</em> de lanzar y respetá el tamaño muestral mínimo. Si no llegás, usá shadow deploy.</td>
+</tr>
+<tr>
+<td>Model card con métrica única "accuracy = 0.92"</td>
+<td>Oculta sesgos por subgrupo y no dice para qué <em>no</em> sirve. <strong>Fix</strong>: desagregá métricas por al menos un factor relevante y completá la sección <em>out-of-scope uses</em>.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿Cada cuánto hay que reentrenar?</strong></p>
+<p>No hay número mágico. Si el dominio es estable (físico, industrial), meses o años. Si es comportamiento humano online (e-commerce, fraude), semanas o incluso días. Lo correcto es <strong>dejar que el trigger lo decida</strong> (PSI, caída de KPI), no el calendario.</p>
+<p><strong>❓ ¿Diferencia práctica entre shadow deploy y canary?</strong></p>
+<p><strong>Shadow</strong>: el modelo nuevo predice pero sus predicciones <em>no se devuelven al usuario</em> — cero riesgo, solo comparás. <strong>Canary</strong>: el modelo nuevo <em>sí</em> sirve tráfico real, pero a un % chico (1-5%) — bajo riesgo pero no nulo. Shadow para validar, canary para liberar gradualmente.</p>
+<p><strong>❓ ¿Model card o documentación técnica clásica?</strong></p>
+<p>Las dos. La doc técnica (README, API reference) es para desarrolladores. La model card es para <strong>stakeholders no técnicos</strong>: producto, legal, compliance, auditoría. Si tu modelo cae bajo EU AI Act, la model card no es opcional.</p>
+<p><strong>❓ ¿<code>pickle</code> o <code>joblib</code> o ONNX?</strong></p>
+<p><code>joblib</code> para sklearn (más eficiente con arrays NumPy grandes que <code>pickle</code> puro). <code>pickle</code> para objetos Python genéricos. <strong>ONNX</strong> cuando necesitás portabilidad cross-language (servir un modelo Python desde un backend en C# o Java).</p>
+<p><strong>❓ ¿PSI o KS-test?</strong></p>
+<p><strong>PSI</strong> es más interpretable para negocio (umbrales 0.1 / 0.25 son estándar de la industria de scoring crediticio) y opera sobre features categóricas/binneadas. <strong>KS-test</strong> es estadísticamente más riguroso para features continuas y devuelve p-valor. En la práctica, equipos serios reportan ambas.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Géron, <strong>cap. 2</strong> § <em>Launch, Monitor, and Maintain Your System</em>.</li>
+<li>Mitchell et al. (2019). <a href="https://arxiv.org/abs/1810.03993"><em>Model Cards for Model Reporting</em></a>. FAT* 2019.</li>
+<li>Gebru et al. (2018). <a href="https://arxiv.org/abs/1803.09010"><em>Datasheets for Datasets</em></a>.</li>
+<li><a href="https://huggingface.co/docs/hub/model-cards">HuggingFace Model Cards guide</a>.</li>
+<li><a href="https://github.com/tensorflow/model-card-toolkit">Google <code>model-card-toolkit</code></a>.</li>
+<li><a href="https://artificialintelligenceact.eu/">EU AI Act — documentación técnica (Anexo IV)</a>.</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../060-model-cards-y-responsible-ml/index.html">Clase 060 — Model Cards y Responsible ML</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-1-machine-learning-clasico/059-launch-monitoreo-y-mantenimiento/"><code>classes/parte-1-machine-learning-clasico/059-launch-monitoreo-y-mantenimiento/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

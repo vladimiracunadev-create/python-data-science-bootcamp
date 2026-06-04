@@ -39,12 +39,12 @@ Al finalizar esta parte, el estudiante podrá:
 
 ## 📚 Índice de clases (6)
 
-- [188 — Tipos de sesgo algorítmico y orígenes](188-tipos-de-sesgo-algoritmico-y-origenes/README.md)
-- [189 — Métricas de fairness: demographic parity, equalized odds, calibration](189-metricas-de-fairness-demographic-parity-equalized-odds-calibration/README.md)
-- [190 — Privacidad diferencial (intro)](190-privacidad-diferencial-intro/README.md)
-- [191 — Federated learning (intro)](191-federated-learning-intro/README.md)
-- [192 — GDPR y AI Act (EU)](192-gdpr-y-ai-act-eu/README.md)
-- [193 — Reproducibilidad: seeds, lock files, versionado de datasets](193-reproducibilidad-seeds-lock-files-versionado-de-datasets/README.md)
+- [223 — Tipos de sesgo algorítmico y orígenes](223-tipos-de-sesgo-algoritmico-y-origenes/README.md)
+- [224 — Métricas de fairness: demographic parity, equalized odds, calibration](224-metricas-de-fairness-demographic-parity-equalized-odds-calibration/README.md)
+- [225 — Privacidad diferencial (intro)](225-privacidad-diferencial-intro/README.md)
+- [226 — Federated learning (intro)](226-federated-learning-intro/README.md)
+- [227 — GDPR y AI Act (EU)](227-gdpr-y-ai-act-eu/README.md)
+- [228 — Reproducibilidad: seeds, lock files, versionado de datasets](228-reproducibilidad-seeds-lock-files-versionado-de-datasets/README.md)
 
 ---
 

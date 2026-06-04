@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 167 — ONNX y ONNX Runtime: portabilidad e inference optimizada | Python Data Science Program</title>
+  <meta name="description" content="Clase 167 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 2 — Deep Learning</a><span class="sep">›</span><span>167</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-2-deep-learning/167-onnx-onnx-runtime-portabilidad/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-167-onnx-y-onnx-runtime-portabilidad-e-inference-optimizada">Clase 167 — ONNX y ONNX Runtime: portabilidad e inference optimizada</h1>
+<blockquote>
+<p>Parte: <strong>2 — Deep Learning</strong> · Fuente: <a href="https://onnx.ai/">ONNX docs</a> + ONNX Runtime team blogs. ⏱️ Duración estimada: <strong>80 min</strong>.</p>
+</blockquote>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Dominar <strong>ONNX</strong> (formato intermedio) y <strong>ONNX Runtime</strong> (runtime cross-platform) — la solución portable para inference: entrenás en TF/PyTorch/JAX, exportás a ONNX, corrés en cualquier hardware (CPU, GPU NVIDIA, GPU AMD, mobile, browser, edge). Conocer <strong>TensorRT</strong> (NVIDIA-specific, mayor performance).</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar, el estudiante podrá:</p>
+<ul>
+<li>Exportar modelos: <code>torch.onnx.export</code>, <code>tf2onnx.convert</code>.</li>
+<li>Cargar e inferir con <code>onnxruntime.InferenceSession</code>.</li>
+<li>Elegir <strong>execution provider</strong>: CPU, CUDA, TensorRT, OpenVINO, DirectML, CoreML.</li>
+<li>Optimizar modelos: graph optimization, quantization int8/fp16.</li>
+<li>Reconocer cuándo ONNX vs TF Serving vs vLLM (LLMs).</li>
+</ul>
+<h2 id="temas">🗺️ Temas</h2>
+<ul>
+<li>ONNX como protocolo (protobuf): operator set + tensor types.</li>
+<li>Conversión: cada framework tiene su exporter.</li>
+<li>Verificación: outputs deben coincidir framework ↔ ONNX (±1e-5).</li>
+<li>Optimization: graph simplification, layer fusion.</li>
+<li>Quantization: dynamic, static (con calibration), QAT.</li>
+<li>Execution providers: priority order.</li>
+</ul>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<ul>
+<li><strong>ONNX</strong>: formato; archivo <code>.onnx</code>.</li>
+<li><strong>Opset version</strong>: versión del set de ops. Higher = newer ops (ej. opset 17 incluye attention).</li>
+<li><strong>InferenceSession</strong>: objeto runtime que carga modelo y ejecuta.</li>
+<li><strong>Execution Provider (EP)</strong>: backend de hardware. ORT elige el primero disponible.</li>
+<li><strong><code>onnxruntime-gpu</code></strong>: pip package específico para CUDA.</li>
+<li><strong><code>onnxruntime-directml</code></strong>: Windows GPU (AMD/Intel via DirectX).</li>
+</ul>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<ul>
+<li>Modelo de clases anteriores (Fashion-MNIST o ResNet preentrenado).</li>
+<li>Librerías: <code>onnx</code>, <code>onnxruntime</code> o <code>onnxruntime-gpu</code>, <code>tf2onnx</code> (TF), <code>torch.onnx</code> built-in.</li>
+</ul>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>PyTorch → ONNX</strong>: <code>torch.onnx.export(model, dummy_input, 'model.onnx', opset_version=17, input_names=['input'], output_names=['output'])</code>.</li>
+<li><strong>TF → ONNX</strong>: <code>python -m tf2onnx.convert --saved-model dir/ --output model.onnx --opset 17</code>.</li>
+<li><strong>Inference</strong>: <code>sess = ort.InferenceSession('model.onnx', providers=['CUDAExecutionProvider', 'CPUExecutionProvider'])</code>. Verificar outputs.</li>
+<li><strong>Graph optimization</strong>: <code>sess_options.graph_optimization_level = ort.GraphOptimizationLevel.ORT_ENABLE_ALL</code>.</li>
+<li><strong>Quantization</strong>: <code>onnxruntime.quantization.quantize_dynamic('model.onnx', 'model_q.onnx', weight_type=QuantType.QUInt8)</code>.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Exportar y deployar un modelo CNN ya entrenado:</p>
+<ol>
+<li>PyTorch ResNet50 preentrenado → ONNX.</li>
+<li>Quantization dynamic.</li>
+<li>Comparar latencia + accuracy: PyTorch CUDA vs ORT CUDA vs ORT CPU vs ORT CPU quantized.</li>
+<li>Verificar correctness (output diff &lt; 1e-4 vs PyTorch).</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: ORT CUDA ≥ PyTorch CUDA en velocidad; quantization reduce tamaño 4× con &lt; 1 pp accuracy loss.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>opset version X not supported</code></td>
+<td>EP version vieja. <strong>Fix</strong>: actualizar onnxruntime.</td>
+</tr>
+<tr>
+<td>Output diff vs framework grande</td>
+<td>Conversión incompleta (custom ops). <strong>Fix</strong>: <code>verbose=True</code> en export, identificar op problemática.</td>
+</tr>
+<tr>
+<td>CUDA provider no disponible</td>
+<td>Falta <code>onnxruntime-gpu</code> install. <strong>Fix</strong>: <code>pip install onnxruntime-gpu</code>.</td>
+</tr>
+<tr>
+<td>Dynamic axes mal</td>
+<td>Mal export. <strong>Fix</strong>: <code>dynamic_axes={'input': {0: 'batch'}}</code>.</td>
+</tr>
+<tr>
+<td>Quantization rompe accuracy</td>
+<td>Modelo sensible. <strong>Fix</strong>: usar static quantization con calibration set.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ONNX vs TensorRT?</strong></p>
+<p>ONNX Runtime + TensorRT EP combina ambos: ORT como interfaz, TensorRT como backend para GPUs NVIDIA. Best of both.</p>
+<p><strong>❓ ONNX en mobile?</strong></p>
+<p>ONNX Runtime Mobile: optimizado para Android/iOS. Soporta CoreML, NNAPI delegates.</p>
+<p><strong>❓ ONNX en browser?</strong></p>
+<p>ONNX.js — corre en WebGL/WebGPU/WASM.</p>
+<p><strong>❓ LLMs con ONNX?</strong></p>
+<p>Posible (especialmente con <code>onnxruntime-genai</code>). vLLM/TGI siguen siendo mejores para LLMs grandes.</p>
+<p><strong>❓ Triton vs ORT?</strong></p>
+<p>Triton (NVIDIA) puede servir modelos ONNX como uno de sus backends. Triton para infra multi-modelo; ORT solo para inference.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li><a href="https://onnx.ai/">ONNX</a>.</li>
+<li><a href="https://onnxruntime.ai/">ONNX Runtime</a>.</li>
+<li><a href="https://onnxruntime.ai/docs/tutorials/mobile/">ONNX Runtime Mobile</a>.</li>
+<li><a href="https://github.com/microsoft/onnxruntime-genai">ONNX Runtime GenAI</a>.</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../168-despliegue-en-vertex-ai/index.html">Clase 168 — Despliegue en Vertex AI</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-2-deep-learning/167-onnx-onnx-runtime-portabilidad/"><code>classes/parte-2-deep-learning/167-onnx-onnx-runtime-portabilidad/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

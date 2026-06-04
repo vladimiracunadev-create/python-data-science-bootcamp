@@ -30,38 +30,12 @@ Al finalizar la clase, el alumno podrá:
 | 5 | `mkdir(parents=True, exist_ok=True)` | Crea árbol completo idempotente. |
 | 6 | `Path(__file__).parent` y `resolve()` | Localizar recursos relativos al script. |
 
-## 📌 Complemento: Formatos columnares (Parquet, Arrow, Feather)
 
-Los formatos columnares almacenan los datos por columna en lugar de por fila, lo que permite **compresión 5-10× mayor** que CSV, **lectura selectiva de columnas** (no cargás todo el archivo para leer 2 columnas), y **tipos preservados** (no perdés `datetime`, `int64` vs `float`, ni `category`). Son el estándar de facto en data lakes modernos, Spark, DuckDB, Polars y todo el ecosistema de data engineering.
+## 📌 Versión profundizada — 2026
 
-| Aspecto | CSV | Parquet | Feather / Arrow IPC |
-|---|---|---|---|
-| Tamaño típico (mismo dataset) | 100% (baseline) | 10-20% | 30-50% |
-| Velocidad de lectura | Lenta (parseo de texto) | Muy rápida | Máxima (memory-mapped) |
-| Tipado | Se pierde (todo string) | Preservado + schema | Preservado + schema |
-| Streaming / lectura parcial | Línea a línea | Por row group y columna | Por record batch |
-| Herramientas que lo leen | Todas (incluso Excel) | pandas, Spark, DuckDB, Polars | pandas, R, Arrow ecosystem |
+El tema moderno que vivía como complemento dentro de esta clase ahora tiene clase propia dedicada:
 
-Mini-ejemplo (requiere `pip install pyarrow`):
-
-```python
-import pandas as pd
-from pathlib import Path
-
-df = pd.DataFrame({"id": [1, 2, 3], "fecha": pd.to_datetime(["2026-01-01", "2026-01-02", "2026-01-03"])})
-
-# Parquet — almacenamiento y data lake
-df.to_parquet(Path("data") / "ventas.parquet")
-df2 = pd.read_parquet(Path("data") / "ventas.parquet", columns=["id"])  # solo lee 1 columna
-
-# Feather (Arrow IPC) — cache rápido entre procesos
-df.to_feather(Path("data") / "ventas.feather")
-df3 = pd.read_feather(Path("data") / "ventas.feather")
-```
-
-**¿Cuándo usar cada uno?** **CSV** cuando tenés que intercambiar con humanos, Excel o sistemas legacy — es feo pero universal. **Parquet** para almacenamiento permanente, particionado por fecha en data lakes, o cualquier dataset que vas a releer varias veces. **Feather/Arrow IPC** para cache temporal entre procesos Python (o entre Python y R) donde priorizás velocidad bruta sobre compresión.
-
-> Nota: desde pandas 2.0 podés usar Arrow como backend de tipos con `pd.read_parquet(..., dtype_backend="pyarrow")` — obtenés `string[pyarrow]` en lugar de `object`, menos memoria y operaciones más rápidas.
+- 👉 [Clase 032b — Parquet, Arrow, PyArrow, DuckDB](../032b-parquet-arrow-pyarrow-duckdb/README.md)
 
 ## 📖 Definiciones y características
 

@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 124 — tf.data API | Python Data Science Program</title>
+  <meta name="description" content="Clase 124 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 2 — Deep Learning</a><span class="sep">›</span><span>124</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-2-deep-learning/124-tf-data-api/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-124-tfdata-api">Clase 124 — tf.data API</h1>
+<blockquote>
+<p>Parte: <strong>2 — Deep Learning</strong> · Fuente: Géron, <strong>cap. 13</strong> § <em>The Data API</em>. ⏱️ Duración estimada: <strong>65 min</strong>.</p>
+</blockquote>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Construir <strong>pipelines de datos eficientes</strong> con <code>tf.data.Dataset</code>: leer desde memoria/archivos/CSV, <strong>transformar</strong> (<code>map</code>, <code>filter</code>), <strong>mezclar</strong> (<code>shuffle</code>), <strong>batchear</strong> (<code>batch</code>), <strong>prefetch</strong> (paraleliza CPU↔GPU). Saber por qué un buen pipeline de datos es la diferencia entre "GPU al 30 %" y "GPU al 95 %".</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar, el estudiante podrá:</p>
+<ul>
+<li>Crear datasets desde varias fuentes: <code>from_tensor_slices</code>, <code>list_files</code>, <code>TextLineDataset</code>.</li>
+<li>Encadenar transformaciones: <code>.map(fn, num_parallel_calls=tf.data.AUTOTUNE)</code>, <code>.filter</code>, <code>.shuffle(buffer)</code>, <code>.batch(N)</code>, <code>.prefetch(tf.data.AUTOTUNE)</code>.</li>
+<li>Reconocer el orden correcto: <code>cache → shuffle → batch → prefetch</code>.</li>
+<li>Usar <code>tf.data.AUTOTUNE</code> y profilear con TensorBoard Profiler.</li>
+<li>Saber cuándo <code>cache()</code> vale la pena (datasets que caben en RAM).</li>
+</ul>
+<h2 id="temas">🗺️ Temas</h2>
+<ul>
+<li>Lazy evaluation: el dataset es un grafo, no datos cargados.</li>
+<li><code>shuffle(buffer_size)</code>: buffer chico → mal mezclado; buffer = dataset_size → perfecto pero RAM.</li>
+<li><code>batch(N)</code> → cada elemento es ahora un mini-batch.</li>
+<li><code>prefetch</code>: solapamiento CPU (loading) con GPU (training).</li>
+<li><code>interleave</code> para leer múltiples archivos en paralelo.</li>
+<li>Métricas: <code>tf.data.experimental.assert_cardinality</code>.</li>
+</ul>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<ul>
+<li><strong><code>Dataset.from_tensor_slices</code></strong>: convierte un array NumPy en dataset.</li>
+<li><strong><code>map(fn, num_parallel_calls=AUTOTUNE)</code></strong>: aplica fn a cada elemento; AUTOTUNE elige hilos.</li>
+<li><strong><code>shuffle(buffer_size)</code></strong>: mezclado con buffer rotativo.</li>
+<li><strong><code>batch(N, drop_remainder=False)</code></strong>: agrupa en batches.</li>
+<li><strong><code>prefetch(n)</code></strong>: precarga n batches mientras la GPU procesa el actual.</li>
+<li><strong><code>cache()</code></strong>: guarda en memoria (o archivo) después de la primera época.</li>
+<li><strong><code>AUTOTUNE</code></strong>: TF mide y ajusta el número de hilos automáticamente.</li>
+</ul>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<ul>
+<li>Fashion-MNIST cargado vía <code>tf.data</code>.</li>
+<li>CSV grande para testear pipelines a archivo (anticipa 110 TFRecord).</li>
+<li>Librerías: <code>tensorflow</code>.</li>
+</ul>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>Dataset desde NumPy</strong>: <code>ds = tf.data.Dataset.from_tensor_slices((x_train, y_train)).shuffle(1024).batch(32).prefetch(tf.data.AUTOTUNE)</code>. Iterar y verificar shapes.</li>
+<li><strong>Map con normalización</strong>: <code>.map(lambda x, y: (tf.cast(x, tf.float32)/255., y), num_parallel_calls=tf.data.AUTOTUNE)</code>.</li>
+<li><strong>Cache</strong>: comparar tiempo del 1er epoch vs 2do epoch con y sin <code>.cache()</code>.</li>
+<li><strong>Buffer chico</strong>: comparar shuffle con <code>buffer_size=10</code> vs <code>buffer_size=len(data)</code>. Inspeccionar el primer batch.</li>
+<li><strong>Profilear</strong>: usar <code>tf.profiler</code> (vía TensorBoard) y verificar dónde está el bottleneck — data loading vs compute.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Pipeline production-ready para Fashion-MNIST:</p>
+<ol>
+<li><code>from_tensor_slices</code> con shuffle, augmentation simple (random flip), normalización, batch=128, prefetch.</li>
+<li>Cachear el dataset (entra en RAM).</li>
+<li>Train un MLP por 10 épocas; medir tiempo total.</li>
+<li>Comparar contra pasar <code>x, y</code> directo a <code>model.fit</code>.</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: el pipeline tf.data debe igualar o ser un poco más rápido que pasar arrays directos; con cache, el 2do epoch en adelante es notablemente más rápido (skip de I/O y map).</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>shuffle().batch()</code> muy mal mezclado</td>
+<td>Buffer = 1000 con dataset de 60 000 → vecinos siempre cerca. <strong>Fix</strong>: buffer ≥ 10 % del dataset.</td>
+</tr>
+<tr>
+<td>Cache + shuffle en orden incorrecto</td>
+<td><code>.cache().shuffle(...)</code>: ok. <code>.shuffle(...).cache()</code>: cachea <strong>un</strong> shuffle particular → mismo orden cada epoch. <strong>Fix</strong>: <code>.cache().shuffle()</code>.</td>
+</tr>
+<tr>
+<td><code>.batch(32, drop_remainder=False)</code> y el último batch tiene tamaño raro</td>
+<td>A veces deseado, a veces rompe modelos custom. <strong>Fix</strong>: <code>drop_remainder=True</code> si el modelo asume batch fijo.</td>
+</tr>
+<tr>
+<td>GPU idle 70 %</td>
+<td>El pipeline es el bottleneck. <strong>Fix</strong>: <code>prefetch(AUTOTUNE)</code>, <code>num_parallel_calls=AUTOTUNE</code> en map, considerar TFRecord (clase 110).</td>
+</tr>
+<tr>
+<td><code>.map(py_function(...))</code> lento</td>
+<td>Las py_function no se vectorizan ni se ejecutan en paralelo eficientemente. <strong>Fix</strong>: usar ops TF nativas en map.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿Cuál es el orden canónico de las ops?</strong></p>
+<p><code>Dataset → map → cache → shuffle → batch → prefetch</code>. Cache después de map (para no remap), antes de shuffle (cache de elementos individuales).</p>
+<p><strong>❓ ¿<code>prefetch(AUTOTUNE)</code> vs <code>prefetch(N)</code>?</strong></p>
+<p>AUTOTUNE casi siempre. Mide y ajusta. Solo fijá N si tenés constraints muy específicos.</p>
+<p><strong>❓ ¿<code>batch(32)</code> o <code>batch(128)</code>?</strong></p>
+<p>Depende del modelo y la GPU. Imágenes en VRAM grande: 128. Modelos grandes/Transformers: 8-32. Probá y mirá VRAM.</p>
+<p><strong>❓ ¿tf.data o PyTorch DataLoader?</strong></p>
+<p>Si usás TF: tf.data. PyTorch: <code>DataLoader</code> (similar concepto, num_workers). En 2026, los pipelines de Hugging Face usan <code>datasets</code> library que tiene buen interfaz para ambos.</p>
+<p><strong>❓ ¿Pipeline en GPU?</strong></p>
+<p>Algunas ops sí (decode JPG en GPU con <code>nvidia.dali</code> o <code>tf.image</code>). En general el pipeline corre en CPU y el modelo en GPU; <code>prefetch</code> solapa.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Géron, <strong>cap. 13</strong> — <em>The Data API</em>.</li>
+<li><a href="https://www.tensorflow.org/guide/data">TF — tf.data: Build TensorFlow input pipelines</a>.</li>
+<li><a href="https://www.tensorflow.org/guide/data_performance">TF — Better performance with the tf.data API</a>.</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../125-tfrecord/index.html">Clase 125 — TFRecord</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-2-deep-learning/124-tf-data-api/"><code>classes/parte-2-deep-learning/124-tf-data-api/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 103 — Keras Functional API y Subclassing | Python Data Science Program</title>
+  <meta name="description" content="Clase 103 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 2 — Deep Learning</a><span class="sep">›</span><span>103</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-2-deep-learning/103-keras-functional-api-y-subclassing/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-103-keras-functional-api-y-subclassing">Clase 103 — Keras Functional API y Subclassing</h1>
+<blockquote>
+<p>Parte: <strong>2 — Deep Learning</strong> · Fuente: Géron, <strong>cap. 10</strong> § <em>Building Complex Models Using the Functional API</em> y § <em>Building Dynamic Models Using the Subclassing API</em>. ⏱️ Duración estimada: <strong>70 min</strong>.</p>
+</blockquote>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Construir modelos con topologías <strong>no lineales</strong> —skip connections, multi-input, multi-output, capas compartidas— usando la <strong>Functional API</strong> (estilo "grafo de capas"), y modelos con flujo de control <strong>dinámico</strong> (loops, ifs) usando <strong>Subclassing</strong> (estilo <code>class MyModel(Model)</code> con <code>call()</code>). Saber elegir entre las tres APIs según el caso.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar, el estudiante podrá:</p>
+<ul>
+<li>Construir un modelo Wide &amp; Deep (clásico de Cheng et al. 2016) con Functional API.</li>
+<li>Construir un modelo multi-output con dos <code>Dense</code> finales y dos losses.</li>
+<li>Implementar un <code>MyResBlock</code> con Subclassing que tiene una skip connection.</li>
+<li>Reconocer el trade-off: Sequential (simple) → Functional (la mayoría de los casos) → Subclassing (cuando hace falta control dinámico).</li>
+<li>Convertir un modelo Functional en JSON / cargar con <code>model_from_json</code> (útil para serialización separada de pesos).</li>
+</ul>
+<h2 id="temas">🗺️ Temas</h2>
+<ul>
+<li>Functional API: <code>x = layer(prev_x)</code>; al final <code>Model(inputs=[...], outputs=[...])</code>.</li>
+<li>Multi-input / multi-output: pasar listas o dicts a <code>inputs=</code> / <code>outputs=</code>.</li>
+<li>Capas compartidas (siamese networks): aplicar la <strong>misma instancia</strong> de capa a dos entradas distintas.</li>
+<li>Subclassing: heredar de <code>keras.Model</code>, definir <code>__init__</code> (capas) y <code>call(self, inputs, training=False)</code>.</li>
+<li>Cuándo subclassing: control de flujo dinámico, modelos imperativos estilo PyTorch.</li>
+</ul>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<ul>
+<li><strong>Functional API</strong>: cada capa se llama como función <code>output = LayerInstance()(input)</code>; permite cualquier DAG. Visualizable con <code>keras.utils.plot_model</code>.</li>
+<li><strong>Subclassing</strong>: <code>Model</code> custom donde <code>call()</code> define el forward pass arbitrariamente. Más flexible pero más difícil de serializar y debuggear.</li>
+<li><strong>Skip connection</strong>: <code>y = Add()([x, F(x)])</code> — clave en ResNet (clase 115).</li>
+<li><strong>Capa compartida</strong>: <code>shared = Dense(32); a = shared(x1); b = shared(x2)</code>. Misma matriz de pesos en ambos.</li>
+<li><strong><code>call(self, inputs, training=False)</code></strong>: el flag <code>training</code> distingue forward de entrenamiento (con dropout activo) vs inferencia.</li>
+</ul>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<ul>
+<li>California Housing para Wide &amp; Deep.</li>
+<li>Librerías: <code>tensorflow</code>, <code>keras</code>.</li>
+</ul>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>Wide &amp; Deep</strong>: implementá el modelo de Cheng et al. con Functional API — input → wide path (directo a salida) + deep path (Dense × 2 → salida) → <code>Add()</code> → output.</li>
+<li><strong>Multi-output</strong>: predecir simultáneamente precio (regresión) Y rango de precio (clasificación 3 clases) sobre California Housing. Compilar con dict de losses.</li>
+<li><strong>Capa compartida (siamese)</strong>: dos imágenes de entrada → mismo encoder <code>Dense(64)</code> aplicado a ambas → concatenar embeddings → clasificación "same/different".</li>
+<li><strong>ResBlock con Subclassing</strong>: implementá una clase <code>ResBlock(Layer)</code> con dos Dense y skip connection. Usala en un modelo Sequential.</li>
+<li><strong>plot_model</strong>: graficá el modelo Wide &amp; Deep con <code>keras.utils.plot_model(model, show_shapes=True)</code>. Identificá visualmente las dos rutas.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Implementar un modelo multi-output en California Housing:</p>
+<ol>
+<li>Predecir <code>median_house_value</code> (regresión, loss MSE).</li>
+<li>Predecir <code>expensive</code> (binario: above/below mediana, loss BCE).</li>
+<li>Compartir las 2 primeras capas Dense (representación común) y luego ramificar.</li>
+<li>Compilar con <code>loss=[mse, bce]</code>, <code>loss_weights=[0.7, 0.3]</code>.</li>
+<li>Entrenar y reportar MAE + accuracy.</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: el modelo entrena sin errores, MAE razonable (&lt; $50k), accuracy ≥ 0.85; <code>plot_model</code> muestra la rama compartida + dos heads.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ValueError: A merge layer should be called on a list of inputs</code></td>
+<td><code>Add()(x, y)</code> en vez de <code>Add()([x, y])</code>. <strong>Fix</strong>: usar lista.</td>
+</tr>
+<tr>
+<td>Subclass <code>call()</code> no respeta <code>training</code> y dropout siempre activo</td>
+<td><strong>Fix</strong>: aceptar <code>training=False</code> como argumento y pasarlo a las capas (<code>self.dropout(x, training=training)</code>).</td>
+</tr>
+<tr>
+<td><code>model.save()</code> falla en subclass</td>
+<td>Subclassing requiere implementar <code>get_config</code> para serialización completa. <strong>Fix</strong>: para subclass solo <code>model.save_weights()</code> + reconstruir arquitectura en código.</td>
+</tr>
+<tr>
+<td>Multi-output con <code>loss='mse'</code> (un solo string)</td>
+<td>Aplica MSE a las dos salidas. <strong>Fix</strong>: pasar lista o dict <code>loss={'precio': 'mse', 'clase': 'binary_crossentropy'}</code>.</td>
+</tr>
+<tr>
+<td>Capa creada dentro de <code>call()</code> en cada forward</td>
+<td>Crea pesos nuevos cada vez → no aprende. <strong>Fix</strong>: instanciar capas en <code>__init__</code>.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿Functional o Subclassing?</strong></p>
+<p><strong>Functional por default</strong>. Es más fácil de serializar, visualizar y debuggear. Subclassing solo si necesitás control de flujo dinámico (loops, ifs sobre el input — raro en práctica salvo RNN custom).</p>
+<p><strong>❓ ¿Puedo mezclar Sequential dentro de Functional?</strong></p>
+<p>Sí. <code>inner = Sequential([Dense(64), Dense(32)]); out = inner(x)</code> — Sequential es un Layer válido.</p>
+<p><strong>❓ ¿Functional es más lento que Sequential?</strong></p>
+<p>No, mismo grafo por debajo.</p>
+<p><strong>❓ ¿Cuándo necesito multi-input?</strong></p>
+<p>Cuando tenés modalidades distintas (imagen + metadatos del usuario, texto + features numéricas). Cada modalidad tiene su input y su encoder; al final se concatenan.</p>
+<p><strong>❓ ¿<code>Add()</code> o <code>Concatenate()</code>?</strong></p>
+<p><code>Add()</code> para skip connections (preserva dimensión). <code>Concatenate()</code> para fusión de modalidades (suma dimensiones).</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Géron, <strong>cap. 10</strong> — <em>The Functional API</em> y <em>The Subclassing API</em>.</li>
+<li>Cheng et al. (2016), <em>Wide &amp; Deep Learning for Recommender Systems</em>, DLRS.</li>
+<li><a href="https://keras.io/guides/functional_api/">Keras — The Functional API</a>.</li>
+<li><a href="https://keras.io/guides/making_new_layers_and_models_via_subclassing/">Keras — Making new layers and models via subclassing</a>.</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../104-callbacks-tensorboard-guardar-restaurar-modelos/index.html">Clase 104 — Callbacks, TensorBoard, guardar/restaurar modelos</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-2-deep-learning/103-keras-functional-api-y-subclassing/"><code>classes/parte-2-deep-learning/103-keras-functional-api-y-subclassing/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

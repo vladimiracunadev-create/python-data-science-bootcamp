@@ -4,7 +4,7 @@
 
 ### **Modalidades de implementación · A/B/C/D · 90 min por clase**
 
-[![Clases](https://img.shields.io/badge/clases-197-7c5cff?style=for-the-badge)](syllabus.md)
+[![Clases](https://img.shields.io/badge/clases-232-7c5cff?style=for-the-badge)](syllabus.md)
 [![Modalidades](https://img.shields.io/badge/modalidades-4-0ea5e9?style=for-the-badge)](#-modalidades-sugeridas)
 
 </div>
@@ -13,7 +13,7 @@
 
 ## 🔭 Visión general
 
-El currículo tiene **197 clases en 9 partes**. No está pensado para impartirse íntegro en un solo programa de pocas semanas: es una pauta completa y profesional. Las modalidades reales recortan o reordenan partes según el público objetivo.
+El currículo tiene **232 clases en 9 partes**. No está pensado para impartirse íntegro en un solo programa de pocas semanas: es una pauta completa y profesional. Las modalidades reales recortan o reordenan partes según el público objetivo.
 
 Pauta completa: [syllabus.md](syllabus.md).
 Índice navegable: [../classes/README.md](../classes/README.md).
@@ -78,6 +78,6 @@ Cada clase está diseñada para **90 minutos de aula** + ~60 minutos de práctic
 
 ## 📊 Estado actual
 
-El **contenido pedagógico de las 197 clases está en desarrollo**. Las modalidades A/B/C arriba descritas requieren que primero estén rellenos los bloques correspondientes.
+El **contenido pedagógico de las 232 clases está en desarrollo**. Las modalidades A/B/C arriba descritas requieren que primero estén rellenos los bloques correspondientes.
 
 Ver [../ROADMAP.md](../ROADMAP.md) para el orden recomendado de desarrollo.

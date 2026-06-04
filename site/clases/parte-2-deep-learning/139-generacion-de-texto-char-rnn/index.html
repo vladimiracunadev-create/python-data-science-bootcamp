@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 139 — Generación de texto char-RNN | Python Data Science Program</title>
+  <meta name="description" content="Clase 139 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 2 — Deep Learning</a><span class="sep">›</span><span>139</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-2-deep-learning/139-generacion-de-texto-char-rnn/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-139-generacion-de-texto-char-rnn">Clase 139 — Generación de texto char-RNN</h1>
+<blockquote>
+<p>Parte: <strong>2 — Deep Learning</strong> · Fuente: Géron, <strong>cap. 16</strong> § <em>Generating Shakespearean Text Using a Character RNN</em>. ⏱️ Duración estimada: <strong>70 min</strong>.</p>
+</blockquote>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Construir un <strong>modelo de lenguaje autoregresivo a nivel carácter</strong> — el ejercicio canónico de Karpathy 2015 sobre Shakespeare. Entender <strong>next-token prediction</strong> como tarea de pre-training (la base de todo LLM moderno), <strong>sampling</strong> con temperatura, y por qué char-RNN fue importante históricamente aunque hoy se hace con tokens BPE y Transformers.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar, el estudiante podrá:</p>
+<ul>
+<li>Construir un vocabulario de caracteres (<code>stoi</code>, <code>itos</code> dicts).</li>
+<li>Generar samples <code>(window, target)</code> donde el target es el siguiente carácter.</li>
+<li>Entrenar un modelo <code>Embedding → LSTM → Dense(vocab_size)</code> con cross-entropy.</li>
+<li>Implementar <strong>sampling</strong> autoregresivo: <code>softmax → multinomial → next char → feed back</code>.</li>
+<li>Aplicar <strong>temperatura</strong>: <code>logits / T</code> antes de softmax — bajo T = más determinista, alto T = más random.</li>
+</ul>
+<h2 id="temas">🗺️ Temas</h2>
+<ul>
+<li>Tokenización a nivel carácter vs word vs BPE.</li>
+<li>Stateful vs stateless RNN: <code>stateful=True</code> para mantener <code>h</code> entre batches.</li>
+<li>Loss: cross-entropy sobre vocab_size.</li>
+<li>Sampling: greedy vs categorical multinomial vs top-k vs nucleus.</li>
+<li>Temperatura como control de creatividad.</li>
+</ul>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<ul>
+<li><strong>Next-token prediction</strong>: predecir <code>x_{t+1}</code> dado <code>x_1, ..., x_t</code>. Self-supervised.</li>
+<li><strong>Vocabulario</strong>: lista única de caracteres del corpus.</li>
+<li><strong>Stateful RNN</strong>: hidden state persiste entre batches consecutivos. Útil para corpus largo.</li>
+<li><strong>Sampling temperatura</strong>: <code>p_i = softmax(logits / T)</code>. T &lt; 1 más confiado; T &gt; 1 más diverso.</li>
+<li><strong>Top-k sampling</strong>: solo considerar los <code>k</code> tokens más probables. Default moderno con <code>k=40-50</code>.</li>
+</ul>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<ul>
+<li>Tiny Shakespeare (~1 MB de obras): https://raw.githubusercontent.com/karpathy/char-rnn/master/data/tinyshakespeare/input.txt</li>
+<li>Librerías: <code>tensorflow</code>, <code>keras</code>, <code>numpy</code>.</li>
+</ul>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>Vocab + encoding</strong>: tokenizar el texto a ints. Reportar <code>vocab_size</code>.</li>
+<li><strong>Modelo</strong>: <code>Embedding(vocab_size, 64) → GRU(128, return_sequences=True) → Dense(vocab_size)</code>.</li>
+<li><strong>Train</strong>: pasar batches de longitud 100; loss = <code>sparse_categorical_crossentropy</code>.</li>
+<li><strong>Sample</strong>: implementar función que genera N caracteres con T=1.0, T=0.5, T=1.5. Comparar outputs.</li>
+<li><strong>Top-k</strong>: implementar <code>np.argpartition(logits, -k)</code> antes de muestrear.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Generar Shakespeare:</p>
+<ol>
+<li>Entrenar <code>Embedding(64) → GRU(256, return_sequences=True, stateful=True) → Dense(vocab_size)</code> por 10 épocas.</li>
+<li>Generar 1000 caracteres comenzando con "ROMEO:" a temperaturas 0.3, 0.7, 1.2.</li>
+<li>Reportar val_loss y muestras de output.</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: val_loss &lt; 1.5 (vs ~3.5 random); las muestras a T=0.7 tienen palabras reconocibles y estructura de obra teatral.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Output es gibberish total</td>
+<td>Modelo no entrena (loss alta) o T demasiado alto. <strong>Fix</strong>: revisar loss; bajar T.</td>
+</tr>
+<tr>
+<td>Output es siempre la misma frase</td>
+<td>T = 0 o muy bajo. <strong>Fix</strong>: T = 0.5 - 1.0.</td>
+</tr>
+<tr>
+<td>OOM al generar 10 000 chars</td>
+<td>Stateful + sin truncar window. <strong>Fix</strong>: usar window deslizante.</td>
+</tr>
+<tr>
+<td><code>argmax</code> greedy → loops ("the the the the")</td>
+<td>Greedy sin diversidad. <strong>Fix</strong>: sampling con temperatura.</td>
+</tr>
+<tr>
+<td>Vocabulario incluye chars raros que aparecen 1 sola vez</td>
+<td>Aumenta vocab innecesariamente. <strong>Fix</strong>: filtrar chars con freq &lt; 10.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿char-RNN vs word-RNN vs BPE?</strong></p>
+<p>Char es simple, no tiene problema de OOV pero los outputs son largos. Word es eficiente pero pierde con palabras nuevas. <strong>BPE / SentencePiece</strong> (clase 127) es el estándar moderno.</p>
+<p><strong>❓ ¿Esto es un "LLM"?</strong></p>
+<p>Conceptualmente sí: next-token prediction. La diferencia con GPT es escala (parámetros, datos) y arquitectura (Transformer vs RNN). Mismo objetivo.</p>
+<p><strong>❓ ¿Sampling estrategias avanzadas?</strong></p>
+<p>Top-k, <strong>nucleus / top-p</strong> (Holtzman et al. 2020), beam search. Default moderno: top-p con <code>p=0.9</code> + temperatura.</p>
+<p><strong>❓ ¿Cómo evaluar generación?</strong></p>
+<p>Perplexity (<code>exp(loss)</code>) automática. Para calidad subjetiva, evaluadores humanos o métricas como BLEU, ROUGE, BERTScore.</p>
+<p><strong>❓ ¿Char-RNN sirve para algo en 2026?</strong></p>
+<p>Sí: NER muy específico, dominios con vocabulario muy chico, o como baseline. Para generación de texto serio → Transformer + BPE.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Géron, <strong>cap. 16</strong> — <em>Generating Shakespearean Text</em>.</li>
+<li>Karpathy (2015), <em>The Unreasonable Effectiveness of Recurrent Neural Networks</em> (blog).</li>
+<li>Holtzman et al. (2020), <em>The Curious Case of Neural Text Degeneration (nucleus sampling)</em>, ICLR.</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../140-analisis-de-sentimiento/index.html">Clase 140 — Análisis de sentimiento</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-2-deep-learning/139-generacion-de-texto-char-rnn/"><code>classes/parte-2-deep-learning/139-generacion-de-texto-char-rnn/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 181 — Corrección de comparaciones múltiples (Bonferroni, FDR) | Python Data Science Program</title>
+  <meta name="description" content="Clase 181 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 3 — Estadística inferencial</a><span class="sep">›</span><span>181</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-3-estadistica-inferencial/181-correccion-de-comparaciones-multiples-bonferroni-fdr/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-181-correccion-de-comparaciones-multiples-bonferroni-fdr">Clase 181 — Corrección de comparaciones múltiples (Bonferroni, FDR)</h1>
+<blockquote>
+<p>Parte: <strong>3 — Estadística Inferencial y Causal</strong> · Fuente: ISLP, <strong>cap. 13</strong> <em>Multiple Testing</em> + Benjamini &amp; Hochberg (1995). ⏱️ Duración estimada: <strong>70 min</strong>.</p>
+</blockquote>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Entender por qué hacer 100 tests al α=0.05 produce ≈ 5 falsos positivos esperados aunque todas las <code>H₀</code> sean verdaderas, y aplicar las dos familias de corrección: <strong>family-wise error rate (FWER)</strong> con Bonferroni y Holm, y <strong>false discovery rate (FDR)</strong> con Benjamini-Hochberg (BH). Saber elegir entre ambas según el contexto (medicina/seguridad → FWER; screening exploratorio → FDR).</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar, el estudiante podrá:</p>
+<ul>
+<li>Cuantificar la inflación de α al hacer k tests independientes: <code>1 - (1-α)^k</code>.</li>
+<li>Aplicar Bonferroni: <code>α_corregido = α / m</code>. Conservador pero simple.</li>
+<li>Aplicar <strong>Holm-Bonferroni</strong> (<code>statsmodels.stats.multitest.multipletests(..., method='holm')</code>) — uniformemente más poderoso que Bonferroni.</li>
+<li>Aplicar <strong>Benjamini-Hochberg (BH/FDR)</strong> y entender que controla la <strong>proporción esperada de falsos positivos</strong> entre los rechazos, no el FWER.</li>
+<li>Distinguir <strong>FWER</strong> (P[al menos 1 falso positivo] ≤ α) de <strong>FDR</strong> (E[V/R] ≤ q, donde V son falsos positivos y R rechazos totales).</li>
+<li>Reportar p-values ajustados (<code>q-values</code>) y umbrales claros.</li>
+</ul>
+<h2 id="temas">🗺️ Temas</h2>
+<ul>
+<li>El problema: si m=20 tests independientes con <code>H₀</code> verdadera y α=0.05, <code>P(al menos uno rechaza) = 1 - 0.95²⁰ ≈ 64 %</code>.</li>
+<li><strong>FWER</strong>: probabilidad de <strong>al menos 1</strong> falso positivo en toda la familia.</li>
+<li><strong>FDR</strong>: proporción esperada de falsos positivos <strong>entre los rechazos</strong> (no entre todos los tests).</li>
+<li><strong>Bonferroni</strong>: rechazar si <code>p_i ≤ α/m</code>. Controla FWER exactamente.</li>
+<li><strong>Holm</strong>: ordenar p-values y comparar <code>p_(i) ≤ α/(m-i+1)</code>. Uniformemente más poderoso que Bonferroni.</li>
+<li><strong>Benjamini-Hochberg (BH)</strong>: ordenar <code>p_(1) ≤ ... ≤ p_(m)</code>; rechazar todos los <code>p_(i)</code> tales que <code>p_(i) ≤ (i/m)·q</code>. Controla FDR a nivel <code>q</code>.</li>
+<li>Cuándo usar cada uno: FWER si <strong>un</strong> falso positivo es catastrófico (drug approval, security). FDR si esperás muchos descubrimientos verdaderos y querés tolerar algunos falsos (genómica, A/B testing masivo).</li>
+</ul>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<ul>
+<li><strong>Family-Wise Error Rate (FWER)</strong>: <code>P(rechazar al menos una H₀ verdadera)</code>. Sin corrección, crece con m. Bonferroni y Holm lo acotan.</li>
+<li><strong>False Discovery Rate (FDR)</strong>: <code>E[V / max(R, 1)]</code> donde V = falsos positivos, R = total de rechazos. Concepto introducido por Benjamini &amp; Hochberg (1995). Mucho menos restrictivo que FWER.</li>
+<li><strong>Bonferroni</strong>: divide α por m. Si m=100 y α=0.05, cada test usa α_local=0.0005. Conservador, pierde poder con m grande.</li>
+<li><strong>Šidák</strong>: <code>α_corregido = 1 - (1-α)^(1/m)</code>. Marginalmente menos conservador que Bonferroni; asume independencia.</li>
+<li><strong>Holm-Bonferroni</strong> (1979): step-down. Ordena p-values, compara el más chico contra α/m, el siguiente contra α/(m-1), etc. Uniformemente mejor que Bonferroni.</li>
+<li><strong>BH (Benjamini-Hochberg)</strong>: step-up. Ordena, encuentra el mayor <code>i</code> tal que <code>p_(i) ≤ (i/m)·q</code>, rechaza todos hasta ese. Controla FDR si los tests son independientes o tienen positive regression dependence (BY si la dependencia es arbitraria).</li>
+<li><strong>q-value</strong>: p-value ajustado bajo FDR. Interpretación: "si rechazo todo con q ≤ 0.05, espero que ≤ 5 % de mis rechazos sean falsos".</li>
+</ul>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<ul>
+<li><strong>Genómica sintética</strong>: simular m=1000 tests, m₀=950 nulos verdaderos y m₁=50 alternativos. Generar p-values y mostrar comportamiento de cada método.</li>
+<li>A/B testing real: 20 métricas testeadas a la vez → controlar familia.</li>
+<li>Librerías: <code>statsmodels.stats.multitest</code>, <code>pingouin.multicomp</code>, <code>scipy.stats</code>.</li>
+</ul>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>Inflación de α</strong>: simulá 10 000 experimentos. En cada uno, hacé 20 tests con <code>H₀</code> verdadera (<code>scipy.stats.ttest_ind</code> entre dos grupos <code>N(0,1)</code>, n=30). Contá en qué % al menos 1 da p&lt;0.05. Verificá que ≈ 64 %.</li>
+<li><strong>Bonferroni</strong>: con un vector <code>pvals</code> de 20 p-values, calculá <code>pvals_adj = np.minimum(pvals * 20, 1)</code> y compará contra <code>multipletests(pvals, method='bonferroni')</code>.</li>
+<li><strong>Holm</strong>: <code>multipletests(pvals, alpha=0.05, method='holm')</code>. Comparar cuántos rechaza vs Bonferroni con el mismo vector.</li>
+<li><strong>BH/FDR</strong>: genera 1000 p-values, 950 de <code>Uniform(0,1)</code> y 50 de <code>Beta(0.5, 5)</code> (concentrados cerca de 0 — alternativos). Aplicá <code>multipletests(pvals, alpha=0.05, method='fdr_bh')</code>. Contá cuántos rechaza y estimá el FDR empírico (rechazos del primer grupo / total rechazos).</li>
+<li><strong>Comparación</strong>: mismo vector del ej. 4, aplicar Bonferroni, Holm y BH. Tabla con: # rechazos, % de los 50 verdaderos descubiertos (recall), FDR empírico. Verificá que BH descubre mucho más con FDR controlado.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Sobre un dataset con 30 features y un target binario (ej.: <code>load_breast_cancer</code>):</p>
+<ol>
+<li>Para cada feature, t-test entre la clase 0 y la clase 1.</li>
+<li>Aplicar tres correcciones: Bonferroni, Holm, BH (q=0.05).</li>
+<li>Tabla comparativa: # features significativas según cada método.</li>
+<li>Justificar en 3 líneas qué método elegirías si: (a) vas a publicar los hallazgos en un paper médico, (b) usás esto como screening para una etapa siguiente.</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: BH debe descubrir más features que Holm, que descubre <code>≥</code> que Bonferroni. La justificación debe mencionar que (a) → FWER (Bonferroni/Holm), (b) → FDR (BH).</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Hago 50 t-tests sin corrección y reporto los significativos como hallazgos</td>
+<td>Cherry-picking estadístico. <strong>Fix</strong>: BH como mínimo.</td>
+</tr>
+<tr>
+<td>Aplico Bonferroni con m=1000 y no rechaza nada</td>
+<td>Demasiado conservador para screening. <strong>Fix</strong>: BH si el contexto admite FDR.</td>
+</tr>
+<tr>
+<td>Aplico BH a tests no independientes (ej.: features correlacionadas en regresión)</td>
+<td>BH clásico asume independencia o PRDS. <strong>Fix</strong>: BY (Benjamini-Yekutieli, <code>method='fdr_by'</code>) que tolera dependencia arbitraria — más conservador.</td>
+</tr>
+<tr>
+<td>Reporto p-value ajustado como "probabilidad de error"</td>
+<td>El p-value ajustado sigue siendo un p-value (bajo <code>H₀</code>), no <code>P(H₀\|datos)</code>. <strong>Fix</strong>: usar lenguaje preciso ("controlando FDR al 5 %").</td>
+</tr>
+<tr>
+<td>Decido cuál corrección usar <strong>después</strong> de ver los resultados</td>
+<td>También es p-hacking. <strong>Fix</strong>: pre-especificar la corrección.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿Cuándo Bonferroni y cuándo BH?</strong></p>
+<p>Regla simple: <strong>Bonferroni</strong> cuando el costo de un falso positivo es alto (medicina, seguridad, decisiones binarias). <strong>BH</strong> cuando hacés screening y aceptás cierta proporción de FP entre los hallazgos para no perder verdaderos (genómica, A/B testing masivo, feature selection).</p>
+<p><strong>❓ ¿Por qué Holm es siempre mejor que Bonferroni?</strong></p>
+<p>Porque rechaza al menos los mismos tests y a veces más, sin perder control del FWER. La única razón para usar Bonferroni es simplicidad pedagógica.</p>
+<p><strong>❓ ¿BH controla FDR exactamente al 5 %?</strong></p>
+<p>Controla FDR ≤ <code>q · (m₀/m)</code>, donde m₀ es el número de <code>H₀</code> verdaderas. En la práctica, m₀ ≤ m, así que <code>FDR ≤ q</code>. Si esperás muchos nulos, BH es un poco más conservador de lo que parece.</p>
+<p><strong>❓ ¿Storey's q-value es lo mismo que BH?</strong></p>
+<p>Es una versión adaptativa: estima <code>π₀ = m₀/m</code> de los datos y corrige menos cuando hay muchos rechazos esperados. En genómica es estándar; en data science general, BH alcanza.</p>
+<p><strong>❓ ¿Tengo que corregir si los tests son sobre datasets distintos?</strong></p>
+<p>Si forman parte del <strong>mismo objetivo de inferencia</strong> (la misma "familia"), sí. Si son análisis independientes con conclusiones separadas, no. El límite es subjetivo; pre-registrar la familia ayuda.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>ISLP, <strong>cap. 13</strong> — <em>Multiple Testing</em>.</li>
+<li>Benjamini, Y. &amp; Hochberg, Y. (1995), <em>Controlling the False Discovery Rate</em>, JRSS Series B.</li>
+<li>Holm, S. (1979), <em>A Simple Sequentially Rejective Multiple Test Procedure</em>, Scandinavian Journal of Statistics.</li>
+<li><a href="https://www.statsmodels.org/stable/generated/statsmodels.stats.multitest.multipletests.html"><code>statsmodels.stats.multitest.multipletests</code></a> — todos los métodos en una sola función.</li>
+<li>Efron, B. (2010), <em>Large-Scale Inference: Empirical Bayes Methods for Estimation, Testing, and Prediction</em>.</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../182-intervalos-de-confianza/index.html">Clase 182 — Intervalos de confianza</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-3-estadistica-inferencial/181-correccion-de-comparaciones-multiples-bonferroni-fdr/"><code>classes/parte-3-estadistica-inferencial/181-correccion-de-comparaciones-multiples-bonferroni-fdr/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

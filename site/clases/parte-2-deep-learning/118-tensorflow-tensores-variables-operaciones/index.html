@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 118 — TensorFlow: tensores, variables, operaciones | Python Data Science Program</title>
+  <meta name="description" content="Clase 118 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 2 — Deep Learning</a><span class="sep">›</span><span>118</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-2-deep-learning/118-tensorflow-tensores-variables-operaciones/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-118-tensorflow-tensores-variables-operaciones">Clase 118 — TensorFlow: tensores, variables, operaciones</h1>
+<blockquote>
+<p>Parte: <strong>2 — Deep Learning</strong> · Fuente: Géron, <strong>cap. 12</strong> § <em>Using TensorFlow like NumPy</em>. ⏱️ Duración estimada: <strong>60 min</strong>.</p>
+</blockquote>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Bajar un nivel por debajo de Keras: trabajar directamente con <strong>tensores</strong> (<code>tf.Tensor</code>) y <strong>variables</strong> (<code>tf.Variable</code>), entender la API NumPy-like de TF (<code>tf.matmul</code>, <code>tf.reduce_*</code>, <code>tf.cast</code>, <code>tf.reshape</code>), y diferenciar inmutable (Tensor) de mutable (Variable, base de los pesos).</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar, el estudiante podrá:</p>
+<ul>
+<li>Crear tensores con <code>tf.constant</code>, <code>tf.zeros</code>, <code>tf.ones</code>, <code>tf.random.normal</code>.</li>
+<li>Aplicar operaciones: aritméticas, <code>matmul</code>, broadcasting, indexing/slicing, <code>reduce_mean/sum/max</code>.</li>
+<li>Convertir entre TF y NumPy (<code>.numpy()</code>, <code>tf.convert_to_tensor</code>).</li>
+<li>Crear y modificar <code>tf.Variable</code> con <code>.assign</code>, <code>.assign_add</code>.</li>
+<li>Reconocer dtypes (<code>float32</code>, <code>float64</code>, <code>int32</code>, <code>bool</code>) y forzar cast cuando hace falta.</li>
+</ul>
+<h2 id="temas">🗺️ Temas</h2>
+<ul>
+<li><code>tf.Tensor</code>: inmutable, similar a <code>np.ndarray</code>.</li>
+<li><code>tf.Variable</code>: mutable, base de los pesos.</li>
+<li>Broadcasting (idéntico a NumPy).</li>
+<li>Operaciones reduce con <code>axis=</code>.</li>
+<li><code>tf.function</code> (anticipo clase 107) — convierte una función Python en grafo.</li>
+<li>TF en GPU: ops sobre tensores van a GPU automáticamente si está disponible.</li>
+</ul>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<ul>
+<li><strong><code>tf.constant</code></strong>: crea un Tensor inmutable.</li>
+<li><strong><code>tf.Variable</code></strong>: tensor mutable, registrable como peso de un modelo.</li>
+<li><strong>Broadcasting</strong>: <code>(3, 1) + (1, 4) → (3, 4)</code>. Reglas idénticas a NumPy.</li>
+<li><strong>dtype</strong>: tipo numérico. Mismatchs disparan errores; usar <code>tf.cast(x, tf.float32)</code>.</li>
+<li><strong><code>.assign()</code></strong>: actualizar el contenido de una Variable in-place. <code>v.assign_add(g)</code> es <code>v += g</code>.</li>
+<li><strong><code>.shape</code> y <code>.numpy()</code></strong>: forma del tensor y conversión a array NumPy.</li>
+</ul>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<ul>
+<li>Operaciones a mano (no requiere dataset).</li>
+<li>Librerías: <code>tensorflow</code>, <code>numpy</code>.</li>
+</ul>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>Tensores básicos</strong>: crear <code>t = tf.constant([[1.0, 2.0], [3.0, 4.0]])</code>. Imprimir shape, dtype, <code>t.numpy()</code>.</li>
+<li><strong>Operaciones</strong>: <code>tf.matmul(t, t)</code>, <code>tf.transpose(t)</code>, <code>tf.reduce_sum(t, axis=0)</code>. Verificar shapes.</li>
+<li><strong>Broadcasting</strong>: <code>a = tf.constant([[1.], [2.], [3.]])</code> (shape 3,1), <code>b = tf.constant([10., 20., 30.])</code> (3,). <code>a + b</code> → ¿qué shape?</li>
+<li><strong>Variable y assign</strong>: <code>v = tf.Variable([1., 2., 3.])</code>; <code>v.assign([4., 5., 6.])</code>; <code>v.assign_add([1., 1., 1.])</code>. Verificar.</li>
+<li><strong>dtype mismatch</strong>: <code>tf.constant([1, 2, 3]) + tf.constant([1.0, 2.0, 3.0])</code> → error. Arreglar con <code>tf.cast</code>.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Implementar <strong>regresión lineal manualmente con TF</strong> (sin Keras):</p>
+<ol>
+<li>Generar <code>X = tf.random.normal((100, 2))</code>, <code>y_true = X @ tf.constant([[1.], [2.]]) + 3 + ruido</code>.</li>
+<li>Variables <code>w = tf.Variable(tf.random.normal((2, 1)))</code>, <code>b = tf.Variable(0.0)</code>.</li>
+<li>Loss = MSE.</li>
+<li>Loop manual: calcular pred, loss, gradientes (con <code>GradientTape</code> — anticipo clase 108), update con <code>assign_sub</code>.</li>
+<li>Reportar <code>w, b</code> finales, comparar con verdaderos.</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: tras 500 iteraciones con LR=0.01, <code>w ≈ [1, 2]</code> (±0.1) y <code>b ≈ 3</code> (±0.1).</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>InvalidArgumentError: cannot compute Add as input #1 was expected to be a float32 tensor</code></td>
+<td>dtype mismatch. <strong>Fix</strong>: <code>tf.cast(x, tf.float32)</code>.</td>
+</tr>
+<tr>
+<td><code>AttributeError: 'EagerTensor' object has no attribute 'numpy'</code> cuando está envuelto en <code>tf.function</code></td>
+<td>Dentro de <code>@tf.function</code> los tensores son simbólicos. <strong>Fix</strong>: salir del scope o usar <code>.numpy()</code> solo en eager mode.</td>
+</tr>
+<tr>
+<td>Asignar a <code>tf.constant</code></td>
+<td>Inmutable. <strong>Fix</strong>: usar <code>tf.Variable</code>.</td>
+</tr>
+<tr>
+<td>Operaciones tipo <code>arr[mask] = 0</code> en TF</td>
+<td>TF tensors son inmutables. <strong>Fix</strong>: <code>tf.where(mask, 0, arr)</code>.</td>
+</tr>
+<tr>
+<td><code>t.numpy()</code> lento dentro de un loop de entrenamiento</td>
+<td>Forza sync GPU → CPU. <strong>Fix</strong>: mantener todo en TF, convertir solo al final.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿TF tensors o NumPy arrays?</strong></p>
+<p>TF cuando trabajás con un modelo y querés que las operaciones corran en GPU + sean diferenciables. NumPy para análisis CPU de datos. Conversión es barata pero no gratis.</p>
+<p><strong>❓ ¿<code>tf.Variable</code> o <code>tf.constant</code> para datos de entrada?</strong></p>
+<p>Constant (los datos no cambian). Variables son para pesos que se entrenan.</p>
+<p><strong>❓ ¿Por qué <code>float32</code> y no <code>float64</code>?</strong></p>
+<p>GPUs son MUCHO más rápidas en float32 (y aún más en bfloat16). Default ML.</p>
+<p><strong>❓ ¿Cómo seteo el device manualmente?</strong></p>
+<p><code>with tf.device('/GPU:0'): ...</code> o <code>tf.config.set_visible_devices(...)</code>. En la mayoría de los casos no hace falta — TF lo elige bien.</p>
+<p><strong>❓ ¿Equivalencia con PyTorch?</strong></p>
+<p><code>tf.constant</code> ↔ <code>torch.tensor(..., requires_grad=False)</code>. <code>tf.Variable</code> ↔ <code>torch.Parameter</code> o <code>nn.Parameter</code>. Operaciones casi 1:1.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Géron, <strong>cap. 12</strong> — <em>Custom Models and Training with TensorFlow</em>.</li>
+<li><a href="https://www.tensorflow.org/guide/tensor">TF Tensor guide</a>.</li>
+<li><a href="https://www.tensorflow.org/guide/variable">TF Variable guide</a>.</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../119-losses-metricas-capas-modelos-custom/index.html">Clase 119 — Losses, métricas, capas, modelos custom</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-2-deep-learning/118-tensorflow-tensores-variables-operaciones/"><code>classes/parte-2-deep-learning/118-tensorflow-tensores-variables-operaciones/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

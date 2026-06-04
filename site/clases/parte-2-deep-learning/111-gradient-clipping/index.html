@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 111 — Gradient clipping | Python Data Science Program</title>
+  <meta name="description" content="Clase 111 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 2 — Deep Learning</a><span class="sep">›</span><span>111</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-2-deep-learning/111-gradient-clipping/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-111-gradient-clipping">Clase 111 — Gradient clipping</h1>
+<blockquote>
+<p>Parte: <strong>2 — Deep Learning</strong> · Fuente: Géron, <strong>cap. 11</strong> § <em>Gradient Clipping</em> + Pascanu, Mikolov &amp; Bengio (2013). ⏱️ Duración estimada: <strong>45 min</strong>.</p>
+</blockquote>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Aplicar <strong>gradient clipping</strong> —limitar la norma o el valor de los gradientes antes de actualizar pesos— como protección contra exploding gradients, especialmente crítico en <strong>RNN/LSTM</strong> (clase 120) y en entrenamiento de <strong>LLMs</strong>. Diferenciar <code>clipnorm</code> (preserva dirección) de <code>clipvalue</code> (clipea por elemento).</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar, el estudiante podrá:</p>
+<ul>
+<li>Configurar clipping en cualquier optimizer Keras: <code>Adam(clipnorm=1.0)</code> o <code>Adam(clipvalue=0.5)</code>.</li>
+<li>Saber cuándo <code>clipnorm</code> es preferible (default moderno): preserva dirección del gradiente.</li>
+<li>Implementar clipping manual en custom training loop con <code>tf.clip_by_global_norm</code>.</li>
+<li>Detectar exploding monitoreando la norma del gradiente.</li>
+<li>Reconocer que en Transformers de LLM, <code>clipnorm=1.0</code> es estándar.</li>
+</ul>
+<h2 id="temas">🗺️ Temas</h2>
+<ul>
+<li>Exploding revisitado: ¿qué pasa cuando <code>||grad||</code> crece exponencialmente?</li>
+<li><code>clipnorm</code>: si <code>||g|| &gt; c</code>, escalar <code>g ← g · c/||g||</code>. Preserva dirección.</li>
+<li><code>clipvalue</code>: <code>g_i ← clip(g_i, -c, +c)</code> por elemento. Cambia dirección.</li>
+<li>Global norm vs per-variable: <code>clip_by_global_norm</code> mira el norm del tensor concatenado de todos los pesos.</li>
+</ul>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<ul>
+<li><strong>Gradient clipping</strong>: limitar el tamaño del gradiente antes de aplicarlo.</li>
+<li><strong><code>clipnorm</code></strong>: norma euclídea L2 máxima permitida. Si excede, se reescala manteniendo dirección.</li>
+<li><strong><code>clipvalue</code></strong>: máximo valor absoluto por elemento.</li>
+<li><strong>Global norm</strong>: <code>||g||₂</code> calculado sobre todos los gradientes concatenados como un solo vector.</li>
+<li><strong><code>tf.clip_by_global_norm(grads, clip_norm=1.0)</code></strong>: API moderna para clipping en custom loops.</li>
+</ul>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<ul>
+<li>Fashion-MNIST + un MLP propenso a exploding (LR alto + sin BN).</li>
+<li>Librerías: <code>tensorflow</code>, <code>keras</code>.</li>
+</ul>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>Forzar exploding</strong>: entrenar MLP con <code>Adam(lr=10.0)</code> sobre Fashion-MNIST. <code>loss = nan</code> rápido.</li>
+<li><strong>Clipping al rescate</strong>: repetir con <code>Adam(lr=10.0, clipnorm=1.0)</code>. Verificar que no explota (aunque sigue malo el LR — clipping no es solución a LR mal calibrado, solo a explosión).</li>
+<li><strong><code>clipnorm</code> vs <code>clipvalue</code></strong>: comparar las dos con LR razonable. Para problemas estables son ~equivalentes; diferencias aparecen en patrones específicos.</li>
+<li><strong>Custom loop</strong>: implementar el paso con <code>gradients = tape.gradient(loss, model.trainable_variables); gradients, _ = tf.clip_by_global_norm(gradients, 1.0); optimizer.apply_gradients(...)</code>.</li>
+<li><strong>Monitoreo</strong>: graficar <code>||grad||</code> por step. Verificar que no excede el <code>clipnorm</code> configurado.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Reentrenar el modelo del ejercicio anterior con LR razonable + <code>clipnorm=1.0</code> como práctica estándar:</p>
+<ol>
+<li>MLP <code>[300, 100]</code> Fashion-MNIST.</li>
+<li><code>Adam(learning_rate=1e-3, clipnorm=1.0)</code>.</li>
+<li>Graficar la norma del gradiente en cada step (custom loop o callback).</li>
+<li>Verificar que la curva está acotada a 1.0 cuando el modelo aún no convergió.</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: el modelo entrena estable (val_accuracy ≥ 0.87) y la norma del gradiente está acotada como esperado.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>clipnorm=0.01</code> y modelo no aprende</td>
+<td>Clipping muy agresivo enmascara gradientes legítimos. <strong>Fix</strong>: subir a 1.0 o 5.0.</td>
+</tr>
+<tr>
+<td>Configuro <code>clipvalue</code> y los gradientes pequeños se vuelven 0</td>
+<td>Si el valor es chico y los gradientes son chicos, todo lo que está sobre el umbral se pierde. <strong>Fix</strong>: <code>clipnorm</code> en general es preferible.</td>
+</tr>
+<tr>
+<td>Custom loop sin clipping → <code>loss=nan</code> ocasional en RNN</td>
+<td>Sin clipping RNN explota. <strong>Fix</strong>: <code>tf.clip_by_global_norm(grads, 5.0)</code> como mínimo en RNN.</td>
+</tr>
+<tr>
+<td>Cliping pasa pero el problema es otro (LR mal)</td>
+<td>Clipping no arregla LR mal calibrado. <strong>Diagnóstico</strong>: si después de clipping el modelo no mejora, bajar LR.</td>
+</tr>
+<tr>
+<td><code>clipnorm</code> y <code>clipvalue</code> simultáneamente</td>
+<td>Keras los aplica en cascada — comportamiento confuso. <strong>Fix</strong>: usar uno.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿<code>clipnorm=1</code> o <code>clipnorm=5</code>?</strong></p>
+<p><code>1.0</code> para Transformers/LLMs (estándar). <code>5.0</code> para RNN/LSTM clásicos. Para MLPs/CNNs con BN, en general no hace falta clipping; un default de <code>1.0</code> no hace daño.</p>
+<p><strong>❓ ¿Clipping deteriora el modelo final?</strong></p>
+<p>Si el clipping nunca se activa (rara vez sobrepasás), no hace nada. Si se activa todo el tiempo, es una banda-aid sobre un problema más serio. Ideal: <code>clipnorm</code> por si las moscas pero no debería gatillarse seguido.</p>
+<p><strong>❓ ¿Cuándo monitorear la norma del gradiente?</strong></p>
+<p>Siempre que entrenes algo nuevo / no probado. Es el indicador más rápido de exploding/vanishing.</p>
+<p><strong>❓ ¿GradientTape global vs por variable?</strong></p>
+<p>Global norm (<code>clip_by_global_norm</code>) es lo correcto: trata el conjunto de pesos como un vector único. Per-variable distorsiona la dirección.</p>
+<p><strong>❓ ¿Por qué en LLMs es tan importante?</strong></p>
+<p>Transformers profundos + sequences largas → gradientes pueden ser muy heterogéneos. <code>clipnorm=1.0</code> y <code>Adam(beta1=0.9, beta2=0.95)</code> son la receta default de modelos como GPT-3 entrenados desde cero.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Géron, <strong>cap. 11</strong> — <em>Gradient Clipping</em>.</li>
+<li>Pascanu, Mikolov &amp; Bengio (2013), <em>On the difficulty of training recurrent neural networks</em>, ICML.</li>
+<li><a href="https://www.tensorflow.org/api_docs/python/tf/clip_by_global_norm"><code>tf.clip_by_global_norm</code></a>.</li>
+<li><a href="https://keras.io/api/optimizers/">Keras Optimizer base — <code>clipnorm</code>/<code>clipvalue</code>/<code>global_clipnorm</code></a>.</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../112-transfer-learning-unsupervised-pretraining/index.html">Clase 112 — Transfer learning, unsupervised pretraining</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-2-deep-learning/111-gradient-clipping/"><code>classes/parte-2-deep-learning/111-gradient-clipping/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

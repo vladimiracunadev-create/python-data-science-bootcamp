@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 064 — Class imbalance: SMOTE, ADASYN, class_weight, threshold tuning | Python Data Science Program</title>
+  <meta name="description" content="Clase 064 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 1 — ML clásico</a><span class="sep">›</span><span>064</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-1-machine-learning-clasico/064-class-imbalance-smote-adasyn-class-weight/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-064-class-imbalance-smote-adasyn-class_weight-threshold-tuning">Clase 064 — Class imbalance: SMOTE, ADASYN, class_weight, threshold tuning</h1>
+<blockquote>
+<p>Parte: <strong>1 — Machine Learning Clásico</strong> · Fuente: Chawla et al. (2002) SMOTE + He et al. (2008) ADASYN + <a href="https://imbalanced-learn.org/">imbalanced-learn</a> docs. ⏱️ Duración estimada: <strong>80 min</strong>.</p>
+</blockquote>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Tratar <strong>datasets desbalanceados</strong> —fraude (1 % positivo), churn (5 %), enfermedades raras—. Las trampas son sutiles: accuracy puede ser 99 % con un clasificador trivial. Cubrir las 4 estrategias estándar: <strong>class_weight</strong>, <strong>threshold tuning</strong>, <strong>oversampling (SMOTE, ADASYN)</strong>, <strong>undersampling (Tomek, ENN)</strong>. Y la decisión clave: ¿qué métrica reportar? (F1, PR-AUC, MCC, no accuracy).</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar, el estudiante podrá:</p>
+<ul>
+<li>Detectar imbalance: <code>value_counts(normalize=True)</code>. Decidir si &gt; 10:1 amerita tratamiento.</li>
+<li>Aplicar <code>class_weight='balanced'</code> o pesos custom en sklearn.</li>
+<li>Aplicar <strong>threshold tuning</strong>: optimizar el umbral de decisión sobre la curva PR según la métrica del negocio.</li>
+<li>Usar <strong>SMOTE</strong> (synthetic minority over-sampling) de <code>imbalanced-learn</code>: <code>SMOTE(k_neighbors=5).fit_resample(X, y)</code>.</li>
+<li>Combinar oversampling + undersampling (SMOTETomek, SMOTEENN).</li>
+<li>Reportar <strong>PR-AUC</strong> y <strong>MCC</strong> (Matthews Correlation Coefficient) en lugar de accuracy.</li>
+</ul>
+<h2 id="temas">🗺️ Temas</h2>
+<ul>
+<li>Imbalance ratio: &gt;10:1 problemático.</li>
+<li>Métricas: precision, recall, F1, F-beta, PR-AUC, MCC.</li>
+<li>class_weight: penalizar más errores en minoría durante training.</li>
+<li>Threshold tuning: mover el umbral fuera del 0.5 default.</li>
+<li>SMOTE: interpola entre vecinos de la minoría.</li>
+<li>ADASIN: como SMOTE pero con más densidad en zonas "difíciles".</li>
+<li>Tomek links / ENN: remueve borderline de la mayoría.</li>
+<li>imbalanced-learn pipelines.</li>
+</ul>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<ul>
+<li><strong>Class imbalance</strong>: una clase mucho más frecuente que otra(s).</li>
+<li><strong>class_weight='balanced'</strong>: pesos automáticos inversamente proporcionales a frecuencia.</li>
+<li><strong>SMOTE</strong>: para cada sample minoritario, crear sintéticos en línea recta a sus k vecinos.</li>
+<li><strong>ADASIN</strong>: SMOTE adaptativo — genera más cerca de la frontera de decisión.</li>
+<li><strong>PR-AUC</strong>: área bajo Precision-Recall curve. Más informativa que ROC-AUC cuando hay imbalance fuerte.</li>
+<li><strong>MCC</strong>: <code>(TP*TN - FP*FN) / sqrt(...)</code>. Único valor en [-1, 1]. Robusto a imbalance.</li>
+<li><strong>Threshold tuning</strong>: elegir el cutoff <code>p &gt; τ → predict 1</code> que maximiza la métrica de negocio.</li>
+</ul>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<ul>
+<li><code>fetch_openml('creditcardfraud')</code> (Kaggle, 0.17 % positivo).</li>
+<li>Librerías: <code>imbalanced-learn</code> (<code>pip install imbalanced-learn</code>), <code>scikit-learn</code>.</li>
+</ul>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>Baseline sin tratamiento</strong>: <code>LogisticRegression</code> en creditcardfraud. Accuracy alto, recall pésimo.</li>
+<li><strong>class_weight</strong>: <code>LogisticRegression(class_weight='balanced')</code>. Recall sube, precision baja.</li>
+<li><strong>Threshold tuning</strong>: con probabilidades de predict_proba, barrer thresholds y plotear F1 vs threshold. Elegir el óptimo.</li>
+<li><strong>SMOTE</strong>: <code>from imblearn.over_sampling import SMOTE; X_res, y_res = SMOTE().fit_resample(X_train, y_train)</code>. Entrenar y evaluar.</li>
+<li><strong>Pipeline imblearn</strong>: <code>Pipeline([('smote', SMOTE()), ('clf', LogisticRegression())])</code>. Importante: SMOTE solo se aplica en train (imblearn pipeline lo maneja).</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Sobre creditcardfraud:</p>
+<ol>
+<li>4 modelos: baseline, class_weight, SMOTE, SMOTETomek.</li>
+<li>Reportar precision, recall, F1, PR-AUC y MCC para cada uno.</li>
+<li>Curva PR de los 4 lado a lado.</li>
+<li>Threshold tuning sobre el mejor para maximizar F2 (favorece recall).</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: al menos uno de los tratamientos supera al baseline en F1 por ≥ 0.1; PR-AUC ≥ 0.8.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Accuracy 99.5 % en fraude con clasificador trivial</td>
+<td>Reporta accuracy en imbalance. <strong>Fix</strong>: usar PR-AUC, F1, MCC.</td>
+</tr>
+<tr>
+<td>SMOTE aplicado antes de split</td>
+<td>Leakage: samples sintéticos derivados de test entran en train. <strong>Fix</strong>: SMOTE solo en train, dentro del pipeline imblearn.</td>
+</tr>
+<tr>
+<td>Threshold default 0.5 con probabilidades calibradas raras</td>
+<td>Subóptimo. <strong>Fix</strong>: tunear sobre val.</td>
+</tr>
+<tr>
+<td>SMOTE con features categóricas codificadas one-hot</td>
+<td>Interpola entre 0/1, sin sentido. <strong>Fix</strong>: <code>SMOTENC</code> (handles cat).</td>
+</tr>
+<tr>
+<td>Oversampling para clase de 0.1 % a 50/50</td>
+<td>Excesivo. <strong>Fix</strong>: ratio 1:3 o 1:5 suele ser suficiente.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ class_weight o SMOTE?</strong></p>
+<p>class_weight es más simple y barato. SMOTE puede ayudar en casos extremos o con árboles/ensembles. Probá ambos.</p>
+<p><strong>❓ ¿Cuándo PR-AUC vs ROC-AUC?</strong></p>
+<p>PR-AUC cuando imbalance fuerte (&gt;10:1) — más sensible. ROC-AUC para casos balanceados o solo para comparar relativamente.</p>
+<p><strong>❓ ¿MCC vs F1?</strong></p>
+<p>MCC es simétrico (trata clases igual). F1 favorece la minoría. Para fraude/medical, MCC es más conservador.</p>
+<p><strong>❓ ¿SMOTE con DL?</strong></p>
+<p>Menos común — DL prefiere ajustar la loss (focal loss, weighted CE).</p>
+<p><strong>❓ ¿Undersampling pierde información?</strong></p>
+<p>Sí. Por eso es un last resort. SMOTE/oversampling sintético suele ser mejor.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Chawla et al. (2002), <em>SMOTE</em>, JAIR.</li>
+<li>He et al. (2008), <em>ADASYN</em>, IJCNN.</li>
+<li>Saito &amp; Rehmsmeier (2015), <em>The Precision-Recall Plot Is More Informative than the ROC Plot</em>, PLOS ONE.</li>
+<li><a href="https://imbalanced-learn.org/">imbalanced-learn docs</a>.</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../065-precision-recall-tradeoff/index.html">Clase 065 — Precision/Recall tradeoff</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-1-machine-learning-clasico/064-class-imbalance-smote-adasyn-class-weight/"><code>classes/parte-1-machine-learning-clasico/064-class-imbalance-smote-adasyn-class-weight/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

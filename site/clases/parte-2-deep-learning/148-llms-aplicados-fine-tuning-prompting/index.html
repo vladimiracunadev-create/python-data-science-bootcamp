@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 148 — LLMs aplicados: fine-tuning, prompting (+ LoRA / QLoRA, DPO, vLLM) | Python Data Science Program</title>
+  <meta name="description" content="Clase 148 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 2 — Deep Learning</a><span class="sep">›</span><span>148</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-2-deep-learning/148-llms-aplicados-fine-tuning-prompting/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#version-profundizada-2026">📌 Versión profundizada — 2026</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-148-llms-aplicados-fine-tuning-prompting-lora-qlora-dpo-vllm">Clase 148 — LLMs aplicados: fine-tuning, prompting (+ LoRA / QLoRA, DPO, vLLM)</h1>
+<blockquote>
+<p>Parte: <strong>2 — Deep Learning</strong> · Fuente: docs HuggingFace PEFT + TRL + vLLM + papers LoRA (Hu et al. 2021), QLoRA (Dettmers et al. 2023), DPO (Rafailov et al. 2023). ⏱️ Duración estimada: <strong>110 min</strong>.</p>
+</blockquote>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Manejar <strong>Large Language Models</strong> (Llama 3, Mistral, Qwen, etc.) en flujos reales: prompting técnico (zero-shot, few-shot, chain-of-thought), <strong>fine-tuning eficiente</strong> con <strong>LoRA / QLoRA</strong> (entrenar solo 0.1-1 % de parámetros), <strong>alineamiento</strong> con <strong>DPO</strong> (preferencias, en lugar de RLHF clásico), e <strong>inference de producción</strong> con <strong>vLLM</strong> (continuous batching, PagedAttention).</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar, el estudiante podrá:</p>
+<ul>
+<li>Diseñar prompts con system prompts, few-shot examples y chain-of-thought.</li>
+<li>Aplicar <strong>LoRA</strong> con <code>peft</code> library: agregar adapters chicos a un LLM grande, entrenar solo ~0.5 % de params.</li>
+<li>Aplicar <strong>QLoRA</strong> (cuantización 4-bit) para fine-tunear Llama 7B en una sola GPU de 24 GB.</li>
+<li>Alinear con preferencias usando <strong>DPO</strong> (<code>trl</code> library) — más simple y estable que RLHF.</li>
+<li>Servir un modelo con <strong>vLLM</strong> y medir throughput.</li>
+</ul>
+<h2 id="temas">🗺️ Temas</h2>
+<ul>
+<li>LLM stack en 2026: base → SFT (Supervised Fine-Tuning) → DPO/RLHF → inference optimizada.</li>
+<li>Prompting técnico: structure, few-shot, chain-of-thought, function calling.</li>
+<li>PEFT (Parameter-Efficient Fine-Tuning): LoRA, QLoRA, adapters.</li>
+<li>DPO vs RLHF.</li>
+<li>vLLM: continuous batching, PagedAttention, OpenAI-compatible API.</li>
+<li>Evaluación: MMLU, HumanEval, MT-Bench, LMSys Arena.</li>
+</ul>
+<h2 id="version-profundizada-2026">📌 Versión profundizada — 2026</h2>
+<p>El tema moderno que antes vivía como complemento dentro de esta clase ahora tiene su(s) clase(s) propia(s) con patrón completo, ejercicios y homework:</p>
+<ul>
+<li>👉 <a href="../128a-lora-qlora-fine-tuning-eficiente/index.html">Clase 128a — LoRA / QLoRA: fine-tuning eficiente de LLMs</a></li>
+<li>👉 <a href="../128b-dpo-rlhf-alineamiento-de-llms/index.html">Clase 128b — DPO y RLHF: alineamiento de LLMs</a></li>
+<li>👉 <a href="../128c-vllm-tgi-serving-llm-produccion/index.html">Clase 128c — vLLM y TGI: serving de LLMs en producción</a></li>
+</ul>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<ul>
+<li><strong>Prompting</strong>: arte de estructurar el input para que el modelo dé buenos outputs.</li>
+<li><strong>Few-shot</strong>: incluir 2-5 ejemplos del task en el prompt.</li>
+<li><strong>Chain-of-thought (CoT)</strong>: pedirle al modelo que "piense paso a paso" — mejora dramática en tareas razonamiento.</li>
+<li><strong>System prompt</strong>: instrucciones generales antes del diálogo (rol, restricciones).</li>
+<li><strong>PEFT</strong>: técnica de fine-tuning con pocos parámetros.</li>
+<li><strong>LoRA</strong>: rank-r decomposition para los deltas.</li>
+<li><strong>QLoRA</strong>: LoRA + 4-bit quantization del base.</li>
+<li><strong>DPO</strong>: loss directa sobre preferencias, sin reward model.</li>
+<li><strong>vLLM</strong>: framework de inference optimizada open-source.</li>
+<li><strong>KV cache</strong>: cache de K, V de tokens previos, crítico para inference autoregresiva.</li>
+</ul>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<ul>
+<li>HuggingFace Hub para modelos.</li>
+<li>Datasets de instrucción: Alpaca, ShareGPT, OpenOrca.</li>
+<li>Datasets de preferencia: Anthropic HH-RLHF, UltraFeedback.</li>
+<li>Librerías: <code>transformers</code>, <code>peft</code>, <code>trl</code>, <code>bitsandbytes</code>, <code>vllm</code>.</li>
+</ul>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>Prompt engineering</strong>: para una tarea (e.g., clasificación de quejas), iterar 5 versiones de prompt (zero-shot, few-shot, CoT, etc.). Medir accuracy en un set chico.</li>
+<li><strong>LoRA SFT</strong>: fine-tunear un Mistral 7B Instruct con LoRA sobre un dataset propio chico (1k-10k ejemplos).</li>
+<li><strong>QLoRA</strong>: el mismo experimento pero con quantization 4-bit. Comparar memoria y velocidad.</li>
+<li><strong>DPO</strong>: con un dataset de preferencias mínimo (e.g., 500 pairs), aplicar DPO sobre el modelo SFT.</li>
+<li><strong>vLLM serving</strong>: levantar vLLM con el modelo + LoRA adapter, medir throughput vs HF <code>pipeline</code>.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Fine-tunear un LLM open con LoRA para una tarea propia:</p>
+<ol>
+<li>Elegir Llama 3 8B Instruct o Mistral 7B Instruct.</li>
+<li>Dataset propio: 500-2000 pares (instrucción, respuesta).</li>
+<li>QLoRA config: <code>r=16, target=['q_proj','k_proj','v_proj','o_proj']</code>, 4-bit.</li>
+<li>Entrenar 3 épocas; evaluar perplexity en val.</li>
+<li>Servir con vLLM y testear 10 ejemplos.</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: perplexity en val mejora vs base; el modelo responde apropiadamente al dominio para los 10 ejemplos test.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>RuntimeError: CUDA out of memory</code> con Llama 7B + LoRA</td>
+<td>Sin quantization. <strong>Fix</strong>: QLoRA con <code>bnb_4bit</code>.</td>
+</tr>
+<tr>
+<td>LoRA con <code>target_modules='all-linear'</code> lento</td>
+<td>Demasiados adapters. <strong>Fix</strong>: solo q/v en attention, o <code>q,k,v,o</code>.</td>
+</tr>
+<tr>
+<td>Modelo SFT sobre dataset chico pierde capacidades</td>
+<td>Catastrophic forgetting parcial. <strong>Fix</strong>: subir LoRA rank, agregar datos diversos.</td>
+</tr>
+<tr>
+<td>DPO sin <code>ref_model</code> actualizado</td>
+<td>El ref model debe ser SFT init. <strong>Fix</strong>: usar <code>model.eval()</code> copy.</td>
+</tr>
+<tr>
+<td>vLLM no carga LoRA adapter</td>
+<td>Hay que mergear LoRA + base primero o usar <code>--enable-lora</code>.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿Open-source o API (GPT-4, Claude)?</strong></p>
+<p>API para prototipos, casos non-críticos. Self-host con open-source cuando importan: privacidad, costo a escala, control total. Ambos coexisten.</p>
+<p><strong>❓ ¿LoRA o full fine-tune?</strong></p>
+<p>LoRA en 99 % de los casos. Full fine-tune solo si tenés cluster grande y querés cambiar significativamente la base.</p>
+<p><strong>❓ ¿DPO o RLHF?</strong></p>
+<p>DPO por default — más simple y casi tan bueno. RLHF para tareas muy específicas donde necesitás un reward model fino.</p>
+<p><strong>❓ ¿vLLM o TGI?</strong></p>
+<p>vLLM ligeramente más rápido en benchmarks. TGI (HuggingFace) más integrado con HF Hub. Ambos buenos.</p>
+<p><strong>❓ ¿Cuánto cuesta entrenar un LLM desde cero?</strong></p>
+<p>Llama 3 70B: estimado $10M-50M en compute. Para custom: forget about it — fine-tunea uno existente.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Hu et al. (2021), <em>LoRA: Low-Rank Adaptation of Large Language Models</em>, ICLR.</li>
+<li>Dettmers et al. (2023), <em>QLoRA: Efficient Finetuning of Quantized LLMs</em>, NeurIPS.</li>
+<li>Rafailov et al. (2023), <em>Direct Preference Optimization</em>, NeurIPS.</li>
+<li>Kwon et al. (2023), <em>Efficient Memory Management for LLM Serving with PagedAttention</em>, SOSP.</li>
+<li><a href="https://huggingface.co/docs/peft">PEFT docs</a>, <a href="https://huggingface.co/docs/trl">TRL docs</a>, <a href="https://docs.vllm.ai/">vLLM docs</a>.</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../149-lora-qlora-fine-tuning-eficiente/index.html">Clase 149 — LoRA / QLoRA: fine-tuning eficiente de LLMs</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-2-deep-learning/148-llms-aplicados-fine-tuning-prompting/"><code>classes/parte-2-deep-learning/148-llms-aplicados-fine-tuning-prompting/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

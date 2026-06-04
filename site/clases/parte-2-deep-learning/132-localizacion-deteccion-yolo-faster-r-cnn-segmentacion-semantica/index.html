@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 132 — Localización, detección, segmentación (+ DETR, Segment Anything, YOLOv11) | Python Data Science Program</title>
+  <meta name="description" content="Clase 132 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 2 — Deep Learning</a><span class="sep">›</span><span>132</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-2-deep-learning/132-localizacion-deteccion-yolo-faster-r-cnn-segmentacion-semantica/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#version-profundizada-2026">📌 Versión profundizada — 2026</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-132-localizacion-deteccion-segmentacion-detr-segment-anything-yolov11">Clase 132 — Localización, detección, segmentación (+ DETR, Segment Anything, YOLOv11)</h1>
+<blockquote>
+<p>Parte: <strong>2 — Deep Learning</strong> · Fuente: Géron, <strong>cap. 14</strong> § <em>Object Detection</em> y § <em>Semantic Segmentation</em> + papers DETR, SAM, YOLOv11. ⏱️ Duración estimada: <strong>90 min</strong>.</p>
+</blockquote>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Saber <strong>detectar y segmentar objetos en imágenes</strong> — la tarea de visión más compleja y más comercial. Conocer la evolución: Faster R-CNN (two-stage, lento + preciso) → YOLO (one-stage, rápido) → <strong>DETR</strong> (Transformer, end-to-end) → <strong>YOLOv11</strong> (estado del arte 2024) → <strong>Segment Anything (SAM/SAM 2)</strong> (foundation model para segmentación).</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar, el estudiante podrá:</p>
+<ul>
+<li>Distinguir las 4 tareas: clasificación, localización (1 objeto), detección (N objetos + cajas), segmentación (pixel-wise mask).</li>
+<li>Usar un modelo YOLOv11 preentrenado con <code>ultralytics</code>: <code>model = YOLO('yolo11n.pt'); results = model('imagen.jpg')</code>.</li>
+<li>Aplicar <strong>Segment Anything (SAM 2)</strong> para segmentación promptable con puntos o cajas como input.</li>
+<li>Reconocer cuándo elegir DETR (mejor formal, lento) vs YOLO (rápido, default industrial) vs SAM (pre-entrenado universal).</li>
+<li>Métricas: IoU, mAP, COCO AP@[.5:.05:.95].</li>
+</ul>
+<h2 id="temas">🗺️ Temas</h2>
+<ul>
+<li>Localización vs detección vs instance segmentation vs semantic segmentation.</li>
+<li>IoU, mAP, COCO benchmark.</li>
+<li>Anchors vs anchor-free.</li>
+<li>One-stage (YOLO, SSD) vs two-stage (Faster R-CNN).</li>
+<li><strong>Complemento moderno</strong>: DETR (Carion et al. 2020), SAM/SAM 2 (Meta 2023/2024), YOLOv11 (Ultralytics 2024).</li>
+<li>Pre-trained pipelines: <code>ultralytics</code>, <code>transformers</code> (DETR), <code>segment_anything</code>.</li>
+</ul>
+<h2 id="version-profundizada-2026">📌 Versión profundizada — 2026</h2>
+<p>El tema moderno que antes vivía como complemento dentro de esta clase ahora tiene su(s) clase(s) propia(s) con patrón completo, ejercicios y homework:</p>
+<ul>
+<li>👉 <a href="../117b-segment-anything-sam-sam2/index.html">Clase 117b — Segment Anything (SAM / SAM 2)</a></li>
+<li>👉 <a href="../117c-yolov11-deteccion-segmentacion-practica/index.html">Clase 117c — YOLOv11 práctico: detección, segmentación, pose, tracking</a></li>
+</ul>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<ul>
+<li><strong>Bounding box</strong>: <code>(x_min, y_min, x_max, y_max)</code> o <code>(cx, cy, w, h)</code>.</li>
+<li><strong>IoU (Intersection over Union)</strong>: <code>area(intersección) / area(unión)</code>. Match si IoU &gt; 0.5.</li>
+<li><strong>mAP (mean Average Precision)</strong>: promedio del AP sobre clases y umbrales IoU. COCO usa IoU 0.5 → 0.95 en pasos de 0.05.</li>
+<li><strong>NMS (Non-Maximum Suppression)</strong>: post-procesado que elimina cajas superpuestas dejando la de mejor score. DETR no la necesita.</li>
+<li><strong>Anchor-based</strong>: pre-define cajas en cada posición y aprende offsets.</li>
+<li><strong>Anchor-free</strong>: predice directamente, sin pre-definir cajas (FCOS, DETR, YOLOX+).</li>
+<li><strong>Semantic vs instance segmentation</strong>: semantic = mismo color para todas las instancias de "persona"; instance = cada persona con su color.</li>
+<li><strong>Promptable segmentation (SAM)</strong>: dado un punto/caja/texto, devolver la máscara correspondiente.</li>
+</ul>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<ul>
+<li><strong>COCO</strong> (detección/seg estándar): <code>tfds.load('coco/2017')</code>.</li>
+<li><strong>Pascal VOC</strong>: más chico, bueno para experimentos.</li>
+<li><strong>Custom</strong>: anotaciones en YOLO format (txt por imagen) o COCO format (JSON).</li>
+<li>Librerías: <code>ultralytics</code> (<code>pip install ultralytics</code>), <code>transformers</code>, <code>segment-anything</code>.</li>
+</ul>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>YOLO inference</strong>: cargar <code>yolo11n.pt</code> y detectar sobre 3 imágenes propias. Visualizar boxes + labels.</li>
+<li><strong>DETR inference</strong>: usar <code>facebook/detr-resnet-50</code> desde HF. Comparar resultados con YOLO sobre las mismas imágenes.</li>
+<li><strong>SAM segmentation</strong>: dar un punto sobre un objeto en una imagen, obtener máscara. Probar con cajas.</li>
+<li><strong>mAP a mano</strong>: dado un set de predicciones y GT, implementar IoU y calcular AP@0.5 manualmente.</li>
+<li><strong>YOLO fine-tune</strong>: dataset propio (≥ 100 imágenes anotadas), <code>model.train(data='dataset.yaml', epochs=50)</code>. Reportar mAP.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Detector custom de 2-3 clases con YOLOv11:</p>
+<ol>
+<li>Etiquetar ~100 imágenes con CVAT, LabelImg o Roboflow → YOLO format.</li>
+<li><code>dataset.yaml</code> con paths + clases.</li>
+<li><code>model.train(data='dataset.yaml', epochs=100, imgsz=640)</code>.</li>
+<li>Reportar mAP@0.5 en val + 3 imágenes con bounding boxes superpuestos.</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: mAP@0.5 ≥ 0.7 sobre val set; el modelo detecta correctamente las clases en las 3 imágenes de inspección visual.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>YOLO devuelve cajas raras tras fine-tuning</td>
+<td>Pocos datos o etiquetado inconsistente. <strong>Fix</strong>: ≥ 50-100 imágenes por clase, etiquetado limpio.</td>
+</tr>
+<tr>
+<td><code>imgsz=320</code> para mejor velocidad pierde mucho accuracy</td>
+<td>Trade-off speed/accuracy. <strong>Fix</strong>: 640 default; 1280 para alta accuracy.</td>
+</tr>
+<tr>
+<td>SAM lento sin GPU</td>
+<td>El modelo ViT-H tiene 636M params. <strong>Fix</strong>: <code>vit_b</code> (más chico) o GPU.</td>
+</tr>
+<tr>
+<td>DETR lento en training</td>
+<td>DETR converge muy lento (500 epochs en COCO en el paper). <strong>Fix</strong>: usar variantes como Deformable DETR, DINO o RT-DETR.</td>
+</tr>
+<tr>
+<td>NMS no aplicado → muchas cajas superpuestas</td>
+<td>YOLO lo aplica internamente (<code>conf=0.25, iou=0.45</code> configurables).</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿YOLO o DETR para producción?</strong></p>
+<p>YOLO es default industrial (rápido, bien soportado, fácil deploy). DETR es preferido en investigación.</p>
+<p><strong>❓ ¿SAM puede reemplazar a un segmentador clásico?</strong></p>
+<p>Para tareas donde quieras "segmentar lo que el usuario apunta", sí. Para clases específicas sin intervención humana, fine-tunear un segmentador es más eficiente.</p>
+<p><strong>❓ ¿Open-vocabulary detection?</strong></p>
+<p>Detectores que aceptan <strong>clases nuevas vía texto</strong> sin reentrenar (CLIP-based). OWL-ViT, GroundingDINO. Útil cuando las clases cambian.</p>
+<p><strong>❓ ¿Anotación manual cuántas imágenes?</strong></p>
+<p>Para 2-3 clases simples con YOLO: 100-500 ya da resultados decentes. Para escenarios complejos: miles. Roboflow / CVAT facilitan el workflow.</p>
+<p><strong>❓ ¿Tracking de objetos en video?</strong></p>
+<p>YOLO + tracker (ByteTrack, BoT-SORT) integrados en <code>ultralytics</code>. Para video más complejo, SAM 2.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Géron, <strong>cap. 14</strong> — <em>Object Detection</em> y <em>Semantic Segmentation</em>.</li>
+<li>Carion et al. (2020), <em>End-to-End Object Detection with Transformers (DETR)</em>, ECCV.</li>
+<li>Kirillov et al. (2023), <em>Segment Anything</em>, ICCV.</li>
+<li>Ravi et al. (2024), <em>SAM 2: Segment Anything in Images and Videos</em>, Meta.</li>
+<li><a href="https://docs.ultralytics.com/">Ultralytics YOLOv11 docs</a>.</li>
+<li><a href="https://segment-anything.com/">Segment Anything project</a>.</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../133-segment-anything-sam-sam2/index.html">Clase 133 — Segment Anything (SAM / SAM 2): foundation model para segmentación</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-2-deep-learning/132-localizacion-deteccion-yolo-faster-r-cnn-segmentacion-semantica/"><code>classes/parte-2-deep-learning/132-localizacion-deteccion-yolo-faster-r-cnn-segmentacion-semantica/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 162 — Policy gradients | Python Data Science Program</title>
+  <meta name="description" content="Clase 162 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 2 — Deep Learning</a><span class="sep">›</span><span>162</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-2-deep-learning/162-policy-gradients/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-162-policy-gradients">Clase 162 — Policy gradients</h1>
+<blockquote>
+<p>Parte: <strong>2 — Deep Learning</strong> · Fuente: Géron, <strong>cap. 18</strong> § <em>Policy Gradients</em> + Sutton &amp; Barto, cap. 13. ⏱️ Duración estimada: <strong>70 min</strong>.</p>
+</blockquote>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Implementar <strong>policy gradient</strong> —<strong>REINFORCE</strong> (Williams 1992)—: parametrizar la policy con una red neuronal <code>π_θ(a|s)</code>, optimizar directamente la expected return via gradiente. Es el método más simple de RL que usa redes y la base conceptual de PPO/A2C/A3C (clase 138).</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar, el estudiante podrá:</p>
+<ul>
+<li>Definir la policy como red <code>state → softmax(actions)</code>.</li>
+<li>Calcular el gradiente REINFORCE: <code>∇θ J = E[∇θ log π_θ(a|s) · G_t]</code>.</li>
+<li>Implementar el training loop: rollout → calcular returns → gradient ascent.</li>
+<li>Aplicar <strong>baseline</strong> (substraer <code>V(s)</code> de <code>G_t</code>) para reducir varianza.</li>
+<li>Reconocer la limitación: alta varianza, lento (motiva A2C/PPO).</li>
+</ul>
+<h2 id="temas">🗺️ Temas</h2>
+<ul>
+<li>Expected return <code>J(θ) = E_π[G]</code>.</li>
+<li>Policy gradient theorem: <code>∇θ J = E[∇θ log π · Q]</code>.</li>
+<li>REINFORCE algorithm: rollout completo + apply gradient.</li>
+<li>Baseline para reducir varianza.</li>
+<li>Discounted returns con γ.</li>
+</ul>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<ul>
+<li><strong>Policy network</strong>: <code>π_θ(a|s)</code>, típicamente MLP con softmax (discrete actions) o gaussiana (continuas).</li>
+<li><strong>Log-prob</strong>: <code>log π(a|s)</code>, lo que multiplicamos por <code>G_t</code> para el gradient.</li>
+<li><strong>Discounted return <code>G_t</code></strong>: <code>Σ γ^k r_{t+k}</code>.</li>
+<li><strong>Baseline</strong>: cualquier función de <code>s</code> (e.g., <code>V(s)</code>) que reduce varianza sin sesgo.</li>
+<li><strong>Advantage <code>A = G - V(s)</code></strong>: cuán mejor o peor fue la acción comparada con el valor esperado.</li>
+</ul>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<ul>
+<li>CartPole-v1.</li>
+<li>Librerías: <code>gymnasium</code>, <code>tensorflow</code>, <code>keras</code>.</li>
+</ul>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>Policy network</strong>: <code>Dense(32) → Dense(32) → Dense(2, softmax)</code> para CartPole.</li>
+<li><strong>Rollout</strong>: ejecutar 1 episodio, guardar <code>(s, a, r)</code> por timestep.</li>
+<li><strong>Returns</strong>: calcular <code>G_t</code> para cada timestep con γ=0.99.</li>
+<li><strong>Gradient step</strong>: <code>loss = -Σ log π(a_t|s_t) · G_t</code>; backward; apply.</li>
+<li><strong>Con baseline</strong>: agregar <code>V(s)</code> head, restar de <code>G</code> antes del gradient.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>REINFORCE en CartPole:</p>
+<ol>
+<li>Policy <code>Dense(64) → Dense(64) → Dense(2, softmax)</code>.</li>
+<li>Train 500 episodios.</li>
+<li>Reportar return medio por época.</li>
+<li>Comparar con/sin baseline.</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: episode return llega a ≥ 195 (resuelto) en ≤ 300 episodios; baseline acelera convergencia.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alta varianza en gradientes</td>
+<td>Inherente a REINFORCE. <strong>Fix</strong>: baseline, batch de varios episodios.</td>
+</tr>
+<tr>
+<td>Policy collapse a una acción</td>
+<td>LR alto o sin entropy bonus. <strong>Fix</strong>: bajar LR, agregar <code>-β · H(π)</code> a la loss.</td>
+</tr>
+<tr>
+<td>Recompensas muy chicas → updates débiles</td>
+<td>Normalizar <code>G</code> (mean=0, std=1) por episode.</td>
+</tr>
+<tr>
+<td>Action probs <code>nan</code></td>
+<td>Inputs sin normalizar + softmax. <strong>Fix</strong>: clip o normalizar inputs.</td>
+</tr>
+<tr>
+<td>El env tiene rewards muy variables → entrenamiento inestable</td>
+<td>Probar con env más simple primero.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿REINFORCE en producción?</strong></p>
+<p>Casi no — pero es la base. PPO es el default industrial moderno (clase 138).</p>
+<p><strong>❓ ¿On-policy o off-policy?</strong></p>
+<p>REINFORCE es on-policy (entrena con datos generados por la policy actual). Off-policy (DQN, SAC) reutiliza datos viejos.</p>
+<p><strong>❓ ¿Cómo elijo γ?</strong></p>
+<p>0.99 default. Más alto = más visión a largo plazo, pero más varianza. Para tareas episódicas cortas, 0.95-0.99.</p>
+<p><strong>❓ ¿Entropy regularization?</strong></p>
+<p>Agregar <code>-β · H(π)</code> a la loss promueve exploración (policy no determinística temprano). Estándar.</p>
+<p><strong>❓ ¿Cómo veo si converge?</strong></p>
+<p>Plot del return promedio por epoch (smoothed). Sube → converge.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Géron, <strong>cap. 18</strong> — <em>Policy Gradients</em>.</li>
+<li>Williams (1992), <em>Simple Statistical Gradient-Following Algorithms (REINFORCE)</em>.</li>
+<li>Sutton &amp; Barto (2018), cap. 13.</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../163-markov-decision-processes/index.html">Clase 163 — Markov Decision Processes</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-2-deep-learning/162-policy-gradients/"><code>classes/parte-2-deep-learning/162-policy-gradients/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

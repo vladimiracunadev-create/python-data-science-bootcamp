@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 076 — Calibración de probabilidades: Platt, isotonic, temperature scaling | Python Data Science Program</title>
+  <meta name="description" content="Clase 076 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 1 — ML clásico</a><span class="sep">›</span><span>076</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-1-machine-learning-clasico/076-calibracion-de-probabilidades-platt-isotonic/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-076-calibracion-de-probabilidades-platt-isotonic-temperature-scaling">Clase 076 — Calibración de probabilidades: Platt, isotonic, temperature scaling</h1>
+<blockquote>
+<p>Parte: <strong>1 — Machine Learning Clásico</strong> · Fuente: Platt (1999) + Niculescu-Mizil &amp; Caruana (2005) + Guo et al. (2017). ⏱️ Duración estimada: <strong>75 min</strong>.</p>
+</blockquote>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Saber cuándo las <strong>probabilidades</strong> que devuelve <code>predict_proba</code> son <strong>calibradas</strong> — es decir, si el modelo dice "70 %" para un grupo, ¿realmente el 70 % es positivo? Modelos como Random Forest y SVM suelen estar mal calibrados; XGBoost mejor. Aplicar <strong>Platt scaling</strong> (sigmoid) y <strong>isotonic regression</strong> para corregir. Evaluar con <strong>Brier score</strong>, <strong>ECE (Expected Calibration Error)</strong> y <strong>reliability diagrams</strong>.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar, el estudiante podrá:</p>
+<ul>
+<li>Generar un <strong>reliability diagram</strong>: agrupar predicciones por bin de probabilidad y plotear "predicho vs real".</li>
+<li>Calcular <strong>Brier score</strong> = <code>mean((p - y)²)</code>. Más bajo = mejor calibración.</li>
+<li>Calcular <strong>ECE</strong>: <code>Σ (n_b/N) · |acc_b - conf_b|</code>.</li>
+<li>Aplicar <code>sklearn.calibration.CalibratedClassifierCV(estimator, method='sigmoid' | 'isotonic', cv=5)</code>.</li>
+<li>Decidir: Platt cuando muestra chica (n &lt; 1000), isotonic cuando hay datos.</li>
+</ul>
+<h2 id="temas">🗺️ Temas</h2>
+<ul>
+<li>¿Por qué importa? Decisiones que dependen de threshold ≠ 0.5 requieren probs reales.</li>
+<li>Reliability diagram: predicción vs frecuencia real.</li>
+<li>Platt scaling: ajustar <code>σ(A·logit + B)</code> con MLE sobre val set.</li>
+<li>Isotonic regression: monótono pero más flexible (puede sobreajustar).</li>
+<li>Temperature scaling: solo divide logits por T aprendido — para multiclase, eficiente.</li>
+<li>Modelos típicamente calibrados (logistic regression) vs no (RF, SVM).</li>
+</ul>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<ul>
+<li><strong>Calibración</strong>: <code>P(y=1 | p̂=p) = p</code> para todo p.</li>
+<li><strong>Reliability diagram</strong>: histograma de calibración.</li>
+<li><strong>Brier score</strong>: <code>(1/N) Σ (p_i - y_i)²</code>. Combina calibración + accuracy.</li>
+<li><strong>ECE</strong>: weighted gap entre confidence y accuracy por bin.</li>
+<li><strong>Platt</strong>: sigmoid-fit; parametric, 2 params (A, B). Bueno con n chico.</li>
+<li><strong>Isotonic</strong>: monotonic non-parametric; flexible pero needs más data.</li>
+<li><strong>Temperature scaling</strong>: <code>softmax(z / T)</code> con T learnable. Para multiclase.</li>
+</ul>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<ul>
+<li><code>fetch_openml('credit-g')</code> o <code>load_breast_cancer</code>.</li>
+<li>Librerías: <code>sklearn.calibration</code>, <code>matplotlib</code>.</li>
+</ul>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>Reliability diagram</strong>: entrenar RandomForest, generar <code>predict_proba</code>, bin en 10 grupos, plotear curva calibration vs <code>y=x</code>. Suele desviar.</li>
+<li><strong>Brier + ECE</strong>: implementar ambas y comparar entre RF (mala calibración) y LogReg (buena).</li>
+<li><strong>CalibratedClassifierCV</strong>: <code>CalibratedClassifierCV(RF, method='sigmoid', cv=5).fit(X, y)</code>. Re-evaluar Brier.</li>
+<li><strong>Isotonic vs Platt</strong>: comparar ambos sobre el mismo modelo. Con <code>n=10_000</code> ambos similares; con <code>n=300</code> Platt mejor.</li>
+<li><strong>Threshold tuning post-calibración</strong>: con probs calibradas, F1 vs threshold es más interpretable.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Sobre credit-g:</p>
+<ol>
+<li>RandomForest + reliability diagram + Brier + ECE.</li>
+<li>Calibrar con Platt y con isotonic (CV).</li>
+<li>Comparar Brier/ECE pre y post.</li>
+<li>Reliability diagrams superpuestos.</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: calibración reduce ECE en ≥ 30 %; reliability diagram post se acerca a la diagonal.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Calibrar sobre train (overfit)</td>
+<td>Leak. <strong>Fix</strong>: usar CV o held-out calibration set.</td>
+</tr>
+<tr>
+<td>Isotonic con &lt; 500 ejemplos por clase</td>
+<td>Overfit. <strong>Fix</strong>: Platt.</td>
+</tr>
+<tr>
+<td>Reportar accuracy post-calibración como métrica de calibración</td>
+<td>No mide calibración. <strong>Fix</strong>: Brier o ECE.</td>
+</tr>
+<tr>
+<td>Asumir LogReg está calibrado siempre</td>
+<td>Con regularización fuerte o features extrañas puede no estarlo. <strong>Fix</strong>: verificar.</td>
+</tr>
+<tr>
+<td>Calibración en multiclase con sigmoid</td>
+<td>Sigmoid es binario. <strong>Fix</strong>: temperature scaling.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿Calibración cambia accuracy?</strong></p>
+<p>No (mucho). Reordena las probs pero no cambia el argmax típicamente. La accuracy queda igual; las probs son más interpretables.</p>
+<p><strong>❓ ¿Cuándo importa?</strong></p>
+<p>Cuando hacés decisiones threshold ≠ 0.5 (e.g., "alertar si P &gt; 0.8"), reportes de "confianza" al usuario, ensemble por probabilidades.</p>
+<p><strong>❓ ¿RF tan mal calibrado?</strong></p>
+<p>Sí, hacia probs intermedias (0.2-0.8). Boosting (XGBoost) suele estar mejor.</p>
+<p><strong>❓ ¿DL necesita calibración?</strong></p>
+<p>Sí — DL modernos tienden a sobre-confiar. Temperature scaling (Guo 2017) es el estándar.</p>
+<p><strong>❓ ¿En producción cómo monitoreo calibración?</strong></p>
+<p>Logueá <code>(prob_predicha, y_real)</code>. Cada N días, calculá Brier y ECE. Si drift, re-calibrar.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Platt (1999), <em>Probabilistic Outputs for Support Vector Machines</em>.</li>
+<li>Niculescu-Mizil &amp; Caruana (2005), <em>Predicting Good Probabilities With Supervised Learning</em>, ICML.</li>
+<li>Guo et al. (2017), <em>On Calibration of Modern Neural Networks</em>, ICML.</li>
+<li><a href="https://scikit-learn.org/stable/modules/calibration.html">sklearn calibration docs</a>.</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../077-svm-lineal/index.html">Clase 077 — SVM lineal</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-1-machine-learning-clasico/076-calibracion-de-probabilidades-platt-isotonic/"><code>classes/parte-1-machine-learning-clasico/076-calibracion-de-probabilidades-platt-isotonic/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

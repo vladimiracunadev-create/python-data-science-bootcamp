@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 107 — Vanishing/exploding gradients | Python Data Science Program</title>
+  <meta name="description" content="Clase 107 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 2 — Deep Learning</a><span class="sep">›</span><span>107</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-2-deep-learning/107-vanishing-exploding-gradients/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-107-vanishingexploding-gradients">Clase 107 — Vanishing/exploding gradients</h1>
+<blockquote>
+<p>Parte: <strong>2 — Deep Learning</strong> · Fuente: Géron, <strong>cap. 11</strong> § <em>The Vanishing/Exploding Gradients Problems</em>. ⏱️ Duración estimada: <strong>70 min</strong>.</p>
+</blockquote>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Entender el problema central que estancó el Deep Learning hasta 2010: cuando un gradiente atraviesa muchas capas, <strong>se desvanece</strong> (sigmoid/tanh saturadas → multiplicas números &lt; 1 muchas veces → ≈ 0) o <strong>explota</strong> (pesos grandes → &gt; 1 muchas veces → ∞). Identificar los 4 culpables (activación, inicialización, profundidad, LR) y conocer las soluciones que destrabaron el campo: <strong>Glorot/He init</strong> (097), <strong>ReLU y variantes</strong> (098), <strong>BatchNorm</strong> (099), <strong>Gradient clipping</strong> (100).</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar, el estudiante podrá:</p>
+<ul>
+<li>Diagnosticar vanishing gradient: gradients en capas tempranas con norma ~ 1e-8.</li>
+<li>Diagnosticar exploding: <code>loss = nan</code> o gradients con norma ~ 1e+10.</li>
+<li>Inspeccionar gradientes con <code>tf.GradientTape</code> + <code>tf.norm</code>.</li>
+<li>Mapear cada solución al problema: init para arrancar bien, ReLU para no saturar, BN para estabilizar, clipping para evitar explosión.</li>
+<li>Explicar por qué sigmoid en MLPs profundos no escala (derivada máx. 0.25 → gradiente decae rápido).</li>
+</ul>
+<h2 id="temas">🗺️ Temas</h2>
+<ul>
+<li>Backprop como producto de derivadas a lo largo de capas.</li>
+<li>Sigmoid: <code>σ(x) · (1 - σ(x))</code> máxima 0.25 en <code>x=0</code>; satura a 0 en colas.</li>
+<li>Tanh: derivada máx. 1, pero también satura.</li>
+<li>ReLU: derivada 0 o 1 — no decae al multiplicar, pero genera "dying ReLU".</li>
+<li>Inicialización mala: pesos <code>N(0, 1)</code> → activaciones explotan; pesos <code>N(0, 0.01)</code> → vanishing.</li>
+<li>BatchNorm: normaliza dentro del forward pass para que cada capa reciba inputs con varianza controlada.</li>
+</ul>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<ul>
+<li><strong>Vanishing gradient</strong>: las derivadas se acercan a 0 al propagar hacia atrás → capas tempranas no aprenden.</li>
+<li><strong>Exploding gradient</strong>: las derivadas crecen sin límite → pesos divergen, <code>loss = nan</code>.</li>
+<li><strong>Saturación</strong>: una activación está saturada cuando su derivada ≈ 0 (sigmoid en <code>|x| &gt; 5</code>).</li>
+<li><strong>Dying ReLU</strong>: una neurona ReLU queda con salida siempre 0 → gradiente 0 → no se actualiza más. Solución: Leaky ReLU, ELU, init He.</li>
+<li><strong>Gradient norm</strong>: <code>||∂L/∂W||₂</code>. Indicador visualizable durante el entrenamiento.</li>
+</ul>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<ul>
+<li>Fashion-MNIST.</li>
+<li>Librerías: <code>tensorflow</code>, <code>keras</code>, <code>matplotlib</code>.</li>
+</ul>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>Diagnóstico vanishing</strong>: entrenar un MLP de 10 capas con <code>sigmoid</code> activations e init default. Inspeccionar gradientes de la primera capa vs la última. Verificar que los de la primera son órdenes de magnitud más chicos.</li>
+<li><strong>Mismo experimento con ReLU</strong>: comparar gradients. Mejor pero aún heterogéneo.</li>
+<li><strong>Exploding</strong>: forzar init <code>RandomNormal(stddev=5)</code>. Observar <code>loss = nan</code> en pocas iteraciones.</li>
+<li><strong>Norma del gradiente por capa</strong>: con <code>tf.GradientTape</code>, calcular <code>tf.norm(g)</code> para cada peso y graficar a lo largo del entrenamiento.</li>
+<li><strong>Solución sencilla</strong>: cambiar a <code>He init</code> + <code>ReLU</code> + <code>BatchNorm</code> y mostrar que el problema desaparece (anticipa las siguientes 4 clases).</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Construir un MLP de 20 capas y reportar entrenamiento bajo 4 condiciones:</p>
+<ol>
+<li>Sigmoid + Glorot init.</li>
+<li>ReLU + Glorot init.</li>
+<li>ReLU + He init.</li>
+<li>ReLU + He init + BatchNorm.</li>
+</ol>
+<p>Para cada uno: graficar <code>loss</code> durante 20 épocas + reportar val_accuracy final.</p>
+<p><strong>Criterio de aceptación</strong>: (1) prácticamente no aprende; (2) aprende lento; (3) aprende razonable; (4) aprende rápido y mejor. La diferencia visual debe ser dramática.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>loss = nan</code></td>
+<td>Exploding. <strong>Fix</strong>: bajar LR, agregar gradient clipping, revisar init.</td>
+</tr>
+<tr>
+<td><code>loss</code> se queda en valor constante alto</td>
+<td>Vanishing. <strong>Fix</strong>: ReLU + He init.</td>
+</tr>
+<tr>
+<td>Accuracy en train baja, val baja</td>
+<td>El modelo no aprende. <strong>Diagnóstico</strong>: imprimir gradient norms; si la primera capa tiene <code>norma ~ 1e-10</code>, es vanishing.</td>
+</tr>
+<tr>
+<td>50 % de las neuronas tienen salida 0 todo el tiempo</td>
+<td>Dying ReLU. <strong>Fix</strong>: Leaky ReLU o ELU.</td>
+</tr>
+<tr>
+<td>Después de unas épocas la loss salta a <code>nan</code></td>
+<td>Exploding tardío. <strong>Fix</strong>: gradient clipping (clase 100).</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿Por qué sigmoid no funciona en MLPs profundos pero sí en la última capa?</strong></p>
+<p>Porque la última capa tiene solo 1 multiplicación; las capas profundas multiplican N veces. <code>(0.25)¹⁰ ≈ 10⁻⁶</code> → desaparece. En la última capa, sigmoid sí sirve para probabilidades.</p>
+<p><strong>❓ ¿Cuánto es "profundo"?</strong></p>
+<p>A partir de 5-10 capas Dense (más con BN). En CNNs, con BN o residuals se llega a 100+. En Transformers, decenas pueden no usar residuals + LayerNorm = vanishing.</p>
+<p><strong>❓ ¿BatchNorm "soluciona" todo?</strong></p>
+<p>Resuelve el vanishing/exploding casi completamente al normalizar las activaciones. Pero tiene problemas propios (batch chico, dependencia entre muestras) — clase 099 entra en detalle.</p>
+<p><strong>❓ ¿GELU/Swish ayudan?</strong></p>
+<p>Sí. Son activaciones más suaves que ReLU (sin "muerte"), usadas en transformers modernos (BERT, GPT). Clase 098.</p>
+<p><strong>❓ ¿Esto sigue siendo relevante con LLMs?</strong></p>
+<p>Sí — los LLMs usan combinación de LayerNorm + residual + GELU + init cuidadoso (Xavier/Glorot custom) precisamente para esto. Sin estas piezas, no se podrían entrenar.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Géron, <strong>cap. 11</strong> — <em>Training Deep Neural Networks</em>.</li>
+<li>Hochreiter (1991), thesis — primera descripción del vanishing gradient.</li>
+<li>Bengio, Simard &amp; Frasconi (1994), <em>Learning Long-Term Dependencies with Gradient Descent is Difficult</em>.</li>
+<li>Glorot &amp; Bengio (2010), <em>Understanding the difficulty of training deep feedforward neural networks</em>, AISTATS.</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../108-inicializacion-glorot-he/index.html">Clase 108 — Inicialización (Glorot, He)</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-2-deep-learning/107-vanishing-exploding-gradients/"><code>classes/parte-2-deep-learning/107-vanishing-exploding-gradients/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

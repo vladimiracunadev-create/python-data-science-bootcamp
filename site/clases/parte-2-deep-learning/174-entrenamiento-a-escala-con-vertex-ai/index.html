@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 174 — Entrenamiento a escala con Vertex AI | Python Data Science Program</title>
+  <meta name="description" content="Clase 174 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 2 — Deep Learning</a><span class="sep">›</span><span>174</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-2-deep-learning/174-entrenamiento-a-escala-con-vertex-ai/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-parte">➡️ Siguiente parte</a></nav>
+<h1 id="clase-174-entrenamiento-a-escala-con-vertex-ai">Clase 174 — Entrenamiento a escala con Vertex AI</h1>
+<blockquote>
+<p>Parte: <strong>2 — Deep Learning</strong> · Fuente: Géron, <strong>cap. 19</strong> § <em>Running Large Training Jobs on Vertex AI</em> + docs Vertex AI Training. ⏱️ Duración estimada: <strong>65 min</strong>.</p>
+</blockquote>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Cierre del bloque de despliegue: lanzar <strong>training jobs a escala en Vertex AI</strong> (GCP managed) — cluster automático, GPUs/TPUs on-demand, hyperparameter tuning distribuido. Conocer alternativas: <strong>AWS SageMaker Training</strong>, <strong>Azure ML Jobs</strong>, y <strong>plataformas dedicadas a LLMs</strong> (Modal, Together AI).</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar, el estudiante podrá:</p>
+<ul>
+<li>Empaquetar un training script como Docker container.</li>
+<li>Lanzar un Custom Training Job en Vertex AI con <code>gcloud ai custom-jobs create</code>.</li>
+<li>Configurar HP tuning con Vertex AI Vizier.</li>
+<li>Usar <strong>TPU Pods</strong> para training distribuido extremo.</li>
+<li>Conocer alternativas cloud-agnostic (Modal, Together, RunPod).</li>
+</ul>
+<h2 id="temas">🗺️ Temas</h2>
+<ul>
+<li>Custom container vs prebuilt container en Vertex.</li>
+<li><code>WorkerPoolSpec</code>: master + workers + parameter servers.</li>
+<li>TPU pods para training a escala.</li>
+<li>Hyperparameter tuning con Vizier (Bayesian search).</li>
+<li>Costos: GPU/TPU hours.</li>
+<li>Alternativas: SageMaker, Modal, Together, RunPod, Lambda Labs.</li>
+</ul>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<ul>
+<li><strong>Custom Training Job</strong>: corre tu container en Vertex.</li>
+<li><strong>WorkerPool</strong>: cluster spec (machine_type, count, accelerator).</li>
+<li><strong>Vizier</strong>: black-box optimizer integrado para HP tuning.</li>
+<li><strong>TPU</strong>: tensor processing unit, ASIC de Google.</li>
+<li><strong>Spot instances / preemptible</strong>: ~70 % más barato pero pueden ser killed.</li>
+</ul>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<ul>
+<li>GCP account.</li>
+<li>Librerías: <code>google-cloud-aiplatform</code>.</li>
+</ul>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>Dockerize</strong>: escribir <code>Dockerfile</code> con TF + tu training script.</li>
+<li><strong>Lanzar job</strong>: <code>aiplatform.CustomJob(display_name='exp1', worker_pool_specs=[...]).run()</code>.</li>
+<li><strong>HP tuning</strong>: <code>HyperparameterTuningJob</code> con Vizier; 20 trials.</li>
+<li><strong>Multi-GPU spec</strong>: <code>machine_type='a2-highgpu-4g'</code> (4× A100).</li>
+<li><strong>TensorBoard integration</strong>: Vertex TB para monitor.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Lanzar un training job de Fashion-MNIST en Vertex:</p>
+<ol>
+<li>Containerizar.</li>
+<li>Job de 1 GPU (n1-standard-4 + T4).</li>
+<li>Logs y output a GCS.</li>
+<li>Verificar accuracy similar a entrenamiento local.</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: el job termina con accuracy ≥ 0.87 y el modelo queda guardado en GCS.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Job falla al iniciar</td>
+<td>Image no accesible. <strong>Fix</strong>: push a Artifact Registry + permisos.</td>
+</tr>
+<tr>
+<td>Olvidé apagar y factura $1000</td>
+<td>Vertex jobs son time-limited pero HP tuning puede acumular. <strong>Fix</strong>: <code>quota</code> per project, alertas billing.</td>
+</tr>
+<tr>
+<td>Logs no aparecen</td>
+<td>Tarda 1-2 min en stream. <strong>Fix</strong>: paciencia o <code>gcloud ai custom-jobs stream-logs</code>.</td>
+</tr>
+<tr>
+<td>Multi-GPU pero job usa 1</td>
+<td>TF no detecta GPUs en el container. <strong>Fix</strong>: imagen base con CUDA correcto.</td>
+</tr>
+<tr>
+<td>Spot interrumpe a mitad</td>
+<td>Aceptable para experimentos. <strong>Fix</strong>: checkpointing frecuente.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿Cuándo Vertex vs local?</strong></p>
+<p>Local para iteración. Cloud cuando: dataset no entra en RAM local, training &gt; 1 día, HP tuning con muchos trials, multi-GPU/TPU.</p>
+<p><strong>❓ ¿TPU vs GPU?</strong></p>
+<p>TPU brilla en modelos TF/JAX grandes (LLMs, transformers de visión). GPU es más universal. PyTorch en TPU funciona (vía XLA) pero menos óptimo.</p>
+<p><strong>❓ ¿Spot/preemptible?</strong></p>
+<p>Para training con checkpointing, ahorra 70 %. Para inference o jobs cortos, evitar.</p>
+<p><strong>❓ ¿Modal vs Vertex?</strong></p>
+<p>Modal: DX excelente, billing por segundo, ideal para LLMs e inference serverless. Vertex: más enterprise features (compliance, IAM, audit).</p>
+<p><strong>❓ ¿Together AI / Replicate cuándo?</strong></p>
+<p>Cuando solo necesitás API a modelos open-source preentrenados (LLMs, difusión). No para training desde cero.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Géron, <strong>cap. 19</strong> — <em>Running Large Training Jobs on Vertex AI</em>.</li>
+<li><a href="https://cloud.google.com/vertex-ai/docs/training/overview">Vertex AI Training docs</a>.</li>
+<li><a href="https://docs.aws.amazon.com/sagemaker/latest/dg/how-it-works-training.html">SageMaker Training</a>.</li>
+<li><a href="https://modal.com/">Modal</a>, <a href="https://www.together.ai/">Together AI</a>, <a href="https://www.runpod.io/">RunPod</a>.</li>
+</ul>
+<h2 id="siguiente-parte">➡️ Siguiente parte</h2>
+<p><a href="../../parte-3-estadistica-inferencial/175-distribuciones-normal-binomial-poisson-exponencial/index.html">Clase 175 — Distribuciones: normal, binomial, Poisson, exponencial</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-2-deep-learning/174-entrenamiento-a-escala-con-vertex-ai/"><code>classes/parte-2-deep-learning/174-entrenamiento-a-escala-con-vertex-ai/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

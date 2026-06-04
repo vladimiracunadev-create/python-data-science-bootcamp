@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 130 — Arquitecturas CNN: LeNet, AlexNet, VGG, GoogLeNet, ResNet, Xception, SENet, EfficientNet, ConvNeXt | Python Data Science Program</title>
+  <meta name="description" content="Clase 130 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 2 — Deep Learning</a><span class="sep">›</span><span>130</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-2-deep-learning/130-arquitecturas-cnn-lenet-alexnet-vgg-googlenet-resnet-xception-senet-ef/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-130-arquitecturas-cnn-lenet-alexnet-vgg-googlenet-resnet-xception-senet-efficientnet-convnext">Clase 130 — Arquitecturas CNN: LeNet, AlexNet, VGG, GoogLeNet, ResNet, Xception, SENet, EfficientNet, ConvNeXt</h1>
+<blockquote>
+<p>Parte: <strong>2 — Deep Learning</strong> · Fuente: Géron, <strong>cap. 14</strong> § <em>CNN Architectures</em> + papers originales. ⏱️ Duración estimada: <strong>95 min</strong>.</p>
+</blockquote>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Conocer la <strong>historia y evolución de las arquitecturas CNN</strong> desde <strong>LeNet-5 (1998)</strong> hasta <strong>ConvNeXt (2022)</strong> — qué innovación introdujo cada una, por qué importaba, y cuál usar hoy. Identificar 3 patrones clave: <strong>profundidad creciente, módulos con paths múltiples, eficiencia paramétrica</strong>.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar, el estudiante podrá:</p>
+<ul>
+<li>Trazar la línea temporal: LeNet → AlexNet → VGG → GoogLeNet (Inception) → ResNet → Xception → SENet → EfficientNet → ConvNeXt.</li>
+<li>Reconocer qué innovación trajo cada una: ReLU + dropout (AlexNet), kernels 3×3 (VGG), módulos Inception (GoogLeNet), <strong>skip connections</strong> (ResNet), depthwise-separable (Xception), squeeze-and-excite (SENet), <strong>compound scaling</strong> (EfficientNet), modernización con receta ConvNeXt.</li>
+<li>Implementar un mini-ResNet con <code>Add()</code> y skip connections.</li>
+<li>Cargar arquitecturas de <code>keras.applications</code> y leer sus tamaños (<code>MobileNetV3</code>, <code>EfficientNetB0</code>, <code>ConvNeXtTiny</code>).</li>
+<li>Elegir la arquitectura adecuada según constraint (latency, accuracy, memory).</li>
+</ul>
+<h2 id="temas">🗺️ Temas</h2>
+<ul>
+<li><strong>LeNet-5</strong> (1998): 7 capas, MNIST. La cuna.</li>
+<li><strong>AlexNet</strong> (2012): GPU + ReLU + Dropout. Ganó ImageNet → revolución DL.</li>
+<li><strong>VGG</strong> (2014): muy uniforme — solo conv 3×3 + maxpool. 138M parámetros.</li>
+<li><strong>GoogLeNet / Inception</strong> (2014): módulos paralelos con kernels 1×1, 3×3, 5×5.</li>
+<li><strong>ResNet</strong> (2015): skip connections → entrenamiento de redes de 152 capas posible. Cambió el juego.</li>
+<li><strong>Xception</strong> (2017): depthwise-separable convolutions → eficiencia.</li>
+<li><strong>SENet</strong> (2017): attention sobre canales (squeeze-and-excite).</li>
+<li><strong>EfficientNet</strong> (2019): scaling balanceado de depth/width/resolution.</li>
+<li><strong>ConvNeXt</strong> (2022): "modernizar ResNet" con trucos de ViT.</li>
+</ul>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<ul>
+<li><strong>Skip / residual connection</strong>: <code>y = x + F(x)</code>. Permite gradiente fluir y entrenar redes muy profundas.</li>
+<li><strong>Bottleneck</strong>: <code>1×1 conv → 3×3 conv → 1×1 conv</code> (reduce → opera → expande). Reduce parámetros.</li>
+<li><strong>Depthwise-separable conv</strong>: una conv que actúa por canal, seguida de <code>1×1</code> conv que mezcla canales. ~10× menos parámetros.</li>
+<li><strong>Squeeze-and-Excite</strong>: re-pesa los canales aprendido (<code>GlobalAvgPool → Dense → sigmoid → multiply</code>).</li>
+<li><strong>Compound scaling (EfficientNet)</strong>: escalar depth, width, resolution juntos con coeficientes balanceados.</li>
+<li><strong><code>keras.applications</code></strong>: catálogo con pesos ImageNet preentrenados de todas estas arquitecturas.</li>
+</ul>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<ul>
+<li>ImageNet (vía transfer) o un dataset propio chico.</li>
+<li>Librerías: <code>tensorflow</code>, <code>keras.applications</code>.</li>
+</ul>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>Cargar varios modelos</strong>: <code>keras.applications.{ResNet50, EfficientNetB0, ConvNeXtTiny}(weights='imagenet')</code>. Comparar <code>model.count_params()</code> y <code>model.summary()</code>.</li>
+<li><strong>Mini-ResNet</strong>: implementar 4 bloques residuales: <code>def res_block(x): return x + Conv(64,3,padding='same')(ReLU()(Conv(64,3,padding='same')(x)))</code>. Apilar y entrenar.</li>
+<li><strong>Skip connection a mano</strong>: comparar entrenamiento de un "ResNet" sin skip vs con skip a 50 capas. Sin skip no entrena.</li>
+<li><strong>Depthwise-separable</strong>: usar <code>SeparableConv2D</code> en lugar de <code>Conv2D</code> en el mismo modelo. Comparar params y accuracy.</li>
+<li><strong>Squeeze-Excite</strong>: implementar un bloque SE manualmente: <code>s = GlobalAvgPool(x); s = Dense(C//r)(s); s = Dense(C, sigmoid)(s); return x * Reshape((1,1,C))(s)</code>.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Comparar 4 arquitecturas en un dataset propio de imágenes (≥ 5 clases) con transfer learning:</p>
+<ol>
+<li><code>ResNet50</code> (clásico).</li>
+<li><code>EfficientNetB0</code> (eficiente).</li>
+<li><code>MobileNetV3Small</code> (móvil).</li>
+<li><code>ConvNeXtTiny</code> (moderno).</li>
+</ol>
+<p>Para cada uno: feature extraction (frozen) + fine-tune. Reportar accuracy, # parámetros, tiempo de inference.</p>
+<p><strong>Criterio de aceptación</strong>: ConvNeXt o EfficientNet deben ganar en accuracy; MobileNet en velocidad de inference. ResNet sirve de baseline.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cargar ResNet50 sin <code>include_top=False</code> y pasarle imágenes que no son 224×224</td>
+<td>El head ImageNet espera 1000 clases. <strong>Fix</strong>: <code>include_top=False, input_shape=(...)</code>.</td>
+</tr>
+<tr>
+<td>Cargar EfficientNet y pasarle imágenes en <code>[0, 1]</code></td>
+<td>Espera preprocesamiento específico. <strong>Fix</strong>: <code>keras.applications.efficientnet.preprocess_input</code>.</td>
+</tr>
+<tr>
+<td>Implementar ResNet desde cero y <code>Add()</code> falla por shapes distintos</td>
+<td>Skip connection requiere shapes iguales — si Conv cambió channels o resolución, agregar <code>Conv(1×1)</code> en la skip.</td>
+</tr>
+<tr>
+<td>MobileNet para batch grande en CPU lento</td>
+<td>Está optimizado para GPU/mobile. <strong>Fix</strong>: para batch CPU usar EfficientNet o ResNet.</td>
+</tr>
+<tr>
+<td>ConvNeXt en TF Lite no exporta</td>
+<td>Algunos ops de ConvNeXt aún no portados a TF Lite. <strong>Fix</strong>: usar EfficientNet o MobileNet para móvil.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿Cuál arquitectura uso en 2026?</strong></p>
+<ul>
+<li><strong>Default</strong>: <code>EfficientNetB0</code> o <code>ConvNeXtTiny</code>.</li>
+<li><strong>Movil/embedded</strong>: <code>MobileNetV3Small</code>.</li>
+<li><strong>Máxima accuracy con budget</strong>: <code>ConvNeXt-L</code> o <code>EfficientNet-L2</code>.</li>
+<li><strong>Visión + texto unificado</strong>: CLIP / SigLIP (clase 129).</li>
+</ul>
+<p><strong>❓ ¿ResNet aún se usa?</strong></p>
+<p>Sí, como baseline universal. Confiable, bien entendida, todo framework la soporta.</p>
+<p><strong>❓ ¿ViT supera a CNNs?</strong></p>
+<p>Con datasets muy grandes (&gt;10M imágenes), ViT (clase 126) gana. Con datasets típicos del cliente (&lt;100k imágenes), CNNs ganan o empatan. ConvNeXt mostró que CNNs bien modernizadas igualan a ViT.</p>
+<p><strong>❓ ¿"Compound scaling" qué significa?</strong></p>
+<p>EfficientNet showed que escalar <code>depth × width × resolution</code> con coeficientes balanceados (φ) es más eficiente que escalar uno solo. Por eso B0, B1, B2... son la misma red escalada.</p>
+<p><strong>❓ ¿Tantas opciones por qué?</strong></p>
+<p>Cada una optimizó una métrica distinta (accuracy puro, params, latencia, eficiencia mobile). No hay "una mejor" — depende del constraint.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Géron, <strong>cap. 14</strong> — <em>CNN Architectures</em>.</li>
+<li>Krizhevsky et al. (2012), <em>AlexNet</em>, NeurIPS.</li>
+<li>Simonyan &amp; Zisserman (2014), <em>VGG</em>.</li>
+<li>Szegedy et al. (2015), <em>Inception (GoogLeNet)</em>, CVPR.</li>
+<li>He et al. (2015), <em>Deep Residual Learning (ResNet)</em>, CVPR.</li>
+<li>Chollet (2017), <em>Xception</em>.</li>
+<li>Hu et al. (2018), <em>Squeeze-and-Excitation Networks</em>, CVPR.</li>
+<li>Tan &amp; Le (2019), <em>EfficientNet</em>, ICML.</li>
+<li>Liu et al. (2022), <em>A ConvNet for the 2020s (ConvNeXt)</em>, CVPR.</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../131-transfer-learning-con-cnns-preentrenadas/index.html">Clase 131 — Transfer learning con CNNs preentrenadas</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-2-deep-learning/130-arquitecturas-cnn-lenet-alexnet-vgg-googlenet-resnet-xception-senet-ef/"><code>classes/parte-2-deep-learning/130-arquitecturas-cnn-lenet-alexnet-vgg-googlenet-resnet-xception-senet-ef/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

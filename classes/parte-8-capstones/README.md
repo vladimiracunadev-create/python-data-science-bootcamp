@@ -38,10 +38,10 @@ Al finalizar esta parte, el estudiante podrá:
 
 ## 📚 Índice de clases (4)
 
-- [194 — Capstone 1: problema tabular end-to-end (EDA, modelo, API, dashboard)](194-capstone-1-problema-tabular-end-to-end-eda-modelo-api-dashboard/README.md)
-- [195 — Capstone 2: NLP o series de tiempo end-to-end](195-capstone-2-nlp-o-series-de-tiempo-end-to-end/README.md)
-- [196 — Capstone 3: visión por computadora con transfer learning](196-capstone-3-vision-por-computadora-con-transfer-learning/README.md)
-- [197 — Portafolio público en GitHub Pages y presentación](197-portafolio-publico-en-github-pages-y-presentacion/README.md)
+- [229 — Capstone 1: problema tabular end-to-end (EDA, modelo, API, dashboard)](229-capstone-1-problema-tabular-end-to-end-eda-modelo-api-dashboard/README.md)
+- [230 — Capstone 2: NLP o series de tiempo end-to-end](230-capstone-2-nlp-o-series-de-tiempo-end-to-end/README.md)
+- [231 — Capstone 3: visión por computadora con transfer learning](231-capstone-3-vision-por-computadora-con-transfer-learning/README.md)
+- [232 — Portafolio público en GitHub Pages y presentación](232-portafolio-publico-en-github-pages-y-presentacion/README.md)
 
 ---
 

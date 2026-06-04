@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 094 — MDS, Isomap, t-SNE, UMAP, LDA | Python Data Science Program</title>
+  <meta name="description" content="Clase 094 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 1 — ML clásico</a><span class="sep">›</span><span>094</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-1-machine-learning-clasico/094-mds-isomap-t-sne-umap-lda/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-094-mds-isomap-t-sne-umap-lda">Clase 094 — MDS, Isomap, t-SNE, UMAP, LDA</h1>
+<blockquote>
+<p>Parte: <strong>1 — Machine Learning Clásico</strong> · Fuente: Géron, <strong>cap. 8</strong> + UMAP docs. ⏱️ Duración estimada: <strong>80 min</strong>.</p>
+</blockquote>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Conocer y aplicar técnicas de reducción de dimensionalidad más allá de PCA: MDS, Isomap, t-SNE, UMAP y LDA. Entender qué preserva cada una (distancias, geodésicas, vecindarios locales, estructura global, separación entre clases) y cuándo elegir cada método según el problema (visualización 2D, preprocesamiento para clasificación, datos en variedades no lineales).</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<ol>
+<li>Distinguís entre métodos lineales (PCA, LDA) y no lineales (Isomap, t-SNE, UMAP) y sabés cuándo usar cada uno.</li>
+<li>Aplicás <code>MDS</code>, <code>Isomap</code>, <code>TSNE</code>, <code>umap.UMAP</code> y <code>LinearDiscriminantAnalysis</code> de scikit-learn / umap-learn sobre datasets reales.</li>
+<li>Configurás los hiperparámetros clave: <code>perplexity</code> (t-SNE), <code>n_neighbors</code> y <code>min_dist</code> (UMAP), <code>n_neighbors</code> (Isomap).</li>
+<li>Interpretás correctamente embeddings 2D: qué significan los clusters, qué NO significan las distancias entre clusters en t-SNE.</li>
+<li>Justificás por qué UMAP suele ser preferible a t-SNE: más rápido, preserva mejor la estructura global y es determinista con <code>random_state</code>.</li>
+</ol>
+<h2 id="temas">🗺️ Temas</h2>
+<table>
+<thead>
+<tr>
+<th>Método</th>
+<th>Tipo</th>
+<th>Preserva</th>
+<th>Uso típico</th>
+<th>Hiperparámetros clave</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>MDS</strong></td>
+<td>No lineal</td>
+<td>Distancias pairwise</td>
+<td>Visualización de matrices de distancia</td>
+<td><code>n_components</code>, <code>metric</code></td>
+</tr>
+<tr>
+<td><strong>Isomap</strong></td>
+<td>No lineal</td>
+<td>Distancias geodésicas (sobre la variedad)</td>
+<td>Datos en manifold curvo (Swiss roll)</td>
+<td><code>n_neighbors</code></td>
+</tr>
+<tr>
+<td><strong>t-SNE</strong></td>
+<td>No lineal</td>
+<td>Vecindarios locales (probabilísticos)</td>
+<td>Visualización 2D/3D de clusters</td>
+<td><code>perplexity</code>, <code>learning_rate</code></td>
+</tr>
+<tr>
+<td><strong>UMAP</strong></td>
+<td>No lineal</td>
+<td>Estructura local <strong>y</strong> global</td>
+<td>Visualización + preprocesamiento</td>
+<td><code>n_neighbors</code>, <code>min_dist</code></td>
+</tr>
+<tr>
+<td><strong>LDA</strong></td>
+<td>Lineal supervisado</td>
+<td>Separación entre clases</td>
+<td>Reducción previa a clasificación</td>
+<td><code>n_components</code> (≤ n_clases−1)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<ul>
+<li><strong>MDS (Multidimensional Scaling):</strong> proyecta a baja dimensión intentando que las distancias entre puntos en el espacio reducido sean lo más parecidas posible a las distancias originales. No asume linealidad pero es costoso: O(n²) en memoria.</li>
+<li><strong>Isomap:</strong> variante de MDS que reemplaza la distancia euclídea por la <strong>distancia geodésica</strong> (camino más corto sobre el grafo de k vecinos más cercanos). Ideal cuando los datos viven en una variedad curva (ej: Swiss roll).</li>
+<li><strong>t-SNE (t-distributed Stochastic Neighbor Embedding):</strong> convierte similitudes en distribuciones de probabilidad y minimiza la divergencia KL entre el espacio original y el reducido. Excelente para <strong>visualizar</strong> clusters; no sirve como preprocesamiento general porque es estocástico y no preserva distancias globales.</li>
+<li><strong>Perplexity (t-SNE):</strong> controla cuántos vecinos efectivos considera cada punto. Valores típicos: 5–50. Datasets grandes → perplexity mayor.</li>
+<li><strong>UMAP (Uniform Manifold Approximation and Projection):</strong> alternativa moderna a t-SNE basada en topología algebraica. Más rápido, escalable, preserva mejor la estructura global y soporta <code>transform</code> sobre datos nuevos.</li>
+<li><strong>n_neighbors (UMAP):</strong> balance entre estructura local (valores bajos, ~5–15) y global (valores altos, ~50–200). <code>min_dist</code> controla qué tan "apretados" se ven los clusters.</li>
+<li><strong>LDA (Linear Discriminant Analysis):</strong> método <strong>supervisado</strong> que proyecta los datos maximizando la separación entre clases y minimizando la varianza dentro de cada clase. Limitado a <code>n_clases − 1</code> dimensiones.</li>
+<li><strong>Supervisado vs no supervisado:</strong> LDA usa las etiquetas <code>y</code>; PCA, MDS, Isomap, t-SNE y UMAP no. Esto hace que LDA sea óptimo como preprocesamiento de clasificación cuando hay etiquetas.</li>
+</ul>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<ul>
+<li><code>sklearn.datasets.make_swiss_roll</code> — clásico para Isomap vs PCA.</li>
+<li><code>sklearn.datasets.load_digits</code> — 8x8 = 64 dims, ideal para visualizar con t-SNE/UMAP.</li>
+<li><code>sklearn.datasets.fetch_openml('mnist_784')</code> — 70k × 784, para comparar tiempos t-SNE vs UMAP.</li>
+<li>Librerías: <code>scikit-learn</code> (MDS, Isomap, TSNE, LDA) + <code>umap-learn</code> (<code>pip install umap-learn</code>).</li>
+</ul>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li>Generá un Swiss roll con <code>make_swiss_roll(n_samples=1500)</code> y reducí a 2D con PCA, MDS e Isomap. Graficá los tres y comentá cuál "desenrolla" la variedad.</li>
+<li>Cargá <code>load_digits</code> y aplicá t-SNE con <code>perplexity</code> ∈ {5, 30, 50, 100}. Mostrá los 4 plots y explicá el efecto.</li>
+<li>Sobre <code>load_digits</code>, compará t-SNE vs UMAP: medí tiempo de ejecución con <code>time.perf_counter()</code> y reportá ambos embeddings 2D.</li>
+<li>Aplicá LDA a <code>load_digits</code> reduciendo a 2D y a 9D. Entrená un <code>LogisticRegression</code> sobre cada versión y compará accuracy con el original (64 dims).</li>
+<li>Con UMAP sobre <code>load_digits</code>, probá <code>n_neighbors</code> ∈ {2, 15, 100} con <code>min_dist=0.1</code>. Graficá los tres y explicá el trade-off local vs global.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Tomá <code>load_digits</code> y producí un script <code>compare_dimred.py</code> que:</p>
+<ol>
+<li>Aplique PCA(2), Isomap(2), t-SNE(2) y UMAP(2).</li>
+<li>Para cada embedding, entrene un <code>KNeighborsClassifier(n_neighbors=5)</code> con <code>cross_val_score</code> (cv=5) sobre el embedding 2D.</li>
+<li>Imprima una tabla con método, tiempo de ajuste y accuracy media.</li>
+</ol>
+<p><strong>Criterio:</strong> UMAP debe terminar al menos 3× más rápido que t-SNE sobre los 1797 dígitos, y la accuracy 2D de UMAP debe superar 0.90.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<ol>
+<li><strong>Interpretar las distancias entre clusters en t-SNE como reales.</strong> t-SNE preserva vecindarios locales, no distancias globales: dos clusters cercanos en el plot no son necesariamente similares.</li>
+<li><strong>Usar t-SNE como preprocesamiento de un modelo.</strong> No tiene <code>transform</code> confiable sobre datos nuevos; usá UMAP o PCA para eso.</li>
+<li><strong>No escalar antes de Isomap o t-SNE.</strong> Estos métodos dependen de distancias; sin <code>StandardScaler</code> las features con escala grande dominan.</li>
+<li><strong>Pedirle a LDA más componentes que <code>n_clases − 1</code>.</strong> scikit-learn lanza error; LDA está topeado por la cantidad de clases.</li>
+<li><strong>Olvidar <code>random_state</code> en t-SNE/UMAP.</strong> Son estocásticos: sin semilla el embedding cambia en cada corrida y los plots no son reproducibles.</li>
+</ol>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<ol>
+<li><strong>¿t-SNE o UMAP?</strong> UMAP en casi todos los casos: más rápido, preserva estructura global, tiene <code>transform</code>, escala a millones de puntos. t-SNE sigue siendo válido para visualización pequeña cuando ya tenés pipelines hechos.</li>
+<li><strong>¿Cuándo usar Isomap en vez de PCA?</strong> Cuando sospechás que los datos viven en una variedad curva (ej: imágenes de un objeto rotando). PCA proyecta linealmente y aplana mal la curvatura.</li>
+<li><strong>¿LDA o PCA antes de clasificar?</strong> Si tenés etiquetas, LDA suele dar mejor separación con menos dimensiones. PCA es agnóstico al target y puede tirar info útil.</li>
+<li><strong>¿Por qué MDS es tan lento?</strong> Calcula la matriz de distancias O(n²) y resuelve un problema de optimización. Para n &gt; 5000 es impráctico; usá Isomap o UMAP.</li>
+<li><strong>¿Puedo usar UMAP como preprocesamiento supervisado?</strong> Sí: UMAP acepta <code>y</code> en <code>fit</code> y aprende un embedding que respeta las etiquetas (semi-supervisado).</li>
+</ol>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Géron, <em>Hands-On ML</em>, cap. 8 — "Other Dimensionality Reduction Techniques".</li>
+<li>McInnes, Healy &amp; Melville (2018). <em>UMAP: Uniform Manifold Approximation and Projection</em>. arXiv:1802.03426.</li>
+<li>van der Maaten &amp; Hinton (2008). <em>Visualizing Data using t-SNE</em>. JMLR.</li>
+<li>Documentación: <a href="https://umap-learn.readthedocs.io/">https://umap-learn.readthedocs.io/</a> · <a href="https://scikit-learn.org/stable/modules/manifold.html">https://scikit-learn.org/stable/modules/manifold.html</a></li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../095-clustering-k-means-seleccion-de-k-mini-batch/index.html">Clase 095 — Clustering K-Means: selección de K, MiniBatch</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-1-machine-learning-clasico/094-mds-isomap-t-sne-umap-lda/"><code>classes/parte-1-machine-learning-clasico/094-mds-isomap-t-sne-umap-lda/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

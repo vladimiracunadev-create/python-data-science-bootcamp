@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 045 — SQL desde Python: sqlite3, SQLAlchemy, DuckDB | Python Data Science Program</title>
+  <meta name="description" content="Clase 045 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 0 — Prerrequisitos</a><span class="sep">›</span><span>045</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-0-prerrequisitos/045-sql-desde-python-sqlite3-sqlalchemy-duckdb/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-045-sql-desde-python-sqlite3-sqlalchemy-duckdb">Clase 045 — SQL desde Python: sqlite3, SQLAlchemy, DuckDB</h1>
+<blockquote>
+<p>Parte: <strong>0 — Prerrequisitos</strong> · Fuente: Python stdlib <code>sqlite3</code> · SQLAlchemy docs · DuckDB Python docs.
+⏱️ Duración estimada: <strong>75 min</strong>.</p>
+</blockquote>
+<hr>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Que el alumno conecte Python con SQL de las 3 formas que va a encontrar en producción: <code>sqlite3</code> (stdlib, demo local), <code>SQLAlchemy</code> (ORM/engine genérico para PostgreSQL/MySQL), y <code>DuckDB</code> (columnar embebido para análisis sobre CSV/Parquet sin servidor).</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar la clase, el alumno podrá:</p>
+<ol>
+<li><strong>Conectar y consultar</strong> con <code>sqlite3</code> stdlib, usando placeholders <code>?</code> (NUNCA concatenar SQL).</li>
+<li><strong>Usar SQLAlchemy <code>create_engine(URL)</code></strong> + <code>pd.read_sql</code> para queries a cualquier RDBMS.</li>
+<li><strong>Usar DuckDB</strong> para hacer SQL sobre DataFrames y CSV/Parquet directamente.</li>
+<li><strong>Prevenir SQL injection</strong> con queries parametrizadas.</li>
+<li><strong>Decidir</strong> entre sqlite/SQLAlchemy/DuckDB según el caso.</li>
+</ol>
+<h2 id="temas">🗺️ Temas</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Tema</th>
+<th>Por qué importa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><code>sqlite3</code> stdlib: connect, cursor, fetchall</td>
+<td>Para demos y BDs ligeras.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Placeholders <code>?</code> y <code>:nombre</code></td>
+<td>NUNCA concatenar strings.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>SQLAlchemy <code>create_engine('postgresql://...')</code></td>
+<td>Soporta todos los RDBMS.</td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>pd.read_sql</code> y <code>df.to_sql</code></td>
+<td>Pasarela pandas ↔ BD.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>DuckDB: SQL sobre DataFrames y archivos</td>
+<td><code>duckdb.query('SELECT ... FROM df')</code>.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Cuándo cada uno</td>
+<td>Trade-offs.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<dl>
+<dt><strong><code>sqlite3</code> (stdlib)</strong></dt>
+<dd>Driver Python para SQLite. Sin dependencias externas. Patrón: <code>connect(...)</code> → <code>cursor()</code> → <code>execute(sql, params)</code> → <code>fetchall()</code>.</dd>
+<dt><strong>Parameterized query (<code>?</code> o <code>:name</code>)</strong></dt>
+<dd>Placeholder donde el driver substituye valores escapados. <strong>Única forma segura</strong> de pasar datos de usuario — previene SQL injection.</dd>
+<dt><strong>SQLAlchemy</strong></dt>
+<dd>Toolkit ORM + Core para Python. Backend-agnostic: cambias el URL del engine y migras entre SQLite/Postgres/MySQL sin tocar queries. <code>create_engine('postgresql://...')</code>.</dd>
+<dt><strong>DuckDB</strong></dt>
+<dd>OLAP DB embebida. SQL sobre DataFrames pandas (<code>duckdb.query('SELECT ... FROM df')</code>) y archivos CSV/Parquet directos (<code>FROM 'data.csv'</code>). Mucho más rápido que sqlite3 para analytics.</dd>
+<dt><strong>SQL injection</strong></dt>
+<dd>Inyección de SQL malicioso via concatenación de strings con input de usuario. <strong>Prevención</strong>: SIEMPRE parameterized queries, nunca f-string con valores externos.</dd>
+<dt><strong><code>pd.read_sql</code> / <code>df.to_sql</code></strong></dt>
+<dd>Pasarela pandas↔BD. Acepta connection o engine. <code>read_sql_query</code> para queries complejas; <code>read_sql_table</code> para tablas completas.</dd>
+</dl>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<p>Penguins descargado a CSV local para DuckDB; datos sintéticos para sqlite/SQLAlchemy.</p>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<p><strong>1.</strong> <strong>sqlite3 con placeholders.</strong> Crea tabla, inserta 5 filas usando <code>executemany</code> con tuples, consulta con <code>?</code> placeholder. Demuestra el bug si concatenas.</p>
+<p><strong>2.</strong> <strong><code>df.to_sql</code> y <code>pd.read_sql</code>.</strong> Carga un DataFrame a SQLite y consulta de vuelta.</p>
+<p><strong>3.</strong> <strong>SQLAlchemy engine.</strong> Crea engine SQLite. Usa <code>pd.read_sql</code> con engine.</p>
+<p><strong>4.</strong> <strong>DuckDB sobre DataFrame.</strong> Carga penguins en df. <code>duckdb.query('SELECT species, AVG(body_mass_g) FROM df GROUP BY species').df()</code>.</p>
+<p><strong>5.</strong> <strong>DuckDB sobre CSV.</strong> Mismo query pero <code>FROM 'penguins.csv'</code> directo, sin cargar a pandas.</p>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Notebook con 3 backends del mismo análisis: (a) sqlite3 stdlib + cursor; (b) SQLAlchemy engine + pd.read_sql; (c) DuckDB sobre CSV. Documenta cuándo elegirías cada uno. Demuestra explícitamente el peligro de SQL injection con concatenación vs placeholders.</p>
+<p><strong>Criterio de aceptación:</strong> Las 3 versiones devuelven el mismo resultado. Demo de injection sin daño real.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>OperationalError: no such table: X</code> después de insert</td>
+<td>Falta <code>con.commit()</code>. sqlite3 no auto-commit. <strong>Fix</strong>: <code>con.commit()</code> tras INSERT/UPDATE/DELETE, o <code>con = sqlite3.connect(':memory:', isolation_level=None)</code> para auto-commit.</td>
+</tr>
+<tr>
+<td>Concatené input de usuario en query y funcionó</td>
+<td>Hasta que el usuario malicioso prueba <code>'; DROP TABLE clientes; --</code>. <strong>Fix</strong>: NUNCA <code>f"SELECT * FROM x WHERE id={user}"</code>. Siempre <code>(?, ?)</code> placeholders.</td>
+</tr>
+<tr>
+<td>SQLAlchemy 2.0 — <code>Engine.execute</code> no existe</td>
+<td>API cambió: ahora <code>with engine.connect() as con: con.execute(text('SELECT ...'))</code>. Tutorial oficial actualizado.</td>
+</tr>
+<tr>
+<td>DuckDB lee CSV pero pierde tipos</td>
+<td>Pandas adivina mejor. <strong>Fix</strong>: <code>duckdb.read_csv('x.csv', dtype={'col': 'INT'})</code> o convierte después.</td>
+</tr>
+<tr>
+<td><code>pd.read_sql</code> lento con N grande</td>
+<td>Driver Python carga todo a Python. <strong>Fix</strong>: <code>chunksize=10000</code> itera por bloques, o usa DuckDB directo sobre BD (cuando aplica).</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿sqlite3, SQLAlchemy o DuckDB?</strong></p>
+<p><strong>sqlite3</strong> para demos/tests/scripts locales. <strong>SQLAlchemy</strong> para producción con Postgres/MySQL. <strong>DuckDB</strong> para EDA sobre CSV/Parquet sin servidor — el más rápido para analytics.</p>
+<p><strong>❓ ¿<code>pd.read_sql</code> es seguro contra injection?</strong></p>
+<p>Sí si pasas params: <code>read_sql('SELECT * FROM t WHERE x=:val', con, params={'val': user_input})</code>. No si concatenas strings.</p>
+<p><strong>❓ ¿ORM (SQLAlchemy declarative) o queries directas?</strong></p>
+<p>ORM cuando el modelo se usa en muchas partes (web app con N modelos). Queries directas para análisis ad-hoc. Pueden coexistir.</p>
+<p><strong>❓ ¿DuckDB sobre Parquet vs sobre pandas?</strong></p>
+<p><strong>Parquet directo</strong> es más rápido (no carga a Python). <strong>Pandas</strong> cuando ya tienes el DataFrame en memoria. DuckDB es smart: optimiza ambos casos.</p>
+<p><strong>❓ ¿Cerrar conexión manualmente?</strong></p>
+<p>Usa context manager: <code>with sqlite3.connect(...) as con: ...</code> o <code>con.close()</code> en <code>finally</code>. Conexiones dejadas abiertas consumen handles del OS.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li><a href="https://docs.python.org/3/library/sqlite3.html">Python <code>sqlite3</code> docs</a></li>
+<li><a href="https://docs.sqlalchemy.org/en/20/tutorial/">SQLAlchemy tutorial</a></li>
+<li><a href="https://duckdb.org/docs/api/python/overview">DuckDB Python API</a></li>
+<li><a href="https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html">OWASP — SQL injection prevention</a></li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../046-nosql-mongodb-con-pymongo/index.html">Clase 046 — NoSQL: MongoDB con pymongo</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-0-prerrequisitos/045-sql-desde-python-sqlite3-sqlalchemy-duckdb/"><code>classes/parte-0-prerrequisitos/045-sql-desde-python-sqlite3-sqlalchemy-duckdb/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

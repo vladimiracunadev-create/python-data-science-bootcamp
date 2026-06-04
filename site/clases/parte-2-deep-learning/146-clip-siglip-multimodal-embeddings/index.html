@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 146 — CLIP, SigLIP: multimodal embeddings (visión + texto) | Python Data Science Program</title>
+  <meta name="description" content="Clase 146 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 2 — Deep Learning</a><span class="sep">›</span><span>146</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-2-deep-learning/146-clip-siglip-multimodal-embeddings/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-146-clip-siglip-multimodal-embeddings-vision-texto">Clase 146 — CLIP, SigLIP: multimodal embeddings (visión + texto)</h1>
+<blockquote>
+<p>Parte: <strong>2 — Deep Learning</strong> · Fuente: Radford et al. (2021) CLIP + Zhai et al. (2023) SigLIP. ⏱️ Duración estimada: <strong>80 min</strong>.</p>
+</blockquote>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Conocer <strong>CLIP</strong> (OpenAI 2021) y su evolución <strong>SigLIP</strong> (Google 2023) — los foundation models que mapean <strong>imágenes y texto al mismo espacio vectorial</strong>, entrenados con contrastive learning sobre 400M-4B pares. Aplicaciones: <strong>zero-shot classification</strong>, <strong>image search por texto</strong>, <strong>content moderation</strong>, <strong>embeddings para RAG multimodal</strong>.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar, el estudiante podrá:</p>
+<ul>
+<li>Cargar CLIP/SigLIP desde HuggingFace: <code>CLIPModel.from_pretrained('openai/clip-vit-base-patch32')</code>.</li>
+<li>Calcular embeddings de imágenes y de texto; cosine similarity entre ambos.</li>
+<li>Implementar <strong>zero-shot classification</strong>: predecir clase con la mayor similaridad a "a photo of a [class]".</li>
+<li>Hacer <strong>image retrieval por texto</strong> sobre un corpus de imágenes.</li>
+<li>Diferenciar CLIP (softmax contrastive) de SigLIP (sigmoid pairwise, mejor escalabilidad).</li>
+</ul>
+<h2 id="temas">🗺️ Temas</h2>
+<ul>
+<li>Contrastive Language-Image Pre-training: matchear pares correctos, separar incorrectos.</li>
+<li>Arquitectura: image encoder (ViT) + text encoder (Transformer).</li>
+<li>Cosine similarity como métrica.</li>
+<li>Zero-shot vs few-shot.</li>
+<li>Variantes modernas: SigLIP (sigmoid loss), EVA-CLIP, OpenCLIP, Apple AIM.</li>
+</ul>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<ul>
+<li><strong>CLIP</strong>: dual encoder, contrastive softmax.</li>
+<li><strong>SigLIP</strong>: dual encoder, sigmoid pairwise — escala mejor, no necesita global batch.</li>
+<li><strong>Embedding space</strong>: cosine similarity para comparar.</li>
+<li><strong>Zero-shot</strong>: clasificar sin training en la tarea, solo con prompt textual.</li>
+<li><strong>Variantes</strong>: ViT-B/32 (rápido), ViT-L/14 (mejor), ViT-H/14 (top).</li>
+</ul>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<ul>
+<li>Imágenes propias o <code>tfds.load('cats_vs_dogs')</code>.</li>
+<li>HuggingFace: <code>openai/clip-vit-base-patch32</code>, <code>google/siglip-base-patch16-224</code>.</li>
+<li>Librerías: <code>transformers</code>, <code>torch</code>, <code>PIL</code>.</li>
+</ul>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>CLIP setup</strong>: cargar processor + model. Embed una imagen y un texto. Cosine similarity.</li>
+<li><strong>Zero-shot classification</strong>: dada una imagen, comparar contra <code>["a photo of a cat", "a photo of a dog"]</code>. Predict argmax.</li>
+<li><strong>Image search</strong>: corpus de 100 imágenes; query texto "a sunset over the ocean" → top-5 más similares.</li>
+<li><strong>SigLIP</strong>: misma tarea, comparar accuracy.</li>
+<li><strong>Fine-tune</strong> ligero: con dataset chico custom, fine-tunear CLIP con LoRA para un dominio específico.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Buscador de imágenes por texto:</p>
+<ol>
+<li>200 imágenes diversas.</li>
+<li>Embed todas con CLIP ViT-B/32.</li>
+<li>UI simple (notebook): input texto → top-5 imágenes.</li>
+<li>Probar 10 queries; reportar precisión subjetiva.</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: queries claras devuelven imágenes relevantes en top-3 con frecuencia alta.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Similitud baja para imagen y texto que parecen relacionados</td>
+<td>Prompt mal estructurado. <strong>Fix</strong>: "a photo of a X" funciona mejor que solo "X".</td>
+</tr>
+<tr>
+<td>Lento en CPU</td>
+<td>Modelos grandes. <strong>Fix</strong>: ViT-B/32 (chico) o GPU.</td>
+</tr>
+<tr>
+<td>OOM con ViT-L/14</td>
+<td><strong>Fix</strong>: ViT-B/32 o batch=1.</td>
+</tr>
+<tr>
+<td>Embeddings no normalizados → cosine raro</td>
+<td><strong>Fix</strong>: normalizar con <code>outputs.image_embeds / outputs.image_embeds.norm(dim=-1, keepdim=True)</code>.</td>
+</tr>
+<tr>
+<td>Imágenes en formato wrong</td>
+<td>CLIP espera RGB 224×224. <strong>Fix</strong>: usar el <code>processor</code> que hace todo.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ CLIP o SigLIP?</strong></p>
+<p>SigLIP entrena más rápido y escala mejor; calidad similar. En 2026, SigLIP / SigLIP-2 es default moderno.</p>
+<p><strong>❓ ¿En LLM multimodal (LLaVA)?</strong></p>
+<p>CLIP/SigLIP es el image encoder. La LLM (Llama) recibe los embeddings.</p>
+<p><strong>❓ Open vocabulary detection con CLIP?</strong></p>
+<p>OWL-ViT, Grounding DINO usan CLIP como base. Hacen detección con prompts texto.</p>
+<p><strong>❓ CLIP en producción de búsqueda?</strong></p>
+<p>Sí — Pinterest, Adobe, Shopify. Vector DB (Qdrant, Pinecone) con embeddings CLIP.</p>
+<p><strong>❓ Train CLIP desde cero?</strong></p>
+<p>400M+ pares necesarios. Open-source: OpenCLIP, MetaCLIP — alternativas abiertas con datasets públicos.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Radford et al. (2021), <em>CLIP</em>, ICML.</li>
+<li>Zhai et al. (2023), <em>Sigmoid Loss for Language Image Pre-Training (SigLIP)</em>, ICCV.</li>
+<li><a href="https://github.com/mlfoundations/open_clip">OpenCLIP</a>.</li>
+<li><a href="https://laion.ai/">LAION-5B</a> — dataset abierto.</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../147-whisper-asr-audio-transcripcion-traduccion/index.html">Clase 147 — Whisper: ASR, transcripción, traducción de audio</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-2-deep-learning/146-clip-siglip-multimodal-embeddings/"><code>classes/parte-2-deep-learning/146-clip-siglip-multimodal-embeddings/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

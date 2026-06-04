@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 142 — Mecanismos de atención | Python Data Science Program</title>
+  <meta name="description" content="Clase 142 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 2 — Deep Learning</a><span class="sep">›</span><span>142</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-2-deep-learning/142-mecanismos-de-atencion/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-142-mecanismos-de-atencion">Clase 142 — Mecanismos de atención</h1>
+<blockquote>
+<p>Parte: <strong>2 — Deep Learning</strong> · Fuente: Géron, <strong>cap. 16</strong> § <em>Attention Mechanisms</em> + Bahdanau et al. (2015), Luong et al. (2015). ⏱️ Duración estimada: <strong>75 min</strong>.</p>
+</blockquote>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Entender la <strong>atención</strong> — el mecanismo que destrabó NLP moderno. Bahdanau (2015): permite al decoder mirar <strong>todos los hidden states del encoder</strong>, ponderando dinámicamente. Luego self-attention (Vaswani 2017): tokens dentro de la misma secuencia se atienden entre sí → Transformer (clase 126).</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar, el estudiante podrá:</p>
+<ul>
+<li>Explicar <strong>scaled dot-product attention</strong>: <code>softmax(QK^T / √d) V</code>.</li>
+<li>Diferenciar <strong>cross-attention</strong> (decoder→encoder, clásico Bahdanau) de <strong>self-attention</strong> (intra-secuencia, base del Transformer).</li>
+<li>Implementar attention a mano en numpy/TF para una secuencia corta.</li>
+<li>Aplicar <code>keras.layers.Attention</code> o <code>keras.layers.MultiHeadAttention</code>.</li>
+<li>Interpretar <strong>attention weights</strong> como "qué tokens fuente miró el decoder al generar cada token destino".</li>
+</ul>
+<h2 id="temas">🗺️ Temas</h2>
+<ul>
+<li>Motivación: bottleneck del encoder en seq2seq.</li>
+<li>Bahdanau (additive) vs Luong (multiplicative / dot-product).</li>
+<li>Q, K, V: queries, keys, values.</li>
+<li>Scaled dot-product attention.</li>
+<li>Self-attention vs cross-attention.</li>
+<li>Multi-head: paralelizar varias attention heads con subspaces distintos.</li>
+<li>Attention weights visualizables.</li>
+</ul>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<ul>
+<li><strong>Query (Q)</strong>: "lo que estoy buscando" (e.g., el token del decoder).</li>
+<li><strong>Key (K)</strong>: "lo que cada elemento ofrece como índice" (e.g., los hidden del encoder).</li>
+<li><strong>Value (V)</strong>: "el contenido a recuperar" (normalmente igual o relacionado a K).</li>
+<li><strong>Attention weights</strong>: <code>softmax(QK^T / √d)</code>, matrix <code>(seq_len_q, seq_len_k)</code>.</li>
+<li><strong>Scaled</strong>: dividir por <code>√d</code> para que el softmax no sature.</li>
+<li><strong>Multi-head</strong>: dividir <code>d</code> en <code>h</code> heads, calcular attention por separado, concatenar.</li>
+</ul>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<ul>
+<li>Reusar dataset de traducción de 124.</li>
+<li>Librerías: <code>tensorflow</code>, <code>keras</code>.</li>
+</ul>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>Attention a mano</strong>: Q, K, V random <code>(seq, d)</code>; calcular <code>softmax(QK^T / √d) V</code>. Verificar shapes.</li>
+<li><strong>Visualizar attention map</strong>: tras entrenar un seq2seq con atención, plot heatmap de los pesos <code>(target, source)</code> para una traducción.</li>
+<li><strong><code>MultiHeadAttention</code></strong>: <code>mha = MultiHeadAttention(num_heads=8, key_dim=64); output = mha(query, value)</code>.</li>
+<li><strong>Self-attention</strong>: aplicar <code>mha(x, x)</code> (query = key = value). Esto es el bloque de Transformer.</li>
+<li><strong>Causal mask</strong>: para generación autoregresiva, <code>MultiHeadAttention(..., use_causal_mask=True)</code>.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Traducción con atención sobre el dataset de 124:</p>
+<ol>
+<li>Encoder LSTM con <code>return_sequences=True</code>.</li>
+<li>Decoder con cross-attention sobre todos los outputs del encoder.</li>
+<li>Train y evaluar BLEU.</li>
+<li>Visualizar attention map para 2 frases.</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: BLEU debe mejorar respecto al seq2seq sin atención (de 124) por ≥ 5 pp; el attention map muestra alineamiento source-target razonable.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Olvido scale <code>/ √d</code></td>
+<td>Softmax satura con d grande. <strong>Fix</strong>: usar <code>MultiHeadAttention</code> que lo hace automático.</td>
+</tr>
+<tr>
+<td>Attention sin masking sobre padding</td>
+<td>Atiende a tokens <code>&lt;pad&gt;</code>. <strong>Fix</strong>: <code>attention_mask</code> que ponga <code>-inf</code> en posiciones pad.</td>
+</tr>
+<tr>
+<td>Causal mask al revés</td>
+<td>Mira el futuro. <strong>Fix</strong>: <code>use_causal_mask=True</code> o construir mask triangular inferior.</td>
+</tr>
+<tr>
+<td>Cross-attention con Q de un tamaño y K/V de otro</td>
+<td>OK si <code>d_q != d_kv</code>, pero <code>MultiHeadAttention</code> lo maneja con proyecciones.</td>
+</tr>
+<tr>
+<td>Visualizar attention de un modelo no convergido</td>
+<td>Mapas ruidosos. <strong>Fix</strong>: entrenar bien primero.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿Self vs cross attention?</strong></p>
+<p>Self: Q = K = V (la secuencia se atiende a sí misma). Cross: Q de un origen, K/V de otro (decoder mira encoder).</p>
+<p><strong>❓ ¿Por qué <code>√d</code> y no <code>d</code> en el scaled?</strong></p>
+<p><code>QK^T</code> tiene varianza ~ d. Dividir por <code>√d</code> mantiene varianza estable y softmax no satura.</p>
+<p><strong>❓ ¿Multi-head qué aporta?</strong></p>
+<p>Cada head puede aprender un patrón distinto (one por sintaxis, otro por semántica, ...). Empíricamente importante.</p>
+<p><strong>❓ ¿Attention O(N²)?</strong></p>
+<p>Sí, en memoria y compute. Es el principal limitante para secuencias largas. Flash Attention (clase 126) lo optimiza; Linformer/Performer aproximan.</p>
+<p><strong>❓ ¿Atención biológica?</strong></p>
+<p>Inspiración loose. El mecanismo no es realmente cómo funciona el cerebro, pero la metáfora "prestar atención a partes relevantes" es intuitiva.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Géron, <strong>cap. 16</strong> — <em>Attention Mechanisms</em>.</li>
+<li>Bahdanau, Cho &amp; Bengio (2015), <em>Neural Machine Translation by Jointly Learning to Align and Translate</em>, ICLR.</li>
+<li>Luong, Pham &amp; Manning (2015), <em>Effective Approaches to Attention-based Neural Machine Translation</em>, EMNLP.</li>
+<li>Vaswani et al. (2017), <em>Attention Is All You Need</em>, NeurIPS — paper del Transformer.</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../143-transformers-arquitectura-bert-gpt/index.html">Clase 143 — Transformers: arquitectura, BERT, GPT (+ Flash Attention, RoPE, GQA)</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-2-deep-learning/142-mecanismos-de-atencion/"><code>classes/parte-2-deep-learning/142-mecanismos-de-atencion/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

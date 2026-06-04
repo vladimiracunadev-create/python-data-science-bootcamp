@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 163 — Markov Decision Processes | Python Data Science Program</title>
+  <meta name="description" content="Clase 163 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 2 — Deep Learning</a><span class="sep">›</span><span>163</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-2-deep-learning/163-markov-decision-processes/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-163-markov-decision-processes">Clase 163 — Markov Decision Processes</h1>
+<blockquote>
+<p>Parte: <strong>2 — Deep Learning</strong> · Fuente: Géron, <strong>cap. 18</strong> § <em>Markov Decision Processes</em> + Sutton &amp; Barto cap. 3. ⏱️ Duración estimada: <strong>60 min</strong>.</p>
+</blockquote>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Formalizar el <strong>marco teórico de RL</strong>: un <strong>Markov Decision Process (MDP)</strong> = tupla <code>(S, A, P, R, γ)</code>. Conocer la <strong>Bellman equation</strong> que define <code>V*</code> y <code>Q*</code> óptimos, y los algoritmos clásicos <strong>Value Iteration</strong> y <strong>Policy Iteration</strong> que los resuelven (cuando el MDP es conocido).</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar, el estudiante podrá:</p>
+<ul>
+<li>Definir un MDP: states, actions, transition prob, reward function, discount.</li>
+<li>Escribir la <strong>Bellman equation</strong> para <code>V*</code>: <code>V*(s) = max_a Σ P(s'|s,a)[R + γ V*(s')]</code>.</li>
+<li>Implementar <strong>Value Iteration</strong>: actualizar iterativamente hasta convergencia.</li>
+<li>Implementar <strong>Policy Iteration</strong>: alternar policy evaluation + policy improvement.</li>
+<li>Reconocer la limitación: requiere conocer <code>P</code> y <code>R</code> (no aplicable a entornos reales) → motivó model-free (Q-learning, clase 137).</li>
+</ul>
+<h2 id="temas">🗺️ Temas</h2>
+<ul>
+<li>Propiedad de Markov: <code>P(s_{t+1} | s_t, a_t) = P(s_{t+1} | s_t, a_t, s_{t-1}, ...)</code>.</li>
+<li>Componentes MDP.</li>
+<li>Bellman optimality equation.</li>
+<li>Value Iteration (synchronous update).</li>
+<li>Policy Iteration (alternar eval + improve).</li>
+<li>Convergencia garantizada (contractive operator).</li>
+</ul>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<ul>
+<li><strong>State <code>s</code></strong>: representación del entorno.</li>
+<li><strong>Action <code>a</code></strong>: lo que el agente puede hacer.</li>
+<li><strong>Transition <code>P(s' | s, a)</code></strong>: probabilidad de llegar a <code>s'</code> desde <code>s</code> tomando <code>a</code>.</li>
+<li><strong>Reward <code>R(s, a, s')</code></strong>: recompensa inmediata.</li>
+<li><strong>Discount γ</strong>: peso de recompensas futuras.</li>
+<li><strong><code>V*(s)</code></strong>: máximo expected return desde s.</li>
+<li><strong><code>Q*(s, a)</code></strong>: máximo expected return tras tomar <code>a</code> en <code>s</code>.</li>
+<li><strong>Policy óptima</strong>: <code>π*(s) = argmax_a Q*(s, a)</code>.</li>
+</ul>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<ul>
+<li>MDPs sintéticos chicos (FrozenLake, Taxi de Gymnasium).</li>
+<li>Librerías: <code>gymnasium</code>, <code>numpy</code>.</li>
+</ul>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>MDP de juguete</strong>: definir un MDP de 4 estados con <code>P</code>, <code>R</code> manualmente.</li>
+<li><strong>Value Iteration</strong>: implementar <code>V[s] = max_a Σ P(s'|s,a)(R + γ V[s'])</code> hasta <code>max change &lt; 1e-6</code>.</li>
+<li><strong>Policy Iteration</strong>: alternar evaluación (<code>V^π</code>) con mejora (<code>π' = greedy(V)</code>) hasta estabilidad.</li>
+<li><strong>FrozenLake</strong>: cargar <code>gym.make('FrozenLake-v1')</code>, extraer <code>env.unwrapped.P</code> (modelo del MDP), resolver con VI.</li>
+<li><strong>Compare</strong>: # iteraciones VI vs PI para llegar a misma policy.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Sobre FrozenLake-v1 (<code>is_slippery=True</code>):</p>
+<ol>
+<li>Extraer modelo <code>P</code> y <code>R</code> desde <code>env.unwrapped.P</code>.</li>
+<li>Implementar Value Iteration; reportar <code>V*</code> y <code>π*</code> greedy.</li>
+<li>Evaluar la policy con 1000 episodios random; reportar success rate.</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: success rate ≥ 0.7 sobre FrozenLake slippery; <code>V*</code> y policy claramente prefieren caminos seguros.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Value Iteration no converge</td>
+<td>γ ≥ 1.0. <strong>Fix</strong>: γ &lt; 1.0 (típicamente 0.95-0.99).</td>
+</tr>
+<tr>
+<td>Policy Iteration loops infinito</td>
+<td>Numerical issues en evaluación. <strong>Fix</strong>: limitar evaluation iterations o usar tolerancia.</td>
+</tr>
+<tr>
+<td>Acceder a <code>env.P</code> falla</td>
+<td>Hay que usar <code>env.unwrapped.P</code>.</td>
+</tr>
+<tr>
+<td>Asumir Markov en problemas non-Markov</td>
+<td>Por ejemplo, control con velocidad escondida. <strong>Fix</strong>: incluir velocidad en el state.</td>
+</tr>
+<tr>
+<td>VI vs PI: cuándo usar?</td>
+<td>VI: más simple, más iters pero más baratas. PI: menos iters pero cada una requiere eval completa.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿MDPs en problemas reales?</strong></p>
+<p>Casi nunca conocés <code>P</code> y <code>R</code> exactamente. Por eso → Q-learning (clase 137) y métodos model-free.</p>
+<p><strong>❓ ¿POMDPs?</strong></p>
+<p>Partially Observable: cuando no ves el state completo. Mucho más difícil. Usar agente con memoria (LSTM, Transformer).</p>
+<p><strong>❓ ¿Continuous state space?</strong></p>
+<p>VI/PI no escalan. Usar function approximation: DQN (clase 137) o policy gradient (135).</p>
+<p><strong>❓ ¿Bellman equation conexión con DP?</strong></p>
+<p>Sí, VI es dynamic programming clásico aplicado a MDPs.</p>
+<p><strong>❓ ¿Aprender el modelo <code>P, R</code> desde data?</strong></p>
+<p>Model-based RL: aprender un modelo, planificar con él. Más sample-efficient pero más complejo.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Géron, <strong>cap. 18</strong> — <em>Markov Decision Processes</em>.</li>
+<li>Sutton &amp; Barto, cap. 3-4.</li>
+<li>Bellman (1957), <em>Dynamic Programming</em>.</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../164-td-learning-q-learning-deep-q-networks/index.html">Clase 164 — TD Learning, Q-Learning, Deep Q-Networks</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-2-deep-learning/163-markov-decision-processes/"><code>classes/parte-2-deep-learning/163-markov-decision-processes/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

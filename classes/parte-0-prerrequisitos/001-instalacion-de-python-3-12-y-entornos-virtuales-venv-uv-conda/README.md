@@ -144,4 +144,4 @@ Para este curso, sí (varias features usadas dependen). En general, usa la últi
 
 ## ➡️ Siguiente clase
 
-[Clase 002 — Jupyter y JupyterLab: kernels, magics, debugging, profiling](../002-jupyter-y-jupyterlab-kernels-magics-debugging-profiling/README.md)
+[Clase 002 — Jupyter y JupyterLab — kernels, magics, debugging, profiling](../002-jupyter-y-jupyterlab-kernels-magics-debugging-profiling/README.md)

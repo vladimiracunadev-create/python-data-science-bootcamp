@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 122 — PyTorch fundamentos: tensores, autograd, nn.Module | Python Data Science Program</title>
+  <meta name="description" content="Clase 122 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 2 — Deep Learning</a><span class="sep">›</span><span>122</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-2-deep-learning/122-pytorch-fundamentos-tensores-autograd/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-122-pytorch-fundamentos-tensores-autograd-nnmodule">Clase 122 — PyTorch fundamentos: tensores, autograd, nn.Module</h1>
+<blockquote>
+<p>Parte: <strong>2 — Deep Learning</strong> · Fuente: <a href="https://pytorch.org/tutorials/">PyTorch tutorials</a> + Howard &amp; Gugger, <em>Deep Learning for Coders with fastai &amp; PyTorch</em>. ⏱️ Duración estimada: <strong>90 min</strong>.</p>
+</blockquote>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Aprender <strong>PyTorch</strong> —el framework dominante en research y en LLMs/multimodal 2026—. Cubrir: <strong>tensores</strong> (similar a NumPy, en GPU), <strong>autograd</strong> (<code>requires_grad</code>, <code>.backward()</code>), <strong><code>nn.Module</code></strong> (forma de definir modelos), <code>Dataset/DataLoader</code> para data pipelines. Equivalencias 1:1 con Keras/TF de las clases anteriores.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar, el estudiante podrá:</p>
+<ul>
+<li>Crear tensores: <code>torch.tensor</code>, <code>torch.zeros</code>, <code>torch.randn</code>, <code>device='cuda'</code>.</li>
+<li>Aplicar autograd: <code>x.requires_grad_(True); y = f(x); y.backward(); x.grad</code>.</li>
+<li>Definir un MLP custom: <code>class Net(nn.Module): def __init__(self): ...; def forward(self, x): ...</code>.</li>
+<li>Escribir el loop manual: <code>optimizer.zero_grad(); loss.backward(); optimizer.step()</code>.</li>
+<li>Usar <code>Dataset</code> y <code>DataLoader</code> para pipelines de datos.</li>
+</ul>
+<h2 id="temas">🗺️ Temas</h2>
+<ul>
+<li>Tensors vs ndarray, <code>.to(device)</code>.</li>
+<li>Computation graph dinámico (vs estático TF1) — define-by-run.</li>
+<li><code>requires_grad</code> y autograd.</li>
+<li><code>nn.Module</code>, <code>nn.Linear</code>, <code>nn.Sequential</code>, <code>nn.functional</code>.</li>
+<li>Loss funcs: <code>nn.CrossEntropyLoss</code>, <code>nn.MSELoss</code>.</li>
+<li>Optim: <code>torch.optim.Adam(model.parameters(), lr=...)</code>.</li>
+<li><code>Dataset</code> + <code>DataLoader(num_workers, pin_memory)</code>.</li>
+</ul>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<ul>
+<li><strong><code>torch.tensor</code></strong>: similar a <code>np.ndarray</code> pero con GPU + autograd.</li>
+<li><strong><code>nn.Module</code></strong>: clase base de todos los modelos. <code>__init__</code> declara capas, <code>forward</code> define forward.</li>
+<li><strong><code>nn.Parameter</code></strong>: tensor con <code>requires_grad=True</code> registrado automáticamente.</li>
+<li><strong><code>optimizer.zero_grad()</code></strong>: <strong>OBLIGATORIO</strong> al inicio de cada batch (sino se acumulan).</li>
+<li><strong><code>model.train()</code> / <code>model.eval()</code></strong>: cambia comportamiento de BatchNorm y Dropout.</li>
+<li><strong><code>with torch.no_grad():</code></strong>: contexto para inference, no construye grafo.</li>
+</ul>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<ul>
+<li>Fashion-MNIST vía <code>torchvision.datasets</code>.</li>
+<li>Librerías: <code>torch</code>, <code>torchvision</code>.</li>
+</ul>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>Tensores</strong>: crear, mover a GPU, operaciones básicas. Comparar con NumPy.</li>
+<li><strong>Autograd</strong>: <code>x = torch.tensor([2.0], requires_grad=True); y = x**3; y.backward(); print(x.grad)</code> → debe ser 12.</li>
+<li><strong>MLP custom</strong>: definir clase con 2 <code>nn.Linear</code> + ReLU. Verificar <code>model.parameters()</code>.</li>
+<li><strong>Training loop manual</strong>: Fashion-MNIST, 1 época, reportar loss.</li>
+<li><strong>DataLoader</strong>: <code>DataLoader(dataset, batch_size=32, shuffle=True, num_workers=2)</code>. Iterar.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Reproducir el modelo de Fashion-MNIST de Clase 091 en PyTorch:</p>
+<ol>
+<li>MLP <code>[300, 100, 10]</code>.</li>
+<li>CrossEntropy loss, Adam(1e-3).</li>
+<li>EarlyStopping manual (cuando val_loss no baja por 5 épocas).</li>
+<li>Reportar test accuracy.</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: accuracy ≥ 0.87 (igual que la versión Keras); código compacto y legible.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Olvido <code>optimizer.zero_grad()</code></td>
+<td>Gradientes acumulados. <strong>Fix</strong>: agregar al inicio de cada batch.</td>
+</tr>
+<tr>
+<td>Modelo no aprende</td>
+<td>Olvidaste <code>.to(device)</code> en model o data. <strong>Fix</strong>: ambos en mismo device.</td>
+</tr>
+<tr>
+<td><code>RuntimeError: Trying to backward through the graph a second time</code></td>
+<td>Reusar el grafo. <strong>Fix</strong>: <code>loss.backward(retain_graph=True)</code> o re-compute.</td>
+</tr>
+<tr>
+<td>Eval con <code>model.train()</code> (BN/Dropout activos)</td>
+<td>Métricas distorsionadas. <strong>Fix</strong>: <code>model.eval()</code> + <code>with torch.no_grad():</code>.</td>
+</tr>
+<tr>
+<td>DataLoader lento</td>
+<td><code>num_workers=0</code>. <strong>Fix</strong>: <code>num_workers=4, pin_memory=True</code>.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿PyTorch o TF/Keras?</strong></p>
+<p>PyTorch para research, LLMs, multimodal, HuggingFace ecosystem. Keras para tabular/imagen estándar. Saber ambos.</p>
+<p><strong>❓ ¿<code>torch.compile</code> mejora velocidad?</strong></p>
+<p>Sí — <code>model = torch.compile(model)</code> en PyTorch 2.0+: 2-5× speedup automático sin cambiar código.</p>
+<p><strong>❓ ¿Equivalente de Keras <code>fit</code>?</strong></p>
+<p>PyTorch puro no lo tiene. Lo provee <strong>Lightning</strong> (clase 108b) y <strong>HuggingFace Trainer</strong>.</p>
+<p><strong>❓ ¿<code>nn.Sequential</code> o <code>nn.Module</code> custom?</strong></p>
+<p>Sequential para pilas lineales. Custom Module para cualquier topología no trivial.</p>
+<p><strong>❓ ¿GPU mac (Apple Silicon)?</strong></p>
+<p><code>device='mps'</code> desde PyTorch 1.12. Funcional, ~50-80 % de NVIDIA performance.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li><a href="https://pytorch.org/tutorials/">PyTorch tutorials</a>.</li>
+<li>Howard &amp; Gugger, <em>Deep Learning for Coders with fastai &amp; PyTorch</em>.</li>
+<li>Paszke et al. (2019), <em>PyTorch: An Imperative Style, High-Performance Deep Learning Library</em>, NeurIPS.</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../123-pytorch-lightning-trainer-distribuido/index.html">Clase 123 — PyTorch Lightning: Trainer, callbacks, distributed</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-2-deep-learning/122-pytorch-fundamentos-tensores-autograd/"><code>classes/parte-2-deep-learning/122-pytorch-fundamentos-tensores-autograd/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

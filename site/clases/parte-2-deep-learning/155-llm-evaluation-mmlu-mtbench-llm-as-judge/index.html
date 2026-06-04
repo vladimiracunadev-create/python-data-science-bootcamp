@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 155 — LLM Evaluation: MMLU, MT-Bench, LLM-as-judge, evals propios | Python Data Science Program</title>
+  <meta name="description" content="Clase 155 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 2 — Deep Learning</a><span class="sep">›</span><span>155</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-2-deep-learning/155-llm-evaluation-mmlu-mtbench-llm-as-judge/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-155-llm-evaluation-mmlu-mt-bench-llm-as-judge-evals-propios">Clase 155 — LLM Evaluation: MMLU, MT-Bench, LLM-as-judge, evals propios</h1>
+<blockquote>
+<p>Parte: <strong>2 — Deep Learning</strong> · Fuente: Hendrycks et al. (2021) MMLU + Zheng et al. (2023) MT-Bench + LMSys Arena. ⏱️ Duración estimada: <strong>85 min</strong>.</p>
+</blockquote>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Evaluar LLMs (propios o terceros) con rigor: benchmarks estándar (<strong>MMLU</strong>, <strong>HumanEval</strong>, <strong>GSM8K</strong>, <strong>MT-Bench</strong>, <strong>LMSys Arena</strong>), <strong>LLM-as-judge</strong> para casos open-ended, y <strong>evals propios</strong> específicos al dominio. Reconocer las trampas (data contamination, reward hacking, leaderboard hacking).</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar, el estudiante podrá:</p>
+<ul>
+<li>Correr MMLU con <code>lm-evaluation-harness</code> sobre un modelo propio.</li>
+<li>Implementar <strong>LLM-as-judge</strong> con <code>(prompt, response_A, response_B)</code> → "cuál es mejor".</li>
+<li>Diseñar <strong>evals custom</strong>: cobertura por tema, casos edge, regresiones.</li>
+<li>Diferenciar <strong>classification metrics</strong> (accuracy on MCQs) de <strong>generation metrics</strong> (BLEU, ROUGE, BERTScore, LLM-judge).</li>
+<li>Reconocer <strong>data contamination</strong> (test set en pretraining) y <strong>leaderboard hacking</strong>.</li>
+</ul>
+<h2 id="temas">🗺️ Temas</h2>
+<ul>
+<li>MMLU: 57 dominios, multiple choice. Standard 2020-2023.</li>
+<li>HumanEval: 164 problemas Python codegen.</li>
+<li>GSM8K: math word problems.</li>
+<li>MT-Bench: 80 multi-turn questions evaluadas por GPT-4 judge.</li>
+<li>LMSys Arena: head-to-head humanos. Standard moderno (ELO ranking).</li>
+<li>LLM-as-judge: usar GPT-4/Claude como evaluador.</li>
+<li>Custom evals: críticos para producción.</li>
+</ul>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<ul>
+<li><strong>MMLU</strong>: 15k MCQs, 57 categorías. Score 0-100.</li>
+<li><strong>MT-Bench</strong>: 80 prompts multi-turno; GPT-4 score 1-10 cada respuesta.</li>
+<li><strong>LMSys Arena</strong>: humanos votan A vs B; ELO global.</li>
+<li><strong>Pass@k</strong>: codegen — % de problemas resueltos en k intentos.</li>
+<li><strong>LLM-as-judge</strong>: criterios estructurados, comparison pairs.</li>
+<li><strong>Data contamination</strong>: el modelo memorizó el test → metrics infladas.</li>
+</ul>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<ul>
+<li>HuggingFace: lm-eval-harness, HELM, lighteval.</li>
+<li>Modelo a evaluar: cualquier LLM open o API.</li>
+<li>Librerías: <code>lm-evaluation-harness</code>, <code>inspect_ai</code>, <code>promptfoo</code>.</li>
+</ul>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>MMLU con lm-eval-harness</strong>: <code>lm_eval --model hf --model_args pretrained=mistralai/Mistral-7B-v0.1 --tasks mmlu --num_fewshot 5</code>. Reportar score.</li>
+<li><strong>HumanEval</strong>: code generation, pass@1.</li>
+<li><strong>MT-Bench</strong>: usar GPT-4 / Claude como judge. Reportar score promedio.</li>
+<li><strong>LLM-as-judge propio</strong>: 20 pairs (model_A vs model_B); judge devuelve A/B/tie + reasoning.</li>
+<li><strong>Custom eval</strong>: 50 prompts específicos a tu use case + criterios de aceptación.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Evaluar 2 modelos (e.g., Mistral 7B vs Llama 3 8B) en una tarea propia:</p>
+<ol>
+<li>30 prompts específicos al dominio.</li>
+<li>Generar respuestas con ambos.</li>
+<li>LLM-as-judge (Claude o GPT-4) comparando.</li>
+<li>Reportar win rate de cada uno.</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: judge entrega resultado consistente (inter-rater agreement &gt; 0.7 entre 2 ejecuciones).</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MMLU score muy alto sospechoso</td>
+<td>Posible data contamination. <strong>Fix</strong>: verificar fechas y dataset overlap.</td>
+</tr>
+<tr>
+<td>LLM-as-judge sesgado por longitud</td>
+<td>Tiende a preferir respuestas largas. <strong>Fix</strong>: instruir explícito "no penalices brevedad".</td>
+</tr>
+<tr>
+<td>LLM-judge sesgado por orden A/B</td>
+<td>Si A siempre se evalúa primero, sesgo. <strong>Fix</strong>: shuffle.</td>
+</tr>
+<tr>
+<td>Eval gameable</td>
+<td>Optimizar en el test → degrada producción. <strong>Fix</strong>: hold-out eval + monitoring continuo.</td>
+</tr>
+<tr>
+<td>GPU OOM con <code>lm-eval</code></td>
+<td>Modelo grande. <strong>Fix</strong>: <code>--batch_size auto:1</code> y quantization.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ MMLU sigue siendo válido en 2026?</strong></p>
+<p>Sí pero saturado — top modelos &gt; 88 %. Mejores: <strong>MMLU-Pro</strong>, <strong>GPQA</strong>, <strong>BBH</strong>, <strong>MATH</strong>.</p>
+<p><strong>❓ LMSys Arena reliable?</strong></p>
+<p>Sí, gold standard humano. Caro (necesita usuarios). Para producción usar como ground truth.</p>
+<p><strong>❓ LLM-as-judge confiable?</strong></p>
+<p>GPT-4 / Claude como judge correlatean ~85 % con humanos en MT-Bench. Bias conocidos (length, position). Mitigar con prompts cuidadosos.</p>
+<p><strong>❓ Evals para agentes?</strong></p>
+<p><strong>SWE-Bench</strong> (coding), <strong>τ-Bench</strong> (tool use), <strong>AgentBench</strong>. Custom para tu workflow.</p>
+<p><strong>❓ Eval continuo en producción?</strong></p>
+<p>Sample logs → LLM-as-judge daily → alertar si win-rate baja vs baseline.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Hendrycks et al. (2021), <em>MMLU</em>, ICLR.</li>
+<li>Zheng et al. (2023), <em>Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena</em>, NeurIPS.</li>
+<li><a href="https://github.com/EleutherAI/lm-evaluation-harness">LM Evaluation Harness</a>.</li>
+<li><a href="https://chat.lmsys.org/">LMSys Arena</a>.</li>
+<li><a href="https://inspect.ai-safety-institute.org.uk/">Inspect AI</a> — UK AISI eval framework.</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../156-autoencoders-undercomplete-stacked-denoising-sparse/index.html">Clase 156 — Autoencoders: undercomplete, stacked, denoising, sparse</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-2-deep-learning/155-llm-evaluation-mmlu-mtbench-llm-as-judge/"><code>classes/parte-2-deep-learning/155-llm-evaluation-mmlu-mtbench-llm-as-judge/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

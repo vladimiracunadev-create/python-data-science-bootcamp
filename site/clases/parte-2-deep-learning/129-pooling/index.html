@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 129 — Pooling | Python Data Science Program</title>
+  <meta name="description" content="Clase 129 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 2 — Deep Learning</a><span class="sep">›</span><span>129</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-2-deep-learning/129-pooling/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-129-pooling">Clase 129 — Pooling</h1>
+<blockquote>
+<p>Parte: <strong>2 — Deep Learning</strong> · Fuente: Géron, <strong>cap. 14</strong> § <em>Pooling Layers</em>. ⏱️ Duración estimada: <strong>45 min</strong>.</p>
+</blockquote>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Conocer <strong>pooling</strong> — operación sin parámetros que reduce dimensiones espaciales: <code>MaxPooling2D</code>, <code>AveragePooling2D</code>, <code>GlobalAveragePooling2D</code>. Saber que max-pool agrega <strong>invariancia local a translación</strong> y reduce cómputo de capas posteriores. Comparar contra el approach moderno (stride &gt; 1 en Conv).</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar, el estudiante podrá:</p>
+<ul>
+<li>Aplicar <code>MaxPooling2D(2)</code>, <code>AveragePooling2D(2)</code>, <code>GlobalAveragePooling2D()</code> y conocer sus shapes de salida.</li>
+<li>Diferenciar max-pool (preserva la característica más fuerte) de average-pool (promedio espacial).</li>
+<li>Aplicar <code>GlobalAveragePooling2D</code> antes de la cabeza Dense (estándar en CNN modernas — reemplaza Flatten).</li>
+<li>Reconocer que pooling <strong>no tiene parámetros entrenables</strong> (es solo una reducción).</li>
+<li>Saber que ResNet/ConvNeXt usan stride en lugar de pool intermedio.</li>
+</ul>
+<h2 id="temas">🗺️ Temas</h2>
+<ul>
+<li>MaxPool: ventana k×k → toma el máximo. Default <code>pool_size=2, strides=2</code> → halve H y W.</li>
+<li>AvgPool: promedio de la ventana. Suaviza.</li>
+<li>GlobalAvgPool: una sola activación por feature map → (batch, channels).</li>
+<li>Invariancia a translación local: si el feature se mueve 1 px, el max no cambia.</li>
+<li>Pool vs stride: equivalentes en muchos casos; tendencia moderna es eliminar pool intermedio.</li>
+</ul>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<ul>
+<li><strong>MaxPooling2D(pool_size=2, strides=2, padding='valid')</strong>: ventana 2×2 → 1 valor (el máximo).</li>
+<li><strong>AveragePooling2D</strong>: como max pero con promedio.</li>
+<li><strong>GlobalAveragePooling2D</strong>: agrega sobre toda la spatial dim → (batch, channels). Sin pool size.</li>
+<li><strong>GlobalMaxPooling2D</strong>: similar, con max.</li>
+<li><strong>Output shape</strong>: para pool_size=2 stride=2: <code>(H/2, W/2, C)</code>.</li>
+</ul>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<ul>
+<li>Fashion-MNIST o CIFAR-10.</li>
+<li>Librerías: <code>tensorflow</code>, <code>keras</code>.</li>
+</ul>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>MaxPool shape</strong>: aplicar <code>MaxPool(2)</code> a tensor <code>(1, 28, 28, 32)</code>. Verificar salida <code>(1, 14, 14, 32)</code>.</li>
+<li><strong>MaxPool vs AvgPool</strong>: con la misma CNN, intercambiar y comparar accuracy en Fashion-MNIST. MaxPool suele ganar marginal.</li>
+<li><strong>GlobalAvgPool reemplaza Flatten</strong>: arquitectura <code>Conv → Conv → GlobalAvgPool → Dense(10)</code> vs <code>Conv → Conv → Flatten → Dense(128) → Dense(10)</code>. Comparar params y accuracy.</li>
+<li><strong>Pool vs stride</strong>: comparar <code>Conv(stride=1) → Pool(2)</code> vs <code>Conv(stride=2)</code> (sin pool). En modelos chicos son prácticamente equivalentes.</li>
+<li><strong><code>padding='same'</code> en pool</strong>: comportamiento si H es impar. <code>valid</code> recorta, <code>same</code> agrega zeros.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Comparar 3 arquitecturas sobre Fashion-MNIST:</p>
+<ol>
+<li><code>Conv(32) → MaxPool → Conv(64) → MaxPool → Flatten → Dense(128) → Dense(10)</code>.</li>
+<li><code>Conv(32) → MaxPool → Conv(64) → MaxPool → GlobalAvgPool → Dense(10)</code>.</li>
+<li><code>Conv(32, stride=2) → Conv(64, stride=2) → GlobalAvgPool → Dense(10)</code> (sin pool).</li>
+</ol>
+<p>Reportar accuracy y # parámetros.</p>
+<p><strong>Criterio de aceptación</strong>: la opción 2 tiene muchos menos parámetros y accuracy similar; la 3 también es competitiva (validando el approach moderno).</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>pool_size=3, strides=1</code> recorta poco</td>
+<td>Posible pero raro. <strong>Fix</strong>: usual es <code>pool=2, stride=2</code>.</td>
+</tr>
+<tr>
+<td><code>MaxPool</code> antes del primer Conv</td>
+<td>Pierde detalle al inicio. <strong>Fix</strong>: pool después de algunas convs.</td>
+</tr>
+<tr>
+<td>Olvido pool y modelo Dense tiene millones de parámetros</td>
+<td>Flatten de feature maps grandes. <strong>Fix</strong>: pool o GlobalAvgPool.</td>
+</tr>
+<tr>
+<td><code>padding='same'</code> en pool con <code>H</code> impar genera shape inesperada</td>
+<td>TF agrega un row/col de zeros. <strong>Fix</strong>: pre-cropear o aceptar el padding asimétrico.</td>
+</tr>
+<tr>
+<td>Usar pooling en NLP / Transformers</td>
+<td>No tiene sentido. <strong>Fix</strong>: pool es espacial; en secuencias se usan attention y pooling temporal especializado.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿MaxPool o AvgPool?</strong></p>
+<p>MaxPool por default — captura "el más fuerte" (útil en clasificación). AvgPool en regresión espacial (segmentación final) o cuando el promedio es semánticamente relevante.</p>
+<p><strong>❓ ¿GlobalAvgPool obligatorio en ResNet?</strong></p>
+<p>Sí, es la última capa antes del FC final. Reduce el riesgo de overfit del Flatten + Dense gigante.</p>
+<p><strong>❓ ¿Pool intermedio aún se usa?</strong></p>
+<p>CNNs clásicas (VGG, LeNet) sí. ResNet/ConvNeXt usan stride en conv (sin pool intermedio).</p>
+<p><strong>❓ ¿<code>pool_size=4</code> o más grande?</strong></p>
+<p>Raro. Casi siempre 2. Más grande pierde información rápido.</p>
+<p><strong>❓ ¿Pool diferenciable?</strong></p>
+<p>MaxPool tiene gradiente subdiferencial (= 1 en el max, 0 en el resto). Avg es diferenciable normal. TF/PyTorch los manejan transparente.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Géron, <strong>cap. 14</strong> — <em>Pooling Layers</em>.</li>
+<li><a href="https://keras.io/api/layers/pooling_layers/max_pooling2d/">Keras MaxPooling2D</a>.</li>
+<li>Springenberg et al. (2015), <em>Striving for Simplicity: The All Convolutional Net</em> — argumenta eliminar pool intermedio.</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../130-arquitecturas-cnn-lenet-alexnet-vgg-googlenet-resnet-xception-senet-ef/index.html">Clase 130 — Arquitecturas CNN: LeNet, AlexNet, VGG, GoogLeNet, ResNet, Xception, SENet, EfficientNet, ConvNeXt</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-2-deep-learning/129-pooling/"><code>classes/parte-2-deep-learning/129-pooling/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

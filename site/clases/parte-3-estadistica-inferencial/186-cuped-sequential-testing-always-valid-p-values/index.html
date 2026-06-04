@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 186 — CUPED, sequential testing, always-valid p-values | Python Data Science Program</title>
+  <meta name="description" content="Clase 186 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 3 — Estadística inferencial</a><span class="sep">›</span><span>186</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-3-estadistica-inferencial/186-cuped-sequential-testing-always-valid-p-values/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-186-cuped-sequential-testing-always-valid-p-values">Clase 186 — CUPED, sequential testing, always-valid p-values</h1>
+<blockquote>
+<p>Parte: <strong>3 — Estadística Inferencial y Causal</strong> · Fuente: Deng et al. (2013) CUPED + Howard et al. (2021) always-valid + Kohavi et al. (2020). ⏱️ Duración estimada: <strong>85 min</strong>.</p>
+</blockquote>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Aplicar las <strong>3 técnicas modernas</strong> que la industria (Microsoft, Netflix, Booking, Spotify) usa para hacer A/B testing más eficientemente: <strong>CUPED</strong> (variance reduction con covariable pre-experiment), <strong>Sequential Testing</strong> (mirar el resultado durante el experimento sin inflar α), y <strong>always-valid p-values / confidence sequences</strong> (Howard et al. 2021, decisión correcta en cualquier momento).</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar, el estudiante podrá:</p>
+<ul>
+<li>Implementar CUPED: ajustar <code>Y_cuped = Y - θ·(X - E[X])</code> con <code>θ = Cov(Y,X)/Var(X)</code>.</li>
+<li>Calcular la reducción de varianza esperada: <code>1 - ρ²</code>.</li>
+<li>Configurar <strong>Group Sequential Testing</strong> con O'Brien-Fleming boundaries.</li>
+<li>Aplicar <strong>always-valid CIs</strong> con la librería <code>confseq</code>.</li>
+<li>Decidir entre frequentist clásico, GST, y mSPRT según contexto.</li>
+</ul>
+<h2 id="temas">🗺️ Temas</h2>
+<ul>
+<li>CUPED math: θ óptimo minimiza varianza.</li>
+<li>Implementación: con <code>Y_pre</code> (mismo usuario en período previo) o <code>X</code> (covariable).</li>
+<li>GST: K looks, boundaries pre-definidas.</li>
+<li>O'Brien-Fleming (gasta poco α al principio) vs Pocock (constante).</li>
+<li>mSPRT: ratio test que provee p-value válido siempre.</li>
+<li>Confidence sequences: IC válido en cualquier t.</li>
+</ul>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<ul>
+<li><strong>CUPED</strong>: Controlled-experiment Using Pre-Experiment Data.</li>
+<li><strong>Variance reduction</strong>: nuevo <code>Var(Y_cuped) = Var(Y) · (1 - ρ²)</code>.</li>
+<li><strong>Sequential testing</strong>: tomar decisión antes de N planificado.</li>
+<li><strong>GST</strong>: predefine K mira-instantes, pasa α budget según schedule.</li>
+<li><strong>Always-valid p-value</strong>: válido bajo cualquier optional stopping rule.</li>
+<li><strong><code>confseq</code> library</strong>: implementación de Howard et al.</li>
+</ul>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<ul>
+<li>Simulación A/B con <code>numpy.random.default_rng</code>.</li>
+<li>Librerías: <code>numpy</code>, <code>scipy</code>, <code>confseq</code> (<code>pip install confseq</code>).</li>
+</ul>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>CUPED implementation</strong>: simular <code>X_pre, Y_post = α·X_pre + tratamiento + ε</code>. Calcular θ. Comparar Var(Y) vs Var(Y_cuped).</li>
+<li><strong>Variance reduction</strong>: con ρ=0.7, calcular reducción esperada (= 51 %); verificar con simulación.</li>
+<li><strong>Peeking inflado</strong>: bajo H₀, simular 1000 experimentos con 5 looks naïve, contar % de rejects. Debería ser ≈ 18 %.</li>
+<li><strong>O'Brien-Fleming</strong>: implementar boundaries con <code>rpy2 + gsDesign</code> (o aproximación). Verificar α controlled.</li>
+<li><strong>Always-valid CI</strong>: <code>confseq.bounds.normal_log_mixture_bound</code> sobre stream simulado. Plotear CI a lo largo del tiempo.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Comparar 4 enfoques sobre simulación A/B realista:</p>
+<ol>
+<li>Frequentist clásico (fixed N).</li>
+<li>CUPED + frequentist.</li>
+<li>Naïve peeking cada 1k samples (α inflated).</li>
+<li>Always-valid (confseq).</li>
+</ol>
+<p>Reportar para cada uno: tipo I error (bajo H₀), poder (bajo H₁), promedio sample size hasta decisión.</p>
+<p><strong>Criterio de aceptación</strong>: CUPED reduce sample requerido ~30 % con poder igual; naïve peeking infla α a 0.15-0.25; always-valid mantiene α=0.05 con +20 % sample.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CUPED reduce varianza solo si ρ &gt; 0</td>
+<td>Si X no correlaciona, no ayuda. <strong>Fix</strong>: elegir buena covariable.</td>
+</tr>
+<tr>
+<td>Peeking sin corrección</td>
+<td>α inflado. <strong>Fix</strong>: GST o always-valid.</td>
+</tr>
+<tr>
+<td>GST con boundaries mal calibradas</td>
+<td>Engineers re-implementan mal. <strong>Fix</strong>: librería oficial (<code>gsDesign</code> en R, mejor que reinventar).</td>
+</tr>
+<tr>
+<td>Always-valid muy conservador con pocos samples</td>
+<td>Inherente. <strong>Fix</strong>: aceptarlo o usar GST.</td>
+</tr>
+<tr>
+<td>Reportar GST como "p-value normal"</td>
+<td>Distinto significado. <strong>Fix</strong>: documentar que es GST.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ CUPED siempre vale la pena?</strong></p>
+<p>Sí, si tenés X correlated y es free de computar. Microsoft reporta 50 % menos samples en muchos casos.</p>
+<p><strong>❓ GST o always-valid?</strong></p>
+<p>GST: K looks fijos, simple, comunidad estadística. Always-valid: mirá cuando querás, más conservador. Para casos modernos (peeking continuo), always-valid.</p>
+<p><strong>❓ Implementations open source?</strong></p>
+<ul>
+<li>GST: <code>gsDesign</code> (R), <code>pyabtest</code> o reimplementación.</li>
+<li>Always-valid: <code>confseq</code> (Python), <code>cpsequential</code> (R).</li>
+</ul>
+<p><strong>❓ Bayesian A/B con stopping?</strong></p>
+<p>También válido para optional stopping, pero requiere prior honesto. Decisión: <code>P(B &gt; A | data) &gt; 0.95</code>.</p>
+<p><strong>❓ Industria realmente lo usa?</strong></p>
+<p>Sí: Microsoft (CUPED), Netflix (sequential), Optimizely (always-valid). Buscar "Trustworthy Online Controlled Experiments" book.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Deng, Xu, Kohavi &amp; Walker (2013), <em>Improving the Sensitivity of Online Controlled Experiments by Utilizing Pre-Experiment Data</em>, WSDM.</li>
+<li>Howard, Ramdas, McAuliffe &amp; Sekhon (2021), <em>Time-uniform, nonparametric, nonasymptotic confidence sequences</em>, Annals of Statistics.</li>
+<li>Kohavi, Tang &amp; Xu (2020), <em>Trustworthy Online Controlled Experiments</em>, Cambridge.</li>
+<li><a href="https://github.com/gostevehoward/confseq">confseq</a>.</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../187-diseno-experimental/index.html">Clase 187 — Diseño experimental</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-3-estadistica-inferencial/186-cuped-sequential-testing-always-valid-p-values/"><code>classes/parte-3-estadistica-inferencial/186-cuped-sequential-testing-always-valid-p-values/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

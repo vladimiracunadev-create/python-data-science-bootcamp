@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 135 — RNNs: neuronas recurrentes, BPTT | Python Data Science Program</title>
+  <meta name="description" content="Clase 135 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 2 — Deep Learning</a><span class="sep">›</span><span>135</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-2-deep-learning/135-rnns-neuronas-recurrentes-bptt/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-135-rnns-neuronas-recurrentes-bptt">Clase 135 — RNNs: neuronas recurrentes, BPTT</h1>
+<blockquote>
+<p>Parte: <strong>2 — Deep Learning</strong> · Fuente: Géron, <strong>cap. 15</strong> § <em>Recurrent Neurons and Layers</em>. ⏱️ Duración estimada: <strong>70 min</strong>.</p>
+</blockquote>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Entender las <strong>redes recurrentes (RNN)</strong> — la primera arquitectura para secuencias: misma celda aplicada en cada timestep, <strong>estado oculto</strong> <code>h_t</code> que acumula contexto, y <strong>BPTT (Backpropagation Through Time)</strong> que entrena estos modelos. Reconocer sus limitaciones (vanishing en secuencias largas) que motivaron LSTM (clase 120) y eventualmente Transformers.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar, el estudiante podrá:</p>
+<ul>
+<li>Explicar la ecuación <code>h_t = tanh(W_h · h_{t-1} + W_x · x_t + b)</code>.</li>
+<li>Usar <code>keras.layers.SimpleRNN(units=N, return_sequences=False|True)</code>.</li>
+<li>Diferenciar <code>return_sequences=False</code> (un único output al final) vs <code>True</code> (output por timestep).</li>
+<li>Implementar <strong>BPTT truncado</strong> (longitud máxima de window).</li>
+<li>Reconocer cuándo una RNN simple es suficiente (secuencias cortas, &lt; 20 pasos) y cuándo necesitás LSTM/Transformer.</li>
+</ul>
+<h2 id="temas">🗺️ Temas</h2>
+<ul>
+<li>Estado oculto <code>h_t</code> como memoria.</li>
+<li>Unfolding: la RNN como red feedforward muy profunda en el tiempo.</li>
+<li>BPTT: gradientes a través de cada paso temporal.</li>
+<li>Vanishing/exploding en secuencias largas (compounding multiplicativo).</li>
+<li>BPTT truncado.</li>
+</ul>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<ul>
+<li><strong>RNN cell</strong>: función <code>(h_{t-1}, x_t) → h_t</code>.</li>
+<li><strong><code>return_sequences=True</code></strong>: output <code>(batch, T, units)</code> — para apilar otra RNN o aplicar Dense a cada timestep.</li>
+<li><strong><code>return_state=True</code></strong>: devuelve también el estado final (útil para encoder-decoder).</li>
+<li><strong>BPTT</strong>: backprop estándar aplicado al grafo unfolded.</li>
+<li><strong>Truncated BPTT</strong>: cortar el gradiente cada K pasos para evitar costo + vanishing.</li>
+</ul>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<ul>
+<li>Serie temporal sintética (sumas, sine).</li>
+<li>Librerías: <code>tensorflow</code>, <code>keras</code>, <code>numpy</code>, <code>matplotlib</code>.</li>
+</ul>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>SimpleRNN básico</strong>: predecir el siguiente valor de <code>sin(t)</code>. Modelo: <code>SimpleRNN(20) → Dense(1)</code>. Entrenar y graficar predicciones.</li>
+<li><strong><code>return_sequences=True</code></strong>: apilar 2 RNN, primera con <code>return_sequences=True</code>, segunda sin. Verificar shapes.</li>
+<li><strong>Predicción de N pasos adelante</strong>: iterar prediciendo, alimentando la predicción anterior como nuevo input.</li>
+<li><strong>BPTT truncado</strong>: con secuencia de 200 pasos, comparar BPTT completo vs truncado a 20.</li>
+<li><strong>Vanishing demo</strong>: usar SimpleRNN con secuencias de 100 pasos. Las primeras observaciones casi no influyen en la última predicción.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Forecasting con SimpleRNN sobre <code>sin(t) + ruido</code>:</p>
+<ol>
+<li>Generar 5 000 pasos de <code>sin(0.01·t) + N(0, 0.05)</code>.</li>
+<li>Construir samples de longitud 50 → predecir el paso 51.</li>
+<li>SimpleRNN <code>[20]</code> + Dense(1).</li>
+<li>Evaluar MAE en test y graficar predicción vs realidad.</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: MAE &lt; 0.1; gráfico muestra la predicción siguiendo la sinusoide.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Input shape error en RNN</td>
+<td>RNN espera <code>(batch, timesteps, features)</code>. <strong>Fix</strong>: reshape.</td>
+</tr>
+<tr>
+<td>Olvido <code>return_sequences=True</code> al apilar</td>
+<td>Capa intermedia debe devolver toda la secuencia. <strong>Fix</strong>: <code>True</code> en todas menos la última.</td>
+</tr>
+<tr>
+<td>Loss explota con secuencia larga</td>
+<td>Exploding gradients. <strong>Fix</strong>: <code>clipnorm=1.0</code> + LSTM (clase 120).</td>
+</tr>
+<tr>
+<td>Predicción autoregresiva diverge</td>
+<td>Error acumulado. <strong>Fix</strong>: usar teacher forcing en training y reducir longitud de predicción en inference.</td>
+</tr>
+<tr>
+<td><code>mask_zero</code> no soportado en SimpleRNN</td>
+<td>Es para Embedding + LSTM/GRU. <strong>Fix</strong>: usar LSTM si necesitás masking.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿RNN vs LSTM vs Transformer en 2026?</strong></p>
+<p>Para secuencias cortas y simples: SimpleRNN o LSTM. Para &gt;50 pasos o NLP serio: Transformer. SimpleRNN ya casi no se usa en producción salvo casos muy específicos.</p>
+<p><strong>❓ ¿<code>return_state</code> para qué?</strong></p>
+<p>Para encoder-decoder: el estado final del encoder inicializa el decoder.</p>
+<p><strong>❓ ¿Bidireccional?</strong></p>
+<p><code>Bidirectional(SimpleRNN(...))</code> corre la RNN forward y backward, concatenando. Mejor para tareas non-causales (clasificación, NER).</p>
+<p><strong>❓ ¿Cuántas units?</strong></p>
+<p>Empezá con 32-128. Más complejidad de secuencia → más units. RNNs no son tan parameter-hungry como Transformers.</p>
+<p><strong>❓ ¿Predecir 1 paso o varios?</strong></p>
+<p>Modelos de "1 paso" suelen ser más precisos. Para "varios", entrenar con <code>return_sequences=True</code> y target shifted, o seq2seq (clase 124).</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Géron, <strong>cap. 15</strong> — <em>Recurrent Neural Networks</em>.</li>
+<li>Pascanu et al. (2013), <em>On the difficulty of training RNNs</em>.</li>
+<li><a href="https://keras.io/guides/working_with_rnns/">Keras RNN guide</a>.</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../136-forecasting-de-series-con-rnn/index.html">Clase 136 — Forecasting de series con RNN</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-2-deep-learning/135-rnns-neuronas-recurrentes-bptt/"><code>classes/parte-2-deep-learning/135-rnns-neuronas-recurrentes-bptt/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

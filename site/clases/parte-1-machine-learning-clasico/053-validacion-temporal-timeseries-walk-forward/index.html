@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 053 — Validación temporal: TimeSeriesSplit, walk-forward, blocking | Python Data Science Program</title>
+  <meta name="description" content="Clase 053 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 1 — ML clásico</a><span class="sep">›</span><span>053</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-1-machine-learning-clasico/053-validacion-temporal-timeseries-walk-forward/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-053-validacion-temporal-timeseriessplit-walk-forward-blocking">Clase 053 — Validación temporal: TimeSeriesSplit, walk-forward, blocking</h1>
+<blockquote>
+<p>Parte: <strong>1 — Machine Learning Clásico</strong> · Fuente: Bergmeir &amp; Benítez (2012) + sklearn TimeSeriesSplit docs. ⏱️ Duración estimada: <strong>70 min</strong>.</p>
+</blockquote>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Aplicar <strong>validación correcta para series temporales</strong> — donde KFold y <code>train_test_split</code> aleatorio causan <strong>leakage del futuro al pasado</strong> y métricas infladas. Cubrir <code>TimeSeriesSplit</code>, <strong>walk-forward validation</strong> (rolling y expanding), <strong>blocking</strong> para datos con dependencias intra-cluster, <strong>purged + embargoed CV</strong> (López de Prado, finanzas).</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar, el estudiante podrá:</p>
+<ul>
+<li>Aplicar <code>sklearn.model_selection.TimeSeriesSplit(n_splits, max_train_size, test_size, gap)</code>.</li>
+<li>Implementar <strong>walk-forward</strong> rolling (ventana fija) y <strong>expanding</strong> (acumulativo).</li>
+<li>Detectar leakage cuando KFold se usa sobre datos temporales.</li>
+<li>Aplicar <strong>purged + embargoed K-Fold</strong> para evitar leakage por feature engineering con lags.</li>
+<li>Reportar métricas multi-fold con dispersión (no solo promedio).</li>
+</ul>
+<h2 id="temas">🗺️ Temas</h2>
+<ul>
+<li>¿Por qué KFold falla en series? Aleatorización mezcla pasado y futuro.</li>
+<li><code>TimeSeriesSplit</code>: split secuencial, train siempre antes que test.</li>
+<li>Expanding vs rolling window.</li>
+<li><code>gap</code> (embargo) para target leakage con lags.</li>
+<li>Purged CV (López de Prado): elimina overlap entre train y test.</li>
+<li>CombinatorialPurgedKFold para backtesting.</li>
+</ul>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<ul>
+<li><strong><code>TimeSeriesSplit(n_splits=5)</code></strong>: divide la serie en N+1 chunks secuenciales; itera (train=primer N, test=último).</li>
+<li><strong>Walk-forward expanding</strong>: train crece, test va avanzando.</li>
+<li><strong>Walk-forward rolling</strong>: train tiene tamaño fijo, ventana se mueve.</li>
+<li><strong>Embargo / <code>gap</code></strong>: número de samples ignoradas entre train y test — evita leakage por features con lags.</li>
+<li><strong>Purged CV</strong>: elimina del train cualquier sample cuyo target overlapped con el test.</li>
+</ul>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<ul>
+<li>Serie temporal sintética o <code>seaborn.load_dataset('flights')</code>.</li>
+<li>Librerías: <code>scikit-learn</code>, <code>pandas</code>, <code>mlxtend</code> (alternativa con más options).</li>
+</ul>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>TSSplit vs KFold leak</strong>: con serie sintética con tendencia, comparar score CV con KFold aleatorio vs TimeSeriesSplit. KFold infla.</li>
+<li><strong>Walk-forward expanding</strong>: <code>tscv = TimeSeriesSplit(n_splits=5)</code>. Iterar y reportar score por fold.</li>
+<li><strong>Rolling window</strong>: con <code>max_train_size=100</code>, simular walk-forward de window fijo.</li>
+<li><strong><code>gap</code></strong>: con feature <code>y_t-1</code> (target lag), aplicar <code>gap=1</code> para evitar que test "vea" su propio target.</li>
+<li><strong>Score con dispersión</strong>: reportar <code>mean ± std</code> de RMSE por fold, no solo mean.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Forecasting con XGBoost en serie de retail:</p>
+<ol>
+<li>Feature engineering: lags 1, 7, 30 + rolling mean.</li>
+<li>CV con TimeSeriesSplit(5, gap=30).</li>
+<li>Reportar RMSE por fold + global.</li>
+<li>Comparar contra KFold ingenuo — mostrar inflación.</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: KFold subestima RMSE en ≥ 30 %; TimeSeriesSplit da estimación realista que se sostiene en test final.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Métrica CV mucho mejor que producción</td>
+<td>KFold sobre temporal. <strong>Fix</strong>: TimeSeriesSplit.</td>
+</tr>
+<tr>
+<td>Feature <code>y_t-1</code> y CV sin gap</td>
+<td>Target leak. <strong>Fix</strong>: <code>gap = max_lag</code>.</td>
+</tr>
+<tr>
+<td><code>n_splits</code> muy alto con serie corta</td>
+<td>Folds muy chicos. <strong>Fix</strong>: 3-5 folds.</td>
+</tr>
+<tr>
+<td>Reportar solo <code>mean</code></td>
+<td>Variabilidad oculta. <strong>Fix</strong>: <code>mean ± std</code>.</td>
+</tr>
+<tr>
+<td>Rolling con <code>max_train_size</code> mal calibrado</td>
+<td>Train muy chico → ruido. <strong>Fix</strong>: ≥ 1 ciclo estacional.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ Expanding o rolling?</strong></p>
+<p>Expanding usa toda la historia (más data); rolling refleja "olvido" si crees que la dinámica cambia. Probá ambos.</p>
+<p><strong>❓ TimeSeriesSplit con feature engineering sobre toda la serie?</strong></p>
+<p>Leak. <strong>Fix</strong>: features con <code>rolling/lag</code> calculadas con <code>min_periods=window</code> para no usar futuro.</p>
+<p><strong>❓ Para crypto / trading?</strong></p>
+<p>Purged + embargoed (López de Prado <em>Advances in Financial Machine Learning</em>).</p>
+<p><strong>❓ Hyperparameter tuning con TimeSeriesSplit?</strong></p>
+<p>GridSearchCV con <code>cv=TimeSeriesSplit(5)</code>. Funciona idéntico.</p>
+<p><strong>❓ Nested CV?</strong></p>
+<p>Recomendado para tuning + evaluation honesta. Outer TSSplit para reportar, inner para tunear.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Bergmeir &amp; Benítez (2012), <em>On the use of cross-validation for time series predictor evaluation</em>.</li>
+<li>López de Prado (2018), <em>Advances in Financial Machine Learning</em>, cap. 7.</li>
+<li><a href="https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.TimeSeriesSplit.html"><code>sklearn.model_selection.TimeSeriesSplit</code></a>.</li>
+<li>Hyndman &amp; Athanasopoulos, <em>Forecasting: Principles and Practice</em>.</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../054-proyecto-end-to-end-vision-datos-exploracion-preparacion/index.html">Clase 054 — Proyecto end-to-end: visión, datos, exploración, preparación</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-1-machine-learning-clasico/053-validacion-temporal-timeseries-walk-forward/"><code>classes/parte-1-machine-learning-clasico/053-validacion-temporal-timeseries-walk-forward/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

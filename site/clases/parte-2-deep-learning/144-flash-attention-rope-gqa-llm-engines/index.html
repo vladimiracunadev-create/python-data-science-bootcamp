@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 144 — Flash Attention v2/v3, RoPE, GQA: el motor de los LLMs modernos | Python Data Science Program</title>
+  <meta name="description" content="Clase 144 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 2 — Deep Learning</a><span class="sep">›</span><span>144</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-2-deep-learning/144-flash-attention-rope-gqa-llm-engines/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-144-flash-attention-v2v3-rope-gqa-el-motor-de-los-llms-modernos">Clase 144 — Flash Attention v2/v3, RoPE, GQA: el motor de los LLMs modernos</h1>
+<blockquote>
+<p>Parte: <strong>2 — Deep Learning</strong> · Fuente: Dao et al. (2022, 2023, 2024) FlashAttention + Su et al. (2021) RoPE + Ainslie et al. (2023) GQA. ⏱️ Duración estimada: <strong>90 min</strong>.</p>
+</blockquote>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Entender en profundidad las <strong>3 piezas técnicas</strong> que hacen que un LLM moderno (Llama 3, Mistral, Qwen, Gemma) sea rápido y memory-efficient: <strong>Flash Attention v2/v3</strong> (O(N) memoria + 2-3× speedup), <strong>Rotary Position Embeddings (RoPE)</strong> (mejor extrapolación), <strong>Grouped-Query Attention (GQA)</strong> (menos KV cache en inference).</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar, el estudiante podrá:</p>
+<ul>
+<li>Explicar por qué attention naïve es O(N²) en memoria y cómo FlashAttention lo reduce a O(N) con online softmax + tiling.</li>
+<li>Implementar RoPE: rotar pares de dimensiones de Q, K por ángulo función de posición.</li>
+<li>Diferenciar MHA, MQA, GQA — y por qué GQA es el compromiso default 2026.</li>
+<li>Aplicar <code>torch.nn.functional.scaled_dot_product_attention(q, k, v, is_causal=True)</code> que elige Flash auto.</li>
+<li>Reconocer combinación moderna: RMSNorm + GQA + RoPE + SwiGLU + Flash Attention.</li>
+</ul>
+<h2 id="temas">🗺️ Temas</h2>
+<ul>
+<li>Attention cost: matriz (N, N) → 64 MB por head con N=8192, fp16.</li>
+<li>FlashAttention: bloques en SRAM, no materializa la matriz completa.</li>
+<li>v1 (2022), v2 (2023, 2× speedup), v3 (2024, optimizado H100).</li>
+<li>Positional encoding: sinusoidal → learnable → RoPE.</li>
+<li>RoPE: rotación bidimensional, propiedad relativa.</li>
+<li>MHA / MQA / GQA: trade-off entre calidad y memoria.</li>
+<li>KV cache: por qué crece en inference.</li>
+</ul>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<ul>
+<li><strong>FlashAttention</strong>: algoritmo IO-aware. Reformula softmax(QK^T)V en bloques que caben en SRAM.</li>
+<li><strong>Online softmax</strong>: actualización incremental del softmax sin materializar todo.</li>
+<li><strong>RoPE</strong>: <code>q' = R_θ q</code> donde <code>R_θ</code> rota pares de dims. <code>θ_i = 10000^(-2i/d)</code>.</li>
+<li><strong>MHA</strong>: <code>H_q = H_kv</code> (clásico).</li>
+<li><strong>GQA</strong>: <code>H_kv = H_q / G</code>. G grupos. Llama 2 70B usa G=8.</li>
+<li><strong>MQA</strong>: <code>H_kv = 1</code>. Extremo de GQA.</li>
+</ul>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<ul>
+<li>HuggingFace modelos: Llama 3, Mistral 7B.</li>
+<li>Librerías: <code>flash-attn</code>, <code>torch ≥ 2.0</code> (SDPA), <code>transformers</code>.</li>
+</ul>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>SDPA vs naïve</strong>: implementar attention naïve y <code>F.scaled_dot_product_attention</code>. Benchmark.</li>
+<li><strong>RoPE</strong>: implementar rotation function, verificar propiedad <code>attention(R_θ q, R_φ k) = f(θ - φ)</code>.</li>
+<li><strong>GQA Vs MHA</strong>: con Llama config (n_heads=32, kv_heads=8), inspeccionar shapes.</li>
+<li><strong>KV cache</strong>: medir VRAM en inference con secuencia 8192 — comparar MHA vs GQA.</li>
+<li><strong>FlashAttention v3 en H100</strong>: si tenés H100, benchmark vs v2.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Mini-GPT con piezas modernas:</p>
+<ol>
+<li>6-layer Transformer con: RMSNorm, GQA (4 KV heads / 8 Q heads), RoPE, SwiGLU FFN.</li>
+<li>Train next-token sobre Tiny Shakespeare.</li>
+<li>Comparar contra mini-GPT clásico (LayerNorm + MHA + Sin PE + GELU FFN).</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: mini-GPT moderno entrena más estable + menor memoria; quality comparable.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>flash-attn</code> no instala en CUDA viejo</td>
+<td>Requiere CUDA 11.6+, GPU Ampere+. <strong>Fix</strong>: usar SDPA built-in de PyTorch 2.0+.</td>
+</tr>
+<tr>
+<td>RoPE con base distinta a 10000</td>
+<td>Para extrapolación a contextos largos (32k+) ajustar base (NTK scaling).</td>
+</tr>
+<tr>
+<td>MQA da peor calidad</td>
+<td>Esperado. <strong>Fix</strong>: GQA es el compromiso.</td>
+</tr>
+<tr>
+<td>KV cache OOM en context largo</td>
+<td>Inherente. <strong>Fix</strong>: GQA + quantization (Q8 KV).</td>
+</tr>
+<tr>
+<td><code>is_causal=True</code> en SDPA solo aplica si tensor square</td>
+<td><strong>Fix</strong>: passing <code>attn_mask</code> cuando shapes asimétricos.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ FlashAttention v2 o v3?</strong></p>
+<p>v3 si tenés H100. v2 estable para todo lo demás. SDPA de PyTorch elige el mejor disponible.</p>
+<p><strong>❓ RoPE absoluto o relativo?</strong></p>
+<p>RoPE codifica posición absoluta pero produce comportamiento relativo en attention. Lo mejor de ambos.</p>
+<p><strong>❓ GQA en training?</strong></p>
+<p>Sí — entrenar con GQA desde el principio. Llama 2 70B y todos los modernos lo hacen.</p>
+<p><strong>❓ Combina con sliding window attention?</strong></p>
+<p>Sí — Mistral 7B usa GQA + sliding window. Para contextos infinitos.</p>
+<p><strong>❓ ¿Y para CV (ViT)?</strong></p>
+<p>ViT moderno también usa Flash Attention (timm support). RoPE en algunos (DiT). GQA menos común en CV.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Dao et al. (2022, 2023, 2024), <em>FlashAttention v1/v2/v3</em>.</li>
+<li>Su et al. (2021), <em>RoFormer: Enhanced Transformer with Rotary Position Embedding</em>.</li>
+<li>Ainslie et al. (2023), <em>GQA: Training Generalized Multi-Query Transformer Models</em>.</li>
+<li>Touvron et al. (2023), <em>Llama 2</em>.</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../145-hugging-face-transformers-uso-practico/index.html">Clase 145 — Hugging Face Transformers (uso práctico)</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-2-deep-learning/144-flash-attention-rope-gqa-llm-engines/"><code>classes/parte-2-deep-learning/144-flash-attention-rope-gqa-llm-engines/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

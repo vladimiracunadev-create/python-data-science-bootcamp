@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 171 — Aceleración con GPU | Python Data Science Program</title>
+  <meta name="description" content="Clase 171 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 2 — Deep Learning</a><span class="sep">›</span><span>171</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-2-deep-learning/171-aceleracion-con-gpu/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-171-aceleracion-con-gpu">Clase 171 — Aceleración con GPU</h1>
+<blockquote>
+<p>Parte: <strong>2 — Deep Learning</strong> · Fuente: Géron, <strong>cap. 19</strong> § <em>Using GPUs to Speed Up Computations</em>. ⏱️ Duración estimada: <strong>60 min</strong>.</p>
+</blockquote>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Configurar GPU para DL: drivers, CUDA, cuDNN, verificación. Conocer <strong>mixed precision</strong> (bfloat16/float16) que duplica throughput en GPUs modernas (Ampere/Hopper). Profilear con TensorBoard Profiler para identificar bottlenecks (data loading vs compute vs sync).</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar, el estudiante podrá:</p>
+<ul>
+<li>Verificar GPU: <code>tf.config.list_physical_devices('GPU')</code>, <code>torch.cuda.is_available()</code>.</li>
+<li>Activar <strong>mixed precision</strong>: <code>keras.mixed_precision.set_global_policy('mixed_float16')</code> (Volta+) o <code>'mixed_bfloat16'</code> (Ampere+).</li>
+<li>Limitar memoria GPU: <code>set_memory_growth(True)</code> para no consumir toda al inicio.</li>
+<li>Multi-GPU básico con <code>tf.distribute.MirroredStrategy</code> (clase 144 profundiza).</li>
+<li>Profilear con TensorBoard Profiler.</li>
+</ul>
+<h2 id="temas">🗺️ Temas</h2>
+<ul>
+<li>CUDA toolkit + cuDNN versions matching.</li>
+<li><code>nvidia-smi</code> para monitor.</li>
+<li>Mixed precision: float16 (Volta+, 16 GB max) vs bfloat16 (Ampere+, mismo exponente que float32, más estable).</li>
+<li>Memory growth vs allocated all.</li>
+<li>Profiling con TensorBoard.</li>
+<li>GPUs típicos en 2026: H100, H200 (server); RTX 5090 (consumer).</li>
+</ul>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<ul>
+<li><strong>CUDA</strong>: API de NVIDIA para GPU compute.</li>
+<li><strong>cuDNN</strong>: librería de primitives DL (Conv, RNN, MatMul).</li>
+<li><strong>Mixed precision</strong>: usar float16/bfloat16 para forward+backward, float32 para weights master copy.</li>
+<li><strong><code>mixed_float16</code></strong>: requiere loss scaling para evitar underflow.</li>
+<li><strong><code>mixed_bfloat16</code></strong>: mismo rango que float32, no necesita scaling.</li>
+<li><strong>TPU</strong>: ASIC de Google. Diferente API (XLA).</li>
+</ul>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<ul>
+<li>Modelo + dataset cualquier de las clases previas.</li>
+<li>Librerías: <code>tensorflow</code>, opcional <code>nvidia-smi</code>.</li>
+</ul>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>GPU check</strong>: imprimir <code>tf.config.list_physical_devices('GPU')</code>, <code>tf.config.list_logical_devices('GPU')</code>, <code>nvidia-smi</code>.</li>
+<li><strong>Memory growth</strong>: <code>tf.config.experimental.set_memory_growth(gpu, True)</code> para evitar reservar 100 % al inicio.</li>
+<li><strong>Mixed precision</strong>: <code>keras.mixed_precision.set_global_policy('mixed_float16')</code>. Re-entrenar modelo. Verificar speedup (1.5-2× en V100; 2-3× en A100/H100).</li>
+<li><strong>Profile</strong>: <code>keras.callbacks.TensorBoard(log_dir=..., profile_batch=(5, 10))</code>. Abrir Profiler tab.</li>
+<li><strong>Bottleneck</strong>: si la GPU está al 30 %, el bottleneck es data loading. Optimizar pipeline (clase 109).</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Optimizar el training de un modelo:</p>
+<ol>
+<li>Baseline con default config.</li>
+<li>Activar mixed precision + memory_growth.</li>
+<li>Profile y identificar bottleneck.</li>
+<li>Aplicar fix (más <code>prefetch</code>, batch más grande, etc.).</li>
+<li>Reportar speedup wall-clock.</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: speedup ≥ 1.5× con mixed precision; identificado el bottleneck correctamente.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Could not find cuda drivers</code></td>
+<td>Drivers no instalados o versión incompatible. <strong>Fix</strong>: <code>nvidia-smi</code> para verificar; instalar TF que matchea CUDA version.</td>
+</tr>
+<tr>
+<td>OOM al usar mixed precision</td>
+<td>A veces el ahorro de memoria no es total. <strong>Fix</strong>: bajar batch_size.</td>
+</tr>
+<tr>
+<td><code>mixed_float16</code> loss = NaN</td>
+<td>Loss scaling automático debe estar activo. <strong>Fix</strong>: verificar <code>LossScaleOptimizer</code>.</td>
+</tr>
+<tr>
+<td>GPU al 100 % CPU al 100 % también</td>
+<td>Data loading no es el bottleneck → OK. Si CPU bajo y GPU 30 % → data loading.</td>
+</tr>
+<tr>
+<td>Múltiples GPU pero usa 1</td>
+<td>No configuraste strategy. <strong>Fix</strong>: <code>MirroredStrategy</code> (clase 144).</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿float16 o bfloat16?</strong></p>
+<p>bfloat16 si GPU lo soporta (Ampere+, A100/H100, TPU). Más estable, sin loss scaling. float16 en GPUs viejas (V100, T4).</p>
+<p><strong>❓ ¿GPU consumer (RTX) para DL profesional?</strong></p>
+<p>Sí — RTX 4090 / 5090 tienen 24 GB VRAM y excelente performance. Para LLMs grandes (&gt;30B), considerar A100/H100.</p>
+<p><strong>❓ ¿Cuántas GPU necesito?</strong></p>
+<p>1 GPU para experimentos. Multi-GPU para datasets grandes (ImageNet) o modelos grandes (LLMs).</p>
+<p><strong>❓ ¿Apple Silicon (M-chips)?</strong></p>
+<p>TF tiene soporte vía <code>tensorflow-metal</code>. PyTorch via MPS backend. Para experimentos chicos OK; producción serio sigue siendo NVIDIA o TPU.</p>
+<p><strong>❓ ¿GPU en cloud?</strong></p>
+<p>AWS p4/p5, GCP A2/A3, Lambda Labs, Vast.ai. Lambda/Vast son más baratos para experimentos.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Géron, <strong>cap. 19</strong> — <em>Using GPUs to Speed Up Computations</em>.</li>
+<li><a href="https://www.tensorflow.org/guide/gpu">TF GPU guide</a>.</li>
+<li><a href="https://www.tensorflow.org/guide/mixed_precision">Mixed precision guide</a>.</li>
+<li>NVIDIA H100 / Hopper architecture whitepaper.</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../172-entrenamiento-multi-dispositivo-tf-distribute/index.html">Clase 172 — Entrenamiento multi-dispositivo, tf.distribute</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-2-deep-learning/171-aceleracion-con-gpu/"><code>classes/parte-2-deep-learning/171-aceleracion-con-gpu/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

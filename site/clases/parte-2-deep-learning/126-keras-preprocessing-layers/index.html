@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 126 — Keras preprocessing layers | Python Data Science Program</title>
+  <meta name="description" content="Clase 126 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 2 — Deep Learning</a><span class="sep">›</span><span>126</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-2-deep-learning/126-keras-preprocessing-layers/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-126-keras-preprocessing-layers">Clase 126 — Keras preprocessing layers</h1>
+<blockquote>
+<p>Parte: <strong>2 — Deep Learning</strong> · Fuente: Géron, <strong>cap. 13</strong> § <em>The Keras Preprocessing Layers</em>. ⏱️ Duración estimada: <strong>65 min</strong>.</p>
+</blockquote>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Hacer <strong>preprocesamiento dentro del modelo</strong> con las preprocessing layers de Keras (<code>Normalization</code>, <code>StringLookup</code>, <code>IntegerLookup</code>, <code>Discretization</code>, <code>CategoryEncoding</code>, <code>Hashing</code>, <code>TextVectorization</code>). Beneficio: el preprocesamiento viaja con el modelo (<code>.keras</code>), no como código separado — elimina el clásico "train-serve skew" en producción.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar, el estudiante podrá:</p>
+<ul>
+<li>Usar <code>Normalization()</code> con <code>.adapt(data)</code> para escalar features tabulares.</li>
+<li>Usar <code>StringLookup</code> para encoding de categóricas.</li>
+<li>Aplicar <code>TextVectorization</code> para tokenización + indexing.</li>
+<li>Construir un modelo "todo en uno": preprocesamiento + red en el mismo <code>keras.Model</code>.</li>
+<li>Reconocer la ventaja: <code>model.predict(raw_data)</code> funciona, sin necesidad de scaler separado.</li>
+</ul>
+<h2 id="temas">🗺️ Temas</h2>
+<ul>
+<li><code>Normalization</code>: substrae mean, divide por std. <code>.adapt(data)</code> aprende los stats.</li>
+<li><code>StringLookup</code> / <code>IntegerLookup</code>: mapea categorías a índices enteros.</li>
+<li><code>CategoryEncoding</code>: one-hot, multi-hot, count.</li>
+<li><code>Discretization</code>: convierte continua en bucket (<code>bin_boundaries=...</code>).</li>
+<li><code>Hashing</code>: mapea categorías a buckets via hash (sin necesidad de vocabulario).</li>
+<li><code>TextVectorization</code>: tokeniza + lookup en una capa.</li>
+</ul>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<ul>
+<li><strong><code>.adapt(data)</code></strong>: aprende los parámetros (mean/std, vocabulario, etc.) desde un dataset. Reemplaza un fit-then-transform separado.</li>
+<li><strong><code>Normalization</code></strong>: <code>(x - mean) / std</code>. Mean/std aprendidos con <code>.adapt</code>.</li>
+<li><strong><code>StringLookup(vocabulary=..., output_mode='int')</code></strong>: dict {categoría: índice}. <code>'multi_hot'</code> para one-hot.</li>
+<li><strong><code>Hashing(num_bins=1024)</code></strong>: para vocabulario gigante o variable. Hash mod num_bins.</li>
+<li><strong><code>TextVectorization(max_tokens=10_000, output_mode='int', output_sequence_length=100)</code></strong>: tokeniza + indexa.</li>
+</ul>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<ul>
+<li>California Housing (tabular).</li>
+<li>IMDB reviews (texto).</li>
+<li>Librerías: <code>tensorflow</code>, <code>keras</code>.</li>
+</ul>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>Normalization tabular</strong>: <code>norm = Normalization(); norm.adapt(X_train); X_norm = norm(X_test)</code>. Verificar que mean ≈ 0, std ≈ 1.</li>
+<li><strong>StringLookup</strong>: con un array de categorías, <code>lookup = StringLookup(); lookup.adapt(categorias); lookup(['A', 'B', 'C'])</code> → tensor de ints.</li>
+<li><strong>Modelo end-to-end tabular</strong>: <code>inputs = Input((n,)); x = Normalization()(inputs); x = Dense(64, ...)(x); ...</code>. Después <code>.adapt(...)</code> la capa norm con <code>X_train</code>.</li>
+<li><strong>TextVectorization</strong>: sobre IMDB, tokenizar, entrenar un modelo de sentimiento.</li>
+<li><strong>Hashing</strong>: con un dataset que tiene 100 000 categorías únicas, <code>Hashing(1024)</code> lo mapea a 1024 buckets. Comparar accuracy vs <code>StringLookup</code> con vocabulario truncado.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Modelo end-to-end sobre California Housing:</p>
+<ol>
+<li>Pipeline tf.data con CSV.</li>
+<li>Modelo con <code>Normalization</code> layer adaptada al train set.</li>
+<li>Entrenar y guardar con <code>model.save('m.keras')</code>.</li>
+<li>Recargar y predecir sobre datos RAW (sin pre-escalar). Verificar que funciona.</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: predicción sobre raw data debe dar el mismo resultado que pre-escalar a mano y pasar al modelo "sin Normalization layer".</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Olvido <code>.adapt()</code> y los stats de Normalization son default (0, 1)</td>
+<td>Normalization no aprende. <strong>Fix</strong>: <code>.adapt(train_data)</code> antes de entrenar el modelo.</td>
+</tr>
+<tr>
+<td><code>.adapt</code> con val/test data</td>
+<td>Leakage. <strong>Fix</strong>: solo train.</td>
+</tr>
+<tr>
+<td><code>StringLookup</code> no encuentra una categoría en inference</td>
+<td>OOV (out-of-vocabulary). Por default se mapea al índice 0. <strong>Fix</strong>: configurar <code>oov_token</code> o aumentar el vocabulario.</td>
+</tr>
+<tr>
+<td><code>TextVectorization</code> muy lento</td>
+<td>Suele ser por <code>max_tokens</code> enorme o <code>output_sequence_length</code> muy largo. <strong>Fix</strong>: limitar ambos.</td>
+</tr>
+<tr>
+<td>Capa preprocessing fuera del modelo y al servir hace falta exportar el scaler aparte</td>
+<td>Anti-pattern. <strong>Fix</strong>: meter las capas DENTRO del modelo.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿<code>Normalization</code> o <code>StandardScaler</code> de sklearn?</strong></p>
+<p>Si vas a deployar el modelo: <code>Normalization</code> de Keras (viaja con el modelo). Para análisis offline: <code>StandardScaler</code> es igual de bueno y más sklearn-idiomático.</p>
+<p><strong>❓ ¿Cuándo <code>Hashing</code> vs <code>StringLookup</code>?</strong></p>
+<p>Hashing para vocabularios gigantes (&gt;100k) o dinámicos (categorías nuevas aparecen continuamente). StringLookup para vocabulario fijo y manejable.</p>
+<p><strong>❓ ¿Preprocessing en GPU?</strong></p>
+<p>Las preprocessing layers corren en CPU por default. Para mover a GPU: <code>with tf.device('/GPU:0')</code>. La normalización es barata; image augmentation puede ser bueno en GPU.</p>
+<p><strong>❓ ¿<code>TextVectorization</code> reemplaza a Hugging Face tokenizers?</strong></p>
+<p>Para tokenización word-level simple, sí. Para BERT/GPT necesitás los tokenizers específicos (subword/BPE) de Hugging Face — clase 127.</p>
+<p><strong>❓ ¿Y para LLMs?</strong></p>
+<p>LLMs llevan su propio tokenizer (BPE, SentencePiece, tiktoken). <code>TextVectorization</code> no aplica.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Géron, <strong>cap. 13</strong> — <em>Preprocessing Data with Keras Preprocessing Layers</em>.</li>
+<li><a href="https://keras.io/api/layers/preprocessing_layers/">Keras — Preprocessing layers</a>.</li>
+<li><a href="https://keras.io/guides/preprocessing_layers/">Keras — Working with preprocessing layers</a>.</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../127-tensorflow-datasets-tfds/index.html">Clase 127 — TensorFlow Datasets (TFDS)</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-2-deep-learning/126-keras-preprocessing-layers/"><code>classes/parte-2-deep-learning/126-keras-preprocessing-layers/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

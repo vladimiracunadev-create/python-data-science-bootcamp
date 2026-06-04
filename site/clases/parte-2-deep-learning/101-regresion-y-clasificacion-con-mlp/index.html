@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 101 — Regresión y clasificación con MLP | Python Data Science Program</title>
+  <meta name="description" content="Clase 101 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 2 — Deep Learning</a><span class="sep">›</span><span>101</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-2-deep-learning/101-regresion-y-clasificacion-con-mlp/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-101-regresion-y-clasificacion-con-mlp">Clase 101 — Regresión y clasificación con MLP</h1>
+<blockquote>
+<p>Parte: <strong>2 — Deep Learning</strong> · Fuente: Géron, <strong>cap. 10</strong> § <em>Building an Image Classifier</em> y § <em>Building a Regression MLP</em>. ⏱️ Duración estimada: <strong>75 min</strong>.</p>
+</blockquote>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Saber construir y entrenar un MLP para los <strong>tres tipos de problemas tabulares</strong> estándar — <strong>regresión</strong>, <strong>clasificación binaria</strong> y <strong>clasificación multiclase</strong> — eligiendo correctamente la <strong>activación de salida</strong> y la <strong>loss</strong> para cada caso. Hacer un train/val/test split adecuado y leer las curvas de entrenamiento.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar, el estudiante podrá:</p>
+<ul>
+<li>Mapear problema → activación de salida → loss: regresión → <code>linear</code> + MSE; binario → <code>sigmoid</code> + <code>binary_crossentropy</code>; multiclase → <code>softmax</code> + <code>sparse_categorical_crossentropy</code>.</li>
+<li>Hacer split <code>train / validation / test</code> con <code>train_test_split</code> y pasar <code>validation_data</code> a <code>model.fit</code>.</li>
+<li>Leer <code>history.history['loss']</code> y <code>['val_loss']</code>, identificar overfitting (val sube mientras train baja).</li>
+<li>Aplicar <code>EarlyStopping</code> y <code>ModelCheckpoint</code> callbacks como protección estándar.</li>
+<li>Diferenciar <code>sparse_categorical_crossentropy</code> (labels enteros) de <code>categorical_crossentropy</code> (labels one-hot).</li>
+</ul>
+<h2 id="temas">🗺️ Temas</h2>
+<ul>
+<li>Mapeo problema → arquitectura de salida + loss.</li>
+<li>Activación de salida: <code>linear</code>, <code>sigmoid</code>, <code>softmax</code>.</li>
+<li>Train/val/test split — por qué hace falta los tres (val para selección, test para reporte final).</li>
+<li>Curvas de aprendizaje: lectura visual (subfitting / overfitting).</li>
+<li>Callbacks: <code>EarlyStopping(patience=5, restore_best_weights=True)</code>, <code>ModelCheckpoint</code>.</li>
+<li>Normalización de inputs con <code>Normalization()</code> layer o <code>StandardScaler</code>.</li>
+</ul>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<ul>
+<li><strong><code>linear</code> activation</strong>: sin transformación. Salida no acotada. Para regresión.</li>
+<li><strong><code>sigmoid</code></strong>: <code>1/(1+e⁻ˣ)</code>, sale en <code>(0, 1)</code>. Una neurona = probabilidad binaria.</li>
+<li><strong><code>softmax</code></strong>: <code>e^xᵢ / Σ e^xⱼ</code>. Convierte logits en distribución de probabilidad sobre K clases.</li>
+<li><strong>MSE</strong>: <code>mean((y - ŷ)²)</code>. Para regresión. Sensible a outliers (cuadrado).</li>
+<li><strong>MAE</strong>: <code>mean(|y - ŷ|)</code>. Robusto a outliers.</li>
+<li><strong>Binary Cross-Entropy</strong>: <code>-[y·log(p) + (1-y)·log(1-p)]</code>. Para 2 clases.</li>
+<li><strong>Sparse Categorical Cross-Entropy</strong>: como categorical pero con labels enteros (<code>[0, 2, 1, ...]</code>). Más eficiente y común.</li>
+<li><strong>EarlyStopping</strong>: corta entrenamiento cuando val_loss deja de bajar por <code>patience</code> épocas.</li>
+</ul>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<ul>
+<li><strong>Regresión</strong>: <code>sklearn.datasets.fetch_california_housing()</code>.</li>
+<li><strong>Clasificación binaria</strong>: <code>sklearn.datasets.load_breast_cancer()</code>.</li>
+<li><strong>Multiclase</strong>: <code>keras.datasets.fashion_mnist.load_data()</code> (10 clases).</li>
+<li>Librerías: <code>tensorflow</code>, <code>keras</code>, <code>scikit-learn</code>, <code>matplotlib</code>.</li>
+</ul>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>MLP regresión</strong>: California Housing, MLP <code>[64, 32]</code> con <code>Normalization()</code>, salida <code>linear</code>, loss <code>mse</code>. Reportar MAE en test.</li>
+<li><strong>MLP binario</strong>: breast_cancer, MLP <code>[32, 16]</code>, salida <code>sigmoid</code>, loss <code>binary_crossentropy</code>. Reportar accuracy y AUC.</li>
+<li><strong>MLP multiclase</strong>: Fashion-MNIST (aplastado a 784), MLP <code>[256, 128]</code>, salida <code>softmax(10)</code>, loss <code>sparse_categorical_crossentropy</code>. Reportar accuracy.</li>
+<li><strong>Curvas y overfitting</strong>: entrenar el modelo 3 por 50 épocas sin early stopping. Graficar <code>loss</code> y <code>val_loss</code>; identificar la época donde arranca overfitting.</li>
+<li><strong>EarlyStopping</strong>: repetir con <code>EarlyStopping(patience=5, restore_best_weights=True)</code>. Verificar que cortó antes y los pesos guardados son los mejores.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Fashion-MNIST end-to-end:</p>
+<ol>
+<li>Cargar y normalizar (<code>/ 255</code>).</li>
+<li>Split train (50 000) / val (10 000) / test (10 000).</li>
+<li>MLP <code>[300, 100]</code>, ReLU, salida softmax.</li>
+<li>Compilar con <code>optimizer='adam'</code>, <code>loss='sparse_categorical_crossentropy'</code>, <code>metrics=['accuracy']</code>.</li>
+<li>Entrenar con <code>EarlyStopping(patience=5)</code> y <code>ModelCheckpoint('best.keras', save_best_only=True)</code>.</li>
+<li>Reportar accuracy en test y matriz de confusión.</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: accuracy en test ≥ 0.87; matriz de confusión muestra que las prendas más confundidas son <code>Shirt</code> / <code>T-shirt</code> / <code>Pullover</code>.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>loss = nan</code> desde la época 1</td>
+<td>Inputs sin escalar + LR alta. <strong>Fix</strong>: <code>StandardScaler</code> o <code>keras.layers.Normalization()</code>.</td>
+</tr>
+<tr>
+<td><code>softmax</code> + <code>binary_crossentropy</code></td>
+<td>Mismatch. <strong>Fix</strong>: <code>softmax</code> va con <code>(sparse_)categorical_crossentropy</code>; binario va con <code>sigmoid</code> + <code>binary_crossentropy</code>.</td>
+</tr>
+<tr>
+<td><code>categorical_crossentropy</code> con labels enteros</td>
+<td>Espera one-hot. <strong>Fix</strong>: usar <code>sparse_categorical_crossentropy</code> o <code>keras.utils.to_categorical(y)</code>.</td>
+</tr>
+<tr>
+<td><code>accuracy = 0.10</code> en Fashion-MNIST sin entrenar</td>
+<td>Predicción aleatoria. <strong>Fix</strong>: <code>model.fit(...)</code>.</td>
+</tr>
+<tr>
+<td>Reportar accuracy en val como "test final"</td>
+<td>Validation está contaminada por la búsqueda de hiperparámetros. <strong>Fix</strong>: usar test set <strong>solo una vez</strong> al final.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿Cuántas neuronas por capa?</strong></p>
+<p>Primera capa entre <code>n_features</code> y <code>4·n_features</code>; capas posteriores más angostas (pirámide invertida). Ej.: 784 → 256 → 128 → 10. Refinar con tuning (Clase 095).</p>
+<p><strong>❓ ¿Qué optimizador uso?</strong></p>
+<p><code>Adam</code> con LR default (1e-3) es el caballito de batalla. Para producción, <code>AdamW</code> con LR ajustada (Clase 102).</p>
+<p><strong>❓ ¿Cuántas épocas?</strong></p>
+<p>Las que decidan tus callbacks. Setear <code>epochs=100</code> + <code>EarlyStopping(patience=10)</code>.</p>
+<p><strong>❓ ¿Hay que normalizar siempre?</strong></p>
+<p><strong>Siempre</strong> para features con escalas distintas. Para imágenes basta <code>/ 255</code>. Sin normalizar, el optimizador zigzaguea.</p>
+<p><strong>❓ ¿Por qué la última capa de Fashion-MNIST tiene 10 neuronas?</strong></p>
+<p>Una neurona por clase. Softmax convierte los 10 logits en probabilidades que suman 1. El argmax es la predicción.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Géron, <strong>cap. 10</strong> — <em>Building an Image Classifier Using the Sequential API</em> y <em>Building a Regression MLP</em>.</li>
+<li><a href="https://keras.io/guides/training_with_built_in_methods/">Keras docs — Training &amp; evaluation</a>.</li>
+<li><a href="https://keras.io/api/callbacks/">Keras docs — Callbacks API</a>.</li>
+<li>Glorot &amp; Bengio (2010), <em>Understanding the difficulty of training deep feedforward neural networks</em>.</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../102-keras-sequential-api/index.html">Clase 102 — Keras Sequential API</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-2-deep-learning/101-regresion-y-clasificacion-con-mlp/"><code>classes/parte-2-deep-learning/101-regresion-y-clasificacion-con-mlp/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

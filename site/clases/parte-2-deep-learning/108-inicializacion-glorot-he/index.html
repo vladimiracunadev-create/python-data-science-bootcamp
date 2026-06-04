@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 108 — Inicialización (Glorot, He) | Python Data Science Program</title>
+  <meta name="description" content="Clase 108 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 2 — Deep Learning</a><span class="sep">›</span><span>108</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-2-deep-learning/108-inicializacion-glorot-he/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-108-inicializacion-glorot-he">Clase 108 — Inicialización (Glorot, He)</h1>
+<blockquote>
+<p>Parte: <strong>2 — Deep Learning</strong> · Fuente: Géron, <strong>cap. 11</strong> § <em>Glorot and He Initialization</em>. ⏱️ Duración estimada: <strong>55 min</strong>.</p>
+</blockquote>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Saber <strong>inicializar los pesos</strong> de cada capa para que la varianza de las activaciones y de los gradientes se mantenga estable a lo largo del forward y backward pass. Diferenciar <strong>Glorot (Xavier)</strong> —para sigmoid/tanh— de <strong>He (Kaiming)</strong> —para ReLU y variantes—. Saber cuál usa Keras por default y cuándo cambiarlo.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar, el estudiante podrá:</p>
+<ul>
+<li>Explicar la idea: <code>Var(W) ≈ 1 / fan_in</code> (o promedio fan_in/fan_out) para preservar varianza.</li>
+<li>Aplicar <code>kernel_initializer='glorot_uniform'</code> (default Keras), <code>'he_normal'</code>, <code>'he_uniform'</code>.</li>
+<li>Calcular a mano los límites de la distribución para Glorot uniform: <code>±√(6/(fan_in+fan_out))</code>.</li>
+<li>Reconocer que la combinación correcta es <strong>He init + ReLU</strong>, <strong>Glorot + tanh/sigmoid</strong>.</li>
+<li>Inspeccionar el efecto visualmente: histogramas de activaciones por capa.</li>
+</ul>
+<h2 id="temas">🗺️ Temas</h2>
+<ul>
+<li>¿Por qué importa la varianza? Productos de N capas amplifican o atenúan exponencialmente.</li>
+<li>Glorot (2010): <code>Var(W) = 2/(fan_in + fan_out)</code>. Asume activación lineal/simétrica.</li>
+<li>He (2015): <code>Var(W) = 2/fan_in</code>. Compensa que ReLU "mata" la mitad de las salidas.</li>
+<li>Distribuciones: <code>uniform</code> o <code>normal</code>. Equivalentes prácticamente.</li>
+<li>LeCun init: <code>Var(W) = 1/fan_in</code>. Para SELU.</li>
+</ul>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<ul>
+<li><strong><code>fan_in</code></strong>: número de entradas a la capa (= units de la capa anterior).</li>
+<li><strong><code>fan_out</code></strong>: número de salidas (= units de la capa).</li>
+<li><strong>Glorot uniform</strong>: <code>U(-√(6/(fan_in+fan_out)), +√(6/(fan_in+fan_out)))</code>. Default de Keras <code>Dense</code>.</li>
+<li><strong>He normal</strong>: <code>N(0, √(2/fan_in))</code>. Recomendado para ReLU, Leaky ReLU, ELU.</li>
+<li><strong>LeCun normal</strong>: <code>N(0, √(1/fan_in))</code>. Para SELU (self-normalizing networks).</li>
+<li><strong>Inicialización por capa</strong>: <code>Dense(64, kernel_initializer='he_normal', bias_initializer='zeros')</code>.</li>
+</ul>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<ul>
+<li>Fashion-MNIST.</li>
+<li>Librerías: <code>tensorflow</code>, <code>keras</code>, <code>matplotlib</code>.</li>
+</ul>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>Inspección de defaults</strong>: para <code>Dense(128, input_shape=(784,))</code>, imprimir <code>model.layers[0].kernel.numpy()</code>. Calcular la varianza empírica y compararla con la teórica de Glorot.</li>
+<li><strong>Comparación</strong>: entrenar MLP <code>[512, 256, 128, 64, 10]</code> con ReLU. Probar 3 inits: Glorot, He, RandomNormal(stddev=0.01). Graficar val_loss en las 3.</li>
+<li><strong>Histogramas de activaciones</strong>: para cada capa del modelo bien inicializado, plot del histograma de salidas para un batch. Verificar que la varianza se mantiene similar entre capas.</li>
+<li><strong>He init + Tanh</strong>: probar la combinación incorrecta (He con tanh). Comparar contra Glorot + tanh. Verificar que importa.</li>
+<li><strong>Reset y reproducibilidad</strong>: con <code>tf.random.set_seed(42)</code> + <code>np.random.seed(42)</code>, entrenar 2 veces y verificar que da idéntico. Sin seed, varía.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Sobre MLP <code>[300, 200, 100, 50, 10]</code> con ReLU sobre Fashion-MNIST:</p>
+<ol>
+<li>Entrenar con 3 inits: default Glorot, He uniform, He normal.</li>
+<li>Reportar val_accuracy tras 20 épocas para cada uno.</li>
+<li>Para el mejor (He init), inspeccionar la norma de cada <code>kernel</code> antes y después del entrenamiento.</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: He init debe igualar o superar Glorot por ≥ 0.5 pp; la norma de los kernels post-entrenamiento debe ser similar entre capas (no orders of magnitude apart).</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Modelo arranca lento con ReLU</td>
+<td>Estás usando Glorot por default. <strong>Fix</strong>: <code>kernel_initializer='he_normal'</code>.</td>
+</tr>
+<tr>
+<td><code>RandomNormal(stddev=0.01)</code> por costumbre de viejos tutoriales</td>
+<td>Vanishing inmediato. <strong>Fix</strong>: usar Glorot/He según la activación.</td>
+</tr>
+<tr>
+<td>Reset de pesos no funciona con <code>model.set_weights(initial)</code></td>
+<td>Hay que guardar <code>initial = [w.numpy() for w in model.weights]</code> ANTES de entrenar; copy by reference falla.</td>
+</tr>
+<tr>
+<td>Bias init <code>glorot_uniform</code> por error</td>
+<td>Bias debe arrancar en <code>zeros</code> (default). Init aleatorio del bias es innecesario y empeora init de Glorot/He.</td>
+</tr>
+<tr>
+<td>Inicializar igual una capa convolucional que una Dense</td>
+<td><code>fan_in</code> para Conv es <code>kernel_h × kernel_w × input_channels</code>. Keras lo maneja bien si pasás el initializer por nombre.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿Glorot uniform o normal?</strong></p>
+<p>Para Glorot, casi indistinguible en práctica. Keras default es <code>glorot_uniform</code>. Para He, <code>he_normal</code> es ligeramente preferido pero las diferencias son ínfimas.</p>
+<p><strong>❓ ¿LeCun init cuándo?</strong></p>
+<p>Solo con SELU (activación que se auto-normaliza). Esto fue un experimento de 2017 (Klambauer et al.) que perdió tracción frente a BatchNorm + ReLU/GELU.</p>
+<p><strong>❓ ¿BatchNorm hace innecesaria la inicialización?</strong></p>
+<p>Casi. BN normaliza el output dentro del forward → init importa menos. Pero un mal init aún hace que las primeras épocas sean inestables.</p>
+<p><strong>❓ ¿Init para Transformers?</strong></p>
+<p>Combinación cuidadosa: linears con <code>truncated_normal(stddev=0.02)</code> (GPT/BERT-style), embeddings con normales escaladas. Lo verás en clase 126.</p>
+<p><strong>❓ ¿Por qué <code>fan_in + fan_out</code> en Glorot?</strong></p>
+<p>Es el promedio armónico de "preservar varianza en forward (<code>1/fan_in</code>)" y "preservar varianza en backward (<code>1/fan_out</code>)". Compromiso óptimo bajo activación lineal.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Géron, <strong>cap. 11</strong> — <em>Glorot and He Initialization</em>.</li>
+<li>Glorot &amp; Bengio (2010), <em>Understanding the difficulty of training deep feedforward neural networks</em>, AISTATS.</li>
+<li>He, Zhang, Ren &amp; Sun (2015), <em>Delving Deep into Rectifiers</em>, ICCV — paper original de He init.</li>
+<li><a href="https://keras.io/api/layers/initializers/">Keras initializers</a>.</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../109-activaciones-relu-elu-gelu-swish-mish/index.html">Clase 109 — Activaciones: ReLU, ELU, GELU, Swish, Mish</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-2-deep-learning/108-inicializacion-glorot-he/"><code>classes/parte-2-deep-learning/108-inicializacion-glorot-he/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

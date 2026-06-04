@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 152 — RAG básico y embeddings (+ hybrid search, re-ranking, MCP) | Python Data Science Program</title>
+  <meta name="description" content="Clase 152 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 2 — Deep Learning</a><span class="sep">›</span><span>152</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-2-deep-learning/152-rag-basico-y-embeddings/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#version-profundizada-2026">📌 Versión profundizada — 2026</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-152-rag-basico-y-embeddings-hybrid-search-re-ranking-mcp">Clase 152 — RAG básico y embeddings (+ hybrid search, re-ranking, MCP)</h1>
+<blockquote>
+<p>Parte: <strong>2 — Deep Learning</strong> · Fuente: Lewis et al. (2020) RAG paper + LlamaIndex / LangChain docs + Anthropic MCP spec. ⏱️ Duración estimada: <strong>100 min</strong>.</p>
+</blockquote>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Construir un <strong>sistema RAG (Retrieval-Augmented Generation)</strong> — pipeline que enriquece a un LLM con conocimiento externo: documentos propios, base de datos, web. Pipeline: <strong>embedding</strong> los docs → almacenar en <strong>vector DB</strong> → al query, hacer <strong>retrieval</strong> de los k más relevantes → inyectar como contexto al LLM → respuesta basada en docs. Conocer mejoras modernas: <strong>hybrid search</strong> (denso + sparse), <strong>cross-encoder re-ranking</strong>, y el <strong>Model Context Protocol (MCP)</strong> que estandariza la conexión LLM-herramientas.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar, el estudiante podrá:</p>
+<ul>
+<li>Generar embeddings de texto con <code>sentence-transformers</code> o modelos HF.</li>
+<li>Almacenar y buscar embeddings con FAISS, Chroma, Pinecone, Qdrant, o pgvector.</li>
+<li>Construir el flujo <code>query → embed → top-k → context → LLM</code>.</li>
+<li>Aplicar <strong>hybrid search</strong>: combinar BM25 (sparse) con embeddings (dense) → mejor recall.</li>
+<li>Aplicar <strong>cross-encoder re-ranking</strong> sobre los top-100 retornados para promover los top-10 reales.</li>
+<li>Reconocer el <strong>MCP</strong> como protocolo abierto para conectar LLMs a herramientas (filesystems, DBs, APIs).</li>
+</ul>
+<h2 id="temas">🗺️ Temas</h2>
+<ul>
+<li>Por qué RAG: LLMs no saben de documentos privados; entrenar fine-tune no escala para conocimiento dinámico.</li>
+<li>Embeddings: vectores de dimensión ~768-1536.</li>
+<li>Vector DBs: FAISS (in-memory), Chroma (local), Qdrant/Weaviate (server), pgvector (Postgres extension).</li>
+<li>Chunking: dividir docs en piezas de ~200-1000 tokens.</li>
+<li>Top-k retrieval + context window.</li>
+<li><strong>Complemento moderno</strong>: hybrid search, cross-encoder rerank, MCP.</li>
+</ul>
+<h2 id="version-profundizada-2026">📌 Versión profundizada — 2026</h2>
+<p>El tema moderno que antes vivía como complemento dentro de esta clase ahora tiene su(s) clase(s) propia(s) con patrón completo, ejercicios y homework:</p>
+<ul>
+<li>👉 <a href="../129a-mcp-model-context-protocol/index.html">Clase 129a — MCP (Model Context Protocol)</a></li>
+<li>👉 <a href="../129b-agentes-tool-use-react-multi-agent/index.html">Clase 129b — Agentes: tool use, ReAct, multi-agent</a></li>
+<li>👉 <a href="../129c-llm-evaluation-mmlu-mtbench-llm-as-judge/index.html">Clase 129c — LLM Evaluation: MMLU, MT-Bench, LLM-as-judge</a></li>
+</ul>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<ul>
+<li><strong>Embedding model</strong>: red que mapea texto a vector denso. <code>all-MiniLM-L6-v2</code> (small, free), <code>text-embedding-3-large</code> (OpenAI, mejor calidad).</li>
+<li><strong>Vector DB</strong>: base optimizada para similarity search aproximada (HNSW, IVF).</li>
+<li><strong>Chunking</strong>: dividir documentos largos. Trade-off: chunks chicos → contexto perdido; grandes → ruido.</li>
+<li><strong>Top-k</strong>: cuántos docs retorna el retriever. Típico 5-20.</li>
+<li><strong>Reranker</strong>: modelo que re-puntúa pares (query, doc).</li>
+<li><strong>MCP</strong>: protocolo standardizado de Anthropic para tool use.</li>
+<li><strong>RAG-Fusion</strong>: variante que genera N variantes del query y agrega resultados.</li>
+</ul>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<ul>
+<li>Cualquier corpus de docs propios (PDFs, markdown, HTML).</li>
+<li>Wikipedia dump para experimentos.</li>
+<li>Librerías: <code>sentence-transformers</code>, <code>chromadb</code> / <code>faiss-cpu</code>, <code>rank_bm25</code>, <code>langchain</code> / <code>llama-index</code>, <code>mcp</code>.</li>
+</ul>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>Embed + index</strong>: con <code>sentence-transformers/all-MiniLM-L6-v2</code>, embeber 100 párrafos y guardarlos en Chroma. Query y top-5.</li>
+<li><strong>BM25 baseline</strong>: con <code>rank_bm25</code>, query y comparar resultados vs dense.</li>
+<li><strong>Hybrid (RRF)</strong>: combinar ambos. Verificar que hybrid &gt; dense &gt; BM25 sola en queries técnicas.</li>
+<li><strong>Cross-encoder rerank</strong>: tomar top-50 del paso 3, rerankar con <code>cross-encoder/ms-marco-MiniLM-L-6-v2</code>. Comparar nDCG.</li>
+<li><strong>RAG con LLM</strong>: top-5 → contexto + query → Claude o GPT → respuesta con citas.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Mini RAG sobre 100-1000 documentos propios:</p>
+<ol>
+<li>Chunking + embedding + indexado en Chroma.</li>
+<li>Pipeline retrieval (dense), generate (LLM via API o vLLM local).</li>
+<li>10 queries de prueba.</li>
+<li>Evaluar manualmente: ¿cuántas respuestas correctas con citas válidas?</li>
+<li><strong>Bonus</strong>: agregar BM25 + cross-encoder rerank y medir mejora.</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: al menos 7/10 respuestas correctas con citas válidas; hybrid + rerank mejora el ratio.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Retrieval devuelve docs irrelevantes</td>
+<td>Chunks muy grandes o embeddings malos. <strong>Fix</strong>: chunks 256-512 tokens, modelo de embedding mejor.</td>
+</tr>
+<tr>
+<td>LLM alucina aunque hay contexto</td>
+<td>Prompt no instruye a "responder solo con el contexto". <strong>Fix</strong>: agregar "If unsure, say 'I don't know'".</td>
+</tr>
+<tr>
+<td>Recall bajo en queries con nombres propios</td>
+<td>Dense pierde. <strong>Fix</strong>: hybrid con BM25.</td>
+</tr>
+<tr>
+<td>Vector DB lento con millones de docs</td>
+<td>Sin índice ANN. <strong>Fix</strong>: HNSW (default en Chroma/Qdrant).</td>
+</tr>
+<tr>
+<td>Citas falsas (LLM inventa números)</td>
+<td>El modelo no respeta formato. <strong>Fix</strong>: usar function-calling / structured output.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿RAG o fine-tuning?</strong></p>
+<p>RAG para conocimiento dinámico, citable, separable del modelo. Fine-tune para skills (formato de respuesta, tono). A menudo ambos: fine-tune para how, RAG para what.</p>
+<p><strong>❓ ¿Cuál vector DB?</strong></p>
+<ul>
+<li>Prototipo local: <strong>Chroma</strong> o FAISS.</li>
+<li>Producción small: <strong>Qdrant</strong> (Rust, rápido).</li>
+<li>Postgres existente: <strong>pgvector</strong>.</li>
+<li>Enterprise: <strong>Pinecone</strong> (managed, sin maintenance).</li>
+</ul>
+<p><strong>❓ ¿Embeddings open o API?</strong></p>
+<p>Open: <code>bge-large-en-v1.5</code>, <code>Nomic-embed-text-v1.5</code>. API: <code>text-embedding-3-large</code> (OpenAI), <code>voyage-3</code> (Voyage AI). API es mejor pero costo recurrente.</p>
+<p><strong>❓ ¿Cómo evalúo el RAG?</strong></p>
+<p>Métricas: <strong>Recall@k</strong> (¿el doc correcto está entre top-k?), <strong>MRR</strong>, <strong>nDCG</strong>. Para end-to-end: <strong>RAGAS</strong> library, <strong>LLM-as-judge</strong>.</p>
+<p><strong>❓ ¿MCP en producción?</strong></p>
+<p>Sí, ya. Anthropic y comunidad ofrecen MCP servers para muchas tools comunes. Adopt earlier para ganar portabilidad cross-LLM.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Lewis et al. (2020), <em>Retrieval-Augmented Generation</em>, NeurIPS — paper original.</li>
+<li>Reimers &amp; Gurevych (2019), <em>Sentence-BERT</em>, EMNLP.</li>
+<li>Robertson &amp; Zaragoza (2009), <em>BM25 and Beyond</em>.</li>
+<li>Anthropic (2024), <em>Model Context Protocol</em> — <a href="https://modelcontextprotocol.io/">https://modelcontextprotocol.io/</a>.</li>
+<li><a href="https://docs.llamaindex.ai/">LlamaIndex docs</a>, <a href="https://docs.langchain.com/">LangChain docs</a>.</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../153-mcp-model-context-protocol/index.html">Clase 153 — MCP (Model Context Protocol): herramientas y datos para LLMs</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-2-deep-learning/152-rag-basico-y-embeddings/"><code>classes/parte-2-deep-learning/152-rag-basico-y-embeddings/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 176 — Test t (una muestra, dos muestras, pareado) | Python Data Science Program</title>
+  <meta name="description" content="Clase 176 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 3 — Estadística inferencial</a><span class="sep">›</span><span>176</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-3-estadistica-inferencial/176-test-t-una-muestra-dos-muestras-pareado/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#version-profundizada-2026">📌 Versión profundizada — 2026</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-176-test-t-una-muestra-dos-muestras-pareado">Clase 176 — Test t (una muestra, dos muestras, pareado)</h1>
+<blockquote>
+<p>Parte: <strong>3 — Estadística Inferencial y Causal</strong> · Fuente: ISLP, <strong>cap. 13</strong> + Bruce &amp; Bruce, <strong>cap. 3</strong> <em>Statistical Experiments and Significance Testing</em>. ⏱️ Duración estimada: <strong>80 min</strong>.</p>
+</blockquote>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Que el alumno aplique correctamente las tres variantes del test t —<strong>una muestra, dos muestras independientes (Welch por default), pareado</strong>—, distinga <strong>hipótesis nula y alternativa</strong>, lea <strong>p-value e intervalo de confianza</strong> de la salida de <code>scipy.stats</code> y <code>pingouin</code>, y aprenda a reportar <strong>effect size</strong> (Cohen's d, Hedges' g) junto con el p-value para no caer en la trampa de "significativo pero irrelevante".</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar, el estudiante podrá:</p>
+<ul>
+<li>Formular <code>H₀</code> y <code>H₁</code> (bilateral / unilateral) para un problema concreto y elegir la variante correcta del test t.</li>
+<li>Ejecutar <code>scipy.stats.ttest_1samp</code>, <code>ttest_ind(equal_var=False)</code> y <code>ttest_rel</code>, interpretando el <code>statistic</code>, <code>pvalue</code> y el atributo <code>.confidence_interval()</code> (scipy ≥ 1.10).</li>
+<li>Verificar supuestos: normalidad por grupo (Shapiro / Q-Q plot) o invocar TCL si <code>n ≥ 30</code>.</li>
+<li>Decidir entre test <strong>bilateral vs unilateral</strong> sin caer en <em>p-hacking</em> (la dirección debe estar fijada antes de mirar los datos).</li>
+<li>Reportar <strong>effect size</strong>: Cohen's <code>d</code>, Hedges' <code>g</code> corregido para muestras chicas, y su interpretación cualitativa (small/medium/large).</li>
+</ul>
+<h2 id="temas">🗺️ Temas</h2>
+<ul>
+<li><code>H₀</code> / <code>H₁</code>, errores tipo I (α) y tipo II (β).</li>
+<li>Test t de una muestra: <code>t = (x̄ - μ₀) / (s/√n)</code>, gl <code>= n - 1</code>.</li>
+<li>Test t de dos muestras independientes: <strong>Welch</strong> (varianzas distintas, default moderno) vs Student (varianzas iguales — supuesto fuerte, casi nunca correcto).</li>
+<li>Test t pareado (mismo sujeto antes/después).</li>
+<li>p-value: probabilidad bajo <code>H₀</code> de observar algo <em>al menos tan extremo</em>. NO es <code>P(H₀ | datos)</code>.</li>
+<li>Intervalo de confianza al 95 % como complemento del p-value.</li>
+<li><strong>Complemento moderno</strong>: effect size (Cohen's d, Hedges' g, Cliff's δ) — la pregunta "¿es relevante?" que el p-value no responde.</li>
+</ul>
+<h2 id="version-profundizada-2026">📌 Versión profundizada — 2026</h2>
+<p>El tema moderno que antes vivía como complemento dentro de esta clase ahora tiene su(s) clase(s) propia(s) con patrón completo, ejercicios y homework:</p>
+<ul>
+<li>👉 <a href="../147a-effect-size-cohen-d-hedges-g-cliff-delta-pingouin/index.html">Clase 147a — Effect size dedicado: Cohen's d, Hedges' g, Cliff's δ con pingouin</a></li>
+</ul>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<ul>
+<li><strong>Hipótesis nula <code>H₀</code></strong>: la afirmación "conservadora" — no hay diferencia, o la diferencia es 0. Se busca <strong>rechazarla</strong>, no probarla.</li>
+<li><strong>Hipótesis alternativa <code>H₁</code></strong>: lo que querés demostrar. Bilateral (<code>≠</code>) o unilateral (<code>&gt;</code>, <code>&lt;</code>).</li>
+<li><strong>p-value</strong>: <code>P(estadístico al menos tan extremo como el observado | H₀ verdadera)</code>. Si <code>p &lt; α</code>, rechazo <code>H₀</code>. NO es la probabilidad de que <code>H₀</code> sea verdadera.</li>
+<li><strong>α (alpha)</strong>: probabilidad máxima de error tipo I (rechazar <code>H₀</code> siendo verdadera). Convencional: <code>0.05</code>. Para problemas críticos: <code>0.01</code> o <code>0.001</code>.</li>
+<li><strong>β (beta)</strong>: probabilidad de error tipo II (no rechazar <code>H₀</code> siendo falsa). Poder = <code>1 - β</code> (Clase 154).</li>
+<li><strong>Welch's t-test</strong>: variante que no asume varianzas iguales. Es el <strong>default razonable</strong>. <code>equal_var=True</code> (Student clásico) es legacy.</li>
+<li><strong>Test pareado</strong>: cuando cada observación de un grupo tiene su "par" en el otro (mismo paciente antes/después, misma página web con/sin cambio). Reduce varianza al diferenciar dentro del par.</li>
+<li><strong>Cohen's d</strong>: magnitud estandarizada de la diferencia. <code>d = 0.2/0.5/0.8</code> → small/medium/large.</li>
+<li><strong><code>alternative='greater'</code></strong>: unilateral derecho. Solo legítimo si la dirección la fijaste <strong>antes</strong> de ver los datos.</li>
+</ul>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<ul>
+<li><code>seaborn.load_dataset('tips')</code>: comparar <code>tip</code> entre <code>sex='Male'</code> vs <code>'Female'</code>, o <code>time='Lunch'</code> vs <code>'Dinner'</code>.</li>
+<li>Para pareado: simular un dataset <em>antes/después</em> con <code>numpy.random.default_rng</code> (presión arterial pre/post fármaco).</li>
+<li>Librerías: <code>scipy.stats</code>, <code>pingouin</code> (<code>pip install pingouin</code>), <code>seaborn</code>.</li>
+</ul>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>Una muestra</strong>: con <code>tips.total_bill</code>, testá <code>H₀: μ = 20</code> vs <code>H₁: μ ≠ 20</code> con <code>scipy.stats.ttest_1samp(tips.total_bill, popmean=20)</code>. Reportá t, p y el IC95 % (<code>.confidence_interval()</code>).</li>
+<li><strong>Dos muestras (Welch)</strong>: testá si <code>tip</code> difiere entre <code>sex='Male'</code> y <code>sex='Female'</code> con <code>ttest_ind(equal_var=False)</code>. Calculá Cohen's d a mano y verificá contra <code>pingouin.ttest</code>.</li>
+<li><strong>Pareado</strong>: simulá presión arterial antes/después de un fármaco con <code>rng = np.random.default_rng(0)</code>: <code>antes = rng.normal(140, 12, 30)</code>, <code>despues = antes - rng.normal(5, 3, 30)</code>. Aplicá <code>ttest_rel(antes, despues)</code> y comparalo contra hacer <code>ttest_ind</code> mal (verás cómo el pareado tiene mucho más poder).</li>
+<li><strong>Bilateral vs unilateral</strong>: para el ejercicio 2, repetí con <code>alternative='greater'</code> y <code>'less'</code>. Observá cómo el p-value se divide ≈ 2.</li>
+<li><strong>Significativo vs relevante</strong>: generá <code>grupo_a = rng.normal(100, 15, 10_000)</code> y <code>grupo_b = rng.normal(100.5, 15, 10_000)</code>. El test va a dar <code>p &lt; 0.001</code>; calculá Cohen's d y discutí en 2 líneas por qué el resultado "no importa".</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Sobre <code>tips</code>:</p>
+<ol>
+<li>Hipótesis: la propina promedio es distinta para <code>time='Lunch'</code> y <code>time='Dinner'</code>.</li>
+<li>Verificar normalidad de cada grupo con <code>pingouin.normality</code> (Shapiro).</li>
+<li>Ejecutar <code>pingouin.ttest</code> y reportar: T, gl, p-value, IC95 %, Cohen's d, power.</li>
+<li>Una conclusión de 3 líneas que mencione <strong>(a) si rechazás <code>H₀</code>, (b) la magnitud del efecto en palabras (small/medium/large), (c) si recomendarías ese hallazgo a un dueño de restaurante</strong>.</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: el reporte debe incluir effect size y la conclusión no puede limitarse a "p &lt; 0.05". Si Cohen's d es &lt; 0.2, la respuesta a (c) debería ser "no" aunque el p sea bajo.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Aplico <code>ttest_ind</code> con <code>equal_var=True</code> por costumbre y los grupos tienen <code>n</code> muy distintos</td>
+<td>Student clásico con varianzas desiguales y <code>n</code> desbalanceado <strong>infla el error tipo I</strong>. <strong>Fix</strong>: dejar <code>equal_var=False</code> (Welch) por default; ya es lo recomendado en la literatura desde hace décadas.</td>
+</tr>
+<tr>
+<td><code>p &lt; 0.05</code> con <code>n = 10⁶</code> y declaro un hallazgo importante</td>
+<td>"Significancia estadística" con muestra gigante captura efectos triviales. <strong>Fix</strong>: reportar Cohen's d y discutir relevancia.</td>
+</tr>
+<tr>
+<td>Cambio <code>alternative='greater'</code> después de ver que <code>x̄_a &gt; x̄_b</code></td>
+<td>Eso es <strong>p-hacking</strong>. La dirección se fija con la pregunta de negocio, no con los datos. <strong>Fix</strong>: bilateral por default; unilateral solo si hay un <em>pre-registro</em> o lógica de dominio fuerte.</td>
+</tr>
+<tr>
+<td>Aplico <code>ttest_ind</code> a observaciones pareadas (mismo sujeto antes/después)</td>
+<td>Pierde poder enormemente y puede dar <code>p &gt; 0.05</code> cuando pareado da <code>p &lt; 0.001</code>. <strong>Fix</strong>: <code>ttest_rel</code> cuando hay pareo natural.</td>
+</tr>
+<tr>
+<td>El test asume normalidad y mis datos son muy asimétricos con <code>n=12</code></td>
+<td>Welch es robusto pero no mágico. <strong>Fix</strong>: <code>scipy.stats.mannwhitneyu</code> (Clase 150) o bootstrap (Clase 153).</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿Welch o Student por default?</strong></p>
+<p><strong>Welch siempre</strong>. No cuesta nada en poder cuando las varianzas son iguales, y protege contra el caso (muy común) de varianzas distintas. La literatura moderna (Delacre, Lakens &amp; Leys 2017) recomienda abandonar el Student t-test.</p>
+<p><strong>❓ ¿Tengo que testear normalidad antes del t-test?</strong></p>
+<p>No con <code>n ≥ 30</code> por grupo (TCL). Con <code>n</code> chico y datos visiblemente asimétricos, sí — y si Shapiro rechaza, mejor pasar a bootstrap o Mann-Whitney. Cuidado: con <code>n</code> enorme, Shapiro rechaza siempre por desviaciones triviales; mirá Q-Q plot como complemento.</p>
+<p><strong>❓ ¿Qué es <code>BF10</code> que reporta pingouin?</strong></p>
+<p>Factor de Bayes contra <code>H₀</code>. <code>BF10 &gt; 3</code> es evidencia moderada a favor de <code>H₁</code>; <code>&gt; 10</code> fuerte. Es la versión bayesiana del p-value y no tiene los problemas del NHST (la testeás directamente en la Clase 158).</p>
+<p><strong>❓ ¿Por qué el IC95 % de la diferencia y el p-value siempre concuerdan?</strong></p>
+<p>Porque son la misma información presentada de otra forma. Si el IC95 % de <code>μ_a - μ_b</code> <strong>no incluye 0</strong>, entonces <code>p &lt; 0.05</code> (bilateral). Reportar el IC es más informativo: muestra magnitud y dirección.</p>
+<p><strong>❓ Cohen's d me da 0.3, ¿cómo lo explico al cliente?</strong></p>
+<p>"Un efecto pequeño-mediano". Operacionalmente: si dibujás las dos distribuciones, el ≈ 55 % de los individuos del grupo tratamiento superan a la mediana del grupo control (vs 50 % bajo <code>H₀</code>). Para una conversión, traducilo a "incremento absoluto de X puntos porcentuales".</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>ISLP, <strong>cap. 13</strong> — <em>Multiple Testing</em>, intro al p-value.</li>
+<li>Bruce &amp; Bruce, <strong>cap. 3</strong> — <em>Statistical Experiments and Significance Testing</em>.</li>
+<li>Delacre, Lakens &amp; Leys (2017), <em>Why Psychologists Should by Default Use Welch's t-test</em>, IRSP.</li>
+<li>Cohen, J. (1988), <em>Statistical Power Analysis for the Behavioral Sciences</em> — referencia canónica de effect size.</li>
+<li><a href="https://pingouin-stats.org/">pingouin docs</a> — Vallat, R. (2018), <em>Pingouin: statistics in Python</em>, JOSS.</li>
+<li><a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.ttest_ind.html"><code>scipy.stats.ttest_ind</code></a> — atención a <code>equal_var</code> y <code>alternative</code>.</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../177-effect-size-cohen-d-hedges-g-cliff-delta-pingouin/index.html">Clase 177 — Effect size dedicado: Cohen's d, Hedges' g, Cliff's δ con pingouin</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-3-estadistica-inferencial/176-test-t-una-muestra-dos-muestras-pareado/"><code>classes/parte-3-estadistica-inferencial/176-test-t-una-muestra-dos-muestras-pareado/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

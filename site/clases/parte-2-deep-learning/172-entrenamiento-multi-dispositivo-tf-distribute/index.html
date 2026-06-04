@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 172 — Entrenamiento multi-dispositivo, tf.distribute | Python Data Science Program</title>
+  <meta name="description" content="Clase 172 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 2 — Deep Learning</a><span class="sep">›</span><span>172</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-2-deep-learning/172-entrenamiento-multi-dispositivo-tf-distribute/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-172-entrenamiento-multi-dispositivo-tfdistribute">Clase 172 — Entrenamiento multi-dispositivo, tf.distribute</h1>
+<blockquote>
+<p>Parte: <strong>2 — Deep Learning</strong> · Fuente: Géron, <strong>cap. 19</strong> § <em>Training Models Across Multiple Devices</em>. ⏱️ Duración estimada: <strong>75 min</strong>.</p>
+</blockquote>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Escalar el training a múltiples GPUs (y multi-nodos). Conocer las 3 estrategias TF: <strong>MirroredStrategy</strong> (1 nodo, varias GPUs), <strong>MultiWorkerMirroredStrategy</strong> (varios nodos), <strong>TPUStrategy</strong>. Conocer equivalentes PyTorch (<strong>DDP</strong>, <strong>FSDP</strong>) que son estándar para LLMs grandes.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar, el estudiante podrá:</p>
+<ul>
+<li>Aplicar <code>MirroredStrategy</code> en un único nodo con N GPUs.</li>
+<li>Entender <strong>data parallelism</strong>: cada GPU procesa su mini-batch, gradients se promedian (all-reduce).</li>
+<li>Diferenciar de <strong>model parallelism</strong> (modelo dividido entre GPUs) y <strong>pipeline parallelism</strong>.</li>
+<li>Conocer <strong>FSDP</strong> (Fully Sharded Data Parallel) para modelos demasiado grandes para 1 GPU (LLMs).</li>
+<li>Saber que <strong>PyTorch Lightning</strong> abstrae todo esto cambiando un kwarg.</li>
+</ul>
+<h2 id="temas">🗺️ Temas</h2>
+<ul>
+<li>Data parallelism: misma red replicada, distinto batch por GPU.</li>
+<li>Model parallelism: red dividida (tensor parallel, pipeline parallel).</li>
+<li>FSDP / DeepSpeed ZeRO: shard de parámetros, gradientes, optimizer states.</li>
+<li>TF: <code>MirroredStrategy</code>, <code>MultiWorkerMirroredStrategy</code>, <code>TPUStrategy</code>.</li>
+<li>PyTorch: <code>DistributedDataParallel</code>, <code>FullyShardedDataParallel</code>, <code>DeepSpeed</code>.</li>
+<li>Lightning / Accelerate: abstracciones de alto nivel.</li>
+</ul>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<ul>
+<li><strong>Data Parallelism</strong>: cada device procesa un slice del batch.</li>
+<li><strong>All-reduce</strong>: operación colectiva que promedia gradients entre devices.</li>
+<li><strong>MirroredStrategy</strong>: data parallelism single-node.</li>
+<li><strong>MultiWorkerMirroredStrategy</strong>: data parallelism multi-node.</li>
+<li><strong>FSDP</strong>: shards de parámetros entre devices — para modelos demasiado grandes.</li>
+<li><strong>Gradient accumulation</strong>: simular batch grande acumulando gradients en GPUs chicas.</li>
+</ul>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<ul>
+<li>Acceso a ≥ 2 GPUs (Colab Pro+, cloud).</li>
+<li>Librerías: <code>tensorflow</code>, opcional <code>torch.distributed</code>.</li>
+</ul>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>MirroredStrategy</strong>: <code>strategy = tf.distribute.MirroredStrategy()</code>. <code>with strategy.scope(): model = build_model(); model.compile(...)</code>. Entrenar.</li>
+<li><strong>Batch effective</strong>: si tenés 4 GPUs y <code>batch_size=32</code>, el batch global es 128. Adjust LR (LR scales linearly with batch).</li>
+<li><strong>Gradient accumulation</strong>: simular batch=512 acumulando 4 mini-batches de 128. Manual con custom training loop.</li>
+<li><strong>PyTorch DDP</strong>: comando <code>torchrun --nproc_per_node=4 train.py</code> con <code>DistributedDataParallel(model)</code>.</li>
+<li><strong>PyTorch Lightning</strong>: <code>trainer = L.Trainer(strategy='ddp', devices=4)</code>. Listo.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Si tenés ≥ 2 GPUs:</p>
+<ol>
+<li>Mismo modelo en single-GPU vs <code>MirroredStrategy(2 GPUs)</code>.</li>
+<li>Reportar wall-time por epoch.</li>
+<li>Verificar que la accuracy final es similar.</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: speedup wall-clock ≈ 1.5-1.9× con 2 GPUs (no es 2× porque hay overhead de comm); accuracy similar.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>MirroredStrategy</code> no acelera</td>
+<td>Bottleneck en data loading. <strong>Fix</strong>: optimizar pipeline tf.data.</td>
+</tr>
+<tr>
+<td>LR no ajustado con batch global mayor</td>
+<td>Convergencia subóptima. <strong>Fix</strong>: <code>lr_new = lr_orig * num_replicas</code> (linear scaling rule).</td>
+</tr>
+<tr>
+<td>OOM en multi-GPU con LLM grande</td>
+<td>Data parallelism replica el modelo. Si el modelo solo no entra → necesitás FSDP.</td>
+</tr>
+<tr>
+<td>All-reduce muy lento</td>
+<td>Network bandwidth limitado en multi-nodo. <strong>Fix</strong>: <code>NCCL</code> properly configured, InfiniBand.</td>
+</tr>
+<tr>
+<td>Mismatch en BatchNorm stats entre replicas</td>
+<td>Sync BN: <code>tf.keras.layers.experimental.SyncBatchNormalization</code>.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿Multi-GPU cuándo necesario?</strong></p>
+<p>Dataset masivo (días en 1 GPU) o modelo grande (no entra en 1 GPU). Para experimentos chicos, 1 GPU.</p>
+<p><strong>❓ ¿FSDP o DeepSpeed?</strong></p>
+<p>Ambas implementan shard de pesos. FSDP es PyTorch nativo. DeepSpeed (Microsoft) tiene más features (ZeRO-Offload, CPU offloading).</p>
+<p><strong>❓ ¿Train LLM 70B en 1 nodo?</strong></p>
+<p>8× H100 (640 GB VRAM total) con FSDP es factible para Llama 70B. Cluster necesario para más grande.</p>
+<p><strong>❓ ¿Cloud para multi-GPU?</strong></p>
+<p>AWS p4d (8× A100), GCP A3 (8× H100). Caro ($30-60/hora).</p>
+<p><strong>❓ ¿<code>MultiWorkerMirroredStrategy</code> real-world?</strong></p>
+<p>Sí, con <code>TF_CONFIG</code> env var y orquestación (K8s, Slurm, Vertex AI). Vertex AI hace esto transparente.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Géron, <strong>cap. 19</strong> — <em>Training Models Across Multiple Devices</em>.</li>
+<li><a href="https://www.tensorflow.org/guide/distributed_training">tf.distribute guide</a>.</li>
+<li><a href="https://pytorch.org/docs/stable/notes/ddp.html">PyTorch DDP</a>, <a href="https://pytorch.org/docs/stable/fsdp.html">FSDP</a>.</li>
+<li><a href="https://www.deepspeed.ai/">DeepSpeed</a>.</li>
+<li>Rajbhandari et al. (2020), <em>ZeRO: Memory Optimizations Toward Training Trillion Parameter Models</em>.</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../173-jax-flax-fundamentos/index.html">Clase 173 — JAX y Flax: el stack moderno de Google para DL</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-2-deep-learning/172-entrenamiento-multi-dispositivo-tf-distribute/"><code>classes/parte-2-deep-learning/172-entrenamiento-multi-dispositivo-tf-distribute/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

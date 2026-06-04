@@ -2,41 +2,38 @@
 
 > [⬅️ Volver al programa](../../README.md) · [📚 Índice completo](../README.md) · [⏮️ Parte anterior](../parte-1-machine-learning-clasico/README.md) · [⏭️ Parte siguiente](../parte-3-estadistica-inferencial/README.md)
 
-**71 clases** · ~16–18 semanas · ✅ Contenido completo (expansión 2026: PyTorch dedicado, SAM/YOLOv11, CLIP/Whisper, LoRA/DPO/vLLM, MCP, agentes, eval, SDXL, ONNX, JAX)
+**75 clases** · ~17–19 semanas · ✅ Contenido completo (expansión 2026: PyTorch dedicado, Lion/Sophia, Stochastic Depth, SAM/YOLOv11, CLIP/Whisper, LoRA/DPO/vLLM, MCP, agentes, eval, SDXL, ONNX, JAX, Flash Attention)
 
 **Fuente principal:** **Géron** ([*Hands-On ML*, 3ª ed.](https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/)) — capítulos 10–19. Complementado con **Howard & Gugger** (*Deep Learning for Coders with fastai & PyTorch*), **Prince** (*Understanding Deep Learning*, 2024), papers seminales de Transformers/LLMs y documentación oficial de PyTorch, Hugging Face, JAX y ONNX.
 
-Cada clase tiene su `README.md` con objetivo, resultados de aprendizaje verificables, dataset recomendado, 5 ejercicios y homework con criterio de aceptación. Todas las 71 clases incluyen las tres secciones del patrón pedagógico v2.2.0:
+Cada clase tiene su `README.md` con objetivo, resultados de aprendizaje verificables, dataset recomendado, 5 ejercicios y homework con criterio de aceptación. Todas las 75 clases incluyen las tres secciones del patrón pedagógico v2.2.0:
 
 - **📖 Definiciones y características** — términos técnicos con explicación y características clave.
 - **⚠️ Errores comunes** — tabla de síntomas/mensajes con causa y solución concretas (CUDA OOM, NaN loss, gradient explosion, etc.).
 - **❓ Preguntas frecuentes** — FAQs auténticas que aparecen al estudiar cada tema.
 
-**📌 Cobertura moderna (audit 2026) — 4 complementos integrados + 15 clases dedicadas:**
+**📌 Cobertura moderna (audit 2026) — 19 clases dedicadas:**
 
-Complementos integrados dentro de la clase original:
+Todos los temas modernos ahora son clases independientes con patrón completo + ejercicios + homework:
 
-- Clase 095 → **Optuna** y **Ray Tune** como alternativas multi-framework a Keras Tuner.
-- Clase 102 → optimizadores 2023+: **Lion** (Chen et al.), **Sophia** y la corrección moderna de **AdamW**.
-- Clase 104 → regularización moderna: **Stochastic Depth**, **DropPath**, **Layer Drop** (más allá del dropout clásico).
-- Clase 126 → **Flash Attention v2/v3**, **RoPE** (Rotary Position Embeddings), **Grouped-Query Attention (GQA)** — lo que hace a los LLMs actuales rápidos.
-
-Clases dedicadas (expansión 2026 con patrón completo + ejercicios + homework propios):
-
-- Clase **108a** / **108b** → PyTorch fundamentos + PyTorch Lightning — el stack dominante en industria.
-- Clase **117b** → Segment Anything (SAM / SAM 2) — foundation model de segmentación.
-- Clase **117c** → YOLOv11 práctico — detección, segmentación, pose, tracking.
-- Clase **127a** → CLIP / SigLIP — embeddings multimodales.
-- Clase **127b** → Whisper — ASR / transcripción / traducción de audio.
-- Clase **128a** → LoRA / QLoRA — fine-tuning eficiente de LLMs.
-- Clase **128b** → DPO / RLHF — alineamiento de LLMs.
-- Clase **128c** → vLLM / TGI — serving de LLMs en producción.
-- Clase **129a** → MCP (Model Context Protocol) — herramientas y datos para LLMs.
-- Clase **129b** → Agentes — tool use, ReAct, multi-agent.
-- Clase **129c** → LLM Evaluation — MMLU, MT-Bench, LLM-as-judge.
-- Clase **133a** → Stable Diffusion XL + ControlNet — generación visual moderna.
-- Clase **139a** → ONNX / ONNX Runtime — portabilidad e inference optimizada.
-- Clase **144a** → JAX / Flax — stack moderno de Google.
+- Clase **106** → Ray Tune: HPO distribuido y a escala (ASHA, PBT).
+- Clase **114** → Optimizadores modernos: Lion, Sophia, Schedule-Free.
+- Clase **117** → Regularización moderna: Stochastic Depth, DropPath, LayerDrop.
+- Clase **122** / **123** → PyTorch fundamentos + PyTorch Lightning.
+- Clase **133** → Segment Anything (SAM / SAM 2).
+- Clase **134** → YOLOv11 práctico (detección, segmentación, pose, tracking).
+- Clase **144** → Flash Attention v2/v3, RoPE, GQA (motor de LLMs modernos).
+- Clase **146** → CLIP / SigLIP: multimodal embeddings.
+- Clase **147** → Whisper: ASR, transcripción, traducción de audio.
+- Clase **149** → LoRA / QLoRA: fine-tuning eficiente de LLMs.
+- Clase **150** → DPO y RLHF: alineamiento de LLMs.
+- Clase **151** → vLLM y TGI: serving de LLMs en producción.
+- Clase **153** → MCP (Model Context Protocol).
+- Clase **154** → Agentes: tool use, ReAct, multi-agent.
+- Clase **155** → LLM Evaluation: MMLU, MT-Bench, LLM-as-judge.
+- Clase **160** → Stable Diffusion XL + ControlNet en profundidad.
+- Clase **167** → ONNX y ONNX Runtime: portabilidad e inference optimizada.
+- Clase **173** → JAX y Flax: stack moderno de Google.
 
 ---
 
@@ -69,88 +66,92 @@ Al finalizar esta parte, el estudiante podrá:
 
 ## 🗺️ Estructura temática
 
-- **Fundamentos de redes neuronales** — clases 090–095 — perceptrón, MLP, backprop, Keras (Sequential, Functional, Subclassing), Keras Tuner.
-- **Entrenamiento de redes profundas** — clases 096–104 — gradientes, inicialización, activaciones, normalización, optimizadores, schedules, regularización.
-- **TensorFlow avanzado** — clases 105–112 — tensores, custom layers/loops, autograph, tf.data, TFRecord, preprocessing layers, TFDS.
-- **Visión por computadora** — clases 113–117 — convoluciones, pooling, arquitecturas CNN modernas, transfer learning, detección/segmentación.
-- **Secuencias y NLP** — clases 118–129 — RNN, LSTM, GRU, 1D CNN, char-RNN, sentimiento, encoder-decoder, atención, Transformers, BERT/GPT, Hugging Face, LLMs, RAG.
-- **Modelos generativos** — clases 130–133 — autoencoders, VAE, GAN, difusión.
-- **Reinforcement Learning** — clases 134–138 — Gymnasium, policy gradients, MDPs, Q-learning, DQN, PPO/SAC.
-- **Despliegue y escala** — clases 139–145 — TF Serving, Vertex AI, TF Lite, TensorFlow.js, GPU, tf.distribute, entrenamiento a escala.
+- **Fundamentos de redes neuronales** — clases 100–106 — perceptrón, MLP, backprop, Keras (Sequential, Functional, Subclassing), Keras Tuner.
+- **Entrenamiento de redes profundas** — clases 107–117 — gradientes, inicialización, activaciones, normalización, optimizadores, schedules, regularización.
+- **TensorFlow avanzado** — clases 118–127 — tensores, custom layers/loops, autograph, tf.data, TFRecord, preprocessing layers, TFDS.
+- **Visión por computadora** — clases 128–134 — convoluciones, pooling, arquitecturas CNN modernas, transfer learning, detección/segmentación.
+- **Secuencias y NLP** — clases 135–155 — RNN, LSTM, GRU, 1D CNN, char-RNN, sentimiento, encoder-decoder, atención, Transformers, BERT/GPT, Hugging Face, LLMs, RAG.
+- **Modelos generativos** — clases 156–160 — autoencoders, VAE, GAN, difusión.
+- **Reinforcement Learning** — clases 161–165 — Gymnasium, policy gradients, MDPs, Q-learning, DQN, PPO/SAC.
+- **Despliegue y escala** — clases 166–174 — TF Serving, Vertex AI, TF Lite, TensorFlow.js, GPU, tf.distribute, entrenamiento a escala.
 
-## 📚 Índice de clases (56)
+## 📚 Índice de clases (75)
 
-- [090 — Perceptrón, MLP y backpropagation](090-perceptron-mlp-y-backpropagation/README.md)
-- [091 — Regresión y clasificación con MLP](091-regresion-y-clasificacion-con-mlp/README.md)
-- [092 — Keras Sequential API](092-keras-sequential-api/README.md)
-- [093 — Keras Functional API y Subclassing](093-keras-functional-api-y-subclassing/README.md)
-- [094 — Callbacks, TensorBoard, guardar/restaurar modelos](094-callbacks-tensorboard-guardar-restaurar-modelos/README.md)
-- [095 — Keras Tuner](095-keras-tuner/README.md)
-- [096 — Vanishing/exploding gradients](096-vanishing-exploding-gradients/README.md)
-- [097 — Inicialización (Glorot, He)](097-inicializacion-glorot-he/README.md)
-- [098 — Activaciones: ReLU, ELU, GELU, Swish, Mish](098-activaciones-relu-elu-gelu-swish-mish/README.md)
-- [099 — Batch Normalization, Layer Normalization](099-batch-normalization-layer-normalization/README.md)
-- [100 — Gradient clipping](100-gradient-clipping/README.md)
-- [101 — Transfer learning, unsupervised pretraining](101-transfer-learning-unsupervised-pretraining/README.md)
-- [102 — Optimizadores: Momentum, Nesterov, AdaGrad, RMSProp, Adam, AdamW](102-optimizadores-momentum-nesterov-adagrad-rmsprop-adam-adamw/README.md)
-- [103 — Learning rate scheduling](103-learning-rate-scheduling/README.md)
-- [104 — Regularización: L1/L2, dropout, max-norm, MC dropout](104-regularizacion-l1-l2-dropout-max-norm-mc-dropout/README.md)
-- [105 — TensorFlow: tensores, variables, operaciones](105-tensorflow-tensores-variables-operaciones/README.md)
-- [106 — Losses, métricas, capas, modelos custom](106-losses-metricas-capas-modelos-custom/README.md)
-- [107 — Funciones y grafos (autograph)](107-funciones-y-grafos-autograph/README.md)
-- [108 — Custom training loops](108-custom-training-loops/README.md)
-- [108a — PyTorch fundamentos: tensores, autograd, nn.Module](108a-pytorch-fundamentos-tensores-autograd/README.md) 🆕
-- [108b — PyTorch Lightning: Trainer + distributed](108b-pytorch-lightning-trainer-distribuido/README.md) 🆕
-- [109 — tf.data API](109-tf-data-api/README.md)
-- [110 — TFRecord](110-tfrecord/README.md)
-- [111 — Keras preprocessing layers](111-keras-preprocessing-layers/README.md)
-- [112 — TensorFlow Datasets (TFDS)](112-tensorflow-datasets-tfds/README.md)
-- [113 — Capas convolucionales, filtros, feature maps](113-capas-convolucionales-filtros-feature-maps/README.md)
-- [114 — Pooling](114-pooling/README.md)
-- [115 — Arquitecturas CNN: LeNet, AlexNet, VGG, GoogLeNet, ResNet, Xception, SENet, EfficientNet](115-arquitecturas-cnn-lenet-alexnet-vgg-googlenet-resnet-xception-senet-ef/README.md)
-- [116 — Transfer learning con CNNs preentrenadas](116-transfer-learning-con-cnns-preentrenadas/README.md)
-- [117 — Localización, detección (YOLO, Faster R-CNN), segmentación semántica](117-localizacion-deteccion-yolo-faster-r-cnn-segmentacion-semantica/README.md)
-- [117b — Segment Anything (SAM / SAM 2)](117b-segment-anything-sam-sam2/README.md) 🆕
-- [117c — YOLOv11 práctico: detección, segmentación, pose, tracking](117c-yolov11-deteccion-segmentacion-practica/README.md) 🆕
-- [118 — RNNs: neuronas recurrentes, BPTT](118-rnns-neuronas-recurrentes-bptt/README.md)
-- [119 — Forecasting de series con RNN](119-forecasting-de-series-con-rnn/README.md)
-- [120 — LSTM, GRU](120-lstm-gru/README.md)
-- [121 — 1D CNNs y WaveNet](121-1d-cnns-y-wavenet/README.md)
-- [122 — Generación de texto char-RNN](122-generacion-de-texto-char-rnn/README.md)
-- [123 — Análisis de sentimiento](123-analisis-de-sentimiento/README.md)
-- [124 — Encoder-Decoder para traducción](124-encoder-decoder-para-traduccion/README.md)
-- [125 — Mecanismos de atención](125-mecanismos-de-atencion/README.md)
-- [126 — Transformers: arquitectura, BERT, GPT](126-transformers-arquitectura-bert-gpt/README.md)
-- [127 — Hugging Face Transformers (uso práctico)](127-hugging-face-transformers-uso-practico/README.md)
-- [127a — CLIP, SigLIP: multimodal embeddings](127a-clip-siglip-multimodal-embeddings/README.md) 🆕
-- [127b — Whisper: ASR, transcripción, traducción de audio](127b-whisper-asr-audio-transcripcion-traduccion/README.md) 🆕
-- [128 — LLMs aplicados: fine-tuning, prompting](128-llms-aplicados-fine-tuning-prompting/README.md)
-- [128a — LoRA / QLoRA: fine-tuning eficiente de LLMs](128a-lora-qlora-fine-tuning-eficiente/README.md) 🆕
-- [128b — DPO y RLHF: alineamiento de LLMs](128b-dpo-rlhf-alineamiento-de-llms/README.md) 🆕
-- [128c — vLLM y TGI: serving de LLMs en producción](128c-vllm-tgi-serving-llm-produccion/README.md) 🆕
-- [129 — RAG básico y embeddings](129-rag-basico-y-embeddings/README.md)
-- [129a — MCP (Model Context Protocol)](129a-mcp-model-context-protocol/README.md) 🆕
-- [129b — Agentes: tool use, ReAct, multi-agent](129b-agentes-tool-use-react-multi-agent/README.md) 🆕
-- [129c — LLM Evaluation: MMLU, MT-Bench, LLM-as-judge](129c-llm-evaluation-mmlu-mtbench-llm-as-judge/README.md) 🆕
-- [130 — Autoencoders: undercomplete, stacked, denoising, sparse](130-autoencoders-undercomplete-stacked-denoising-sparse/README.md)
-- [131 — Variational Autoencoders (VAE)](131-variational-autoencoders-vae/README.md)
-- [132 — GANs: DCGAN, Progressive GAN, StyleGAN](132-gans-dcgan-progressive-gan-stylegan/README.md)
-- [133 — Modelos de difusión (DDPM, score-based)](133-modelos-de-difusion-ddpm-score-based/README.md)
-- [133a — Stable Diffusion XL + ControlNet en profundidad](133a-stable-diffusion-xl-controlnet/README.md) 🆕
-- [134 — RL: aprendizaje por recompensa, OpenAI Gymnasium](134-rl-aprendizaje-por-recompensa-openai-gymnasium/README.md)
-- [135 — Policy gradients](135-policy-gradients/README.md)
-- [136 — Markov Decision Processes](136-markov-decision-processes/README.md)
-- [137 — TD Learning, Q-Learning, Deep Q-Networks](137-td-learning-q-learning-deep-q-networks/README.md)
-- [138 — RL moderno: A3C, PPO, SAC (vista general)](138-rl-moderno-a3c-ppo-sac-vista-general/README.md)
-- [139 — TF Serving + gRPC](139-tf-serving-grpc/README.md)
-- [139a — ONNX y ONNX Runtime: portabilidad e inference optimizada](139a-onnx-onnx-runtime-portabilidad/README.md) 🆕
-- [140 — Despliegue en Vertex AI](140-despliegue-en-vertex-ai/README.md)
-- [141 — TF Lite (mobile/embedded)](141-tf-lite-mobile-embedded/README.md)
-- [142 — TensorFlow.js (navegador)](142-tensorflow-js-navegador/README.md)
-- [143 — Aceleración con GPU](143-aceleracion-con-gpu/README.md)
-- [144 — Entrenamiento multi-dispositivo, tf.distribute](144-entrenamiento-multi-dispositivo-tf-distribute/README.md)
-- [144a — JAX y Flax: el stack moderno de Google para DL](144a-jax-flax-fundamentos/README.md) 🆕
-- [145 — Entrenamiento a escala con Vertex AI](145-entrenamiento-a-escala-con-vertex-ai/README.md)
+- [100 — Perceptrón, MLP y backpropagation](100-perceptron-mlp-y-backpropagation/README.md)
+- [101 — Regresión y clasificación con MLP](101-regresion-y-clasificacion-con-mlp/README.md)
+- [102 — Keras Sequential API](102-keras-sequential-api/README.md)
+- [103 — Keras Functional API y Subclassing](103-keras-functional-api-y-subclassing/README.md)
+- [104 — Callbacks, TensorBoard, guardar/restaurar modelos](104-callbacks-tensorboard-guardar-restaurar-modelos/README.md)
+- [105 — Keras Tuner (+ Optuna, Ray Tune)](105-keras-tuner/README.md)
+- [106 — Ray Tune: HPO distribuido y a escala](106-ray-tune-hpo-distribuido/README.md)
+- [107 — Vanishing/exploding gradients](107-vanishing-exploding-gradients/README.md)
+- [108 — Inicialización (Glorot, He)](108-inicializacion-glorot-he/README.md)
+- [109 — Activaciones: ReLU, ELU, GELU, Swish, Mish](109-activaciones-relu-elu-gelu-swish-mish/README.md)
+- [110 — Batch Normalization, Layer Normalization](110-batch-normalization-layer-normalization/README.md)
+- [111 — Gradient clipping](111-gradient-clipping/README.md)
+- [112 — Transfer learning, unsupervised pretraining](112-transfer-learning-unsupervised-pretraining/README.md)
+- [113 — Optimizadores: Momentum, Nesterov, AdaGrad, RMSProp, Adam, AdamW (+ Lion, Sophia)](113-optimizadores-momentum-nesterov-adagrad-rmsprop-adam-adamw/README.md)
+- [114 — Optimizadores modernos: Lion, Sophia, Schedule-Free](114-optimizadores-modernos-lion-sophia/README.md)
+- [115 — Learning rate scheduling](115-learning-rate-scheduling/README.md)
+- [116 — Regularización: L1/L2, dropout, max-norm, MC dropout (+ Stochastic Depth, DropPath)](116-regularizacion-l1-l2-dropout-max-norm-mc-dropout/README.md)
+- [117 — Regularización moderna: Stochastic Depth, DropPath, LayerDrop](117-stochastic-depth-droppath-layerdrop/README.md)
+- [118 — TensorFlow: tensores, variables, operaciones](118-tensorflow-tensores-variables-operaciones/README.md)
+- [119 — Losses, métricas, capas, modelos custom](119-losses-metricas-capas-modelos-custom/README.md)
+- [120 — Funciones y grafos (autograph)](120-funciones-y-grafos-autograph/README.md)
+- [121 — Custom training loops (+ PyTorch & PyTorch Lightning)](121-custom-training-loops/README.md)
+- [122 — PyTorch fundamentos: tensores, autograd, nn.Module](122-pytorch-fundamentos-tensores-autograd/README.md)
+- [123 — PyTorch Lightning: Trainer, callbacks, distributed](123-pytorch-lightning-trainer-distribuido/README.md)
+- [124 — tf.data API](124-tf-data-api/README.md)
+- [125 — TFRecord](125-tfrecord/README.md)
+- [126 — Keras preprocessing layers](126-keras-preprocessing-layers/README.md)
+- [127 — TensorFlow Datasets (TFDS)](127-tensorflow-datasets-tfds/README.md)
+- [128 — Capas convolucionales, filtros, feature maps](128-capas-convolucionales-filtros-feature-maps/README.md)
+- [129 — Pooling](129-pooling/README.md)
+- [130 — Arquitecturas CNN: LeNet, AlexNet, VGG, GoogLeNet, ResNet, Xception, SENet, EfficientNet, ConvNeXt](130-arquitecturas-cnn-lenet-alexnet-vgg-googlenet-resnet-xception-senet-ef/README.md)
+- [131 — Transfer learning con CNNs preentrenadas](131-transfer-learning-con-cnns-preentrenadas/README.md)
+- [132 — Localización, detección, segmentación (+ DETR, Segment Anything, YOLOv11)](132-localizacion-deteccion-yolo-faster-r-cnn-segmentacion-semantica/README.md)
+- [133 — Segment Anything (SAM / SAM 2): foundation model para segmentación](133-segment-anything-sam-sam2/README.md)
+- [134 — YOLOv11 práctico: detección, segmentación, pose, tracking](134-yolov11-deteccion-segmentacion-practica/README.md)
+- [135 — RNNs: neuronas recurrentes, BPTT](135-rnns-neuronas-recurrentes-bptt/README.md)
+- [136 — Forecasting de series con RNN](136-forecasting-de-series-con-rnn/README.md)
+- [137 — LSTM, GRU](137-lstm-gru/README.md)
+- [138 — 1D CNNs y WaveNet](138-1d-cnns-y-wavenet/README.md)
+- [139 — Generación de texto char-RNN](139-generacion-de-texto-char-rnn/README.md)
+- [140 — Análisis de sentimiento](140-analisis-de-sentimiento/README.md)
+- [141 — Encoder-Decoder para traducción](141-encoder-decoder-para-traduccion/README.md)
+- [142 — Mecanismos de atención](142-mecanismos-de-atencion/README.md)
+- [143 — Transformers: arquitectura, BERT, GPT (+ Flash Attention, RoPE, GQA)](143-transformers-arquitectura-bert-gpt/README.md)
+- [144 — Flash Attention v2/v3, RoPE, GQA: el motor de los LLMs modernos](144-flash-attention-rope-gqa-llm-engines/README.md)
+- [145 — Hugging Face Transformers (uso práctico)](145-hugging-face-transformers-uso-practico/README.md)
+- [146 — CLIP, SigLIP: multimodal embeddings (visión + texto)](146-clip-siglip-multimodal-embeddings/README.md)
+- [147 — Whisper: ASR, transcripción, traducción de audio](147-whisper-asr-audio-transcripcion-traduccion/README.md)
+- [148 — LLMs aplicados: fine-tuning, prompting (+ LoRA / QLoRA, DPO, vLLM)](148-llms-aplicados-fine-tuning-prompting/README.md)
+- [149 — LoRA / QLoRA: fine-tuning eficiente de LLMs](149-lora-qlora-fine-tuning-eficiente/README.md)
+- [150 — DPO y RLHF: alineamiento de LLMs](150-dpo-rlhf-alineamiento-de-llms/README.md)
+- [151 — vLLM y TGI: serving de LLMs en producción](151-vllm-tgi-serving-llm-produccion/README.md)
+- [152 — RAG básico y embeddings (+ hybrid search, re-ranking, MCP)](152-rag-basico-y-embeddings/README.md)
+- [153 — MCP (Model Context Protocol): herramientas y datos para LLMs](153-mcp-model-context-protocol/README.md)
+- [154 — Agentes: tool use, ReAct, multi-agent](154-agentes-tool-use-react-multi-agent/README.md)
+- [155 — LLM Evaluation: MMLU, MT-Bench, LLM-as-judge, evals propios](155-llm-evaluation-mmlu-mtbench-llm-as-judge/README.md)
+- [156 — Autoencoders: undercomplete, stacked, denoising, sparse](156-autoencoders-undercomplete-stacked-denoising-sparse/README.md)
+- [157 — Variational Autoencoders (VAE)](157-variational-autoencoders-vae/README.md)
+- [158 — GANs: DCGAN, Progressive GAN, StyleGAN](158-gans-dcgan-progressive-gan-stylegan/README.md)
+- [159 — Modelos de difusión (+ Stable Diffusion XL, ControlNet, LCM)](159-modelos-de-difusion-ddpm-score-based/README.md)
+- [160 — Stable Diffusion XL + ControlNet en profundidad](160-stable-diffusion-xl-controlnet/README.md)
+- [161 — RL: aprendizaje por recompensa, Gymnasium (Farama)](161-rl-aprendizaje-por-recompensa-openai-gymnasium/README.md)
+- [162 — Policy gradients](162-policy-gradients/README.md)
+- [163 — Markov Decision Processes](163-markov-decision-processes/README.md)
+- [164 — TD Learning, Q-Learning, Deep Q-Networks](164-td-learning-q-learning-deep-q-networks/README.md)
+- [165 — RL moderno: A3C, PPO, SAC (vista general)](165-rl-moderno-a3c-ppo-sac-vista-general/README.md)
+- [166 — TF Serving + gRPC (+ ONNX, TensorRT, vLLM/TGI)](166-tf-serving-grpc/README.md)
+- [167 — ONNX y ONNX Runtime: portabilidad e inference optimizada](167-onnx-onnx-runtime-portabilidad/README.md)
+- [168 — Despliegue en Vertex AI](168-despliegue-en-vertex-ai/README.md)
+- [169 — TF Lite (mobile/embedded)](169-tf-lite-mobile-embedded/README.md)
+- [170 — TensorFlow.js (navegador)](170-tensorflow-js-navegador/README.md)
+- [171 — Aceleración con GPU](171-aceleracion-con-gpu/README.md)
+- [172 — Entrenamiento multi-dispositivo, tf.distribute](172-entrenamiento-multi-dispositivo-tf-distribute/README.md)
+- [173 — JAX y Flax: el stack moderno de Google para DL](173-jax-flax-fundamentos/README.md)
+- [174 — Entrenamiento a escala con Vertex AI](174-entrenamiento-a-escala-con-vertex-ai/README.md)
 
 ---
 

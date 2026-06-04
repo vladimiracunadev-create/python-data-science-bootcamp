@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 187 — Diseño experimental | Python Data Science Program</title>
+  <meta name="description" content="Clase 187 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 3 — Estadística inferencial</a><span class="sep">›</span><span>187</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-3-estadistica-inferencial/187-diseno-experimental/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-187-diseno-experimental">Clase 187 — Diseño experimental</h1>
+<blockquote>
+<p>Parte: <strong>3 — Estadística Inferencial y Causal</strong> · Fuente: Montgomery, <em>Design and Analysis of Experiments</em> (8ª ed.) + Kohavi, Tang &amp; Xu (cap. 4-5). ⏱️ Duración estimada: <strong>80 min</strong>.</p>
+</blockquote>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Pasar del A/B simple a diseños más ricos: <strong>bloques aleatorizados</strong>, <strong>factorial completo / fraccional</strong>, <strong>diseños cruzados (cross-over)</strong>, <strong>switchback</strong> para experimentos con interferencia, y <strong>cluster randomization</strong> cuando la unidad de análisis no coincide con la unidad de tratamiento. Saber qué problema resuelve cada diseño y leer las consideraciones de SUTVA (Stable Unit Treatment Value Assumption).</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar, el estudiante podrá:</p>
+<ul>
+<li>Distinguir <strong>diseño completamente aleatorizado</strong> (CRD), <strong>bloques aleatorizados</strong> (RBD), <strong>factorial</strong> y <strong>fraccional 2^(k-p)</strong>.</li>
+<li>Detectar cuándo SUTVA se viola (efectos de red, interferencia entre usuarios, fila/competencia) y aplicar el diseño correcto: cluster randomization, switchback, marketplace experiments.</li>
+<li>Diseñar un factorial 2² o 2³ con <code>pyDOE2</code> / <code>statsmodels</code> y descomponer efectos principales + interacciones.</li>
+<li>Saber cuándo usar fraccional (<code>2^(k-p)</code>) para reducir corridas y qué se sacrifica (confounding de interacciones de alto orden).</li>
+<li>Aplicar cross-over para experimentos pareados dentro de sujeto, con análisis vía test pareado o modelo mixto.</li>
+</ul>
+<h2 id="temas">🗺️ Temas</h2>
+<ul>
+<li><strong>CRD</strong>: el A/B clásico. Asume SUTVA (no interferencia entre unidades).</li>
+<li><strong>RBD (bloques)</strong>: bloquear por variable nuisance (ej.: día de semana, país) para reducir varianza dentro del bloque.</li>
+<li><strong>Factorial 2^k</strong>: testear k factores simultáneamente. Captura interacciones; mucho más eficiente que A/B por factor.</li>
+<li><strong>Fraccional 2^(k-p)</strong>: corridas reducidas. Se confunden ("aliasing") efectos de alto orden con principales.</li>
+<li><strong>Cross-over</strong>: cada sujeto recibe ambos tratamientos en períodos distintos. Análisis pareado, controla variabilidad inter-sujeto. Riesgo: carry-over effect.</li>
+<li><strong>Cluster randomization</strong>: aleatorizar grupos (clases, ciudades) en lugar de individuos cuando hay contaminación social.</li>
+<li><strong>Switchback</strong>: alternar tratamiento global en bloques de tiempo (típico de marketplaces de dos lados — Uber, DoorDash).</li>
+<li><strong>SUTVA</strong>: cada unidad solo recibe <strong>una</strong> versión del tratamiento; los efectos no se propagan entre unidades.</li>
+</ul>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<ul>
+<li><strong>Aleatorización</strong>: asignación al azar a tratamiento; protege contra confounders observados y no observados.</li>
+<li><strong>Bloqueo</strong>: agrupar unidades similares en bloques homogéneos; aleatorizar <strong>dentro</strong> del bloque. Reduce varianza si la variable de bloqueo importa.</li>
+<li><strong>Efecto principal</strong>: efecto promedio de un factor sobre la respuesta.</li>
+<li><strong>Interacción</strong>: efecto que un factor tiene sobre el efecto de otro (no aditividad).</li>
+<li><strong>Confounding (en fraccional)</strong>: la imposibilidad estructural de distinguir un efecto de otro debido al diseño. Se acepta confundir interacciones triples con efectos principales (asumimos triples ≈ 0).</li>
+<li><strong>SUTVA</strong>: no interference + no hidden variations of treatment. Es la asunción callada de todo A/B clásico.</li>
+<li><strong>Carry-over</strong>: efecto residual de un tratamiento previo en cross-over. Se mitiga con washout periods y diseños equilibrados (Latin square).</li>
+<li><strong>ICC (Intra-Cluster Correlation)</strong>: correlación dentro del cluster. Si <code>ρ &gt; 0</code>, el <code>n</code> efectivo es menor; corrigir con <code>n_effective = n / (1 + (m-1)·ρ)</code> donde m es tamaño del cluster.</li>
+</ul>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<ul>
+<li>Sintéticos para factorial 2² (e.g., A=color botón, B=texto botón → CTR).</li>
+<li>Iris / penguins para análisis ANOVA tipo factorial.</li>
+<li>Librerías: <code>pyDOE2</code> (<code>pip install pyDOE2</code>), <code>statsmodels.formula.api</code>, <code>pingouin</code>.</li>
+</ul>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>Factorial 2²</strong>: simulá CTR con <code>ctr = 0.10 + 0.02·A + 0.015·B + 0.005·A·B + ε</code>. Hacé el experimento con 1 000 obs por celda. Ajustá <code>ols('ctr ~ A * B', data).fit()</code> y reportá los 4 coeficientes (intercepto, A, B, A:B). Verificá contra el verdadero.</li>
+<li><strong>Bloqueo</strong>: simulá un experimento de uplift en tasa de retención por país con <code>paises = ['AR','BR','MX']</code> con baselines distintos (<code>p0 ∈ {0.5, 0.3, 0.4}</code>). Compará: A/B sin estratificar vs bloqueado por país. Mostrá cómo el SE de <code>δ</code> cae con bloqueo.</li>
+<li><strong>Fraccional 2^(4-1)</strong>: usá <code>pyDOE2.fracfact('a b c d')</code> y discutí qué interacciones quedan aliased. ¿Cuántas corridas vs full factorial?</li>
+<li><strong>Cluster randomization</strong>: simulá 50 escuelas con 30 alumnos c/u, ICC=0.10, efecto verdadero 0.3. Compará t-test ingenuo (n=1500) vs análisis correcto a nivel cluster (n=50). El primero infla α; el segundo es correcto.</li>
+<li><strong>Switchback</strong>: simulá precio dinámico en una ciudad con bloques de 1 h alternando A y B durante 7 días. Análisis: comparar bloques A vs B con tests pareados por hora-del-día.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Sobre un dataset simulado de factorial 2³ (3 factores binarios, ej.: color × texto × posición sobre conversion):</p>
+<ol>
+<li>Generar datos con efectos principales no nulos y una interacción A:B.</li>
+<li>Ajustar OLS con todos los términos hasta triple.</li>
+<li>Reportar la tabla ANOVA y identificar los términos significativos.</li>
+<li>Verificar gráficamente la interacción A:B con <code>sns.pointplot(x='A', y='conv', hue='B')</code>.</li>
+<li>Discutir en 3 líneas qué pasaría si hubieras hecho 3 A/B tests separados en vez del factorial.</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: el OLS recupera los efectos verdaderos; la ANOVA marca A, B y A:B como significativos; el análisis muestra que el factorial requiere menos corridas totales que 3 A/B independientes (típicamente la mitad) y además detecta la interacción.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Hago A/B en una red social y "el grupo control mejora también"</td>
+<td>SUTVA violada por contaminación (el control ve features compartidas con el tratamiento). <strong>Fix</strong>: cluster randomization o switchback.</td>
+</tr>
+<tr>
+<td>Análisis a nivel individual de experimento con cluster randomization</td>
+<td>α inflado por correlación intra-cluster. <strong>Fix</strong>: análisis a nivel cluster, modelo mixto (<code>statsmodels.MixedLM</code>), o GEE.</td>
+</tr>
+<tr>
+<td>Asumo interacción nula y la interpretación es engañosa</td>
+<td>Si A solo funciona cuando B está activo, los efectos principales son chicos pero la combinación es excelente. <strong>Fix</strong>: factorial con interacciones.</td>
+</tr>
+<tr>
+<td>Cross-over sin washout y carry-over inflado</td>
+<td>El efecto del tratamiento 1 contamina la medición del 2. <strong>Fix</strong>: período de washout o diseño Williams.</td>
+</tr>
+<tr>
+<td>Hago RBD pero no bloquéo lo que importa</td>
+<td>Si bloqueás por país pero el efecto importante es plataforma, no ganás nada. <strong>Fix</strong>: identificá ANTES la variable nuisance de mayor varianza.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿Cuándo factorial vs A/B múltiple?</strong></p>
+<p>Casi siempre <strong>factorial</strong>. A/B múltiple (1 factor a la vez) requiere más muestra y <strong>no detecta interacciones</strong>. Factorial 2² con n por celda tiene la misma precisión que dos A/B independientes con ~n total.</p>
+<p><strong>❓ ¿Cuántos factores antes de necesitar fraccional?</strong></p>
+<p>Con <code>2^k = 16</code> (k=4) ya tenés 16 celdas → si querés ~1 000 por celda son 16 000 obs. Manejable. A partir de <code>k=5</code> (32 celdas) considerar fraccional, sobre todo si esperás interacciones de alto orden insignificantes.</p>
+<p><strong>❓ ¿Cuándo cluster randomization?</strong></p>
+<p>Cuando hay contaminación natural: educación (alumnos en la misma aula), salud pública (familias), marketplaces (oferta + demanda compartidas). Costo: <code>n</code> efectivo cae con ICC; necesitás muchos clusters.</p>
+<p><strong>❓ ¿Switchback es válido si hay tendencia temporal?</strong></p>
+<p>Sí pero requiere modelar la tendencia (ej.: incluir hora del día como covariable). Si tu métrica tiene fuerte estacionalidad y bloques son largos, mejor diseño Latin square en el tiempo.</p>
+<p><strong>❓ ¿Diseño antes o análisis primero?</strong></p>
+<p><strong>Diseño primero</strong>, siempre. El análisis sin diseño correcto produce conclusiones sospechosas (Simpson, confounders, peeking). "You can't analyze your way out of a bad design" (Tukey).</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Montgomery, D.C. (2017), <em>Design and Analysis of Experiments</em> (8ª ed.) — referencia clásica completa.</li>
+<li>Kohavi, R., Tang, D. &amp; Xu, Y. (2020), <em>Trustworthy Online Controlled Experiments</em>, caps. 4-5 (advanced designs, interference).</li>
+<li>Imbens &amp; Rubin (2015), <em>Causal Inference for Statistics, Social, and Biomedical Sciences</em>.</li>
+<li><a href="https://github.com/clicumu/pyDOE2">pyDOE2</a> — generación de matrices de diseño.</li>
+<li>Athey, Eckles &amp; Imbens (2018), <em>Exact p-Values for Network Interference</em>, JASA.</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../188-inferencia-causal-dags-confounders-instrumentos/index.html">Clase 188 — Inferencia causal: DAGs, confounders, instrumentos</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-3-estadistica-inferencial/187-diseno-experimental/"><code>classes/parte-3-estadistica-inferencial/187-diseno-experimental/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

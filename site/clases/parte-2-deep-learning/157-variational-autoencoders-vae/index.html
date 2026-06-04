@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 157 — Variational Autoencoders (VAE) | Python Data Science Program</title>
+  <meta name="description" content="Clase 157 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 2 — Deep Learning</a><span class="sep">›</span><span>157</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-2-deep-learning/157-variational-autoencoders-vae/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-157-variational-autoencoders-vae">Clase 157 — Variational Autoencoders (VAE)</h1>
+<blockquote>
+<p>Parte: <strong>2 — Deep Learning</strong> · Fuente: Géron, <strong>cap. 17</strong> § <em>Variational Autoencoders</em> + Kingma &amp; Welling (2014). ⏱️ Duración estimada: <strong>80 min</strong>.</p>
+</blockquote>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Construir un <strong>VAE</strong> (Variational Autoencoder, Kingma &amp; Welling 2014) — variante probabilística del AE que aprende una distribución sobre el latent en lugar de un punto: <code>encoder</code> outputs <code>μ, σ</code> de una gaussiana; <strong>sampling</strong> + <strong>reparametrization trick</strong> para mantener gradientes. Resultado: latent space <strong>continuo y estructurado</strong> → permite generación, interpolación entre samples.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar, el estudiante podrá:</p>
+<ul>
+<li>Implementar encoder que devuelve <code>(μ, log σ²)</code>; sample con <code>z = μ + σ · ε</code> (reparametrization).</li>
+<li>Loss = <code>reconstruction_loss + β · KL(N(μ,σ²) || N(0,I))</code>.</li>
+<li>Generar samples nuevos: muestrear <code>z ~ N(0,I)</code>, pasar por el decoder.</li>
+<li>Interpolar en el latent space y verificar transiciones suaves.</li>
+<li>Reconocer que VAE produce outputs <strong>borrosos</strong> (consecuencia del MSE/BCE) — motivó GANs (132).</li>
+</ul>
+<h2 id="temas">🗺️ Temas</h2>
+<ul>
+<li>ELBO (Evidence Lower BOund): <code>log p(x) ≥ E[log p(x|z)] - KL(q(z|x) || p(z))</code>.</li>
+<li>Reparametrization trick: para back-propagar a través del sample.</li>
+<li>β-VAE: subir β fuerza latent más disentangled.</li>
+<li>Posterior collapse: cuando el decoder ignora <code>z</code>.</li>
+</ul>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<ul>
+<li><strong><code>q(z|x)</code></strong>: encoder, devuelve <code>μ(x), σ(x)</code>.</li>
+<li><strong><code>p(z)</code></strong>: prior, típicamente <code>N(0, I)</code>.</li>
+<li><strong><code>p(x|z)</code></strong>: decoder.</li>
+<li><strong>ELBO</strong>: lower bound de log-likelihood que se maximiza.</li>
+<li><strong>KL divergence</strong>: <code>KL(N(μ,σ²) || N(0,I)) = 0.5 · Σ (1 + log σ² - μ² - σ²)</code> con signo.</li>
+<li><strong>β-VAE</strong>: scale del término KL, controla trade-off reconstrucción vs estructura latente.</li>
+</ul>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<ul>
+<li>Fashion-MNIST / MNIST / Celeb-A (cara).</li>
+<li>Librerías: <code>tensorflow</code>, <code>keras</code>.</li>
+</ul>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>VAE básico</strong>: encoder → <code>(z_mean, z_log_var)</code> → sample → decoder. Loss combinada. Entrenar en MNIST.</li>
+<li><strong>Sampling</strong>: muestrear <code>z ~ N(0,I)</code> de tamaño <code>(100, latent_dim)</code>. Pasar por decoder. Visualizar las 100 imágenes generadas.</li>
+<li><strong>Interpolación</strong>: dos imágenes A y B → <code>z_A</code>, <code>z_B</code>. Generar 10 imágenes en interpolación lineal entre <code>z_A</code> y <code>z_B</code>. Visualizar.</li>
+<li><strong>β-VAE</strong>: probar β=1, β=5, β=10. Comparar disentanglement vs blurriness.</li>
+<li><strong>Posterior collapse</strong>: con LR alto, el encoder colapsa a <code>μ=0, σ=1</code>. Diagnosticar mirando <code>z_mean.std()</code> cerca de 0.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>VAE sobre Fashion-MNIST:</p>
+<ol>
+<li>Encoder convolucional, latent_dim=10.</li>
+<li>Decoder simétrico.</li>
+<li>Loss: BCE + KL.</li>
+<li>Entrenar 30 épocas; generar 64 muestras nuevas y visualizar grid.</li>
+<li>Interpolación entre 2 prendas distintas.</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: muestras generadas son reconocibles como prendas (aunque borrosas); interpolación es suave.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Posterior collapse: encoder predice <code>μ=0, σ=1</code> siempre</td>
+<td>KL domina. <strong>Fix</strong>: KL annealing (subir β gradualmente), o cíclico.</td>
+</tr>
+<tr>
+<td>Outputs borrosos</td>
+<td>Consecuencia inherente de VAE + MSE/BCE. <strong>Fix</strong>: usar GAN (132) o difusión (133).</td>
+</tr>
+<tr>
+<td>KL = 0 → AE puro</td>
+<td>β=0 → no es VAE. <strong>Fix</strong>: β &gt; 0.</td>
+</tr>
+<tr>
+<td>Sampleo con <code>z ~ N(μ, σ)</code> en lugar de <code>N(0,I)</code></td>
+<td>Eso es reconstrucción + ruido, no generación. <strong>Fix</strong>: sample del prior.</td>
+</tr>
+<tr>
+<td>Generación muestra solo 1 modo</td>
+<td>Posterior collapse parcial. <strong>Fix</strong>: arquitectura más expresiva, más data.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿VAE en 2026?</strong></p>
+<p>Como generador end-to-end: superado por difusión. Como <strong>encoder</strong> dentro de Stable Diffusion (latent space comprimido), sí.</p>
+<p><strong>❓ ¿Por qué reparametrization trick?</strong></p>
+<p>Sin él, no se puede back-propagar a través del <code>sample</code> (operación estocástica). Con <code>z = μ + σ·ε</code>, ε es noise externo independiente, gradientes fluyen por <code>μ</code> y <code>σ</code>.</p>
+<p><strong>❓ ¿Qué es disentanglement?</strong></p>
+<p>Cada dimensión latente captura un factor independiente (rotación, color, tamaño). β-VAE y FactorVAE lo persiguen explícitamente.</p>
+<p><strong>❓ ¿VAE para texto?</strong></p>
+<p>Sí, VAE de texto histórico. Hoy LLMs autoregresivos lo cubren mejor.</p>
+<p><strong>❓ ¿VQ-VAE?</strong></p>
+<p>VAE con codebook discreto. Base de muchos modelos modernos: DALL-E 1, Jukebox, EnCodec (audio). Importante.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Géron, <strong>cap. 17</strong> — <em>Variational Autoencoders</em>.</li>
+<li>Kingma &amp; Welling (2014), <em>Auto-Encoding Variational Bayes</em>, ICLR.</li>
+<li>Higgins et al. (2017), <em>β-VAE</em>, ICLR.</li>
+<li>van den Oord et al. (2017), <em>Neural Discrete Representation Learning (VQ-VAE)</em>, NeurIPS.</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../158-gans-dcgan-progressive-gan-stylegan/index.html">Clase 158 — GANs: DCGAN, Progressive GAN, StyleGAN</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-2-deep-learning/157-variational-autoencoders-vae/"><code>classes/parte-2-deep-learning/157-variational-autoencoders-vae/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

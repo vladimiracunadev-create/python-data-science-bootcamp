@@ -40,14 +40,14 @@ Al finalizar esta parte, el estudiante podrá:
 
 ## 📚 Índice de clases (8)
 
-- [173 — Pipelines ETL/ELT con Airflow](173-pipelines-etl-elt-con-airflow/README.md)
-- [174 — Pipelines con Prefect o Dagster](174-pipelines-con-prefect-o-dagster/README.md)
-- [175 — PySpark para datasets grandes](175-pyspark-para-datasets-grandes/README.md)
-- [176 — Polars como alternativa moderna](176-polars-como-alternativa-moderna/README.md)
-- [177 — Data warehouses: BigQuery, Snowflake, DuckDB](177-data-warehouses-bigquery-snowflake-duckdb/README.md)
-- [178 — Streaming intro: Kafka, Kinesis](178-streaming-intro-kafka-kinesis/README.md)
-- [179 — Formatos columnares: Parquet, Avro](179-formatos-columnares-parquet-avro/README.md)
-- [180 — Modelado dimensional (star/snowflake schemas)](180-modelado-dimensional-star-snowflake-schemas/README.md)
+- [208 — Pipelines ETL/ELT con Airflow](208-pipelines-etl-elt-con-airflow/README.md)
+- [209 — Pipelines con Prefect o Dagster](209-pipelines-con-prefect-o-dagster/README.md)
+- [210 — PySpark para datasets grandes](210-pyspark-para-datasets-grandes/README.md)
+- [211 — Polars como alternativa moderna](211-polars-como-alternativa-moderna/README.md)
+- [212 — Data warehouses: BigQuery, Snowflake, DuckDB](212-data-warehouses-bigquery-snowflake-duckdb/README.md)
+- [213 — Streaming intro: Kafka, Kinesis](213-streaming-intro-kafka-kinesis/README.md)
+- [214 — Formatos columnares: Parquet, Avro](214-formatos-columnares-parquet-avro/README.md)
+- [215 — Modelado dimensional (star/snowflake schemas)](215-modelado-dimensional-star-snowflake-schemas/README.md)
 
 ---
 

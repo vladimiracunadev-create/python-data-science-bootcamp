@@ -2,7 +2,7 @@
 
 # 🧭 Python Data Science Program
 
-### **197 clases · 9 partes · pauta avanzada y completa**
+### **232 clases · 9 partes · pauta avanzada y completa (expansión 2026)**
 
 **Curso completo de Python y Data Science — desde fundamentos hasta despliegue de modelos en producción**
 
@@ -12,11 +12,13 @@
 [![Security](https://github.com/vladimiracunadev-create/python-data-science-program/actions/workflows/security.yml/badge.svg?branch=main)](https://github.com/vladimiracunadev-create/python-data-science-program/actions/workflows/security.yml)
 [![Pages](https://github.com/vladimiracunadev-create/python-data-science-program/actions/workflows/deploy-pages.yml/badge.svg?branch=main)](https://github.com/vladimiracunadev-create/python-data-science-program/actions/workflows/deploy-pages.yml)
 
-[![Version](https://img.shields.io/badge/release-v2.3.0-2e8b57?style=for-the-badge)](CHANGELOG.md)
-[![Clases](https://img.shields.io/badge/clases-197%20%C2%B7%209%20partes-7c5cff?style=for-the-badge)](classes/README.md)
-[![Parte 0](https://img.shields.io/badge/Parte%200-46%2F46%20%E2%9C%85-3fb950?style=for-the-badge)](classes/parte-0-prerrequisitos/README.md)
-[![Parte 1](https://img.shields.io/badge/Parte%201-43%2F43%20%E2%9C%85-3fb950?style=for-the-badge)](classes/parte-1-machine-learning-clasico/README.md)
-[![Estado](https://img.shields.io/badge/Partes%202--8-en%20desarrollo-f59e0b?style=for-the-badge)](ROADMAP.md)
+[![Version](https://img.shields.io/badge/release-v3.0.0-2e8b57?style=for-the-badge)](CHANGELOG.md)
+[![Clases](https://img.shields.io/badge/clases-232%20%C2%B7%209%20partes-7c5cff?style=for-the-badge)](classes/README.md)
+[![Parte 0](https://img.shields.io/badge/Parte%200-49%2F49%20%E2%9C%85-3fb950?style=for-the-badge)](classes/parte-0-prerrequisitos/README.md)
+[![Parte 1](https://img.shields.io/badge/Parte%201-50%2F50%20%E2%9C%85-3fb950?style=for-the-badge)](classes/parte-1-machine-learning-clasico/README.md)
+[![Parte 2](https://img.shields.io/badge/Parte%202-75%2F75%20%E2%9C%85-3fb950?style=for-the-badge)](classes/parte-2-deep-learning/README.md)
+[![Parte 3](https://img.shields.io/badge/Parte%203-19%2F19%20%E2%9C%85-3fb950?style=for-the-badge)](classes/parte-3-estadistica-inferencial/README.md)
+[![Estado](https://img.shields.io/badge/Partes%204--8-en%20desarrollo-f59e0b?style=for-the-badge)](ROADMAP.md)
 [![License](https://img.shields.io/badge/license-MIT-3fb950?style=for-the-badge)](LICENSE)
 
 [![Python](https://img.shields.io/badge/Python-3.10%20%7C%203.11%20%7C%203.12-3776AB?style=flat-square&logo=python&logoColor=white)](https://www.python.org/)

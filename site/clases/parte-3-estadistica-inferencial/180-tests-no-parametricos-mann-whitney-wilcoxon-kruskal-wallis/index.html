@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 180 — Tests no paramétricos: Mann-Whitney, Wilcoxon, Kruskal-Wallis | Python Data Science Program</title>
+  <meta name="description" content="Clase 180 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 3 — Estadística inferencial</a><span class="sep">›</span><span>180</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-3-estadistica-inferencial/180-tests-no-parametricos-mann-whitney-wilcoxon-kruskal-wallis/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-180-tests-no-parametricos-mann-whitney-wilcoxon-kruskal-wallis">Clase 180 — Tests no paramétricos: Mann-Whitney, Wilcoxon, Kruskal-Wallis</h1>
+<blockquote>
+<p>Parte: <strong>3 — Estadística Inferencial y Causal</strong> · Fuente: Bruce &amp; Bruce, <strong>cap. 3</strong> <em>Resampling and Non-parametric Tests</em> + Conover, <em>Practical Nonparametric Statistics</em>. ⏱️ Duración estimada: <strong>70 min</strong>.</p>
+</blockquote>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Aplicar las tres alternativas no paramétricas más usadas: <strong>Mann-Whitney U</strong> (= dos muestras independientes, análogo a Welch's t), <strong>Wilcoxon signed-rank</strong> (= pareado, análogo a <code>ttest_rel</code>) y <strong>Kruskal-Wallis</strong> (= ≥ 3 grupos, análogo a ANOVA one-way). Saber cuándo elegirlos sobre los paramétricos: muestras chicas con datos visiblemente asimétricos, datos ordinales (Likert, ranks), o presencia de outliers extremos.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar, el estudiante podrá:</p>
+<ul>
+<li>Reconocer las 3 situaciones en que un test no paramétrico es preferible al paramétrico (n chico + asimetría, ordinal, outliers).</li>
+<li>Aplicar <code>scipy.stats.mannwhitneyu</code>, <code>wilcoxon</code>, <code>kruskal</code> con los argumentos correctos (<code>alternative</code>, <code>method='exact'</code> vs <code>'asymptotic'</code>).</li>
+<li>Interpretar que los no paramétricos testean <strong>distribuciones</strong> (estocásticamente iguales) o <strong>medianas</strong>, no medias.</li>
+<li>Reportar effect size no paramétrico: <strong>rank-biserial correlation</strong> (Mann-Whitney) o <strong>ε² / η²_H</strong> (Kruskal-Wallis).</li>
+<li>Hacer post-hoc no paramétrico tras Kruskal con <strong>Dunn's test</strong> (<code>scikit-posthocs</code>) y corrección por múltiples comparaciones.</li>
+</ul>
+<h2 id="temas">🗺️ Temas</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Test</th>
+<th>Reemplaza a</th>
+<th>Para qué</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Mann-Whitney U (Wilcoxon rank-sum)</td>
+<td><code>ttest_ind</code> Welch</td>
+<td>2 grupos independientes</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Wilcoxon signed-rank</td>
+<td><code>ttest_rel</code></td>
+<td>Pareado / 1 muestra contra mediana</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Kruskal-Wallis H</td>
+<td>ANOVA one-way</td>
+<td>≥ 3 grupos independientes</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Dunn's test (post-hoc)</td>
+<td>Tukey HSD</td>
+<td>Pares post Kruskal</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Cliff's δ / rank-biserial r</td>
+<td>Cohen's d</td>
+<td>Effect size no paramétrico</td>
+</tr>
+</tbody>
+</table>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<ul>
+<li><strong>Test no paramétrico</strong>: no asume forma específica de la distribución (no requiere normalidad). Trabaja sobre <strong>rangos</strong> de los datos.</li>
+<li><strong>Mann-Whitney U</strong>: para cada par <code>(x_i, y_j)</code> cuenta cuántas veces <code>x_i &gt; y_j</code>. Bajo <code>H₀</code> de distribuciones iguales, U tiene distribución conocida. <code>H₀</code>: <code>P(X &gt; Y) = P(X &lt; Y) = 0.5</code>.</li>
+<li><strong>Wilcoxon signed-rank</strong>: para datos pareados o una muestra contra mediana hipotética. Calcula la diferencia <code>d_i</code>, las rankea por <code>|d_i|</code>, suma rangos con signo. Asume <strong>simetría</strong> de la distribución de diferencias.</li>
+<li><strong>Kruskal-Wallis H</strong>: extiende Mann-Whitney a k grupos. <code>H = (12 / (n(n+1))) · Σ R_i²/n_i - 3(n+1)</code>. Bajo <code>H₀</code> (todas las distribuciones iguales), <code>H ~ χ²(k-1)</code> asintóticamente.</li>
+<li><strong>Rank-biserial correlation</strong> <code>r_rb = 1 - 2U / (n₁·n₂)</code>: effect size para Mann-Whitney. Va de -1 a 1.</li>
+<li><strong>Cliff's δ</strong>: equivalente, <code>δ = (#(x_i &gt; y_j) - #(x_i &lt; y_j)) / (n₁·n₂)</code>. Interpretación: &lt; 0.147 small, &lt; 0.33 medium, ≥ 0.474 large (Romano et al. 2006).</li>
+<li><strong>Dunn's test</strong>: comparaciones pareadas no paramétricas tras Kruskal-Wallis, basadas en la diferencia promedio de rangos. Se ajusta por múltiples tests (Bonferroni, BH).</li>
+</ul>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<ul>
+<li><code>seaborn.load_dataset('tips')</code>: <code>tip</code> por <code>sex</code> o <code>day</code>.</li>
+<li>Datos con outliers: precios de Airbnb (Kaggle) — cola larga a la derecha por mansiones.</li>
+<li>Likert ordinal: simular respuestas 1–5 con <code>rng.choice([1,2,3,4,5], p=...)</code>.</li>
+<li>Librerías: <code>scipy.stats</code>, <code>pingouin</code>, <code>scikit-posthocs</code> (<code>pip install scikit-posthocs</code>).</li>
+</ul>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>Mann-Whitney</strong>: comparar <code>tip</code> entre <code>sex</code> con <code>scipy.stats.mannwhitneyu(a, b, alternative='two-sided')</code>. Compará el p con el del t-test del ejercicio 2 de la Clase 147. Calculá rank-biserial r.</li>
+<li><strong>Wilcoxon signed-rank</strong>: con el dataset simulado de presión arterial antes/después de la Clase 147, aplicá <code>scipy.stats.wilcoxon(antes, despues)</code>. Verificá supuesto de simetría con un histograma de las diferencias.</li>
+<li><strong>Outliers</strong>: a un dataset normal <code>rng.normal(50, 5, 100)</code> agregale 3 outliers de valor 200. Compará Welch's t-test vs Mann-Whitney contra otro grupo normal — el Mann-Whitney es mucho más robusto.</li>
+<li><strong>Kruskal-Wallis</strong>: aplicalo a <code>body_mass_g</code> por <code>species</code> en <code>penguins</code>. Comparalo con el ANOVA de la Clase 149.</li>
+<li><strong>Post-hoc Dunn</strong>: con <code>scikit_posthocs.posthoc_dunn(penguins, val_col='body_mass_g', group_col='species', p_adjust='holm')</code> identificá qué pares difieren.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Tomar el dataset de Airbnb por neighborhood (o un sintético equivalente con cola larga):</p>
+<ol>
+<li>Verificar normalidad por grupo (Shapiro o KS). Mostrar que se rechaza.</li>
+<li>Comparar precio entre 4 vecindarios con Kruskal-Wallis.</li>
+<li>Post-hoc Dunn con corrección Holm.</li>
+<li>Reportar <strong>mediana ± IQR</strong> por grupo (no <code>mean ± SD</code>, que es engañoso con asimetría).</li>
+<li>Comparar conclusiones con las que daría un ANOVA clásico ingenuo.</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: el reporte debe usar mediana/IQR (no media/SD), identificar al menos un par significativo tras Dunn-Holm, y explicar en 2 líneas por qué ANOVA sería sospechoso aquí (cola larga inflando la varianza del grupo con outliers).</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Aplico Mann-Whitney y reporto "la <strong>media</strong> difiere significativamente"</td>
+<td>El test no es sobre medias; es sobre la probabilidad de superioridad. <strong>Fix</strong>: reportar <strong>medianas</strong> y rank-biserial r, o decir "la distribución del grupo A tiende a ser mayor".</td>
+</tr>
+<tr>
+<td>Aplico Wilcoxon a diferencias muy asimétricas</td>
+<td>El signed-rank asume simetría de las diferencias. Si están muy sesgadas, <strong>Fix</strong>: usar test de signos (<code>scipy.stats.binomtest</code> sobre la cantidad de positivos vs negativos).</td>
+</tr>
+<tr>
+<td>Uso Mann-Whitney con n=10⁶ y se vuelve lento</td>
+<td>Es O(n log n) por el ranking, pero scipy lo maneja bien. Si lento, considerar permutation_test (Clase 153).</td>
+</tr>
+<tr>
+<td>Reporto Kruskal-Wallis sin post-hoc y digo "los grupos difieren"</td>
+<td>Kruskal solo te dice que <strong>al menos uno</strong> difiere; no cuál. <strong>Fix</strong>: Dunn's test.</td>
+</tr>
+<tr>
+<td>Aplico no paramétrico "para ir a la segura" cuando tengo n=200 y datos razonablemente simétricos</td>
+<td>El t-test tiene <strong>más poder</strong> cuando sus supuestos se cumplen. Cambiar a no paramétrico cuesta ≈ 5-10 % de poder. <strong>Fix</strong>: si los supuestos están razonables, paramétrico es mejor.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿Mann-Whitney testea medianas?</strong></p>
+<p>Solo si las distribuciones tienen la misma forma (mismo <em>shape</em>, distinto <em>location</em>). En general testea <code>P(X &gt; Y) ≠ 0.5</code>, que es una afirmación sobre superioridad estocástica, no sobre la mediana per se.</p>
+<p><strong>❓ ¿Wilcoxon o test de signos?</strong></p>
+<p>Wilcoxon usa <strong>magnitud</strong> de las diferencias (rangos) → más poderoso. Test de signos solo usa la dirección (positivo/negativo) → más robusto pero menos poderoso. Si dudás de la simetría, signos.</p>
+<p><strong>❓ ¿Cuánto poder pierdo usando no paramétrico cuando los supuestos se cumplen?</strong></p>
+<p>Para Mann-Whitney vs t-test con datos normales, la <strong>eficiencia asintótica relativa</strong> es 3/π ≈ 0.955 — perdés ≈ 5 % de poder. Si los datos son no normales, podés ganar mucho. Por eso "no paramétrico por default" no es una mala estrategia para n chico.</p>
+<p><strong>❓ ¿<code>alternative='greater'</code> significa lo mismo que en t-test?</strong></p>
+<p>Sí, pero referido a la dirección de la dominancia estocástica (no a la media). <code>alternative='greater'</code> en Mann-Whitney ↔ "la distribución de X tiende a producir valores mayores que la de Y".</p>
+<p><strong>❓ ¿Qué hago con datos ordinales (Likert 1–5)?</strong></p>
+<p>No paramétrico siempre. Ranks son la operación natural sobre escalas ordinales. Mann-Whitney para 2 grupos, Kruskal-Wallis para ≥ 3.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Bruce &amp; Bruce, <strong>cap. 3</strong> — <em>Resampling and Non-parametric Tests</em>.</li>
+<li>Conover, W.J. (1999), <em>Practical Nonparametric Statistics</em> (3rd ed.) — referencia canónica.</li>
+<li>Romano et al. (2006) — interpretación de Cliff's δ.</li>
+<li><a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.mannwhitneyu.html"><code>scipy.stats.mannwhitneyu</code></a>, <a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.wilcoxon.html"><code>wilcoxon</code></a>, <a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.kruskal.html"><code>kruskal</code></a>.</li>
+<li><a href="https://scikit-posthocs.readthedocs.io/">scikit-posthocs</a> — Dunn, Conover, Nemenyi.</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../181-correccion-de-comparaciones-multiples-bonferroni-fdr/index.html">Clase 181 — Corrección de comparaciones múltiples (Bonferroni, FDR)</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-3-estadistica-inferencial/180-tests-no-parametricos-mann-whitney-wilcoxon-kruskal-wallis/"><code>classes/parte-3-estadistica-inferencial/180-tests-no-parametricos-mann-whitney-wilcoxon-kruskal-wallis/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 179 — ANOVA (one-way, two-way) | Python Data Science Program</title>
+  <meta name="description" content="Clase 179 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 3 — Estadística inferencial</a><span class="sep">›</span><span>179</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-3-estadistica-inferencial/179-anova-one-way-two-way/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-179-anova-one-way-two-way">Clase 179 — ANOVA (one-way, two-way)</h1>
+<blockquote>
+<p>Parte: <strong>3 — Estadística Inferencial y Causal</strong> · Fuente: ISLP, <strong>cap. 13</strong> + Bruce &amp; Bruce, <strong>cap. 3</strong> <em>ANOVA</em>. ⏱️ Duración estimada: <strong>80 min</strong>.</p>
+</blockquote>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Que el alumno aplique <strong>ANOVA de una vía</strong> (≥ 3 grupos, una variable categórica) y <strong>ANOVA de dos vías</strong> (dos factores categóricos + interacción), entienda por qué no se hacen "t-tests todos contra todos" (inflación de α) y sepa hacer <strong>post-hoc</strong> con Tukey HSD. Reconocer los supuestos (independencia, normalidad por grupo, homogeneidad de varianzas) y cuándo usar la alternativa robusta <strong>Welch ANOVA</strong> o el no paramétrico <strong>Kruskal-Wallis</strong> (Clase 150).</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar, el estudiante podrá:</p>
+<ul>
+<li>Plantear <code>H₀: μ₁ = μ₂ = ... = μ_k</code> vs <code>H₁: al menos uno difiere</code> y aplicar <code>scipy.stats.f_oneway</code> o <code>pingouin.anova</code>.</li>
+<li>Interpretar <code>F = MS_between / MS_within</code> y su relación con la F-distribution (<code>F(k-1, n-k)</code>).</li>
+<li>Aplicar <strong>Welch's ANOVA</strong> (<code>pingouin.welch_anova</code>) cuando se viola la homogeneidad de varianzas (Levene rechaza).</li>
+<li>Hacer <strong>Tukey HSD</strong> post-hoc con <code>pingouin.pairwise_tukey</code> y leer los IC ajustados.</li>
+<li>Distinguir <strong>efectos principales</strong> de <strong>interacción</strong> en ANOVA two-way y graficar interaction plots con <code>seaborn.pointplot</code>.</li>
+<li>Reportar <strong>η²</strong> o <strong>ω²</strong> como effect size de ANOVA.</li>
+</ul>
+<h2 id="temas">🗺️ Temas</h2>
+<ul>
+<li>¿Por qué no t-tests múltiples? Si hacés 10 t-tests al α=0.05, la probabilidad de al menos un falso positivo es ≈ 40 %.</li>
+<li>Descomposición de varianza: <code>SS_total = SS_between + SS_within</code>.</li>
+<li>F-statistic: razón entre varianza explicada por los grupos y varianza residual.</li>
+<li>Supuestos: independencia, normalidad (Shapiro por grupo o residuos), homocedasticidad (Levene/Bartlett).</li>
+<li>Welch ANOVA — análogo a Welch's t-test para ≥ 3 grupos.</li>
+<li>Post-hoc: Tukey HSD (controla family-wise error rate), Bonferroni, Holm.</li>
+<li>Two-way ANOVA: efectos principales A, B, e <strong>interacción A×B</strong>.</li>
+<li>Effect size: η² (eta-squared), ω² (omega-squared, menos sesgado).</li>
+</ul>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<ul>
+<li><strong>One-way ANOVA</strong>: testea si la media de una variable continua difiere entre los niveles de <strong>una</strong> variable categórica.</li>
+<li><strong>Two-way ANOVA</strong>: dos variables categóricas. Permite testear 3 cosas: efecto principal de A, efecto principal de B, e <strong>interacción</strong> (¿el efecto de A depende del nivel de B?).</li>
+<li><strong>F-statistic</strong>: <code>MS_between / MS_within</code>. Si los grupos tienen la misma media, ambos son estimadores de σ² → F ≈ 1. Si difieren, MS_between crece.</li>
+<li><strong>SS (sum of squares) within</strong>: variabilidad residual dentro de cada grupo. Σ (x_ij - x̄_i)².</li>
+<li><strong>SS between</strong>: variabilidad de las medias grupales respecto a la gran media. Σ n_i · (x̄_i - x̄)².</li>
+<li><strong>Homocedasticidad</strong>: igualdad de varianzas entre grupos. Test: <strong>Levene</strong> (robusto), <strong>Bartlett</strong> (sensible a normalidad).</li>
+<li><strong>Welch ANOVA</strong>: no asume homocedasticidad. Es el <strong>default razonable</strong> moderno, igual que Welch's t-test.</li>
+<li><strong>Tukey HSD (Honestly Significant Difference)</strong>: compara todas las parejas controlando el family-wise error rate al α global.</li>
+<li><strong>Interacción</strong>: cuando el efecto de un factor cambia según el nivel del otro. En el plot, las líneas no son paralelas.</li>
+<li><strong>η² (eta-squared)</strong>: <code>SS_between / SS_total</code>. Proporción de varianza explicada. Sesgado hacia arriba.</li>
+<li><strong>ω² (omega-squared)</strong>: corrige el sesgo de η². Recomendado para reportar.</li>
+</ul>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<ul>
+<li><code>seaborn.load_dataset('tips')</code>: <code>total_bill</code> por <code>day</code> (one-way), o por <code>day × time</code> (two-way).</li>
+<li><code>seaborn.load_dataset('penguins')</code>: <code>body_mass_g</code> por <code>species</code> (one-way claro).</li>
+<li>Librerías: <code>scipy.stats</code>, <code>pingouin</code>, <code>statsmodels.api as sm</code>, <code>statsmodels.formula.api as smf</code>.</li>
+</ul>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>One-way</strong>: aplicá <code>scipy.stats.f_oneway(*[grupo for grupo in penguins.groupby('species').body_mass_g])</code>. Reportá F, p y <code>dof_between, dof_within</code>.</li>
+<li><strong>Supuestos</strong>: testá normalidad por grupo (<code>pingouin.normality(penguins, dv='body_mass_g', group='species')</code>) y homocedasticidad (<code>pingouin.homoscedasticity</code>). Si Levene rechaza, repetí con <code>pingouin.welch_anova</code>.</li>
+<li><strong>Post-hoc Tukey</strong>: <code>pingouin.pairwise_tukey(data=penguins, dv='body_mass_g', between='species')</code>. Identificá qué pares de especies difieren significativamente.</li>
+<li><strong>Two-way con interacción</strong>: <code>pingouin.anova(data=tips, dv='total_bill', between=['day', 'time'])</code>. Mirá las tres filas de la tabla (day, time, day×time).</li>
+<li><strong>Interaction plot</strong>: <code>sns.pointplot(data=tips, x='day', y='total_bill', hue='time')</code>. Si las líneas se cruzan o no son paralelas → hay interacción visual; cruzala con el p-value del término <code>day*time</code>.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Sobre <code>penguins</code> (filtrando filas con NA):</p>
+<ol>
+<li>ANOVA one-way de <code>flipper_length_mm</code> por <code>species</code>.</li>
+<li>Chequear Levene y Shapiro; decidir entre ANOVA clásico y Welch ANOVA, justificando.</li>
+<li>Tukey HSD post-hoc.</li>
+<li>Reportar ω² (<code>pingouin.anova(... effsize='n2'</code>, y calcular ω² manualmente).</li>
+<li>Conclusión en 3 líneas: qué pares difieren, magnitud del efecto general (η²/ω²), si hay alguna comparación dudosa.</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: el ANOVA debe rechazar <code>H₀</code> (p &lt; 0.001), Tukey debe mostrar las tres parejas significativas, y η² debe ser &gt; 0.5 (efecto grande — las tres especies tienen aletas claramente distintas).</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Hago <code>ttest_ind</code> entre cada par de 4 grupos y reporto los p-values</td>
+<td>Con 4 grupos son 6 comparaciones; α efectivo ≈ 0.26. <strong>Fix</strong>: ANOVA + Tukey post-hoc, o ajustar con Bonferroni (Clase 151).</td>
+</tr>
+<tr>
+<td>ANOVA da p &lt; 0.05 pero ningún Tukey lo da</td>
+<td>Puede pasar con varianzas muy distintas. <strong>Fix</strong>: Welch ANOVA + Games-Howell post-hoc (<code>pingouin.pairwise_gameshowell</code>).</td>
+</tr>
+<tr>
+<td>Aplico ANOVA con varianzas muy distintas (Levene p &lt; 0.01)</td>
+<td>El F-test clásico es sensible a esto, especialmente con grupos desbalanceados. <strong>Fix</strong>: Welch ANOVA.</td>
+</tr>
+<tr>
+<td>Los residuos no son normales y reporto ANOVA igual</td>
+<td>Si los grupos son grandes (n ≥ 30 c/u), TCL salva. Si son chicos y muy asimétricos, <strong>Fix</strong>: Kruskal-Wallis (Clase 150) o ANOVA con bootstrap.</td>
+</tr>
+<tr>
+<td>Interpreto "efecto de A" sin mirar la interacción A×B significativa</td>
+<td>Si hay interacción, el efecto principal de A <strong>no es interpretable solo</strong> — depende del nivel de B. <strong>Fix</strong>: interpretar interacción primero; los main effects solo si la interacción es no significativa.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿ANOVA o regresión lineal con dummies?</strong></p>
+<p>Son matemáticamente equivalentes. ANOVA es la presentación tradicional; OLS con dummies (<code>statsmodels.formula.api.ols('y ~ C(species)', data).fit()</code>) da los mismos F y p. La regresión también te da los coeficientes de cada nivel respecto a la categoría de referencia, lo cual es más informativo.</p>
+<p><strong>❓ ¿Tukey o Bonferroni post-hoc?</strong></p>
+<p>Tukey es <strong>mejor</strong> para todas-las-parejas porque controla el family-wise error rate de manera específica para ANOVA (es uniformemente más poderoso que Bonferroni en ese caso). Bonferroni es más conservador (peor poder). Ver Clase 151 para alternativas modernas (Holm, BH).</p>
+<p><strong>❓ ¿Qué pasa si los grupos están desbalanceados (n distinto)?</strong></p>
+<p>ANOVA aguanta moderadamente, pero con varianzas distintas el F-test se rompe. <strong>Welch ANOVA</strong> lo maneja bien.</p>
+<p><strong>❓ ¿Two-way ANOVA cuando alguna celda tiene n=0?</strong></p>
+<p>Modelo no balanceado: usar <strong>Type III SS</strong> (<code>statsmodels</code> lo soporta vía <code>sm.stats.anova_lm(model, typ=3)</code>). Type I (default) depende del orden de los factores en la fórmula.</p>
+<p><strong>❓ ¿Y si tengo medidas repetidas (mismo sujeto en cada nivel)?</strong></p>
+<p><code>pingouin.rm_anova</code> (repeated measures ANOVA). Modela la correlación intra-sujeto, lo cual ANOVA clásico ignora.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>ISLP, <strong>cap. 13</strong> — sección sobre ANOVA y multiple testing.</li>
+<li>Bruce &amp; Bruce, <strong>cap. 3</strong> — sección <em>ANOVA</em>.</li>
+<li>Welch, B.L. (1951), <em>On the comparison of several mean values: an alternative approach</em>, Biometrika.</li>
+<li><a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.f_oneway.html"><code>scipy.stats.f_oneway</code></a>, <a href="https://pingouin-stats.org/generated/pingouin.welch_anova.html"><code>pingouin.welch_anova</code></a>, <a href="https://pingouin-stats.org/generated/pingouin.pairwise_tukey.html"><code>pingouin.pairwise_tukey</code></a>.</li>
+<li><a href="https://www.statsmodels.org/stable/anova.html">statsmodels — ANOVA</a> (para Type II/III SS y modelos mixtos).</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../180-tests-no-parametricos-mann-whitney-wilcoxon-kruskal-wallis/index.html">Clase 180 — Tests no paramétricos: Mann-Whitney, Wilcoxon, Kruskal-Wallis</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-3-estadistica-inferencial/179-anova-one-way-two-way/"><code>classes/parte-3-estadistica-inferencial/179-anova-one-way-two-way/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

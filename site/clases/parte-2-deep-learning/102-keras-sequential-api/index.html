@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 102 — Keras Sequential API | Python Data Science Program</title>
+  <meta name="description" content="Clase 102 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 2 — Deep Learning</a><span class="sep">›</span><span>102</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-2-deep-learning/102-keras-sequential-api/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-102-keras-sequential-api">Clase 102 — Keras Sequential API</h1>
+<blockquote>
+<p>Parte: <strong>2 — Deep Learning</strong> · Fuente: Géron, <strong>cap. 10</strong> § <em>The Sequential API</em>. ⏱️ Duración estimada: <strong>60 min</strong>.</p>
+</blockquote>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Dominar la <strong>Sequential API</strong> de Keras — la forma más simple y declarativa de construir un modelo cuando es una <strong>pila lineal</strong> de capas. Saber cuándo NO alcanza (cualquier topología con ramas, skip connections, multi-input/multi-output → Functional API, clase 093).</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar, el estudiante podrá:</p>
+<ul>
+<li>Construir un modelo con <code>keras.Sequential([...])</code> o <code>model.add(...)</code> incrementalmente.</li>
+<li>Inspeccionar la arquitectura con <code>model.summary()</code> (parámetros por capa, output shape, total).</li>
+<li>Calcular a mano el número de parámetros de una <code>Dense(n)</code> (= <code>input_dim * n + n</code> por el bias).</li>
+<li>Compilar (<code>compile</code>), entrenar (<code>fit</code>), evaluar (<code>evaluate</code>) y predecir (<code>predict</code>).</li>
+<li>Guardar y cargar con el formato moderno <code>.keras</code> (HDF5 legacy).</li>
+</ul>
+<h2 id="temas">🗺️ Temas</h2>
+<ul>
+<li>Dos formas equivalentes: lista en el constructor vs <code>.add()</code> incremental.</li>
+<li><code>Input</code> layer explícito vs <code>input_shape</code> en la primera capa.</li>
+<li><code>model.summary()</code>: leer parámetros por capa + total trainable / non-trainable.</li>
+<li><code>compile(optimizer, loss, metrics)</code>.</li>
+<li><code>fit(X, y, epochs, batch_size, validation_split, callbacks, verbose)</code>.</li>
+<li><code>model.save('m.keras')</code> (formato nativo Keras 3+) y <code>keras.models.load_model('m.keras')</code>.</li>
+</ul>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<ul>
+<li><strong>Sequential model</strong>: stack lineal — la salida de una capa es la entrada de la siguiente. No permite branching, skip connections, ni múltiples inputs/outputs.</li>
+<li><strong>Parámetros trainable</strong>: pesos + bias que el optimizador actualiza. <code>Dense(n_out)</code> aplicada a entrada <code>n_in</code>: <code>n_in * n_out + n_out</code> params.</li>
+<li><strong>Parámetros non-trainable</strong>: capas como <code>BatchNormalization</code> tienen estadísticas (running mean/var) que no se actualizan por backprop sino por moving average.</li>
+<li><strong><code>.keras</code> format</strong>: ZIP con <code>config.json</code> + <code>metadata.json</code> + pesos. Reemplaza al <code>.h5</code> desde Keras 3.</li>
+<li><strong><code>batch_size</code></strong>: cuántas muestras procesa antes de actualizar pesos. Default 32. Más grande = más estable pero menos updates por época.</li>
+</ul>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<ul>
+<li>Reutilizar Fashion-MNIST de la clase anterior.</li>
+<li>Librerías: <code>tensorflow</code>, <code>keras</code> (≥ 3.0).</li>
+</ul>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>Dos sintaxis</strong>: construir el mismo modelo dos veces — una con <code>Sequential([...])</code> y otra con <code>model = Sequential(); model.add(...)</code>. Verificar que <code>summary()</code> produce el mismo resultado.</li>
+<li><strong>Conteo de parámetros</strong>: para <code>Sequential([Dense(128, input_shape=(784,)), Dense(64), Dense(10)])</code>, calcular a mano los parámetros y verificar contra <code>model.summary()</code>.</li>
+<li><strong>Guardado/carga</strong>: entrenar 5 épocas, <code>model.save('m.keras')</code>, recargar con <code>load_model</code>, verificar que <code>predict</code> da idéntico.</li>
+<li><strong>Predict en batch vs individual</strong>: predecir 1 sola muestra (¿cómo cambia la shape?) vs predecir 100. Cuidado con la dimensión batch.</li>
+<li><strong>Verbose</strong>: probá <code>fit(..., verbose=0)</code>, <code>verbose=1</code> (barra), <code>verbose=2</code> (1 línea por época). Útil para notebooks vs scripts.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Entrenar tres arquitecturas distintas sobre Fashion-MNIST y comparar:</p>
+<ol>
+<li><strong>Tiny</strong>: <code>Dense(64) → Dense(10)</code>.</li>
+<li><strong>Medium</strong>: <code>Dense(256) → Dense(128) → Dense(10)</code>.</li>
+<li><strong>Wide</strong>: <code>Dense(1024) → Dense(10)</code>.</li>
+</ol>
+<p>Reportar: # parámetros, accuracy en test, tiempo de entrenamiento.</p>
+<p><strong>Criterio de aceptación</strong>: el medium debe ganar en accuracy/tiempo balanceado; el wide tiene más parámetros que el medium pero NO necesariamente mejor accuracy (lección: profundo &gt; ancho).</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ValueError: Input shape mismatch</code> al cargar</td>
+<td>El modelo guardado tiene un input shape distinto al que estás pasando. <strong>Fix</strong>: ver <code>model.input_shape</code> y ajustar.</td>
+</tr>
+<tr>
+<td><code>model.summary()</code> muestra <code>?</code> en output shape</td>
+<td>No definiste el input shape de la primera capa. <strong>Fix</strong>: <code>Input(shape=(784,))</code> como primera capa o <code>input_shape=</code> en la primera Dense.</td>
+</tr>
+<tr>
+<td>Olvido <code>compile()</code> y <code>fit()</code> falla</td>
+<td>Sin <code>compile</code>, no hay optimizer/loss. <strong>Fix</strong>: <code>model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', ...)</code>.</td>
+</tr>
+<tr>
+<td>Modelo guardado en <code>.h5</code> y se quiere cargar en Keras 3 sin compatibility flag</td>
+<td><code>.h5</code> está deprecado. <strong>Fix</strong>: <code>model.save('m.keras')</code> (formato nativo). Si es necesario <code>.h5</code>: <code>model.save('m.h5')</code> aún funciona pero con warning.</td>
+</tr>
+<tr>
+<td><code>model.add()</code> después de <code>compile()</code> y <code>fit()</code> ya corrió</td>
+<td>No se puede modificar la arquitectura post-compile. <strong>Fix</strong>: reconstruir desde cero.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿Cuándo Sequential no alcanza?</strong></p>
+<p>Cuando hay branching (skip connections de ResNet), multiple inputs (modelos de fusión), multiple outputs (multi-task), o capas compartidas. Para todo eso → Functional API (clase 093).</p>
+<p><strong>❓ ¿Es más lento Sequential que Functional?</strong></p>
+<p>No, son la misma cosa por dentro. La diferencia es solo sintáctica.</p>
+<p><strong>❓ ¿Por qué <code>Input</code> separado y no <code>input_shape=</code>?</strong></p>
+<p>Equivalentes funcionalmente. <code>Input(shape=(...))</code> es más explícito y es lo único que funciona en Functional API; mantenerlo es buena costumbre.</p>
+<p><strong>❓ ¿<code>batch_size=32</code> siempre?</strong></p>
+<p>Depende. Imágenes: 32–128. Texto/NLP: a menudo 8–16 por memoria. Tabular grande: 256–1024. Probá; el batch_size afecta no solo velocidad sino también la generalización (batches grandes tienden a converger a minima "más planos" pero peor generalizables).</p>
+<p><strong>❓ ¿<code>validation_split=0.2</code> o <code>validation_data=(X_val, y_val)</code>?</strong></p>
+<p><code>validation_split=0.2</code> toma el último 20 % del array; útil si los datos están bien mezclados. <code>validation_data=(...)</code> es explícito y obligatorio si los datos están ordenados.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Géron, <strong>cap. 10</strong> — <em>The Sequential API</em>.</li>
+<li><a href="https://keras.io/guides/sequential_model/">Keras — The Sequential model</a>.</li>
+<li><a href="https://keras.io/keras_3/">Keras 3 release notes</a>.</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../103-keras-functional-api-y-subclassing/index.html">Clase 103 — Keras Functional API y Subclassing</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-2-deep-learning/102-keras-sequential-api/"><code>classes/parte-2-deep-learning/102-keras-sequential-api/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

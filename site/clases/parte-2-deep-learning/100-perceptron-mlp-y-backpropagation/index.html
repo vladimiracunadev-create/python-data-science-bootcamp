@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 100 — Perceptrón, MLP y backpropagation | Python Data Science Program</title>
+  <meta name="description" content="Clase 100 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 2 — Deep Learning</a><span class="sep">›</span><span>100</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-2-deep-learning/100-perceptron-mlp-y-backpropagation/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-100-perceptron-mlp-y-backpropagation">Clase 100 — Perceptrón, MLP y backpropagation</h1>
+<blockquote>
+<p>Parte: <strong>2 — Deep Learning</strong> · Fuente: Géron, <strong>cap. 10</strong> § <em>From Biological to Artificial Neurons</em>. ⏱️ Duración estimada: <strong>80 min</strong>.</p>
+</blockquote>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Que el alumno entienda la unidad fundamental del Deep Learning: la <strong>neurona artificial</strong> (perceptrón de Rosenblatt 1957), por qué un solo perceptrón <strong>no puede aprender XOR</strong>, cómo el <strong>MLP</strong> (Multi-Layer Perceptron) lo resuelve apilando capas con activaciones no lineales, y cómo <strong>backpropagation</strong> (regla de la cadena) permite calcular gradientes en cualquier grafo computacional — el algoritmo que destrabó el Deep Learning moderno.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar, el estudiante podrá:</p>
+<ul>
+<li>Implementar a mano un perceptrón (<code>y = step(w·x + b)</code>) y mostrar por qué no separa XOR.</li>
+<li>Construir un MLP con <code>keras.Sequential([Dense(...), Dense(...)])</code> y entrenarlo sobre un dataset simple.</li>
+<li>Explicar <strong>forward pass</strong> (compute layer by layer) y <strong>backward pass</strong> (propagar gradientes con la regla de la cadena).</li>
+<li>Calcular a mano los gradientes para un MLP de 2 capas con una sola muestra.</li>
+<li>Reconocer que la <strong>diferenciación automática</strong> (autograd) hace innecesario derivar a mano para modelos arbitrarios.</li>
+</ul>
+<h2 id="temas">🗺️ Temas</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Tema</th>
+<th>Por qué importa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Perceptrón clásico (Rosenblatt 1957)</td>
+<td>La unidad atómica; ver sus límites motiva las capas.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>El problema XOR</td>
+<td>Por qué necesitamos no linealidad y profundidad.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>MLP: input → hidden → output</td>
+<td>La arquitectura mínima útil.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Activación no lineal</td>
+<td>Sin activación, N capas = 1 capa lineal.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Backpropagation (Rumelhart, Hinton &amp; Williams 1986)</td>
+<td>La regla de la cadena aplicada a un grafo.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Autograd / autodiff</td>
+<td>Lo que hace que TF/PyTorch/JAX te liberen de derivar.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<ul>
+<li><strong>Perceptrón</strong>: <code>y = step(Σ wᵢ·xᵢ + b)</code>. Regla de aprendizaje: <code>wᵢ ← wᵢ + η·(y_true - y_pred)·xᵢ</code>. Converge si los datos son <strong>linealmente separables</strong>.</li>
+<li><strong>MLP (Multi-Layer Perceptron)</strong>: red feedforward fully-connected con ≥ 1 capa oculta y activaciones no lineales (sigmoid, tanh, ReLU).</li>
+<li><strong>Forward pass</strong>: <code>a⁽ˡ⁾ = σ(W⁽ˡ⁾ · a⁽ˡ⁻¹⁾ + b⁽ˡ⁾)</code>. Se compute layer-by-layer hasta la salida.</li>
+<li><strong>Loss function</strong>: <code>L(y_pred, y_true)</code> — MSE para regresión, cross-entropy para clasificación.</li>
+<li><strong>Backward pass</strong>: aplica la regla de la cadena para calcular <code>∂L/∂W⁽ˡ⁾</code> propagando el gradiente de la salida hacia la entrada.</li>
+<li><strong>Autograd</strong>: TF (GradientTape), PyTorch (<code>backward()</code>), JAX (<code>grad</code>) — construyen el grafo y aplican backprop automáticamente.</li>
+<li><strong>Universal Approximation Theorem</strong> (Cybenko 1989, Hornik 1991): un MLP con una sola capa oculta y "suficientes" neuronas puede aproximar cualquier función continua. En la práctica, <strong>profundo</strong> es más eficiente que <strong>ancho</strong>.</li>
+</ul>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<ul>
+<li><code>sklearn.datasets.make_moons(n_samples=500, noise=0.2)</code> — clásico para mostrar no linealidad.</li>
+<li>XOR como dataset de 4 puntos (ejercicio motivacional).</li>
+<li>Librerías: <code>tensorflow</code>, <code>keras</code> (incluido), <code>numpy</code>, <code>matplotlib</code>.</li>
+</ul>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>Perceptrón a mano</strong>: implementá un perceptrón en numpy y entrenalo en AND/OR (separables). Después probá con XOR; mostrá que no converge.</li>
+<li><strong>MLP con Keras</strong>: <code>model = keras.Sequential([Dense(8, activation='relu', input_shape=(2,)), Dense(1, activation='sigmoid')])</code>. Entrenalo sobre XOR; debería llegar a accuracy 1.0.</li>
+<li><strong>Visualización decision boundary</strong>: con <code>make_moons</code>, entrená un MLP <code>[16, 8]</code> y graficá la frontera con un meshgrid.</li>
+<li><strong>Backprop a mano</strong>: para un MLP con 1 input, 1 hidden (2 neuronas), 1 output, con MSE, calculá <code>∂L/∂w</code> para una muestra y comparalo con <code>tf.GradientTape</code>.</li>
+<li><strong>¿Y sin activación no lineal?</strong>: cambiá las activaciones a <code>linear</code> en el MLP de XOR y mostrá que ya no puede aprenderlo.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Notebook que:</p>
+<ol>
+<li>Carga <code>make_moons(noise=0.2, random_state=42)</code>.</li>
+<li>Entrena 2 modelos: regresión logística (Parte 1) vs MLP <code>[16, 8]</code> con ReLU.</li>
+<li>Reporta accuracy en test para ambos.</li>
+<li>Grafica las dos decision boundaries lado a lado.</li>
+<li>Explica en 3 líneas por qué el MLP captura la curvatura y la regresión logística no.</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: el MLP debe lograr ≥ 0.95 accuracy y la frontera debe ser claramente curva; la regresión logística queda en ≈ 0.85 con frontera recta.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MLP no aprende XOR aunque la arquitectura "parece bien"</td>
+<td>Probablemente sin activación no lineal, o LR demasiado alto/bajo. <strong>Fix</strong>: <code>activation='relu'</code> o <code>'tanh'</code> en la capa oculta, <code>Adam(learning_rate=0.01)</code>.</td>
+</tr>
+<tr>
+<td>Loss <code>nan</code> desde la primera época</td>
+<td>Inicialización mala + activación + LR. <strong>Fix</strong>: Keras usa Glorot por default — verificar que no estés sobreescribiendo a <code>RandomNormal(stddev=10)</code>; bajar LR.</td>
+</tr>
+<tr>
+<td>Modelo sigmoid de salida con <code>loss='mse'</code></td>
+<td>Lento y mal calibrado. <strong>Fix</strong>: <code>loss='binary_crossentropy'</code> para clasificación binaria.</td>
+</tr>
+<tr>
+<td><code>input_shape</code> mal especificado: <code>(2,)</code> vs <code>2</code></td>
+<td>Tiene que ser tupla. <strong>Fix</strong>: <code>Dense(8, input_shape=(2,))</code> o usar <code>Input((2,))</code> explícito.</td>
+</tr>
+<tr>
+<td>Modelo memoriza train y mal en test con XOR</td>
+<td>XOR son 4 puntos — no hay nada para generalizar. <strong>Fix</strong>: este es el único caso donde "overfit perfecto" es lo esperado.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿Una sola neurona equivale a regresión logística?</strong></p>
+<p>Sí, exactamente: <code>sigmoid(w·x + b)</code> con cross-entropy = logistic regression. Por eso un MLP "es regresión logística apilada con no linealidades en medio".</p>
+<p><strong>❓ ¿Por qué no se podía entrenar redes profundas hasta los 2000s?</strong></p>
+<p>Por tres problemas: vanishing gradients (sigmoid satura), datasets chicos, hardware limitado. Lo resolvieron ReLU (2010), GPUs y ImageNet (2012). Lo verás en Clase 096.</p>
+<p><strong>❓ ¿Cuántas capas y neuronas pongo?</strong></p>
+<p>Empezá chico: 1-2 capas ocultas, 16-128 neuronas. Si underfittea, ensanchá o profundizá. Si overfittea, achicá o regularizá. La arquitectura se busca empíricamente con Keras Tuner (Clase 095) u Optuna.</p>
+<p><strong>❓ ¿Qué es el "Universal Approximation Theorem" en la práctica?</strong></p>
+<p>Que <strong>existe</strong> un MLP que aproxima tu función. <strong>No dice nada</strong> sobre cuán difícil es encontrarlo (el problema de optimización). Por eso "1 capa muy ancha" en teoría alcanza, pero "10 capas más angostas" en práctica converge mucho mejor.</p>
+<p><strong>❓ ¿Forward + backward = una época?</strong></p>
+<p>No. Una <strong>iteración</strong> (= un batch) es 1 forward + 1 backward + 1 update. Una <strong>época</strong> es haber visto todo el dataset una vez (= <code>n_samples / batch_size</code> iteraciones).</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Géron, <strong>cap. 10</strong> — <em>Introduction to Artificial Neural Networks with Keras</em>.</li>
+<li>Rumelhart, Hinton &amp; Williams (1986), <em>Learning representations by back-propagating errors</em>, Nature — paper original de backprop.</li>
+<li>Goodfellow, Bengio &amp; Courville (2016), <em>Deep Learning</em>, cap. 6 (online: <a href="https://www.deeplearningbook.org/">https://www.deeplearningbook.org/</a>).</li>
+<li>3Blue1Brown — serie "But what is a neural network?" (4 videos, intuición visual de backprop).</li>
+<li><a href="https://keras.io/guides/sequential_model/">Keras docs — Sequential model</a>.</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../101-regresion-y-clasificacion-con-mlp/index.html">Clase 101 — Regresión y clasificación con MLP</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-2-deep-learning/100-perceptron-mlp-y-backpropagation/"><code>classes/parte-2-deep-learning/100-perceptron-mlp-y-backpropagation/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

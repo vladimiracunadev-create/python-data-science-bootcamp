@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 185 — A/B testing: tamaño de muestra, poder estadístico | Python Data Science Program</title>
+  <meta name="description" content="Clase 185 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 3 — Estadística inferencial</a><span class="sep">›</span><span>185</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-3-estadistica-inferencial/185-a-b-testing-tamano-de-muestra-poder-estadistico/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#version-profundizada-2026">📌 Versión profundizada — 2026</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-185-ab-testing-tamano-de-muestra-poder-estadistico">Clase 185 — A/B testing: tamaño de muestra, poder estadístico</h1>
+<blockquote>
+<p>Parte: <strong>3 — Estadística Inferencial y Causal</strong> · Fuente: Bruce &amp; Bruce, <strong>cap. 3</strong> <em>A/B Testing</em> + Kohavi, Tang &amp; Xu, <em>Trustworthy Online Controlled Experiments</em> (2020). ⏱️ Duración estimada: <strong>90 min</strong>.</p>
+</blockquote>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Diseñar y analizar un <strong>A/B test</strong> end-to-end: definir hipótesis y métrica primaria, calcular <strong>tamaño de muestra</strong> con el poder estadístico deseado, randomizar correctamente, analizar resultados sin <strong>peeking</strong> y reportar con effect size + IC. Conocer tres herramientas modernas que reducen muestra requerida o eliminan el problema de peeking: <strong>CUPED</strong>, <strong>sequential testing (always-valid p-values)</strong> y <strong>A/B bayesiano</strong>.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar, el estudiante podrá:</p>
+<ul>
+<li>Calcular <code>n</code> requerido con <code>statsmodels.stats.power.TTestIndPower</code> o <code>NormalIndPower</code> para una <strong>MDE</strong> (minimum detectable effect) dada, α y poder.</li>
+<li>Implementar el análisis: t-test (continua) o z-test de proporciones (binaria), con effect size + IC95 %.</li>
+<li>Identificar y evitar 5 errores clásicos: peeking, p-hacking, no estratificación, SRM (sample ratio mismatch), Simpson's paradox.</li>
+<li>Aplicar <strong>CUPED</strong> para reducir varianza usando una covariable pre-experimento.</li>
+<li>Diseñar un test secuencial con <strong>always-valid p-values</strong> (Howard et al. 2021) o GST (group sequential testing) que permita parar antes sin inflar α.</li>
+<li>Comparar A/B clásico (frecuentista) con A/B <strong>bayesiano</strong> (PyMC o <code>bayesab</code>) y entender ventajas (interpretación directa, parar cuando alcance precisión).</li>
+</ul>
+<h2 id="temas">🗺️ Temas</h2>
+<ul>
+<li>Hipótesis nula vs alternativa en A/B; métrica primaria, guardrails (no degradar latencia, error rate).</li>
+<li>Poder estadístico: <code>P(rechazar H₀ | H₁ verdadera)</code>. Convención: 80 %.</li>
+<li>Sample size: depende de α (0.05), poder (0.8), σ y MDE.</li>
+<li>Aleatorización a nivel correcto (usuario vs sesión vs request).</li>
+<li><strong>Peeking problem</strong>: mirar el resultado intermedio e inflar α.</li>
+<li><strong>SRM (Sample Ratio Mismatch)</strong>: si el ratio observado A/B se aleja del esperado 50/50, hay bug de asignación.</li>
+<li><strong>Simpson's paradox</strong>: la tendencia global se invierte al estratificar.</li>
+<li><strong>Complemento moderno</strong>: CUPED, sequential testing, A/B bayesiano.</li>
+</ul>
+<h2 id="version-profundizada-2026">📌 Versión profundizada — 2026</h2>
+<p>El tema moderno que antes vivía como complemento dentro de esta clase ahora tiene su(s) clase(s) propia(s) con patrón completo, ejercicios y homework:</p>
+<ul>
+<li>👉 <a href="../154a-cuped-sequential-testing-always-valid-p-values/index.html">Clase 154a — CUPED, sequential testing, always-valid p-values</a></li>
+</ul>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<ul>
+<li><strong>MDE (Minimum Detectable Effect)</strong>: el efecto más chico que considerás relevante de detectar. Lo elegís <em>antes</em> del experimento.</li>
+<li><strong>Poder estadístico (1-β)</strong>: probabilidad de detectar el MDE si es real. Convención: 0.80.</li>
+<li><strong>α</strong>: error tipo I. Para A/B testing, 0.05 es estándar; 0.01 para decisiones críticas.</li>
+<li><strong>SRM (Sample Ratio Mismatch)</strong>: cuando el ratio de asignación observado se desvía significativamente del esperado. Indica bug en la randomización. Test: chi² sobre conteos A vs B.</li>
+<li><strong>Stratificación</strong>: balancear covariables (país, plataforma) entre A y B para evitar Simpson's paradox.</li>
+<li><strong>CUPED</strong>: reducción de varianza usando covariable pre.</li>
+<li><strong>Always-valid p-value</strong>: válido bajo cualquier tiempo de parada; permite peeking sin inflación de α.</li>
+<li><strong>Novelty effect</strong>: los usuarios reaccionan al cambio en sí, no al diseño. Confirma con análisis por cohortes/tiempo.</li>
+</ul>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<ul>
+<li>Simular A/B: <code>rng.binomial(1, 0.10, n)</code> vs <code>rng.binomial(1, 0.12, n)</code> → MDE de 2 pp absoluto.</li>
+<li>Para CUPED: simular <code>X</code> (pre) y <code>Y = 0.5*X + ε + δ·tratamiento</code>.</li>
+<li>Librerías: <code>statsmodels.stats.power</code>, <code>scipy.stats</code>, <code>confseq</code>, <code>pingouin</code>.</li>
+</ul>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>Sample size</strong>: querés detectar un uplift de tasa de conversión de 10 % → 11 % con poder 0.8 y α=0.05. Usá <code>statsmodels.stats.proportion.samplesize_proportions_2indep_onetail</code> o <code>power.NormalIndPower().solve_power</code>. ¿Cuánto necesitás por grupo?</li>
+<li><strong>Análisis clásico</strong>: simulá el experimento (n=8 000 por grupo, p_A=0.10, p_B=0.108), aplicá z-test de proporciones, reportá p, IC95 % de la diferencia y poder post-hoc.</li>
+<li><strong>CUPED</strong>: simulá <code>X = rng.normal(50, 10, 2000)</code> y <code>Y = X + ε + 2·tratamiento</code> con <code>ε ~ N(0,5)</code>. Calculá <code>n</code> requerido con y sin CUPED para detectar el efecto de 2.</li>
+<li><strong>Peeking simulado</strong>: bajo <code>H₀</code> verdadera, simulá 1 000 experimentos donde "parás temprano" si <code>p &lt; 0.05</code> mirando cada 100 obs hasta 5 000. Mostrá cómo el α real se infla a ≈ 0.25.</li>
+<li><strong>A/B bayesiano</strong>: con A=(1000, 80), B=(1000, 100), calculá <code>P(p_B &gt; p_A)</code> con priors Beta(1,1). Interpretá.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Diseñar y analizar un A/B test simulado:</p>
+<ol>
+<li>Calcular <code>n</code> por grupo para MDE=1 pp absoluto, baseline 10 %, α=0.05, poder=0.8.</li>
+<li>Simular el experimento con <code>n</code> calculado y true uplift de 1.2 pp.</li>
+<li>Reportar: z-test (p, IC), Cohen's h (effect size para proporciones), análisis bayesiano (<code>P(B &gt; A)</code>, expected uplift).</li>
+<li>Repetir simulando peeking cada 1 000 obs sin corrección → mostrar inflación de α.</li>
+<li>Concluir en 4 líneas: recomendación para producción (frecuentista clásico vs bayesiano vs always-valid).</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: <code>n ≈ 14 800</code> por grupo. El z-test debe rechazar <code>H₀</code> con <code>p &lt; 0.05</code>, <code>P(B &gt; A)</code> debe ser &gt; 0.95 en bayesiano, y el ejercicio de peeking debe mostrar α real entre 0.20 y 0.30.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Pareo temprano cuando vi <code>p &lt; 0.05</code></td>
+<td>Peeking → α inflado. <strong>Fix</strong>: pre-registrar fecha de fin o usar sequential testing (GST / mSPRT).</td>
+</tr>
+<tr>
+<td>El test A/B muestra <code>p &lt; 0.05</code> pero el negocio no replica al lanzar</td>
+<td>Novelty effect, sesgo de selección, no estratificación, period heterogeneity. <strong>Fix</strong>: hold-out validation post-launch + análisis por cohorte.</td>
+</tr>
+<tr>
+<td>Conteos A vs B son 48/52 con n=10⁶ y "es casualidad"</td>
+<td>SRM serio. <strong>Fix</strong>: chi² sobre conteos; si <code>p &lt; 0.001</code>, parar y revisar la randomización (bot traffic, cookie loss, infra).</td>
+</tr>
+<tr>
+<td>Resultado positivo global, negativo por cada segmento</td>
+<td>Simpson's paradox por estratificación dispar. <strong>Fix</strong>: análisis estratificado o regresión con interacciones.</td>
+</tr>
+<tr>
+<td>Reporto <code>p &lt; 0.05</code> sin effect size ni IC</td>
+<td>Inutilizable para decisión de negocio. <strong>Fix</strong>: Cohen's d/h + IC + análisis de poder post-hoc.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿Cuánto dura un A/B test?</strong></p>
+<p>Hasta alcanzar el <code>n</code> calculado <strong>y</strong> cubrir al menos un ciclo completo del negocio (típicamente 1-2 semanas para capturar weekday/weekend effects, holidays, etc.). Parar antes solo con sequential testing válido.</p>
+<p><strong>❓ ¿Si mi MDE es muy chico, qué hago?</strong></p>
+<p>Necesitás más muestra (∝ 1/MDE²). Si no podés conseguirla: (a) usá CUPED para reducir varianza, (b) re-evaluá si ese MDE realmente importa para el negocio (un 0.5 % de uplift puede no compensar el costo de desplegar).</p>
+<p><strong>❓ ¿A/B bayesiano necesita pre-registro?</strong></p>
+<p>Conceptualmente menos: la decisión bayesiana (<code>P(B &gt; A) &gt; threshold</code>) es coherente con cualquier tiempo de parada <em>si el prior es honesto</em>. En práctica industrial igual conviene pre-registrar el threshold para evitar racionalizaciones.</p>
+<p><strong>❓ ¿Aleatorizo a nivel de usuario o de sesión?</strong></p>
+<p>A nivel de <strong>unidad de tratamiento</strong>: si el cambio afecta al usuario (ej.: redesign de homepage), por usuario. Si es un cambio que el usuario puede experimentar múltiples veces sin "aprenderlo" (ej.: ranking de búsqueda), por sesión o request — pero con cuidado por correlación intra-usuario.</p>
+<p><strong>❓ ¿Qué hago si <code>n</code> calculado es prohibitivo?</strong></p>
+<p>Opciones: (a) aumentar MDE (¿es realista el efecto que esperás?), (b) reducir varianza con CUPED, (c) reducir α a 0.10 si el costo de un falso positivo es bajo, (d) hacer un quasi-experiment con synthetic controls (Clase 157).</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Bruce &amp; Bruce, <strong>cap. 3</strong> — <em>A/B Testing</em>.</li>
+<li>Kohavi, R., Tang, D. &amp; Xu, Y. (2020), <em>Trustworthy Online Controlled Experiments</em>, Cambridge University Press — la biblia industrial.</li>
+<li>Deng, A. et al. (2013), <em>Improving the Sensitivity of Online Controlled Experiments by Utilizing Pre-Experiment Data</em>, WSDM (CUPED original).</li>
+<li>Howard, Ramdas, McAuliffe &amp; Sekhon (2021), <em>Time-Uniform, Nonparametric, Nonasymptotic Confidence Sequences</em>, Annals of Statistics.</li>
+<li><a href="https://www.statsmodels.org/stable/stats.html#power-and-sample-size-calculations"><code>statsmodels.stats.power</code></a>.</li>
+<li><a href="https://github.com/gostevehoward/confseq">confseq</a> — always-valid CIs.</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../186-cuped-sequential-testing-always-valid-p-values/index.html">Clase 186 — CUPED, sequential testing, always-valid p-values</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-3-estadistica-inferencial/185-a-b-testing-tamano-de-muestra-poder-estadistico/"><code>classes/parte-3-estadistica-inferencial/185-a-b-testing-tamano-de-muestra-poder-estadistico/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>

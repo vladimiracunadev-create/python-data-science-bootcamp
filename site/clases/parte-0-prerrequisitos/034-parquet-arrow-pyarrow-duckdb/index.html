@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clase 034 — Parquet, Arrow, PyArrow, DuckDB | Python Data Science Program</title>
+  <meta name="description" content="Clase 034 del Python Data Science Program">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../clases/curriculum.css">
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../../../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a><span class="sep">›</span><a href="../../index.html">Currículo</a><span class="sep">›</span><a href="../index.html">Parte 0 — Prerrequisitos</a><span class="sep">›</span><span>034</span>
+    </nav>
+  </header>
+  <main class="cur-main">
+    <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-0-prerrequisitos/034-parquet-arrow-pyarrow-duckdb/notebook.ipynb">📓 Abrir notebook en GitHub</a>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-034-parquet-arrow-pyarrow-duckdb">Clase 034 — Parquet, Arrow, PyArrow, DuckDB</h1>
+<blockquote>
+<p>Parte: <strong>0 — Prerrequisitos</strong> · Fuente: docs Apache Arrow + DuckDB + Wes McKinney blogs. ⏱️ Duración estimada: <strong>75 min</strong>.</p>
+</blockquote>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Conocer el <strong>stack columnar moderno</strong> que reemplaza al CSV para datos serios: <strong>Parquet</strong> (formato en disco), <strong>Arrow</strong> (formato in-memory), <strong>PyArrow</strong> (la implementación Python), y <strong>DuckDB</strong> (SQL embebido sobre Parquet/Arrow). Saber por qué el ecosistema entero (Polars, pandas 2.x, Spark, BigQuery, DataFusion) convergió a este stack.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
+<p>Al finalizar, el estudiante podrá:</p>
+<ul>
+<li>Leer y escribir Parquet con <code>pandas</code>, <code>polars</code> y <code>pyarrow</code>.</li>
+<li>Aplicar <strong>column pruning</strong> (leer solo columnas necesarias) y <strong>predicate pushdown</strong> (leer solo filas necesarias).</li>
+<li>Manejar <strong>particionado</strong> por columna (<code>year=2024/month=03/</code>) para queries eficientes.</li>
+<li>Hacer queries SQL con <strong>DuckDB</strong> directamente sobre Parquet sin cargarlo a RAM.</li>
+<li>Reconocer ventajas de Arrow: zero-copy entre librerías (Polars ↔ pandas ↔ Spark).</li>
+</ul>
+<h2 id="temas">🗺️ Temas</h2>
+<ul>
+<li>CSV: limitaciones (sin tipos, fila por fila, sin compresión).</li>
+<li>Parquet: columnar, comprimido (snappy/zstd), tipos preservados, metadata por chunk.</li>
+<li>Arrow: formato in-memory zero-copy.</li>
+<li>PyArrow: API Python para ambos.</li>
+<li>DuckDB: "SQLite para analytics", consulta Parquet directo.</li>
+<li>Particionado tipo Hive.</li>
+</ul>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
+<ul>
+<li><strong>Parquet</strong>: formato columnar en disco. Standard de facto para data engineering.</li>
+<li><strong>Arrow</strong>: formato columnar in-memory standardizado. Zero-copy entre lenguajes.</li>
+<li><strong>PyArrow</strong>: implementación Python de Arrow (<code>pa.Table</code>, <code>pa.parquet.read_table</code>).</li>
+<li><strong>Column pruning</strong>: leer solo las columnas requeridas → ahorra I/O y RAM.</li>
+<li><strong>Predicate pushdown</strong>: aplicar filtros en el read level → no carga lo que descartás.</li>
+<li><strong>DuckDB</strong>: in-process SQL OLAP DB. <code>pip install duckdb</code> y ya.</li>
+<li><strong>Hive partitioning</strong>: directorios <code>clave=valor/</code>; el lector deduce particiones.</li>
+</ul>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<ul>
+<li>NYC Taxi Parquet (Cloudfront público).</li>
+<li>Librerías: <code>pyarrow</code>, <code>duckdb</code>, <code>polars</code>, <code>pandas</code>.</li>
+</ul>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>CSV → Parquet</strong>: leer un CSV grande con pandas, escribir Parquet con <code>df.to_parquet('file.parquet', compression='zstd')</code>. Comparar tamaño en disco (típicamente 3-10× menor).</li>
+<li><strong>Column pruning</strong>: leer SOLO 2 columnas de un Parquet de 50 columnas con <code>pq.read_table('f.parquet', columns=['a', 'b'])</code>. Comparar tiempo vs leer todo.</li>
+<li><strong>DuckDB sobre Parquet</strong>: <code>duckdb.sql("SELECT date, AVG(amount) FROM 'taxi/*.parquet' WHERE amount &gt; 10 GROUP BY date").df()</code>. Sin cargar nada explícitamente.</li>
+<li><strong>Particionado</strong>: escribir <code>df.to_parquet('out/', partition_cols=['year', 'month'])</code>. Inspeccionar estructura de directorios.</li>
+<li><strong>Arrow zero-copy</strong>: <code>arrow_table = polars_df.to_arrow(); pandas_df = arrow_table.to_pandas()</code>. Verificar que es rápido (no copia memoria).</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Sobre NYC Taxi (varios meses Parquet, ~5 GB total):</p>
+<ol>
+<li>Query con DuckDB: total <code>tip_amount</code> por mes para <code>passenger_count &gt;= 2</code>. Sin descargar todos los archivos a memoria.</li>
+<li>Reportar tiempo y RAM peak (<code>psutil</code> o <code>resource</code>).</li>
+<li>Comparar contra pandas leyendo todo y filtrando.</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: DuckDB completa el query usando &lt; 2 GB RAM mientras pandas explota (OOM o muy lento).</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Parquet sin compresión → archivos enormes</td>
+<td><strong>Fix</strong>: <code>compression='zstd'</code> (default moderno) o <code>'snappy'</code> (rápido).</td>
+</tr>
+<tr>
+<td><code>read_parquet</code> carga todo aunque solo necesitás 2 columnas</td>
+<td>Sin column pruning. <strong>Fix</strong>: <code>columns=['a', 'b']</code>.</td>
+</tr>
+<tr>
+<td>DuckDB no encuentra archivos</td>
+<td>Path glob mal. <strong>Fix</strong>: <code>'data/*.parquet'</code>, <code>'data/**/*.parquet'</code> (recursivo en DuckDB ≥ 0.10).</td>
+</tr>
+<tr>
+<td>Particionado no detectado</td>
+<td>Estructura no Hive. <strong>Fix</strong>: directorios <code>key=value/</code> exactos.</td>
+</tr>
+<tr>
+<td>Mixing PyArrow Table con pandas DataFrame en pipelines</td>
+<td>Confusión. <strong>Fix</strong>: decidir un formato; convertir con <code>.to_pandas()</code> o <code>pa.Table.from_pandas()</code>.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿Parquet o CSV en 2026?</strong></p>
+<p>Parquet, salvo para interchange manual con herramientas no técnicas (Excel). 3-10× más chico, 10-100× más rápido de leer, tipos preservados.</p>
+<p><strong>❓ ¿DuckDB o Spark?</strong></p>
+<p>DuckDB para single-machine, datasets &lt; TB. Spark para cluster, &gt; TB. La frontera se mueve: DuckDB maneja hasta cientos de GB cómodamente.</p>
+<p><strong>❓ ¿Arrow es solo formato o también compute?</strong></p>
+<p>Ambos. <strong>Arrow Compute</strong> (<code>pyarrow.compute</code>) tiene operaciones vectorizadas. Polars usa el motor de Arrow + propio (rust).</p>
+<p><strong>❓ ¿Por qué zstd?</strong></p>
+<p>Compresión mejor que snappy a costo similar de CPU. Es el default en formats modernos (Polars <code>write_parquet</code> default).</p>
+<p><strong>❓ ¿pandas 2.x soporta Arrow nativo?</strong></p>
+<p>Sí — <code>pd.read_csv(..., dtype_backend='pyarrow')</code> usa Arrow types internamente. Más rápido, menos RAM.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li><a href="https://arrow.apache.org/">Apache Arrow project</a></li>
+<li><a href="https://parquet.apache.org/">Apache Parquet docs</a></li>
+<li><a href="https://duckdb.org/docs/">DuckDB docs</a></li>
+<li>McKinney (2017 blog), <em>Apache Arrow and the "10 Things I Hate About pandas"</em>.</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../035-matplotlib-anatomia-figura-axes/index.html">Clase 035 — Matplotlib: anatomía figura/axes</a></p>
+  </main>
+  <footer class="cur-footer">
+    <p>
+      Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-0-prerrequisitos/034-parquet-arrow-pyarrow-duckdb/"><code>classes/parte-0-prerrequisitos/034-parquet-arrow-pyarrow-duckdb/</code></a>
+      · <a href="../../../index.html">← Volver al portal del alumno</a>
+    </p>
+  </footer>
+</body>
+</html>
