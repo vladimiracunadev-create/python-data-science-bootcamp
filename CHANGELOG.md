@@ -13,6 +13,37 @@
 
 ---
 
+## [v3.1.0] — 2026-06-17 (Parte 4 — MLOps completa)
+
+### Añadido
+
+- **Parte 4 — MLOps: 14/14 clases desarrolladas** (194-207) con patrón pedagógico v3.0 completo (Objetivo · Resultados · Temas · Definiciones · Dataset · Ejercicios · Homework verificable · Errores comunes · FAQ · Referencias). Fuente: Huyen *Designing Machine Learning Systems* (O'Reilly) + ecosistema MLOps actual.
+  - **194 — Versionado de datos con DVC 3.x**: `dvc.yaml`, remotes, `dvc exp`, lockfile, reproducibilidad point-in-time.
+  - **195 — MLflow Tracking + Model Registry**: runs, autolog, registry con stages + aliases (`@champion`/`@challenger`).
+  - **196 — Feature stores con Feast 0.40+**: offline/online store, point-in-time joins, materialización, training/serving skew.
+  - **197 — CI/CD con GitHub Actions + CML**: workflows lint/test/train, OIDC para AWS, branch protection, CML comment con métricas.
+  - **198 — Docker multi-stage**: imagen <500 MB, layer caching, non-root, distroless tradeoffs, digests vs tags.
+  - **199 — FastAPI sirviendo modelos**: lifespan, Pydantic v2, sync vs async, batching, healthchecks, Prometheus.
+  - **200 — Kubernetes**: 5 manifests mínimos (Deployment/Service/HPA/Ingress/ConfigMap), las 3 probes, rolling update + rollback.
+  - **201 — Serverless ML**: Lambda Container Image + Cloud Functions 2nd gen, cold start mitigation, cost calculator vs K8s.
+  - **202 — Monitoreo: data/model/concept drift**: PSI/KS/Wasserstein, Evidently AI, NannyML (CBPE), alertas con cooldown.
+  - **203 — Reentrenamiento programado**: DAG Prefect/Airflow, champion-challenger, idempotencia, online vs continual training.
+  - **204 — Shadow + canary + A/B test**: sticky assignment, auto-rollback por guardrails, sample size pre-calculado, rigor estadístico.
+  - **205 — Interpretabilidad en producción**: SHAP TreeExplainer (rápido) vs KernelExplainer, PDP+ICE, LIME, endpoint `/explain`.
+  - **206 — Testing de datos**: Great Expectations 1.x, Pandera, integración con DVC/Airflow como gate.
+  - **207 — Behavioral tests**: invariance (gender swap), directional (income up), MFT, slice-based — al estilo CheckList (Ribeiro et al., ACL 2020 best paper).
+
+### Cambiado
+
+- ROADMAP, README de Parte 4 sincronizados con v3.1.0; Parte 4 marcada `✅ completada`.
+- Siguiente prioridad: **Parte 5 — Ingeniería de datos** (8 clases · 208-215).
+
+### Cobertura del currículo
+
+- **207/232 clases desarrolladas** (~89%). Pendientes: P5 (8), P6 (7), P7 (6), P8 (4) = 25 clases restantes.
+
+---
+
 ## [v3.0.0] — 2026-06-04 (BREAKING — gran restructuración del currículo)
 
 ### Cambios estructurales (BREAKING)

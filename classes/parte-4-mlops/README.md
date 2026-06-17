@@ -2,7 +2,7 @@
 
 > [⬅️ Volver al programa](../../README.md) · [📚 Índice completo](../README.md) · [⏮️ Parte anterior](../parte-3-estadistica-inferencial/README.md) · [⏭️ Parte siguiente](../parte-5-ingenieria-de-datos/README.md)
 
-**14 clases** · ~4–5 semanas
+**14 clases** · ~4–5 semanas · ✅ **completada (junio 2026)**
 
 **Fuente principal:** **Huyen** ([*Designing Machine Learning Systems*](https://www.oreilly.com/library/view/designing-machine-learning/9781098107956/)) — el manual de cabecera para MLOps moderno.
 
@@ -35,11 +35,22 @@ Al finalizar esta parte, el estudiante podrá:
 
 ## 🗺️ Estructura temática
 
-- **Versionado** — clases 159–161 — DVC para datos, MLflow para modelos/experimentos, Feast como feature store.
-- **CI/CD y packaging** — clases 162–164 — GitHub Actions para ML, Docker, FastAPI.
-- **Escala y serving** — clases 165–166 — Kubernetes, serverless (AWS Lambda / GCP Functions).
-- **Monitoreo y operación** — clases 167–169 — data/model drift, reentrenamiento programado, shadow/canary.
-- **Interpretabilidad y testing** — clases 170–172 — SHAP/LIME/PDP/ICE, testing de datos, testing de modelos.
+- **Versionado** — clases 194–196 — DVC para datos, MLflow para modelos/experimentos, Feast como feature store.
+- **CI/CD y packaging** — clases 197–199 — GitHub Actions para ML, Docker, FastAPI.
+- **Escala y serving** — clases 200–201 — Kubernetes, serverless (AWS Lambda / GCP Functions).
+- **Monitoreo y operación** — clases 202–204 — data/model drift, reentrenamiento programado, shadow/canary.
+- **Interpretabilidad y testing** — clases 205–207 — SHAP/LIME/PDP/ICE, testing de datos, testing de modelos.
+
+## 🛡️ Las 6 capas de protección que dejás armadas
+
+Al terminar P4, todo modelo en producción está cubierto por:
+
+1. **Data tests** (206) — validación de cada batch antes de entrar al pipeline.
+2. **Model tests** (207) — INV/DIR/MFT/slice tests como gate de CI.
+3. **Monitoring** (202) — PSI/KS/Wasserstein + CBPE sobre tráfico real.
+4. **Shadow** (204) — challenger predice sin afectar usuarios.
+5. **Canary** (204) — rollout 1% → 5% → 25% → 100% con sticky assignment.
+6. **Rollback automático** (204) — vuelta al champion ante degradación de guardrails.
 
 ## 📚 Índice de clases (14)
 
