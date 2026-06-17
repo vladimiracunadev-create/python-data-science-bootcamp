@@ -13,6 +13,31 @@
 
 ---
 
+## [v3.3.0] — 2026-06-17 (Parte 6 — Sistemas de Recomendación completa)
+
+### Añadido
+
+- **Parte 6 — Sistemas de Recomendación: 7/7 clases desarrolladas** (216-222) con patrón pedagógico v3.0 completo. Fuente: Aggarwal *Recommender Systems: The Textbook* + papers fundacionales (Koren 2009, Hu 2008, Burke 2002, Linden 2003).
+  - **216 — Filtrado colaborativo user/item-based**: kNN con scipy.sparse, coseno/Pearson/Jaccard, por qué item-based gana en producción (Amazon 2003).
+  - **217 — Matrix factorization SVD + ALS**: SVD truncado, ALS implementado a mano, implicit ALS con la lib `implicit` (Hu et al.), embeddings y PCA.
+  - **218 — Content-based**: TF-IDF + cosine, sentence-transformers (`all-MiniLM-L6-v2`), FAISS para retrieval <10ms.
+  - **219 — Híbridos**: los 7 patrones de Burke, weighted con tuning de α, switching cold-start, LightFM hybrid con features.
+  - **220 — Métricas**: implementación desde cero de recall@k, precision@k, MAP@k, NDCG@k, coverage, diversity. Por qué NO usar RMSE en top-N.
+  - **221 — Cold-start**: Bayesian shrinkage para popularity, onboarding explícito, novelty boost para items nuevos, epsilon-greedy bandit.
+  - **222 — Librerías**: comparativa Surprise/Implicit/LightFM con NDCG@10 + tiempo; decision matrix por caso de uso.
+
+### Cambiado
+
+- ROADMAP v3.2.0 → v3.3.0; Parte 6 marcada `✅ completada`.
+- README de Parte 6 actualizado (fuente principal completa + estructura temática + numeración corregida 216-222).
+- Siguiente prioridad: **Parte 7 — Ética, Fairness, Privacidad** (6 clases · 223-228).
+
+### Cobertura del currículo
+
+- **222/232 clases desarrolladas** (~96%). Pendientes: P7 (6), P8 (4) = 10 clases restantes.
+
+---
+
 ## [v3.2.0] — 2026-06-17 (Parte 5 — Ingeniería de Datos completa)
 
 ### Añadido

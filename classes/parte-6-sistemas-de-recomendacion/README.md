@@ -2,9 +2,9 @@
 
 > [⬅️ Volver al programa](../../README.md) · [📚 Índice completo](../README.md) · [⏮️ Parte anterior](../parte-5-ingenieria-de-datos/README.md) · [⏭️ Parte siguiente](../parte-7-etica-fairness-privacidad/README.md)
 
-**7 clases** · ~2–3 semanas
+**7 clases** · ~2–3 semanas · ✅ **completada (junio 2026)**
 
-**Fuente principal:** Complementaria — combinación de filtrado colaborativo clásico y enfoques modernos basados en embeddings.
+**Fuente principal:** Aggarwal *Recommender Systems: The Textbook* (Springer, 2016) + Koren/Bell/Volinsky 2009 (matrix factorization) + Hu/Koren/Volinsky 2008 (implicit feedback) + Burke 2002 (hybrids) + docs LightFM/Implicit/Surprise.
 
 ---
 
@@ -32,10 +32,10 @@ Al finalizar esta parte, el estudiante podrá:
 
 ## 🗺️ Estructura temática
 
-- **Filtrado colaborativo** — clases 181–182 — user-based, item-based, factorización de matrices (SVD, ALS).
-- **Content-based e híbridos** — clases 183–184 — content-based, recomendadores híbridos.
-- **Evaluación y cold-start** — clases 185–186 — métricas MAP@k / NDCG / recall@k, cold-start problem.
-- **Tooling** — clase 187 — LightFM, Implicit, Surprise.
+- **Filtrado colaborativo** — clases 216–217 — user/item-based kNN, factorización de matrices (SVD truncado + ALS explicit/implicit).
+- **Content-based e híbridos** — clases 218–219 — TF-IDF + sentence-transformers + FAISS, los 7 patrones de Burke + LightFM hybrid.
+- **Evaluación y cold-start** — clases 220–221 — MAP@k / NDCG@k / recall@k + coverage + diversity, popularity Bayesiana + onboarding + bandits.
+- **Tooling** — clase 222 — Surprise vs Implicit vs LightFM vs TF Recommenders, FAISS/Milvus para serving.
 
 ## 📚 Índice de clases (7)
 
