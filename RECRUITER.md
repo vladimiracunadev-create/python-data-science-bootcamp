@@ -16,7 +16,7 @@
 
 Un sistema de capacitación en Python y Data Science que integra:
 
-- 📚 **currículo modular** (232 clases · 9 partes · v3.0.0 expansión 2026 · pauta derivada de Géron 3ª ed., VanderPlas, Huyen, ISLP, Barocas/Hardt/Narayanan + papers seminales 2024-2026) — **Partes 0, 1, 2 y 3 (193 clases) completas y ampliadas** con Definiciones, Errores comunes y FAQ en cada clase + 35 clases dedicadas a temas modernos (Polars/Parquet/async, Optuna/SHAP/calibración/Model Cards, PyTorch+Lightning, SAM/YOLOv11, Flash Attention/RoPE/GQA, CLIP/Whisper, LoRA/QLoRA/DPO/vLLM, MCP/agentes/eval, SDXL+ControlNet, ONNX, JAX, effect size, BCa, CUPED+sequential, DoubleML, Synthetic Controls, PyMC v5+NumPyro+ArviZ); Partes 4-8 (39 clases) en desarrollo;
+- 📚 **currículo modular** (232 clases · 9 partes · v3.3.0 · pauta derivada de Géron 3ª ed., VanderPlas, Huyen, ISLP, Barocas/Hardt/Narayanan + Reis & Housley, Kimball & Ross, Aggarwal + papers seminales 2002-2026) — **Partes 0-6 (222 clases ≈ 96%) completas y ampliadas** con Definiciones, Errores comunes y FAQ en cada clase + 35 clases dedicadas a temas modernos 2024-2026 + stack completo de MLOps (DVC, MLflow, Feast, K8s, FastAPI, drift, shadow/canary, SHAP, Great Expectations, behavioral tests) + data engineering (Airflow, PySpark, Polars, DuckDB/BQ/Snowflake, Kafka, Parquet/Avro, star schemas SCD2) + recomendadores (CF, SVD/ALS, content+FAISS, LightFM, métricas top-N, cold-start); Partes 7-8 (10 clases) en desarrollo;
 - 🧪 **laboratorio interactivo** (Flask + ejecución Python en tiempo real, matplotlib, pandas);
 - 🖥️ **app de escritorio nativa para Windows** (pywebview + Edge WebView2, sin navegador);
 - 📱 **app Android** (Expo/React Native, contenido embebido + Google Colab) — pendiente migrar contenido al índice actual;
@@ -31,7 +31,7 @@ Un sistema de capacitación en Python y Data Science que integra:
 |---|---|---|
 | Backend Flask | ✅ operativo | 10 rutas, tests automatizados, CI en GitHub Actions |
 | Ejecución de código Python | ✅ operativo | pandas, matplotlib (gráficos), scikit-learn, timeout 30s |
-| 232 clases (193 desarrolladas, 39 scaffold) | ✅ operativo | `/api/classes` → 232 clases, `/api/class/<path:slug>` → HTML |
+| 232 clases (222 desarrolladas, 10 scaffold) | ✅ operativo | `/api/classes` → 232 clases, `/api/class/<path:slug>` → HTML |
 | 6 notebooks interactivos | ✅ operativo | `/api/notebooks` → 6 templates, ejecución por celda |
 | App de escritorio Windows | 🟡 código operativo · binario pendiente | pywebview 6.1 + PyInstaller 6.19, ZIP portable 92MB |
 | Instalador Windows | 🟡 pendiente de rebuild | Inno Setup — sin Python requerido en el PC del usuario |

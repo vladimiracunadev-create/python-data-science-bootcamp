@@ -18,7 +18,7 @@
 
 El producto se organiza en tres capas coordinadas:
 
-- una **capa pedagógica reusable** (`classes/`, `datasets/`) — **232 clases en 9 partes** (v3.0.0, numeración secuencial 001-232; Partes 0-3 con 193 clases completas y modernizadas 2024-2026 + 35 clases dedicadas a temas modernos; Partes 4-8 con 39 clases en scaffold);
+- una **capa pedagógica reusable** (`classes/`, `datasets/`) — **232 clases en 9 partes** (v3.3.0, numeración secuencial 001-232; Partes 0-6 con 222 clases ≈ 96% completas y modernizadas 2024-2026 + 35 clases dedicadas a temas modernos + stack completo MLOps + data engineering + recomendadores; Partes 7-8 con 10 clases en scaffold);
 - una **capa operativa local** para el laboratorio (`app/`, `launcher.py`, `mobile/`);
 - una **capa pública** para alumnos e institución (`site/`, GitHub Pages).
 
@@ -122,7 +122,7 @@ graph LR
 
 ### `classes/` — Currículo modular
 
-Concentra el contenido de las **232 clases** en 9 partes (v3.0.0, numeración secuencial 001-232). Pauta derivada de Géron (Hands-On ML 3ª ed.), VanderPlas, Huyen, ISLP y Barocas/Hardt/Narayanan + papers seminales 2024-2026 (Flash Attention, LoRA, DPO, ControlNet, MCP, DoubleML, Synthetic Controls).
+Concentra el contenido de las **232 clases** en 9 partes (v3.3.0, numeración secuencial 001-232). Pauta derivada de Géron (Hands-On ML 3ª ed.), VanderPlas, Huyen, ISLP, Barocas/Hardt/Narayanan + Reis & Housley (Data Engineering), Kimball & Ross (Data Warehouse Toolkit), Aggarwal (Recommender Systems) + papers seminales 2002-2026 (Flash Attention, LoRA, DPO, ControlNet, MCP, DoubleML, Synthetic Controls, Koren/Hu para MF, Burke para hybrids, CheckList para behavioral tests).
 
 | Parte | Tema | Clases |
 |---|---|---|

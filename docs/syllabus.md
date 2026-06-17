@@ -83,11 +83,11 @@ Capaz de:
 | Componente | Estado |
 |---|---|
 | Estructura de carpetas (232) | ✅ creada |
-| README por clase | ✅ Partes 0-3 (193) completos y modernizados · Partes 4-8 (39) stubs |
-| `notebook.ipynb` por clase | ✅ Parte 0 (49) ejecutables · ⏳ Partes 1-8 stubs (notebooks pendientes de desarrollo aunque los README de P1-P3 estén completos) |
-| Contenido pedagógico real | 🟢 Partes 0-3 completas (193 clases · v3.0.0) · ⏳ 39 clases pendientes (Partes 4-8) |
-| Definiciones + Errores comunes + FAQ por clase | 🟢 193/193 en Partes 0-3 (v3.0.0) · ⏳ Partes 4-8 |
-| Clases dedicadas modernas 2024-2026 | 🟢 **35 clases dedicadas** en Partes 0-3 (Polars/Parquet/async, Optuna/SHAP/calibración/Model Cards, PyTorch+Lightning, SAM/YOLOv11, Flash Attention/RoPE/GQA, CLIP/Whisper, LoRA/QLoRA/DPO/vLLM, MCP/agentes/eval, SDXL+ControlNet, ONNX, JAX, effect size, BCa, CUPED+sequential, DoubleML, Synthetic Controls, PyMC v5/NumPyro/ArviZ) |
+| README por clase | ✅ Partes 0-6 (222) completos y modernizados · Partes 7-8 (10) stubs |
+| `notebook.ipynb` por clase | ✅ Partes 0, 4, 5, 6 ejecutables · Partes 1-3 con README completos + notebooks pendientes · Partes 7-8 stubs |
+| Contenido pedagógico real | 🟢 Partes 0-6 completas (222 clases · v3.3.0 ≈ 96%) · ⏳ 10 clases pendientes (Partes 7-8) |
+| Definiciones + Errores comunes + FAQ por clase | 🟢 222/222 en Partes 0-6 (v3.3.0) · ⏳ Partes 7-8 |
+| Clases dedicadas modernas 2024-2026 | 🟢 **35 clases dedicadas** en Partes 0-3 + stack moderno completo en Partes 4-6 (DVC/MLflow/Feast/K8s/FastAPI/Evidently/NannyML/Prefect/Istio/SHAP/Great Expectations/CheckList; Airflow/Prefect/Dagster/PySpark/Polars/DuckDB/BQ/Snowflake/Kafka/Parquet/Avro/star schema; CF/SVD+ALS/sentence-transformers/FAISS/LightFM/bandits) |
 | PDFs y PPTX por clase | ⏳ pendiente (regenerar tras desarrollar contenido) |
 | Quizzes pre/post lección | ⏳ pendiente |
 | Datasets temáticos por bloque | ⏳ pendiente |
@@ -121,9 +121,11 @@ Materiales opcionales que se pueden añadir conforme una clase madure:
 2. ~~**Parte 1** (50 clases · 050-099) — ML clásico es la base del 70% del trabajo real.~~ ✅ completada (v3.0.0, con 7 clases dedicadas: Optuna, SHAP, calibración, Model Cards, class imbalance, validación temporal, FE+MICE).
 3. ~~**Parte 3** (19 clases · 175-193) — estadística inferencial y causal.~~ ✅ completada (v3.0.0, con 6 clases dedicadas: effect size, BCa, CUPED+sequential, DoubleML, Synthetic Controls, PyMC v5/NumPyro/ArviZ).
 4. ~~**Parte 2** (75 clases · 100-174) — Deep Learning con expansión LLM/multimodal completa.~~ ✅ completada (v3.0.0, con 19 clases dedicadas modernas 2024-2026: PyTorch+Lightning, SAM/YOLOv11, Flash Attention, CLIP/Whisper, LoRA/QLoRA/DPO/vLLM, MCP/agentes/eval, SDXL+ControlNet, ONNX, JAX).
-5. **Parte 4** (MLOps) — después de tener al menos un modelo serio entrenado.
-6. **Partes 5, 6, 7** en paralelo según prioridad.
-7. **Parte 8** (capstones) — al cierre del programa.
+5. ~~**Parte 4** (MLOps, 14 clases · 194-207) — después de tener al menos un modelo serio entrenado.~~ ✅ completada (v3.1.0, fuente Huyen — DVC, MLflow, Feast, K8s, FastAPI, drift, shadow/canary, SHAP en producción, Great Expectations, behavioral tests).
+6. ~~**Parte 5** (Ingeniería de datos, 8 clases · 208-215).~~ ✅ completada (v3.2.0, fuentes Reis & Housley + Kimball — Airflow, Prefect/Dagster, PySpark, Polars, DuckDB/BQ/Snowflake, Kafka, Parquet/Avro, star schemas).
+7. ~~**Parte 6** (Sistemas de recomendación, 7 clases · 216-222).~~ ✅ completada (v3.3.0, fuente Aggarwal + papers fundacionales — CF kNN, SVD/ALS, content+FAISS, LightFM, métricas top-N, cold-start, librerías).
+8. **Parte 7** (Ética, fairness, privacidad, 6 clases · 223-228) — siguiente prioridad.
+9. **Parte 8** (capstones, 4 proyectos · 229-232) — al cierre del programa.
 
 ## 🧠 Metodología por clase
 
