@@ -2,9 +2,9 @@
 
 > [⬅️ Volver al programa](../../README.md) · [📚 Índice completo](../README.md) · [⏮️ Parte anterior](../parte-4-mlops/README.md) · [⏭️ Parte siguiente](../parte-6-sistemas-de-recomendacion/README.md)
 
-**8 clases** · ~3 semanas
+**8 clases** · ~3 semanas · ✅ **completada (junio 2026)**
 
-**Fuente principal:** Complementaria — fundamentos prácticos de data engineering necesarios para alimentar pipelines de ML a escala.
+**Fuente principal:** Reis & Housley *Fundamentals of Data Engineering* (O'Reilly, 2022) + Kimball & Ross *The Data Warehouse Toolkit* (Wiley, 3ª ed.) + docs oficiales del stack moderno.
 
 ---
 
@@ -33,10 +33,10 @@ Al finalizar esta parte, el estudiante podrá:
 
 ## 🗺️ Estructura temática
 
-- **Orquestación** — clases 173–174 — Airflow, Prefect, Dagster.
-- **Procesamiento distribuido y moderno** — clases 175–176 — PySpark, Polars.
-- **Data warehouses y streaming** — clases 177–178 — BigQuery / Snowflake / DuckDB, Kafka / Kinesis.
-- **Formatos y modelado** — clases 179–180 — Parquet/Avro, modelado dimensional.
+- **Orquestación** — clases 208–209 — Airflow (TaskFlow API), Prefect 3 + Dagster (assets).
+- **Procesamiento distribuido y moderno** — clases 210–211 — PySpark (broadcast, AQE, skew), Polars (lazy, streaming).
+- **Data warehouses y streaming** — clases 212–213 — BigQuery / Snowflake / DuckDB, Kafka + Kinesis (consumer groups, exactly-once).
+- **Formatos y modelado** — clases 214–215 — Parquet/Avro (predicate pushdown, schema evolution), star/snowflake schemas (SCD 2, `dim_date`).
 
 ## 📚 Índice de clases (8)
 

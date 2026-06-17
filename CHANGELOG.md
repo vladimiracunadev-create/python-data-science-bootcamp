@@ -13,6 +13,32 @@
 
 ---
 
+## [v3.2.0] — 2026-06-17 (Parte 5 — Ingeniería de Datos completa)
+
+### Añadido
+
+- **Parte 5 — Ingeniería de Datos: 8/8 clases desarrolladas** (208-215) con patrón pedagógico v3.0 completo. Fuente: Reis & Housley *Fundamentals of Data Engineering* (O'Reilly, 2022) + Kimball & Ross *Data Warehouse Toolkit* (Wiley, 3ª ed.) + docs oficiales del stack moderno.
+  - **208 — Airflow + TaskFlow API**: DAGs idempotentes, retries/SLAs, XComs, catchup vs backfill, ETL vs ELT.
+  - **209 — Prefect 3 + Dagster**: mismo pipeline con `@flow`/`@task` y con `@asset` SDA; comparativa con Airflow.
+  - **210 — PySpark 3.5**: lazy DataFrames, broadcast join, AQE, particionado, salting para skew, Spark UI.
+  - **211 — Polars 1.x**: eager vs lazy, streaming engine para datasets > RAM, Arrow zero-copy con DuckDB.
+  - **212 — Data warehouses**: DuckDB local (full demo), BigQuery (dry-run + cost guard), Snowflake (cluster keys + time travel).
+  - **213 — Streaming Kafka + Kinesis**: KRaft docker-compose, producer/consumer con consumer groups, at-least-once + idempotent dedupe.
+  - **214 — Parquet + Avro**: benchmark CSV vs Parquet (snappy/zstd/gzip), row groups + stats, schema evolution backward-compatible.
+  - **215 — Modelado dimensional**: star schema con DuckDB, `dim_date` precalculada, SCD Tipo 2 con surrogate keys (demo Alice cambia ciudad), grain decisión.
+
+### Cambiado
+
+- ROADMAP v3.1.0 → v3.2.0; Parte 5 marcada `✅ completada`.
+- README de Parte 5 actualizado con estructura temática + numeración correcta (208-215).
+- Siguiente prioridad: **Parte 6 — Sistemas de Recomendación** (7 clases · 216-222).
+
+### Cobertura del currículo
+
+- **215/232 clases desarrolladas** (~93%). Pendientes: P6 (7), P7 (6), P8 (4) = 17 clases restantes.
+
+---
+
 ## [v3.1.0] — 2026-06-17 (Parte 4 — MLOps completa)
 
 ### Añadido
