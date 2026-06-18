@@ -5,7 +5,7 @@
 ### **Fuente de verdad de superficies, artefactos y reglas de comunicación**
 
 [![Autoridad](https://img.shields.io/badge/prioridad-este%20documento-ef4444?style=for-the-badge)](#-regla-de-prioridad)
-[![Estado](https://img.shields.io/badge/release-v3.5.0-2e8b57?style=for-the-badge)](../CHANGELOG.md)
+[![Estado](https://img.shields.io/badge/release-v3.6.0-2e8b57?style=for-the-badge)](../CHANGELOG.md)
 
 </div>
 
@@ -30,7 +30,7 @@
 
 | Superficie | Tipo | Estado | Audiencia | Qué entrega hoy |
 |---|---|---|---|---|
-| Laboratorio interactivo (`app/`) | núcleo operativo | operativo | docente / estudiante guiado | acceso a las 232 clases (stubs), notebooks editables, ejecución Python en tiempo real, captura de gráficos, guardado local |
+| Laboratorio de ejecución Python (`app/`) | núcleo operativo | operativo | docente / estudiante guiado | Flask shell + kernel Jupyter real (`jupyter_client`), lee notebooks reales del currículo, outputs ricos (HTML/imágenes/errores), 197 notebooks ejecutables de 232 clases |
 | App de escritorio Windows (`launcher.py` + `installer/`) | distribución de escritorio | listo para build | alumno / docente en aula | ventana nativa Edge WebView2 sin navegador, sin Python instalado en el equipo del usuario, Flask interno transparente |
 | App Android (`mobile/`) | distribución móvil | **catálogo vacío** | alumno en movimiento | código operativo, pero `mobile/src/data/classes.js` quedó como stub; pendiente cargar entradas del currículo actual |
 | Portal del alumno (`site/`) | superficie pública | operativo | alumno | muestra el resumen de 232 clases en 9 partes con tarjeta por parte |
@@ -63,7 +63,7 @@ Cada clase vive en `classes/parte-N-slug/NNN-tema-slug/` con `README.md` (ficha)
 
 ## ⚙️ Funcionalidad real por superficie
 
-| Capacidad | Lab Flask | App Windows | App Android | Portal alumno | Vista institucional |
+| Capacidad | Lab ejecución Python | App Windows | App Android | Portal alumno | Vista institucional |
 |---|---|---|---|---|---|
 | Ver contenido de las clases | ✅ (stubs) | ✅ (tras rebuild) | ❌ (pendiente) | ❌ (pendiente) | ❌ |
 | Ejecutar código Python | ✅ (runner local) | ✅ (runner local) | ↗️ Google Colab | ❌ | ❌ |
@@ -105,7 +105,7 @@ Cada clase vive en `classes/parte-N-slug/NNN-tema-slug/` con `README.md` (ficha)
 
 ### Lo que no se debe mezclar
 
-- **el currículo está completo a nivel de contenido pedagógico (232/232)** con Definiciones/Errores/FAQ en cada clase + 35 clases dedicadas a temas 2024-2026 + stack MLOps + data engineering + recomendadores + ética/fairness/privacidad + 4 capstones integradores; pero "listo para dictar llave en mano" todavía requiere superficies derivadas (PDFs/PPTX por clase regenerados, contenido migrado a la app Android, mejoras del lab Flask) — no afirmar "232 clases listas para dictar" sin esa salvedad;
+- **el currículo está completo a nivel de contenido pedagógico (232/232)** con Definiciones/Errores/FAQ en cada clase + 35 clases dedicadas a temas 2024-2026 + stack MLOps + data engineering + recomendadores + ética/fairness/privacidad + 4 capstones integradores; pero "listo para dictar llave en mano" todavía requiere superficies derivadas (PDFs/PPTX por clase regenerados, contenido migrado a la app Android, mejoras del laboratorio de ejecución Python — incluido generar las 35 `.ipynb` pendientes) — no afirmar "232 clases listas para dictar" sin esa salvedad;
 - el portal del alumno **no es** todo el producto;
 - la vista institucional **no reemplaza** el laboratorio;
 - la app Android **no ejecuta Python nativo** — usa Google Colab;
@@ -119,7 +119,7 @@ Cada clase vive en `classes/parte-N-slug/NNN-tema-slug/` con `README.md` (ficha)
 🎓 **El currículo está completo (232/232 · 100%, v3.5.0).** Ya no hay un próximo "bloque pedagógico" pendiente: el siguiente foco son las **superficies** que entregan ese contenido al alumno final:
 
 1. regenerar los **PDFs y PPTX por clase** (`docs/pdfs/classes/`, `docs/presentaciones/classes/`) ahora que el contenido está estable;
-2. migrar el catálogo de 232 clases al **lab Flask** y mejorar la UX de navegación;
+2. generar las **35 `.ipynb` faltantes** de las clases dedicadas modernas (Polars, Optuna, Ray Tune, Lightning, etc.) ahora que el **lab de ejecución Python** corre kernel Jupyter real y puede ejecutarlas;
 3. cargar el contenido en la **app Android** (`mobile/src/data/classes.js` sigue stub) y rebuild del APK;
 4. rebuild del **instalador Windows** y firma del binario.
 

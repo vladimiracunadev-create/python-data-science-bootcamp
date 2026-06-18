@@ -64,7 +64,7 @@
 | 🖥️ [BUILD_INSTALLER.md](BUILD_INSTALLER.md) | Cómo generar el instalador .exe para Windows |
 | 📱 [MOBILE_APP.md](MOBILE_APP.md) | Cómo construir y distribuir la app Android |
 | ☁️ [MIGRACION_AWS.md](MIGRACION_AWS.md) | Plan de migración a cloud (AWS) |
-| 🧪 [entorno-interactivo.md](entorno-interactivo.md) | El laboratorio Flask — modos, API, motor de ejecución |
+| 🧪 [entorno-interactivo.md](entorno-interactivo.md) | El laboratorio de ejecución Python (Flask + kernel Jupyter) — modos, API, motor de ejecución |
 | 🚢 [despliegue-seguro-y-operacion.md](despliegue-seguro-y-operacion.md) | CI/CD, Docker y hardening técnico |
 | 📱 [portal-estudiante-y-app-movil.md](portal-estudiante-y-app-movil.md) | Portal público, laboratorio y app móvil |
 | 📄 [pdfs/](pdfs/) | Guías explicativas por clase (se regeneran por bloques al madurar el contenido) |

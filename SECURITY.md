@@ -22,7 +22,7 @@ Este repositorio está pensado para uso local, docente y de laboratorio. La app 
 
 | 🔖 Versión | 🚦 Estado |
 |---|---|
-| `v3.5.0` (rama `main`) | ✅ activamente desarrollada |
+| `v3.6.0` (rama `main`) | ✅ activamente desarrollada |
 
 > 🚀 El próximo binario distribuible se publicará cuando el contenido alcance un hito publicable.
 
@@ -79,7 +79,7 @@ Este repositorio está pensado para uso local, docente y de laboratorio. La app 
 
 - 🤖 Bandit integrado en CI (`security.yml`);
 - 📝 los únicos `# nosec` presentes son B310 y B110 en los polling loops de `launcher.py` y `run_program.py` — justificados porque la URL es siempre `http://127.0.0.1:{port}/health` construida internamente, sin input de usuario;
-- ⚠️ los usos de `exec` y `eval` en `execution_engine.py` son intencionales y necesarios para la funcionalidad tipo notebook; están mitigados por timeout, límites de payload y la restricción de uso local.
+- ⚠️ el laboratorio ejecuta código del alumno en kernels Jupyter aislados (`app/kernel_manager.py`, `jupyter_client` + `ipykernel`); la mitigación de seguridad ahora es el modo local-first + timeout por celda + posibilidad de interrumpir/reiniciar kernel, no un timeout sobre `exec()`.
 
 ---
 

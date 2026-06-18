@@ -13,6 +13,24 @@
 
 ---
 
+## [v3.6.0] — 2026-06-18 (Laboratorio de ejecución Python: kernel Jupyter real)
+
+### Cambiado
+- **Reemplazo de `app/execution_engine.py` (exec() puro) por `app/kernel_manager.py`** — backend de ejecución ahora usa `jupyter_client` + `ipykernel` reales (un kernel Jupyter por sesión, no un namespace Python con `exec()`).
+- **Nuevo `app/notebook_loader.py`** — el laboratorio lee los `classes/**/notebook.ipynb` reales del currículo en lugar de generar notebooks desde templates.
+- **SPA frontend nueva** — `app/templates/index.html` + `app/static/styles.css` + `app/static/lab.js`: árbol del currículo navegable, celdas estilo Jupyter, outputs ricos (HTML, imágenes PNG/JPEG, errores con traceback, streams stdout/stderr), atajos Ctrl/Cmd+Enter (ejecutar) y Shift+Enter (ejecutar y avanzar), toggle theme dark/light.
+- **Nuevas rutas API**: `GET /api/curriculum`, `GET /api/notebook/<slug>`, `POST /api/kernel/start`, `POST /api/kernel/<id>/execute`, `POST /api/kernel/<id>/interrupt`, `POST /api/kernel/<id>/restart`, `DELETE /api/kernel/<id>`.
+- **Bundle completo** en `requirements.txt` (~2.5 GB) — torch CPU + transformers + sentence-transformers + faiss-cpu + xgboost + statsmodels + fairlearn + lightgbm + etc., para que el lab ejecute cualquier notebook del currículo sin pip-install adicional.
+
+### Conservado
+- `app/app.py` (shell Flask), `launcher.py`, instalador Windows + WebView2, `Dockerfile`, CSP estricto, modo local-first.
+
+### Reality check
+- **232 carpetas de clase con `README.md` pedagógico** (currículo completo a nivel de contenido).
+- **197 clases con `notebook.ipynb` ejecutable**. Las **35 clases dedicadas modernas** (Polars, Optuna, Ray Tune, Lightning, etc.) tienen README pero notebook pendiente — el loader marca `has_notebook: bool` por clase y la UI deshabilita "Ejecutar" cuando es False.
+
+---
+
 ## [v3.5.0] — 2026-06-18 (Parte 8 — Capstones completa · 🎓 currículo 232/232 = 100%)
 
 ### Añadido
@@ -31,7 +49,7 @@
 
 ### Cobertura del currículo
 
-- **232/232 clases desarrolladas (100%)**. 🎓 Programa completo. Próximo foco del repo (no del currículo): regenerar PDFs/PPTX por bloques, migrar contenido a UI Android, mejoras al laboratorio Flask.
+- **232/232 clases desarrolladas (100%)**. 🎓 Programa completo. Próximo foco del repo (no del currículo): regenerar PDFs/PPTX por bloques, migrar contenido a UI Android, mejoras al laboratorio de ejecución Python.
 
 ---
 

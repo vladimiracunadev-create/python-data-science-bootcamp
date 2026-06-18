@@ -18,7 +18,7 @@
 
 El producto se organiza en tres capas coordinadas:
 
-- una **capa pedagógica reusable** (`classes/`, `datasets/`) — **232 clases en 9 partes** (v3.5.0, numeración secuencial 001-232; 🎓 **currículo completo 232/232 = 100%** y modernizado 2024-2026 + 35 clases dedicadas a temas modernos + stack completo MLOps + data engineering + recomendadores + ética/fairness/privacidad + 4 capstones integradores tabular/NLP-series/visión/portafolio);
+- una **capa pedagógica reusable** (`classes/`, `datasets/`) — **232 clases en 9 partes** (v3.6.0, numeración secuencial 001-232; 🎓 **232 READMEs pedagógicos · 197 notebooks ejecutables** — las 35 clases dedicadas modernas tienen README pero notebook pendiente y modernizado 2024-2026 + 35 clases dedicadas a temas modernos + stack completo MLOps + data engineering + recomendadores + ética/fairness/privacidad + 4 capstones integradores tabular/NLP-series/visión/portafolio);
 - una **capa operativa local** para el laboratorio (`app/`, `launcher.py`, `mobile/`);
 - una **capa pública** para alumnos e institución (`site/`, GitHub Pages).
 
@@ -31,7 +31,7 @@ graph LR
     INST["🏫 Institución / evaluador"] --> PRODUCT["Vista institucional\nsite/product/"]
     ALUM["🎓 Alumno"] --> PORTAL["Portal del alumno\nsite/"]
     ALUM --> MOBILE["📱 App Android\nmobile/"]
-    DOC["👩‍🏫 Docente"] --> LAB["🧪 Laboratorio local\napp/"]
+    DOC["👩‍🏫 Docente"] --> LAB["🧪 Lab ejecución Python\napp/ (Flask + Jupyter kernel)"]
     DOC --> WIN["🖥️ App escritorio Windows\nPythonDSProgram.exe"]
 
     PRODUCT --> DOCS["📚 Documentación canónica\ndocs/"]
@@ -63,8 +63,8 @@ graph TD
     CLASSAPI --> LOADER["content_loader.py\n_safe_resolve + markdown"]
     LOADER --> CLASSES["classes/\n232 clases (rglob notebook.ipynb)"]
     NBAPI --> TEMPLATES["app/notebooks/\ntemplates JSON precargados"]
-    EXECAPI --> ENGINE["execution_engine.py\ntimeout 30s · max 100 sesiones"]
-    ENGINE --> SESSION["Sesión en memoria\nnamespace Python persistente"]
+    EXECAPI --> ENGINE["kernel_manager.py\njupyter_client + ipykernel"]
+    ENGINE --> SESSION["Kernel Jupyter por sesión\n(interrupt / restart)"]
     ENGINE --> FIGS["PNG base64\n(matplotlib inline)"]
     SAVEAPI --> SAVED["saved_notebooks/\nJSON del alumno"]
 ```
@@ -107,12 +107,13 @@ graph LR
 
 ## 🧩 Componentes y responsabilidades
 
-### `app/` — Laboratorio Flask
+### `app/` — Laboratorio de ejecución Python (Flask shell + kernel Jupyter)
 
-- renderiza la experiencia local de clase con acceso a las **232 clases** (descubrimiento por `rglob("notebook.ipynb")`);
-- sirve endpoints de clases, notebooks y ejecución (`/api/class/<path:slug>`, `/api/notebook/`, `/api/execute`);
-- agrega headers de seguridad y endpoints de salud (`/health`, `/ready`);
-- mantiene el motor de ejecución con sesiones, timeout (30 s) y captura de salida.
+- **Flask shell** (`app/app.py`) sirve la SPA (`app/templates/index.html`) y enruta las API REST;
+- **`app/kernel_manager.py`** gestiona kernels Jupyter reales vía `jupyter_client` + `ipykernel` (un kernel por sesión — soporta `execute`, `interrupt`, `restart`);
+- **`app/notebook_loader.py`** descubre y lee los `classes/**/notebook.ipynb` reales del currículo (no genera notebooks desde templates) y marca `has_notebook: bool` por clase;
+- rutas API: `/api/curriculum`, `/api/notebook/<slug>`, `/api/kernel/start`, `/api/kernel/<id>/execute`, `/api/kernel/<id>/interrupt`, `/api/kernel/<id>/restart`, `DELETE /api/kernel/<id>`;
+- headers de seguridad (CSP estricto) + endpoints de salud (`/health`, `/ready`).
 
 ### `launcher.py` — Ventana nativa Windows
 
@@ -122,7 +123,7 @@ graph LR
 
 ### `classes/` — Currículo modular
 
-Concentra el contenido de las **232 clases** en 9 partes (v3.5.0, numeración secuencial 001-232). Pauta derivada de Géron (Hands-On ML 3ª ed.), VanderPlas, Huyen (Designing ML Systems), ISLP, Barocas/Hardt/Narayanan + Reis & Housley (Data Engineering), Kimball & Ross (Data Warehouse Toolkit), Aggarwal (Recommender Systems) + Suresh-Guttag 2021 (taxonomía sesgos), Hardt-Price-Srebro 2016 (equalized odds), Chouldechova 2017, Kleinberg 2017 (impossibility theorem), Dwork-Roth 2014 (privacidad diferencial), Abadi 2016 (DP-SGD), McMahan 2017 (FedAvg), Reglamentos UE 2016/679 y 2024/1689, Pineau 2021 (reproducibilidad), Mitchell 2019 (model cards), Gebru 2018 (datasheets) + **Capstones (P8)**: Hyndman & Athanasopoulos (Forecasting Principles & Practice 3ª ed.), timm/Lightning/Albumentations (visión transfer learning), MkDocs Material/Quarto (portafolio público) + papers seminales 2002-2026 (Flash Attention, LoRA, DPO, ControlNet, MCP, DoubleML, Synthetic Controls, Koren/Hu para MF, Burke para hybrids, CheckList para behavioral tests).
+Concentra el contenido de las **232 clases** en 9 partes (v3.6.0, numeración secuencial 001-232 — 232 READMEs pedagógicos · 197 notebooks ejecutables; las 35 clases dedicadas modernas tienen README pero notebook pendiente). Pauta derivada de Géron (Hands-On ML 3ª ed.), VanderPlas, Huyen (Designing ML Systems), ISLP, Barocas/Hardt/Narayanan + Reis & Housley (Data Engineering), Kimball & Ross (Data Warehouse Toolkit), Aggarwal (Recommender Systems) + Suresh-Guttag 2021 (taxonomía sesgos), Hardt-Price-Srebro 2016 (equalized odds), Chouldechova 2017, Kleinberg 2017 (impossibility theorem), Dwork-Roth 2014 (privacidad diferencial), Abadi 2016 (DP-SGD), McMahan 2017 (FedAvg), Reglamentos UE 2016/679 y 2024/1689, Pineau 2021 (reproducibilidad), Mitchell 2019 (model cards), Gebru 2018 (datasheets) + **Capstones (P8)**: Hyndman & Athanasopoulos (Forecasting Principles & Practice 3ª ed.), timm/Lightning/Albumentations (visión transfer learning), MkDocs Material/Quarto (portafolio público) + papers seminales 2002-2026 (Flash Attention, LoRA, DPO, ControlNet, MCP, DoubleML, Synthetic Controls, Koren/Hu para MF, Burke para hybrids, CheckList para behavioral tests).
 
 | Parte | Tema | Clases |
 |---|---|---|

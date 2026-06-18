@@ -12,7 +12,7 @@
 [![Security](https://github.com/vladimiracunadev-create/python-data-science-program/actions/workflows/security.yml/badge.svg?branch=main)](https://github.com/vladimiracunadev-create/python-data-science-program/actions/workflows/security.yml)
 [![Pages](https://github.com/vladimiracunadev-create/python-data-science-program/actions/workflows/deploy-pages.yml/badge.svg?branch=main)](https://github.com/vladimiracunadev-create/python-data-science-program/actions/workflows/deploy-pages.yml)
 
-[![Version](https://img.shields.io/badge/release-v3.5.0-2e8b57?style=for-the-badge)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/release-v3.6.0-2e8b57?style=for-the-badge)](CHANGELOG.md)
 [![Clases](https://img.shields.io/badge/clases-232%20%C2%B7%209%20partes-7c5cff?style=for-the-badge)](classes/README.md)
 [![Parte 0](https://img.shields.io/badge/Parte%200-49%2F49%20%E2%9C%85-3fb950?style=for-the-badge)](classes/parte-0-prerrequisitos/README.md)
 [![Parte 1](https://img.shields.io/badge/Parte%201-50%2F50%20%E2%9C%85-3fb950?style=for-the-badge)](classes/parte-1-machine-learning-clasico/README.md)
@@ -59,12 +59,12 @@ Integra currículo modular extenso, laboratorio interactivo local, portal del al
 
 | 🎯 Aspecto | Estado |
 |---|---|
-| 🏷️ **Versión** | `v3.5.0` (junio 2026 — **currículo completo 232/232**) |
+| 🏷️ **Versión** | `v3.6.0` (junio 2026 — **currículo completo 232/232 · lab con kernel Jupyter real**) |
 | 📚 **Clases** | **232 en 9 partes** · numeración secuencial limpia 001-232 |
-| 🗂️ **Estructura** | ✅ las 232 clases con `README.md` + `notebook.ipynb` |
+| 🗂️ **Estructura** | ✅ **232 clases con `README.md` pedagógico · 197 con `notebook.ipynb` ejecutable** (las 35 dedicadas modernas — Polars, Optuna, Ray Tune, Lightning, etc. — tienen README pero el notebook está pendiente) |
 | ✍️ **Contenido pedagógico** | 🟢 **Las 9 partes (232/232 = 100%) — completas y modernizadas** con Definiciones · Errores comunes · FAQ en cada clase + 35 clases dedicadas a temas modernos 2024-2026 + stack completo de MLOps (DVC, MLflow, Feast, K8s, FastAPI, drift, shadow/canary, SHAP, Great Expectations, behavioral tests) + data engineering (Airflow, Prefect/Dagster, PySpark, Polars, DuckDB/BQ/Snowflake, Kafka, Parquet/Avro, star schemas) + recomendadores (CF, SVD/ALS, content+FAISS, LightFM, métricas top-N, cold-start) + ética/fairness/privacidad (DP/EO/calibration, DP-SGD, FedAvg, GDPR + AI Act 2024/1689, reproducibilidad) + **4 capstones integradores** (tabular E2E con MLflow+FastAPI+Streamlit, NLP o series con backtesting cuantil, visión transfer learning con ONNX, portafolio público en GitHub Pages con MkDocs/Quarto) |
 | 🧭 **Descubribilidad Pages** | ✅ tabla de contenidos automática + badges por clase + banner global de progreso |
-| 🧪 **Laboratorio Flask** | ✅ ejecución Python local, captura de gráficos, guardado de notebooks |
+| 🧪 **Laboratorio de ejecución Python** | ✅ Flask shell + kernel Jupyter real (`jupyter_client` + `ipykernel`), lee los `classes/**/notebook.ipynb` reales, outputs ricos (HTML, imágenes, errores con traceback) |
 | 🖥️ **App Windows** | ✅ código operativo · binario pendiente de rebuild (Edge WebView2, sin navegador) |
 | 📱 **App Android** | ✅ código operativo · APK debug (Expo/React Native) |
 | 🛡️ **Postura** | local-first — no internet abierta sin capas adicionales |
@@ -87,7 +87,7 @@ Cada parte tiene su **propio README** con narrativa completa: de qué trata, qu�
 
 ### 🎓 Programa completo
 
-**232/232 clases desarrolladas (100%)** con patrón pedagógico v3.0 — Definiciones · Resultados · Temas · Dataset · Ejercicios · Homework verificable · Errores comunes · FAQ · Referencias + notebook ejecutable. Siguiente foco del repo: regenerar PDFs/PPTX, migrar contenido a UI Android, mejoras al laboratorio Flask (ver [ROADMAP.md](ROADMAP.md)).
+**232/232 clases desarrolladas (100%)** con patrón pedagógico v3.0 — Definiciones · Resultados · Temas · Dataset · Ejercicios · Homework verificable · Errores comunes · FAQ · Referencias + notebook ejecutable. Siguiente foco del repo: regenerar PDFs/PPTX, migrar contenido a UI Android, mejoras al laboratorio de ejecución Python (ver [ROADMAP.md](ROADMAP.md)).
 - 📱 Listar las 232 clases en la UI Android (`mobile/`) — el dato ya está actualizado a v3.0.0
 - 📄 Regenerar PDFs y PPTX (`docs/pdfs/`, `docs/presentaciones/`) con la nueva numeración 001-232 de cada parte
 
@@ -165,7 +165,7 @@ graph LR
     INST["Institución"] --> PRODUCT["site/product/\nVista institucional"]
     ALUM["Alumno"] --> PORTAL["site/\nPortal del alumno"]
     ALUM --> MOBILE["mobile/\nApp Android"]
-    DOC["Docente"] --> LAB["app/\nLaboratorio Flask"]
+    DOC["Docente"] --> LAB["app/\nLab ejecución Python\n(Flask + kernel Jupyter)"]
     DOC --> WIN["PythonDSProgram.exe\nApp de escritorio Windows"]
 
     PRODUCT --> DOCS["docs/\nDocumentación canónica"]
@@ -181,7 +181,7 @@ graph LR
 
 La arquitectura completa, con flujos y fronteras, está en [docs/ARQUITECTURA_PRODUCTO.md](docs/ARQUITECTURA_PRODUCTO.md).
 
-### 🗺️ Mapa del currículo (9 partes · 232 clases · v3.5.0 · 100% completo)
+### 🗺️ Mapa del currículo (9 partes · 232 clases · v3.6.0 · 100% completo)
 
 ```mermaid
 graph TD
@@ -226,7 +226,7 @@ graph TD
 
 ### 📚 Currículo y pedagogía
 
-- **Currículo (v3.5.0):** **232 clases** en 9 partes (numeración secuencial 001-232) — Prerrequisitos (49), ML clásico (50), Deep Learning (75), Estadística inferencial y causal (19), MLOps (14), Ingeniería de datos (8), Recomendadores (7), Ética (6), Capstones (4). **Las 9 partes (232/232 = 100%) completas y modernizadas 2024-2026**;
+- **Currículo (v3.6.0):** **232 clases** en 9 partes (numeración secuencial 001-232) — Prerrequisitos (49), ML clásico (50), Deep Learning (75), Estadística inferencial y causal (19), MLOps (14), Ingeniería de datos (8), Recomendadores (7), Ética (6), Capstones (4). **Las 9 partes (232/232 = 100%) completas y modernizadas 2024-2026**;
 - pauta derivada de **Hands-On ML** (Géron 3ª ed.), **Python Data Science Handbook** (VanderPlas), **Designing ML Systems** (Huyen), **ISLP** (James et al), **Fairness and ML** (Barocas/Hardt/Narayanan);
 - cada clase: `README.md` (ficha) + `notebook.ipynb` (stub); materiales adicionales se agregan al madurar;
 - **6 datasets** sintéticos: ventas_tienda, retencion_clientes, soporte_tickets, transporte, estudiantes, comentarios_productos;
@@ -372,7 +372,7 @@ Workflows activos:
 | ✅ [docs/GUIA_EVALUACION.md](docs/GUIA_EVALUACION.md) | ruta ejecutiva de 10 minutos |
 | 🖥️ [docs/BUILD_INSTALLER.md](docs/BUILD_INSTALLER.md) | cómo generar el instalador Windows |
 | 📱 [docs/MOBILE_APP.md](docs/MOBILE_APP.md) | cómo construir y distribuir la app Android |
-| 🧪 [docs/entorno-interactivo.md](docs/entorno-interactivo.md) | el laboratorio Flask y su funcionamiento |
+| 🧪 [docs/entorno-interactivo.md](docs/entorno-interactivo.md) | el laboratorio de ejecución Python y su funcionamiento |
 | 🧠 [docs/metodologia-docente.md](docs/metodologia-docente.md) | marco pedagógico del producto |
 | 👩‍🏫 [docs/instructor-guide.md](docs/instructor-guide.md) | playbook de ejecución docente |
 | 🎓 [docs/student-guide.md](docs/student-guide.md) | guía de onboarding del alumno |

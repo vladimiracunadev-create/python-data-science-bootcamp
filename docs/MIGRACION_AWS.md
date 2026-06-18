@@ -19,7 +19,7 @@ Responder de forma ejecutable cuatro preguntas:
 
 ## 🧭 Contexto y postura
 
-El producto hoy se ejecuta **local-first** por una razón explícita en [`SECURITY.md`](../SECURITY.md): el laboratorio (`app/`) ejecuta código Python arbitrario del alumno mediante `execution_engine.py`. Llevarlo a internet abierta sin capas adicionales sería irresponsable.
+El producto hoy se ejecuta **local-first** por una razón explícita en [`SECURITY.md`](../SECURITY.md): el laboratorio (`app/`) ejecuta código Python arbitrario del alumno mediante kernels Jupyter aislados (`app/kernel_manager.py`, `jupyter_client` + `ipykernel`). Llevarlo a internet abierta sin capas adicionales sería irresponsable.
 
 La migración a AWS no se trata de "subir el repo y listo": se trata de **partir el producto en superficies**, mover cada una a la tecnología adecuada y agregar las capas de aislamiento que la nube exige.
 
@@ -29,7 +29,7 @@ La migración a AWS no se trata de "subir el repo y listo": se trata de **partir
 | Vista institucional (`site/product/`) | ✅ Sí | estática, mismo bucket que portal |
 | Documentación (`docs/`, PDFs, PPTX) | ✅ Sí | estática, alto peso, beneficio CDN |
 | Datasets (`datasets/`) | ✅ Sí | descargas públicas o privadas |
-| Laboratorio Flask (`app/`) | ⚠️ Sí, con sandbox | requiere aislamiento de ejecución |
+| Laboratorio de ejecución Python (`app/`, Flask + kernel Jupyter) | ⚠️ Sí, con sandbox | requiere aislamiento de ejecución |
 | App escritorio Windows | ❌ No | distribución por instalador, no necesita nube |
 | App Android (`mobile/`) | ⚠️ Parcial | el APK no se aloja, pero el contenido remoto sí |
 | Notebooks guardados (`saved_notebooks/`) | ✅ Sí | persistencia por alumno |
@@ -153,7 +153,7 @@ graph TD
 - el contenedor que ejecuta código del alumno **no** comparte proceso con el que sirve la UI;
 - el rol IAM del executor **no** tiene permisos sobre S3, RDS, DynamoDB del producto — solo sobre su bucket de scratch;
 - security group con egress `deny` a 0.0.0.0/0 (excepto endpoints explícitos);
-- timeout duro de 30 segundos en `execution_engine.py` se mantiene, sumado al timeout del runtime;
+- timeout de ejecución por celda en `kernel_manager.py` (interrumpe el kernel) se mantiene, sumado al timeout del runtime;
 - CloudWatch alarmas por uso anómalo de CPU > 80% sostenido, indicador de minería o loops maliciosos.
 
 ---

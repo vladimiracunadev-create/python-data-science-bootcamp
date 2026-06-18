@@ -17,12 +17,12 @@
 Este repositorio es una **pauta avanzada y completa de Python y Data Science** organizada en 232 clases y 9 partes. La pauta está derivada de referentes profesionales: *Hands-On ML* (Géron, 3ª ed.), *Python Data Science Handbook* (VanderPlas), *Designing ML Systems* (Huyen), *ISLP* (James et al) y *Fairness and ML* (Barocas/Hardt/Narayanan).
 
 ```
-v3.5.0:  232 clases · 9 partes · 🎓 currículo completo 232/232 = 100% — todas las partes completas y modernizadas 2024-2026
+v3.6.0:  232 clases · 9 partes · 🎓 232 READMEs · 197 notebooks ejecutables (35 dedicadas modernas con README pero notebook pendiente) — todas las partes completas y modernizadas 2024-2026
 ```
 
 Incluye laboratorio interactivo local (Flask), app de escritorio nativa para Windows, app Android y una familia documental que distingue producto, operación y seguridad.
 
-**Estado honesto (v3.5.0, junio 2026):** 🎓 **currículo entero listo · 232/232 = 100%** — todas las 9 partes están completas y modernizadas con READMEs pedagógicos, secciones Definiciones/Errores comunes/FAQ en cada clase y 35 clases dedicadas a temas modernos 2024-2026 + stack MLOps completo (P4: DVC, MLflow, Feast, K8s, FastAPI, drift, shadow/canary, SHAP, Great Expectations, behavioral tests) + data engineering (P5: Airflow, Prefect/Dagster, PySpark, Polars, DuckDB/BQ/Snowflake, Kafka, Parquet/Avro, star schemas SCD2) + recomendadores (P6: CF kNN, SVD+ALS implicit, content+FAISS, LightFM hybrid, métricas top-N, cold-start) + ética/fairness/privacidad (P7: Suresh-Guttag taxonomía sesgos, DP/EO/calibration + impossibility theorem, privacidad diferencial (Laplace/Gauss/DP-SGD), federated learning (FedAvg + gradient leakage), GDPR + AI Act EU 2024/1689, reproducibilidad (seeds/lock files/model cards/datasheets)) + **Capstones integradores (P8)**: Capstone 1 tabular E2E (ColumnTransformer+GBM+Optuna+MLflow+FastAPI+Streamlit+SHAP+CI), Capstone 2 NLP/series (DistilBERT o forecasting con baselines+SARIMA+backtesting+cuantiles), Capstone 3 visión transfer learning (ConvNeXt/EfficientNetV2/ViT + RandAugment/MixUp/CutMix + ONNX), Portafolio público (MkDocs Material/Quarto + GitHub Pages + demos hosted + deck + CV técnico). En Parte 0 + Partes 4-8 los notebooks están desarrollados ejecutables; en Partes 1-3 los notebooks siguen como stubs (el contenido pedagógico vive en los README, ~150 líneas promedio). Ya no quedan clases pendientes — **siguiente foco: superficies** (regen PDFs/PPTX por clase, app móvil, mejoras lab Flask). Ver progreso real en [GitHub Pages — currículo](https://vladimiracunadev-create.github.io/python-data-science-program/clases/).
+**Estado honesto (v3.6.0, junio 2026):** 🎓 **currículo entero listo a nivel de README · 232/232 = 100% · 197/232 notebooks ejecutables** — todas las 9 partes están completas y modernizadas con READMEs pedagógicos (las 35 clases dedicadas modernas tienen README pero `.ipynb` pendiente), secciones Definiciones/Errores comunes/FAQ en cada clase y 35 clases dedicadas a temas modernos 2024-2026 + stack MLOps completo (P4: DVC, MLflow, Feast, K8s, FastAPI, drift, shadow/canary, SHAP, Great Expectations, behavioral tests) + data engineering (P5: Airflow, Prefect/Dagster, PySpark, Polars, DuckDB/BQ/Snowflake, Kafka, Parquet/Avro, star schemas SCD2) + recomendadores (P6: CF kNN, SVD+ALS implicit, content+FAISS, LightFM hybrid, métricas top-N, cold-start) + ética/fairness/privacidad (P7: Suresh-Guttag taxonomía sesgos, DP/EO/calibration + impossibility theorem, privacidad diferencial (Laplace/Gauss/DP-SGD), federated learning (FedAvg + gradient leakage), GDPR + AI Act EU 2024/1689, reproducibilidad (seeds/lock files/model cards/datasheets)) + **Capstones integradores (P8)**: Capstone 1 tabular E2E (ColumnTransformer+GBM+Optuna+MLflow+FastAPI+Streamlit+SHAP+CI), Capstone 2 NLP/series (DistilBERT o forecasting con baselines+SARIMA+backtesting+cuantiles), Capstone 3 visión transfer learning (ConvNeXt/EfficientNetV2/ViT + RandAugment/MixUp/CutMix + ONNX), Portafolio público (MkDocs Material/Quarto + GitHub Pages + demos hosted + deck + CV técnico). En Parte 0 + Partes 4-8 los notebooks están desarrollados ejecutables; en Partes 1-3 los notebooks siguen como stubs (el contenido pedagógico vive en los README, ~150 líneas promedio). Ya no quedan clases pendientes — **siguiente foco: superficies** (regen PDFs/PPTX por clase, app móvil, mejoras del laboratorio de ejecución Python — incluido generar las 35 .ipynb pendientes). Ver progreso real en [GitHub Pages — currículo](https://vladimiracunadev-create.github.io/python-data-science-program/clases/).
 
 ---
 
@@ -32,7 +32,7 @@ Incluye laboratorio interactivo local (Flask), app de escritorio nativa para Win
 |---|---|---|
 | Diseño curricular profesional | 232 clases en 9 partes con prerrequisitos, ML, DL, MLOps, ética, capstones | `classes/README.md` · `docs/syllabus.md` |
 | Fuentes acreditadas del currículo | pauta derivada de 5 libros referentes en el campo | `docs/syllabus.md` |
-| Laboratorio operativo | Flask local con ejecución Python en tiempo real | `app/` → `python run_program.py` |
+| Laboratorio operativo | Flask shell + kernel Jupyter real (`jupyter_client`) ejecutando notebooks reales del currículo | `app/` → `python run_program.py` |
 | Distribución de escritorio | App nativa Windows con Edge WebView2, sin navegador, sin Python instalado | `installer/` · `launcher.py` |
 | Distribución móvil | App Android Expo/React Native (pendiente migrar contenido al índice actual) | `mobile/` |
 | Portal público funcional | GitHub Pages con portal del alumno + vista institucional | `site/` |
@@ -93,7 +93,7 @@ Incluye laboratorio interactivo local (Flask), app de escritorio nativa para Win
 |---|---|
 | Portal del alumno (GitHub Pages) | operativo — pendiente migrar al índice actual |
 | Vista institucional (GitHub Pages) | operativo |
-| Laboratorio Flask (local) | operativo |
+| Laboratorio de ejecución Python (Flask + kernel Jupyter) | operativo |
 | App Windows (Edge WebView2) | código operativo · binario pendiente de rebuild |
 | App Android (Expo/React Native) | APK debug · pendiente migrar contenido embebido al índice actual |
 
@@ -119,7 +119,7 @@ Incluye laboratorio interactivo local (Flask), app de escritorio nativa para Win
 
 - una plataforma multiusuario endurecida para internet abierta;
 - un LMS con autenticación, roles y seguimiento centralizado;
-- el currículo entero está listo a nivel de contenido pedagógico (🎓 232/232 README + secciones Definiciones/Errores/FAQ + capstones integradores P8), pero **dictarlo "llave en mano"** todavía requiere superficies derivadas: regen de PDFs/PPTX por clase, migración del contenido a la app Android, y mejoras del lab Flask — esas son el siguiente foco;
+- el currículo entero está listo a nivel de contenido pedagógico (🎓 232/232 README + secciones Definiciones/Errores/FAQ + capstones integradores P8), pero **dictarlo "llave en mano"** todavía requiere superficies derivadas: regen de PDFs/PPTX por clase, migración del contenido a la app Android, y mejoras del laboratorio de ejecución Python (incluido generar las 35 .ipynb pendientes) — esas son el siguiente foco;
 - la app Android en producción (APK debug, producción está en roadmap);
 - personalización ilimitada antes de definir condiciones reales.
 

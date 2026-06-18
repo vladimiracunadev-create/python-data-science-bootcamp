@@ -1,16 +1,20 @@
-"""Aplicación Flask del programa Python para Data Science.
+"""Aplicación Flask del Python Data Science Program — capa HTTP del laboratorio.
 
-Este módulo resuelve la capa HTTP del sistema local: publica la interfaz web,
-expone APIs para clases y notebooks, y conecta la ejecución de código con el
-contenido docente almacenado en disco.
+Qué resuelve:
+    Publica la interfaz web del laboratorio local: navegación del currículo,
+    lectura de notebooks ``.ipynb`` reales y ejecución de código sobre kernels
+    IPython gestionados en proceso. Conserva las rutas históricas para clases
+    y descargas de assets (PDF/PPTX) para no romper otros consumidores.
 """
 
-# Arquitectura: esta app Flask es local-first. No expone internet.
-# El laboratorio, el portal del alumno y la presentación institucional
-# conviven en el mismo proceso para simplificar el instalador Windows.
+# Arquitectura: app Flask local-first. No expone internet.
+# El laboratorio de ejecución (Jupyter kernel real vía jupyter_client),
+# el portal del alumno y la presentación institucional conviven en el mismo
+# proceso para simplificar el instalador Windows (launcher.py + Edge WebView2).
 
 from __future__ import annotations
 
+import logging
 import os
 import re
 import sys
@@ -22,73 +26,68 @@ from flask import Flask, jsonify, render_template, request, send_file, url_for
 from .content_loader import (
     get_class_assets,
     list_classes,
-    list_notebook_templates,
     load_class_quiz,
-    load_notebook_template,
     read_class_markdown,
     resolve_class_asset_path,
-    save_notebook,
 )
-from .execution_engine import MAX_CODE_LENGTH, execute_code, reset_session
+from .kernel_manager import (
+    MAX_CODE_LENGTH,
+    execute as kernel_execute,
+    interrupt as kernel_interrupt,
+    list_kernels as kernel_list,
+    restart as kernel_restart,
+    shutdown as kernel_shutdown,
+    start_kernel,
+)
+from .notebook_loader import list_curriculum, load_notebook
+
+logger = logging.getLogger(__name__)
 
 
 def _get_base_dir() -> Path:
     """Devuelve la raíz del proyecto tanto en desarrollo como en bundle PyInstaller."""
-    # `sys.frozen` lo inyecta PyInstaller cuando empaqueta la app en un ejecutable
-    # `.exe`. En ese modo, `sys._MEIPASS` apunta al directorio temporal donde el
-    # runtime desempaqueta los archivos, reemplazando la estructura normal del repo.
     if getattr(sys, "frozen", False) and hasattr(sys, "_MEIPASS"):
         return Path(sys._MEIPASS)
     return Path(__file__).resolve().parents[1]
 
 
 BASE_DIR = _get_base_dir()
-# Se pasan `template_folder` y `static_folder` como rutas absolutas porque en el
-# bundle PyInstaller `__file__` no apunta al directorio del repo sino al `.exe`;
-# Flask no puede resolver rutas relativas correctamente en ese contexto.
 app = Flask(
     __name__,
     template_folder=str(BASE_DIR / "app" / "templates"),
     static_folder=str(BASE_DIR / "app" / "static"),
 )
 
-MAX_PAYLOAD_BYTES = 1_000_000  # 1 MB
-# Primera línea de defensa contra path traversal: sólo permite letras, dígitos,
-# guiones y guiones bajos. Descarta cualquier intento de usar "../" u otros
-# caracteres que podrían salir del directorio de contenido docente.
+MAX_PAYLOAD_BYTES = 2_000_000  # 2 MB — notebooks reales con código generado pueden ser grandes.
 SLUG_RE = re.compile(r"^[\w\-]{1,80}$")
-# Currículo v2: los slugs de clase incluyen "/" porque viven en parte-N/NNN-tema/.
-# `\w` no matchea ".", por lo que sigue bloqueando intentos de "..".
 CLASS_SLUG_RE = re.compile(r"^[\w\-/]{1,160}$")
+KERNEL_ID_RE = re.compile(r"^[a-f0-9]{32}$")  # uuid4().hex
 DEFAULT_HOST = os.getenv("PROGRAM_HOST", "127.0.0.1")
 DEFAULT_PORT = int(os.getenv("PROGRAM_PORT", "8000"))
 
 
-def _valid_slug(slug: str) -> bool:
-    """Valida identificadores de notebooks y plantillas expuestos por la API."""
-    return bool(SLUG_RE.match(slug))
-
-
 def _valid_class_slug(slug: str) -> bool:
-    """Valida slugs de clases del currículo v2 (admiten subcarpetas)."""
     return bool(CLASS_SLUG_RE.match(slug))
+
+
+def _valid_kernel_id(kid: str) -> bool:
+    return bool(KERNEL_ID_RE.match(kid))
 
 
 @app.after_request
 def add_security_headers(response):
-    """Añade cabeceras básicas para endurecer la app local en navegador.
+    """Endurecimiento básico para la app local en navegador / WebView2.
 
     Qué resuelve:
-        Reduce riesgos comunes de contenido embebido, sniffing y políticas de
-        origen al servir una aplicación que ejecuta código local del alumno.
+        Reduce riesgos de contenido embebido, sniffing y políticas de origen
+        al servir una app que ejecuta código local del alumno.
     """
     response.headers.setdefault("X-Content-Type-Options", "nosniff")
     response.headers.setdefault("X-Frame-Options", "SAMEORIGIN")
     response.headers.setdefault("Referrer-Policy", "no-referrer")
     response.headers.setdefault("Permissions-Policy", "camera=(), microphone=(), geolocation=()")
-    # El CSP no incluye fuentes externas (Google Fonts, CDNs) de forma intencional:
-    # la app funciona offline, por lo que todo recurso debe estar servido localmente.
-    # Ampliar este header para incluir dominios externos rompería el modo sin red.
+    # CSP sin fuentes externas: la app funciona offline, todo asset debe servirse local.
+    # Ampliarlo a CDNs rompería el modo sin red del instalador Windows.
     response.headers.setdefault(
         "Content-Security-Policy",
         (
@@ -106,50 +105,86 @@ def add_security_headers(response):
     return response
 
 
+# ---------------------------------------------------------------------------
+# Vistas y health
+# ---------------------------------------------------------------------------
+
 @app.get("/")
 def index():
-    """Renderiza la vista principal con catálogo de clases y laboratorios."""
-    return render_template("index.html", classes=list_classes(), templates=list_notebook_templates())
+    """Renderiza la SPA del laboratorio (el currículo y los kernels se cargan vía API)."""
+    return render_template("index.html")
 
 
 @app.get("/health")
 def health():
-    """Expone un healthcheck liviano para launcher, tests y monitoreo local."""
+    """Healthcheck liviano para launcher.py, tests y Docker HEALTHCHECK."""
     return jsonify({"status": "ok", "service": "python-data-science-program"})
 
 
 @app.get("/ready")
 def ready():
-    """Confirma que la app puede listar clases y notebooks antes de usarse."""
-    classes = list_classes()
-    templates = list_notebook_templates()
+    """Confirma que el currículo se puede listar antes de servir tráfico."""
+    curriculum = list_curriculum()
+    n_classes = sum(len(part["classes"]) for part in curriculum)
     return jsonify(
         {
             "status": "ready",
             "service": "python-data-science-program",
-            "classes": len(classes),
-            "notebooks": len(templates),
+            "parts": len(curriculum),
+            "classes": n_classes,
         }
     )
 
 
+# ---------------------------------------------------------------------------
+# Currículo: listado y detalle (clases + notebook)
+# ---------------------------------------------------------------------------
+
+@app.get("/api/curriculum")
+def api_curriculum():
+    """Árbol completo del currículo agrupado por parte (9 partes · 232 clases).
+
+    Qué resuelve:
+        El frontend necesita una sola llamada al cargar la app para poblar el
+        sidebar navegable; evitamos N+1 requests.
+    """
+    return jsonify(list_curriculum())
+
+
+@app.get("/api/notebook/<path:class_slug>")
+def api_notebook(class_slug: str):
+    """Devuelve las celdas del ``notebook.ipynb`` real de una clase.
+
+    Qué resuelve:
+        Permite que el lab cargue el contenido ejecutable de cualquier clase del
+        currículo sin convertirlo manualmente — el .ipynb es la fuente de verdad.
+    """
+    if not _valid_class_slug(class_slug):
+        return jsonify({"error": "slug inválido"}), 400
+    try:
+        return jsonify(load_notebook(class_slug))
+    except FileNotFoundError:
+        return jsonify({"error": "notebook no encontrado"}), 404
+    except (ValueError, PermissionError) as exc:
+        return jsonify({"error": str(exc)}), 400
+
+
 @app.get("/api/classes")
 def api_classes():
-    """Devuelve el catálogo de clases para la web y la app de escritorio."""
+    """Listado plano de clases (compat con consumidores históricos)."""
     return jsonify(list_classes())
 
 
 @app.get("/api/class/<path:slug>")
 def api_class_detail(slug: str):
-    """Entrega markdown y quiz de una clase en formato consumible por la UI.
+    """Markdown renderizado + quiz + assets de una clase.
 
     Qué resuelve:
-        Convierte el contenido docente almacenado en disco en un payload JSON con
-        HTML y texto crudo, listo para renderizar y reutilizar en la aplicación.
+        El panel "Ver README completo" del lab y consumidores externos (mobile,
+        portal del alumno) consumen este endpoint para presentar la ficha de clase.
     """
     if not _valid_class_slug(slug):
         return jsonify({"error": "slug inválido"}), 400
-
     try:
         data = read_class_markdown(slug)
         quiz = load_class_quiz(slug)
@@ -162,28 +197,15 @@ def api_class_detail(slug: str):
         for name, text in data.items()
     }
     asset_payload = {
-        kind: {
-            **meta,
-            "url": url_for("download_class_asset", slug=slug, asset_kind=kind),
-        }
+        kind: {**meta, "url": url_for("download_class_asset", slug=slug, asset_kind=kind)}
         for kind, meta in assets.items()
     }
-    # Estructura del payload devuelto:
-    #   html    – texto ya renderizado a HTML, listo para insertar en el DOM
-    #   raw     – markdown original, útil si la UI necesita re-renderizar o buscar
-    #   quiz    – lista de preguntas/opciones para el componente de autoevaluación
-    #   assets  – metadatos + URLs de descarga del PDF y el PPTX de la clase
     return jsonify({"slug": slug, "html": html, "raw": data, "quiz": quiz, "assets": asset_payload})
 
 
 @app.get("/downloads/class/<path:slug>/<asset_kind>")
 def download_class_asset(slug: str, asset_kind: str):
-    """Sirve guías PDF y presentaciones PPTX derivadas de una clase.
-
-    Qué resuelve:
-        Permite abrir o descargar desde la interfaz los materiales listos para
-        compartir, sin obligar al usuario a buscar los archivos dentro del repo.
-    """
+    """Sirve PDFs y PPTX derivados por clase (mantenido por compatibilidad)."""
     if not _valid_class_slug(slug):
         return jsonify({"error": "slug inválido"}), 400
     if asset_kind not in {"pdf", "pptx"}:
@@ -194,10 +216,6 @@ def download_class_asset(slug: str, asset_kind: str):
     except FileNotFoundError:
         return jsonify({"error": "archivo no encontrado"}), 404
 
-    # El mimetype explícito es necesario para que el navegador decida correctamente
-    # cómo manejar el archivo: los PDFs se renderizan inline (visor integrado) y
-    # los PPTX se descargan. Sin este header algunos navegadores los tratan como
-    # `application/octet-stream` y siempre fuerzan descarga, rompiendo la preview.
     mimetype = {
         "pdf": "application/pdf",
         "pptx": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
@@ -205,63 +223,91 @@ def download_class_asset(slug: str, asset_kind: str):
     return send_file(path, mimetype=mimetype, as_attachment=False, download_name=path.name)
 
 
-@app.get("/api/notebooks")
-def api_notebooks():
-    """Lista plantillas de laboratorio disponibles en la app."""
-    return jsonify(list_notebook_templates())
+# ---------------------------------------------------------------------------
+# Kernels: lifecycle + ejecución de celdas
+# ---------------------------------------------------------------------------
 
-
-@app.get("/api/notebook/<template_id>")
-def api_notebook_detail(template_id: str):
-    """Entrega el contenido de una plantilla de notebook por identificador."""
-    if not _valid_slug(template_id):
-        return jsonify({"error": "id inválido"}), 400
+@app.post("/api/kernel/start")
+def api_kernel_start():
+    """Inicia un kernel IPython fresco y devuelve su identificador."""
     try:
-        return jsonify(load_notebook_template(template_id))
-    except FileNotFoundError:
-        return jsonify({"error": "notebook no encontrado"}), 404
+        kid = start_kernel()
+    except Exception:  # pragma: no cover - falla rara al lanzar el subproceso
+        logger.exception("No se pudo iniciar el kernel")
+        return jsonify({"error": "no se pudo iniciar el kernel"}), 500
+    return jsonify({"kernel_id": kid})
 
 
-@app.post("/api/notebook/save")
-def api_notebook_save():
-    """Guarda un notebook editado por el alumno dentro del directorio seguro."""
+@app.get("/api/kernels")
+def api_kernel_list():
+    """Lista de kernels activos (debugging / panel admin)."""
+    return jsonify(kernel_list())
+
+
+@app.post("/api/kernel/<kid>/execute")
+def api_kernel_execute(kid: str):
+    """Ejecuta una celda en el kernel ``kid`` y devuelve los outputs del iopub.
+
+    Qué resuelve:
+        Es el endpoint caliente del lab. Bloquea hasta idle (o timeout); el
+        frontend muestra el estado "busy" mientras tanto.
+    """
+    if not _valid_kernel_id(kid):
+        return jsonify({"error": "kernel_id inválido"}), 400
     if request.content_length and request.content_length > MAX_PAYLOAD_BYTES:
         return jsonify({"error": "payload demasiado grande"}), 413
 
     payload = request.get_json(force=True, silent=True) or {}
-    # Se sanitiza `name` antes de usarlo como nombre de archivo: `re.sub` reemplaza
-    # cualquier carácter fuera del conjunto seguro [a-z0-9_-] con guión bajo, y el
-    # slice [:80] limita la longitud para evitar nombres de archivo exageradamente
-    # largos que podrían causar problemas en algunos sistemas de archivos Windows.
-    name = re.sub(r"[^a-z0-9_\-]", "_", str(payload.get("name", "mi_notebook"))[:80])
-    path = save_notebook(name, payload)
-    return jsonify({"ok": True, "saved_to": str(path.relative_to(BASE_DIR))})
-
-
-@app.post("/api/execute")
-def api_execute():
-    """Ejecuta una celda del notebook interactivo y devuelve su resultado."""
-    if request.content_length and request.content_length > MAX_PAYLOAD_BYTES:
-        return jsonify({"error": "payload demasiado grande"}), 413
-
-    payload = request.get_json(force=True, silent=True) or {}
-    # `notebook_id` identifica la sesión de ejecución, no al usuario.
-    # En un entorno local multi-tab, cada pestaña usa su propio ID para
-    # mantener namespaces separados; no hay autenticación involucrada.
-    notebook_id = str(payload.get("notebook_id", "default"))[:80]
     code = str(payload.get("code", ""))
     if len(code) > MAX_CODE_LENGTH:
-        return jsonify({"error": f"Código demasiado largo (máx {MAX_CODE_LENGTH} caracteres)."}), 400
-    return jsonify(execute_code(notebook_id, code))
+        return (
+            jsonify({"error": f"Código demasiado largo (máx {MAX_CODE_LENGTH} caracteres)."}),
+            400,
+        )
+
+    try:
+        result = kernel_execute(kid, code)
+    except KeyError:
+        return jsonify({"error": "kernel no encontrado"}), 404
+    except ValueError as exc:
+        return jsonify({"error": str(exc)}), 400
+    return jsonify(result)
 
 
-@app.post("/api/reset")
-def api_reset():
-    """Reinicia el estado persistente de una sesión de notebook."""
-    payload = request.get_json(force=True, silent=True) or {}
-    notebook_id = str(payload.get("notebook_id", "default"))[:80]
-    reset_session(notebook_id)
-    return jsonify({"ok": True, "message": f"Sesión {notebook_id} reiniciada"})
+@app.post("/api/kernel/<kid>/interrupt")
+def api_kernel_interrupt(kid: str):
+    """Envía SIGINT a la ejecución actual del kernel."""
+    if not _valid_kernel_id(kid):
+        return jsonify({"error": "kernel_id inválido"}), 400
+    try:
+        kernel_interrupt(kid)
+    except KeyError:
+        return jsonify({"error": "kernel no encontrado"}), 404
+    return ("", 204)
+
+
+@app.post("/api/kernel/<kid>/restart")
+def api_kernel_restart(kid: str):
+    """Reinicia el kernel (limpia variables; mismo kernel_id)."""
+    if not _valid_kernel_id(kid):
+        return jsonify({"error": "kernel_id inválido"}), 400
+    try:
+        kernel_restart(kid)
+    except KeyError:
+        return jsonify({"error": "kernel no encontrado"}), 404
+    return ("", 204)
+
+
+@app.delete("/api/kernel/<kid>")
+def api_kernel_shutdown(kid: str):
+    """Termina el proceso del kernel y libera recursos."""
+    if not _valid_kernel_id(kid):
+        return jsonify({"error": "kernel_id inválido"}), 400
+    try:
+        kernel_shutdown(kid)
+    except KeyError:
+        return jsonify({"error": "kernel no encontrado"}), 404
+    return ("", 204)
 
 
 if __name__ == "__main__":

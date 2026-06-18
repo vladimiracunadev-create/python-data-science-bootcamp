@@ -59,7 +59,7 @@ flowchart LR
 
 ## 💬 7. Regla de comunicación importante
 
-El portal del alumno no es toda la aplicacion. Es la puerta de entrada oficial para estudiantes. El laboratorio Flask sigue siendo el núcleo local de práctica y demostracion.
+El portal del alumno no es toda la aplicacion. Es la puerta de entrada oficial para estudiantes. El laboratorio de ejecución Python (Flask + kernel Jupyter) sigue siendo el núcleo local de práctica y demostracion.
 
 ## 📱 8. Ruta móvil realista
 

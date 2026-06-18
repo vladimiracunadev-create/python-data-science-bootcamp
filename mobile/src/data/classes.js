@@ -8,7 +8,7 @@
 //
 // Hasta que esa migración se diseñe y ejecute, este archivo queda como stub
 // vacío para que la app no embeba contenido desactualizado. El portal web y
-// el laboratorio Flask sí consumen v3 — la app móvil va detrás.
+// el laboratorio de ejecución Python (Flask + kernel Jupyter) sí consumen v3 — la app móvil va detrás.
 //
 // Ver: ROADMAP.md → "Trabajo crítico — completar el contenido pedagógico"
 

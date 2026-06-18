@@ -158,13 +158,13 @@ El resto de las librerías disponibles (numpy, scikit-learn, etc.) deben importa
 | `GET` | `/` | Interfaz web principal |
 | `GET` | `/health` | Liveness probe: `{"status": "ok"}` |
 | `GET` | `/ready` | Readiness: incluye count de clases y notebooks |
-| `GET` | `/api/classes` | Lista de las 232 clases |
-| `GET` | `/api/class/<slug>` | Contenido de una clase (HTML + quiz) |
-| `GET` | `/api/notebooks` | Lista de templates disponibles |
-| `GET` | `/api/notebook/<id>` | Contenido de un template |
-| `POST` | `/api/notebook/save` | Guarda notebook del alumno |
-| `POST` | `/api/execute` | Ejecuta código en una sesión |
-| `POST` | `/api/reset` | Reinicia el estado de una sesión |
+| `GET` | `/api/curriculum` | Árbol del currículo (232 clases · marca `has_notebook: bool` por clase) |
+| `GET` | `/api/notebook/<slug>` | Contenido del `classes/**/notebook.ipynb` real |
+| `POST` | `/api/kernel/start` | Arranca un kernel Jupyter para una sesión |
+| `POST` | `/api/kernel/<id>/execute` | Ejecuta código en el kernel (outputs ricos: HTML/imágenes/errores) |
+| `POST` | `/api/kernel/<id>/interrupt` | Interrumpe el kernel (Ctrl-C lógico) |
+| `POST` | `/api/kernel/<id>/restart` | Reinicia el kernel preservando la sesión |
+| `DELETE` | `/api/kernel/<id>` | Cierra y libera el kernel |
 
 ---
 

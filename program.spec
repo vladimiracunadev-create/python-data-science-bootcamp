@@ -41,7 +41,7 @@ a = Analysis(
     # DATOS
     # ---------------------------------------------------------------------------
     datas=[
-        # Plantillas HTML y CSS/JS del laboratorio Flask
+        # Plantillas HTML y CSS/JS del laboratorio de ejecución Python (Flask + kernel Jupyter)
         (str(ROOT / "app" / "templates"),   "app/templates"),
         (str(ROOT / "app" / "static"),      "app/static"),
 

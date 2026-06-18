@@ -84,8 +84,8 @@ Capaz de:
 |---|---|
 | Estructura de carpetas (232) | ✅ creada |
 | README por clase | 🎓 **232/232 completos y modernizados** (v3.5.0 · 100%) |
-| `notebook.ipynb` por clase | 🎓 **232/232 desarrollados** — Partes 0, 4, 5, 6, 7, 8 ejecutables · Partes 1-3 con README completos + notebooks como stub guía |
-| Contenido pedagógico real | 🎓 **currículo completo · 232/232 = 100%** (v3.5.0) — ya no quedan clases pendientes |
+| `notebook.ipynb` por clase | 🎓 **197/232 ejecutables** — Partes 0, 4, 5, 6, 7, 8 ejecutables · Partes 1-3 con README completos + notebooks como stub guía · las **35 clases dedicadas modernas** (Polars, Optuna, Ray Tune, Lightning, etc.) tienen README pero notebook pendiente |
+| Contenido pedagógico real | 🎓 **232 READMEs · 197 notebooks ejecutables** (v3.6.0) — 35 dedicadas modernas con README pero notebook pendiente |
 | Definiciones + Errores comunes + FAQ por clase | 🎓 **232/232** (v3.5.0 · 100%) |
 | Clases dedicadas modernas 2024-2026 | 🟢 **35 clases dedicadas** en Partes 0-3 + stack moderno completo en Partes 4-7 (DVC/MLflow/Feast/K8s/FastAPI/Evidently/NannyML/Prefect/Istio/SHAP/Great Expectations/CheckList; Airflow/Prefect/Dagster/PySpark/Polars/DuckDB/BQ/Snowflake/Kafka/Parquet/Avro/star schema; CF/SVD+ALS/sentence-transformers/FAISS/LightFM/bandits; Suresh-Guttag taxonomía sesgos/DP+EO+calibration+impossibility theorem/privacidad diferencial Laplace+Gauss+DP-SGD/FedAvg+gradient leakage/GDPR+AI Act EU 2024/1689/seeds+lock files+model cards+datasheets) |
 | PDFs y PPTX por clase | ⏳ pendiente (regenerar tras desarrollar contenido) — **siguiente foco: superficies** |
@@ -127,7 +127,7 @@ Materiales opcionales que se pueden añadir conforme una clase madure:
 8. ~~**Parte 7** (Ética, fairness, privacidad, 6 clases · 223-228).~~ ✅ completada (v3.4.0, fuentes Barocas/Hardt/Narayanan + Suresh-Guttag 2021 + Hardt-Price-Srebro 2016 + Chouldechova 2017 + Kleinberg 2017 + Dwork-Roth 2014 + Abadi 2016 + McMahan 2017 + Reglamentos UE 2016/679 y 2024/1689 + Pineau 2021 + Mitchell 2019 + Gebru 2018 — Suresh-Guttag taxonomía sesgos, DP/EO/calibration + impossibility theorem, privacidad diferencial (Laplace/Gauss/DP-SGD), federated learning (FedAvg + gradient leakage), GDPR + AI Act EU 2024/1689, reproducibilidad (seeds/lock files/model cards/datasheets)).
 9. ~~**Parte 8** (capstones, 4 proyectos · 229-232).~~ ✅ completada (v3.5.0, fuentes Huyen + Hyndman & Athanasopoulos FPP3 + timm/Lightning/Albumentations + MkDocs Material/Quarto + integradores de todas las partes previas — Capstone 1 tabular E2E (ColumnTransformer+GBM+Optuna+MLflow+FastAPI+Streamlit+SHAP+CI), Capstone 2 NLP/series (DistilBERT o forecasting con baselines+SARIMA+backtesting+cuantiles), Capstone 3 visión transfer learning (ConvNeXt/EfficientNetV2/ViT + RandAugment/MixUp/CutMix + ONNX), Portafolio público (MkDocs Material/Quarto + GitHub Pages + demos hosted + deck + CV técnico)).
 
-🎓 **Currículo completo · 232/232 = 100%.** Próximo foco: superficies (regen PDFs/PPTX por clase, migración de contenido a la app Android, mejoras del lab Flask).
+🎓 **Currículo completo · 232 READMEs · 197 notebooks ejecutables (35 dedicadas modernas con README pero notebook pendiente).** Próximo foco: superficies (regen PDFs/PPTX por clase, migración de contenido a la app Android, mejoras del laboratorio de ejecución Python).
 
 ## 🧠 Metodología por clase
 
