@@ -12,7 +12,7 @@
 [![Security](https://github.com/vladimiracunadev-create/python-data-science-program/actions/workflows/security.yml/badge.svg?branch=main)](https://github.com/vladimiracunadev-create/python-data-science-program/actions/workflows/security.yml)
 [![Pages](https://github.com/vladimiracunadev-create/python-data-science-program/actions/workflows/deploy-pages.yml/badge.svg?branch=main)](https://github.com/vladimiracunadev-create/python-data-science-program/actions/workflows/deploy-pages.yml)
 
-[![Version](https://img.shields.io/badge/release-v3.3.0-2e8b57?style=for-the-badge)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/release-v3.4.0-2e8b57?style=for-the-badge)](CHANGELOG.md)
 [![Clases](https://img.shields.io/badge/clases-232%20%C2%B7%209%20partes-7c5cff?style=for-the-badge)](classes/README.md)
 [![Parte 0](https://img.shields.io/badge/Parte%200-49%2F49%20%E2%9C%85-3fb950?style=for-the-badge)](classes/parte-0-prerrequisitos/README.md)
 [![Parte 1](https://img.shields.io/badge/Parte%201-50%2F50%20%E2%9C%85-3fb950?style=for-the-badge)](classes/parte-1-machine-learning-clasico/README.md)
@@ -59,10 +59,10 @@ Integra currículo modular extenso, laboratorio interactivo local, portal del al
 
 | 🎯 Aspecto | Estado |
 |---|---|
-| 🏷️ **Versión** | `v3.3.0` (junio 2026 — Parte 6 completa) |
+| 🏷️ **Versión** | `v3.4.0` (junio 2026 — Parte 7 completa) |
 | 📚 **Clases** | **232 en 9 partes** · numeración secuencial limpia 001-232 |
 | 🗂️ **Estructura** | ✅ las 232 clases con `README.md` + `notebook.ipynb` |
-| ✍️ **Contenido pedagógico** | 🟢 **Partes 0-6 (222 clases ≈ 96%) — completas y modernizadas** con Definiciones · Errores comunes · FAQ en cada clase + 35 clases dedicadas a temas modernos 2024-2026 + stack completo de MLOps (DVC, MLflow, Feast, K8s, FastAPI, drift, shadow/canary, SHAP, Great Expectations, behavioral tests) + data engineering (Airflow, Prefect/Dagster, PySpark, Polars, DuckDB/BQ/Snowflake, Kafka, Parquet/Avro, star schemas) + recomendadores (CF, SVD/ALS, content+FAISS, LightFM, métricas top-N, cold-start) · ⏳ Partes 7-8 (10 clases) en desarrollo |
+| ✍️ **Contenido pedagógico** | 🟢 **Partes 0-7 (228 clases ≈ 98%) — completas y modernizadas** con Definiciones · Errores comunes · FAQ en cada clase + 35 clases dedicadas a temas modernos 2024-2026 + stack completo de MLOps (DVC, MLflow, Feast, K8s, FastAPI, drift, shadow/canary, SHAP, Great Expectations, behavioral tests) + data engineering (Airflow, Prefect/Dagster, PySpark, Polars, DuckDB/BQ/Snowflake, Kafka, Parquet/Avro, star schemas) + recomendadores (CF, SVD/ALS, content+FAISS, LightFM, métricas top-N, cold-start) + ética/fairness/privacidad (DP/EO/calibration, DP-SGD, FedAvg, GDPR + AI Act 2024/1689, reproducibilidad) · ⏳ Parte 8 (4 capstones) en desarrollo |
 | 🧭 **Descubribilidad Pages** | ✅ tabla de contenidos automática + badges por clase + banner global de progreso |
 | 🧪 **Laboratorio Flask** | ✅ ejecución Python local, captura de gráficos, guardado de notebooks |
 | 🖥️ **App Windows** | ✅ código operativo · binario pendiente de rebuild (Edge WebView2, sin navegador) |
@@ -82,12 +82,12 @@ Cada parte tiene su **propio README** con narrativa completa: de qué trata, qu�
 | 4️⃣ | MLOps ✅ | 14 (194-207) | DVC, MLflow, Feast, GH Actions+CML, Docker, FastAPI, K8s, serverless, drift (PSI/CBPE), Prefect, shadow/canary, SHAP, Great Expectations, behavioral tests | [📘 leer](classes/parte-4-mlops/README.md) |
 | 5️⃣ | Ingeniería de datos ✅ | 8 (208-215) | Airflow TaskFlow, Prefect/Dagster, PySpark (AQE/skew), Polars (lazy/streaming), DuckDB/BQ/Snowflake, Kafka+Kinesis, Parquet/Avro, star schema SCD2 | [📘 leer](classes/parte-5-ingenieria-de-datos/README.md) |
 | 6️⃣ | Recomendadores ✅ | 7 (216-222) | CF user/item-based, SVD+ALS implicit, content (TF-IDF+sentence-transformers+FAISS), hybrid LightFM, métricas top-N (NDCG/MAP/recall), cold-start (Bayes+bandits) | [📘 leer](classes/parte-6-sistemas-de-recomendacion/README.md) |
-| 7️⃣ | Ética, fairness, privacidad | 6 (223-228) | Sesgo, explicabilidad, marcos normativos | [📘 leer](classes/parte-7-etica-fairness-privacidad/README.md) |
+| 7️⃣ | Ética, fairness, privacidad ✅ | 6 (223-228) | Sesgos (Suresh-Guttag), métricas DP/EO/calibration + impossibility theorem, privacidad diferencial (Laplace/Gauss/DP-SGD), federated learning (FedAvg + leakage), GDPR + AI Act EU 2024/1689, reproducibilidad (seeds/lock files/model cards) | [📘 leer](classes/parte-7-etica-fairness-privacidad/README.md) |
 | 8️⃣ | Capstones | 4 (229-232) | Proyectos integradores end-to-end | [📘 leer](classes/parte-8-capstones/README.md) |
 
 ### 🚧 Trabajo pendiente
 
-- 📝 Rellenar contenido pedagógico de las **10 clases restantes** (Partes 7-8, 223-232 — orden recomendado en [`docs/syllabus.md`](docs/syllabus.md) y [`ROADMAP.md`](ROADMAP.md))
+- 📝 Rellenar contenido pedagógico de las **4 clases restantes** (Parte 8 capstones, 229-232 — orden recomendado en [`docs/syllabus.md`](docs/syllabus.md) y [`ROADMAP.md`](ROADMAP.md))
 - 📱 Listar las 232 clases en la UI Android (`mobile/`) — el dato ya está actualizado a v3.0.0
 - 📄 Regenerar PDFs y PPTX (`docs/pdfs/`, `docs/presentaciones/`) con la nueva numeración 001-232 de cada parte
 
@@ -129,7 +129,7 @@ Cada parte tiene su **propio README** con narrativa completa: de qué trata, qu�
 | 🧪 Laboratorio interactivo (`app/`) | entorno local de clase — notebooks, runner, ejecución Python | ✅ operativo |
 | 🌐 Portal del alumno (`site/`) | punto de entrada oficial para estudiantes | ✅ operativo |
 | 🏛️ Vista institucional (`site/product/`) | presentación visual del producto | ✅ operativa |
-| 📚 Currículo modular (`classes/`) | **232 clases** en 9 partes (numeración secuencial 001-232): Prerrequisitos, ML clásico, Deep Learning, Estadística inferencial y causal, MLOps, Ingeniería de datos, Recomendadores, Ética, Capstones | 🟢 Partes 0-6 (**222 clases ≈ 96%**) completas y modernizadas — 35 clases dedicadas a temas 2024-2026 + stack MLOps + data engineering + recomendadores · 🟡 Partes 7-8 (10 clases) scaffold operativo, contenido en desarrollo |
+| 📚 Currículo modular (`classes/`) | **232 clases** en 9 partes (numeración secuencial 001-232): Prerrequisitos, ML clásico, Deep Learning, Estadística inferencial y causal, MLOps, Ingeniería de datos, Recomendadores, Ética, Capstones | 🟢 Partes 0-7 (**228 clases ≈ 98%**) completas y modernizadas — 35 clases dedicadas a temas 2024-2026 + stack MLOps + data engineering + recomendadores + ética/fairness/privacidad · 🟡 Parte 8 (4 capstones) scaffold operativo, contenido en desarrollo |
 | 🖥️ App de escritorio Windows (`launcher.py` + `program.spec` + `installer/`) | ventana nativa con Edge WebView2 — sin navegador, sin Python en el PC del alumno | 🟡 código operativo · binario pendiente de build |
 | 📱 App Android (`mobile/`) | Expo/React Native con integración Google Colab | 🟡 código operativo · contenido pendiente de migración |
 | 📄 PDFs (`docs/pdfs/`) | guías por clase | 🔄 se regeneran por bloques al madurar el contenido |
@@ -181,7 +181,7 @@ graph LR
 
 La arquitectura completa, con flujos y fronteras, está en [docs/ARQUITECTURA_PRODUCTO.md](docs/ARQUITECTURA_PRODUCTO.md).
 
-### 🗺️ Mapa del currículo (9 partes · 232 clases · v3.3.0)
+### 🗺️ Mapa del currículo (9 partes · 232 clases · v3.4.0)
 
 ```mermaid
 graph TD
@@ -226,7 +226,7 @@ graph TD
 
 ### 📚 Currículo y pedagogía
 
-- **Currículo (v3.3.0):** **232 clases** en 9 partes (numeración secuencial 001-232) — Prerrequisitos (49), ML clásico (50), Deep Learning (75), Estadística inferencial y causal (19), MLOps (14), Ingeniería de datos (8), Recomendadores (7), Ética (6), Capstones (4). **Partes 0-6 (222 ≈ 96%) completas y modernizadas 2024-2026** · Partes 7-8 (10) scaffold;
+- **Currículo (v3.4.0):** **232 clases** en 9 partes (numeración secuencial 001-232) — Prerrequisitos (49), ML clásico (50), Deep Learning (75), Estadística inferencial y causal (19), MLOps (14), Ingeniería de datos (8), Recomendadores (7), Ética (6), Capstones (4). **Partes 0-7 (228 ≈ 98%) completas y modernizadas 2024-2026** · Parte 8 (4) scaffold;
 - pauta derivada de **Hands-On ML** (Géron 3ª ed.), **Python Data Science Handbook** (VanderPlas), **Designing ML Systems** (Huyen), **ISLP** (James et al), **Fairness and ML** (Barocas/Hardt/Narayanan);
 - cada clase: `README.md` (ficha) + `notebook.ipynb` (stub); materiales adicionales se agregan al madurar;
 - **6 datasets** sintéticos: ventas_tienda, retencion_clientes, soporte_tickets, transporte, estudiantes, comentarios_productos;

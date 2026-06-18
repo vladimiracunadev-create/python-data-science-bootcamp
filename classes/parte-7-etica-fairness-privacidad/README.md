@@ -2,9 +2,9 @@
 
 > [⬅️ Volver al programa](../../README.md) · [📚 Índice completo](../README.md) · [⏮️ Parte anterior](../parte-6-sistemas-de-recomendacion/README.md) · [⏭️ Parte siguiente](../parte-8-capstones/README.md)
 
-**6 clases** · ~2 semanas
+**6 clases** · ~2 semanas · ✅ **completada (junio 2026)**
 
-**Fuente principal:** **Barocas / Hardt / Narayanan** ([*Fairness and Machine Learning*](https://fairmlbook.org/)) — el texto de referencia académico para fairness algorítmica.
+**Fuente principal:** **Barocas / Hardt / Narayanan** ([*Fairness and Machine Learning*](https://fairmlbook.org/)) — el texto de referencia académico para fairness algorítmica. Complementan: Suresh & Guttag 2021 (taxonomía de sesgos), Dwork & Roth 2014 (privacidad diferencial), McMahan et al. 2017 (federated learning), Reglamentos UE 2016/679 (GDPR) y 2024/1689 (AI Act), Pineau et al. 2021 + Mitchell et al. 2019 (reproducibilidad / model cards).
 
 ---
 
@@ -33,9 +33,9 @@ Al finalizar esta parte, el estudiante podrá:
 
 ## 🗺️ Estructura temática
 
-- **Sesgo y fairness** — clases 188–189 — tipos de sesgo, métricas de fairness.
-- **Privacidad** — clases 190–191 — privacidad diferencial, federated learning.
-- **Regulación y reproducibilidad** — clases 192–193 — GDPR / AI Act, reproducibilidad práctica.
+- **Sesgo y fairness** — clases 223–224 — taxonomía de sesgos (Suresh-Guttag), métricas formales (DP, EO, calibration) + impossibility theorem.
+- **Privacidad** — clases 225–226 — privacidad diferencial (Laplace, Gaussiano, DP-SGD), federated learning (FedAvg, gradient leakage).
+- **Regulación y reproducibilidad** — clases 227–228 — GDPR + AI Act EU 2024/1689, seeds/lock files/versionado de datasets.
 
 ## 📚 Índice de clases (6)
 

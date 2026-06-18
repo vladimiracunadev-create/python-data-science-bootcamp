@@ -17,12 +17,12 @@
 Este repositorio es una **pauta avanzada y completa de Python y Data Science** organizada en 232 clases y 9 partes. La pauta está derivada de referentes profesionales: *Hands-On ML* (Géron, 3ª ed.), *Python Data Science Handbook* (VanderPlas), *Designing ML Systems* (Huyen), *ISLP* (James et al) y *Fairness and ML* (Barocas/Hardt/Narayanan).
 
 ```
-v3.3.0:  232 clases · 9 partes · Partes 0-6 (222 ≈ 96%) completas y modernizadas 2024-2026 · Partes 7-8 (10) scaffold
+v3.4.0:  232 clases · 9 partes · Partes 0-7 (228 ≈ 98%) completas y modernizadas 2024-2026 · Parte 8 (4) scaffold
 ```
 
 Incluye laboratorio interactivo local (Flask), app de escritorio nativa para Windows, app Android y una familia documental que distingue producto, operación y seguridad.
 
-**Estado honesto (v3.3.0, junio 2026):** **Partes 0-6 (222 clases ≈ 96%) están completas y modernizadas** con READMEs pedagógicos, secciones Definiciones/Errores comunes/FAQ en cada clase y 35 clases dedicadas a temas modernos 2024-2026 + stack MLOps completo (P4: DVC, MLflow, Feast, K8s, FastAPI, drift, shadow/canary, SHAP, Great Expectations, behavioral tests) + data engineering (P5: Airflow, Prefect/Dagster, PySpark, Polars, DuckDB/BQ/Snowflake, Kafka, Parquet/Avro, star schemas SCD2) + recomendadores (P6: CF kNN, SVD+ALS implicit, content+FAISS, LightFM hybrid, métricas top-N, cold-start). En Parte 0 + Partes 4-6 los notebooks están desarrollados ejecutables; en Partes 1-3 los notebooks siguen como stubs (el contenido pedagógico vive en los README, ~150 líneas promedio). **Partes 7-8 (10 clases)** son scaffold — la estructura y la pauta están definidas; el contenido pedagógico se desarrolla por bloques. Ver progreso real en [GitHub Pages — currículo](https://vladimiracunadev-create.github.io/python-data-science-program/clases/).
+**Estado honesto (v3.4.0, junio 2026):** **Partes 0-7 (228 clases ≈ 98%) están completas y modernizadas** con READMEs pedagógicos, secciones Definiciones/Errores comunes/FAQ en cada clase y 35 clases dedicadas a temas modernos 2024-2026 + stack MLOps completo (P4: DVC, MLflow, Feast, K8s, FastAPI, drift, shadow/canary, SHAP, Great Expectations, behavioral tests) + data engineering (P5: Airflow, Prefect/Dagster, PySpark, Polars, DuckDB/BQ/Snowflake, Kafka, Parquet/Avro, star schemas SCD2) + recomendadores (P6: CF kNN, SVD+ALS implicit, content+FAISS, LightFM hybrid, métricas top-N, cold-start) + ética/fairness/privacidad (P7: Suresh-Guttag taxonomía sesgos, DP/EO/calibration + impossibility theorem, privacidad diferencial (Laplace/Gauss/DP-SGD), federated learning (FedAvg + gradient leakage), GDPR + AI Act EU 2024/1689, reproducibilidad (seeds/lock files/model cards/datasheets)). En Parte 0 + Partes 4-7 los notebooks están desarrollados ejecutables; en Partes 1-3 los notebooks siguen como stubs (el contenido pedagógico vive en los README, ~150 líneas promedio). **Parte 8 (4 capstones)** son scaffold — la estructura y la pauta están definidas; el contenido pedagógico se desarrolla por bloques. Ver progreso real en [GitHub Pages — currículo](https://vladimiracunadev-create.github.io/python-data-science-program/clases/).
 
 ---
 
@@ -119,7 +119,7 @@ Incluye laboratorio interactivo local (Flask), app de escritorio nativa para Win
 
 - una plataforma multiusuario endurecida para internet abierta;
 - un LMS con autenticación, roles y seguimiento centralizado;
-- **el currículo entero listo para dictar** — **Partes 0-6 (222 clases ≈ 96%)** están completas y modernizadas con 35 clases dedicadas a temas modernos 2024-2026 + stack MLOps + data engineering + recomendadores; Partes 7-8 (10 clases) están en scaffold y se desarrollan por bloques;
+- **el currículo entero listo para dictar** — **Partes 0-7 (228 clases ≈ 98%)** están completas y modernizadas con 35 clases dedicadas a temas modernos 2024-2026 + stack MLOps + data engineering + recomendadores + ética/fairness/privacidad; Parte 8 (4 capstones) está en scaffold y se desarrolla por bloques;
 - la app Android en producción (APK debug, producción está en roadmap);
 - personalización ilimitada antes de definir condiciones reales.
 

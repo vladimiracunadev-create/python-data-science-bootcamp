@@ -13,6 +13,31 @@
 
 ---
 
+## [v3.4.0] — 2026-06-18 (Parte 7 — Ética, Fairness y Privacidad completa)
+
+### Añadido
+
+- **Parte 7 — Ética, Fairness y Privacidad: 6/6 clases desarrolladas** (223-228) con patrón pedagógico v3.0 completo. Fuente: Barocas/Hardt/Narayanan *Fairness and ML* (fairmlbook.org) + papers fundacionales (Suresh-Guttag 2021, Hardt-Price-Srebro 2016, Chouldechova 2017, Kleinberg-Mullainathan-Raghavan 2017, Dwork-Roth 2014, Abadi 2016, McMahan 2017, Zhu 2019, Pineau 2021, Mitchell 2019, Gebru 2018) + Reglamentos UE 2016/679 (GDPR) y 2024/1689 (AI Act).
+  - **223 — Tipos de sesgo y orígenes**: taxonomía Suresh-Guttag (histórico, representación, medición, agregación, evaluación, despliegue) con demos sintéticas y caso Gender Shades.
+  - **224 — Métricas de fairness**: demographic parity, equal opportunity, equalized odds, calibration. Impossibility theorem (Kleinberg/Chouldechova) demostrado numéricamente. Tooling: fairlearn/aif360.
+  - **225 — Privacidad diferencial**: (ε,δ)-DP, mecanismos Laplace + Gaussiano, composición básica + avanzada, DP-SGD manual sobre regresión lineal, trade-off privacy-utility por ε.
+  - **226 — Federated learning**: FedAvg implementado a mano con 10 clientes, simulación non-IID, demo didáctica de gradient leakage, defensas (secure agg, DP-FedAvg).
+  - **227 — GDPR + EU AI Act**: bases legales, derechos del titular, Art. 22 decisiones automatizadas, DPIA. AI Act por niveles de riesgo (prohibido/alto/limitado/mínimo) + GPAI. Notebook utilitario con 8 chequeos programáticos de compliance.
+  - **228 — Reproducibilidad**: seeds determinismo (Python/NumPy/Torch/sklearn), fuentes de non-determinism (GPU, hash, float assoc), lock files (uv/poetry/pip-compile), versionado de datasets (DVC/Git LFS), manifest con sha256, model cards (Mitchell 2019) y datasheets (Gebru 2018).
+
+### Cambiado
+
+- ROADMAP v3.3.0 → v3.4.0; Parte 7 marcada `✅ completada`.
+- README de Parte 7 actualizado (fuente principal completa + estructura temática con numeración real 223-228).
+- README raíz, badge de versión, estado del producto y mapa del currículo sincronizados a v3.4.0 (228/232 ≈ 98%).
+- Siguiente prioridad: **Parte 8 — Capstones** (4 clases · 229-232).
+
+### Cobertura del currículo
+
+- **228/232 clases desarrolladas** (~98%). Pendientes: P8 (4) = 4 clases restantes (capstones).
+
+---
+
 ## [v3.3.0] — 2026-06-17 (Parte 6 — Sistemas de Recomendación completa)
 
 ### Añadido
