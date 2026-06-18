@@ -28,7 +28,7 @@
 | **📈 An Introduction to Statistical Learning, Python edition (ISLP)** — James, Witten, Hastie, Tibshirani (Springer 2023) | Refuerza la **Parte 3 (Estadística inferencial)** y aporta rigor matemático a la **Parte 1**. Es el manual estándar para entender por qué los modelos funcionan, no sólo cómo entrenarlos. |
 | **⚖️ Fairness and Machine Learning** — Solon Barocas, Moritz Hardt, Arvind Narayanan (MIT Press 2023) | Funda la **Parte 7 (Ética, fairness, privacidad)**. Plantea el problema de sesgo algorítmico no como anexo moral sino como decisión técnica con métricas, definiciones formales y trade-offs documentables. |
 
-> 🎯 La cobertura de las **Partes 5 (Ingeniería de datos)**, **6 (Recomendadores)** y **8 (Capstones)** se apoya en buenas prácticas comunitarias y documentación oficial de cada herramienta (Spark, Airflow, Surprise, scikit-learn).
+> 🎯 La cobertura de las **Partes 5 (Ingeniería de datos)** y **6 (Recomendadores)** se apoya en buenas prácticas comunitarias y documentación oficial de cada herramienta (Spark, Airflow, Surprise, scikit-learn). La **Parte 8 (Capstones)** integra todo lo anterior y suma fuentes específicas: Huyen (DML Systems), Hyndman & Athanasopoulos (Forecasting Principles & Practice 3ª ed.), timm/Lightning/Albumentations, MkDocs Material/Quarto.
 
 ---
 
@@ -83,12 +83,12 @@ Capaz de:
 | Componente | Estado |
 |---|---|
 | Estructura de carpetas (232) | ✅ creada |
-| README por clase | ✅ Partes 0-7 (228) completos y modernizados · Parte 8 (4) stubs |
-| `notebook.ipynb` por clase | ✅ Partes 0, 4, 5, 6, 7 ejecutables · Partes 1-3 con README completos + notebooks pendientes · Parte 8 stubs |
-| Contenido pedagógico real | 🟢 Partes 0-7 completas (228 clases · v3.4.0 ≈ 98%) · ⏳ 4 clases pendientes (Parte 8) |
-| Definiciones + Errores comunes + FAQ por clase | 🟢 228/228 en Partes 0-7 (v3.4.0) · ⏳ Parte 8 |
+| README por clase | 🎓 **232/232 completos y modernizados** (v3.5.0 · 100%) |
+| `notebook.ipynb` por clase | 🎓 **232/232 desarrollados** — Partes 0, 4, 5, 6, 7, 8 ejecutables · Partes 1-3 con README completos + notebooks como stub guía |
+| Contenido pedagógico real | 🎓 **currículo completo · 232/232 = 100%** (v3.5.0) — ya no quedan clases pendientes |
+| Definiciones + Errores comunes + FAQ por clase | 🎓 **232/232** (v3.5.0 · 100%) |
 | Clases dedicadas modernas 2024-2026 | 🟢 **35 clases dedicadas** en Partes 0-3 + stack moderno completo en Partes 4-7 (DVC/MLflow/Feast/K8s/FastAPI/Evidently/NannyML/Prefect/Istio/SHAP/Great Expectations/CheckList; Airflow/Prefect/Dagster/PySpark/Polars/DuckDB/BQ/Snowflake/Kafka/Parquet/Avro/star schema; CF/SVD+ALS/sentence-transformers/FAISS/LightFM/bandits; Suresh-Guttag taxonomía sesgos/DP+EO+calibration+impossibility theorem/privacidad diferencial Laplace+Gauss+DP-SGD/FedAvg+gradient leakage/GDPR+AI Act EU 2024/1689/seeds+lock files+model cards+datasheets) |
-| PDFs y PPTX por clase | ⏳ pendiente (regenerar tras desarrollar contenido) |
+| PDFs y PPTX por clase | ⏳ pendiente (regenerar tras desarrollar contenido) — **siguiente foco: superficies** |
 | Quizzes pre/post lección | ⏳ pendiente |
 | Datasets temáticos por bloque | ⏳ pendiente |
 
@@ -125,7 +125,9 @@ Materiales opcionales que se pueden añadir conforme una clase madure:
 6. ~~**Parte 5** (Ingeniería de datos, 8 clases · 208-215).~~ ✅ completada (v3.2.0, fuentes Reis & Housley + Kimball — Airflow, Prefect/Dagster, PySpark, Polars, DuckDB/BQ/Snowflake, Kafka, Parquet/Avro, star schemas).
 7. ~~**Parte 6** (Sistemas de recomendación, 7 clases · 216-222).~~ ✅ completada (v3.3.0, fuente Aggarwal + papers fundacionales — CF kNN, SVD/ALS, content+FAISS, LightFM, métricas top-N, cold-start, librerías).
 8. ~~**Parte 7** (Ética, fairness, privacidad, 6 clases · 223-228).~~ ✅ completada (v3.4.0, fuentes Barocas/Hardt/Narayanan + Suresh-Guttag 2021 + Hardt-Price-Srebro 2016 + Chouldechova 2017 + Kleinberg 2017 + Dwork-Roth 2014 + Abadi 2016 + McMahan 2017 + Reglamentos UE 2016/679 y 2024/1689 + Pineau 2021 + Mitchell 2019 + Gebru 2018 — Suresh-Guttag taxonomía sesgos, DP/EO/calibration + impossibility theorem, privacidad diferencial (Laplace/Gauss/DP-SGD), federated learning (FedAvg + gradient leakage), GDPR + AI Act EU 2024/1689, reproducibilidad (seeds/lock files/model cards/datasheets)).
-9. **Parte 8** (capstones, 4 proyectos · 229-232) — siguiente prioridad, al cierre del programa.
+9. ~~**Parte 8** (capstones, 4 proyectos · 229-232).~~ ✅ completada (v3.5.0, fuentes Huyen + Hyndman & Athanasopoulos FPP3 + timm/Lightning/Albumentations + MkDocs Material/Quarto + integradores de todas las partes previas — Capstone 1 tabular E2E (ColumnTransformer+GBM+Optuna+MLflow+FastAPI+Streamlit+SHAP+CI), Capstone 2 NLP/series (DistilBERT o forecasting con baselines+SARIMA+backtesting+cuantiles), Capstone 3 visión transfer learning (ConvNeXt/EfficientNetV2/ViT + RandAugment/MixUp/CutMix + ONNX), Portafolio público (MkDocs Material/Quarto + GitHub Pages + demos hosted + deck + CV técnico)).
+
+🎓 **Currículo completo · 232/232 = 100%.** Próximo foco: superficies (regen PDFs/PPTX por clase, migración de contenido a la app Android, mejoras del lab Flask).
 
 ## 🧠 Metodología por clase
 

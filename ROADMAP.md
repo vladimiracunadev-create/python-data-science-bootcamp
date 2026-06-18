@@ -4,7 +4,7 @@
 
 ### **Dirección futura del Python Data Science Program**
 
-[![Version](https://img.shields.io/badge/release-v3.4.0-2e8b57?style=for-the-badge)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/release-v3.5.0-2e8b57?style=for-the-badge)](CHANGELOG.md)
 [![Estado](https://img.shields.io/badge/contenido-en%20desarrollo-f59e0b?style=for-the-badge)](#-trabajo-cr%C3%ADtico--completar-el-contenido-pedag%C3%B3gico)
 
 </div>
@@ -13,11 +13,11 @@
 
 ---
 
-## 📊 Estado actual — v3.4.0 (junio 2026 — Parte 7 Ética/Fairness/Privacidad completa)
+## 📊 Estado actual — v3.5.0 (junio 2026 — **currículo completo 232/232 = 100%**)
 
 | 🎛️ Superficie | 🚦 Estado |
 |---|---|
-| 📚 Currículo (**232 clases**, 9 partes, numeración secuencial limpia 001-232) | 🟢 **Partes 0, 1, 2, 3, 4, 5, 6 y 7 (228 clases) completas v3.4** (Definiciones · Errores · FAQ en cada clase + 35 clases dedicadas a temas modernos 2024-2026: Polars/Arrow/DuckDB, async, validación temporal, FE+MICE, Optuna, Model Cards, SMOTE, calibración, SHAP profundo, Ray Tune, Lion/Sophia, Stochastic Depth, PyTorch+Lightning, SAM/YOLOv11, Flash Attention/RoPE/GQA, CLIP/Whisper, LoRA/DPO/vLLM, MCP/Agentes/Eval, SDXL/ControlNet, ONNX, JAX/Flax, effect size, BCa bootstrap, CUPED+sequential, DoubleML, Synthetic Controls, PyMC v5/NumPyro/ArviZ) + **Parte 4 MLOps (14 clases): DVC, MLflow, Feast, GH Actions/CML, Docker multi-stage, FastAPI, Kubernetes, serverless cost calc, drift detection (PSI/KS/Wasserstein/CBPE), retraining (Prefect+champion-challenger), shadow/canary/auto-rollback, SHAP/LIME/PDP/ICE en producción, Great Expectations+Pandera, behavioral tests INV/DIR/MFT/slice** · Partes 5-8 (25 clases) pendientes desarrollo |
+| 📚 Currículo (**232 clases**, 9 partes, numeración secuencial limpia 001-232) | 🟢 **Las 9 partes (232/232 = 100%) completas v3.5** (Definiciones · Errores · FAQ en cada clase + 35 clases dedicadas a temas modernos 2024-2026: Polars/Arrow/DuckDB, async, validación temporal, FE+MICE, Optuna, Model Cards, SMOTE, calibración, SHAP profundo, Ray Tune, Lion/Sophia, Stochastic Depth, PyTorch+Lightning, SAM/YOLOv11, Flash Attention/RoPE/GQA, CLIP/Whisper, LoRA/DPO/vLLM, MCP/Agentes/Eval, SDXL/ControlNet, ONNX, JAX/Flax, effect size, BCa bootstrap, CUPED+sequential, DoubleML, Synthetic Controls, PyMC v5/NumPyro/ArviZ) + **Parte 4 MLOps (14 clases): DVC, MLflow, Feast, GH Actions/CML, Docker multi-stage, FastAPI, Kubernetes, serverless cost calc, drift detection (PSI/KS/Wasserstein/CBPE), retraining (Prefect+champion-challenger), shadow/canary/auto-rollback, SHAP/LIME/PDP/ICE en producción, Great Expectations+Pandera, behavioral tests INV/DIR/MFT/slice** · Partes 5-8 (25 clases) pendientes desarrollo |
 | 🧪 Laboratorio Flask | ✅ operativo |
 | 🖥️ App de escritorio Windows (pywebview) | 🟡 código operativo · binario pendiente de rebuild |
 | 📱 App Android | 🟡 APK debug publicado — pendiente migrar contenido al índice actual |
@@ -39,7 +39,8 @@
 - [x] **5️⃣ Parte 5 — Ingeniería de Datos (8 clases · 208-215)** ✅ completada (junio 2026), patrón pedagógico completo — Reis & Housley *Fundamentals of Data Engineering* + Kimball & Ross *Data Warehouse Toolkit* (Airflow TaskFlow API, Prefect 3 + Dagster assets, PySpark 3.5 broadcast/AQE/skew, Polars 1.x lazy+streaming, BigQuery/Snowflake/DuckDB cost-aware, Kafka KRaft + Kinesis, Parquet/Avro + schema evolution, star/snowflake schemas con SCD 2)
 - [x] **6️⃣ Parte 6 — Sistemas de Recomendación (7 clases · 216-222)** ✅ completada (junio 2026), patrón pedagógico completo — Aggarwal *Recommender Systems* + Koren/Bell/Volinsky 2009 + Hu/Koren/Volinsky 2008 + Burke 2002 (user/item-based kNN, SVD+ALS implicit, content-based con sentence-transformers+FAISS, hybrid weighted/switching/LightFM, MAP@k/NDCG@k/coverage/diversity, cold-start con Bayesian shrinkage+bandits, comparativa Surprise/Implicit/LightFM)
 - [x] **7️⃣ Parte 7 — Ética, Fairness y Privacidad (6 clases · 223-228)** ✅ completada (junio 2026), patrón pedagógico completo — Barocas/Hardt/Narayanan *Fairness and ML* + Suresh-Guttag 2021 + Hardt-Price-Srebro 2016 + Chouldechova 2017 + Kleinberg-Mullainathan-Raghavan 2017 + Dwork-Roth 2014 + Abadi 2016 (DP-SGD) + McMahan 2017 (FedAvg) + Zhu 2019 (gradient leakage) + Reglamentos UE 2016/679 (GDPR) y 2024/1689 (AI Act) + Pineau 2021 + Mitchell 2019 + Gebru 2018 (taxonomía de sesgos, métricas DP/EO/calibration con impossibility theorem, privacidad diferencial Laplace+Gauss+DP-SGD, federated learning FedAvg+leakage, GDPR+AI Act por riesgo, reproducibilidad seeds/lock files/datasheets/model cards)
-- [ ] Desarrollar las 4 clases restantes de la **Parte 8 — Capstones (229-232)** (siguiente prioridad: **8️⃣ proyectos integradores end-to-end**)
+- [x] **8️⃣ Parte 8 — Capstones (4 clases · 229-232)** ✅ completada (junio 2026), patrón pedagógico completo — integrador de Partes 0-7 + Huyen *Designing ML Systems* + Hyndman & Athanasopoulos *FPP3* + timm/Lightning/Albumentations + MkDocs Material/Quarto (Capstone 1 tabular E2E con ColumnTransformer+GBM+Optuna+MLflow+FastAPI+Streamlit+SHAP+CI, Capstone 2 NLP o forecasting con baselines+SARIMA/ETS+ML+backtesting+intervalos cuantiles, Capstone 3 visión transfer learning con ConvNeXt/EfficientNetV2/ViT+RandAugment/MixUp/CutMix+ONNX+FastAPI, clase 232 portafolio público con MkDocs/Quarto+GitHub Pages+demos hosted+deck+CV técnico+reproducibilidad como diferenciador)
+- [x] **🎓 Currículo completo: 232/232 clases desarrolladas (100%)** — todas las partes en patrón pedagógico v3.0 con README + notebook ejecutable
 
 ### 🔄 Superficies pendientes de migración
 

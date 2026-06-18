@@ -2,7 +2,7 @@
 
 > [⬅️ Volver al programa](../../README.md) · [📚 Índice completo](../README.md) · [⏮️ Parte anterior](../parte-7-etica-fairness-privacidad/README.md)
 
-**4 clases** · proyectos largos · ~4–6 semanas
+**4 clases** · proyectos largos · ~4–6 semanas · ✅ **completada (junio 2026)**
 
 **Fuente principal:** Síntesis — el estudiante demuestra dominio integrando todo lo aprendido en tres proyectos completos y un portafolio público.
 
@@ -31,10 +31,10 @@ Al finalizar esta parte, el estudiante podrá:
 
 ## 🗺️ Estructura temática
 
-- **Capstone 1 — Tabular** — clase 194 — problema tabular end-to-end (EDA, modelo, API, dashboard).
-- **Capstone 2 — NLP o series** — clase 195 — NLP o time-series end-to-end.
-- **Capstone 3 — Visión** — clase 196 — visión por computadora con transfer learning.
-- **Portafolio público** — clase 197 — GitHub Pages, presentación, README técnico.
+- **Capstone 1 — Tabular** — clase 229 — pipeline end-to-end (EDA, ColumnTransformer, GBM+Optuna, MLflow, FastAPI, Streamlit+SHAP, Model Card, CI).
+- **Capstone 2 — NLP o series** — clase 230 — dos ramas opt-in (rama A: clasificación de texto con DistilBERT/sentence-transformers o RAG mini; rama B: forecasting con baselines + SARIMA/ETS + ML + backtesting + intervalos cuantiles). Notebook implementa rama B completa.
+- **Capstone 3 — Visión** — clase 231 — transfer learning con torchvision/timm (ConvNeXt/EfficientNetV2/ViT), augmentation moderna (RandAugment/MixUp/CutMix), export ONNX, FastAPI con imagen base64; notebook CPU-friendly con HOG fallback.
+- **Portafolio público** — clase 232 — MkDocs Material/Quarto en GitHub Pages, demos hosted (Streamlit Cloud/HF Spaces), blog técnico, deck 10-15 slides, CV técnico de 1 página, reproducibilidad como diferenciador.
 
 ## 📚 Índice de clases (4)
 

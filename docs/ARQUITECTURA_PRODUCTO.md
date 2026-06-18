@@ -18,7 +18,7 @@
 
 El producto se organiza en tres capas coordinadas:
 
-- una **capa pedagógica reusable** (`classes/`, `datasets/`) — **232 clases en 9 partes** (v3.4.0, numeración secuencial 001-232; Partes 0-7 con 228 clases ≈ 98% completas y modernizadas 2024-2026 + 35 clases dedicadas a temas modernos + stack completo MLOps + data engineering + recomendadores + ética/fairness/privacidad; Parte 8 con 4 capstones en scaffold);
+- una **capa pedagógica reusable** (`classes/`, `datasets/`) — **232 clases en 9 partes** (v3.5.0, numeración secuencial 001-232; 🎓 **currículo completo 232/232 = 100%** y modernizado 2024-2026 + 35 clases dedicadas a temas modernos + stack completo MLOps + data engineering + recomendadores + ética/fairness/privacidad + 4 capstones integradores tabular/NLP-series/visión/portafolio);
 - una **capa operativa local** para el laboratorio (`app/`, `launcher.py`, `mobile/`);
 - una **capa pública** para alumnos e institución (`site/`, GitHub Pages).
 
@@ -122,7 +122,7 @@ graph LR
 
 ### `classes/` — Currículo modular
 
-Concentra el contenido de las **232 clases** en 9 partes (v3.4.0, numeración secuencial 001-232). Pauta derivada de Géron (Hands-On ML 3ª ed.), VanderPlas, Huyen, ISLP, Barocas/Hardt/Narayanan + Reis & Housley (Data Engineering), Kimball & Ross (Data Warehouse Toolkit), Aggarwal (Recommender Systems) + Suresh-Guttag 2021 (taxonomía sesgos), Hardt-Price-Srebro 2016 (equalized odds), Chouldechova 2017, Kleinberg 2017 (impossibility theorem), Dwork-Roth 2014 (privacidad diferencial), Abadi 2016 (DP-SGD), McMahan 2017 (FedAvg), Reglamentos UE 2016/679 y 2024/1689, Pineau 2021 (reproducibilidad), Mitchell 2019 (model cards), Gebru 2018 (datasheets) + papers seminales 2002-2026 (Flash Attention, LoRA, DPO, ControlNet, MCP, DoubleML, Synthetic Controls, Koren/Hu para MF, Burke para hybrids, CheckList para behavioral tests).
+Concentra el contenido de las **232 clases** en 9 partes (v3.5.0, numeración secuencial 001-232). Pauta derivada de Géron (Hands-On ML 3ª ed.), VanderPlas, Huyen (Designing ML Systems), ISLP, Barocas/Hardt/Narayanan + Reis & Housley (Data Engineering), Kimball & Ross (Data Warehouse Toolkit), Aggarwal (Recommender Systems) + Suresh-Guttag 2021 (taxonomía sesgos), Hardt-Price-Srebro 2016 (equalized odds), Chouldechova 2017, Kleinberg 2017 (impossibility theorem), Dwork-Roth 2014 (privacidad diferencial), Abadi 2016 (DP-SGD), McMahan 2017 (FedAvg), Reglamentos UE 2016/679 y 2024/1689, Pineau 2021 (reproducibilidad), Mitchell 2019 (model cards), Gebru 2018 (datasheets) + **Capstones (P8)**: Hyndman & Athanasopoulos (Forecasting Principles & Practice 3ª ed.), timm/Lightning/Albumentations (visión transfer learning), MkDocs Material/Quarto (portafolio público) + papers seminales 2002-2026 (Flash Attention, LoRA, DPO, ControlNet, MCP, DoubleML, Synthetic Controls, Koren/Hu para MF, Burke para hybrids, CheckList para behavioral tests).
 
 | Parte | Tema | Clases |
 |---|---|---|

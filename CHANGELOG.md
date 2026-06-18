@@ -13,6 +13,28 @@
 
 ---
 
+## [v3.5.0] — 2026-06-18 (Parte 8 — Capstones completa · 🎓 currículo 232/232 = 100%)
+
+### Añadido
+
+- **Parte 8 — Capstones: 4/4 clases desarrolladas** (229-232) con patrón pedagógico v3.0 completo. Integrador de Partes 0-7 + Huyen *Designing ML Systems* + Hyndman & Athanasopoulos *FPP3* + timm/Lightning + MkDocs Material/Quarto.
+  - **229 — Capstone 1: tabular E2E**: dataset sintético churn 10K filas, ColumnTransformer + GradientBoostingClassifier + Optuna 20 trials, MLflow opcional, curvas ROC + calibración, threshold F1, stubs FastAPI/Streamlit/SHAP + Model Card JSON.
+  - **230 — Capstone 2: NLP o series**: dos ramas opt-in en README (A: DistilBERT/sentence-transformers/RAG mini; B: forecasting). Notebook implementa rama B completa — serie sintética multi-estacional 3 años, baselines naive + seasonal naive, ETS (statsmodels), Ridge con features lag/rolling, backtesting expanding window 5 folds, intervalos cuantiles, drift KS sobre residuos, stub FastAPI.
+  - **231 — Capstone 3: visión transfer learning**: notebook CPU-friendly con dataset sintético 1000 patches 32×32 (círculo/cuadrado/triángulo), baseline LogReg, features HOG manuales, augmentation manual (flip+rotación+jitter), CNN PyTorch opcional con try/except, stubs timm/ONNX/FastAPI base64. README describe stack completo (ConvNeXt/EfficientNetV2/ViT, RandAugment/MixUp/CutMix, AMP, torch.compile).
+  - **232 — Portafolio público**: clase final del programa. Notebook generador end-to-end del portafolio (dataclass Project, los 3 capstones llenos, renderers de project page + index + Model Card, validador con gate de calidad, stubs mkdocs.yml + GitHub Actions Pages, outlines de deck 10-15 slides y blog post, checklist 15 ítems, paths de especialización). README sin "siguiente clase" — cierre del programa con links al índice general.
+
+### Cambiado
+
+- ROADMAP v3.4.0 → v3.5.0; Parte 8 marcada `✅ completada`; entrada "🎓 Currículo completo: 232/232 (100%)" agregada.
+- README de Parte 8 actualizado (fuente principal + estructura temática con numeración real 229-232 + foco específico por capstone).
+- README raíz, badge de versión, estado del producto y mapa del currículo sincronizados a v3.5.0 (232/232 = 100%, "trabajo pendiente" reemplazado por sección "🎓 Programa completo").
+
+### Cobertura del currículo
+
+- **232/232 clases desarrolladas (100%)**. 🎓 Programa completo. Próximo foco del repo (no del currículo): regenerar PDFs/PPTX por bloques, migrar contenido a UI Android, mejoras al laboratorio Flask.
+
+---
+
 ## [v3.4.0] — 2026-06-18 (Parte 7 — Ética, Fairness y Privacidad completa)
 
 ### Añadido
