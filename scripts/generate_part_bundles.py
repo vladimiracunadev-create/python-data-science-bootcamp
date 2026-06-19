@@ -27,10 +27,13 @@ Uso:
 from __future__ import annotations
 
 import argparse
+import logging
 import re
 import sys
 import traceback
 from pathlib import Path
+
+logger = logging.getLogger(__name__)
 
 # Reutilizar el renderer PDF y los helpers PPTX existentes del repo.
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -38,8 +41,6 @@ from generar_pdf_documento import render_markdown_text  # noqa: E402
 from generate_class_assets_v3 import (  # noqa: E402
     COLOR_ACCENT,
     COLOR_BG,
-    COLOR_CODE,
-    COLOR_CODE_TEXT,
     COLOR_HEADER_BAR,
     COLOR_MUTED,
     COLOR_PANEL,
@@ -51,7 +52,6 @@ from generate_class_assets_v3 import (  # noqa: E402
     add_title,
     add_two_column_slide,
     clean_text,
-    discover_class_dirs,
     exercises_from_section,
     get_section,
     list_items,
@@ -63,7 +63,7 @@ from generate_class_assets_v3 import (  # noqa: E402
 from pptx import Presentation  # noqa: E402
 from pptx.enum.shapes import MSO_AUTO_SHAPE_TYPE  # noqa: E402
 from pptx.enum.text import MSO_ANCHOR  # noqa: E402
-from pptx.util import Inches, Pt  # noqa: E402
+from pptx.util import Inches  # noqa: E402
 
 BASE_DIR = Path(__file__).resolve().parents[1]
 CLASSES_DIR = BASE_DIR / "classes"
@@ -199,8 +199,8 @@ def class_title(class_dir: Path) -> str:
         for line in readme.read_text(encoding="utf-8").splitlines():
             if line.startswith("# "):
                 return clean_text(line[2:])
-    except Exception:
-        pass
+    except OSError as exc:
+        logger.warning("No pude leer %s para inferir título: %s", readme, exc)
     return class_dir.name
 
 
@@ -246,7 +246,8 @@ def build_part_markdown(
         readme = class_dir / "README.md"
         try:
             content = readme.read_text(encoding="utf-8")
-        except Exception:
+        except OSError as exc:
+            logger.warning("Skipping %s en bundle de parte: %s", readme, exc)
             continue
         content = strip_next_class_section(content)
         # Quitar el H1 original — lo reemplazamos por el heading correcto.
@@ -334,7 +335,8 @@ def build_unified_pdf(output_path: Path) -> None:
             readme = class_dir / "README.md"
             try:
                 content = readme.read_text(encoding="utf-8")
-            except Exception:
+            except OSError as exc:
+                logger.warning("Skipping %s en bundle unificado: %s", readme, exc)
                 continue
             content = strip_next_class_section(content)
             h1_re = re.compile(r"^#\s+.+$", re.MULTILINE)
@@ -473,7 +475,8 @@ def add_class_slides(prs: Presentation, class_dir: Path) -> None:
         return
     try:
         readme_data = parse_class_readme(readme)
-    except Exception:
+    except (OSError, ValueError) as exc:
+        logger.warning("No pude parsear %s para PPTX bundle: %s", readme, exc)
         return
     nb_data = parse_notebook(class_dir / "notebook.ipynb")
 
@@ -660,7 +663,6 @@ def build_unified_pptx(output_path: Path) -> None:
 
     # Cada parte, sin portada individual ni cierre individual para no
     # inflar el deck con slides repetidas — pero sí dejamos divisor de parte.
-    max_part = max(p[0] for p in parts) if parts else 0
     for parte_num, _slug, part_dir in parts:
         ptitle, _ = read_part_meta(part_dir)
         n = len(classes_in_part(part_dir))
