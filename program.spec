@@ -33,9 +33,23 @@ pyside_datas, pyside_binaries, pyside_hiddenimports = collect_all("PySide6")
 shiboken_datas, shiboken_binaries, shiboken_hiddenimports = collect_all("shiboken6")
 
 # ---------------------------------------------------------------------------
+# DATOS DEL CURRÍCULO — bundle SLIM: solo README + notebook por clase.
+# Los PDFs y PPTX NO se empaquetan en el .exe (ahorra ~70 MB del bundle
+# expandido y ~50 MB del ZIP) — los botones "Abrir PDF/PPTX" abren la URL
+# raw del repo en GitHub (`https://github.com/.../raw/main/classes/...`).
+# ---------------------------------------------------------------------------
+classes_files = []
+for class_readme in (ROOT / "classes").rglob("README.md"):
+    rel = class_readme.relative_to(ROOT)
+    classes_files.append((str(class_readme), str(rel.parent).replace("\\", "/")))
+for class_nb in (ROOT / "classes").rglob("notebook.ipynb"):
+    rel = class_nb.relative_to(ROOT)
+    classes_files.append((str(class_nb), str(rel.parent).replace("\\", "/")))
+
+# ---------------------------------------------------------------------------
 # ANÁLISIS DE DEPENDENCIAS
 # ---------------------------------------------------------------------------
-a = Analysis(
+a = Analysis(  # noqa: F821 — PyInstaller inyecta Analysis
     # Script de entrada: launcher delgado que arranca la QApplication de
     # `app_desktop.main`. Sin Flask, sin pywebview.
     scripts=[str(ROOT / "launcher.py")],
@@ -45,24 +59,15 @@ a = Analysis(
     binaries=[*pyside_binaries, *shiboken_binaries],
 
     # ---------------------------------------------------------------------------
-    # DATOS — el contenido del curso se empaqueta DENTRO del .exe (modo congelado).
-    # `app_desktop.curriculum._project_root()` usa `sys._MEIPASS` para encontrarlos.
+    # DATOS (ver `classes_files` arriba — slim, sin PDFs ni PPTX).
     # ---------------------------------------------------------------------------
     datas=[
-        # Currículo entero: 232 carpetas con README.md + notebook.ipynb +
-        # clase-NNN-...-guia-explicativa.pdf + clase-NNN-...-presentacion.pptx.
-        # Esto es lo que la app abre y muestra.
-        (str(ROOT / "classes"), "classes"),
+        # Currículo: solo README.md + notebook.ipynb por clase (~3 MB).
+        # PDFs y PPTX quedan FUERA — el viewer los abre vía URL del repo.
+        *classes_files,
 
-        # Materiales consolidados por parte + curso completo (bundles).
-        (str(ROOT / "docs" / "pdfs"),           "docs/pdfs"),
-        (str(ROOT / "docs" / "presentaciones"), "docs/presentaciones"),
-
-        # Datasets sintéticos (algunos notebooks los referencian).
-        (str(ROOT / "datasets"),                "datasets"),
-
-        # Recursos del paquete app_desktop (íconos, estilos QSS si los hubiera).
-        (str(ROOT / "app_desktop"),             "app_desktop"),
+        # Recursos del paquete app_desktop (icono, estilos QSS si los hubiera).
+        (str(ROOT / "app_desktop"), "app_desktop"),
 
         # Datos internos de PySide6 (plugins de plataforma, fuentes, ICU).
         *pyside_datas,

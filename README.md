@@ -65,9 +65,22 @@ Integra currículo modular extenso, laboratorio interactivo local, portal del al
 | ✍️ **Contenido pedagógico** | 🟢 **Las 9 partes (232/232 = 100%) — completas y modernizadas** con Definiciones · Errores comunes · FAQ en cada clase + 35 clases dedicadas a temas modernos 2024-2026 + stack completo de MLOps (DVC, MLflow, Feast, K8s, FastAPI, drift, shadow/canary, SHAP, Great Expectations, behavioral tests) + data engineering (Airflow, Prefect/Dagster, PySpark, Polars, DuckDB/BQ/Snowflake, Kafka, Parquet/Avro, star schemas) + recomendadores (CF, SVD/ALS, content+FAISS, LightFM, métricas top-N, cold-start) + ética/fairness/privacidad (DP/EO/calibration, DP-SGD, FedAvg, GDPR + AI Act 2024/1689, reproducibilidad) + **4 capstones integradores** (tabular E2E con MLflow+FastAPI+Streamlit, NLP o series con backtesting cuantil, visión transfer learning con ONNX, portafolio público en GitHub Pages con MkDocs/Quarto) |
 | 🧭 **Descubribilidad Pages** | ✅ tabla de contenidos automática + badges por clase + banner global de progreso |
 | 🧪 **Laboratorio de ejecución Python** | ✅ Flask shell + kernel Jupyter real (`jupyter_client` + `ipykernel`), lee los `classes/**/notebook.ipynb` reales, outputs ricos (HTML, imágenes, errores con traceback) — **herramienta separada** del viewer nativo, pensada para ejecutar código sobre los notebooks |
-| 🖥️ **App Windows** | ✅ **app Qt nativa** (PySide6) — sin web, sin localhost · binario pendiente de rebuild con `program.spec` actualizado |
-| 📱 **App Android** | ✅ código operativo · APK debug (Expo/React Native) |
+| 🖥️ **App Windows** | ✅ **app Qt nativa** (PySide6) — sin web, sin localhost · [binario publicado en release v3.8.0](https://github.com/vladimiracunadev-create/python-data-science-program/releases/tag/v3.8.0) (`PythonDSProgram_windows_portable_v3.8.0.zip`, 274 MB) |
+| 📱 **App Android** | ✅ código operativo · [APK debug publicado en release v3.8.0](https://github.com/vladimiracunadev-create/python-data-science-program/releases/tag/v3.8.0) (`PythonDSProgram_android_v3.8.0_debug.apk`, 139 MB, Expo SDK 51, versionCode 38) |
 | 🛡️ **Postura** | local-first — no internet abierta sin capas adicionales |
+
+### 📥 Descarga rápida — Release v3.8.0 (2026-06-19)
+
+Binarios y bundles oficiales del programa. Verificación de integridad en [`SHA256SUMS_v3.8.0.txt`](https://github.com/vladimiracunadev-create/python-data-science-program/releases/download/v3.8.0/SHA256SUMS_v3.8.0.txt).
+
+| 📦 Asset | Tamaño | Descripción |
+|---|---:|---|
+| [`PythonDSProgram_windows_portable_v3.8.0.zip`](https://github.com/vladimiracunadev-create/python-data-science-program/releases/download/v3.8.0/PythonDSProgram_windows_portable_v3.8.0.zip) | 274 MB | App Windows Qt nativa (PySide6) — bundle **slim**, sin PDFs/PPTX embebidos; el viewer abre la URL raw del repo cuando el archivo local no existe |
+| [`PythonDSProgram_android_v3.8.0_debug.apk`](https://github.com/vladimiracunadev-create/python-data-science-program/releases/download/v3.8.0/PythonDSProgram_android_v3.8.0_debug.apk) | 139 MB | APK Android debug (Expo SDK 51 · versionCode 38 · versionName 3.8.0) |
+| [`curso-completo.pdf`](https://github.com/vladimiracunadev-create/python-data-science-program/releases/download/v3.8.0/curso-completo.pdf) | 1.9 MB | Currículo completo en PDF (232 clases · 9 partes) |
+| [`curso-completo.pptx`](https://github.com/vladimiracunadev-create/python-data-science-program/releases/download/v3.8.0/curso-completo.pptx) | 2.0 MB | Currículo completo en PPTX |
+
+> 🔗 [Página completa del release v3.8.0](https://github.com/vladimiracunadev-create/python-data-science-program/releases/tag/v3.8.0)
 
 ### 🗺️ Las 9 partes del currículo
 

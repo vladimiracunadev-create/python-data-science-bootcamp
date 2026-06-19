@@ -32,11 +32,13 @@ from app_desktop import __version__
 from app_desktop.curriculum import (
     class_dir,
     class_notebook,
-    class_pdf,
-    class_pptx,
     class_readme,
+    class_repo_url,
     list_curriculum,
     load_notebook,
+    open_pdf,
+    open_pptx,
+    open_url,
     open_with_system,
 )
 from app_desktop.notebook_view import NotebookView
@@ -304,8 +306,11 @@ class MainWindow(QMainWindow):
     def _update_class_actions_enabled(self) -> None:
         slug = self._current_slug
         has_class = slug is not None
-        self._act_pdf.setEnabled(has_class and class_pdf(slug) is not None)
-        self._act_pptx.setEnabled(has_class and class_pptx(slug) is not None)
+        # PDF y PPTX siempre habilitados: si el archivo local no existe (caso
+        # bundle .exe slim), la acción abre la URL raw del repo en el browser.
+        self._act_pdf.setEnabled(has_class)
+        self._act_pptx.setEnabled(has_class)
+        # "Carpeta" solo cuando hay carpeta local (dev mode).
         self._act_folder.setEnabled(has_class and class_dir(slug).exists())
         self._act_prev.setEnabled(
             has_class and slug in self._flat_class_slugs
@@ -320,16 +325,14 @@ class MainWindow(QMainWindow):
     def _open_pdf(self) -> None:
         if not self._current_slug:
             return
-        path = class_pdf(self._current_slug)
-        if path is not None:
-            open_with_system(path)
+        # open_pdf prefiere el path local si existe; si no, abre la URL raw
+        # del repo en GitHub (caso bundle .exe slim sin PDFs incluidos).
+        open_pdf(self._current_slug)
 
     def _open_pptx(self) -> None:
         if not self._current_slug:
             return
-        path = class_pptx(self._current_slug)
-        if path is not None:
-            open_with_system(path)
+        open_pptx(self._current_slug)
 
     def _open_folder(self) -> None:
         if not self._current_slug:
@@ -337,6 +340,10 @@ class MainWindow(QMainWindow):
         folder = class_dir(self._current_slug)
         if folder.exists():
             open_with_system(folder)
+        else:
+            # En bundle .exe la carpeta de la clase no está en disco —
+            # abrimos la carpeta del repo en GitHub.
+            open_url(class_repo_url(self._current_slug))
 
     def _goto_prev(self) -> None:
         if not self._current_slug or self._current_slug not in self._flat_class_slugs:

@@ -34,6 +34,17 @@ def _project_root() -> Path:
 ROOT = _project_root()
 CLASSES_DIR = ROOT / "classes"
 
+# Repo público de GitHub. Cuando el bundle .exe no incluye PDFs/PPTX (para
+# bajar peso), los botones "Abrir PDF/PPTX" abren la URL raw del archivo
+# en el repo — el visor del sistema baja el archivo y lo abre.
+GITHUB_REPO_URL = "https://github.com/vladimiracunadev-create/python-data-science-program"
+GITHUB_RAW_URL = f"{GITHUB_REPO_URL}/raw/main"
+
+
+def _is_frozen() -> bool:
+    """True si corre desde un bundle PyInstaller (sin assets pesados)."""
+    return getattr(sys, "frozen", False)
+
 # Asegura que `app.notebook_loader` sea importable tanto en dev como en bundle.
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
@@ -73,20 +84,24 @@ def class_readme(slug: str) -> Path | None:
 
 
 def class_pdf(slug: str) -> Path | None:
-    """Ruta al PDF ``clase-NNN-...-guia-explicativa.pdf`` o None."""
+    """Ruta al PDF de la clase si existe local; None si solo vía URL.
+
+    En modo dev (corriendo desde el repo) los PDFs están en la carpeta de
+    la clase. En modo frozen (bundle PyInstaller) NO se incluyen para
+    bajar peso — el botón "Abrir PDF" debe usar :func:`class_pdf_url`.
+    """
     folder = class_dir(slug)
     if not folder.exists():
         return None
     matches = sorted(folder.glob("clase-*-guia-explicativa.pdf"))
     if matches:
         return matches[0]
-    # Fallback: cualquier PDF en la carpeta.
     any_pdf = sorted(folder.glob("*.pdf"))
     return any_pdf[0] if any_pdf else None
 
 
 def class_pptx(slug: str) -> Path | None:
-    """Ruta al PPTX ``clase-NNN-...-presentacion.pptx`` o None."""
+    """Ruta al PPTX de la clase si existe local; None si solo vía URL."""
     folder = class_dir(slug)
     if not folder.exists():
         return None
@@ -97,6 +112,28 @@ def class_pptx(slug: str) -> Path | None:
     return any_pptx[0] if any_pptx else None
 
 
+def _basename_from_slug(slug: str) -> str:
+    """Último segmento del slug ``parte-X/NNN-tema`` → ``NNN-tema``."""
+    return slug.rstrip("/").split("/")[-1]
+
+
+def class_pdf_url(slug: str) -> str:
+    """URL raw del PDF de la clase en GitHub — siempre disponible online."""
+    base = _basename_from_slug(slug)
+    return f"{GITHUB_RAW_URL}/classes/{slug}/clase-{base}-guia-explicativa.pdf"
+
+
+def class_pptx_url(slug: str) -> str:
+    """URL raw del PPTX de la clase en GitHub — siempre disponible online."""
+    base = _basename_from_slug(slug)
+    return f"{GITHUB_RAW_URL}/classes/{slug}/clase-{base}-presentacion.pptx"
+
+
+def class_repo_url(slug: str) -> str:
+    """URL a la carpeta de la clase en GitHub (para "Abrir en repo")."""
+    return f"{GITHUB_REPO_URL}/tree/main/classes/{slug}"
+
+
 def class_notebook(slug: str) -> Path | None:
     """Ruta al notebook.ipynb de la clase o None."""
     path = class_dir(slug) / "notebook.ipynb"
@@ -104,7 +141,7 @@ def class_notebook(slug: str) -> Path | None:
 
 
 def open_with_system(path: Path | str) -> bool:
-    """Abre un archivo o carpeta con la aplicación por defecto del sistema."""
+    """Abre un archivo o carpeta local con el visor por defecto del sistema."""
     p = Path(path)
     if not p.exists():
         log.warning("No se puede abrir, no existe: %s", p)
@@ -112,9 +149,32 @@ def open_with_system(path: Path | str) -> bool:
     return QDesktopServices.openUrl(QUrl.fromLocalFile(str(p)))
 
 
+def open_url(url: str) -> bool:
+    """Abre una URL http(s) en el browser por defecto del sistema."""
+    return QDesktopServices.openUrl(QUrl(url))
+
+
+def open_pdf(slug: str) -> bool:
+    """Abre el PDF de la clase: local si existe, URL raw del repo si no."""
+    local = class_pdf(slug)
+    if local is not None:
+        return open_with_system(local)
+    return open_url(class_pdf_url(slug))
+
+
+def open_pptx(slug: str) -> bool:
+    """Abre el PPTX de la clase: local si existe, URL raw del repo si no."""
+    local = class_pptx(slug)
+    if local is not None:
+        return open_with_system(local)
+    return open_url(class_pptx_url(slug))
+
+
 __all__ = [
     "ROOT",
     "CLASSES_DIR",
+    "GITHUB_REPO_URL",
+    "GITHUB_RAW_URL",
     "list_curriculum",
     "load_notebook",
     "resolve_resource_path",
@@ -122,6 +182,12 @@ __all__ = [
     "class_readme",
     "class_pdf",
     "class_pptx",
+    "class_pdf_url",
+    "class_pptx_url",
+    "class_repo_url",
     "class_notebook",
     "open_with_system",
+    "open_url",
+    "open_pdf",
+    "open_pptx",
 ]

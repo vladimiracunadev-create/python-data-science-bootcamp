@@ -2,7 +2,15 @@
 
 App móvil del Python Data Science Program.
 
-> **Estado actual:** el código de la app está operativo (UI, navegación, almacenamiento de progreso, integración con Google Colab) pero `src/data/classes.js` quedó como **stub vacío**. La adaptación de las **232 clases** (v3.8.0 — 🎓 232/232 clases · 232/232 notebooks ejecutables · cobertura 100% real) del currículo a una UX móvil está pendiente — ver [ROADMAP.md](../ROADMAP.md). Compilar la app hoy genera un APK funcional pero con catálogo vacío.
+> **Estado actual:** el código de la app está operativo (UI, navegación, almacenamiento de progreso, integración con Google Colab) pero `src/data/classes.js` quedó como **stub vacío**. La adaptación de las **232 clases** (v3.8.0 — 🎓 232/232 clases · 232/232 notebooks ejecutables · cobertura 100% real) del currículo a una UX móvil está pendiente — ver [ROADMAP.md](../ROADMAP.md). El APK publicado hoy es funcional pero con catálogo vacío.
+
+## 📥 Descarga del APK
+
+APK debug oficial publicado en el [**release v3.8.0**](https://github.com/vladimiracunadev-create/python-data-science-program/releases/tag/v3.8.0):
+
+- 📱 [`PythonDSProgram_android_v3.8.0_debug.apk`](https://github.com/vladimiracunadev-create/python-data-science-program/releases/download/v3.8.0/PythonDSProgram_android_v3.8.0_debug.apk) — 139 MB · Expo SDK 51 · `versionCode 38` · `versionName 3.8.0`.
+
+Instalación directa en Android (habilitar "instalar de fuentes desconocidas"). Verificación de integridad en [`SHA256SUMS_v3.8.0.txt`](https://github.com/vladimiracunadev-create/python-data-science-program/releases/download/v3.8.0/SHA256SUMS_v3.8.0.txt).
 
 ## Requisitos
 

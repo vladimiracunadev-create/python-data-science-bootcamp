@@ -92,8 +92,8 @@ Incluye laboratorio interactivo local (Flask), app de escritorio nativa para Win
 | Portal del alumno (GitHub Pages) | operativo — pendiente migrar al índice actual |
 | Vista institucional (GitHub Pages) | operativo |
 | Laboratorio de ejecución Python (Flask + kernel Jupyter) | operativo |
-| App Windows (Edge WebView2) | código operativo · binario pendiente de rebuild |
-| App Android (Expo/React Native) | APK debug · pendiente migrar contenido embebido al índice actual |
+| App Windows (PySide6 Qt nativa) | ✅ [binario v3.8.0 publicado en release](https://github.com/vladimiracunadev-create/python-data-science-program/releases/tag/v3.8.0) — ZIP portable slim (274 MB) |
+| App Android (Expo/React Native) | ✅ [APK debug v3.8.0 publicado en release](https://github.com/vladimiracunadev-create/python-data-science-program/releases/tag/v3.8.0) (139 MB · versionCode 38) — pendiente migrar contenido embebido al índice actual |
 
 ---
 

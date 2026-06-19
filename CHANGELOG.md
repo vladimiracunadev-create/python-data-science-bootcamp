@@ -15,6 +15,18 @@
 
 ## [v3.8.0] — 2026-06-19 (App Windows nativa con PySide6 — sin web ni localhost)
 
+### Released
+- **GitHub Release `v3.8.0`** publicado el 2026-06-19 con 5 assets:
+  - `PythonDSProgram_windows_portable_v3.8.0.zip` (274 MB) — app Windows nativa Qt slim (sin PDFs/PPTX embebidos; el viewer los abre desde el repo).
+  - `PythonDSProgram_android_v3.8.0_debug.apk` (139 MB) — APK Android debug (Expo SDK 51, versionCode 38).
+  - `curso-completo.pdf` (1.9 MB) y `curso-completo.pptx` (2.0 MB) — bundles del currículo entero.
+  - `SHA256SUMS_v3.8.0.txt` para verificación de integridad.
+- Bundle Windows slim: `program.spec` ya no empaqueta `docs/pdfs/` ni los PDFs/PPTX en `classes/` — los botones "Abrir PDF/PPTX" abren la URL raw de GitHub (`https://github.com/.../raw/main/classes/...`). Bajó de 332 MB → 274 MB en el ZIP.
+- Android `mobile/android/app/build.gradle`: bump `versionCode 1 → 38`, `versionName "1.0.0" → "3.8.0"`.
+- `app_desktop/curriculum.py`: nuevas funciones `class_pdf_url`, `class_pptx_url`, `class_repo_url`, `open_pdf`, `open_pptx`, `open_url` que abren el archivo local en dev o la URL raw del repo en bundle frozen.
+
+Link al release: https://github.com/vladimiracunadev-create/python-data-science-program/releases/tag/v3.8.0
+
 ### Cambiado
 - **`launcher.py` reescrito**: ya no arranca Flask+pywebview+Edge WebView2. Ahora arranca directo PySide6 (Qt nativo). El ejecutable .exe no levanta servidor HTTP ni renderiza web.
 - **NUEVO paquete `app_desktop/`** (8 módulos, ~1000 líneas) — la app Windows nativa:

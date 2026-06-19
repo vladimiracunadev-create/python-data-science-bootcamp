@@ -33,9 +33,9 @@ Un sistema de capacitación en Python y Data Science que integra:
 | Ejecución de código Python | ✅ operativo | Jupyter kernel real (`jupyter_client` + `ipykernel`), pandas, matplotlib, scikit-learn, timeout por celda + interrupt/restart |
 | 232 clases · 232 notebooks ejecutables (🎓 100% real) | ✅ operativo | `/api/classes` → 232 clases, `/api/class/<path:slug>` → HTML, `/api/curriculum` → 232/232 con `has_notebook: true` |
 | 6 notebooks interactivos | ✅ operativo | `/api/notebooks` → 6 templates, ejecución por celda |
-| App de escritorio Windows | 🟢 código nativo Qt operativo · binario pendiente de rebuild | PySide6 + PyInstaller (v3.8.0) — sin Flask, sin localhost, sin Edge WebView2 |
-| Instalador Windows | 🟡 pendiente de rebuild | Inno Setup — sin Python requerido en el PC del usuario |
-| App Android | 🟡 APK debug | 137MB, Expo/React Native — pendiente migrar contenido |
+| App de escritorio Windows | ✅ binario v3.8.0 publicado en release | PySide6 + PyInstaller — ZIP portable slim de 274 MB, sin Flask, sin localhost, sin Edge WebView2 |
+| Instalador Windows | 🟡 Inno Setup pendiente | el ZIP portable ya está publicado en el release v3.8.0; el `.exe` con Inno Setup queda como paso opcional |
+| App Android | ✅ APK debug v3.8.0 publicado en release | 139 MB, Expo SDK 51, versionCode 38 — pendiente migrar contenido (`mobile/src/data/classes.js` sigue stub) |
 | Portal del alumno | ✅ en vivo | GitHub Pages — pendiente migrar al índice actual |
 | CI/CD | ✅ activo | 3 workflows: tests, security scan, deploy-pages |
 | Análisis de seguridad | ✅ limpio | Bandit: 0 High, 0 Medium, 0 Low |
@@ -87,6 +87,17 @@ Un sistema de capacitación en Python y Data Science que integra:
 3. 🐍 Abre una celda del notebook y ejecuta `import pandas as pd; print(pd.__version__)`.
 4. 📦 Descarga el ZIP portable del Release y ejecuta `PythonDSProgram.exe` — se abre una ventana nativa.
 5. 📖 Revisa [docs/GUIA_EVALUACION.md](docs/GUIA_EVALUACION.md) para la ruta ejecutiva completa.
+
+---
+
+## 📥 Descarga directa de binarios
+
+Release oficial: [**v3.8.0**](https://github.com/vladimiracunadev-create/python-data-science-program/releases/tag/v3.8.0) (publicado 2026-06-19).
+
+- 🖥️ [`PythonDSProgram_windows_portable_v3.8.0.zip`](https://github.com/vladimiracunadev-create/python-data-science-program/releases/download/v3.8.0/PythonDSProgram_windows_portable_v3.8.0.zip) (274 MB) — descomprimir y ejecutar `PythonDSProgram.exe`, ventana Qt nativa sin instalación.
+- 📱 [`PythonDSProgram_android_v3.8.0_debug.apk`](https://github.com/vladimiracunadev-create/python-data-science-program/releases/download/v3.8.0/PythonDSProgram_android_v3.8.0_debug.apk) (139 MB) — instalar directo en Android.
+- 📄 [`curso-completo.pdf`](https://github.com/vladimiracunadev-create/python-data-science-program/releases/download/v3.8.0/curso-completo.pdf) (1.9 MB) y [`curso-completo.pptx`](https://github.com/vladimiracunadev-create/python-data-science-program/releases/download/v3.8.0/curso-completo.pptx) (2.0 MB) — currículo completo.
+- 🔐 [`SHA256SUMS_v3.8.0.txt`](https://github.com/vladimiracunadev-create/python-data-science-program/releases/download/v3.8.0/SHA256SUMS_v3.8.0.txt) — verificación de integridad.
 
 ---
 
