@@ -76,7 +76,7 @@
 - [ ] 🎨 Icono personalizado (.ico) para el ejecutable y el instalador
 - [ ] 🖼️ Modo quiosco (pantalla completa sin barra de menú)
 - [ ] 🔏 Versión firmada digitalmente (para eliminar alertas de SmartScreen)
-- [ ] 📦 Generar instalador Inno Setup además del ZIP portable (el `.iss` ya existe; falta automatizar el build firmado)
+- [x] 📦 Instalador Inno Setup `PythonDSProgram_Setup_v3.8.0.exe` (181 MB) publicado en release v3.8.0 además del ZIP portable. Pendiente firmar el binario con un certificado de code-signing (sin firma SmartScreen muestra warning la primera vez).
 
 ### 🔐 Seguridad y operación
 

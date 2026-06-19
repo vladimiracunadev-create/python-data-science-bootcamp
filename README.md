@@ -277,7 +277,7 @@ graph TD
 - ventana Qt nativa con `QTreeView` del currículo y tabs README / Notebook — **sin web, sin localhost, sin WebView, sin Flask de fondo**;
 - READMEs renderizados con `QTextBrowser.setMarkdown()`; notebooks renderizados celda por celda con outputs (imágenes base64 → `QPixmap`);
 - toolbar con "Abrir PDF/PPTX/Carpeta" — en el bundle frozen abre la URL raw del repo (los PDFs/PPTX no van empaquetados);
-- bundle slim distribuido como ZIP portable (274 MB) e instalador Inno Setup opcional;
+- bundle slim distribuido como ZIP portable (274 MB) **y como instalador Inno Setup `PythonDSProgram_Setup_v3.8.0.exe` (181 MB)** en el [release v3.8.0](https://github.com/vladimiracunadev-create/python-data-science-program/releases/tag/v3.8.0);
 - sin dependencias Python en el PC del usuario final.
 
 ### 📱 App Android

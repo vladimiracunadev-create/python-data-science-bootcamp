@@ -118,10 +118,10 @@ Cada clase vive en `classes/parte-N-slug/NNN-tema-slug/` con `README.md` pedagó
 
 ## 🚀 Siguiente paso (post-v3.8.0)
 
-🎓 **El currículo está 100% real (v3.8.0: 232/232 README + 232/232 notebooks ejecutables + 232/232 PDFs + 232/232 PPTX).** El release v3.8.0 ya publicó el binario Windows nativo (PySide6) y el APK Android debug. Lo que queda:
+🎓 **El currículo está 100% real (v3.8.0: 232/232 README + 232/232 notebooks ejecutables + 232/232 PDFs + 232/232 PPTX).** El release v3.8.0 publicó el binario Windows nativo (PySide6) en ambos formatos (ZIP portable + instalador `.exe` Inno Setup) y el APK Android debug. Lo que queda:
 
 1. cargar el contenido en la **app Android** (`mobile/src/data/classes.js` sigue stub vacío) y rebuild del APK para que la UI muestre las 232 clases;
-2. firmar el binario Windows y opcionalmente generar el instalador Inno Setup (el `.iss` ya existe);
+2. firmar el binario Windows con un certificado de code-signing (sin firma SmartScreen muestra warning la primera vez);
 3. mejoras incrementales al laboratorio de ejecución Python (navegación jerárquica, modo oscuro configurable, etc.).
 
 Para una primera implementación acotada por aula, **Parte 0 — Prerrequisitos** (49 clases, 001-049) sigue siendo el punto de entrada natural:
