@@ -19,7 +19,7 @@
 |---|---|
 | ✏️ Correcciones de contenido | errores en teoría, ejercicios o soluciones |
 | 🧠 Mejoras pedagógicas | mejor secuencia, ejemplos más claros, nuevos ejercicios |
-| 🐛 Correcciones de bugs | errores en la app Flask, el motor de ejecución o el launcher |
+| 🐛 Correcciones de bugs | errores en el laboratorio Flask, el kernel manager, la app desktop Qt (`app_desktop/`) o el launcher |
 | 📖 Mejoras de documentación | textos incorrectos, secciones faltantes, links rotos |
 | 📊 Nuevos datasets | CSV sintéticos útiles para las clases |
 | 🧪 Mejoras de tests | mayor cobertura, casos borde, smoke tests |
@@ -57,7 +57,7 @@ Usa mensajes en español, en presente, descriptivos:
 ```
 ✓ Corrige error de tipeo en teoria.md de la clase 027 (pandas groupby)
 ✓ Agrega ejercicio de broadcasting a la clase 017 de NumPy
-✓ Fix: timeout no se aplica correctamente en execution_engine
+✓ Fix: timeout no se aplica correctamente en kernel_manager
 ✗ fix
 ✗ update
 ✗ cambios varios
@@ -87,17 +87,17 @@ curl http://127.0.0.1:8000/health
 
 ## 🗂️ Estructura del currículo
 
-El currículo vive en `classes/parte-N-slug/NNN-tema-slug/` (anidado por parte). Cada clase es un stub generado con la estructura mínima:
+El currículo vive en `classes/parte-N-slug/NNN-tema-slug/` (anidado por parte). Las 232 clases están desarrolladas (v3.8.0 · 🎓 100% real) con la siguiente estructura:
 
 ```
 classes/parte-N-slug/NNN-tema-slug/
-├── README.md          # ficha: objetivo, resultados esperados, temas
-└── notebook.ipynb     # cuaderno guía (hoy stub de 8 celdas)
+├── README.md                                # ficha pedagógica (objetivo, resultados, Definiciones, Errores comunes, FAQ, referencias)
+├── notebook.ipynb                           # cuaderno ejecutable v3.0 (self-contained, seed 42)
+├── clase-NNN-...-guia-explicativa.pdf       # PDF generado por scripts/generate_class_assets_v3.py
+└── clase-NNN-...-presentacion.pptx          # PPTX generado por el mismo script
 ```
 
-Los materiales adicionales (`teoria.md`, `slides.md`, `ejercicios.md`, `homework.md`, `soluciones.ipynb`, `quiz.json`) se incorporan cuando una clase concreta se desarrolla.
-
-El generador idempotente de la estructura está en `scripts/generate_v2_curriculum.py`.
+El generador idempotente de la estructura está en `scripts/generate_v2_curriculum.py`. Para regenerar PDFs/PPTX por clase usar `scripts/generate_class_assets_v3.py`; para bundles por parte + curso completo, `scripts/generate_part_bundles.py`.
 
 ---
 

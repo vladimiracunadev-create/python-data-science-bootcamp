@@ -21,9 +21,9 @@ Ejecutar directamente el binario distribuido:
 PythonDSProgram.exe
 ```
 
-Abre una ventana nativa de Windows (Edge WebView2). No aparece consola, no se abre ningún navegador. Flask corre internamente en un puerto libre elegido automáticamente.
+Abre una ventana Qt nativa (PySide6). No aparece consola, no se abre ningún navegador, no se levanta servidor HTTP ni se reserva puerto local.
 
-**Requisito en el PC del usuario:** Edge WebView2 Runtime — preinstalado en Windows 10 v2004+ y Windows 11.
+**Requisitos en el PC del usuario:** ninguno — el bundle PyInstaller incluye PySide6 + Qt completos. No requiere Python, Edge WebView2 ni runtime adicional.
 
 ### 🐍 Modo desarrollo (desde el repositorio)
 
@@ -52,7 +52,7 @@ docker compose -f docker-compose.prod.yml up -d --build
 
 ## 🩺 Smoke checks mínimos
 
-Los smoke checks aplican al modo desarrollo (puerto 8000) o Docker. En modo app de escritorio Windows, Flask corre en un puerto efímero elegido por el sistema; verificar usando las pruebas del repositorio.
+Los smoke checks aplican al **laboratorio de ejecución Python** (modo desarrollo en puerto 8000 o Docker). La app Windows nativa (`PythonDSProgram.exe`) **no levanta servidor HTTP**, no tiene endpoints — para verificarla, abrir el ejecutable y comprobar que el QTreeView lista las 9 partes y abre una clase.
 
 ### 💚 Health
 
@@ -117,9 +117,9 @@ build_windows.bat
 ```
 
 Genera:
-- 💾 `dist/PythonDSProgram/PythonDSProgram.exe` — ejecutable principal
-- 🗜️ `release_artifacts/PythonDSProgram_windows_portable_v1.0.0.zip` — portable (ZIP)
-- 📦 `dist_installer/PythonDSProgram_Setup_v1.0.0.exe` — instalador (requiere Inno Setup 6)
+- 💾 `dist/PythonDSProgram/PythonDSProgram.exe` — ejecutable principal (Qt nativo)
+- 🗜️ `release_artifacts/PythonDSProgram_windows_portable_v3.8.0.zip` — portable (ZIP, ~274 MB)
+- 📦 `dist_installer/PythonDSProgram_Setup_v3.8.0.exe` — instalador (requiere Inno Setup 6)
 
 > 📖 Ver [docs/BUILD_INSTALLER.md](docs/BUILD_INSTALLER.md) para detalle completo.
 
@@ -129,23 +129,23 @@ Genera:
 
 | ⚠️ Incidente | 🔍 Qué revisar |
 |---|---|
-| 🖥️ App de escritorio no abre ventana | verificar Edge WebView2 Runtime instalado en Windows |
-| ❌ App de escritorio muestra pantalla de error | Flask interno falló; ejecutar `python run_program.py` para ver el error |
+| 🖥️ App Windows nativa no abre ventana | revisar logs en consola corriendo `python launcher.py` desde el repo para ver el error de Qt/PySide6 |
+| ❌ App Windows muestra una clase vacía | verificar que `classes/` se incluyó en el bundle PyInstaller (`program.spec`, sección `datas`) |
 | 🐍 Modo dev: app no levanta | validar dependencias con `pip install -r requirements.txt` |
 | 🔌 Modo dev: puerto 8000 ocupado | cambiar `PROGRAM_PORT=XXXX` antes de lanzar |
 | ⏱️ Runner queda colgado | la celda superó el timeout de 30s; usar `POST /api/reset` desde la UI |
 | 💾 No guarda notebooks | revisar permisos sobre `app/saved_notebooks/` (modo dev) o junto al .exe (modo desktop) |
 | 🐳 Docker expone mal el puerto | confirmar mapeo `127.0.0.1:8000:8000` en compose |
 | 🌐 GitHub Pages no se publica | confirmar que el workflow corre sobre `master` y que `site/` existe |
-| 📦 Build PyInstaller falla | asegurar que `pywebview` está instalado: `pip install pywebview` |
+| 📦 Build PyInstaller falla | asegurar que PySide6 está instalado: `pip install "PySide6>=6.6"` |
 
 ---
 
 ## 🛑 Apagado
 
-### 🖥️ App de escritorio Windows
+### 🖥️ App Windows nativa
 
-Cerrar la ventana normalmente. Flask daemon se detiene con el proceso principal.
+Cerrar la ventana Qt normalmente. El proceso PySide6 se cierra limpio (no hay Flask ni hilos daemon que apagar).
 
 ### 🐍 Modo desarrollo
 
@@ -176,4 +176,4 @@ docker compose -f docker-compose.prod.yml down
 | `PROGRAM_HOST` | `127.0.0.1` | 🌐 dirección de escucha del servidor |
 | `PROGRAM_PORT` | `8000` | 🔌 puerto del servidor |
 
-> 🖥️ En modo app de escritorio Windows (`PythonDSProgram.exe`), estas variables son gestionadas internamente y no es necesario configurarlas.
+> 🖥️ La app Windows nativa (`PythonDSProgram.exe`) no usa estas variables: no levanta servidor HTTP.

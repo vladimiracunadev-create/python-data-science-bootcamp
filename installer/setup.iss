@@ -146,7 +146,7 @@ Filename: "taskkill.exe"; Parameters: "/F /IM PythonDSProgram.exe"; Flags: runhi
 [Messages]
 ; Mensaje en la pagina de bienvenida
 WelcomeLabel1=Bienvenido al instalador del%nPython Data Science Program
-WelcomeLabel2=Este asistente instalara el Python Data Science Program en tu computador.%n%nEl programa incluye:%n  - 12 clases de Python y Data Science%n  - Laboratorio interactivo local%n  - Datasets de practica%n  - Guias y materiales de clase%n%nNo se requiere conexion a internet.%nAbre una ventana de escritorio nativa (no un navegador).
+WelcomeLabel2=Este asistente instalara el Python Data Science Program en tu computador.%n%nEl programa incluye:%n  - 232 clases de Python y Data Science (9 partes)%n  - Viewer Qt nativo (PySide6) con READMEs y notebooks%n  - Material descargable (PDFs y PPTX por clase)%n%nNo se requiere conexion a internet.%nAbre una ventana de escritorio Qt nativa (no usa navegador, no levanta servidor local).
 
 ; ---------------------------------------------------------------------------
 ; CODIGO PASCAL (logica personalizada)

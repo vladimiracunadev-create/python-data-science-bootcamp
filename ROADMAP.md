@@ -5,7 +5,7 @@
 ### **Dirección futura del Python Data Science Program**
 
 [![Version](https://img.shields.io/badge/release-v3.8.0-2e8b57?style=for-the-badge)](CHANGELOG.md)
-[![Estado](https://img.shields.io/badge/contenido-en%20desarrollo-f59e0b?style=for-the-badge)](#-trabajo-cr%C3%ADtico--completar-el-contenido-pedag%C3%B3gico)
+[![Estado](https://img.shields.io/badge/curr%C3%ADculo-100%25%20completo-3fb950?style=for-the-badge)](#-trabajo-cr%C3%ADtico--completar-el-contenido-pedag%C3%B3gico)
 
 </div>
 
@@ -21,7 +21,7 @@
 
 | 🎛️ Superficie | 🚦 Estado |
 |---|---|
-| 📚 Currículo (**232 clases · 232 READMEs · 232 notebooks ejecutables**, 9 partes, numeración secuencial limpia 001-232) | 🟢 **Las 9 partes (232/232 README + 232/232 notebooks = 🎓 100% real) completas v3.7** (todas las clases corren en el laboratorio con kernel Jupyter) (Definiciones · Errores · FAQ en cada clase + 35 clases dedicadas a temas modernos 2024-2026: Polars/Arrow/DuckDB, async, validación temporal, FE+MICE, Optuna, Model Cards, SMOTE, calibración, SHAP profundo, Ray Tune, Lion/Sophia, Stochastic Depth, PyTorch+Lightning, SAM/YOLOv11, Flash Attention/RoPE/GQA, CLIP/Whisper, LoRA/DPO/vLLM, MCP/Agentes/Eval, SDXL/ControlNet, ONNX, JAX/Flax, effect size, BCa bootstrap, CUPED+sequential, DoubleML, Synthetic Controls, PyMC v5/NumPyro/ArviZ) + **Parte 4 MLOps (14 clases): DVC, MLflow, Feast, GH Actions/CML, Docker multi-stage, FastAPI, Kubernetes, serverless cost calc, drift detection (PSI/KS/Wasserstein/CBPE), retraining (Prefect+champion-challenger), shadow/canary/auto-rollback, SHAP/LIME/PDP/ICE en producción, Great Expectations+Pandera, behavioral tests INV/DIR/MFT/slice** · Partes 5-8 (25 clases) pendientes desarrollo |
+| 📚 Currículo (**232 clases · 232 READMEs · 232 notebooks ejecutables**, 9 partes, numeración secuencial limpia 001-232) | 🟢 **Las 9 partes (232/232 README + 232/232 notebooks = 🎓 100% real) completas v3.7** (todas las clases corren en el laboratorio con kernel Jupyter) (Definiciones · Errores · FAQ en cada clase + 35 clases dedicadas a temas modernos 2024-2026: Polars/Arrow/DuckDB, async, validación temporal, FE+MICE, Optuna, Model Cards, SMOTE, calibración, SHAP profundo, Ray Tune, Lion/Sophia, Stochastic Depth, PyTorch+Lightning, SAM/YOLOv11, Flash Attention/RoPE/GQA, CLIP/Whisper, LoRA/DPO/vLLM, MCP/Agentes/Eval, SDXL/ControlNet, ONNX, JAX/Flax, effect size, BCa bootstrap, CUPED+sequential, DoubleML, Synthetic Controls, PyMC v5/NumPyro/ArviZ) + **Parte 4 MLOps (14 clases): DVC, MLflow, Feast, GH Actions/CML, Docker multi-stage, FastAPI, Kubernetes, serverless cost calc, drift detection (PSI/KS/Wasserstein/CBPE), retraining (Prefect+champion-challenger), shadow/canary/auto-rollback, SHAP/LIME/PDP/ICE en producción, Great Expectations+Pandera, behavioral tests INV/DIR/MFT/slice** + Partes 5-8 (25 clases): Data Engineering (Airflow/Prefect/Dagster/PySpark/Polars/DuckDB/BQ/Snowflake/Kafka/Parquet/Avro/star schemas SCD2), Recomendadores (CF/SVD+ALS/content+FAISS/LightFM/cold-start+bandits), Ética/Fairness/Privacidad (Suresh-Guttag taxonomía/DP+EO+calibration+impossibility theorem/DP-SGD/FedAvg+leakage/GDPR+AI Act 2024/1689/reproducibilidad), 4 Capstones integradores (tabular E2E/NLP-series/visión transfer learning/portafolio público) — todas completas |
 | 🧪 Laboratorio de ejecución Python (Flask + Jupyter kernel) | ✅ operativo |
 | 🖥️ App de escritorio Windows (PySide6 nativo, sin web, sin localhost) | ✅ [binario v3.8.0 publicado en release](https://github.com/vladimiracunadev-create/python-data-science-program/releases/tag/v3.8.0) — ZIP portable slim (274 MB), sin PDFs embebidos (viewer abre URL raw del repo) |
 | 📱 App Android | ✅ [APK debug v3.8.0 publicado en release](https://github.com/vladimiracunadev-create/python-data-science-program/releases/tag/v3.8.0) (139 MB · versionCode 38) — pendiente migrar contenido al índice actual (`mobile/src/data/classes.js` sigue stub) |
@@ -51,8 +51,8 @@
 
 - [x] 📱 `mobile/src/data/classes.js` — actualizado a v3.0.0 (232 clases), pendiente UI Android para listar
 - [x] 🌐 `site/` — regenerado contra el currículo v3.0.0 (`scripts/generate_site_curriculum.py`)
-- [ ] 📄 `docs/pdfs/classes/` y `docs/presentaciones/classes/` — regenerar PDFs y PPTX por bloques al madurar el contenido
-- [ ] 🔧 Adaptar `scripts/generate_class_docs.py` y `scripts/generate_class_assets.py` para que recorran la estructura anidada del currículo
+- [x] 📄 `docs/pdfs/classes/` y `docs/presentaciones/classes/` — generados los 232 PDFs y 232 PPTX por clase + 9 bundles por parte + `curso-completo.pdf` / `curso-completo.pptx` (via `scripts/generate_class_assets_v3.py` y `scripts/generate_part_bundles.py`)
+- [x] 🔧 `scripts/generate_class_assets_v3.py` ya recorre la estructura anidada del currículo (los scripts viejos `generate_class_docs.py` / `generate_class_assets.py` quedan obsoletos)
 
 ### ✅ Verificación de calidad pedagógica
 
@@ -71,12 +71,12 @@
 - [ ] 📥 Soporte para importar notebooks `.ipynb` externos
 - [ ] 🌓 Modo oscuro / claro configurable desde la interfaz
 
-### 🖥️ App de escritorio Windows
+### 🖥️ App de escritorio Windows (PySide6 nativo)
 
 - [ ] 🎨 Icono personalizado (.ico) para el ejecutable y el instalador
-- [ ] 📦 Instalador con soporte explícito a Edge WebView2 Runtime (descarga automática si falta)
 - [ ] 🖼️ Modo quiosco (pantalla completa sin barra de menú)
 - [ ] 🔏 Versión firmada digitalmente (para eliminar alertas de SmartScreen)
+- [ ] 📦 Generar instalador Inno Setup además del ZIP portable (el `.iss` ya existe; falta automatizar el build firmado)
 
 ### 🔐 Seguridad y operación
 
@@ -119,8 +119,8 @@
 
 ### 📦 Distribución
 
-- [ ] 🍎 Paquete de instalación para macOS (usando pywebview con backend cocoa)
-- [ ] 🐧 Instalador para Linux (AppImage o .deb)
+- [ ] 🍎 Paquete de instalación para macOS (PySide6 corre nativo en macOS — empaquetar con PyInstaller + `.app`)
+- [ ] 🐧 Instalador para Linux (PySide6 nativo + AppImage o .deb)
 - [ ] 🐳 Imagen Docker pre-construida publicada en Docker Hub
 
 ---

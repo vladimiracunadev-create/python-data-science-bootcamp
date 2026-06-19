@@ -24,7 +24,7 @@ Este repositorio está pensado para uso local, docente y de laboratorio. La app 
 |---|---|
 | `v3.8.0` (rama `main`) | ✅ activamente desarrollada |
 
-> 🚀 El próximo binario distribuible se publicará cuando el contenido alcance un hito publicable.
+> 🚀 Release actual: [v3.8.0](https://github.com/vladimiracunadev-create/python-data-science-program/releases/tag/v3.8.0) (publicado 2026-06-19) con ZIP portable Windows (Qt nativo) + APK Android debug + bundles PDF/PPTX del curso completo.
 
 ---
 
@@ -32,7 +32,7 @@ Este repositorio está pensado para uso local, docente y de laboratorio. La app 
 
 | 🚪 Modo | 🌐 Superficie expuesta | ⚠️ Nivel de riesgo |
 |---|---|---|
-| 🖥️ App de escritorio Windows (`PythonDSProgram.exe`) | loopback interno, no accesible desde la red | 🟢 bajo (local) |
+| 🖥️ App Windows nativa (`PythonDSProgram.exe`, PySide6/Qt) | sin red — proceso local sin servidor HTTP ni WebView | 🟢 muy bajo (sin superficie de red) |
 | 🐍 Modo desarrollo (`python run_program.py`) | `http://127.0.0.1:8000`, vinculado a loopback | 🟢 bajo si no se cambia HOST |
 | 🐳 Docker Compose (`docker-compose.yml`) | `127.0.0.1:8000`, mapeado a loopback | 🟢 bajo por configuración |
 | 🛡️ Docker Compose endurecido (`docker-compose.prod.yml`) | igual, con configuración adicional | 🟢 bajo |
@@ -72,7 +72,7 @@ Este repositorio está pensado para uso local, docente y de laboratorio. La app 
 ### 🌐 Configuración de red
 
 - 🏠 defaults de arranque en `127.0.0.1` tanto en Flask como en Docker Compose;
-- 🪟 en modo app de escritorio Windows, Flask usa un puerto efímero interno no accesible desde la red;
+- 🪟 en modo app Windows nativa (`PythonDSProgram.exe` con PySide6), no se levanta Flask ni se abre puerto alguno — la app es 100% local sin red;
 - 🐳 en Docker, el binding es explícitamente `127.0.0.1:8000:8000`.
 
 ### 🔍 Análisis estático
@@ -101,7 +101,7 @@ Este repositorio está pensado para uso local, docente y de laboratorio. La app 
 - ✅ mantener `PROGRAM_HOST=127.0.0.1` (por defecto);
 - 👩‍🏫 ejecutar en máquina controlada por el docente;
 - 🧹 limpiar `app/saved_notebooks/` antes de compartir el repo o una imagen;
-- 🖥️ usar la app de escritorio Windows en lugar del modo desarrollo cuando sea posible (no expone puerto).
+- 🖥️ usar la app Windows nativa (PySide6) en lugar del modo desarrollo cuando solo se necesite revisar el contenido — no expone puerto ni ejecuta código del alumno; el laboratorio Flask + kernel Jupyter solo se usa cuando se necesita ejecutar código.
 
 ### 🌍 Si se publica fuera del equipo local
 

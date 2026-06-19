@@ -74,17 +74,19 @@ graph TD
 
 ---
 
-## 🖥️ Flujo de la app de escritorio Windows
+## 🖥️ Flujo de la app Windows nativa (PySide6)
 
 ```mermaid
 graph TD
     EXE["PythonDSProgram.exe\nPyInstaller bundle"] --> LAUNCHER["launcher.py"]
-    LAUNCHER --> PORT["_find_free_port()\npuerto efímero en loopback"]
-    LAUNCHER --> FLASK["Flask daemon thread\napp.app"]
-    LAUNCHER --> WV["pywebview\nEdge WebView2"]
-    FLASK --> HEALTH["/health polling\n_wait_for_server()"]
-    HEALTH --> LOAD["window.load_url()\nCarga la app en ventana nativa"]
-    WV --> WIN["🖥️ Ventana nativa Windows\nsin navegador externo"]
+    LAUNCHER --> QAPP["QApplication\nPySide6 / Qt"]
+    QAPP --> MAIN["app_desktop.main_window\nMainWindow"]
+    MAIN --> TREE["QTreeView\n9 partes · 232 clases"]
+    MAIN --> README["readme_view.py\nQTextBrowser.setMarkdown()"]
+    MAIN --> NB["notebook_view.py\nQScrollArea + celdas"]
+    MAIN --> CURR["curriculum.py\nlee classes/ (dev) o sys._MEIPASS (frozen)"]
+    NB --> OUT["outputs: stdout, image/png base64 → QPixmap, errores"]
+    MAIN --> WIN["🖥️ Ventana Qt nativa Windows\nsin web, sin localhost, sin WebView"]
 ```
 
 ---
@@ -100,10 +102,10 @@ graph LR
 
     LOCAL["💻 Máquina del docente"] --> VENV["python run_program.py\ndev mode"]
     LOCAL --> DOCKER["🐳 docker compose\ncontenedor"]
-    LOCAL --> WINAPP["🖥️ PythonDSProgram.exe\napp de escritorio"]
+    LOCAL --> WINAPP["🖥️ PythonDSProgram.exe\napp Windows nativa (PySide6/Qt)"]
     VENV --> LAB["app/ en localhost:8000"]
     DOCKER --> LAB
-    WINAPP --> LAB
+    WINAPP --> CLASSESDIR["classes/\nlectura directa de READMEs y notebooks"]
 ```
 
 ---
@@ -118,29 +120,29 @@ graph LR
 - rutas API: `/api/curriculum`, `/api/notebook/<slug>`, `/api/kernel/start`, `/api/kernel/<id>/execute`, `/api/kernel/<id>/interrupt`, `/api/kernel/<id>/restart`, `DELETE /api/kernel/<id>`;
 - headers de seguridad (CSP estricto) + endpoints de salud (`/health`, `/ready`).
 
-### `launcher.py` — Ventana nativa Windows
+### `launcher.py` + `app_desktop/` — App Windows nativa (PySide6 / Qt)
 
-- abre una ventana Edge WebView2 sin navegador del sistema;
-- gestiona el ciclo de vida de Flask (arranque, healthcheck, apagado);
-- elige un puerto libre automáticamente para evitar conflictos.
+- `launcher.py` arranca directamente `QApplication` y la `MainWindow` de `app_desktop` — **sin Flask, sin Edge WebView2, sin puerto local**;
+- `app_desktop/` (8 módulos, ~1000 líneas): `main_window.py` (QMainWindow con QTreeView de las 9 partes + 232 clases, búsqueda en vivo, tabs README/Notebook, toolbar Abrir PDF/PPTX/Carpeta), `readme_view.py` (QTextBrowser con `setMarkdown()`), `notebook_view.py` (QScrollArea con widget por celda — markdown en QTextBrowser, code en QTextEdit oscuro, outputs PNG base64 → QPixmap), `curriculum.py` (adapter que reusa `app.notebook_loader` y funciona en dev y bundle PyInstaller vía `sys._MEIPASS`), `styles.py` (QSS light/dark);
+- en el bundle frozen, los botones "Abrir PDF/PPTX" abren la URL raw del repo de GitHub (los PDFs/PPTX no van empaquetados → bundle slim de 274 MB).
 
 ### `classes/` — Currículo modular
 
-Concentra el contenido de las **232 clases** en 9 partes (v3.7.0, numeración secuencial 001-232 — 🎓 **232 READMEs pedagógicos · 232 notebooks ejecutables · cobertura 100% real**, todas las clases corren en el laboratorio con kernel Jupyter). Pauta derivada de Géron (Hands-On ML 3ª ed.), VanderPlas, Huyen (Designing ML Systems), ISLP, Barocas/Hardt/Narayanan + Reis & Housley (Data Engineering), Kimball & Ross (Data Warehouse Toolkit), Aggarwal (Recommender Systems) + Suresh-Guttag 2021 (taxonomía sesgos), Hardt-Price-Srebro 2016 (equalized odds), Chouldechova 2017, Kleinberg 2017 (impossibility theorem), Dwork-Roth 2014 (privacidad diferencial), Abadi 2016 (DP-SGD), McMahan 2017 (FedAvg), Reglamentos UE 2016/679 y 2024/1689, Pineau 2021 (reproducibilidad), Mitchell 2019 (model cards), Gebru 2018 (datasheets) + **Capstones (P8)**: Hyndman & Athanasopoulos (Forecasting Principles & Practice 3ª ed.), timm/Lightning/Albumentations (visión transfer learning), MkDocs Material/Quarto (portafolio público) + papers seminales 2002-2026 (Flash Attention, LoRA, DPO, ControlNet, MCP, DoubleML, Synthetic Controls, Koren/Hu para MF, Burke para hybrids, CheckList para behavioral tests).
+Concentra el contenido de las **232 clases** en 9 partes (v3.8.0, numeración secuencial 001-232 — 🎓 **232 READMEs pedagógicos · 232 notebooks ejecutables · cobertura 100% real**, todas las clases corren en el laboratorio con kernel Jupyter). Pauta derivada de Géron (Hands-On ML 3ª ed.), VanderPlas, Huyen (Designing ML Systems), ISLP, Barocas/Hardt/Narayanan + Reis & Housley (Data Engineering), Kimball & Ross (Data Warehouse Toolkit), Aggarwal (Recommender Systems) + Suresh-Guttag 2021 (taxonomía sesgos), Hardt-Price-Srebro 2016 (equalized odds), Chouldechova 2017, Kleinberg 2017 (impossibility theorem), Dwork-Roth 2014 (privacidad diferencial), Abadi 2016 (DP-SGD), McMahan 2017 (FedAvg), Reglamentos UE 2016/679 y 2024/1689, Pineau 2021 (reproducibilidad), Mitchell 2019 (model cards), Gebru 2018 (datasheets) + **Capstones (P8)**: Hyndman & Athanasopoulos (Forecasting Principles & Practice 3ª ed.), timm/Lightning/Albumentations (visión transfer learning), MkDocs Material/Quarto (portafolio público) + papers seminales 2002-2026 (Flash Attention, LoRA, DPO, ControlNet, MCP, DoubleML, Synthetic Controls, Koren/Hu para MF, Burke para hybrids, CheckList para behavioral tests).
 
-| Parte | Tema | Clases |
-|---|---|---|
-| 0 | Prerrequisitos: Python, NumPy, pandas, viz, SQL, NoSQL, APIs | 46 |
-| 1 | Machine Learning clásico | 43 |
-| 2 | Deep Learning (Keras, TF, CNN, RNN, Transformers, RL, despliegue) | 56 |
-| 3 | Estadística inferencial y causal | 13 |
-| 4 | MLOps en producción | 14 |
-| 5 | Ingeniería de datos | 8 |
-| 6 | Sistemas de recomendación | 7 |
-| 7 | Ética, fairness, privacidad | 6 |
-| 8 | Capstones | 4 |
+| Parte | Tema | Clases | Rango |
+|---|---|---|---|
+| 0 | Prerrequisitos: Python, NumPy, pandas, Polars, Parquet/Arrow/DuckDB, viz, SQL, NoSQL, APIs, async | 49 | 001-049 |
+| 1 | Machine Learning clásico | 50 | 050-099 |
+| 2 | Deep Learning (Keras, PyTorch+Lightning, CNN, RNN, Transformers, LLMs, multimodal, MCP/agentes, RL, ONNX/JAX, despliegue) | 75 | 100-174 |
+| 3 | Estadística inferencial y causal | 19 | 175-193 |
+| 4 | MLOps en producción | 14 | 194-207 |
+| 5 | Ingeniería de datos | 8 | 208-215 |
+| 6 | Sistemas de recomendación | 7 | 216-222 |
+| 7 | Ética, fairness, privacidad | 6 | 223-228 |
+| 8 | Capstones | 4 | 229-232 |
 
-Layout por clase: `classes/parte-N-slug/NNN-tema-slug/` con `README.md` (ficha pedagógica) + `notebook.ipynb` (ejecutable). En Parte 0 (clases maduras) el README incluye además **📖 Definiciones**, **⚠️ Errores comunes** y **❓ FAQ**. Materiales opcionales (`teoria.md`, `slides.md`, `ejercicios.md`, `homework.md`, `soluciones.ipynb`, `quiz.json`, PDF, PPTX) se añaden cuando una clase madura.
+Layout por clase: `classes/parte-N-slug/NNN-tema-slug/` con `README.md` (ficha pedagógica con **📖 Definiciones**, **⚠️ Errores comunes** y **❓ FAQ** en las 232 clases) + `notebook.ipynb` ejecutable + `clase-NNN-...-guia-explicativa.pdf` + `clase-NNN-...-presentacion.pptx`.
 
 ### `app/notebooks/` — Labs interactivos
 
@@ -177,7 +179,7 @@ La asignación dataset → clase se hace al desarrollar el contenido pedagógico
 
 - ordena la narrativa de producto por audiencias;
 - separa operación, seguridad, pedagogía y evaluación;
-- PDFs y PPTX por clase en `docs/pdfs/classes/` y `docs/presentaciones/classes/` (se regeneran por bloques al madurar el contenido de cada parte);
+- PDFs y PPTX por clase generados en `docs/pdfs/classes/` y `docs/presentaciones/classes/` (232+232), bundles por parte en `docs/pdfs/parts/` y `docs/presentaciones/parts/` (9+9), y unificados `docs/pdfs/curso-completo.pdf` + `docs/presentaciones/curso-completo.pptx`;
 - notas del maintainer en `docs/maintainer/`.
 
 ### `scripts/` — Automatización
@@ -185,8 +187,9 @@ La asignación dataset → clase se hace al desarrollar el contenido pedagógico
 | Script | Función |
 |---|---|
 | `generate_v2_curriculum.py` | genera la estructura de carpetas + stubs de las 232 clases (idempotente) |
-| `generate_class_docs.py` | genera PDFs y PPTXs por clase (pendiente adaptar al recorrido anidado) |
-| `generate_class_assets.py` | genera assets por clase (mismo estado) |
+| `generate_class_assets_v3.py` | genera el PDF y PPTX por clase recorriendo la estructura anidada del currículo |
+| `generate_part_bundles.py` | genera los bundles PDF/PPTX por parte (9+9) y los unificados `curso-completo.pdf` / `.pptx` |
+| `generate_site_curriculum.py` | regenera `site/clases/` y copia PDFs/PPTX/notebooks a Pages |
 | `generate_interview_pdfs.py` | regenera PDFs de entrevista |
 | `generate_extended_study_pdf.py` | regenera guía ampliada de estudio |
 | `generar_pdf_documento.py` | generación genérica de PDFs |
@@ -201,7 +204,7 @@ La asignación dataset → clase se hace al desarrollar el contenido pedagógico
 | Vista institucional vs README | separados pero coherentes | una superficie vende la idea, la otra documenta el repo |
 | Laboratorio vs internet abierta | local-first | el runner no está endurecido para exposición externa |
 | PDFs vs docs canónicas | PDFs son derivados | la fuente de verdad vive en el repo, no en binarios |
-| App de escritorio vs browser | pywebview (Edge WebView2) | evita dependencia del navegador instalado |
+| App de escritorio vs browser | PySide6 / Qt nativo | sin web, sin localhost, sin WebView — un binario nativo real, no un wrapper de Flask en una ventana de navegador |
 | Android vs ejecución nativa | Google Colab como backend | mantiene el APK liviano, sin runtime Python en el dispositivo |
 
 ---
@@ -211,8 +214,8 @@ La asignación dataset → clase se hace al desarrollar el contenido pedagógico
 - se privilegia **claridad pedagógica** por sobre multiusuario endurecido;
 - se privilegia **operación local segura** por sobre exposición rápida a internet;
 - se privilegia **separación de audiencias** por sobre una sola portada gigantesca;
-- se usa pywebview (Edge WebView2) en lugar de Electron para mantener bundle liviano;
-- se acepta que la ruta móvil tiene APK debug — producción es roadmap.
+- se usa PySide6 / Qt nativo en lugar de pywebview o Electron — el binario es una app de escritorio real, sin HTTP local ni motor de navegador embebido;
+- se acepta que la ruta móvil tiene APK debug publicado — release firmado de producción es roadmap.
 
 ---
 
@@ -222,6 +225,6 @@ Ver [ROADMAP.md](../ROADMAP.md) para el detalle completo. Las mejoras naturales 
 
 1. autenticación básica para modo servidor local de aula;
 2. observabilidad mayor si el laboratorio evoluciona a multiusuario;
-3. app de escritorio para macOS y Linux (pywebview soporta ambas plataformas);
+3. app de escritorio para macOS y Linux (PySide6 corre nativo en ambas plataformas);
 4. panel de progreso del alumno visible al instructor;
 5. build de producción firmado para la app Android.

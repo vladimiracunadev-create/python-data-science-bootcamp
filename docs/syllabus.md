@@ -67,10 +67,10 @@ Capaz de:
 
 | Parte | Tema | Clases | Carpeta |
 |---|---|---|---|
-| 0 | Prerrequisitos: Python + NumPy + pandas + viz + SQL + APIs | 46 | [`parte-0-prerrequisitos/`](../classes/parte-0-prerrequisitos) |
-| 1 | Machine Learning clásico | 43 | [`parte-1-machine-learning-clasico/`](../classes/parte-1-machine-learning-clasico) |
-| 2 | Deep Learning (Keras, TensorFlow, transformers, RL, despliegue) | 56 | [`parte-2-deep-learning/`](../classes/parte-2-deep-learning) |
-| 3 | Estadística inferencial y causal | 13 | [`parte-3-estadistica-inferencial/`](../classes/parte-3-estadistica-inferencial) |
+| 0 | Prerrequisitos: Python + NumPy + pandas + Polars + Parquet/Arrow/DuckDB + viz + SQL + NoSQL + APIs + async | 49 | [`parte-0-prerrequisitos/`](../classes/parte-0-prerrequisitos) |
+| 1 | Machine Learning clásico | 50 | [`parte-1-machine-learning-clasico/`](../classes/parte-1-machine-learning-clasico) |
+| 2 | Deep Learning (Keras, PyTorch+Lightning, CNN, transformers, LLMs, multimodal, MCP/agentes, RL, despliegue) | 75 | [`parte-2-deep-learning/`](../classes/parte-2-deep-learning) |
+| 3 | Estadística inferencial y causal | 19 | [`parte-3-estadistica-inferencial/`](../classes/parte-3-estadistica-inferencial) |
 | 4 | MLOps en producción | 14 | [`parte-4-mlops/`](../classes/parte-4-mlops) |
 | 5 | Ingeniería de datos | 8 | [`parte-5-ingenieria-de-datos/`](../classes/parte-5-ingenieria-de-datos) |
 | 6 | Sistemas de recomendación | 7 | [`parte-6-sistemas-de-recomendacion/`](../classes/parte-6-sistemas-de-recomendacion) |
@@ -83,12 +83,12 @@ Capaz de:
 | Componente | Estado |
 |---|---|
 | Estructura de carpetas (232) | ✅ creada |
-| README por clase | 🎓 **232/232 completos y modernizados** (v3.7.0 · 100%) |
-| `notebook.ipynb` por clase | 🎓 **232/232 ejecutables · cobertura 100% real** (v3.7.0) — todas las clases corren en el laboratorio con kernel Jupyter real |
-| Contenido pedagógico real | 🎓 **232 READMEs · 232 notebooks ejecutables · 100% real** (v3.7.0) |
-| Definiciones + Errores comunes + FAQ por clase | 🎓 **232/232** (v3.7.0 · 100%) |
+| README por clase | 🎓 **232/232 completos y modernizados** (v3.8.0 · 100%) |
+| `notebook.ipynb` por clase | 🎓 **232/232 ejecutables · cobertura 100% real** (v3.8.0) — todas las clases corren en el laboratorio con kernel Jupyter real |
+| Contenido pedagógico real | 🎓 **232 READMEs · 232 notebooks ejecutables · 100% real** (v3.8.0) |
+| Definiciones + Errores comunes + FAQ por clase | 🎓 **232/232** (v3.8.0 · 100%) |
 | Clases dedicadas modernas 2024-2026 | 🟢 **35 clases dedicadas** en Partes 0-3 + stack moderno completo en Partes 4-7 (DVC/MLflow/Feast/K8s/FastAPI/Evidently/NannyML/Prefect/Istio/SHAP/Great Expectations/CheckList; Airflow/Prefect/Dagster/PySpark/Polars/DuckDB/BQ/Snowflake/Kafka/Parquet/Avro/star schema; CF/SVD+ALS/sentence-transformers/FAISS/LightFM/bandits; Suresh-Guttag taxonomía sesgos/DP+EO+calibration+impossibility theorem/privacidad diferencial Laplace+Gauss+DP-SGD/FedAvg+gradient leakage/GDPR+AI Act EU 2024/1689/seeds+lock files+model cards+datasheets) |
-| PDFs y PPTX por clase | ⏳ pendiente (regenerar tras desarrollar contenido) — **siguiente foco: superficies** |
+| PDFs y PPTX por clase | ✅ **232 PDFs + 232 PPTX por clase + 9 bundles por parte + `curso-completo.pdf`/`.pptx`** (v3.8.0) |
 | Quizzes pre/post lección | ⏳ pendiente |
 | Datasets temáticos por bloque | ⏳ pendiente |
 

@@ -1,6 +1,8 @@
-# 🧪 Entorno interactivo del Programa
+# 🧪 Laboratorio de ejecución Python (Flask + kernel Jupyter)
 
 > Descripción técnica del laboratorio local: modos de ejecución, componentes, sesiones y límites operativos.
+>
+> ⚠️ Esta página describe el **laboratorio** (`app/`, Flask + jupyter_client + ipykernel), que es **herramienta separada** de la **app Windows nativa** (`launcher.py` + `app_desktop/`, PySide6 / Qt). La app nativa no levanta servidor HTTP — para esa superficie ver [BUILD_INSTALLER.md](BUILD_INSTALLER.md).
 
 ---
 
@@ -18,21 +20,7 @@ El entorno interactivo permite que el programa no dependa de notebooks estático
 
 ## 🚦 Modos de ejecución
 
-### 🎓 Modo 1: App de escritorio Windows (distribución para alumnos)
-
-```bat
-PythonDSProgram.exe
-```
-
-- Abre una **ventana nativa de Windows** usando pywebview + Edge WebView2
-- Flask corre internamente en un **puerto libre elegido automáticamente**
-- El usuario nunca ve localhost, no se abre ningún navegador
-- Pantalla de carga animada mientras el entorno inicia
-- Sin Python instalado requerido en el PC del usuario
-
-**Requisito del sistema:** Edge WebView2 Runtime (preinstalado en Windows 10 v2004+ y Windows 11).
-
-### 🐍 Modo 2: Desarrollo desde el repositorio
+### 🐍 Modo 1: Desarrollo desde el repositorio
 
 ```bash
 python run_program.py
@@ -44,7 +32,7 @@ python run_program.py
 - Abre el navegador del sistema automáticamente
 - Ctrl+C para detener
 
-### 🐳 Modo 3: Docker
+### 🐳 Modo 2: Docker
 
 ```bash
 docker compose up --build
@@ -60,16 +48,13 @@ Acceder en `http://127.0.0.1:8000`.
 
 ### 📚 Vista de clases
 
-Renderiza el contenido de las 232 clases directamente desde `classes/`:
+El laboratorio descubre las 232 clases del currículo recorriendo `classes/parte-*/NNN-*/`. Por cada clase carga:
 
 | Sección | Archivo fuente | Descripción |
 |---|---|---|
-| Descripción general | `README.md` | Título, objetivos y contexto de la clase |
-| Teoría | `teoria.md` | Conceptos fundamentales |
-| Slides | `slides.md` | Pauta para el instructor |
-| Ejercicios | `ejercicios.md` | Práctica guiada en clase |
-| Tarea | `homework.md` | Trabajo fuera del aula |
-| Quiz | `quiz.json` | Opcional por clase; autocorregido. Hoy ninguna clase v2 incluye quiz; se preserva el formato del currículo v1 archivado |
+| Ficha pedagógica | `README.md` | Objetivos, resultados, temas, Definiciones, Errores comunes, FAQ, referencias |
+| Notebook ejecutable | `notebook.ipynb` | Cuaderno v3.0 (self-contained, seed 42, try/except sobre libs pesadas) |
+| Material descargable | `clase-NNN-...-guia-explicativa.pdf` + `clase-NNN-...-presentacion.pptx` | Linkeados desde la ficha |
 
 El Markdown se convierte a HTML en el servidor con extensiones `fenced_code`, `tables` y `codehilite`.
 
@@ -115,7 +100,7 @@ El Markdown se convierte a HTML en el servidor con extensiones `fenced_code`, `t
 | TTL por sesión | 1 hora sin actividad |
 | Eviction | automática al crear nueva sesión cuando hay más de 100 |
 
-Cada sesión tiene su propio namespace Python (`globals()`). Las variables definidas en una celda están disponibles en las siguientes de la misma sesión.
+Cada sesión arranca su propio **kernel Jupyter real** (`jupyter_client` + `ipykernel`). Las variables definidas en una celda están disponibles en las siguientes de la misma sesión. El kernel soporta `interrupt` (Ctrl-C lógico) y `restart` desde la UI.
 
 ### 🚧 Ejecución y límites
 
@@ -127,27 +112,21 @@ Cada sesión tiene su propio namespace Python (`globals()`). Las variables defin
 
 Si una celda supera el timeout, la sesión se reinicia automáticamente y se devuelve un mensaje de error.
 
-### 📦 Paquetes preimportados
+### 📦 Stack disponible en el kernel
 
-Las siguientes librerías están disponibles sin importar explícitamente en cada celda:
-
-```python
-import math
-import statistics
-import pandas as pd
-import matplotlib.pyplot as plt
-```
-
-El resto de las librerías disponibles (numpy, scikit-learn, etc.) deben importarse explícitamente.
+El kernel Jupyter del lab tiene preinstalado el stack completo del currículo (vía `requirements.txt`): numpy, pandas, polars, matplotlib, seaborn, plotly, scikit-learn, xgboost, lightgbm, statsmodels, torch (CPU), transformers, sentence-transformers, faiss-cpu, fairlearn, jupyter_client, ipykernel, etc. Todo se importa explícitamente desde las celdas como en un Jupyter normal.
 
 ### 🖼️ Captura de salida
 
+El kernel devuelve outputs estilo Jupyter por el protocolo IOPub:
+
 | Tipo de salida | Cómo se captura |
 |---|---|
-| `print()` / stdout | redireccionado vía `contextlib.redirect_stdout` |
-| Resultado de expresión | evaluado como `ast.Expression` separado |
-| Gráficos matplotlib | convertidos a PNG base64 y devueltos en el JSON de respuesta |
-| Errores / excepciones | `traceback.format_exc()` devuelto como string |
+| `print()` / stdout / stderr | mensajes `stream` del kernel |
+| Resultado de expresión | mensajes `execute_result` con `data` (text/plain, text/html, image/png) |
+| `display(...)` (HTML, DataFrames, imágenes) | mensajes `display_data` |
+| Gráficos matplotlib | `image/png` base64 inline (matplotlib inline backend) |
+| Errores / excepciones | mensajes `error` con `ename`, `evalue` y `traceback` |
 
 ---
 

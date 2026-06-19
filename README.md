@@ -21,7 +21,8 @@
 [![Parte 4](https://img.shields.io/badge/Parte%204-14%2F14%20%E2%9C%85-3fb950?style=for-the-badge)](classes/parte-4-mlops/README.md)
 [![Parte 5](https://img.shields.io/badge/Parte%205-8%2F8%20%E2%9C%85-3fb950?style=for-the-badge)](classes/parte-5-ingenieria-de-datos/README.md)
 [![Parte 6](https://img.shields.io/badge/Parte%206-7%2F7%20%E2%9C%85-3fb950?style=for-the-badge)](classes/parte-6-sistemas-de-recomendacion/README.md)
-[![Estado](https://img.shields.io/badge/Partes%207--8-en%20desarrollo-f59e0b?style=for-the-badge)](ROADMAP.md)
+[![Parte 7](https://img.shields.io/badge/Parte%207-6%2F6%20%E2%9C%85-3fb950?style=for-the-badge)](classes/parte-7-etica-fairness-privacidad/README.md)
+[![Parte 8](https://img.shields.io/badge/Parte%208-4%2F4%20%E2%9C%85-3fb950?style=for-the-badge)](classes/parte-8-capstones/README.md)
 [![License](https://img.shields.io/badge/license-MIT-3fb950?style=for-the-badge)](LICENSE)
 
 [![Python](https://img.shields.io/badge/Python-3.10%20%7C%203.11%20%7C%203.12-3776AB?style=flat-square&logo=python&logoColor=white)](https://www.python.org/)
@@ -100,9 +101,7 @@ Cada parte tiene su **propio README** con narrativa completa: de qué trata, qu�
 
 ### 🎓 Programa completo
 
-**232/232 clases desarrolladas (100%)** con patrón pedagógico v3.0 — Definiciones · Resultados · Temas · Dataset · Ejercicios · Homework verificable · Errores comunes · FAQ · Referencias + notebook ejecutable. Siguiente foco del repo: regenerar PDFs/PPTX, migrar contenido a UI Android, mejoras al laboratorio de ejecución Python (ver [ROADMAP.md](ROADMAP.md)).
-- 📱 Listar las 232 clases en la UI Android (`mobile/`) — el dato ya está actualizado a v3.0.0
-- 📄 Regenerar PDFs y PPTX (`docs/pdfs/`, `docs/presentaciones/`) con la nueva numeración 001-232 de cada parte
+**232/232 clases desarrolladas (100%)** con patrón pedagógico v3.0 — Definiciones · Resultados · Temas · Dataset · Ejercicios · Homework verificable · Errores comunes · FAQ · Referencias + notebook ejecutable + PDF + PPTX. PDFs y PPTX por clase, por parte y unificados ya están generados (`docs/pdfs/`, `docs/presentaciones/`). Siguiente foco del repo: migrar el catálogo del currículo a la UI Android (`mobile/src/data/classes.js` sigue stub), mejoras al laboratorio de ejecución Python (ver [ROADMAP.md](ROADMAP.md)).
 
 ---
 
@@ -139,14 +138,14 @@ Cada parte tiene su **propio README** con narrativa completa: de qué trata, qu�
 
 | Superficie | Rol | Estado |
 |---|---|---|
-| 🧪 Laboratorio interactivo (`app/`) | entorno local de clase — notebooks, runner, ejecución Python | ✅ operativo |
+| 🧪 Laboratorio de ejecución Python (`app/`) | shell Flask + kernel Jupyter real (`jupyter_client` + `ipykernel`) que ejecuta los notebooks del currículo | ✅ operativo |
 | 🌐 Portal del alumno (`site/`) | punto de entrada oficial para estudiantes | ✅ operativo |
 | 🏛️ Vista institucional (`site/product/`) | presentación visual del producto | ✅ operativa |
 | 📚 Currículo modular (`classes/`) | **232 clases** en 9 partes (numeración secuencial 001-232): Prerrequisitos, ML clásico, Deep Learning, Estadística inferencial y causal, MLOps, Ingeniería de datos, Recomendadores, Ética, Capstones | 🟢 **Las 9 partes (232/232 = 100%) completas y modernizadas** — 35 clases dedicadas a temas 2024-2026 + stack MLOps + data engineering + recomendadores + ética/fairness/privacidad + 4 capstones integradores end-to-end |
-| 🖥️ App de escritorio Windows (`launcher.py` + `program.spec` + `installer/`) | ventana nativa con Edge WebView2 — sin navegador, sin Python en el PC del alumno | 🟡 código operativo · binario pendiente de build |
-| 📱 App Android (`mobile/`) | Expo/React Native con integración Google Colab | 🟡 código operativo · contenido pendiente de migración |
-| 📄 PDFs (`docs/pdfs/`) | guías por clase | 🔄 se regeneran por bloques al madurar el contenido |
-| 📊 Presentaciones (`docs/presentaciones/`) | decks `.pptx` por clase | 🔄 se regeneran por bloques al madurar el contenido |
+| 🖥️ App de escritorio Windows (`launcher.py` + `app_desktop/` + `program.spec` + `installer/`) | ventana Qt nativa (PySide6) — sin web, sin localhost, sin WebView, sin Python en el PC del alumno | ✅ binario v3.8.0 publicado en release |
+| 📱 App Android (`mobile/`) | Expo/React Native con integración Google Colab | ✅ APK debug v3.8.0 publicado · contenido pendiente de migración |
+| 📄 PDFs (`docs/pdfs/`) | guías por clase + bundles por parte + curso completo | ✅ generados (232 por clase + 9 por parte + 1 unificado) |
+| 📊 Presentaciones (`docs/presentaciones/`) | decks `.pptx` por clase + bundles por parte + curso completo | ✅ generados (232 por clase + 9 por parte + 1 unificado) |
 
 La fuente de verdad de esta taxonomía vive en [docs/CATALOGO_PRODUCTO.md](docs/CATALOGO_PRODUCTO.md).
 
@@ -196,7 +195,7 @@ graph LR
     ALUM["Alumno"] --> PORTAL["site/\nPortal del alumno"]
     ALUM --> MOBILE["mobile/\nApp Android"]
     DOC["Docente"] --> LAB["app/\nLab ejecución Python\n(Flask + kernel Jupyter)"]
-    DOC --> WIN["PythonDSProgram.exe\nApp de escritorio Windows"]
+    DOC --> WIN["PythonDSProgram.exe\nApp Windows nativa (PySide6 / Qt)"]
 
     PRODUCT --> DOCS["docs/\nDocumentación canónica"]
     PORTAL --> DOCS
@@ -206,12 +205,14 @@ graph LR
     LAB --> DATA["datasets/\n6 CSV sintéticos"]
     LAB --> NOTEBOOKS["app/notebooks/\n6 labs interactivos"]
     LAB --> SAVED["app/saved_notebooks/\nTrabajo del alumno"]
-    WIN --> LAB
+    WIN --> CLASSES
 ```
+
+> 🖥️ La app Windows nativa (`PythonDSProgram.exe`) lee directamente `classes/` con widgets Qt — **no levanta Flask ni se conecta al laboratorio**. El laboratorio (`app/`) es una herramienta separada, opcional, para ejecutar código de los notebooks.
 
 La arquitectura completa, con flujos y fronteras, está en [docs/ARQUITECTURA_PRODUCTO.md](docs/ARQUITECTURA_PRODUCTO.md).
 
-### 🗺️ Mapa del currículo (9 partes · 232 clases · v3.7.0 · 🎓 232/232 README + 232/232 notebooks ejecutables · 100% real)
+### 🗺️ Mapa del currículo (9 partes · 232 clases · v3.8.0 · 🎓 232/232 README + 232/232 notebooks ejecutables · 100% real)
 
 ```mermaid
 graph TD
@@ -256,39 +257,40 @@ graph TD
 
 ### 📚 Currículo y pedagogía
 
-- **Currículo (v3.7.0):** **232 clases** en 9 partes (numeración secuencial 001-232) — Prerrequisitos (49), ML clásico (50), Deep Learning (75), Estadística inferencial y causal (19), MLOps (14), Ingeniería de datos (8), Recomendadores (7), Ética (6), Capstones (4). **Las 9 partes (232/232 = 100%) completas y modernizadas 2024-2026**;
+- **Currículo (v3.8.0):** **232 clases** en 9 partes (numeración secuencial 001-232) — Prerrequisitos (49), ML clásico (50), Deep Learning (75), Estadística inferencial y causal (19), MLOps (14), Ingeniería de datos (8), Recomendadores (7), Ética (6), Capstones (4). **Las 9 partes (232/232 = 100%) completas y modernizadas 2024-2026**;
 - pauta derivada de **Hands-On ML** (Géron 3ª ed.), **Python Data Science Handbook** (VanderPlas), **Designing ML Systems** (Huyen), **ISLP** (James et al), **Fairness and ML** (Barocas/Hardt/Narayanan);
-- cada clase: `README.md` (ficha) + `notebook.ipynb` (stub); materiales adicionales se agregan al madurar;
+- cada clase: `README.md` pedagógico (Definiciones · Errores comunes · FAQ · Referencias) + `notebook.ipynb` ejecutable + `clase-NNN-...-guia-explicativa.pdf` + `clase-NNN-...-presentacion.pptx`;
 - **6 datasets** sintéticos: ventas_tienda, retencion_clientes, soporte_tickets, transporte, estudiantes, comentarios_productos;
 - guías de instructor, metodología, criterios de evaluación y ética de datos.
 
-### 🧪 Laboratorio interactivo
+### 🧪 Laboratorio de ejecución Python
 
-- app Flask con acceso a las 232 clases desde interfaz web (descubrimiento automático por anidamiento);
-- notebooks interactivos precargados con celdas editables y ejecutables;
-- ejecución de código Python por celdas con persistencia de sesión;
-- captura de gráficos matplotlib como PNG inline;
+- shell Flask + kernel Jupyter real (`jupyter_client` + `ipykernel`) — un kernel por sesión, con interrupt/restart;
+- descubre y ejecuta los `classes/**/notebook.ipynb` reales del currículo (no templates);
+- outputs ricos: HTML, imágenes PNG/JPEG base64, errores con traceback, streams stdout/stderr;
+- atajos estilo Jupyter (Ctrl+Enter ejecutar, Shift+Enter ejecutar y avanzar);
 - guardado de notebooks en JSON local (`app/saved_notebooks/`);
 - endpoints `GET /health` y `GET /ready` para healthchecks.
 
-### 🖥️ App de escritorio Windows
+### 🖥️ App Windows nativa (PySide6)
 
-- ventana nativa con Edge WebView2 — **sin abrir el navegador del sistema**;
-- Flask corre internamente en un puerto libre elegido automáticamente;
-- pantalla de carga animada mientras el entorno inicia;
-- portable (ZIP) + instalador (Inno Setup) disponibles;
-- sin dependencias en el PC del usuario final.
+- ventana Qt nativa con `QTreeView` del currículo y tabs README / Notebook — **sin web, sin localhost, sin WebView, sin Flask de fondo**;
+- READMEs renderizados con `QTextBrowser.setMarkdown()`; notebooks renderizados celda por celda con outputs (imágenes base64 → `QPixmap`);
+- toolbar con "Abrir PDF/PPTX/Carpeta" — en el bundle frozen abre la URL raw del repo (los PDFs/PPTX no van empaquetados);
+- bundle slim distribuido como ZIP portable (274 MB) e instalador Inno Setup opcional;
+- sin dependencias Python en el PC del usuario final.
 
 ### 📱 App Android
 
-- Expo/React Native (pendiente migrar el contenido embebido al índice actual);
+- Expo/React Native (SDK 51, RN 0.74.5, versionCode 38, versionName 3.8.0);
 - integración con Google Colab para ejecución de código sin Python local;
 - seguimiento de progreso local con AsyncStorage;
-- APK debug disponible — producción en roadmap.
+- APK debug `v3.8.0` publicado · catálogo (`mobile/src/data/classes.js`) sigue stub vacío, pendiente migrar las 232 clases a la UI.
 
 ### 📊 Presentación y distribución de materiales
 
-- PDFs y PPTX por clase se generan en `docs/pdfs/classes/` y `docs/presentaciones/classes/` por bloques al madurar el contenido pedagógico de cada parte;
+- PDFs y PPTX por clase generados en `docs/pdfs/classes/` y `docs/presentaciones/classes/` (232 + 232);
+- bundles por parte (9 PDFs + 9 PPTX) y unificados (`curso-completo.pdf`, `curso-completo.pptx`);
 - landing pública para alumnos en GitHub Pages (`site/`);
 - vista institucional HTML con narrativa de producto (`site/product/`);
 - PDFs adicionales de estudio en `docs/pdfs/`.
@@ -299,9 +301,7 @@ graph TD
 
 ### 🅰️ Opción A — app de escritorio Windows (usuarios finales)
 
-El binario distribuible se reconstruye cuando el contenido alcance un primer hito publicable. Mientras tanto, usa el modo desarrollo (Opción B) o la imagen Docker (Opción C/D) para correr el laboratorio local. Ver [docs/BUILD_INSTALLER.md](docs/BUILD_INSTALLER.md) para construir el `.exe` desde fuente.
-
-Requiere (al usar el binario): Edge WebView2 Runtime (preinstalado en Windows 10 v2004+ y Windows 11).
+Descarga `PythonDSProgram_windows_portable_v3.8.0.zip` (274 MB) desde el [release v3.8.0](https://github.com/vladimiracunadev-create/python-data-science-program/releases/tag/v3.8.0), descomprime y ejecuta `PythonDSProgram.exe`. Es una app Qt nativa (PySide6): no abre navegador, no levanta servidor HTTP, no requiere Python ni Edge WebView2 instalados. Para construir el `.exe` desde fuente ver [docs/BUILD_INSTALLER.md](docs/BUILD_INSTALLER.md).
 
 ### 🅱️ Opción B — modo desarrollo (entorno virtual)
 
@@ -332,8 +332,8 @@ docker compose -f docker-compose.prod.yml up -d --build
 ## 📦 Build de distribución
 
 ```bash
-# Instala dependencias de build
-pip install pywebview pyinstaller
+# Instala dependencias de build (la app Windows es Qt nativa con PySide6)
+pip install "PySide6>=6.6" pyinstaller
 
 # Genera bundle + ZIP portable + instalador (requiere Inno Setup 6)
 build_windows.bat
@@ -348,7 +348,7 @@ Ver [docs/BUILD_INSTALLER.md](docs/BUILD_INSTALLER.md) para instrucciones comple
 ```bash
 pytest                   # suite completa
 ruff check .             # lint
-python -m bandit -r app  # seguridad estática
+python -m bandit -r app run_program.py launcher.py app_desktop -x app/saved_notebooks  # seguridad estática
 ```
 
 Workflows activos:
@@ -433,7 +433,7 @@ Workflows activos:
 ### ❌ Lo que este repo no vende
 
 - 🚫 una plataforma multiusuario endurecida para internet abierta;
-- 🚫 una app móvil ya en producción (el código existe pero el APK se reconstruye con el contenido actual);
+- 🚫 una app móvil ya en producción (el APK debug v3.8.0 está publicado pero el catálogo de clases en la UI sigue pendiente de migrar);
 - 🚫 una promesa de personalización infinita antes de cerrar condiciones;
 - 🚫 profundidad total en todas las direcciones desde la primera versión.
 

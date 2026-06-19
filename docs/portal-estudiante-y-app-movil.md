@@ -49,7 +49,7 @@ flowchart LR
 - enlace oficial del curso;
 - base de lectura en celular.
 
-## ❓ 6. Qué sigue viviendo en la app Flask
+## ❓ 6. Qué sigue viviendo en el laboratorio de ejecución Python (Flask + kernel Jupyter)
 
 - catálogo dinamico de clases;
 - notebooks interactivos;
