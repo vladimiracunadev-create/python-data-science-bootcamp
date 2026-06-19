@@ -40,7 +40,6 @@ from pathlib import Path
 # Importar el renderer PDF ya existente del repo.
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from generar_pdf_documento import render_markdown_text  # noqa: E402
-
 from pptx import Presentation  # noqa: E402
 from pptx.dml.color import RGBColor  # noqa: E402
 from pptx.enum.shapes import MSO_AUTO_SHAPE_TYPE  # noqa: E402
@@ -353,9 +352,9 @@ def parse_notebook(nb_path: Path) -> dict:
                 code_lines = code_lines[:30] + ["# ... (truncado)"]
             data["first_code"] = "\n".join(code_lines).strip()
             intro_lines = [
-                clean_text(l)
-                for l in last_markdown_source.splitlines()
-                if l.strip() and not l.strip().startswith("#")
+                clean_text(line)
+                for line in last_markdown_source.splitlines()
+                if line.strip() and not line.strip().startswith("#")
             ]
             data["first_code_intro"] = " ".join(intro_lines[:3])[:500]
             break
@@ -735,7 +734,7 @@ def create_presentation(readme_data: dict, nb_data: dict, output_path: Path) -> 
     closing_text = "Pasar a la práctica con el notebook."
     if next_body:
         first_line = next(
-            (l.strip() for l in next_body.splitlines() if l.strip()),
+            (line.strip() for line in next_body.splitlines() if line.strip()),
             "",
         )
         if first_line:
