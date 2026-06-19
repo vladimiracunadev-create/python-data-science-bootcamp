@@ -62,10 +62,19 @@ def _safe_resolve(base: Path, name: str) -> Path:
 
 
 def _class_asset_filenames(slug: str) -> dict[str, str]:
-    """Compone los nombres estables de PDF y PPTX por clase."""
+    """Compone los nombres estables de PDF y PPTX por clase.
+
+    Qué resuelve:
+        Los slugs del currículo v3 son rutas relativas con ``/``
+        (``parte-N-name/NNN-tema``) — embeber el slug completo en el nombre
+        del archivo creaba un subdirectorio espurio. Usamos solo el último
+        segmento (el basename de la carpeta de clase) para mantener un
+        nombre plano y portable entre Windows/Linux.
+    """
+    basename = slug.rstrip("/").split("/")[-1]
     return {
-        "pdf": f"clase-{slug}-guia-explicativa.pdf",
-        "pptx": f"clase-{slug}-presentacion.pptx",
+        "pdf": f"clase-{basename}-guia-explicativa.pdf",
+        "pptx": f"clase-{basename}-presentacion.pptx",
     }
 
 
