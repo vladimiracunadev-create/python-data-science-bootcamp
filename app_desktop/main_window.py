@@ -371,12 +371,32 @@ class MainWindow(QMainWindow):
             self._act_light.setChecked(True)
 
     def _show_about(self) -> None:
+        repo = "https://github.com/vladimiracunadev-create/python-data-science-program"
+        release = f"{repo}/releases/tag/v{__version__}"
         QMessageBox.about(
             self,
             "Acerca de",
-            f"<h3>Python Data Science Program</h3>"
-            f"<p>App Windows nativa (PySide6) v{__version__}</p>"
-            f"<p>232 clases · 9 partes · sin WebView · sin localhost</p>",
+            f"<h2>🐍 Python Data Science Program</h2>"
+            f"<p><b>App Windows nativa</b> v{__version__} · widgets Qt (PySide6) "
+            f"sin WebView ni servidor local.</p>"
+            f"<p><b>Currículo:</b> 🎓 232 clases en 9 partes · cobertura 100% "
+            f"(README pedagógico + notebook ejecutable + PDF + PPTX por clase).</p>"
+            f"<p><b>Bundle slim:</b> solo READMEs + notebooks viajan dentro del .exe "
+            f"(~274 MB ZIP). Los PDFs y PPTX se abren desde el repo en GitHub vía la "
+            f"URL raw — los botones de la toolbar funcionan tanto online (URL del repo) "
+            f"como offline (si la app corre desde el repo clonado).</p>"
+            f"<p><b>Laboratorio Python</b> (Flask + kernel Jupyter real) es una "
+            f"herramienta separada para EJECUTAR código — esta app es solo viewer. "
+            f"Ver instrucciones en el repo (<code>python -m app.app</code>).</p>"
+            f"<p><b>App Android</b> companion también disponible (Expo + React Native) "
+            f"en el mismo release.</p>"
+            f"<hr>"
+            f"<p>📥 <a href='{release}'>Release v{__version__}</a> · "
+            f"📂 <a href='{repo}'>Repositorio</a> · "
+            f"📜 Licencia MIT.</p>"
+            f"<p style='color:#666;font-size:0.9em'>Construido con Python 3.12 + "
+            f"PySide6 + nbformat. PyInstaller para el bundle Windows. "
+            f"GitHub Actions para CI/Security/Pages.</p>",
         )
 
     # ------------------------------------------------------------------
