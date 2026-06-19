@@ -5,13 +5,13 @@
 ### **Fuente de verdad de superficies, artefactos y reglas de comunicación**
 
 [![Autoridad](https://img.shields.io/badge/prioridad-este%20documento-ef4444?style=for-the-badge)](#-regla-de-prioridad)
-[![Estado](https://img.shields.io/badge/release-v3.6.0-2e8b57?style=for-the-badge)](../CHANGELOG.md)
+[![Estado](https://img.shields.io/badge/release-v3.7.0-2e8b57?style=for-the-badge)](../CHANGELOG.md)
 
 </div>
 
 > ⚠️ Si algún README, landing o presentación contradice este documento, **este tiene prioridad.**
 >
-> 📌 El currículo tiene **232 clases en 9 partes** (v3.5.0, numeración secuencial 001-232). 🎓 **Currículo completo · 232/232 = 100%** — todas las partes están desarrolladas con contenido pedagógico real + Definiciones/Errores/FAQ en cada clase + 35 clases dedicadas a temas 2024-2026 + stack completo MLOps (DVC, MLflow, Feast, K8s, FastAPI, drift, shadow/canary, SHAP, Great Expectations, behavioral tests) + data engineering (Airflow, Prefect/Dagster, PySpark, Polars, DuckDB/BQ/Snowflake, Kafka, Parquet/Avro, star schemas SCD2) + recomendadores (CF, SVD/ALS, content+FAISS, LightFM, métricas top-N, cold-start) + ética/fairness/privacidad (Suresh-Guttag taxonomía sesgos, DP/EO/calibration + impossibility theorem, privacidad diferencial (Laplace/Gauss/DP-SGD), federated learning (FedAvg + gradient leakage), GDPR + AI Act EU 2024/1689, reproducibilidad (seeds/lock files/model cards/datasheets)) + **Capstones integradores (P8)** — Capstone 1 tabular E2E (ColumnTransformer+GBM+Optuna+MLflow+FastAPI+Streamlit+SHAP+CI), Capstone 2 NLP/series (DistilBERT o forecasting con baselines+SARIMA+backtesting+cuantiles), Capstone 3 visión transfer learning (ConvNeXt/EfficientNetV2/ViT + RandAugment/MixUp/CutMix + ONNX), Portafolio público (MkDocs Material/Quarto + GitHub Pages + demos hosted + deck + CV técnico). Ya no quedan clases pendientes — **siguiente foco: superficies**. Pauta completa en [syllabus.md](syllabus.md), índice navegable en [../classes/README.md](../classes/README.md).
+> 📌 El currículo tiene **232 clases en 9 partes** (v3.7.0, numeración secuencial 001-232). 🎓 **232/232 clases · 232/232 notebooks ejecutables · cobertura 100% real** — todas las partes están desarrolladas con contenido pedagógico real + notebook ejecutable corriendo en el laboratorio con kernel Jupyter + Definiciones/Errores/FAQ en cada clase + 35 clases dedicadas a temas 2024-2026 + stack completo MLOps (DVC, MLflow, Feast, K8s, FastAPI, drift, shadow/canary, SHAP, Great Expectations, behavioral tests) + data engineering (Airflow, Prefect/Dagster, PySpark, Polars, DuckDB/BQ/Snowflake, Kafka, Parquet/Avro, star schemas SCD2) + recomendadores (CF, SVD/ALS, content+FAISS, LightFM, métricas top-N, cold-start) + ética/fairness/privacidad (Suresh-Guttag taxonomía sesgos, DP/EO/calibration + impossibility theorem, privacidad diferencial (Laplace/Gauss/DP-SGD), federated learning (FedAvg + gradient leakage), GDPR + AI Act EU 2024/1689, reproducibilidad (seeds/lock files/model cards/datasheets)) + **Capstones integradores (P8)** — Capstone 1 tabular E2E (ColumnTransformer+GBM+Optuna+MLflow+FastAPI+Streamlit+SHAP+CI), Capstone 2 NLP/series (DistilBERT o forecasting con baselines+SARIMA+backtesting+cuantiles), Capstone 3 visión transfer learning (ConvNeXt/EfficientNetV2/ViT + RandAugment/MixUp/CutMix + ONNX), Portafolio público (MkDocs Material/Quarto + GitHub Pages + demos hosted + deck + CV técnico). Ya no quedan clases pendientes — **siguiente foco: superficies**. Pauta completa en [syllabus.md](syllabus.md), índice navegable en [../classes/README.md](../classes/README.md).
 
 ---
 
@@ -30,12 +30,12 @@
 
 | Superficie | Tipo | Estado | Audiencia | Qué entrega hoy |
 |---|---|---|---|---|
-| Laboratorio de ejecución Python (`app/`) | núcleo operativo | operativo | docente / estudiante guiado | Flask shell + kernel Jupyter real (`jupyter_client`), lee notebooks reales del currículo, outputs ricos (HTML/imágenes/errores), 197 notebooks ejecutables de 232 clases |
+| Laboratorio de ejecución Python (`app/`) | núcleo operativo | operativo | docente / estudiante guiado | Flask shell + kernel Jupyter real (`jupyter_client`), lee notebooks reales del currículo, outputs ricos (HTML/imágenes/errores), 🎓 232/232 notebooks ejecutables (cobertura 100%) |
 | App de escritorio Windows (`launcher.py` + `installer/`) | distribución de escritorio | listo para build | alumno / docente en aula | ventana nativa Edge WebView2 sin navegador, sin Python instalado en el equipo del usuario, Flask interno transparente |
 | App Android (`mobile/`) | distribución móvil | **catálogo vacío** | alumno en movimiento | código operativo, pero `mobile/src/data/classes.js` quedó como stub; pendiente cargar entradas del currículo actual |
 | Portal del alumno (`site/`) | superficie pública | operativo | alumno | muestra el resumen de 232 clases en 9 partes con tarjeta por parte |
 | Vista institucional (`site/product/`) | superficie pública | operativo (mensaje genérico) | institución / evaluador | narrativa del producto, alcance, arquitectura visual |
-| Currículo modular (`classes/`) | base pedagógica | 🎓 **232/232 completo (100%)** | docente / alumno | 232 clases organizadas en 9 partes (numeración secuencial 001-232: Prerrequisitos, ML clásico, Deep Learning, Estadística inferencial y causal, MLOps, Ingeniería de datos, Recomendadores, Ética, Capstones). Todas las clases incluyen Definiciones, Errores comunes y FAQ, más 35 clases dedicadas a temas 2024-2026 y stack completo de MLOps + data engineering + recomendadores + ética/fairness/privacidad + capstones integradores (tabular E2E, NLP/series, visión transfer learning, portafolio público). |
+| Currículo modular (`classes/`) | base pedagógica | 🎓 **232/232 README + 232/232 notebooks ejecutables (100% real)** | docente / alumno | 232 clases organizadas en 9 partes (numeración secuencial 001-232: Prerrequisitos, ML clásico, Deep Learning, Estadística inferencial y causal, MLOps, Ingeniería de datos, Recomendadores, Ética, Capstones). Todas las clases incluyen Definiciones, Errores comunes y FAQ, más 35 clases dedicadas a temas 2024-2026 y stack completo de MLOps + data engineering + recomendadores + ética/fairness/privacidad + capstones integradores (tabular E2E, NLP/series, visión transfer learning, portafolio público). |
 | Kit documental (`docs/`) | capa editorial | operativo | docente / stakeholder | metodología, operación, evaluación, seguridad y arquitectura |
 | PDFs (`docs/pdfs/`) | artefacto de apoyo | se regenera por bloque | docente / alumno / evaluador | guías PDF por clase al madurar el contenido |
 | Presentaciones (`docs/presentaciones/`) | artefacto de apoyo | se regenera por bloque | docente | decks `.pptx` por clase al madurar el contenido |
@@ -105,7 +105,7 @@ Cada clase vive en `classes/parte-N-slug/NNN-tema-slug/` con `README.md` (ficha)
 
 ### Lo que no se debe mezclar
 
-- **el currículo está completo a nivel de contenido pedagógico (232/232)** con Definiciones/Errores/FAQ en cada clase + 35 clases dedicadas a temas 2024-2026 + stack MLOps + data engineering + recomendadores + ética/fairness/privacidad + 4 capstones integradores; pero "listo para dictar llave en mano" todavía requiere superficies derivadas (PDFs/PPTX por clase regenerados, contenido migrado a la app Android, mejoras del laboratorio de ejecución Python — incluido generar las 35 `.ipynb` pendientes) — no afirmar "232 clases listas para dictar" sin esa salvedad;
+- **el currículo está completo a nivel de contenido pedagógico (🎓 232/232 README + 232/232 notebooks ejecutables · 100% real)** con Definiciones/Errores/FAQ en cada clase + 35 clases dedicadas a temas 2024-2026 + stack MLOps + data engineering + recomendadores + ética/fairness/privacidad + 4 capstones integradores; pero "listo para dictar llave en mano" todavía requiere superficies derivadas (PDFs/PPTX por clase regenerados, contenido migrado a la app Android) — no afirmar "232 clases listas para dictar" sin esa salvedad;
 - el portal del alumno **no es** todo el producto;
 - la vista institucional **no reemplaza** el laboratorio;
 - la app Android **no ejecuta Python nativo** — usa Google Colab;
@@ -114,14 +114,13 @@ Cada clase vive en `classes/parte-N-slug/NNN-tema-slug/` con `README.md` (ficha)
 
 ---
 
-## 🚀 Siguiente paso (post-v3.5.0)
+## 🚀 Siguiente paso (post-v3.7.0)
 
-🎓 **El currículo está completo (232/232 · 100%, v3.5.0).** Ya no hay un próximo "bloque pedagógico" pendiente: el siguiente foco son las **superficies** que entregan ese contenido al alumno final:
+🎓 **El currículo está 100% real (v3.7.0: 232/232 README + 232/232 notebooks ejecutables).** Ya no hay un próximo "bloque pedagógico" pendiente ni `.ipynb` faltantes: el siguiente foco son las **superficies** que entregan ese contenido al alumno final:
 
 1. regenerar los **PDFs y PPTX por clase** (`docs/pdfs/classes/`, `docs/presentaciones/classes/`) ahora que el contenido está estable;
-2. generar las **35 `.ipynb` faltantes** de las clases dedicadas modernas (Polars, Optuna, Ray Tune, Lightning, etc.) ahora que el **lab de ejecución Python** corre kernel Jupyter real y puede ejecutarlas;
-3. cargar el contenido en la **app Android** (`mobile/src/data/classes.js` sigue stub) y rebuild del APK;
-4. rebuild del **instalador Windows** y firma del binario.
+2. cargar el contenido en la **app Android** (`mobile/src/data/classes.js` sigue stub) y rebuild del APK;
+3. rebuild del **instalador Windows** y firma del binario.
 
 Para una primera implementación acotada por aula, **Parte 0 — Prerrequisitos** (49 clases, 001-049) sigue siendo el punto de entrada natural:
 

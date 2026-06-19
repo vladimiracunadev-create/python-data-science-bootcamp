@@ -13,6 +13,21 @@
 
 ---
 
+## [v3.7.0] — 2026-06-18 (35 notebooks faltantes generados · cobertura ejecutable 100%)
+
+### Añadido
+- 35 notebooks ejecutables faltantes generados para las "clases dedicadas modernas": Polars (033), Parquet/Arrow/DuckDB (034), async (049), walk-forward (053), target encoding+MICE (055), Optuna (058), Model Cards (060), SMOTE (064), calibración (076), SHAP profundo (087), Ray Tune (106), Lion/Sophia (114), Stochastic Depth (117), PyTorch fundamentos (122), Lightning (123), SAM (133), YOLOv11 (134), Flash Attention+RoPE+GQA (144), CLIP/SigLIP (146), Whisper (147), LoRA (149), DPO (150), vLLM (151), MCP (153), Agentes ReAct (154), LLM eval (155), SDXL/ControlNet (160), ONNX (167), JAX/Flax (173), Effect size (177), BCa bootstrap (184), CUPED (186), DoubleML (189), Synthetic Control (191), PyMC stack (193).
+- Cada notebook: 12-16 celdas v3.0, self-contained con datasets sintéticos, seed 42, try/except sobre libs pesadas con fallback CPU-friendly para correr end-to-end en el laboratorio sin GPU.
+
+### Cobertura del currículo
+- **232 carpetas de clase · 232 READMEs pedagógicos · 232 notebooks ejecutables**. 🎓 Cobertura 100% real (no solo a nivel de README).
+- El laboratorio con kernel Jupyter (Flask + jupyter_client + ipykernel, v3.6.0) puede ahora ejecutar cualquier clase del currículo.
+
+### Arreglado
+- `ruff` `I001` en `app/app.py` por imports aliased no agrupables: habilitada `combine-as-imports = true` en `pyproject.toml`. CI estaba en rojo desde v3.6.0 por esto; verde otra vez en commit aaf26a1.
+
+---
+
 ## [v3.6.0] — 2026-06-18 (Laboratorio de ejecución Python: kernel Jupyter real)
 
 ### Cambiado

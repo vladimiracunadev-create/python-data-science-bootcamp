@@ -17,12 +17,12 @@
 Este repositorio es una **pauta avanzada y completa de Python y Data Science** organizada en 232 clases y 9 partes. La pauta está derivada de referentes profesionales: *Hands-On ML* (Géron, 3ª ed.), *Python Data Science Handbook* (VanderPlas), *Designing ML Systems* (Huyen), *ISLP* (James et al) y *Fairness and ML* (Barocas/Hardt/Narayanan).
 
 ```
-v3.6.0:  232 clases · 9 partes · 🎓 232 READMEs · 197 notebooks ejecutables (35 dedicadas modernas con README pero notebook pendiente) — todas las partes completas y modernizadas 2024-2026
+v3.7.0:  232 clases · 9 partes · 🎓 232/232 READMEs · 232/232 notebooks ejecutables · cobertura 100% real — todas las partes completas y modernizadas 2024-2026, el lab con kernel Jupyter ejecuta el 100% del currículo
 ```
 
 Incluye laboratorio interactivo local (Flask), app de escritorio nativa para Windows, app Android y una familia documental que distingue producto, operación y seguridad.
 
-**Estado honesto (v3.6.0, junio 2026):** 🎓 **currículo entero listo a nivel de README · 232/232 = 100% · 197/232 notebooks ejecutables** — todas las 9 partes están completas y modernizadas con READMEs pedagógicos (las 35 clases dedicadas modernas tienen README pero `.ipynb` pendiente), secciones Definiciones/Errores comunes/FAQ en cada clase y 35 clases dedicadas a temas modernos 2024-2026 + stack MLOps completo (P4: DVC, MLflow, Feast, K8s, FastAPI, drift, shadow/canary, SHAP, Great Expectations, behavioral tests) + data engineering (P5: Airflow, Prefect/Dagster, PySpark, Polars, DuckDB/BQ/Snowflake, Kafka, Parquet/Avro, star schemas SCD2) + recomendadores (P6: CF kNN, SVD+ALS implicit, content+FAISS, LightFM hybrid, métricas top-N, cold-start) + ética/fairness/privacidad (P7: Suresh-Guttag taxonomía sesgos, DP/EO/calibration + impossibility theorem, privacidad diferencial (Laplace/Gauss/DP-SGD), federated learning (FedAvg + gradient leakage), GDPR + AI Act EU 2024/1689, reproducibilidad (seeds/lock files/model cards/datasheets)) + **Capstones integradores (P8)**: Capstone 1 tabular E2E (ColumnTransformer+GBM+Optuna+MLflow+FastAPI+Streamlit+SHAP+CI), Capstone 2 NLP/series (DistilBERT o forecasting con baselines+SARIMA+backtesting+cuantiles), Capstone 3 visión transfer learning (ConvNeXt/EfficientNetV2/ViT + RandAugment/MixUp/CutMix + ONNX), Portafolio público (MkDocs Material/Quarto + GitHub Pages + demos hosted + deck + CV técnico). En Parte 0 + Partes 4-8 los notebooks están desarrollados ejecutables; en Partes 1-3 los notebooks siguen como stubs (el contenido pedagógico vive en los README, ~150 líneas promedio). Ya no quedan clases pendientes — **siguiente foco: superficies** (regen PDFs/PPTX por clase, app móvil, mejoras del laboratorio de ejecución Python — incluido generar las 35 .ipynb pendientes). Ver progreso real en [GitHub Pages — currículo](https://vladimiracunadev-create.github.io/python-data-science-program/clases/).
+**Estado honesto (v3.7.0, junio 2026):** 🎓 **currículo entero listo · 232/232 READMEs · 232/232 notebooks ejecutables · cobertura 100% real** — todas las 9 partes están completas y modernizadas con READMEs pedagógicos + notebook ejecutable corriendo en el laboratorio con kernel Jupyter real, secciones Definiciones/Errores comunes/FAQ en cada clase y 35 clases dedicadas a temas modernos 2024-2026 + stack MLOps completo (P4: DVC, MLflow, Feast, K8s, FastAPI, drift, shadow/canary, SHAP, Great Expectations, behavioral tests) + data engineering (P5: Airflow, Prefect/Dagster, PySpark, Polars, DuckDB/BQ/Snowflake, Kafka, Parquet/Avro, star schemas SCD2) + recomendadores (P6: CF kNN, SVD+ALS implicit, content+FAISS, LightFM hybrid, métricas top-N, cold-start) + ética/fairness/privacidad (P7: Suresh-Guttag taxonomía sesgos, DP/EO/calibration + impossibility theorem, privacidad diferencial (Laplace/Gauss/DP-SGD), federated learning (FedAvg + gradient leakage), GDPR + AI Act EU 2024/1689, reproducibilidad (seeds/lock files/model cards/datasheets)) + **Capstones integradores (P8)**: Capstone 1 tabular E2E (ColumnTransformer+GBM+Optuna+MLflow+FastAPI+Streamlit+SHAP+CI), Capstone 2 NLP/series (DistilBERT o forecasting con baselines+SARIMA+backtesting+cuantiles), Capstone 3 visión transfer learning (ConvNeXt/EfficientNetV2/ViT + RandAugment/MixUp/CutMix + ONNX), Portafolio público (MkDocs Material/Quarto + GitHub Pages + demos hosted + deck + CV técnico). Las 232 clases tienen notebook ejecutable v3.0 que corre end-to-end en el laboratorio. Ya no quedan clases ni notebooks pendientes — **siguiente foco: superficies** (regen PDFs/PPTX por clase, app móvil). Ver progreso real en [GitHub Pages — currículo](https://vladimiracunadev-create.github.io/python-data-science-program/clases/).
 
 ---
 
@@ -61,20 +61,18 @@ Incluye laboratorio interactivo local (Flask), app de escritorio nativa para Win
 
 | Parte | Tema | Clases | Estado |
 |---|---|---|---|
-| 0 | Prerrequisitos | 46 | 🟢 **completa y ampliada** (+ 5 complementos) |
-| 1 | Machine Learning clásico | 43 | 🟢 **completa y ampliada** (+ 8 complementos) |
-| 2 | Deep Learning | 56 | 🟡 scaffold |
-| 3 | Estadística inferencial | 13 | 🟡 scaffold |
-| 4 | MLOps | 14 | 🟡 scaffold |
-| 5 | Ingeniería de datos | 8 | 🟡 scaffold |
-| 6 | Recomendadores | 7 | 🟡 scaffold |
-| 7 | Ética, fairness, privacidad | 6 | 🟡 scaffold |
-| 8 | Capstones | 4 | 🟡 scaffold |
-| | **Total** | **232** | **89 desarrolladas, 108 scaffold** |
+| 0 | Prerrequisitos | 49 | 🟢 **completa · README + notebook ejecutable** |
+| 1 | Machine Learning clásico | 50 | 🟢 **completa · README + notebook ejecutable** |
+| 2 | Deep Learning | 75 | 🟢 **completa · README + notebook ejecutable** |
+| 3 | Estadística inferencial | 19 | 🟢 **completa · README + notebook ejecutable** |
+| 4 | MLOps | 14 | 🟢 **completa · README + notebook ejecutable** |
+| 5 | Ingeniería de datos | 8 | 🟢 **completa · README + notebook ejecutable** |
+| 6 | Recomendadores | 7 | 🟢 **completa · README + notebook ejecutable** |
+| 7 | Ética, fairness, privacidad | 6 | 🟢 **completa · README + notebook ejecutable** |
+| 8 | Capstones | 4 | 🟢 **completa · README + notebook ejecutable** |
+| | **Total** | **232** | 🎓 **232/232 README · 232/232 notebooks ejecutables · cobertura 100% real** |
 
-**Partes 0 y 1 desarrolladas** (89): `README.md` con objetivo + resultados + temas + dataset + ejercicios + homework + **📖 Definiciones** + **⚠️ Errores comunes** + **❓ FAQ** + referencias. En Parte 0 los `notebook.ipynb` traen 13–21 celdas ejecutables. En Parte 1 los notebooks siguen como stub — el contenido pedagógico vive en los README.
-
-**Partes 2-8 scaffold**: `README.md` ficha mínima y `notebook.ipynb` stub con 8 celdas guía.
+**232/232 clases desarrolladas**: cada clase trae `README.md` con objetivo + resultados + temas + dataset + ejercicios + homework + **📖 Definiciones** + **⚠️ Errores comunes** + **❓ FAQ** + referencias y `notebook.ipynb` ejecutable v3.0 (self-contained con datasets sintéticos, seed 42, try/except sobre libs pesadas con fallback CPU-friendly) que corre end-to-end en el laboratorio con kernel Jupyter real.
 
 ### Datasets sintéticos
 
@@ -119,7 +117,7 @@ Incluye laboratorio interactivo local (Flask), app de escritorio nativa para Win
 
 - una plataforma multiusuario endurecida para internet abierta;
 - un LMS con autenticación, roles y seguimiento centralizado;
-- el currículo entero está listo a nivel de contenido pedagógico (🎓 232/232 README + secciones Definiciones/Errores/FAQ + capstones integradores P8), pero **dictarlo "llave en mano"** todavía requiere superficies derivadas: regen de PDFs/PPTX por clase, migración del contenido a la app Android, y mejoras del laboratorio de ejecución Python (incluido generar las 35 .ipynb pendientes) — esas son el siguiente foco;
+- el currículo entero está listo a nivel de contenido pedagógico (🎓 232/232 README + 232/232 notebooks ejecutables · cobertura 100% real + secciones Definiciones/Errores/FAQ + capstones integradores P8), pero **dictarlo "llave en mano"** todavía requiere superficies derivadas: regen de PDFs/PPTX por clase y migración del contenido a la app Android — esas son el siguiente foco;
 - la app Android en producción (APK debug, producción está en roadmap);
 - personalización ilimitada antes de definir condiciones reales.
 

@@ -83,10 +83,10 @@ Capaz de:
 | Componente | Estado |
 |---|---|
 | Estructura de carpetas (232) | ✅ creada |
-| README por clase | 🎓 **232/232 completos y modernizados** (v3.5.0 · 100%) |
-| `notebook.ipynb` por clase | 🎓 **197/232 ejecutables** — Partes 0, 4, 5, 6, 7, 8 ejecutables · Partes 1-3 con README completos + notebooks como stub guía · las **35 clases dedicadas modernas** (Polars, Optuna, Ray Tune, Lightning, etc.) tienen README pero notebook pendiente |
-| Contenido pedagógico real | 🎓 **232 READMEs · 197 notebooks ejecutables** (v3.6.0) — 35 dedicadas modernas con README pero notebook pendiente |
-| Definiciones + Errores comunes + FAQ por clase | 🎓 **232/232** (v3.5.0 · 100%) |
+| README por clase | 🎓 **232/232 completos y modernizados** (v3.7.0 · 100%) |
+| `notebook.ipynb` por clase | 🎓 **232/232 ejecutables · cobertura 100% real** (v3.7.0) — todas las clases corren en el laboratorio con kernel Jupyter real |
+| Contenido pedagógico real | 🎓 **232 READMEs · 232 notebooks ejecutables · 100% real** (v3.7.0) |
+| Definiciones + Errores comunes + FAQ por clase | 🎓 **232/232** (v3.7.0 · 100%) |
 | Clases dedicadas modernas 2024-2026 | 🟢 **35 clases dedicadas** en Partes 0-3 + stack moderno completo en Partes 4-7 (DVC/MLflow/Feast/K8s/FastAPI/Evidently/NannyML/Prefect/Istio/SHAP/Great Expectations/CheckList; Airflow/Prefect/Dagster/PySpark/Polars/DuckDB/BQ/Snowflake/Kafka/Parquet/Avro/star schema; CF/SVD+ALS/sentence-transformers/FAISS/LightFM/bandits; Suresh-Guttag taxonomía sesgos/DP+EO+calibration+impossibility theorem/privacidad diferencial Laplace+Gauss+DP-SGD/FedAvg+gradient leakage/GDPR+AI Act EU 2024/1689/seeds+lock files+model cards+datasheets) |
 | PDFs y PPTX por clase | ⏳ pendiente (regenerar tras desarrollar contenido) — **siguiente foco: superficies** |
 | Quizzes pre/post lección | ⏳ pendiente |

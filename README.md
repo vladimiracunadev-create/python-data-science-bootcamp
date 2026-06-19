@@ -12,7 +12,7 @@
 [![Security](https://github.com/vladimiracunadev-create/python-data-science-program/actions/workflows/security.yml/badge.svg?branch=main)](https://github.com/vladimiracunadev-create/python-data-science-program/actions/workflows/security.yml)
 [![Pages](https://github.com/vladimiracunadev-create/python-data-science-program/actions/workflows/deploy-pages.yml/badge.svg?branch=main)](https://github.com/vladimiracunadev-create/python-data-science-program/actions/workflows/deploy-pages.yml)
 
-[![Version](https://img.shields.io/badge/release-v3.6.0-2e8b57?style=for-the-badge)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/release-v3.7.0-2e8b57?style=for-the-badge)](CHANGELOG.md)
 [![Clases](https://img.shields.io/badge/clases-232%20%C2%B7%209%20partes-7c5cff?style=for-the-badge)](classes/README.md)
 [![Parte 0](https://img.shields.io/badge/Parte%200-49%2F49%20%E2%9C%85-3fb950?style=for-the-badge)](classes/parte-0-prerrequisitos/README.md)
 [![Parte 1](https://img.shields.io/badge/Parte%201-50%2F50%20%E2%9C%85-3fb950?style=for-the-badge)](classes/parte-1-machine-learning-clasico/README.md)
@@ -59,9 +59,9 @@ Integra currículo modular extenso, laboratorio interactivo local, portal del al
 
 | 🎯 Aspecto | Estado |
 |---|---|
-| 🏷️ **Versión** | `v3.6.0` (junio 2026 — **currículo completo 232/232 · lab con kernel Jupyter real**) |
+| 🏷️ **Versión** | `v3.7.0` (junio 2026 — **🎓 232/232 clases · 232/232 notebooks ejecutables · cobertura 100% real · lab con kernel Jupyter real ejecuta los 232 notebooks**) |
 | 📚 **Clases** | **232 en 9 partes** · numeración secuencial limpia 001-232 |
-| 🗂️ **Estructura** | ✅ **232 clases con `README.md` pedagógico · 197 con `notebook.ipynb` ejecutable** (las 35 dedicadas modernas — Polars, Optuna, Ray Tune, Lightning, etc. — tienen README pero el notebook está pendiente) |
+| 🗂️ **Estructura** | ✅ **las 232 clases con `README.md` pedagógico + `notebook.ipynb` ejecutable (cobertura 100%)** |
 | ✍️ **Contenido pedagógico** | 🟢 **Las 9 partes (232/232 = 100%) — completas y modernizadas** con Definiciones · Errores comunes · FAQ en cada clase + 35 clases dedicadas a temas modernos 2024-2026 + stack completo de MLOps (DVC, MLflow, Feast, K8s, FastAPI, drift, shadow/canary, SHAP, Great Expectations, behavioral tests) + data engineering (Airflow, Prefect/Dagster, PySpark, Polars, DuckDB/BQ/Snowflake, Kafka, Parquet/Avro, star schemas) + recomendadores (CF, SVD/ALS, content+FAISS, LightFM, métricas top-N, cold-start) + ética/fairness/privacidad (DP/EO/calibration, DP-SGD, FedAvg, GDPR + AI Act 2024/1689, reproducibilidad) + **4 capstones integradores** (tabular E2E con MLflow+FastAPI+Streamlit, NLP o series con backtesting cuantil, visión transfer learning con ONNX, portafolio público en GitHub Pages con MkDocs/Quarto) |
 | 🧭 **Descubribilidad Pages** | ✅ tabla de contenidos automática + badges por clase + banner global de progreso |
 | 🧪 **Laboratorio de ejecución Python** | ✅ Flask shell + kernel Jupyter real (`jupyter_client` + `ipykernel`), lee los `classes/**/notebook.ipynb` reales, outputs ricos (HTML, imágenes, errores con traceback) |
@@ -181,7 +181,7 @@ graph LR
 
 La arquitectura completa, con flujos y fronteras, está en [docs/ARQUITECTURA_PRODUCTO.md](docs/ARQUITECTURA_PRODUCTO.md).
 
-### 🗺️ Mapa del currículo (9 partes · 232 clases · v3.6.0 · 100% completo)
+### 🗺️ Mapa del currículo (9 partes · 232 clases · v3.7.0 · 🎓 232/232 README + 232/232 notebooks ejecutables · 100% real)
 
 ```mermaid
 graph TD
@@ -226,7 +226,7 @@ graph TD
 
 ### 📚 Currículo y pedagogía
 
-- **Currículo (v3.6.0):** **232 clases** en 9 partes (numeración secuencial 001-232) — Prerrequisitos (49), ML clásico (50), Deep Learning (75), Estadística inferencial y causal (19), MLOps (14), Ingeniería de datos (8), Recomendadores (7), Ética (6), Capstones (4). **Las 9 partes (232/232 = 100%) completas y modernizadas 2024-2026**;
+- **Currículo (v3.7.0):** **232 clases** en 9 partes (numeración secuencial 001-232) — Prerrequisitos (49), ML clásico (50), Deep Learning (75), Estadística inferencial y causal (19), MLOps (14), Ingeniería de datos (8), Recomendadores (7), Ética (6), Capstones (4). **Las 9 partes (232/232 = 100%) completas y modernizadas 2024-2026**;
 - pauta derivada de **Hands-On ML** (Géron 3ª ed.), **Python Data Science Handbook** (VanderPlas), **Designing ML Systems** (Huyen), **ISLP** (James et al), **Fairness and ML** (Barocas/Hardt/Narayanan);
 - cada clase: `README.md` (ficha) + `notebook.ipynb` (stub); materiales adicionales se agregan al madurar;
 - **6 datasets** sintéticos: ventas_tienda, retencion_clientes, soporte_tickets, transporte, estudiantes, comentarios_productos;

@@ -158,7 +158,7 @@ El resto de las librerías disponibles (numpy, scikit-learn, etc.) deben importa
 | `GET` | `/` | Interfaz web principal |
 | `GET` | `/health` | Liveness probe: `{"status": "ok"}` |
 | `GET` | `/ready` | Readiness: incluye count de clases y notebooks |
-| `GET` | `/api/curriculum` | Árbol del currículo (232 clases · marca `has_notebook: bool` por clase) |
+| `GET` | `/api/curriculum` | Árbol del currículo (🎓 232 clases · 232/232 notebooks ejecutables · `has_notebook: true` en el 100% del currículo) |
 | `GET` | `/api/notebook/<slug>` | Contenido del `classes/**/notebook.ipynb` real |
 | `POST` | `/api/kernel/start` | Arranca un kernel Jupyter para una sesión |
 | `POST` | `/api/kernel/<id>/execute` | Ejecuta código en el kernel (outputs ricos: HTML/imágenes/errores) |
