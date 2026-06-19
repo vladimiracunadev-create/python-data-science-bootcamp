@@ -24,34 +24,163 @@
   </header>
   <main class="cur-main">
     <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-5-ingenieria-de-datos/211-polars-como-alternativa-moderna/notebook.ipynb">📓 Abrir notebook en GitHub</a>
-<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">Objetivo</a> · <a href="#resultados-esperados">Resultados esperados</a> · <a href="#temas-clave">Temas clave</a> · <a href="#materiales">Materiales</a> · <a href="#prerrequisitos">Prerrequisitos</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#material-descargable">📥 Material descargable</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
 <h1 id="clase-211-polars-como-alternativa-moderna">Clase 211 — Polars como alternativa moderna</h1>
 <blockquote>
-<p>Parte: <strong>5-ingenieria-de-datos</strong>
-Estado: <strong>stub</strong> (pendiente desarrollar contenido).</p>
+<p>Parte: <strong>5 — Ingeniería de Datos</strong> · Fuente: <a href="https://docs.pola.rs/">docs Polars</a> + <a href="https://duckdblabs.github.io/db-benchmark/"><em>Polars vs pandas</em> benchmark</a>. ⏱️ Duración estimada: <strong>75 min</strong>.</p>
+<p>📎 Esta clase es <strong>complementaria</strong> a la Clase 008 (Polars básico, Parte 0). Acá el foco es <strong>producción</strong>: lazy API, streaming engine, Arrow zero-copy, integración con DuckDB/Parquet.</p>
 </blockquote>
-<h2 id="objetivo">Objetivo</h2>
-<p>Describir el resultado de aprendizaje concreto de esta clase.</p>
-<h2 id="resultados-esperados">Resultados esperados</h2>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Reemplazar pandas en pipelines productivos por <strong>Polars 1.x</strong>: 5-30× más rápido, multi-threaded por default, <strong>lazy API</strong> que optimiza la query antes de ejecutar, y <strong>streaming engine</strong> que procesa datasets mayores que RAM. Identificar los pocos casos donde pandas sigue ganando (ecosistema, statsmodels, sklearn pre-Arrow).</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
 <p>Al finalizar, el estudiante podrá:</p>
 <ul>
-<li>(resultado 1)</li>
-<li>(resultado 2)</li>
-<li>(resultado 3)</li>
+<li>Convertir scripts pandas a Polars (eager API: <code>pl.DataFrame</code>) y medir speedup.</li>
+<li>Usar <strong>lazy API</strong> (<code>pl.scan_parquet</code> + <code>.collect()</code>) para que el optimizador haga predicate pushdown + column pruning.</li>
+<li>Procesar archivos mayores que RAM con <code>.collect(engine="streaming")</code> (1.x rename de <code>streaming=True</code>).</li>
+<li>Hacer <strong>zero-copy interop</strong> con Arrow/DuckDB/pandas.</li>
+<li>Decidir Polars vs DuckDB vs pandas vs PySpark según tamaño + caso de uso.</li>
 </ul>
-<h2 id="temas-clave">Temas clave</h2>
+<h2 id="temas">🗺️ Temas</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Tema</th>
+<th>Por qué importa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Eager vs Lazy API</td>
+<td>El optimizador de queries es lo que hace ganar 30×.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Expressions: paralelización implícita</td>
+<td><code>pl.col('x').mean()</code> corre en todos los cores.</td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>scan_parquet</code>/<code>scan_csv</code> + predicate pushdown</td>
+<td>Lee solo lo necesario del disco.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Streaming engine para datasets &gt; RAM</td>
+<td>Out-of-core sin Spark.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Arrow interop con DuckDB/pandas</td>
+<td>Zero-copy → cero overhead.</td>
+</tr>
+<tr>
+<td>6</td>
+<td><code>when().then().otherwise()</code> y <code>over()</code></td>
+<td>Window functions sin SQL.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
 <ul>
-<li>(subtema 1)</li>
-<li>(subtema 2)</li>
-<li>(subtema 3)</li>
+<li><strong>Polars</strong>: DataFrame library escrita en <strong>Rust</strong>, con Apache Arrow como memory model. Diseñada para columnar + paralelo + lazy.</li>
+<li><strong>Eager API</strong>: <code>pl.DataFrame(...)</code>. Similar a pandas — ejecuta cada operación.</li>
+<li><strong>Lazy API</strong>: <code>pl.scan_parquet("x.parquet").filter(...).select(...).collect()</code>. Construye un plan; lo optimiza; ejecuta una vez. <strong>El default que querés en producción</strong>.</li>
+<li><strong>Expression</strong>: una operación columnar (<code>pl.col('x') * 2 + pl.col('y')</code>). Reutilizable, componible, paralelizable.</li>
+<li><strong>Streaming engine</strong> (1.x): ejecuta lazy queries en chunks, permitiendo procesar archivos mayores que RAM. <code>.collect(engine="streaming")</code>. Apto para la mayoría de las queries, no para todas (joins arbitrarios pueden no soportarse — chequear plan).</li>
+<li><strong>Predicate pushdown</strong>: el optimizer empuja los <code>WHERE</code> lo más temprano posible. Si filtrás por <code>date='2024-01-15'</code> después de un join, Polars filtra antes y reduce data.</li>
+<li><strong>Column pruning</strong>: si solo <code>select</code>-ás 3 columnas, Polars no lee las otras del Parquet. pandas no hace esto.</li>
+<li><strong>Arrow zero-copy</strong>: <code>pl.from_pandas(df, rechunk=False)</code> o <code>df.to_arrow()</code> → no se copia memoria, solo se cambia el "label" del buffer.</li>
 </ul>
-<h2 id="materiales">Materiales</h2>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
 <ul>
-<li><code>README.md</code> — esta ficha</li>
-<li><code>notebook.ipynb</code> — cuaderno de la clase</li>
+<li>Mismo NYC Yellow Taxi de Clase 210 (parquet, ~150 MB/mes, ~10 GB/año).</li>
+<li>Librerías: <code>polars&gt;=1.5</code>, <code>pyarrow</code>, opcional <code>duckdb</code> para integración.</li>
 </ul>
-<h2 id="prerrequisitos">Prerrequisitos</h2>
-<p>Ver índice general en <code>classes/README.md</code> para dependencias entre clases.</p>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>Eager vs Lazy benchmark</strong>: misma agregación con <code>pl.read_parquet(...)</code> (eager) y <code>pl.scan_parquet(...).collect()</code> (lazy). Compará tiempos. La diferencia es chica con dataset chico; aumenta dramáticamente con datasets &gt;GB.</li>
+<li><strong>Pandas → Polars</strong>: tomá un script pandas existente, traducí a Polars. Medí speedup. Casos comunes: <code>groupby().agg()</code> → <code>group_by().agg()</code>, <code>.apply</code> → expressions.</li>
+<li><strong>Streaming</strong>: con un parquet de 5 GB (descargar 12 meses NYC Taxi), correr una agregación con <code>.collect()</code> y luego con <code>.collect(engine="streaming")</code>. Comparar RAM peak (<code>memory_profiler</code>).</li>
+<li><strong>Predicate pushdown explícito</strong>: <code>pl.scan_parquet("data/").filter(pl.col("date") == "2024-01-15").select("fare").collect()</code> vs <code>pl.read_parquet("data/").filter(...).select(...)</code>. Mirá el plan con <code>.explain()</code>.</li>
+<li><strong>Polars + DuckDB</strong>: hacer la query principal en Polars; pasar el resultado a DuckDB con <code>con.from_arrow(df.to_arrow())</code> para hacer una consulta SQL compleja.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<ol>
+<li>Pipeline en Polars que: lee 12 meses NYC Taxi, filtra outliers, calcula avg fare por borough × hour, escribe parquet particionado.</li>
+<li>Benchmark contra: pandas (si el dataset entra), DuckDB (<code>con.execute(query).pl()</code>), PySpark (Clase 210). Reportar tiempo + RAM peak.</li>
+<li>Una query usando <strong>streaming engine</strong> que procesa &gt;RAM (forzar bajando <code>psutil.virtual_memory().available / 4</code> con docker-compose limit).</li>
+<li>Una query con <strong>window functions</strong> (<code>pl.col("fare").rolling_mean(window_size=7).over("borough")</code>) que en pandas requeriría 20 LOC.</li>
+<li>README con cuándo Polars vs cuándo otra cosa.</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: el alumno justifica con números (tiempo + RAM) por qué Polars es el default para su workload, y muestra al menos 1 caso donde DuckDB o pandas ganan.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Polars not faster than pandas en mi caso</code></td>
+<td>Probablemente: (1) dataset muy chico (&lt;100 K rows: el overhead de threading no se paga), (2) operación NO paralelizable (loops Python encima). <strong>Fix</strong>: probá lazy + dataset grande.</td>
+</tr>
+<tr>
+<td><code>to_pandas()</code> falla con <code>pyarrow</code></td>
+<td>Conflicto versiones pyarrow. <strong>Fix</strong>: <code>pip install pyarrow polars --upgrade</code> matched.</td>
+</tr>
+<tr>
+<td>Lazy query no ejecuta nada</td>
+<td>Olvidaste <code>.collect()</code>. <strong>Fix</strong>: cualquier query lazy (<code>pl.scan_*</code>) requiere <code>.collect()</code> o <code>.fetch(n)</code> para ejecutar.</td>
+</tr>
+<tr>
+<td><code>MemoryError</code> con streaming</td>
+<td>Algunos operadores no soportan streaming (joins arbitrarios, ciertos aggregates). <strong>Fix</strong>: <code>.explain(streaming=True)</code> muestra qué nodos NO van por streaming engine. Reescribir.</td>
+</tr>
+<tr>
+<td>API diferente a pandas confunde</td>
+<td><code>groupby</code> → <code>group_by</code>, <code>value_counts</code> → <code>.value_counts()</code> igual, <code>apply</code> → expressions (<code>pl.col('x').map_elements(...)</code>). <strong>Fix</strong>: cheat sheet en docs.</td>
+</tr>
+<tr>
+<td>Date parsing devuelve <code>Object</code> o <code>String</code></td>
+<td>Schema inference falló. <strong>Fix</strong>: <code>pl.scan_csv("x.csv", try_parse_dates=True)</code> o pasar <code>dtypes={'date': pl.Date}</code>.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿Pandas se queda? ¿Migrar todo a Polars?</strong></p>
+<p>Pandas tiene 15 años de ecosistema: sklearn, statsmodels, plotly aceptan DataFrames nativos. Polars 1.x se integra (vía Arrow) pero algunas libs requieren conversión. Para <strong>pipelines de ETL/feature engineering</strong>: migrar a Polars. Para <strong>modeling/análisis exploratorio</strong>: pandas sigue cómodo.</p>
+<p><strong>❓ ¿Polars vs DuckDB?</strong></p>
+<p>Solapan, son complementarios.
+- <strong>Polars</strong>: DataFrame API, más natural si pensás en código Python. Pipelines de transformación.
+- <strong>DuckDB</strong>: SQL-first, OLAP optimized, ideal para análisis ad-hoc, queries complejas, joins masivos.</p>
+<p>Combinables: Polars para transformación, DuckDB para queries finales analíticas.</p>
+<p><strong>❓ ¿Lazy o eager por default?</strong></p>
+<p>En producción: <strong>lazy</strong> siempre. En notebooks exploratorios: eager está bien (es como pandas). El mantra: "si vas a hacer más de 2 ops sobre el DataFrame, usá lazy".</p>
+<p><strong>❓ ¿Streaming engine es estable?</strong></p>
+<p>Polars 1.0 (julio 2024) lo marcó estable. Algunos operadores aún no lo soportan; el plan con <code>.explain()</code> dice qué nodos van streaming y cuáles in-memory.</p>
+<p><strong>❓ ¿Cómo manejo NaN/null en Polars vs pandas?</strong></p>
+<p>Polars distingue <code>null</code> (missing) de <code>NaN</code> (float). pandas los mezcla (problema histórico). En Polars: <code>pl.col('x').is_null()</code> vs <code>pl.col('x').is_nan()</code>. Más limpio pero requiere ajuste mental.</p>
+<p><strong>❓ ¿Multi-process o multi-thread?</strong></p>
+<p>Polars usa <strong>multi-thread</strong> (Rust + Rayon) — sin GIL. Mejor que pandas + multiprocessing. Para escalar a multi-machine: PySpark o Dask.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li><a href="https://docs.pola.rs/">Polars docs</a> — empezar por <em>Getting started</em>.</li>
+<li><a href="https://docs.pola.rs/user-guide/migration/pandas/">Polars vs pandas migration guide</a>.</li>
+<li><a href="https://duckdblabs.github.io/db-benchmark/">DB benchmark (DuckDB Labs)</a> — Polars vs DuckDB vs pandas vs Spark en 5/50/500 GB.</li>
+<li><em>Modern Polars</em> (book): https://kevinheavey.github.io/modern-polars/</li>
+<li><a href="https://arrow.apache.org/docs/"><code>hyperscan</code> Arrow ecosystem</a> — zero-copy interop.</li>
+</ul>
+<h2 id="material-descargable">📥 Material descargable</h2>
+<ul>
+<li>📄 <a href="./clase-211-polars-como-alternativa-moderna-guia-explicativa.pdf">Guía explicativa (PDF)</a> — versión imprimible con todo el contenido de la clase.</li>
+<li>🎞️ <a href="./clase-211-polars-como-alternativa-moderna-presentacion.pptx">Presentación (PPTX)</a> — deck PowerPoint listo para proyectar en clase.</li>
+<li>🧮 <a href="./notebook.ipynb">Notebook ejecutable (.ipynb)</a> — abrilo desde el laboratorio del programa o desde Jupyter.</li>
+</ul>
 <h2 id="siguiente-clase">➡️ Siguiente clase</h2>
 <p><a href="../212-data-warehouses-bigquery-snowflake-duckdb/index.html">Clase 212 — Data warehouses: BigQuery, Snowflake, DuckDB</a></p>
   </main>

@@ -24,34 +24,158 @@
   </header>
   <main class="cur-main">
     <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-4-mlops/196-feature-stores-feast/notebook.ipynb">📓 Abrir notebook en GitHub</a>
-<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">Objetivo</a> · <a href="#resultados-esperados">Resultados esperados</a> · <a href="#temas-clave">Temas clave</a> · <a href="#materiales">Materiales</a> · <a href="#prerrequisitos">Prerrequisitos</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#material-descargable">📥 Material descargable</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
 <h1 id="clase-196-feature-stores-feast">Clase 196 — Feature stores (Feast)</h1>
 <blockquote>
-<p>Parte: <strong>4-mlops</strong>
-Estado: <strong>stub</strong> (pendiente desarrollar contenido).</p>
+<p>Parte: <strong>4 — MLOps</strong> · Fuente: Huyen <strong>cap. 6</strong> + <a href="https://docs.feast.dev/">Feast docs 0.40+</a>. ⏱️ Duración estimada: <strong>70 min</strong>.</p>
 </blockquote>
-<h2 id="objetivo">Objetivo</h2>
-<p>Describir el resultado de aprendizaje concreto de esta clase.</p>
-<h2 id="resultados-esperados">Resultados esperados</h2>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Resolver el problema más caro de ML en producción —<strong>training/serving skew</strong>: que las features que ve el modelo en producción sean distintas a las que vio en training— centralizando definiciones de features en un <strong>feature store</strong>. Usar <strong>Feast</strong> para definir entidades + feature views, materializar al <strong>online store</strong> (Redis/SQLite), y servir features con <code>get_online_features</code> en &lt;10 ms.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
 <p>Al finalizar, el estudiante podrá:</p>
 <ul>
-<li>(resultado 1)</li>
-<li>(resultado 2)</li>
-<li>(resultado 3)</li>
+<li>Explicar la diferencia entre <strong>offline store</strong> (parquet/BigQuery, para training) y <strong>online store</strong> (Redis/DynamoDB, para serving low-latency).</li>
+<li>Definir <code>Entity</code>, <code>FeatureView</code>, <code>FileSource</code> y registrar el repo con <code>feast apply</code>.</li>
+<li>Generar un <strong>training dataset point-in-time correct</strong> con <code>get_historical_features</code> (evita data leakage temporal).</li>
+<li>Materializar features (<code>feast materialize-incremental</code>) y consumirlas en serving con <code>get_online_features</code>.</li>
+<li>Reconocer cuándo NO usar feature store (ML con &lt;5 features estables, equipo de 1, datos batch puro).</li>
 </ul>
-<h2 id="temas-clave">Temas clave</h2>
+<h2 id="temas">🗺️ Temas</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Tema</th>
+<th>Por qué importa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Training/serving skew — el bug más caro de MLOps</td>
+<td>Modelo bueno en offline, malo en producción.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Offline vs online store</td>
+<td>Latencia distinta, datos idénticos (en teoría).</td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>Entity</code> + <code>FeatureView</code> + <code>FileSource</code></td>
+<td>Modelo de datos de Feast.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Point-in-time joins</td>
+<td>Mismo timestamp para feature y label → sin leakage.</td>
+</tr>
+<tr>
+<td>5</td>
+<td><code>materialize</code> / <code>materialize-incremental</code></td>
+<td>Offline → online en batch programado.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Feast vs construir uno propio</td>
+<td>Cuándo justifica la dependencia.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
 <ul>
-<li>(subtema 1)</li>
-<li>(subtema 2)</li>
-<li>(subtema 3)</li>
+<li><strong>Feature store</strong>: sistema que (1) define features una vez y las sirve en training + producción con <strong>garantía de equivalencia</strong>, (2) provee <strong>point-in-time correctness</strong> para evitar leakage, (3) baja latencia en serving.</li>
+<li><strong>Training/serving skew</strong>: la causa #1 de modelos que rinden bien en CV y mal en producción. Surge cuando el pipeline de feature engineering offline y online divergen (lenguajes distintos, librerías distintas, bugs distintos).</li>
+<li><strong>Offline store</strong>: dónde viven los datos históricos para training. Feast soporta File (parquet local), BigQuery, Snowflake, Redshift, Spark.</li>
+<li><strong>Online store</strong>: dónde viven los valores actuales para serving low-latency. Soporta SQLite (dev), Redis, DynamoDB, Bigtable, Postgres.</li>
+<li><strong>Entity</strong>: dimensión de negocio sobre la que se computan features (ej. <code>user_id</code>, <code>driver_id</code>, <code>product_sku</code>). Tiene un nombre y un tipo (<code>String</code>, <code>Int64</code>).</li>
+<li><strong>FeatureView</strong>: agrupa features que (1) vienen de la misma fuente y (2) se computan para la misma entidad. Define <code>ttl</code> (cuánto vive el feature antes de ser stale).</li>
+<li><strong>Point-in-time join</strong>: dado <code>(entity_id, event_timestamp)</code> para cada fila del training set, Feast devuelve el valor del feature <strong>vigente en ese timestamp</strong> — no el más reciente. Evita meter información del futuro en training.</li>
+<li><strong>Materialize</strong>: copia features de offline → online. <code>materialize-incremental</code> solo lo que cambió desde la última corrida.</li>
 </ul>
-<h2 id="materiales">Materiales</h2>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
 <ul>
-<li><code>README.md</code> — esta ficha</li>
-<li><code>notebook.ipynb</code> — cuaderno de la clase</li>
+<li><strong>Dataset</strong>: drivers de un servicio tipo Uber — <code>driver_id</code>, <code>event_timestamp</code>, <code>conv_rate</code>, <code>acc_rate</code>, <code>avg_daily_trips</code>. Generado sintéticamente en el notebook.</li>
+<li><strong>Offline store</strong>: parquet local en <code>data/</code>.</li>
+<li><strong>Online store</strong>: SQLite local en <code>data/online_store.db</code>.</li>
+<li>Librerías: <code>feast&gt;=0.40</code>, <code>pandas</code>, <code>pyarrow</code>.</li>
 </ul>
-<h2 id="prerrequisitos">Prerrequisitos</h2>
-<p>Ver índice general en <code>classes/README.md</code> para dependencias entre clases.</p>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>Setup mínimo</strong>: <code>feast init driver_repo</code>. Inspeccioná <code>feature_store.yaml</code>, <code>example_repo.py</code>. Corré <code>feast apply</code> y verificá <code>feast feature-views list</code>.</li>
+<li><strong>Training dataset histórico</strong>: armá un <code>entity_df</code> con <code>driver_id</code> y <code>event_timestamp</code> para 5 momentos distintos del día. Pedile a Feast el feature <code>driver_hourly_stats:conv_rate</code> con <code>get_historical_features</code>. Confirmá manualmente que el valor devuelto es el último anterior al timestamp pedido (no el futuro).</li>
+<li><strong>Materialización + serving</strong>: <code>feast materialize-incremental $(date +%Y-%m-%d)</code>. Después: <code>store.get_online_features(features=['driver_hourly_stats:conv_rate'], entity_rows=[{'driver_id': 1001}]).to_dict()</code>. Medí latencia con <code>%timeit</code> (debería ser &lt;2 ms).</li>
+<li><strong>TTL en acción</strong>: configurá <code>ttl=timedelta(days=1)</code>. Materializá datos viejos de 3 días atrás. Pedí features online → debería devolver <code>None</code> (porque expiró). Cambiá <code>ttl=timedelta(days=7)</code> y reintentá.</li>
+<li><strong>Skew check</strong>: comparé el feature offline (parquet) y el online (SQLite) para el mismo <code>driver_id</code>. Si difieren después de <code>materialize</code>, hay un bug.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Repo Feast con:</p>
+<ol>
+<li>Una <code>Entity</code> <code>customer_id</code> y una segunda <code>merchant_id</code>.</li>
+<li>Tres <code>FeatureView</code>: <code>customer_stats</code> (avg_purchase, n_purchases_7d), <code>merchant_stats</code> (avg_rating, n_disputes_30d), <code>transaction_features</code> (amount, hour_of_day).</li>
+<li>Un script <code>build_training.py</code> que arma el training set point-in-time correct para una tarea de fraud detection.</li>
+<li>Un script <code>serve.py</code> que, dado un <code>(customer_id, merchant_id)</code>, devuelve el vector de features listo para el modelo.</li>
+<li>README del repo Feast con instrucciones para <code>feast apply</code> + <code>materialize</code> + <code>serve</code>.</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: el vector de features que devuelve <code>serve.py</code> para un <code>(customer_id, merchant_id, timestamp)</code> coincide exactamente con la fila correspondiente del training set generado por <code>build_training.py</code> (mismo customer/merchant/timestamp).</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>get_historical_features</code> devuelve <code>NaN</code> para todos los features</td>
+<td>El <code>event_timestamp</code> del <code>entity_df</code> está fuera del rango de datos en el offline store, o el formato no es <code>datetime64[ns]</code>. <strong>Fix</strong>: <code>entity_df['event_timestamp'] = pd.to_datetime(entity_df['event_timestamp'])</code>.</td>
+</tr>
+<tr>
+<td><code>get_online_features</code> devuelve <code>None</code> aunque acabo de materializar</td>
+<td>TTL expirado, o materializaste hasta <code>now() - X</code> y los datos son posteriores. <strong>Fix</strong>: <code>feast materialize-incremental $(date -u +%Y-%m-%dT%H:%M:%S)</code>.</td>
+</tr>
+<tr>
+<td><code>feast apply</code> falla con <code>No module named example_repo</code></td>
+<td>El cwd no es el <code>feature_repo/</code>. Feast carga el repo desde <code>feature_store.yaml</code> relativo al cwd. <strong>Fix</strong>: <code>cd feature_repo &amp;&amp; feast apply</code>.</td>
+</tr>
+<tr>
+<td>Training tarda muchísimo con offline=BigQuery</td>
+<td>Feast no agrega filtros por timestamp en el SQL — escanea toda la tabla. <strong>Fix</strong>: particioná la tabla offline por <code>event_timestamp</code> y configurá <code>partition_filter</code> en el <code>BigQuerySource</code>.</td>
+</tr>
+<tr>
+<td>Mi modelo en producción usa features distintas a training, aunque uso Feast</td>
+<td>Probablemente tu pipeline de transformación está <em>fuera</em> de Feast. <strong>Fix</strong>: o llevás esa transformación a una <code>OnDemandFeatureView</code>, o aceptás que Feast solo cubre features pre-calculadas.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿Necesito un feature store?</strong></p>
+<p>No siempre. Si: ≥3 modelos comparten features, equipo ≥5 personas, requerís serving &lt;50 ms, o tenés bug recurrente de training/serving skew → sí. Si: 1 modelo, 1 persona, batch scoring nocturno → es overkill. Empezá sin feature store y migrá cuando duela.</p>
+<p><strong>❓ ¿Feast vs Tecton vs Hopsworks?</strong></p>
+<p><strong>Feast</strong> es open-source, self-hosted, no cobra. No hace <strong>compute</strong> (vos generás los parquets/tablas). <strong>Tecton</strong> y <strong>Hopsworks</strong> son SaaS managed que incluyen compute (definís transformaciones SQL/Python y ellos las corren). Para empezar: Feast. Para empresas grandes con presupuesto y muchas features: Tecton.</p>
+<p><strong>❓ ¿Feast hace feature engineering?</strong></p>
+<p>No por default. Feast <strong>sirve</strong> features — no las computa. Las <strong>OnDemandFeatureView</strong> (request-time) y las <strong>Stream Feature Views</strong> (con Spark) le agregan compute, pero el patrón principal es: vos generás parquet, Feast lo sirve.</p>
+<p><strong>❓ ¿Por qué point-in-time joins son tan importantes?</strong></p>
+<p>Porque la alternativa naive (<code>LEFT JOIN ... ON entity_id</code>) trae el valor <strong>más reciente</strong> del feature — que pudo ocurrir <em>después</em> del label. Ejemplo: predecís churn del usuario X el 1 de marzo, pero la feature <code>n_logins_7d</code> la tomás de hoy → metés información del futuro en training, y el modelo "predice" perfecto en CV y rompe en prod.</p>
+<p><strong>❓ ¿SQLite online store sirve para producción?</strong></p>
+<p>No: 1 escritor, no es multi-host. Para producción usá Redis (más común), DynamoDB (si ya estás en AWS), o Bigtable (si estás en GCP). SQLite es para desarrollo local y tests.</p>
+<p><strong>❓ ¿Cómo testear que no hay skew?</strong></p>
+<p>Job de comparación periódica: tomar N entities random, computar features offline (mismo código que el training) y online (vía Feast), assertear igualdad con tolerancia. Si falla → alerta. Es el equivalente de "smoke test" para feature stores.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Huyen, Chip. <em>Designing Machine Learning Systems</em> (O'Reilly, 2022), <strong>cap. 6</strong> — sección <em>Feature Engineering</em> y <em>Feature Store</em>.</li>
+<li><a href="https://docs.feast.dev/">Feast docs</a> — empezar por <em>Quickstart</em>.</li>
+<li><a href="https://feast.dev/blog/feature-stores-and-point-in-time-correctness/"><em>Point-in-time joins explained</em> (Feast blog)</a> — el por qué con ejemplos.</li>
+<li><a href="https://www.tecton.ai/blog/feast-vs-tecton/">Tecton vs Feast (2024 comparison)</a> — vendor-biased, leer con criterio.</li>
+<li><em>MLOps at Reasonable Scale</em> (Tagliabue, 2022) — cuándo NO usar feature store.</li>
+</ul>
+<h2 id="material-descargable">📥 Material descargable</h2>
+<ul>
+<li>📄 <a href="./clase-196-feature-stores-feast-guia-explicativa.pdf">Guía explicativa (PDF)</a> — versión imprimible con todo el contenido de la clase.</li>
+<li>🎞️ <a href="./clase-196-feature-stores-feast-presentacion.pptx">Presentación (PPTX)</a> — deck PowerPoint listo para proyectar en clase.</li>
+<li>🧮 <a href="./notebook.ipynb">Notebook ejecutable (.ipynb)</a> — abrilo desde el laboratorio del programa o desde Jupyter.</li>
+</ul>
 <h2 id="siguiente-clase">➡️ Siguiente clase</h2>
 <p><a href="../197-ci-cd-para-ml-con-github-actions/index.html">Clase 197 — CI/CD para ML con GitHub Actions</a></p>
   </main>

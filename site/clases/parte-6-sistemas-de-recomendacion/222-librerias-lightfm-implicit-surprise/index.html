@@ -24,36 +24,172 @@
   </header>
   <main class="cur-main">
     <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-6-sistemas-de-recomendacion/222-librerias-lightfm-implicit-surprise/notebook.ipynb">📓 Abrir notebook en GitHub</a>
-<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">Objetivo</a> · <a href="#resultados-esperados">Resultados esperados</a> · <a href="#temas-clave">Temas clave</a> · <a href="#materiales">Materiales</a> · <a href="#prerrequisitos">Prerrequisitos</a> · <a href="#siguiente-parte">➡️ Siguiente parte</a></nav>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#material-descargable">📥 Material descargable</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
 <h1 id="clase-222-librerias-lightfm-implicit-surprise">Clase 222 — Librerías: LightFM, Implicit, Surprise</h1>
 <blockquote>
-<p>Parte: <strong>6-sistemas-de-recomendacion</strong>
-Estado: <strong>stub</strong> (pendiente desarrollar contenido).</p>
+<p>Parte: <strong>6 — Sistemas de Recomendación</strong> · Fuente: docs oficiales <a href="https://surprise.readthedocs.io/">Surprise</a> + <a href="https://making.lyst.com/lightfm/docs/home.html">LightFM</a> + <a href="https://implicit.readthedocs.io/">Implicit</a> + <a href="https://www.tensorflow.org/recommenders">TensorFlow Recommenders</a>. ⏱️ Duración estimada: <strong>70 min</strong>.</p>
 </blockquote>
-<h2 id="objetivo">Objetivo</h2>
-<p>Describir el resultado de aprendizaje concreto de esta clase.</p>
-<h2 id="resultados-esperados">Resultados esperados</h2>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Conocer las <strong>librerías de recomendación que vas a usar en la vida real</strong> sin tener que reimplementar lo de Clases 216-221. Decidir cuál usar según: tipo de feedback (explicit/implicit), tamaño del dataset, features disponibles, integración con stack.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
 <p>Al finalizar, el estudiante podrá:</p>
 <ul>
-<li>(resultado 1)</li>
-<li>(resultado 2)</li>
-<li>(resultado 3)</li>
+<li>Usar <strong>Surprise</strong> para algoritmos clásicos explicit (KNNBasic, SVD, SVD++, NMF, Co-Clustering) con API tipo sklearn.</li>
+<li>Usar <strong>Implicit</strong> para ALS implicit, BPR, Logistic MF — la opción más rápida en Python para datasets grandes.</li>
+<li>Usar <strong>LightFM</strong> cuando tenés features (Clase 219 hybrid).</li>
+<li>Conocer <strong>TensorFlow Recommenders</strong> y <strong>Spotlight (PyTorch)</strong> para arquitecturas deep (two-tower, sequential).</li>
+<li>Decidir librería según: explicit vs implicit, escala, features, deployment target.</li>
 </ul>
-<h2 id="temas-clave">Temas clave</h2>
+<h2 id="temas">🗺️ Temas</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Tema</th>
+<th>Por qué importa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Surprise: explicit, didáctica</td>
+<td>Empezar a aprender RS.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Implicit: ALS/BPR Cython</td>
+<td>El caballo de batalla en producción.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>LightFM: CF + features</td>
+<td>Hybrid built-in.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>TF Recommenders + Spotlight</td>
+<td>Deep RS (two-tower, BERT4Rec).</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Spark <code>pyspark.ml.recommendation.ALS</code></td>
+<td>Cuando el dataset es TB.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Vector DBs (FAISS, Milvus, Pinecone)</td>
+<td>Serving de embeddings a escala.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
 <ul>
-<li>(subtema 1)</li>
-<li>(subtema 2)</li>
-<li>(subtema 3)</li>
+<li><strong>Surprise</strong>: librería didáctica, API tipo sklearn. Maneja explicit feedback con KNN, SVD, NMF, etc. <strong>Bueno para aprender, lento para grandes datasets</strong>.</li>
+<li><strong>Implicit</strong> (Ben Frederickson): Cython + multi-thread. ALS implicit (Hu et al.), BPR (Bayesian Personalized Ranking), Logistic MF. <strong>Default para CF en producción Python</strong>.</li>
+<li><strong>LightFM</strong> (Lyst): factorización con features. Loss WARP / BPR / Logistic. <strong>El sweet spot para hybrid con metadata</strong>.</li>
+<li><strong>TensorFlow Recommenders</strong> (TFRS): API alto-nivel sobre TF/Keras para two-tower, ranking, retrieval. <strong>SOTA para deep RS, requiere setup TF</strong>.</li>
+<li><strong>Spotlight</strong> (Maciej Kula): PyTorch library para sequential + factorización. <strong>Para experimentos research</strong>.</li>
+<li><strong>Spark ML ALS</strong>: distribuido, escala a billones de interactions. <strong>Cuando el dataset no entra en single machine</strong>.</li>
+<li><strong>Vector DB</strong>: para servir embeddings. FAISS (in-process), Milvus (open-source server), Pinecone/Qdrant/Weaviate (managed). Permiten <code>recommend(user_emb, top_k=10)</code> en &lt;10 ms con M items.</li>
 </ul>
-<h2 id="materiales">Materiales</h2>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
 <ul>
-<li><code>README.md</code> — esta ficha</li>
-<li><code>notebook.ipynb</code> — cuaderno de la clase</li>
+<li><strong>Dataset</strong>: MovieLens 100K y 1M.</li>
+<li>Librerías: <code>scikit-surprise</code>, <code>implicit&gt;=0.7</code>, <code>lightfm&gt;=1.17</code>, opcional <code>tensorflow-recommenders</code>.</li>
 </ul>
-<h2 id="prerrequisitos">Prerrequisitos</h2>
-<p>Ver índice general en <code>classes/README.md</code> para dependencias entre clases.</p>
-<h2 id="siguiente-parte">➡️ Siguiente parte</h2>
-<p><a href="../../parte-7-etica-fairness-privacidad/223-tipos-de-sesgo-algoritmico-y-origenes/index.html">Clase 223 — Tipos de sesgo algorítmico y orígenes</a></p>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>Surprise SVD</strong>: <code>from surprise import SVD, Dataset; data = Dataset.load_builtin('ml-100k'); algo = SVD(); cross_validate(algo, data, measures=['RMSE','MAE'], cv=5)</code>. Reportar RMSE.</li>
+<li><strong>Implicit ALS</strong>: <code>model = implicit.als.AlternatingLeastSquares(factors=64, regularization=0.05, iterations=20)</code>. <code>model.fit(R_sparse * 40)</code>. <code>recommend(user_id, R[user_id], N=10)</code>.</li>
+<li><strong>Implicit BPR</strong>: mismo modelo pero <code>implicit.bpr.BayesianPersonalizedRanking(factors=64)</code>. Comparar NDCG vs ALS.</li>
+<li><strong>LightFM</strong>: <code>LightFM(loss='warp', no_components=32)</code>. Con item features (géneros). Comparar pure CF vs hybrid.</li>
+<li><strong>Benchmarking</strong>: mismo dataset, mismo split, las 4 librerías. Tabla con NDCG@10, recall@10, tiempo entrenamiento, tiempo predict.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Notebook con:</p>
+<ol>
+<li>Comparativa rigurosa sobre MovieLens 1M:
+   - Surprise SVD
+   - Implicit ALS
+   - Implicit BPR
+   - LightFM WARP (con features)</li>
+<li>Mismo train/test split temporal. Mismas métricas (Clase 220).</li>
+<li>Tabla: NDCG@10, recall@10, coverage, tiempo train (s), tiempo predict (ms/user), RAM peak.</li>
+<li>Recomendaciones por caso de uso (decisión justificada):
+   - "Quiero algo simple para aprender" → Surprise.
+   - "Quiero performance en producción Python para 10M users" → Implicit.
+   - "Tengo features ricos y dataset chico-medio" → LightFM.
+   - "Tengo equipo ML serio y quiero SOTA" → TF Recommenders / two-tower.</li>
+<li>Bonus: deploy del mejor modelo como servicio FastAPI (Clase 199) con FAISS para retrieval rápido.</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: 4 modelos entrenan limpio, NDCG@10 reportado correctamente, la tabla permite decidir cuál usar por caso.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Surprise lentísimo sobre 1M+</td>
+<td>Surprise está pensado para didáctico. <strong>Fix</strong>: migrar a Implicit o LightFM.</td>
+</tr>
+<tr>
+<td><code>implicit</code> warning OpenBLAS threads</td>
+<td>Conflict entre BLAS threading y OpenMP threading. <strong>Fix</strong>: <code>os.environ['OPENBLAS_NUM_THREADS']='1'</code> antes del import.</td>
+</tr>
+<tr>
+<td>LightFM WARP muy lento</td>
+<td>WARP es O(samples) por epoch. <strong>Fix</strong>: <code>loss='bpr'</code> o <code>loss='logistic'</code>. Reducir epochs.</td>
+</tr>
+<tr>
+<td>TFRS requiere graph mode + estructura complicada</td>
+<td>Curva de aprendizaje fuerte. <strong>Fix</strong>: empezar con tutoriales oficiales <code>MovielensRetrievalModel</code>.</td>
+</tr>
+<tr>
+<td>FAISS index demasiado grande para RAM</td>
+<td><code>IndexFlatIP</code> guarda todo en RAM. <strong>Fix</strong>: <code>IndexIVFFlat</code> (cuantización) o <code>IndexHNSWFlat</code> (graph-based).</td>
+</tr>
+<tr>
+<td>Score implicit ALS no es probabilidad</td>
+<td>Es un score, no proba. <strong>Fix</strong>: para servir como "rating" 0-1 → sigmoide o rank-normalize.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿Cuál instalo primero?</strong></p>
+<p><strong>Implicit</strong> para CF moderno (90% de los casos). <strong>LightFM</strong> si tenés features. <strong>Surprise</strong> solo para aprender el ABC.</p>
+<p><strong>❓ ¿Implicit y LightFM compiten o se complementan?</strong></p>
+<p>Compiten. Implicit es CF puro (más rápido, más simple). LightFM es CF + features (más flexible). Si no tenés features útiles: Implicit gana. Si tenés metadata rica: LightFM.</p>
+<p><strong>❓ ¿TF Recommenders vale la pena?</strong></p>
+<p>Sí cuando: (1) Dataset &gt;100M interactions. (2) Necesitás features complejos (text embeddings, image embeddings). (3) Tu stack ya es TF. (4) Querés sequential / session-based RS (BERT4Rec, SASRec). Para casos chicos: overkill.</p>
+<p><strong>❓ ¿Cómo sirvo embeddings en producción?</strong></p>
+<p>(1) Pre-computar <code>item_factors</code> offline. (2) Indexar con <strong>FAISS</strong> (in-process) o <strong>Milvus/Pinecone</strong> (managed). (3) En request: computar <code>user_emb</code> (rápido o desde cache) → <code>index.search(user_emb, k=10)</code> → top-N items. Latencia: &lt;10 ms para millones de items con HNSW.</p>
+<p><strong>❓ ¿Reentrenamiento — cada cuánto?</strong></p>
+<p>Para CF: diario o semanal típicamente. Para deep RS con features estáticos: semanal-mensual. Para sequential: continuous training. Ver Clase 203.</p>
+<p><strong>❓ ¿RecBole, Cornac, Spotlight?</strong></p>
+<p>Frameworks de research, mucho catálogo de algoritmos. Útiles para <strong>comparar 20 modelos en paper</strong>. Para producción: empezás con uno (Implicit/LightFM) y lo customizás.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li><a href="https://surprise.readthedocs.io/">Surprise docs</a>.</li>
+<li><a href="https://implicit.readthedocs.io/">Implicit docs</a> + <a href="https://github.com/benfred/implicit">GitHub</a>.</li>
+<li><a href="https://making.lyst.com/lightfm/docs/home.html">LightFM docs</a>.</li>
+<li><a href="https://www.tensorflow.org/recommenders">TensorFlow Recommenders</a> — two-tower + ranking.</li>
+<li><a href="https://github.com/facebookresearch/faiss">FAISS docs</a> — vector similarity search.</li>
+</ul>
+<h2 id="material-descargable">📥 Material descargable</h2>
+<ul>
+<li>📄 <a href="./clase-222-librerias-lightfm-implicit-surprise-guia-explicativa.pdf">Guía explicativa (PDF)</a> — versión imprimible con todo el contenido de la clase.</li>
+<li>🎞️ <a href="./clase-222-librerias-lightfm-implicit-surprise-presentacion.pptx">Presentación (PPTX)</a> — deck PowerPoint listo para proyectar en clase.</li>
+<li>🧮 <a href="./notebook.ipynb">Notebook ejecutable (.ipynb)</a> — abrilo desde el laboratorio del programa o desde Jupyter.</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../../parte-7-etica-fairness-privacidad/223-sesgos-algoritmicos-tipos-y-origen/index.html">Clase 223 — Sesgos algorítmicos: tipos y origen</a></p>
+<blockquote>
+<p>🎉 <strong>Fin de la Parte 6 — Sistemas de Recomendación</strong>. Tenés CF (216-217) + content (218) + híbridos (219) + métricas (220) + cold-start (221) + ecosistema de librerías (222). Parte 7 cierra el ciclo con <strong>ética, fairness, privacidad</strong> — qué hacer cuando tus recomendaciones afectan vidas reales.</p>
+</blockquote>
   </main>
   <footer class="cur-footer">
     <p>

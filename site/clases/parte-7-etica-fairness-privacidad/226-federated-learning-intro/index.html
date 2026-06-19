@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Clase 226 — Federated learning (intro) | Python Data Science Program</title>
+  <title>Clase 226 — Federated learning: intro | Python Data Science Program</title>
   <meta name="description" content="Clase 226 del Python Data Science Program">
   <meta name="theme-color" content="#0f3d3e">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -24,34 +24,159 @@
   </header>
   <main class="cur-main">
     <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-7-etica-fairness-privacidad/226-federated-learning-intro/notebook.ipynb">📓 Abrir notebook en GitHub</a>
-<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">Objetivo</a> · <a href="#resultados-esperados">Resultados esperados</a> · <a href="#temas-clave">Temas clave</a> · <a href="#materiales">Materiales</a> · <a href="#prerrequisitos">Prerrequisitos</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
-<h1 id="clase-226-federated-learning-intro">Clase 226 — Federated learning (intro)</h1>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#material-descargable">📥 Material descargable</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-226-federated-learning-intro">Clase 226 — Federated learning: intro</h1>
 <blockquote>
-<p>Parte: <strong>7-etica-fairness-privacidad</strong>
-Estado: <strong>stub</strong> (pendiente desarrollar contenido).</p>
+<p>Parte: <strong>7 — Ética, Fairness y Privacidad</strong> · Fuente: McMahan et al. <a href="https://arxiv.org/abs/1602.05629"><em>Communication-Efficient Learning of Deep Networks from Decentralized Data</em></a> (AISTATS 2017) + Kairouz et al. <a href="https://arxiv.org/abs/1912.04977"><em>Advances and Open Problems in Federated Learning</em></a> (FnTML 2021). ⏱️ Duración estimada: <strong>75 min</strong>.</p>
 </blockquote>
-<h2 id="objetivo">Objetivo</h2>
-<p>Describir el resultado de aprendizaje concreto de esta clase.</p>
-<h2 id="resultados-esperados">Resultados esperados</h2>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Entrenar un modelo central <strong>sin centralizar los datos</strong>. Cada cliente (móvil, hospital, banco) entrena local sobre su data, sube solo <strong>pesos o gradientes</strong> al servidor, que agrega vía <strong>FedAvg</strong>. Implementar FedAvg manual sobre regresión logística, ver cómo degrada con datos <strong>non-IID</strong>, y demostrar el ataque básico de <strong>gradient leakage</strong> (los gradientes filtran data).</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
 <p>Al finalizar, el estudiante podrá:</p>
 <ul>
-<li>(resultado 1)</li>
-<li>(resultado 2)</li>
-<li>(resultado 3)</li>
+<li>Explicar el setup FL: server + K clientes, rondas, <strong>partial participation</strong>, comunicación de pesos en vez de data.</li>
+<li>Implementar el algoritmo <strong>FedAvg</strong> (McMahan 2017): <code>w_{t+1} = Σ_k (n_k / n) * w_k^t</code>.</li>
+<li>Distinguir <strong>cross-device</strong> (millones de móviles, intermitentes) vs <strong>cross-silo</strong> (decenas de hospitales, estables).</li>
+<li>Reconocer el efecto de <strong>datos non-IID</strong>: FedAvg degrada cuando cada cliente ve una distribución distinta.</li>
+<li>Identificar los riesgos: <strong>model poisoning</strong>, <strong>gradient leakage</strong> (Zhu 2019), y las defensas (secure aggregation, DP-FedAvg, Krum).</li>
 </ul>
-<h2 id="temas-clave">Temas clave</h2>
+<h2 id="temas">🗺️ Temas</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Tema</th>
+<th>Por qué importa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Setup FL: server + clientes + rondas</td>
+<td>La data nunca sale del cliente; solo viajan parámetros.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>FedAvg: muestreo, local epochs, agregación ponderada</td>
+<td>Es el baseline; todo lo demás se compara contra esto.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Cross-device vs cross-silo</td>
+<td>Define el régimen: K=10⁶ intermitentes vs K=20 estables.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Heterogeneidad: non-IID + system + partial</td>
+<td>El paper asume IID; la realidad no lo es.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Ataques: model poisoning, gradient leakage (DLG)</td>
+<td>Compartir gradientes ≠ proteger data (Zhu et al. 2019).</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Defensas: secure aggregation, DP, Krum/Median</td>
+<td>Lo que se usa en producción real (Google Gboard, Apple).</td>
+</tr>
+</tbody>
+</table>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
 <ul>
-<li>(subtema 1)</li>
-<li>(subtema 2)</li>
-<li>(subtema 3)</li>
+<li><strong>Federated learning (FL)</strong>: paradigma de entrenamiento donde K clientes con data local entrenan un modelo conjunto coordinados por un servidor, <strong>sin compartir data cruda</strong>.</li>
+<li><strong>FedAvg</strong>: el algoritmo base (McMahan 2017). Cada ronda: server envía pesos <code>w_t</code>; un subset de clientes corre <strong>E épocas</strong> de SGD local; server promedia: <code>w_{t+1} = Σ (n_k / n) * w_k</code>.</li>
+<li><strong>Cross-device FL</strong>: K = millones de teléfonos, clientes intermitentes (sin conexión, batería baja), participación parcial obligatoria. Ejemplo: Gboard de Google.</li>
+<li><strong>Cross-silo FL</strong>: K = decenas de organizaciones (hospitales, bancos), clientes estables y siempre online. Ejemplo: consorcios médicos contra cáncer.</li>
+<li><strong>Non-IID data</strong>: la distribución <code>P_k(x, y)</code> cambia por cliente. Caso típico: cada hospital ve una mezcla distinta de patologías. FedAvg degrada y oscila.</li>
+<li><strong>Gradient leakage</strong>: dado un gradiente compartido (especialmente con batch chico), un atacante puede <strong>reconstruir el input original</strong> vía optimización inversa (Zhu, Liu, Han, <em>Deep Leakage from Gradients</em>, NeurIPS 2019).</li>
+<li><strong>Secure aggregation</strong> (Bonawitz 2017): protocolo criptográfico donde el server solo ve la <strong>suma</strong> de pesos de N clientes, nunca los individuales — anula el gradient leakage contra el server.</li>
+<li><strong>DP-FedAvg</strong>: agregar ruido gaussiano calibrado a los pesos antes de subirlos → garantías formales de <strong>differential privacy</strong> (Clase 225) sobre la presencia de un cliente.</li>
 </ul>
-<h2 id="materiales">Materiales</h2>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
 <ul>
-<li><code>README.md</code> — esta ficha</li>
-<li><code>notebook.ipynb</code> — cuaderno de la clase</li>
+<li><strong>Dataset</strong>: sintético tabular (clasificación binaria, 2000 muestras × 10 features), split en K=10 clientes. Self-contained, sin descargas.</li>
+<li>Librerías: <code>numpy</code>, <code>scikit-learn</code>. Implementamos FedAvg <strong>manualmente</strong> — sin <code>flower</code>, <code>PySyft</code> ni <code>TensorFlow Federated</code>, para que el algoritmo quede claro.</li>
 </ul>
-<h2 id="prerrequisitos">Prerrequisitos</h2>
-<p>Ver índice general en <code>classes/README.md</code> para dependencias entre clases.</p>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>Particionado IID</strong>: generar 2000 muestras, split aleatorio uniforme en K=10 clientes. Verificar que cada cliente tiene ~200 muestras con clases balanceadas.</li>
+<li><strong>Local training</strong>: implementar <code>local_train(X, y, w, epochs=5, lr=0.05)</code> — regresión logística con SGD manual. Devuelve nuevos pesos <code>w_k</code>.</li>
+<li><strong>FedAvg loop</strong>: 20 rondas. En cada ronda, samplear 5 de 10 clientes; entrenar local; agregar vía <code>fedavg(weights, sizes)</code>. Trackear loss global.</li>
+<li><strong>Centralizado vs federado</strong>: entrenar la misma logística sobre <strong>todo el data junto</strong>. Verificar que FL converge a una accuracy comparable (gap &lt; 0.03 en setting IID).</li>
+<li><strong>Non-IID</strong>: re-partir asignando a cada cliente solo 1-2 clases (cliente 0 ve mayoritariamente clase 0, etc.). Correr FedAvg. Mostrar que la accuracy global <strong>degrada</strong> y oscila más.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Notebook con:</p>
+<ol>
+<li>Implementar FedAvg + variante <strong>FedProx</strong> (agrega regularización <code>μ/2 · ||w_k - w_t||²</code> al loss local — Li et al. 2020) sobre el mismo dataset non-IID.</li>
+<li>Comparar curvas de loss FedAvg vs FedProx vs central (3 curvas).</li>
+<li>Implementar <strong>DP-FedAvg</strong>: ruido gaussiano <code>σ=0.01</code> sobre los pesos agregados. Medir pérdida de accuracy.</li>
+<li>Reproducir gradient leakage simple sobre 1 muestra: dado el gradiente de regresión lineal con batch=1, recuperar <code>x</code> vía minimización de <code>||∇_w L(w; x_hat, y) - g||²</code>.</li>
+<li>Discutir (≤200 palabras): cuándo FL paga el costo de comunicación vs entrenamiento central + acuerdo de data sharing.</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: FedProx supera a FedAvg en setting non-IID (loss final menor); DP-FedAvg con <code>σ=0.01</code> pierde &lt;0.05 de accuracy; reconstrucción de <code>x</code> con MSE &lt; 0.01 respecto al original.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FedAvg diverge en non-IID</td>
+<td>Demasiadas épocas locales → client drift. <strong>Fix</strong>: bajar <code>E</code> (3 en vez de 10) o usar FedProx con <code>μ=0.01</code>.</td>
+</tr>
+<tr>
+<td>Loss global oscila ronda a ronda</td>
+<td>Sampleo de pocos clientes por ronda. <strong>Fix</strong>: aumentar <code>C</code> (fracción muestreada) o pesar más por <code>n_k</code>.</td>
+</tr>
+<tr>
+<td>Cliente con <code>n_k=0</code> rompe la agregación</td>
+<td>División por cero en pesos. <strong>Fix</strong>: filtrar clientes sin data antes del <code>Σ</code>.</td>
+</tr>
+<tr>
+<td>Promedio simple en vez de weighted</td>
+<td>Clientes con poca data pesan igual que los grandes. <strong>Fix</strong>: <code>Σ (n_k / n) * w_k</code>, no <code>mean(w_k)</code>.</td>
+</tr>
+<tr>
+<td>"FL = privado por default"</td>
+<td>Falso. Los pesos filtran data (Zhu 2019). <strong>Fix</strong>: combinar con secure aggregation <strong>y</strong> DP.</td>
+</tr>
+<tr>
+<td>Pesos cargados como listas python en el server</td>
+<td>Costo de comunicación se dispara. <strong>Fix</strong>: enviar <code>np.float16</code> o aplicar <strong>compresión</strong> (top-k sparsification, quantization).</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿FL es differential privacy?</strong></p>
+<p>No, son ortogonales. FL <strong>no centraliza data</strong>, pero los pesos compartidos pueden filtrar muestras individuales. DP da garantías formales (Clase 225). Producción real usa <strong>FL + secure aggregation + DP</strong> combinados.</p>
+<p><strong>❓ ¿Cuándo elegir FL en vez de entrenar centralizado?</strong></p>
+<p>Cuando la data <strong>no puede moverse</strong>: regulación (HIPAA, GDPR), data en edge (teclados, wearables), competidores que quieren modelo conjunto sin compartir clientes. Si podés centralizar, <strong>centralizá</strong> — es 10-100× más barato en comunicación y converge mejor.</p>
+<p><strong>❓ ¿Cuánto cuesta la comunicación?</strong></p>
+<p>Es el cuello de botella real. Cada ronda envía O(|w|) bytes por cliente — para una red de 10M params en float32 son 40 MB <strong>por cliente, por ronda</strong>. Por eso existen técnicas de compresión, quantization y top-k sparsification.</p>
+<p><strong>❓ ¿FedAvg está obsoleto?</strong></p>
+<p>Sigue siendo el baseline. Variantes modernas: <strong>FedProx</strong> (regularización local, 2020), <strong>SCAFFOLD</strong> (control variates para non-IID, 2020), <strong>FedOpt</strong> (Adam/Yogi del lado server, 2021). Todas se comparan contra FedAvg.</p>
+<p><strong>❓ ¿Qué framework usar en producción?</strong></p>
+<p><a href="https://flower.dev/"><strong>Flower</strong></a> es agnóstico al ML framework y el más adoptado en investigación reciente. <strong>TensorFlow Federated</strong> si ya estás en TF. <strong>PySyft</strong> si querés combinar con SMPC/HE. Para móvil: TFF Lite y la stack interna de Google (no abierta).</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>McMahan, B., Moore, E., Ramage, D., Hampson, S., Arcas, B. <em>Communication-Efficient Learning of Deep Networks from Decentralized Data</em> (AISTATS 2017) — el paper original de FedAvg: <a href="https://arxiv.org/abs/1602.05629">https://arxiv.org/abs/1602.05629</a>.</li>
+<li>Kairouz, P. et al. <em>Advances and Open Problems in Federated Learning</em> (FnTML 2021) — survey canónico, 50+ autores: <a href="https://arxiv.org/abs/1912.04977">https://arxiv.org/abs/1912.04977</a>.</li>
+<li>Zhu, L., Liu, Z., Han, S. <em>Deep Leakage from Gradients</em> (NeurIPS 2019) — el ataque de reconstrucción desde gradientes: <a href="https://arxiv.org/abs/1906.08935">https://arxiv.org/abs/1906.08935</a>.</li>
+<li>Bonawitz, K. et al. <em>Practical Secure Aggregation for Privacy-Preserving Machine Learning</em> (CCS 2017) — el protocolo de Google.</li>
+<li><a href="https://flower.dev/">Flower framework</a> — librería FL agnóstica al framework ML.</li>
+<li>Li, T., Sahu, A., Talwalkar, A., Smith, V. <em>Federated Learning: Challenges, Methods, and Future Directions</em> (IEEE Signal Processing, 2020).</li>
+</ul>
+<h2 id="material-descargable">📥 Material descargable</h2>
+<ul>
+<li>📄 <a href="./clase-226-federated-learning-intro-guia-explicativa.pdf">Guía explicativa (PDF)</a> — versión imprimible con todo el contenido de la clase.</li>
+<li>🎞️ <a href="./clase-226-federated-learning-intro-presentacion.pptx">Presentación (PPTX)</a> — deck PowerPoint listo para proyectar en clase.</li>
+<li>🧮 <a href="./notebook.ipynb">Notebook ejecutable (.ipynb)</a> — abrilo desde el laboratorio del programa o desde Jupyter.</li>
+</ul>
 <h2 id="siguiente-clase">➡️ Siguiente clase</h2>
 <p><a href="../227-gdpr-y-ai-act-eu/index.html">Clase 227 — GDPR y AI Act (EU)</a></p>
   </main>

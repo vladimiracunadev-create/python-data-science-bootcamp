@@ -24,34 +24,164 @@
   </header>
   <main class="cur-main">
     <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-4-mlops/200-kubernetes-para-servir-modelos-a-escala/notebook.ipynb">📓 Abrir notebook en GitHub</a>
-<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">Objetivo</a> · <a href="#resultados-esperados">Resultados esperados</a> · <a href="#temas-clave">Temas clave</a> · <a href="#materiales">Materiales</a> · <a href="#prerrequisitos">Prerrequisitos</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#material-descargable">📥 Material descargable</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
 <h1 id="clase-200-kubernetes-para-servir-modelos-a-escala">Clase 200 — Kubernetes para servir modelos a escala</h1>
 <blockquote>
-<p>Parte: <strong>4-mlops</strong>
-Estado: <strong>stub</strong> (pendiente desarrollar contenido).</p>
+<p>Parte: <strong>4 — MLOps</strong> · Fuente: Huyen <strong>cap. 11</strong> + Burns et al., <em>Kubernetes: Up and Running</em> (3ª ed.) + <a href="https://kubernetes.io/docs/">docs k8s</a>. ⏱️ Duración estimada: <strong>90 min</strong>.</p>
 </blockquote>
-<h2 id="objetivo">Objetivo</h2>
-<p>Describir el resultado de aprendizaje concreto de esta clase.</p>
-<h2 id="resultados-esperados">Resultados esperados</h2>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Desplegar el contenedor de Clase 198–199 en Kubernetes con <code>Deployment</code> + <code>Service</code> + <code>Ingress</code>, autoescalar con HPA (CPU + custom metrics), hacer rolling updates seguros, y configurar <code>livenessProbe</code>/<code>readinessProbe</code>/<code>resources</code> correctamente. Aprender los <strong>5 manifests mínimos</strong> que necesita cualquier servicio de inferencia.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
 <p>Al finalizar, el estudiante podrá:</p>
 <ul>
-<li>(resultado 1)</li>
-<li>(resultado 2)</li>
-<li>(resultado 3)</li>
+<li>Escribir manifests YAML para <code>Deployment</code>, <code>Service</code>, <code>ConfigMap</code>, <code>Secret</code>, <code>HPA</code>, <code>Ingress</code>.</li>
+<li>Diferenciar <code>livenessProbe</code> (reinicia pod) de <code>readinessProbe</code> (saca del LB) de <code>startupProbe</code> (gracia inicial para modelos lentos).</li>
+<li>Configurar <code>resources.requests</code>/<code>limits</code> y entender por qué un pod sin requests es OOM-killable y sin limits es noisy-neighbor.</li>
+<li>Hacer <code>kubectl rollout</code>/<code>rollback</code> y entender los <code>maxSurge</code>/<code>maxUnavailable</code> del rolling update.</li>
+<li>Diagnosticar <code>CrashLoopBackOff</code>, <code>ImagePullBackOff</code>, <code>Pending</code>, <code>Evicted</code> con <code>kubectl describe</code> y <code>kubectl logs</code>.</li>
 </ul>
-<h2 id="temas-clave">Temas clave</h2>
+<h2 id="temas">🗺️ Temas</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Tema</th>
+<th>Por qué importa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Pod, Deployment, ReplicaSet, Service</td>
+<td>Las abstracciones core.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Probes (liveness, readiness, startup)</td>
+<td>Diferencia entre "el pod murió" y "el pod aún no está listo".</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Resources: requests vs limits</td>
+<td>Scheduling + OOMkill control.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>HPA: CPU + custom metrics (latency, queue depth)</td>
+<td>Autoescalado más allá de "CPU alta".</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Rolling update + rollback</td>
+<td>Deploy sin downtime y vuelta atrás.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Ingress + service mesh (mention)</td>
+<td>Cómo expone tráfico externo.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
 <ul>
-<li>(subtema 1)</li>
-<li>(subtema 2)</li>
-<li>(subtema 3)</li>
+<li><strong>Pod</strong>: unidad de scheduling. 1+ containers que comparten network + storage. Para ML: típicamente 1 container por pod.</li>
+<li><strong>Deployment</strong>: declara "quiero N réplicas de este pod con esta imagen". Gestiona un <code>ReplicaSet</code> que gestiona los pods. Rolling updates son responsabilidad del Deployment.</li>
+<li><strong>Service</strong>: load balancer estable interno. Tipo <code>ClusterIP</code> (default, interno), <code>NodePort</code> (expone puerto en cada node), <code>LoadBalancer</code> (cloud LB).</li>
+<li><strong>livenessProbe</strong>: si falla, K8s <strong>reinicia</strong> el container. Apuntar a <code>/health</code> con timeouts generosos.</li>
+<li><strong>readinessProbe</strong>: si falla, K8s <strong>saca el pod del Service</strong> (no recibe tráfico) pero NO lo reinicia. Apuntar a <code>/ready</code> que chequee modelo cargado + deps disponibles.</li>
+<li><strong>startupProbe</strong>: ventana de gracia para containers lentos en arrancar (modelos grandes). Mientras corre, liveness/readiness no se ejecutan. Una vez OK, pasan a evaluarse normalmente.</li>
+<li><strong>resources.requests</strong>: lo que el scheduler <strong>reserva</strong> para el pod. Sin requests, el pod va a "Best Effort" → primero en ser killed con presión de memoria.</li>
+<li><strong>resources.limits</strong>: tope duro. Si memoria &gt; limit: OOMKill. Si CPU &gt; limit: throttling (no kill).</li>
+<li><strong>HPA</strong> (Horizontal Pod Autoscaler): escala réplicas entre <code>minReplicas</code> y <code>maxReplicas</code> según métrica (default: CPU%). Custom metrics (latency p99, queue depth) requieren <code>metrics-server</code> + adapter (Prometheus Adapter).</li>
+<li><strong>Rolling update</strong>: estrategia default. Crea pods nuevos (<code>maxSurge</code>), espera readiness, mata viejos (<code>maxUnavailable</code>). Garantiza disponibilidad continua.</li>
+<li><strong>Rollback</strong>: <code>kubectl rollout undo deployment/&lt;name&gt;</code>. Vuelve al último ReplicaSet exitoso. Casi instantáneo si los pods viejos siguen referenciados.</li>
 </ul>
-<h2 id="materiales">Materiales</h2>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
 <ul>
-<li><code>README.md</code> — esta ficha</li>
-<li><code>notebook.ipynb</code> — cuaderno de la clase</li>
+<li><strong>Cluster</strong>: <code>minikube</code>, <code>kind</code>, o <code>k3d</code> para local. Equivalente en cloud: GKE/EKS/AKS.</li>
+<li><strong>Imagen</strong>: la de Clase 198 (<code>iris-api:v1</code>).</li>
+<li>Herramientas: <code>kubectl</code>, <code>kustomize</code> (built-in) o <code>helm</code>.</li>
 </ul>
-<h2 id="prerrequisitos">Prerrequisitos</h2>
-<p>Ver índice general en <code>classes/README.md</code> para dependencias entre clases.</p>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>Cluster local</strong>: <code>kind create cluster --name ml</code>. Pusheá la imagen local con <code>kind load docker-image iris-api:v1 --name ml</code>. Verificá con <code>kubectl get nodes</code>.</li>
+<li><strong>Deployment + Service</strong>: aplicá los YAML del notebook. <code>kubectl get pods -w</code> mientras los 3 pods arrancan. <code>kubectl port-forward svc/iris-api 8000:80</code> y pegale con <code>curl localhost:8000/predict</code>.</li>
+<li><strong>Probes</strong>: cambiá <code>livenessProbe</code> a apuntar a <code>/wrong-endpoint</code>. Observá con <code>kubectl get pods -w</code> cómo entra en <code>CrashLoopBackOff</code>. Revertí.</li>
+<li><strong>HPA</strong>: <code>kubectl apply -f hpa.yaml</code> con <code>targetCPUUtilizationPercentage: 50</code>. Generá carga con <code>kubectl run loadtester --image=busybox -it --rm -- /bin/sh -c "while true; do wget -q -O- iris-api/predict; done"</code>. Observá <code>kubectl get hpa -w</code> escalar de 3 → 10.</li>
+<li><strong>Rolling update + rollback</strong>: cambiá la imagen a <code>iris-api:v2</code> (versión rota a propósito). <code>kubectl rollout status deployment/iris-api</code> debería timeoutear. <code>kubectl rollout undo deployment/iris-api</code> y verificá recuperación.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Cluster (local o cloud) con:</p>
+<ol>
+<li>Manifests YAML para <code>Deployment</code> (3 réplicas, probes, resources), <code>Service</code> (ClusterIP), <code>HPA</code> (CPU 50%, min 3 max 10), <code>Ingress</code>.</li>
+<li>Imagen pusheada a un registry (Docker Hub o ECR).</li>
+<li>Loadtest que dispara HPA y demostrar escalado en logs/screenshots.</li>
+<li>Rolling update a una versión <code>v2</code> exitosa, después rollback con <code>kubectl rollout undo</code>.</li>
+<li>README con comandos <code>kubectl apply</code>, <code>port-forward</code>, troubleshooting con <code>describe</code>.</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: <code>kubectl get pods -l app=iris-api</code> muestra 3-10 pods escalando con la carga, <code>kubectl get hpa</code> reporta target CPU, y <code>curl &lt;ingress-host&gt;/predict</code> funciona desde fuera del cluster.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Pods en <code>Pending</code> infinito</td>
+<td>Cluster sin recursos para <code>requests</code>. <strong>Fix</strong>: <code>kubectl describe pod</code> → busca "Insufficient cpu/memory". Bajar <code>requests</code> o agregar nodos.</td>
+</tr>
+<tr>
+<td><code>CrashLoopBackOff</code></td>
+<td>Container falla al iniciar y K8s reintenta con backoff exponencial. <strong>Fix</strong>: <code>kubectl logs &lt;pod&gt;</code> (último intento), <code>kubectl logs &lt;pod&gt; --previous</code> (intento anterior). Causa típica: probe fallando, comando inválido, modelo no encontrado.</td>
+</tr>
+<tr>
+<td><code>ImagePullBackOff</code></td>
+<td>No puede bajar la imagen. <strong>Fix</strong>: chequear nombre/tag, credenciales del registry (<code>imagePullSecrets</code>), o que con <code>kind</code> hayas hecho <code>kind load docker-image</code>.</td>
+</tr>
+<tr>
+<td>Liveness mata el pod durante startup del modelo</td>
+<td><code>livenessProbe</code> arranca antes que el modelo cargue. <strong>Fix</strong>: usar <code>startupProbe</code> con <code>failureThreshold</code> alto, y <code>livenessProbe</code> con <code>initialDelaySeconds</code> ≥ tiempo de carga.</td>
+</tr>
+<tr>
+<td>OOMKilled silencioso</td>
+<td><code>kubectl describe pod</code> muestra "OOMKilled" en el último container. <strong>Fix</strong>: subir <code>resources.limits.memory</code>, o investigar memory leak con <code>kubectl top pod</code>.</td>
+</tr>
+<tr>
+<td>HPA no escala aunque CPU está alta</td>
+<td><code>metrics-server</code> no está instalado o el pod no tiene <code>resources.requests.cpu</code>. <strong>Fix</strong>: <code>kubectl get apiservice v1beta1.metrics.k8s.io</code> y <code>kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/...</code>.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿K8s vs Cloud Run vs ECS Fargate vs Lambda?</strong></p>
+<p>K8s es el más flexible y portable; el más pesado en mantenimiento. Cloud Run / Fargate: contenedor managed, escalan a 0, sin K8s machinery — buen punto intermedio. Lambda (Clase 201): serverless puro, frío, máx 15 min, ideal para batch chico. Para ML serving 24/7: K8s o Cloud Run.</p>
+<p><strong>❓ ¿1 worker por pod o N workers por pod?</strong></p>
+<p>Recomendación K8s: <strong>1 worker por pod</strong>. K8s se encarga del fleet (HPA, rolling update, restart). Múltiples workers complican observabilidad por pod, hacen restart costoso, y suelen reproducir lo que ya hace K8s.</p>
+<p><strong>❓ ¿GPU pods?</strong></p>
+<p>Necesitás un node pool con GPUs y el <a href="https://github.com/NVIDIA/k8s-device-plugin">NVIDIA device plugin</a> instalado. En el pod: <code>resources.limits["nvidia.com/gpu"]: 1</code>. La imagen base debe ser CUDA-compatible (<code>nvidia/cuda:...</code> o <code>pytorch/pytorch:cuda</code>).</p>
+<p><strong>❓ ¿Helm o Kustomize?</strong></p>
+<p><strong>Kustomize</strong> (built-in en <code>kubectl</code>): overlays por entorno (dev/staging/prod) sin templating string-based. <strong>Helm</strong>: package manager con templates Go, más expresivo pero también más complejo. Para empezar: Kustomize. Para distribuir charts (ej. instalar Prometheus): Helm.</p>
+<p><strong>❓ ¿Cómo manejo secrets?</strong></p>
+<p><code>Secret</code> resource (base64, NO encripta por default). Para producción: enable encryption-at-rest en etcd, o mejor: <strong>External Secrets Operator</strong> que sincroniza de AWS Secrets Manager / Vault → K8s Secrets. Nunca commitear secrets a git, ni siquiera "fake" — usá <code>kubectl create secret</code> o secrets externos.</p>
+<p><strong>❓ ¿Service mesh (Istio/Linkerd) es necesario?</strong></p>
+<p>No para empezar. Resuelve: mTLS automático entre pods, retries/timeouts/circuit breaking, canary releases (Clase 204) sin tocar código, observabilidad fina. Agrega complejidad (sidecar por pod, control plane). Vale la pena cuando: ≥10 microservicios, requerimiento mTLS interno, o canary serio.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Burns et al. <em>Kubernetes: Up and Running</em> (3ª ed., O'Reilly, 2022).</li>
+<li><a href="https://kubernetes.io/docs/concepts/">Kubernetes docs</a> — <em>Workloads</em>, <em>Services</em>, <em>Scheduling, Preemption and Eviction</em>.</li>
+<li><a href="https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/">Probes guide</a> — patrones correctos.</li>
+<li><a href="https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale-walkthrough/">Horizontal Pod Autoscaler walkthrough</a>.</li>
+<li><a href="https://kind.sigs.k8s.io/docs/user/quick-start/">Kind quickstart</a> — cluster local en segundos.</li>
+</ul>
+<h2 id="material-descargable">📥 Material descargable</h2>
+<ul>
+<li>📄 <a href="./clase-200-kubernetes-para-servir-modelos-a-escala-guia-explicativa.pdf">Guía explicativa (PDF)</a> — versión imprimible con todo el contenido de la clase.</li>
+<li>🎞️ <a href="./clase-200-kubernetes-para-servir-modelos-a-escala-presentacion.pptx">Presentación (PPTX)</a> — deck PowerPoint listo para proyectar en clase.</li>
+<li>🧮 <a href="./notebook.ipynb">Notebook ejecutable (.ipynb)</a> — abrilo desde el laboratorio del programa o desde Jupyter.</li>
+</ul>
 <h2 id="siguiente-clase">➡️ Siguiente clase</h2>
 <p><a href="../201-serverless-ml-aws-lambda-gcp-cloud-functions/index.html">Clase 201 — Serverless ML: AWS Lambda, GCP Cloud Functions</a></p>
   </main>

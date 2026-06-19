@@ -24,34 +24,172 @@
   </header>
   <main class="cur-main">
     <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-5-ingenieria-de-datos/212-data-warehouses-bigquery-snowflake-duckdb/notebook.ipynb">📓 Abrir notebook en GitHub</a>
-<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">Objetivo</a> · <a href="#resultados-esperados">Resultados esperados</a> · <a href="#temas-clave">Temas clave</a> · <a href="#materiales">Materiales</a> · <a href="#prerrequisitos">Prerrequisitos</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#material-descargable">📥 Material descargable</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
 <h1 id="clase-212-data-warehouses-bigquery-snowflake-duckdb">Clase 212 — Data warehouses: BigQuery, Snowflake, DuckDB</h1>
 <blockquote>
-<p>Parte: <strong>5-ingenieria-de-datos</strong>
-Estado: <strong>stub</strong> (pendiente desarrollar contenido).</p>
+<p>Parte: <strong>5 — Ingeniería de Datos</strong> · Fuente: Reis &amp; Housley <em>Fundamentals of Data Engineering</em> (O'Reilly, 2022) <strong>cap. 6 + 9</strong> + docs oficiales. ⏱️ Duración estimada: <strong>80 min</strong>.</p>
 </blockquote>
-<h2 id="objetivo">Objetivo</h2>
-<p>Describir el resultado de aprendizaje concreto de esta clase.</p>
-<h2 id="resultados-esperados">Resultados esperados</h2>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Consultar y operar 3 data warehouses modernos desde Python: <strong>BigQuery</strong> (GCP, serverless, separación compute/storage), <strong>Snowflake</strong> (multi-cloud, virtual warehouses, time travel), <strong>DuckDB</strong> (embedded, OLAP local, no requiere server). Decidir cuál usar según escala, presupuesto y latencia.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
 <p>Al finalizar, el estudiante podrá:</p>
 <ul>
-<li>(resultado 1)</li>
-<li>(resultado 2)</li>
-<li>(resultado 3)</li>
+<li>Conectar a BigQuery (<code>google-cloud-bigquery</code>), Snowflake (<code>snowflake-connector-python</code>), DuckDB (<code>duckdb</code>) y ejecutar queries.</li>
+<li>Diseñar tablas con <strong>particionado</strong> (BigQuery: <code>PARTITION BY date_field</code>) y <strong>clustering</strong> (BigQuery, Snowflake) para reducir costos y latencia.</li>
+<li>Usar <strong><code>COPY INTO</code></strong> (Snowflake) y <strong><code>LOAD DATA</code></strong> (BigQuery) para bulk ingest desde S3/GCS.</li>
+<li>Aprovechar <strong>time travel</strong> (<code>SELECT ... AT(TIMESTAMP =&gt; ...)</code> Snowflake) para auditar / recuperar.</li>
+<li>Decidir DW: BigQuery (serverless, GCP-first), Snowflake (multi-cloud, separation, sharing), DuckDB (local/embedded), Redshift (legacy AWS).</li>
 </ul>
-<h2 id="temas-clave">Temas clave</h2>
+<h2 id="temas">🗺️ Temas</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Tema</th>
+<th>Por qué importa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Compute/storage separation</td>
+<td>Por qué los DW modernos son baratos: solo pagás query.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Particionado vs clustering</td>
+<td>Reducir bytes leídos.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>BigQuery: SQL standard + UDF + ML</td>
+<td>El más simple para empezar.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Snowflake: virtual warehouses, time travel, data sharing</td>
+<td>Features únicos.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>DuckDB: el DW que entra en <code>pip install</code></td>
+<td>Análisis local, ETL liviano, embed en app.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Costo: cómo NO gastar miles</td>
+<td><code>SELECT *</code> sin partition filter = bankruptcy.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
 <ul>
-<li>(subtema 1)</li>
-<li>(subtema 2)</li>
-<li>(subtema 3)</li>
+<li><strong>Data warehouse</strong>: DB OLAP optimizada para queries analíticas (agregados sobre millones/billones de filas). Diferente de OLTP (Postgres, MySQL) optimizada para transacciones.</li>
+<li><strong>Compute/storage separation</strong>: storage en blob (S3/GCS/Azure) — barato y elástico. Compute (virtual warehouse / slot) se enciende para queries. Pagás storage barato + compute por uso.</li>
+<li><strong>Particionado</strong>: la tabla está dividida por una columna (típicamente <code>date</code>). Query con <code>WHERE date='2024-01-15'</code> lee solo esa partición → menos bytes → menos $.</li>
+<li><strong>Clustering</strong> (BigQuery) / <strong>Cluster keys</strong> (Snowflake): orden físico dentro de cada partición según N columnas. Mejora queries con <code>WHERE col_clustered</code>.</li>
+<li><strong>Slot / Virtual Warehouse</strong>: unidad de compute que paralela tu query. BigQuery: slots compartidos o reservados. Snowflake: tamaño de VW (XS/S/M/L/XL...) en $/hora.</li>
+<li><strong>Time travel</strong> (Snowflake): consultar el estado pasado de una tabla (<code>SELECT ... AT(TIMESTAMP =&gt; '2026-06-15 00:00:00')</code>). Retención 1-90 días según tier.</li>
+<li><strong>Data sharing</strong> (Snowflake): compartir tablas con otra cuenta Snowflake sin copiar data (live read).</li>
+<li><strong>DuckDB</strong>: DB OLAP <strong>embedded</strong> (como SQLite pero columnar + vectorizada). No requiere server. Lee/escribe Parquet/CSV/Arrow nativo. Ideal para dev local + ETL liviano + análisis ad-hoc.</li>
 </ul>
-<h2 id="materiales">Materiales</h2>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
 <ul>
-<li><code>README.md</code> — esta ficha</li>
-<li><code>notebook.ipynb</code> — cuaderno de la clase</li>
+<li><strong>BigQuery</strong>: <code>bigquery-public-data.new_york_taxi_trips.tlc_yellow_trips_2018</code> (GB-scale, gratis para query con free tier).</li>
+<li><strong>DuckDB</strong>: local con parquets de NYC Taxi.</li>
+<li><strong>Snowflake</strong>: trial 30 días con $400 de crédito.</li>
+<li>Librerías: <code>duckdb&gt;=1.0</code>, <code>google-cloud-bigquery</code>, <code>snowflake-connector-python</code>.</li>
 </ul>
-<h2 id="prerrequisitos">Prerrequisitos</h2>
-<p>Ver índice general en <code>classes/README.md</code> para dependencias entre clases.</p>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>DuckDB local</strong>: <code>con = duckdb.connect("warehouse.duckdb")</code>. Cargá un parquet con <code>CREATE TABLE trips AS SELECT * FROM 'trips.parquet'</code>. Hacé <code>SELECT COUNT(*), AVG(fare) FROM trips</code>. Compará tiempo vs Polars (Clase 211).</li>
+<li><strong>BigQuery query</strong>: <code>from google.cloud import bigquery; client = bigquery.Client(project="...")</code>. <code>client.query("SELECT borough, COUNT(*) FROM bigquery-public-data.new_york_taxi_trips.tlc_yellow_trips_2018 GROUP BY borough")</code>. <strong>Crítico</strong>: usar <code>LIMIT</code> en exploración, no escanear 100 GB sin querer.</li>
+<li><strong>Particionado en BQ</strong>: crear tabla <code>mi_proyecto.dataset.trips_partitioned</code> con <code>PARTITION BY DATE(pickup_datetime)</code>. Query con <code>WHERE DATE(pickup_datetime) = '2018-01-15'</code> → mostrá "bytes processed" con/sin partition filter.</li>
+<li><strong>Snowflake time travel</strong>: <code>CREATE TABLE x AS SELECT ...</code>. Insertá data. <code>DELETE FROM x WHERE ...</code>. <code>SELECT * FROM x AT(OFFSET =&gt; -60)</code> (60s atrás) — los datos vuelven.</li>
+<li><strong>DuckDB queryando S3 directo</strong>: <code>con.execute("SELECT * FROM 's3://bucket/path/*.parquet' LIMIT 10")</code> sin descargar nada — DuckDB lee remoto con HTTPFS.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Proyecto con:</p>
+<ol>
+<li>Pipeline que extrae datos de una API → carga a un DW (elegir 1: BQ free tier, DuckDB, Snowflake trial) → corre 5 queries analíticas.</li>
+<li>Comparativa de costo: misma query escaneando (a) tabla sin particionar (5 GB), (b) tabla particionada con filter (50 MB). Reportar $ estimado.</li>
+<li>Tabla con clustering / cluster keys sobre 2 columnas que mejoran una query frecuente. Mostrar mejora de performance.</li>
+<li>Setup de <strong>service account</strong> con permisos mínimos (BQ Data Viewer, no Admin).</li>
+<li>README explicando cuál DW elegirías para 3 escenarios: startup 5 dev, empresa multi-cloud, análisis personal local.</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: el alumno demuestra entender el modelo de costo (bytes scanned × $/TB) y propone arquitectura razonable para cada escenario.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Factura BigQuery $500 inesperados</td>
+<td>Alguien hizo <code>SELECT *</code> sin partition filter sobre tabla 100 GB. <strong>Fix</strong>: configurar <strong>maximum bytes billed</strong> por usuario; CI con linter que rechace <code>SELECT *</code> sin <code>WHERE date</code>.</td>
+</tr>
+<tr>
+<td>Query Snowflake lenta — escalar el warehouse</td>
+<td>Posible, pero antes: revisar el plan (<code>EXPLAIN</code>), agregar cluster key. Escalar VW dobla costo.</td>
+</tr>
+<tr>
+<td>DuckDB OOM en query agregada</td>
+<td>Default memory limit (80% RAM). <strong>Fix</strong>: <code>SET memory_limit='4GB'</code>, o <code>SET preserve_insertion_order=false</code> para algunas queries.</td>
+</tr>
+<tr>
+<td><code>Permission denied</code> BigQuery</td>
+<td>El service account no tiene rol. <strong>Fix</strong>: en GCP IAM, agregar <code>BigQuery Data Viewer</code> + <code>BigQuery Job User</code> al SA.</td>
+</tr>
+<tr>
+<td>Snowflake <code>Statement timeout</code></td>
+<td>Tu VW es chico. <strong>Fix</strong>: subir tamaño temporalmente (<code>USE WAREHOUSE my_l_wh</code>) o optimizar query.</td>
+</tr>
+<tr>
+<td><code>JOIN</code> lento entre dos tablas grandes</td>
+<td>Falta cluster key compartida. <strong>Fix</strong>: cluster ambas por la JOIN key.</td>
+</tr>
+<tr>
+<td>Particionado por columna high-cardinality (BQ)</td>
+<td>BQ permite max 4000 particiones. <strong>Fix</strong>: particionar por <code>DATE</code> (no por <code>user_id</code>); clusterar por <code>user_id</code>.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿BQ vs Snowflake vs Redshift vs Databricks SQL?</strong></p>
+<ul>
+<li><strong>BigQuery</strong>: serverless puro, ideal en GCP, modelo "pay per query".</li>
+<li><strong>Snowflake</strong>: separación compute/storage explícita, time travel, data sharing nativo. Multi-cloud.</li>
+<li><strong>Redshift</strong>: el viejo (2012). AWS-native. RA3 instances son competitivos pero menos elegantes.</li>
+<li><strong>Databricks SQL</strong> (sobre lakehouse): si ya tenés Spark en Databricks, integrado.</li>
+</ul>
+<p>Para empezar: <strong>BigQuery</strong> (GCP) o <strong>Snowflake</strong> (multi-cloud).</p>
+<p><strong>❓ ¿DuckDB como warehouse de producción?</strong></p>
+<p>Para una sola máquina y team chico: sí (hasta cientos de GB). Para múltiples usuarios escribiendo concurrente y escala TB+: no — usá Snowflake/BQ. <strong>MotherDuck</strong> ofrece DuckDB managed cloud con escalado.</p>
+<p><strong>❓ ¿Cómo evito quemar $500 sin querer en BQ?</strong></p>
+<p>(1) <code>Project Settings → Quotas → Query usage limit per day</code>. (2) Linter pre-commit que rechaza <code>SELECT *</code> sin partition. (3) Crear <code>materialized views</code> para queries repetidas — pagás 1 vez. (4) <code>dry_run=True</code> antes de ejecutar.</p>
+<p><strong>❓ ¿<code>DELETE</code> en un DW columnar es caro?</strong></p>
+<p>Sí. Las tablas columnares no están optimizadas para DELETE individual. Patrón: marcar como <code>deleted_at</code> (soft delete) o reescribir partition (<code>INSERT OVERWRITE</code>). Snowflake/BQ lo manejan razonablemente; Redshift sufre.</p>
+<p><strong>❓ ¿Cómo cargo 1 TB a un warehouse?</strong></p>
+<p>(1) Subí archivos a blob storage (S3/GCS). (2) Usá comando bulk del DW: <code>LOAD DATA</code> (BQ), <code>COPY INTO</code> (Snowflake), <code>COPY</code> (Redshift). NUNCA <code>INSERT ... VALUES</code> por row.</p>
+<p><strong>❓ ¿Costo storage es relevante?</strong></p>
+<p>En 2026: ~$23/TB/mes en BQ/Snowflake. Para 10 TB = $230/mes. Para 1 PB: $23K/mes — empieza a importar. Para datasets enormes: lifecycle policies (mover a Glacier/Coldline después de N días).</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Reis &amp; Housley <em>Fundamentals of Data Engineering</em> (O'Reilly, 2022) <strong>cap. 6</strong> (storage) y <strong>9</strong> (queries).</li>
+<li><a href="https://cloud.google.com/bigquery/docs">BigQuery docs</a> — empezar por <em>Quickstarts</em>.</li>
+<li><a href="https://docs.snowflake.com/">Snowflake docs</a> — <em>Quickstarts</em> + <em>Cost optimization</em>.</li>
+<li><a href="https://duckdb.org/docs/">DuckDB docs</a> + <a href="https://motherduck.com/">MotherDuck</a> (DuckDB managed).</li>
+<li><em>Designing Data-Intensive Applications</em> (Kleppmann, 2017) — fundamentos OLAP.</li>
+</ul>
+<h2 id="material-descargable">📥 Material descargable</h2>
+<ul>
+<li>📄 <a href="./clase-212-data-warehouses-bigquery-snowflake-duckdb-guia-explicativa.pdf">Guía explicativa (PDF)</a> — versión imprimible con todo el contenido de la clase.</li>
+<li>🎞️ <a href="./clase-212-data-warehouses-bigquery-snowflake-duckdb-presentacion.pptx">Presentación (PPTX)</a> — deck PowerPoint listo para proyectar en clase.</li>
+<li>🧮 <a href="./notebook.ipynb">Notebook ejecutable (.ipynb)</a> — abrilo desde el laboratorio del programa o desde Jupyter.</li>
+</ul>
 <h2 id="siguiente-clase">➡️ Siguiente clase</h2>
 <p><a href="../213-streaming-intro-kafka-kinesis/index.html">Clase 213 — Streaming intro: Kafka, Kinesis</a></p>
   </main>

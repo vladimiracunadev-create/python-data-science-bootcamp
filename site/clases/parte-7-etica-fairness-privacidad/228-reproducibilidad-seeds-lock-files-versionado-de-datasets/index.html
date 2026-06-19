@@ -24,36 +24,167 @@
   </header>
   <main class="cur-main">
     <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-7-etica-fairness-privacidad/228-reproducibilidad-seeds-lock-files-versionado-de-datasets/notebook.ipynb">📓 Abrir notebook en GitHub</a>
-<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">Objetivo</a> · <a href="#resultados-esperados">Resultados esperados</a> · <a href="#temas-clave">Temas clave</a> · <a href="#materiales">Materiales</a> · <a href="#prerrequisitos">Prerrequisitos</a> · <a href="#siguiente-parte">➡️ Siguiente parte</a></nav>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#material-descargable">📥 Material descargable</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
 <h1 id="clase-228-reproducibilidad-seeds-lock-files-versionado-de-datasets">Clase 228 — Reproducibilidad: seeds, lock files, versionado de datasets</h1>
 <blockquote>
-<p>Parte: <strong>7-etica-fairness-privacidad</strong>
-Estado: <strong>stub</strong> (pendiente desarrollar contenido).</p>
+<p>Parte: <strong>7 — Ética, Fairness y Privacidad</strong> · Fuente: Pineau et al., <a href="https://arxiv.org/abs/2003.12206"><em>Improving Reproducibility in ML Research</em></a> (JMLR 2021) + Gebru et al., <a href="https://arxiv.org/abs/1803.09010"><em>Datasheets for Datasets</em></a> (CACM 2021) + Mitchell et al., <a href="https://arxiv.org/abs/1810.03993"><em>Model Cards for Model Reporting</em></a> (FAT<em> 2019). ⏱️ Duración estimada: </em><em>75 min</em>*.</p>
 </blockquote>
-<h2 id="objetivo">Objetivo</h2>
-<p>Describir el resultado de aprendizaje concreto de esta clase.</p>
-<h2 id="resultados-esperados">Resultados esperados</h2>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Cerrar la Parte 7 con el problema que atraviesa todo lo anterior: si un experimento no es <strong>reproducible</strong>, no es auditable, no es comparable y no es ciencia. Aprender a controlar las tres fuentes de no-determinismo (código, datos, ambiente) con <strong>seeds</strong>, <strong>lock files</strong>, <strong>hashes de datasets</strong>, <strong>model cards</strong> y manifiestos de pipeline. Entender por qué Hutson (Science, 2018) habló de <strong>"crisis de reproducibilidad"</strong> en ML y qué piden hoy NeurIPS/JMLR como mínimo.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
 <p>Al finalizar, el estudiante podrá:</p>
 <ul>
-<li>(resultado 1)</li>
-<li>(resultado 2)</li>
-<li>(resultado 3)</li>
+<li>Sembrar correctamente <code>random</code>, <code>numpy</code>, <code>sklearn</code> (y comentar <code>torch</code>) con una función <code>seed_everything()</code> y <code>PYTHONHASHSEED</code>.</li>
+<li>Distinguir <code>requirements.txt</code> (top-level) de un <strong>lock file</strong> (<code>uv.lock</code>, <code>poetry.lock</code>, <code>conda-lock</code>) que pinea toda la <strong>transitive tree</strong>.</li>
+<li>Calcular un <strong>hash estable</strong> de un <code>DataFrame</code> (<code>sha256_of_df</code>) que sobreviva a reorden de columnas e índice y sirva como <code>dataset_id</code>.</li>
+<li>Producir un <strong>manifest</strong> JSON con <code>{data_hash, code_hash, seed, package_versions}</code> y validar reproducibilidad antes de re-entrenar.</li>
+<li>Redactar una <strong>model card</strong> mínima (intended use, training data hash, metrics, limitations) según Mitchell et al. 2019.</li>
 </ul>
-<h2 id="temas-clave">Temas clave</h2>
+<h2 id="temas">🗺️ Temas</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Tema</th>
+<th>Por qué importa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Fuentes de no-determinismo</td>
+<td>GPU <code>atomicAdd</code>, dict/set ordering, <code>num_workers&gt;0</code>, float associativity.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Seeds en stack Python</td>
+<td><code>random.seed</code>, <code>np.random.default_rng</code>, <code>torch.manual_seed</code>, <code>PYTHONHASHSEED</code>.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Lock files vs requirements</td>
+<td><code>uv.lock</code>/<code>poetry.lock</code> pinean <strong>toda</strong> la transitive tree; <code>requirements.txt</code> solo top-level.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Ambiente reproducible</td>
+<td>Docker + base image pineada por digest (<code>python:3.12-slim@sha256:...</code>).</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Versionado de datasets</td>
+<td>DVC, Git LFS, lakeFS, S3 versioning, hash + manifest.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Documentación: datasheets + model cards</td>
+<td>Gebru 2018 (dataset) y Mitchell 2019 (modelo) como artefactos auditables.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
 <ul>
-<li>(subtema 1)</li>
-<li>(subtema 2)</li>
-<li>(subtema 3)</li>
+<li><strong>Determinismo</strong>: misma entrada + mismo código + mismo ambiente → mismo output <strong>bit-a-bit</strong>. En ML rara vez se logra al 100% sobre GPU; se aspira a <strong>reproducibilidad estadística</strong>.</li>
+<li><strong>Seed</strong>: entero que inicializa el estado de un PRNG. Cambiar el seed cambia la trayectoria — reportar <strong>un solo seed</strong> sin promediar varios es una mala práctica (Pineau 2021).</li>
+<li><strong><code>PYTHONHASHSEED</code></strong>: variable de entorno que controla el hash de strings/objetos. Desde Python 3.3, por default es <strong>aleatorio</strong> por proceso — afecta orden de iteración de <code>set</code>/<code>dict</code> con keys hashables custom.</li>
+<li><strong>Float associativity</strong>: <code>(a + b) + c ≠ a + (b + c)</code> en float32/64 por redondeo. Sumar en otro orden (BLAS multi-threaded, GPU reductions) da resultados que difieren en 1 ULP — suficiente para divergir tras muchas iteraciones.</li>
+<li><strong>Lock file</strong>: archivo que pinea la versión exacta de <strong>cada dependencia transitiva</strong> con hash del wheel. <code>requirements.txt</code> con <code>pandas==2.2.0</code> no pinea <code>numpy</code>, <code>pytz</code>, etc. — <code>uv.lock</code> sí.</li>
+<li><strong>DVC (Data Version Control)</strong>: git para datos. Guarda un <code>.dvc</code> pointer en git (hash MD5 + tamaño) y el blob real en storage remoto (S3/GCS). <code>dvc pull</code> re-hidrata.</li>
+<li><strong>Datasheet for Datasets</strong> (Gebru et al. 2018): documento que acompaña al dataset con motivación, composición, recolección, uses, distribución. Equivalente al <em>spec sheet</em> de un componente electrónico.</li>
+<li><strong>Model Card</strong> (Mitchell et al. 2019): documento que acompaña a un modelo con intended use, factores, métricas desagregadas, training/eval data, ethical considerations, caveats.</li>
 </ul>
-<h2 id="materiales">Materiales</h2>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
 <ul>
-<li><code>README.md</code> — esta ficha</li>
-<li><code>notebook.ipynb</code> — cuaderno de la clase</li>
+<li>Dataset sintético generado in-notebook (no externo) — la clase es sobre el <strong>proceso</strong>, no sobre el dato.</li>
+<li>Librerías: stdlib (<code>hashlib</code>, <code>json</code>, <code>importlib.metadata</code>, <code>os</code>, <code>random</code>), <code>numpy</code>, <code>pandas</code>, <code>scikit-learn</code>.</li>
+<li>Opcional para homework: <a href="https://dvc.org/doc">DVC</a>, <a href="https://docs.astral.sh/uv/">uv</a>.</li>
 </ul>
-<h2 id="prerrequisitos">Prerrequisitos</h2>
-<p>Ver índice general en <code>classes/README.md</code> para dependencias entre clases.</p>
-<h2 id="siguiente-parte">➡️ Siguiente parte</h2>
-<p><a href="../../parte-8-capstones/229-capstone-1-problema-tabular-end-to-end-eda-modelo-api-dashboard/index.html">Clase 229 — Capstone 1: problema tabular end-to-end (EDA, modelo, API, dashboard)</a></p>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>Seed everything</strong>: implementar <code>seed_everything(seed=42)</code> que cubra <code>random</code>, <code>numpy</code> y <code>PYTHONHASHSEED</code>. Verificar que <code>np.random.rand(5)</code> da el mismo vector en dos corridas consecutivas.</li>
+<li><strong>Hash de DataFrame</strong>: escribir <code>sha256_of_df(df)</code> que ordene columnas alfabéticamente, resetee el índice y serialice a CSV bytes antes de hashear. Mostrar que dos <code>df</code> con columnas en distinto orden dan el <strong>mismo</strong> hash.</li>
+<li><strong>Manifest de experimento</strong>: dict con <code>{data_hash, code_hash, seed, sklearn_version, numpy_version, pandas_version, python_version}</code> serializado a <code>experiment.json</code>.</li>
+<li><strong>Validación de reproducibilidad</strong>: dado un manifest guardado, re-leer el dataset, recomputar su hash, comparar — abortar con <code>RuntimeError</code> si difiere.</li>
+<li><strong>Model card mínima</strong>: función <code>build_model_card(model, X, y, intended_use, limitations, date_trained)</code> que devuelve dict con campos de Mitchell et al. y lo dumpea a JSON.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Notebook (o script) que:</p>
+<ol>
+<li>Construya un pipeline <code>load → train → evaluate</code> con <code>seed_everything(42)</code> al inicio.</li>
+<li>Calcule <code>dataset_hash</code> con <code>sha256_of_df</code> y <code>code_hash</code> con <code>sha256</code> sobre el <code>.py</code> (o el source string vía <code>inspect.getsource</code>).</li>
+<li>Guarde <code>manifest.json</code> con <code>data_hash, code_hash, seed, package_versions</code> y <code>model_card.json</code> con métricas + limitations.</li>
+<li>Re-corra el mismo pipeline en otra ejecución; verifique que <code>accuracy</code> reportada coincide <strong>bit-a-bit</strong> y que ambos hashes coinciden.</li>
+<li>Cree <code>requirements.lock</code> con <code>uv pip compile requirements.in -o requirements.lock</code> (o <code>pip freeze &gt; requirements.lock</code> como fallback) y commitee ambos al repo.</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: en dos máquinas distintas (o dos venvs limpios) con <code>uv pip sync requirements.lock</code>, el pipeline produce el <strong>mismo <code>accuracy</code></strong> y el mismo <code>dataset_hash</code>. El <code>manifest.json</code> está commiteado.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Resultados cambian entre corridas a pesar de <code>np.random.seed(42)</code></td>
+<td>Hay otra fuente: <code>random</code> stdlib sin seedear, o sklearn sin <code>random_state</code>. <strong>Fix</strong>: <code>seed_everything()</code> que cubra <strong>todos</strong> los PRNGs + pasar <code>random_state=</code> a cada estimator.</td>
+</tr>
+<tr>
+<td>Hash del DataFrame cambia y los datos "son los mismos"</td>
+<td>Estás hasheando <code>df.to_csv()</code> directo — incluye el índice, que puede variar. <strong>Fix</strong>: <code>df.reset_index(drop=True).sort_index(axis=1).to_csv(index=False).encode()</code>.</td>
+</tr>
+<tr>
+<td><code>requirements.txt</code> con <code>pandas==2.2.0</code> rompe en otra máquina</td>
+<td>No pinea <code>numpy</code> (transitive). <strong>Fix</strong>: usar <code>uv.lock</code>/<code>poetry.lock</code>/<code>pip-compile</code> que pinean toda la tree con hashes.</td>
+</tr>
+<tr>
+<td>Torch da resultados distintos en GPU con seed fija</td>
+<td><code>atomicAdd</code> en GPU no es determinista. <strong>Fix parcial</strong>: <code>torch.use_deterministic_algorithms(True)</code> + <code>CUBLAS_WORKSPACE_CONFIG=:4096:8</code>. Aceptar overhead.</td>
+</tr>
+<tr>
+<td>Iteración sobre <code>set</code> da orden distinto cada corrida</td>
+<td><code>PYTHONHASHSEED</code> aleatorio. <strong>Fix</strong>: setearla <strong>antes</strong> de iniciar el proceso (<code>PYTHONHASHSEED=0 python train.py</code>) o ordenar explícito con <code>sorted()</code>.</td>
+</tr>
+<tr>
+<td><code>sum(arr)</code> ≠ <code>np.sum(arr)</code> con float32</td>
+<td>Float associativity + orden de reducción. <strong>Fix</strong>: aceptar diferencia en ULP, o usar <code>np.float64</code> para reducciones críticas, o <code>math.fsum</code> (Kahan).</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿Es realmente posible reproducir bit-a-bit un entrenamiento en GPU?</strong></p>
+<p>En general <strong>no</strong> sin esfuerzo. Hay ops no deterministas (atomicAdd, cuDNN convolutions con autotuner). Con <code>torch.use_deterministic_algorithms(True)</code> + <code>CUBLAS_WORKSPACE_CONFIG</code> + <code>num_workers=0</code> + <code>cudnn.deterministic=True</code> te acercás, a costa de 1.5-3× más slow. En CPU es mucho más fácil.</p>
+<p><strong>❓ ¿<code>requirements.txt</code> no alcanza si pineo todo con <code>==</code>?</strong></p>
+<p>No del todo. Aunque pinees <code>pandas==2.2.0</code>, <code>pip</code> puede resolver <code>numpy</code> a una versión distinta entre máquinas si el resolver tiene libertad. Un <strong>lock file</strong> congela el resultado del resolver con hashes de wheels. <code>uv.lock</code>, <code>poetry.lock</code>, <code>Pipfile.lock</code>, <code>conda-lock</code> son equivalentes funcionales.</p>
+<p><strong>❓ ¿DVC, Git LFS o S3 versioning?</strong></p>
+<ul>
+<li><strong>DVC</strong>: si tu workflow es git-céntrico y querés <code>dvc repro</code> (pipelines con cache por inputs). Storage backend a elección.</li>
+<li><strong>Git LFS</strong>: si los archivos son binarios chicos (&lt;2GB) y querés transparencia total con git. No tiene pipelines.</li>
+<li><strong>S3 versioning</strong>: si ya vivís en AWS y solo necesitás "ver versiones anteriores del objeto". Sin metadata de pipeline.</li>
+<li><strong>lakeFS / Quilt / Pachyderm</strong>: para escala enterprise con branching real sobre data lakes.</li>
+</ul>
+<p><strong>❓ ¿Hashear el <code>.csv</code> original o el <code>DataFrame</code> cargado?</strong></p>
+<p>El <strong>DataFrame normalizado</strong> (columnas ordenadas, sin índice). El <code>.csv</code> puede tener BOM, line endings distintos (<code>\r\n</code> vs <code>\n</code>), encoding distinto y romper el hash sin que el contenido cambie. Hashear post-parsing es semánticamente correcto.</p>
+<p><strong>❓ ¿Una model card es un trámite burocrático?</strong></p>
+<p>No si la usás como gate de release. Auditorías regulatorias (EU AI Act 2024, NIST AI RMF) ya exigen documentación equivalente. Una model card bien hecha es además <strong>la entrada del próximo experimento</strong>: "el baseline al que tengo que ganarle es éste, entrenado con estos datos, evaluado así".</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Pineau, J. et al. <a href="https://arxiv.org/abs/2003.12206"><em>Improving Reproducibility in Machine Learning Research</em></a> (JMLR 2021) — el NeurIPS Reproducibility Checklist.</li>
+<li>Gebru, T. et al. <a href="https://arxiv.org/abs/1803.09010"><em>Datasheets for Datasets</em></a> (CACM 2021).</li>
+<li>Mitchell, M. et al. <a href="https://arxiv.org/abs/1810.03993"><em>Model Cards for Model Reporting</em></a> (FAT* 2019).</li>
+<li>Hutson, M. <em>Artificial intelligence faces reproducibility crisis</em> (Science, 2018).</li>
+<li><a href="https://pytorch.org/docs/stable/notes/randomness.html">PyTorch Reproducibility notes</a> — qué controla cada flag.</li>
+<li><a href="https://dvc.org/doc">DVC docs</a> · <a href="https://docs.astral.sh/uv/">uv (lock files modernos)</a>.</li>
+</ul>
+<h2 id="material-descargable">📥 Material descargable</h2>
+<ul>
+<li>📄 <a href="./clase-228-reproducibilidad-seeds-lock-files-versionado-de-datasets-guia-explicativa.pdf">Guía explicativa (PDF)</a> — versión imprimible con todo el contenido de la clase.</li>
+<li>🎞️ <a href="./clase-228-reproducibilidad-seeds-lock-files-versionado-de-datasets-presentacion.pptx">Presentación (PPTX)</a> — deck PowerPoint listo para proyectar en clase.</li>
+<li>🧮 <a href="./notebook.ipynb">Notebook ejecutable (.ipynb)</a> — abrilo desde el laboratorio del programa o desde Jupyter.</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../../parte-8-capstones/229-capstone-1-problema-tabular-end-to-end-eda-modelo-api-dashboard/index.html">Clase 229 — Capstone 1 — Problema tabular end-to-end</a></p>
   </main>
   <footer class="cur-footer">
     <p>

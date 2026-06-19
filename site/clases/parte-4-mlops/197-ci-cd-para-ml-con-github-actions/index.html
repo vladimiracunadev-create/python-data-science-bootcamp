@@ -24,34 +24,160 @@
   </header>
   <main class="cur-main">
     <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-4-mlops/197-ci-cd-para-ml-con-github-actions/notebook.ipynb">📓 Abrir notebook en GitHub</a>
-<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">Objetivo</a> · <a href="#resultados-esperados">Resultados esperados</a> · <a href="#temas-clave">Temas clave</a> · <a href="#materiales">Materiales</a> · <a href="#prerrequisitos">Prerrequisitos</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#material-descargable">📥 Material descargable</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
 <h1 id="clase-197-cicd-para-ml-con-github-actions">Clase 197 — CI/CD para ML con GitHub Actions</h1>
 <blockquote>
-<p>Parte: <strong>4-mlops</strong>
-Estado: <strong>stub</strong> (pendiente desarrollar contenido).</p>
+<p>Parte: <strong>4 — MLOps</strong> · Fuente: Huyen <strong>cap. 10</strong> + <a href="https://docs.github.com/en/actions">docs GitHub Actions</a> + <a href="https://cml.dev/">CML.dev</a>. ⏱️ Duración estimada: <strong>80 min</strong>.</p>
 </blockquote>
-<h2 id="objetivo">Objetivo</h2>
-<p>Describir el resultado de aprendizaje concreto de esta clase.</p>
-<h2 id="resultados-esperados">Resultados esperados</h2>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Automatizar el ciclo <strong>lint → test → entrenar → evaluar → comparar → desplegar</strong> con GitHub Actions. Cada PR dispara entrenamiento sobre el slice actual de datos, postea métricas como comentario, y bloquea merge si la métrica empeoró &gt;X%. Sin CI/CD, "el modelo nuevo es mejor" es opinión; con CI/CD, es un workflow check ✅ o ❌.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
 <p>Al finalizar, el estudiante podrá:</p>
 <ul>
-<li>(resultado 1)</li>
-<li>(resultado 2)</li>
-<li>(resultado 3)</li>
+<li>Escribir un workflow <code>.github/workflows/ml.yml</code> con jobs <code>lint</code>, <code>test</code>, <code>train</code>, <code>evaluate</code>.</li>
+<li>Usar <strong>CML</strong> (Continuous Machine Learning) para postear plots/metrics en el comentario del PR.</li>
+<li>Cachear dependencias (<code>actions/setup-python</code> con <code>cache: pip</code>) y pesos de modelos (<code>actions/cache</code>) para que el CI no tarde 20 min.</li>
+<li>Usar <code>secrets</code> y <code>OIDC</code> para deploy seguro a AWS/GCP sin claves long-lived.</li>
+<li>Configurar <strong>branch protection</strong> + <strong>required checks</strong> que bloqueen merge si las métricas degradan.</li>
 </ul>
-<h2 id="temas-clave">Temas clave</h2>
+<h2 id="temas">🗺️ Temas</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Tema</th>
+<th>Por qué importa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Anatomía de un workflow: triggers, jobs, steps, runners</td>
+<td>Vocabulario base.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Matrix builds (<code>strategy.matrix</code>)</td>
+<td>Probar 3 versiones de Python × 2 de PyTorch en paralelo.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Caché de pip + datasets pesados</td>
+<td>CI &lt;5 min vs CI &gt;30 min.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>CML: reportar métricas en PR</td>
+<td>Trae al code review los números, no solo el código.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>OIDC para deploy (sin secret long-lived)</td>
+<td>Federation con AWS/GCP/Azure.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Branch protection + required status checks</td>
+<td>Convierte el lint/test/eval en gate, no en sugerencia.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
 <ul>
-<li>(subtema 1)</li>
-<li>(subtema 2)</li>
-<li>(subtema 3)</li>
+<li><strong>Workflow</strong>: archivo YAML en <code>.github/workflows/*.yml</code>. Disparado por <code>on:</code> (push, pull_request, schedule, workflow_dispatch).</li>
+<li><strong>Job</strong>: agrupación de <strong>steps</strong> que corren en el mismo runner (VM/container). Jobs corren en paralelo por default; usar <code>needs: [job1]</code> para serializar.</li>
+<li><strong>Step</strong>: comando individual. Puede ser shell (<code>run:</code>) o una <code>action</code> reutilizable (<code>uses: actions/setup-python@v5</code>).</li>
+<li><strong>Runner</strong>: máquina donde corren los jobs. <code>ubuntu-latest</code> (gratis para repos públicos, 2 vCPU/7 GB RAM), <code>windows-latest</code>, <code>macos-latest</code>, o self-hosted (GPU, recursos custom).</li>
+<li><strong>CML</strong> (Continuous Machine Learning): CLI de Iterative.ai que postea comentarios en PR con tablas/plots desde el workflow. Hace que las métricas sean visibles al reviewer sin abrir Actions tab.</li>
+<li><strong>OIDC</strong> (OpenID Connect): GitHub emite un token efímero firmado que AWS/GCP/Azure aceptan para asumir un rol. Reemplaza guardar <code>AWS_ACCESS_KEY_ID</code> como secret. Una vulnerabilidad menos.</li>
+<li><strong>Required status checks</strong>: configurable en <em>Settings → Branches → Branch protection</em>. Lista de jobs cuyo nombre debe terminar en ✅ para permitir merge.</li>
 </ul>
-<h2 id="materiales">Materiales</h2>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
 <ul>
-<li><code>README.md</code> — esta ficha</li>
-<li><code>notebook.ipynb</code> — cuaderno de la clase</li>
+<li><strong>Modelo del ejemplo</strong>: <code>RandomForestClassifier</code> sobre Iris (corre en &lt;5 s — ideal para CI).</li>
+<li><strong>Repo template</strong>: estructura <code>src/</code>, <code>tests/</code>, <code>.github/workflows/</code>, <code>params.yaml</code>, <code>metrics.json</code>.</li>
+<li>Librerías: <code>scikit-learn</code>, <code>pytest</code>, <code>ruff</code> (lint), <code>cml</code> (npm package).</li>
 </ul>
-<h2 id="prerrequisitos">Prerrequisitos</h2>
-<p>Ver índice general en <code>classes/README.md</code> para dependencias entre clases.</p>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>Workflow mínimo (lint + test)</strong>: creá <code>.github/workflows/ci.yml</code> con dos jobs en paralelo: <code>lint</code> (corre <code>ruff check</code>) y <code>test</code> (corre <code>pytest</code>). Push y verificá que aparecen los dos checks en el PR.</li>
+<li><strong>Job de training</strong>: agregá un job <code>train</code> que corre <code>python src/train.py</code>, sube <code>model.pkl</code> y <code>metrics.json</code> como <code>actions/upload-artifact</code>. Solo en PRs (<code>if: github.event_name == 'pull_request'</code>).</li>
+<li><strong>Reporte CML</strong>: agregá un step que use <code>iterative/setup-cml@v2</code>, escribe <code>report.md</code> con <code>cat metrics.json</code> como tabla, y postea con <code>cml comment create report.md</code>. El comentario aparece en el PR.</li>
+<li><strong>Comparación contra main</strong>: en el mismo job, <code>git fetch origin main &amp;&amp; python src/train.py</code> desde <code>main</code>, guardás <code>metrics_main.json</code>, y agregás al reporte una tabla con <code>Δaccuracy</code>, <code>Δf1</code>.</li>
+<li><strong>Branch protection</strong>: en Settings → Branches → Add rule → <code>main</code>, marcá <code>Require status checks to pass before merging</code> y seleccioná <code>lint</code>, <code>test</code>, <code>train</code>. PR con tests rotos = no podés mergear.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Repo público en GitHub con:</p>
+<ol>
+<li>Workflow <code>.github/workflows/ml.yml</code> con jobs <code>lint</code>, <code>test</code>, <code>train</code>, <code>report</code>.</li>
+<li>CML comment funcionando: PR muestra tabla con <code>accuracy</code>, <code>f1</code>, <code>Δaccuracy_vs_main</code>.</li>
+<li>Cache de pip configurado (<code>actions/setup-python</code> con <code>cache: pip</code>).</li>
+<li>Un PR abierto donde el modelo degrada accuracy en &gt;3% — el job <code>report</code> debe fallar (<code>exit 1</code>) por umbral configurable en <code>params.yaml</code>.</li>
+<li>Captura del PR mostrando el comentario CML y los checks rojos.</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: el reviewer puede decidir merge/no-merge mirando solo el PR (no Actions tab), y el merge está bloqueado por branch protection cuando algún check falla.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Resource not accessible by integration</code> al postear comentario</td>
+<td>El job no tiene permiso <code>pull-requests: write</code>. <strong>Fix</strong>: en el workflow, <code>permissions: { contents: read, pull-requests: write }</code>.</td>
+</tr>
+<tr>
+<td>El cache de pip nunca se reutiliza</td>
+<td>El <code>cache-key</code> cambia en cada run (probablemente incluye <code>${{ github.sha }}</code>). <strong>Fix</strong>: <code>actions/setup-python@v5</code> con <code>cache: pip</code> lo maneja solo — sacá tu config manual.</td>
+</tr>
+<tr>
+<td>Workflow no se dispara en PRs de forks</td>
+<td>Es comportamiento de seguridad: PRs de forks no tienen acceso a secrets. <strong>Fix</strong>: usá <code>pull_request_target</code> solo si entendés el trade-off de seguridad, o pediles a los contributors que branchen dentro del repo.</td>
+</tr>
+<tr>
+<td><code>Process completed with exit code 137</code></td>
+<td>OOM (out of memory). El runner gratis tiene 7 GB. <strong>Fix</strong>: reducir batch size, usar runner más grande (paid), o entrenar en self-hosted con GPU.</td>
+</tr>
+<tr>
+<td><code>OIDC token unavailable</code> al asumir rol AWS</td>
+<td>Falta <code>permissions: { id-token: write }</code> en el job. <strong>Fix</strong>: agregar esa permission y configurar el trust policy en IAM para <code>repo:user/repo:*</code>.</td>
+</tr>
+<tr>
+<td>El job <code>train</code> tarda 25 min en cada push</td>
+<td>Falta caché de datasets y modelos pre-entrenados. <strong>Fix</strong>: <code>actions/cache</code> con <code>path: ~/.cache/huggingface</code> y <code>key: hf-${{ hashFiles('requirements.txt') }}</code>.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿Conviene entrenar el modelo <em>real</em> en CI?</strong></p>
+<p>Depende del tamaño. Si el training corre en &lt;10 min en CPU: sí, en GitHub Actions. Si requiere GPU o tarda horas: usá CI solo para correr <strong>smoke tests</strong> (entrenar 1 epoch en data sample) y dispará el training real en un runner self-hosted con GPU, o en SageMaker/Vertex AI con <code>workflow_dispatch</code>.</p>
+<p><strong>❓ ¿GitHub Actions vs GitLab CI vs Jenkins?</strong></p>
+<p>GH Actions: integrado con GitHub, marketplace enorme de actions, gratis hasta cierto límite para repos públicos. GitLab CI: equivalente para GitLab, con <code>auto-devops</code> más opinado. Jenkins: self-hosted, máxima flexibilidad, mucho mantenimiento. Para equipos en GitHub: Actions sin pensar.</p>
+<p><strong>❓ ¿Qué hago con secrets de larga vida (API keys, DB passwords)?</strong></p>
+<p>(1) Si podés: OIDC + IAM role (zero secrets). (2) Si no: <code>secrets</code> de repo o de organization, rotados cada 90 días vía secrets-manager. (3) Nunca: hardcoded en el YAML ni en el código.</p>
+<p><strong>❓ ¿Cómo evito que un PR malicioso fugue secrets via CI?</strong></p>
+<p>PRs de forks NO ven secrets por default (correcto). Para repos privados con muchos contributors: <code>Settings → Actions → General → Fork pull request workflows from outside collaborators: Require approval for all outside collaborators</code>. Revisar el diff del workflow antes de approve.</p>
+<p><strong>❓ ¿CML es necesario o uso comentarios manuales con <code>gh pr comment</code>?</strong></p>
+<p>CML está diseñado para ML (sabe armar tablas de metrics, embedded plots como PNG base64). <code>gh pr comment</code> es genérico. Para reportes simples: cualquiera. Para comparación de runs con plots: CML.</p>
+<p><strong>❓ ¿Cómo manejo CI cuando uso self-hosted runners con GPU?</strong></p>
+<p>Etiquetá runners (<code>runs-on: [self-hosted, gpu]</code>). Para jobs cortos sin GPU, dejá <code>runs-on: ubuntu-latest</code>. Atención a seguridad: PRs de forks NO deberían correr en self-hosted (pueden ejecutar arbitrary code en tu hardware). Por default GH bloquea esto — no lo deshabilites.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Huyen, Chip. <em>Designing Machine Learning Systems</em> (O'Reilly, 2022), <strong>cap. 10</strong> — <em>Infrastructure and Tooling</em>.</li>
+<li><a href="https://docs.github.com/en/actions">GitHub Actions docs</a> — empezar por <em>Quickstart</em> y <em>Workflow syntax</em>.</li>
+<li><a href="https://cml.dev/">CML.dev</a> — Continuous Machine Learning de Iterative.ai.</li>
+<li><a href="https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/configuring-openid-connect-in-amazon-web-services">Configuring OIDC with AWS</a> — deploy sin claves.</li>
+<li><a href="https://github.com/sdras/awesome-actions"><code>awesome-actions</code></a> — actions útiles del marketplace.</li>
+</ul>
+<h2 id="material-descargable">📥 Material descargable</h2>
+<ul>
+<li>📄 <a href="./clase-197-ci-cd-para-ml-con-github-actions-guia-explicativa.pdf">Guía explicativa (PDF)</a> — versión imprimible con todo el contenido de la clase.</li>
+<li>🎞️ <a href="./clase-197-ci-cd-para-ml-con-github-actions-presentacion.pptx">Presentación (PPTX)</a> — deck PowerPoint listo para proyectar en clase.</li>
+<li>🧮 <a href="./notebook.ipynb">Notebook ejecutable (.ipynb)</a> — abrilo desde el laboratorio del programa o desde Jupyter.</li>
+</ul>
 <h2 id="siguiente-clase">➡️ Siguiente clase</h2>
 <p><a href="../198-docker-para-empaquetar-modelos/index.html">Clase 198 — Docker para empaquetar modelos</a></p>
   </main>

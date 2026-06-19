@@ -24,34 +24,156 @@
   </header>
   <main class="cur-main">
     <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-4-mlops/194-versionado-de-datos-con-dvc/notebook.ipynb">📓 Abrir notebook en GitHub</a>
-<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">Objetivo</a> · <a href="#resultados-esperados">Resultados esperados</a> · <a href="#temas-clave">Temas clave</a> · <a href="#materiales">Materiales</a> · <a href="#prerrequisitos">Prerrequisitos</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#material-descargable">📥 Material descargable</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
 <h1 id="clase-194-versionado-de-datos-con-dvc">Clase 194 — Versionado de datos con DVC</h1>
 <blockquote>
-<p>Parte: <strong>4-mlops</strong>
-Estado: <strong>stub</strong> (pendiente desarrollar contenido).</p>
+<p>Parte: <strong>4 — MLOps</strong> · Fuente: Huyen, <em>Designing Machine Learning Systems</em> <strong>cap. 6</strong> + <a href="https://dvc.org/doc">docs oficiales DVC 3.x</a>. ⏱️ Duración estimada: <strong>75 min</strong>.</p>
 </blockquote>
-<h2 id="objetivo">Objetivo</h2>
-<p>Describir el resultado de aprendizaje concreto de esta clase.</p>
-<h2 id="resultados-esperados">Resultados esperados</h2>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Versionar datasets pesados (&gt;100 MB, que git rechaza) con <strong>DVC 3.x</strong>, separando <em>qué</em> dato se usó (puntero en git, ~200 bytes) de <em>dónde</em> vive el blob real (S3, GCS, Azure, disco local). Reproducir un entrenamiento de hace 3 meses con <code>git checkout &lt;sha&gt; &amp;&amp; dvc pull</code> y entender por qué <code>dvc.lock</code> es a los datos lo que <code>package-lock.json</code> es a npm.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
 <p>Al finalizar, el estudiante podrá:</p>
 <ul>
-<li>(resultado 1)</li>
-<li>(resultado 2)</li>
-<li>(resultado 3)</li>
+<li>Inicializar un repo con <code>dvc init</code> y rastrear un dataset con <code>dvc add data/raw.csv</code> (entiende que git solo guarda el <code>.dvc</code> pointer).</li>
+<li>Configurar un <strong>remote</strong> (<code>dvc remote add -d origin s3://bucket/path</code>) y sincronizar con <code>dvc push</code> / <code>dvc pull</code>.</li>
+<li>Construir un <strong>pipeline reproducible</strong> declarando stages en <code>dvc.yaml</code> (<code>deps</code>, <code>outs</code>, <code>params</code>, <code>metrics</code>) y ejecutarlo con <code>dvc repro</code>.</li>
+<li>Comparar experimentos con <code>dvc exp run</code>, <code>dvc exp show</code>, <code>dvc exp diff</code> — alternativa ligera a MLflow para casos simples.</li>
+<li>Diagnosticar <code>ERROR: output 'X' is already tracked by SCM</code> y otros choques DVC ↔ git.</li>
 </ul>
-<h2 id="temas-clave">Temas clave</h2>
+<h2 id="temas">🗺️ Temas</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Tema</th>
+<th>Por qué importa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>El problema: git LFS no escala a TB</td>
+<td>Costo por GB, throughput, y bloqueo en <code>git push</code>.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Modelo mental DVC: pointer en git + blob en remote</td>
+<td>Git versiona el hash MD5/SHA-256; el dato vive afuera.</td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>dvc add</code> vs <code>dvc.yaml</code> stages</td>
+<td>Trackeo manual vs pipeline declarativo.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Remotes (S3, GCS, Azure, SSH, local)</td>
+<td>Donde realmente está la data; <code>dvc remote modify</code> para credenciales.</td>
+</tr>
+<tr>
+<td>5</td>
+<td><code>dvc.lock</code> — el "lockfile" de tu pipeline</td>
+<td>Hashes congelados de inputs/outputs por stage.</td>
+</tr>
+<tr>
+<td>6</td>
+<td><code>dvc exp</code> — branching-less experiments</td>
+<td>Ejecutar 20 corridas sin ensuciar git log.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
 <ul>
-<li>(subtema 1)</li>
-<li>(subtema 2)</li>
-<li>(subtema 3)</li>
+<li><strong>DVC</strong> (Data Version Control): herramienta open-source que extiende git para datos/modelos. Versión actual: <strong>3.x</strong> (rompió compat con 2.x — <code>dvc.yaml</code> mismo, pero comandos <code>exp</code> cambiaron).</li>
+<li><strong><code>.dvc</code> file</strong>: archivo YAML pequeño (~200 B) con <code>md5</code>, <code>size</code>, <code>path</code> del blob. Va a git. El blob va al remote.</li>
+<li><strong>Cache local</strong> (<code>.dvc/cache/</code>): copia local de los blobs. <code>dvc add</code> mueve el archivo al cache y deja un link (reflink/hardlink/symlink) en el working tree. <strong>Por eso <code>dvc add</code> no duplica espacio en disco</strong> (en filesystems que soportan reflinks: APFS, XFS, btrfs, ReFS).</li>
+<li><strong>Remote</strong>: backend remoto (S3/GCS/Azure/SSH/HTTP/local-path). <code>dvc push</code> sube cache local → remote; <code>dvc pull</code> baja remote → cache → working tree.</li>
+<li><strong>Stage</strong> (en <code>dvc.yaml</code>): unidad reproducible. Tiene <code>cmd</code>, <code>deps</code> (inputs), <code>outs</code> (outputs), opcionalmente <code>params</code> (de <code>params.yaml</code>) y <code>metrics</code>. DVC re-ejecuta solo los stages cuyos hashes de <code>deps</code> cambiaron — como <code>make</code>, pero por contenido en vez de timestamp.</li>
+<li><strong><code>dvc.lock</code></strong>: hashes congelados de <code>deps</code>/<code>outs</code> después de la última <code>dvc repro</code> exitosa. Va a git. Es lo que hace reproducible el pipeline.</li>
+<li><strong><code>dvc exp run</code></strong>: ejecuta el pipeline con (opcionalmente) parámetros distintos y guarda el resultado como "experimento" — un commit interno que no contamina <code>git log</code> hasta que hagás <code>dvc exp apply</code> o <code>dvc exp branch</code>.</li>
 </ul>
-<h2 id="materiales">Materiales</h2>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
 <ul>
-<li><code>README.md</code> — esta ficha</li>
-<li><code>notebook.ipynb</code> — cuaderno de la clase</li>
+<li><strong>Dataset</strong>: <code>seaborn.load_dataset('titanic')</code> exportado a <code>data/raw/titanic.csv</code> (~60 KB — pequeño a propósito para que la clase corra sin S3 real).</li>
+<li><strong>Remote demo</strong>: directorio local <code>/tmp/dvc-remote-demo</code> (simula S3 sin credenciales). El comando para S3 real se muestra pero no se ejecuta.</li>
+<li>Librerías: <code>dvc[s3]</code> (o <code>dvc</code> pelado si remote local), <code>pandas</code>, <code>scikit-learn</code>.</li>
 </ul>
-<h2 id="prerrequisitos">Prerrequisitos</h2>
-<p>Ver índice general en <code>classes/README.md</code> para dependencias entre clases.</p>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>Setup mínimo</strong>: inicializá un repo git + DVC (<code>git init &amp;&amp; dvc init</code>). Generá <code>data/raw/titanic.csv</code>, hacelo trackear con <code>dvc add data/raw/titanic.csv</code>. Inspeccioná el <code>.dvc</code> resultante con <code>cat data/raw/titanic.csv.dvc</code> y entendé los campos <code>md5</code>, <code>size</code>, <code>path</code>.</li>
+<li><strong>Remote local</strong>: configurá un remote en <code>/tmp/dvc-remote-demo</code> con <code>dvc remote add -d local /tmp/dvc-remote-demo</code>. Hacé <code>dvc push</code> y verificá con <code>ls /tmp/dvc-remote-demo/files/md5/</code> que el blob aparece como <code>&lt;2-char-prefix&gt;/&lt;resto-del-hash&gt;</code>.</li>
+<li><strong>Pipeline declarativo</strong>: creá <code>dvc.yaml</code> con dos stages — <code>prepare</code> (lee <code>raw/titanic.csv</code>, elimina nulos, escribe <code>data/processed/clean.csv</code>) y <code>train</code> (entrena un <code>LogisticRegression</code>, escribe <code>model.pkl</code> y <code>metrics.json</code>). Corré <code>dvc repro</code> y observá <code>dvc.lock</code>.</li>
+<li><strong>Reproducción</strong>: tocá un parámetro en <code>params.yaml</code> (<code>test_size: 0.2</code> → <code>0.3</code>). Volvé a correr <code>dvc repro</code> y verificá que <strong>ambos</strong> stages se re-ejecutan (porque <code>prepare</code> no depende de <code>params</code>, pero <code>train</code> sí — y el output de <code>train</code> cambió). Compará con <code>dvc repro --dry</code>.</li>
+<li><strong>Experimentos sin branching</strong>: <code>dvc exp run -S 'train.C=0.1'</code> tres veces con valores distintos de <code>C</code>. Listalos con <code>dvc exp show</code>. Aplicá el mejor con <code>dvc exp apply &lt;hash&gt;</code>.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Pipeline DVC en un repo nuevo con:</p>
+<ol>
+<li><code>dvc.yaml</code> con stages <code>prepare → train → evaluate</code>.</li>
+<li><code>params.yaml</code> con al menos <code>test_size</code>, <code>random_state</code>, <code>model.C</code>.</li>
+<li><code>metrics.json</code> con <code>accuracy</code> y <code>f1</code> que se reporten con <code>dvc metrics show</code>.</li>
+<li>Tres corridas <code>dvc exp run</code> variando <code>model.C ∈ {0.01, 1, 100}</code>.</li>
+<li>Output de <code>dvc exp show --no-pager</code> adjunto como <code>experiments.txt</code>.</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: <code>dvc repro</code> corre limpio desde cero (<code>rm -rf .dvc/cache data/processed model.pkl metrics.json &amp;&amp; dvc pull &amp;&amp; dvc repro</code>) y produce los mismos hashes en <code>dvc.lock</code>.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ERROR: output 'data/raw/titanic.csv' is already tracked by SCM</code></td>
+<td>El archivo ya está en git. <strong>Fix</strong>: <code>git rm --cached data/raw/titanic.csv &amp;&amp; dvc add data/raw/titanic.csv</code>. Después agregalo a <code>.gitignore</code> (DVC lo hace automático, pero a veces no si el path ya estaba).</td>
+</tr>
+<tr>
+<td><code>dvc push</code> no hace nada y dice "Everything is up to date"</td>
+<td>El cache local y el remote están iguales — pero quizás otro colaborador hizo <code>dvc add</code> y solo subió el <code>.dvc</code> a git, no el blob al remote. <strong>Fix</strong>: pediles <code>dvc push</code>, o usá <code>dvc fetch</code> para ver el estado real del remote.</td>
+</tr>
+<tr>
+<td><code>dvc repro</code> re-ejecuta todo aunque no cambiaste nada</td>
+<td>Modificaste un archivo <em>después</em> de la última <code>dvc repro</code> (incluso solo el timestamp). <strong>Fix</strong>: chequeá <code>dvc status</code> — muestra qué <code>deps</code> cambiaron por hash. Si dice "always changed", probablemente tenés <code>always_changed: true</code> en algún stage.</td>
+</tr>
+<tr>
+<td>Pierdo el cache y <code>dvc pull</code> falla</td>
+<td>Probablemente el remote nunca recibió <code>dvc push</code> para esa versión, o las credenciales cambiaron. <strong>Fix</strong>: <code>dvc pull -v</code> para ver el error completo. Si es S3, revisá <code>aws sts get-caller-identity</code>.</td>
+</tr>
+<tr>
+<td>Git push lentísimo después de usar DVC</td>
+<td>Alguien hizo <code>git add data/raw.csv</code> (el blob, no el <code>.dvc</code>) por error. <strong>Fix</strong>: <code>git log --all --pretty=format: --name-only --diff-filter=A \| sort -u \| xargs -I{} du -h {} 2&gt;/dev/null \| sort -h \| tail</code>. Después <code>git filter-repo</code> o BFG para limpiar el histórico.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿DVC vs git LFS?</strong></p>
+<p>LFS es más simple (un binario, <code>git lfs track "*.csv"</code>) pero (1) cobra por GB en GitHub Enterprise/GitLab, (2) bloquea <code>git push</code> hasta que el blob suba, (3) no tiene noción de <strong>pipeline reproducible</strong> ni de <strong>experimentos</strong>. DVC desacopla storage del provider git y agrega <code>dvc.yaml</code>/<code>dvc.lock</code>/<code>dvc exp</code>. Para datasets &lt;1 GB y casos triviales, LFS alcanza; para ML serio, DVC.</p>
+<p><strong>❓ ¿DVC vs MLflow?</strong></p>
+<p>Son complementarios, no competidores. <strong>DVC</strong> versiona datos + pipeline (lado git). <strong>MLflow</strong> trackea runs (params, metrics, artifacts) y registra modelos en un model registry (Clase 195). En la práctica: DVC para reproducibilidad determinística del pipeline; MLflow para comparar 500 experimentos en un dashboard.</p>
+<p><strong>❓ ¿Tengo que usar S3? ¿Funciona en una notebook personal?</strong></p>
+<p>No, funciona con remote local (<code>dvc remote add -d local /path/a/carpeta</code>). Útil para aprender, o para equipos chicos con un NAS compartido. Para producción real con varios colaboradores: S3/GCS/Azure.</p>
+<p><strong>❓ ¿Qué pasa con datos sensibles (PII)?</strong></p>
+<p>DVC no encripta por sí mismo. Si el remote es S3 con SSE-KMS, ya está encriptado en reposo. Para PII fuerte: bucket privado + IAM rol por equipo + auditoría con CloudTrail. <strong>No</strong> subas datos con PII a un remote público (S3 público, GCS público) — DVC no te avisa.</p>
+<p><strong>❓ ¿<code>dvc.lock</code> lo edito a mano?</strong></p>
+<p>No. Lo regenera <code>dvc repro</code>. Editarlo manualmente rompe la garantía de reproducibilidad. Si necesitás "forzar" un hash, usá <code>dvc commit</code> (con cuidado — saltea la ejecución).</p>
+<p><strong>❓ ¿Funciona con Jupyter notebooks?</strong></p>
+<p>Sí, pero el notebook <em>en sí</em> sigue versionado por git. DVC entra cuando un cell genera/lee artefactos pesados. Patrón común: notebook orquesta, pero las funciones heavy van a un <code>src/</code>, y los datasets están bajo DVC. (Para diff limpio de notebooks: <code>nbdime</code> o <code>jupytext</code> — fuera del scope de esta clase.)</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Huyen, Chip. <em>Designing Machine Learning Systems</em> (O'Reilly, 2022), <strong>cap. 6</strong> — <em>Model Development and Offline Evaluation</em>, sección sobre data versioning.</li>
+<li><a href="https://dvc.org/doc">DVC 3.x documentation</a> — empezar por <em>Get Started</em>.</li>
+<li><a href="https://dvc.org/doc/user-guide/project-structure/dvcyaml-files">DVC <code>dvc.yaml</code> reference</a> — todos los campos de stage.</li>
+<li><a href="https://studio.iterative.ai">Iterative Studio</a> — UI hosted opcional para visualizar pipelines DVC (no requerida, gratis para repos públicos).</li>
+<li>Comparativa práctica DVC vs LFS vs LakeFS: <a href="https://lakefs.io/blog/data-version-control/"><em>Data versioning landscape 2024</em></a>.</li>
+</ul>
+<h2 id="material-descargable">📥 Material descargable</h2>
+<ul>
+<li>📄 <a href="./clase-194-versionado-de-datos-con-dvc-guia-explicativa.pdf">Guía explicativa (PDF)</a> — versión imprimible con todo el contenido de la clase.</li>
+<li>🎞️ <a href="./clase-194-versionado-de-datos-con-dvc-presentacion.pptx">Presentación (PPTX)</a> — deck PowerPoint listo para proyectar en clase.</li>
+<li>🧮 <a href="./notebook.ipynb">Notebook ejecutable (.ipynb)</a> — abrilo desde el laboratorio del programa o desde Jupyter.</li>
+</ul>
 <h2 id="siguiente-clase">➡️ Siguiente clase</h2>
 <p><a href="../195-versionado-de-modelos-y-experimentos-con-mlflow/index.html">Clase 195 — Versionado de modelos y experimentos con MLflow</a></p>
   </main>

@@ -24,34 +24,165 @@
   </header>
   <main class="cur-main">
     <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-4-mlops/204-shadow-deployment-y-canary-releases/notebook.ipynb">📓 Abrir notebook en GitHub</a>
-<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">Objetivo</a> · <a href="#resultados-esperados">Resultados esperados</a> · <a href="#temas-clave">Temas clave</a> · <a href="#materiales">Materiales</a> · <a href="#prerrequisitos">Prerrequisitos</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#material-descargable">📥 Material descargable</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
 <h1 id="clase-204-shadow-deployment-y-canary-releases">Clase 204 — Shadow deployment y canary releases</h1>
 <blockquote>
-<p>Parte: <strong>4-mlops</strong>
-Estado: <strong>stub</strong> (pendiente desarrollar contenido).</p>
+<p>Parte: <strong>4 — MLOps</strong> · Fuente: Huyen <strong>cap. 11</strong> + Fowler, <em>Continuous Delivery</em> + <a href="https://istio.io/latest/docs/concepts/traffic-management/">Istio traffic management</a>. ⏱️ Duración estimada: <strong>75 min</strong>.</p>
 </blockquote>
-<h2 id="objetivo">Objetivo</h2>
-<p>Describir el resultado de aprendizaje concreto de esta clase.</p>
-<h2 id="resultados-esperados">Resultados esperados</h2>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Desplegar un modelo nuevo <strong>sin arriesgar producción</strong>: primero en <strong>shadow</strong> (recibe tráfico real pero sus predicciones no se devuelven al usuario), después <strong>canary</strong> (1% → 5% → 25% → 100% del tráfico). Convertir "creo que esto es mejor" en "lo medí en producción real".</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
 <p>Al finalizar, el estudiante podrá:</p>
 <ul>
-<li>(resultado 1)</li>
-<li>(resultado 2)</li>
-<li>(resultado 3)</li>
+<li>Implementar <strong>shadow mode</strong>: doble call (champion + challenger), respuesta del champion al user, log de ambas para análisis offline.</li>
+<li>Configurar <strong>canary release</strong> progresivo (1% → 5% → 25% → 100%) con K8s + Istio, o con feature flag a nivel app (LaunchDarkly, Unleash).</li>
+<li>Definir <strong>rollback automático</strong>: si la métrica del canary degrada &gt;X%, volver al 100% champion en &lt;5 min.</li>
+<li>Implementar <strong>A/B test</strong> correcto: muestra del mismo segmento, métrica primaria pre-registrada, poder estadístico calculado.</li>
+<li>Diferenciar <strong>shadow</strong> (sin riesgo, costo doble) de <strong>canary</strong> (riesgo limitado, costo nuevo solo).</li>
 </ul>
-<h2 id="temas-clave">Temas clave</h2>
+<h2 id="temas">🗺️ Temas</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Tema</th>
+<th>Por qué importa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Shadow vs canary vs blue-green vs A/B</td>
+<td>4 estrategias, propósitos distintos.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Implementación: app-level vs infra-level</td>
+<td>Feature flag (LaunchDarkly) vs Istio/AWS ALB.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Métrica de "salud" del canary</td>
+<td>Latency, error rate, business KPI proxy.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Rollback automático</td>
+<td>Sin esto, canary es solo "esperar a que algo rompa".</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Análisis de shadow data</td>
+<td>Comparación distribucional (KS) + métricas estimadas.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>A/B test riguroso</td>
+<td>Effect size + poder + duración mínima.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
 <ul>
-<li>(subtema 1)</li>
-<li>(subtema 2)</li>
-<li>(subtema 3)</li>
+<li><strong>Shadow deployment</strong>: el modelo nuevo recibe el mismo tráfico que el viejo, predice, pero su predicción <strong>NO se devuelve al usuario</strong>. Se loggea para análisis. Ventaja: cero riesgo. Costo: 2× compute.</li>
+<li><strong>Canary release</strong>: % del tráfico real es servido por el modelo nuevo. Empezar 1%, escalar gradual. Si métricas OK al 100%, el canary se convierte en champion. Si no, rollback.</li>
+<li><strong>Blue-green</strong>: dos versiones desplegadas simultáneamente (blue=actual, green=nueva). Switch del LB de blue→green en un momento puntual. Rollback = switch back. Sin gradualidad, pero rollback instantáneo.</li>
+<li><strong>A/B test</strong>: comparación estadística entre dos variantes con asignación random por usuario (sticky). Mide impacto en KPI de negocio (no solo en accuracy). Requiere poder estadístico calculado.</li>
+<li><strong>Sticky assignment</strong>: el mismo usuario siempre cae en la misma variante (hash por user_id). Evita que un usuario vea ambos modelos y "engañe" la medición.</li>
+<li><strong>Rollback automático</strong>: cuando alguna métrica clave del canary cae bajo un umbral (latency p99 &gt; X, error rate &gt; Y%, conversion rate cae &gt; Z%), el sistema vuelve el peso del canary a 0 sin intervención humana.</li>
+<li><strong>Guardrail metric</strong>: métrica que NO querés que empeore aunque la primaria mejore. Ej: latency, errors. Si guardrail rompe → rollback aunque "el modelo prediga mejor".</li>
 </ul>
-<h2 id="materiales">Materiales</h2>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
 <ul>
-<li><code>README.md</code> — esta ficha</li>
-<li><code>notebook.ipynb</code> — cuaderno de la clase</li>
+<li><strong>Stack ejemplo</strong>: FastAPI + Istio (canary) o feature flag in-process (shadow simple).</li>
+<li>Librerías: <code>scipy.stats</code> (A/B test), <code>numpy</code>.</li>
 </ul>
-<h2 id="prerrequisitos">Prerrequisitos</h2>
-<p>Ver índice general en <code>classes/README.md</code> para dependencias entre clases.</p>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>Shadow en proceso</strong>: en el FastAPI de Clase 199, agregá la lógica: cargá <code>model_champion</code> y <code>model_challenger</code>. En <code>/predict</code>, predeci con ambos, devolvé solo champion, log los dos en JSON. Después de 1000 requests, analizá la distribución de diferencias.</li>
+<li><strong>Canary con feature flag</strong>: implementá un toggle <code>CANARY_PERCENT</code> (env var). Si <code>random.random() &lt; CANARY_PERCENT/100</code>, usá challenger. Sticky: hash por <code>user_id</code> para que el mismo user vea siempre lo mismo dentro del test.</li>
+<li><strong>Canary con Istio</strong>: <code>VirtualService</code> con <code>weight: 95 / 5</code>. <code>kubectl apply</code> y verificá distribución de tráfico con <code>kubectl logs</code>.</li>
+<li><strong>Rollback automático</strong>: agregá un sidecar (Python script) que cada 60 s consulta Prometheus: si <code>latency_p99{model=challenger} &gt; 200ms</code>, cambia el <code>weight</code> a <code>100 / 0</code> automáticamente.</li>
+<li><strong>A/B test riguroso</strong>: calculá tamaño de muestra para detectar <code>δ = 0.02</code> en accuracy con <code>α=0.05</code>, <code>power=0.8</code>. Corré el A/B test el tiempo necesario para acumular ese N. Reportá p-value + CI de la diferencia.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Sistema de deployment con:</p>
+<ol>
+<li>Modelo champion en producción sirviendo 100% del tráfico.</li>
+<li>Endpoint <code>/admin/canary</code> que setea peso del challenger (sticky por user_id hash).</li>
+<li>Métricas en Prometheus: <code>predictions_total{model, class}</code>, <code>latency_seconds{model}</code>, <code>error_rate{model}</code>.</li>
+<li>Alerta + auto-rollback si: <code>latency_p99{model=challenger} &gt; 1.2 * latency_p99{model=champion}</code> durante 5 min seguidos.</li>
+<li>Dashboard Grafana con: distribución de tráfico, latency por modelo, agreement rate champion-challenger, business KPI proxy.</li>
+<li>Runbook documentando los pasos: shadow 7 días → canary 1% 24 h → 5% 24 h → 25% 48 h → 100%.</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: simular un challenger con <code>time.sleep(0.5)</code> artificial (alta latencia). El rollback automático debe activarse en &lt;10 min, sin pérdida de servicio para usuarios fuera del canary.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Canary muestra mejor accuracy pero peor business KPI</td>
+<td>Métrica offline (accuracy) ≠ métrica online (conversion). <strong>Fix</strong>: el A/B test debe pre-registrar la métrica primaria de negocio, no la accuracy.</td>
+</tr>
+<tr>
+<td>El A/B test "ganó" pero la decisión no se replica al rollout 100%</td>
+<td><strong>Regression to the mean</strong> + tamaño de muestra insuficiente. <strong>Fix</strong>: calcular sample size <strong>antes</strong> del test, no después. Si N&lt;requerido, el resultado es ruido.</td>
+</tr>
+<tr>
+<td>El user ve modelos distintos en distintos requests</td>
+<td>Asignación no es sticky. <strong>Fix</strong>: hash por user_id, no por request_id. Si no hay user_id: hash por cookie/IP + agregar más estabilidad.</td>
+</tr>
+<tr>
+<td>Shadow no es "free" como prometieron — el sistema cae</td>
+<td>2× compute requiere 2× capacidad. <strong>Fix</strong>: dimensionar antes de habilitar shadow. Para modelos caros: shadow sobre N% del tráfico, no 100%.</td>
+</tr>
+<tr>
+<td>Canary a 5% no muestra estadística significativa después de 1 semana</td>
+<td>El N es chico — 5% × N usuarios típicos requiere tiempo. <strong>Fix</strong>: aumentar % o aceptar test largo. Si la decisión es urgente: empezar con canary más grande (riesgo a cambio).</td>
+</tr>
+<tr>
+<td>Rollback automático se dispara por ruido</td>
+<td>Umbral muy estricto o ventana muy chica. <strong>Fix</strong>: ventana de 5+ min, requerir N mediciones consecutivas, no 1 spike.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿Shadow obligatorio antes de canary?</strong></p>
+<p>Para modelos críticos: sí. Shadow detecta bugs evidentes (modelo cae, output con NaN) sin afectar usuarios. Canary asume que el modelo funciona y mide impacto. Si saltás shadow, podés desplegar un modelo roto al 1% real.</p>
+<p><strong>❓ ¿Canary o blue-green?</strong></p>
+<p>Canary: gradual, deteccion temprana, recovery limitado. Blue-green: rollback instantáneo (un switch), sin gradualidad — el 100% se va o no se va. Para ML: canary es más común (cambios en distribución de tráfico revelan problemas que blue-green no).</p>
+<p><strong>❓ ¿Tengo que usar Istio?</strong></p>
+<p>No. Alternativas:
+- AWS ALB/NLB con weighted target groups
+- GCP Cloud Load Balancing weighted backends
+- App-level feature flag (LaunchDarkly, Unleash) — más simple, opera fuera del infra
+- Nginx con <code>split_clients</code></p>
+<p>Istio agrega valor cuando ya tenés service mesh.</p>
+<p><strong>❓ ¿Cómo elijo la métrica primaria del A/B?</strong></p>
+<p>Debe ser: (1) <strong>directly tied to business value</strong> (revenue, retention, conversion), (2) <strong>medible rápido</strong> (mejor: detectable en días, no meses), (3) <strong>una sola</strong> (multi-metric = comparison-shopping, mala práctica). Métricas técnicas (accuracy, AUC) son <strong>proxies</strong> — útiles pero no la métrica final.</p>
+<p><strong>❓ ¿Y si el canary mejora un segmento y empeora otro?</strong></p>
+<p>Análisis por segmento siempre. Si segmento A mejora 10% y segmento B empeora 5%: discutir trade-off con producto. Algunas opciones: (a) modelo distinto por segmento, (b) re-entrenar con foco en B, (c) decidir explícitamente que A pesa más.</p>
+<p><strong>❓ ¿Stat test correcto para A/B con accuracy?</strong></p>
+<p>Para <strong>proporciones</strong> (CTR, conversion): test de proporciones con corrección de continuidad. Para <strong>medias</strong> (latencia, revenue/user): t-test de Welch (no asume varianzas iguales). Para <strong>counts</strong> (clicks/usuario): Mann-Whitney o bootstrap (típicamente no-normal). Ver Partes 3 (clases 176-178) para más detalle.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Huyen, Chip. <em>Designing Machine Learning Systems</em> (O'Reilly, 2022), <strong>cap. 11</strong> — <em>Model Deployment</em> y <em>Continuous Delivery</em>.</li>
+<li>Fowler, M. — <a href="https://martinfowler.com/bliki/CanaryRelease.html"><em>CanaryRelease</em></a> y <a href="https://martinfowler.com/bliki/BlueGreenDeployment.html"><em>BlueGreenDeployment</em></a>.</li>
+<li><a href="https://istio.io/latest/docs/tasks/traffic-management/traffic-shifting/">Istio Traffic Splitting tutorial</a>.</li>
+<li>Kohavi, R. et al. <em>Trustworthy Online Controlled Experiments</em> (Cambridge, 2020) — la biblia del A/B test.</li>
+<li><a href="https://launchdarkly.com/">LaunchDarkly</a> / <a href="https://www.getunleash.io/">Unleash</a> — feature flags as a service.</li>
+</ul>
+<h2 id="material-descargable">📥 Material descargable</h2>
+<ul>
+<li>📄 <a href="./clase-204-shadow-deployment-y-canary-releases-guia-explicativa.pdf">Guía explicativa (PDF)</a> — versión imprimible con todo el contenido de la clase.</li>
+<li>🎞️ <a href="./clase-204-shadow-deployment-y-canary-releases-presentacion.pptx">Presentación (PPTX)</a> — deck PowerPoint listo para proyectar en clase.</li>
+<li>🧮 <a href="./notebook.ipynb">Notebook ejecutable (.ipynb)</a> — abrilo desde el laboratorio del programa o desde Jupyter.</li>
+</ul>
 <h2 id="siguiente-clase">➡️ Siguiente clase</h2>
 <p><a href="../205-interpretabilidad-shap-lime-pdp-ice/index.html">Clase 205 — Interpretabilidad: SHAP, LIME, PDP, ICE</a></p>
   </main>

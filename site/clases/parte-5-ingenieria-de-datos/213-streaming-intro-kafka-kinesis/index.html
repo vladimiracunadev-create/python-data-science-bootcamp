@@ -24,34 +24,179 @@
   </header>
   <main class="cur-main">
     <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-5-ingenieria-de-datos/213-streaming-intro-kafka-kinesis/notebook.ipynb">📓 Abrir notebook en GitHub</a>
-<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">Objetivo</a> · <a href="#resultados-esperados">Resultados esperados</a> · <a href="#temas-clave">Temas clave</a> · <a href="#materiales">Materiales</a> · <a href="#prerrequisitos">Prerrequisitos</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#material-descargable">📥 Material descargable</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
 <h1 id="clase-213-streaming-intro-kafka-kinesis">Clase 213 — Streaming intro: Kafka, Kinesis</h1>
 <blockquote>
-<p>Parte: <strong>5-ingenieria-de-datos</strong>
-Estado: <strong>stub</strong> (pendiente desarrollar contenido).</p>
+<p>Parte: <strong>5 — Ingeniería de Datos</strong> · Fuente: Kreps, <a href="https://www.confluent.io/blog/build-real-time-data-pipeline/"><em>Building a Real-Time Data Pipeline</em></a> + Narkhede, Shapira, Palino <em>Kafka: The Definitive Guide</em> (O'Reilly, 2ª ed., 2021) + Reis &amp; Housley <strong>cap. 7</strong>. ⏱️ Duración estimada: <strong>85 min</strong>.</p>
 </blockquote>
-<h2 id="objetivo">Objetivo</h2>
-<p>Describir el resultado de aprendizaje concreto de esta clase.</p>
-<h2 id="resultados-esperados">Resultados esperados</h2>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Entender el modelo <strong>streaming</strong> vs batch (Clase 208), producir y consumir mensajes en <strong>Kafka</strong> (con <code>confluent-kafka</code> o <code>kafka-python</code>), comparar contra <strong>AWS Kinesis Data Streams</strong> (managed equivalent), y reconocer los 3 problemas clásicos de streaming: <strong>exactly-once</strong>, <strong>out-of-order events</strong>, <strong>backpressure</strong>.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
 <p>Al finalizar, el estudiante podrá:</p>
 <ul>
-<li>(resultado 1)</li>
-<li>(resultado 2)</li>
-<li>(resultado 3)</li>
+<li>Diferenciar batch (datos llegan en bloques) de streaming (datos llegan continuos, baja latencia).</li>
+<li>Producir mensajes a un <strong>topic</strong> Kafka con keys (garantiza orden por key, distribuye load).</li>
+<li>Consumir con <strong>consumer groups</strong>: partitions distribuidas entre consumers, offset management.</li>
+<li>Diseñar para <strong>at-least-once</strong> (default razonable) y entender qué requiere <strong>exactly-once</strong> (transactional API).</li>
+<li>Decidir Kafka (self-hosted o Confluent Cloud) vs Kinesis (AWS) vs Pub/Sub (GCP) vs Event Hubs (Azure).</li>
 </ul>
-<h2 id="temas-clave">Temas clave</h2>
+<h2 id="temas">🗺️ Temas</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Tema</th>
+<th>Por qué importa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Batch vs streaming — el espectro real</td>
+<td>Spectrum: batch → micro-batch → streaming → real-time.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Kafka model: topic, partition, offset</td>
+<td>Vocabulario obligatorio.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Producer: keys, acks, idempotence</td>
+<td>Garantías que querés desde el día 1.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Consumer groups + rebalancing</td>
+<td>Cómo escalan los consumers.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Delivery semantics: at-most/at-least/exactly-once</td>
+<td>Trade-offs reales con código.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Kinesis comparison</td>
+<td>Mismo modelo, vendor-specific.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
 <ul>
-<li>(subtema 1)</li>
-<li>(subtema 2)</li>
-<li>(subtema 3)</li>
+<li><strong>Topic</strong>: log durable, particionado, append-only. Análogo a una "tabla" en streaming.</li>
+<li><strong>Partition</strong>: subset ordenado del topic. Cada partition tiene un único consumer dentro de un consumer group. Más partitions → más paralelismo.</li>
+<li><strong>Offset</strong>: posición del consumer dentro de una partition. Persistido en Kafka (<code>__consumer_offsets</code> topic) o externamente.</li>
+<li><strong>Producer</strong>: escribe mensajes a un topic. Puede especificar <code>key</code> (decide partition vía hash → mensajes con misma key van a la misma partition → orden garantizado por key).</li>
+<li><strong>Consumer</strong>: lee mensajes de un topic en un consumer group. Si un consumer muere, otro toma sus partitions (rebalancing).</li>
+<li><strong>Consumer group</strong>: lógicamente "un consumidor". 3 consumers en el mismo grupo se dividen las partitions; 3 grupos distintos cada uno ve todos los mensajes.</li>
+<li><strong>At-most-once</strong>: mensaje se pierde si falla algo. <code>acks=0</code>.</li>
+<li><strong>At-least-once</strong>: mensaje puede llegar duplicado. <code>acks=all</code> + <code>enable_auto_commit=False</code> + commit después de procesar. <strong>Default razonable</strong>.</li>
+<li><strong>Exactly-once</strong>: requiere idempotent producer (<code>enable.idempotence=true</code>) + transactional API (Kafka Streams o Flink). Caro, complejo, no siempre necesario.</li>
+<li><strong>Backpressure</strong>: cuando consumer no procesa tan rápido como producer escribe → lag crece. Acción: escalar consumers, o aplicar throttling al producer.</li>
+<li><strong>Kinesis Data Stream</strong>: AWS-managed. "Shard" ≈ partition, "iterator" ≈ offset, KCL (Kinesis Client Library) ≈ consumer group. Mismo modelo conceptual, distintos nombres.</li>
 </ul>
-<h2 id="materiales">Materiales</h2>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
 <ul>
-<li><code>README.md</code> — esta ficha</li>
-<li><code>notebook.ipynb</code> — cuaderno de la clase</li>
+<li><strong>Kafka local</strong>: <code>docker-compose</code> con Kafka (KRaft mode, sin Zookeeper) + Kafka UI.</li>
+<li><strong>Stream sintético</strong>: producer genera "click events" cada 100 ms.</li>
+<li>Librerías: <code>confluent-kafka&gt;=2.5</code> (más robusta) o <code>kafka-python&gt;=2.0</code> (más simple), <code>faker</code> para data sintética.</li>
 </ul>
-<h2 id="prerrequisitos">Prerrequisitos</h2>
-<p>Ver índice general en <code>classes/README.md</code> para dependencias entre clases.</p>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>Setup local</strong>: docker-compose con Kafka + Kafka UI. Crear topic <code>clicks</code> con 4 partitions. Verificar con <code>docker exec kafka kafka-topics --list ...</code>.</li>
+<li><strong>Producer</strong>: script Python que produce 1000 mensajes con <code>key=user_id</code>, <code>value={"page":"/foo","ts":...}</code>. Verificar en Kafka UI que mensajes con mismo <code>user_id</code> caen en la misma partition.</li>
+<li><strong>Consumer 1 instancia</strong>: <code>consumer.subscribe(['clicks'])</code> + loop <code>for msg in consumer</code>. Procesar = <code>print(msg.value())</code>. Commitear offset cada 100 mensajes.</li>
+<li><strong>Consumer group, 2 instancias</strong>: levantar 2 consumers con mismo <code>group.id</code>. Confirmar que se reparten las 4 partitions (2-2). Matar uno, observar rebalancing — el otro toma las 4.</li>
+<li><strong>At-least-once explícito</strong>: <code>enable.auto.commit=False</code>, procesar mensaje, <code>consumer.commit()</code>. Si crash entre procesar y commit → duplicate al reiniciar.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Sistema con:</p>
+<ol>
+<li>Producer Python que simula 100 eventos/s durante 1 min (sintéticos con <code>faker</code>).</li>
+<li>3 consumers en el mismo group consumiendo de un topic con 6 partitions.</li>
+<li>Cada consumer procesa y escribe a una tabla DuckDB (idempotente: PK = <code>(user_id, event_ts)</code>).</li>
+<li>Métrica de <strong>consumer lag</strong> monitoreada (chequear <code>kafka-consumer-groups --describe</code>).</li>
+<li>Demonstración: matar 1 consumer durante la corrida y verificar rebalancing + cero pérdida de mensajes.</li>
+<li>README comparando con un equivalente en Kinesis (snippet de código sin necesidad de cuenta AWS).</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: 6000 mensajes producidos → 6000 mensajes en DuckDB (sin duplicados gracias a PK), consumer lag estabiliza &lt;1000, rebalancing funcionó.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Topic does not exist</code> aunque acabás de crearlo</td>
+<td>Auto-create topics está deshabilitado y crearlo desde el cliente requiere AdminClient. <strong>Fix</strong>: crearlo via CLI o <code>AdminClient.create_topics()</code>.</td>
+</tr>
+<tr>
+<td>Consumer lag crece infinito</td>
+<td>Consumer no procesa rápido suficiente. <strong>Fix</strong>: (a) más consumers (hasta = N partitions), (b) más partitions en el topic, (c) optimizar el processing.</td>
+</tr>
+<tr>
+<td>Mensajes duplicados al reiniciar consumer</td>
+<td>Falta commit del último offset procesado. <strong>Fix</strong>: <code>enable.auto.commit=False</code> + commit manual post-process.</td>
+</tr>
+<tr>
+<td><code>UnknownTopicOrPartitionError</code> intermitente</td>
+<td>Rebalancing en curso. <strong>Fix</strong>: catch y reintentar; o usar <code>RebalanceListener</code> para hacer cleanup.</td>
+</tr>
+<tr>
+<td>Performance horrible con <code>enable.idempotence=True</code></td>
+<td>Idempotente requiere ordering por key, baja paralelismo. <strong>Fix</strong>: usar solo si necesitás exactly-once real; sino dejarlo off.</td>
+</tr>
+<tr>
+<td><code>Producer.flush()</code> se cuelga</td>
+<td>Network unreachable. <strong>Fix</strong>: agregar timeout, configurar <code>delivery.timeout.ms</code>.</td>
+</tr>
+<tr>
+<td>Kafka UI no muestra topics</td>
+<td>UI conectada a broker antes que esté ready. <strong>Fix</strong>: agregar healthcheck en docker-compose, depends_on con condition.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿Cuándo necesito streaming en vez de batch?</strong></p>
+<p>Cuando: (1) latencia importa (fraud detection: minutos), (2) volume es alto y constante (logs, telemetría), (3) data es continuamente generada (clickstream, IoT). Si tus datos llegan en cron diario y no urge: batch. La regla: <strong>batch primero, streaming cuando duela</strong>.</p>
+<p><strong>❓ Kafka self-hosted o Confluent Cloud?</strong></p>
+<p>Self-hosted: control total, costo en EC2/operaciones. Confluent Cloud (managed): no operás brokers, pagás más. Para empezar: Confluent Cloud free tier. Para escala &gt;100 MB/s sostenido: el TCO favorece self-hosted o Confluent Cloud Enterprise.</p>
+<p><strong>❓ Kafka vs Kinesis vs Pub/Sub?</strong></p>
+<ul>
+<li><strong>Kafka</strong>: open-source, multi-cloud, ecosistema enorme (Kafka Connect, Kafka Streams, ksqlDB).</li>
+<li><strong>Kinesis</strong>: AWS-native, integrado con Lambda/Firehose. Más limitado (shards manualmente escalados; Kinesis On-Demand mejora esto).</li>
+<li><strong>Pub/Sub</strong>: GCP-native, simpler API (pull/push, no shards expuestos), gestionado al 100%.</li>
+</ul>
+<p>Para multi-cloud o vendor-neutral: Kafka. Para AWS/GCP-native simple: Kinesis/Pub/Sub.</p>
+<p><strong>❓ ¿Cuándo necesito exactly-once?</strong></p>
+<p>Casi nunca. <strong>At-least-once + idempotent consumer</strong> (idempotency via PK en DB) resuelve el 95% de los casos. Exactly-once con transactional API tiene 20-30% overhead. Reservarlo para: pagos, billing.</p>
+<p><strong>❓ ¿Cómo manejo schemas evolucionando?</strong></p>
+<p><strong>Schema Registry</strong> (Confluent, AWS Glue, Apicurio): producer registra schema Avro/Protobuf, consumer lo lee. Compatibilidad checks evita producer rompiendo consumers downstream.</p>
+<p><strong>❓ ¿Streaming SQL? ¿Flink, Spark Streaming, ksqlDB?</strong></p>
+<p>Para queries continuas (windowed aggregates, joins de streams):
+- <strong>Kafka Streams</strong>: lib Java/Scala, embed en tu app.
+- <strong>ksqlDB</strong>: SQL sobre Kafka topics.
+- <strong>Apache Flink</strong>: streaming-first, stateful, exactly-once.
+- <strong>Spark Structured Streaming</strong>: micro-batch (latencia ~seconds), reusa skills de Spark.</p>
+<p>Para Python: PyFlink y Spark Structured Streaming son los más usados.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Narkhede, Shapira, Palino <em>Kafka: The Definitive Guide</em> (O'Reilly, 2ª ed., 2021).</li>
+<li><a href="https://kafka.apache.org/documentation/">Kafka docs</a> — <em>Quickstart</em>, <em>Producer/Consumer configs</em>.</li>
+<li><a href="https://www.confluent.io/confluent-cloud/tryfree/">Confluent Cloud free tier</a>.</li>
+<li>Reis &amp; Housley <em>Fundamentals of Data Engineering</em> (O'Reilly, 2022) <strong>cap. 7</strong>.</li>
+<li><a href="https://github.com/monksy/awesome-kafka">Awesome Kafka</a>.</li>
+</ul>
+<h2 id="material-descargable">📥 Material descargable</h2>
+<ul>
+<li>📄 <a href="./clase-213-streaming-intro-kafka-kinesis-guia-explicativa.pdf">Guía explicativa (PDF)</a> — versión imprimible con todo el contenido de la clase.</li>
+<li>🎞️ <a href="./clase-213-streaming-intro-kafka-kinesis-presentacion.pptx">Presentación (PPTX)</a> — deck PowerPoint listo para proyectar en clase.</li>
+<li>🧮 <a href="./notebook.ipynb">Notebook ejecutable (.ipynb)</a> — abrilo desde el laboratorio del programa o desde Jupyter.</li>
+</ul>
 <h2 id="siguiente-clase">➡️ Siguiente clase</h2>
 <p><a href="../214-formatos-columnares-parquet-avro/index.html">Clase 214 — Formatos columnares: Parquet, Avro</a></p>
   </main>

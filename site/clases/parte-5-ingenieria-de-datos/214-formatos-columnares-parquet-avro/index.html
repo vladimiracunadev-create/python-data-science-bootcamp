@@ -24,34 +24,163 @@
   </header>
   <main class="cur-main">
     <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-5-ingenieria-de-datos/214-formatos-columnares-parquet-avro/notebook.ipynb">📓 Abrir notebook en GitHub</a>
-<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">Objetivo</a> · <a href="#resultados-esperados">Resultados esperados</a> · <a href="#temas-clave">Temas clave</a> · <a href="#materiales">Materiales</a> · <a href="#prerrequisitos">Prerrequisitos</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#material-descargable">📥 Material descargable</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
 <h1 id="clase-214-formatos-columnares-parquet-avro">Clase 214 — Formatos columnares: Parquet, Avro</h1>
 <blockquote>
-<p>Parte: <strong>5-ingenieria-de-datos</strong>
-Estado: <strong>stub</strong> (pendiente desarrollar contenido).</p>
+<p>Parte: <strong>5 — Ingeniería de Datos</strong> · Fuente: <a href="https://parquet.apache.org/docs/">docs Parquet 2.x</a> + <a href="https://avro.apache.org/docs/">Avro spec</a> + Reis &amp; Housley <strong>cap. 6</strong>. ⏱️ Duración estimada: <strong>70 min</strong>.</p>
 </blockquote>
-<h2 id="objetivo">Objetivo</h2>
-<p>Describir el resultado de aprendizaje concreto de esta clase.</p>
-<h2 id="resultados-esperados">Resultados esperados</h2>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Elegir formato de almacenamiento según el patrón de lectura: <strong>Parquet</strong> (columnar, OLAP, queries analíticas), <strong>Avro</strong> (row-based, OLTP/streaming, schema evolution), <strong>ORC</strong> (columnar, Hive ecosystem). Entender por qué Parquet es 5-100× más rápido que CSV para queries analíticas, y por qué Avro domina en Kafka.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
 <p>Al finalizar, el estudiante podrá:</p>
 <ul>
-<li>(resultado 1)</li>
-<li>(resultado 2)</li>
-<li>(resultado 3)</li>
+<li>Convertir CSV → Parquet con <code>pandas.to_parquet</code> / <code>polars.write_parquet</code> / <code>pyarrow</code>.</li>
+<li>Diferenciar <strong>row-based</strong> (CSV, JSON, Avro) de <strong>columnar</strong> (Parquet, ORC) y elegir según query pattern.</li>
+<li>Aprovechar <strong>column pruning</strong> + <strong>predicate pushdown</strong> + <strong>row group pruning</strong> de Parquet (Polars/DuckDB/Spark lo hacen automático).</li>
+<li>Aplicar <strong>compresión</strong> (<code>snappy</code> default, <code>zstd</code> mejor ratio, <code>gzip</code> mejor compat) y entender trade-off CPU vs tamaño.</li>
+<li>Definir un schema Avro y usarlo en Kafka con Schema Registry (concept).</li>
 </ul>
-<h2 id="temas-clave">Temas clave</h2>
+<h2 id="temas">🗺️ Temas</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Tema</th>
+<th>Por qué importa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Row vs columnar</td>
+<td>OLTP vs OLAP en el storage.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Parquet anatomy: file &gt; row group &gt; column chunk &gt; page</td>
+<td>Lo que permite predicate pushdown.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Compresión: snappy, zstd, gzip, lz4</td>
+<td>Trade-off CPU vs tamaño.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Dictionary encoding, RLE</td>
+<td>Por qué Parquet con strings repetidos pesa 10× menos.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Avro: schema-first, row-based, compact binary</td>
+<td>Por qué domina en Kafka.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Schema evolution: forward/backward/full compat</td>
+<td>Cuándo se rompe; cómo manejarlo.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
 <ul>
-<li>(subtema 1)</li>
-<li>(subtema 2)</li>
-<li>(subtema 3)</li>
+<li><strong>Row-based</strong> (CSV, JSON, Avro): cada fila es un bloque contiguo. Eficiente para <code>SELECT *</code> de pocas filas; ineficiente para agregados sobre 1 columna de 1M filas.</li>
+<li><strong>Columnar</strong> (Parquet, ORC): cada columna es un bloque contiguo. Eficiente para <code>SELECT col1, col2 FROM tbl WHERE col1 &gt; X</code> — lee solo col1 y col2.</li>
+<li><strong>Row group</strong> (Parquet): conjunto de filas (default ~128 MB). Stats (min/max/null_count) por columna por row group — habilitan <strong>predicate pushdown</strong> sin abrir el row group.</li>
+<li><strong>Column chunk</strong>: la parte de una columna dentro de un row group. Físicamente contigua → vectorizable.</li>
+<li><strong>Page</strong>: subdivisión de column chunk (~1 MB). Unidad de compresión + read.</li>
+<li><strong>Predicate pushdown</strong>: si filtrás <code>WHERE col &gt; 100</code> y el row group tiene <code>max(col)=50</code>, se skipea sin leer.</li>
+<li><strong>Dictionary encoding</strong>: si una columna tiene ≤2^16 valores distintos, Parquet guarda un diccionario + índices. Strings repetidos: huge win.</li>
+<li><strong>RLE</strong> (Run-Length Encoding): si los valores se repiten (<code>AAAA BBBB</code>), guarda <code>(A,4)(B,4)</code>. Bueno para columnas con poca varianza.</li>
+<li><strong>Avro</strong>: formato row-based binario con schema <strong>embedded</strong> o en Schema Registry. Diseñado para streaming + schema evolution.</li>
+<li><strong>Schema evolution</strong>: agregar/quitar campos sin romper consumers viejos. Avro lo hace bien (default values, alias). Parquet también soporta pero limitado.</li>
 </ul>
-<h2 id="materiales">Materiales</h2>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
 <ul>
-<li><code>README.md</code> — esta ficha</li>
-<li><code>notebook.ipynb</code> — cuaderno de la clase</li>
+<li><strong>Dataset</strong>: NYC Taxi (CSV ~2 GB/mes) — convertir a Parquet (~150 MB/mes).</li>
+<li>Librerías: <code>pyarrow&gt;=15</code>, <code>polars</code>, <code>duckdb</code>, <code>fastavro</code> (Avro).</li>
 </ul>
-<h2 id="prerrequisitos">Prerrequisitos</h2>
-<p>Ver índice general en <code>classes/README.md</code> para dependencias entre clases.</p>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>CSV → Parquet</strong>: descargá NYC Taxi 1 mes en CSV. Cargá con pandas, escribí Parquet snappy. Comparar tamaños (CSV vs Parquet) y tiempo de query (<code>COUNT WHERE borough='Manhattan'</code>).</li>
+<li><strong>Compresión benchmark</strong>: mismo dataset, escribir con <code>snappy</code>, <code>zstd</code>, <code>gzip</code>, <code>lz4</code>. Reportar tamaño + tiempo de lectura. (Hint: zstd suele ganar en ratio; snappy en speed).</li>
+<li><strong>Predicate pushdown</strong>: en DuckDB, <code>EXPLAIN ANALYZE SELECT * FROM parquet WHERE pickup_date='2024-01-15'</code>. Compará "rows read" vs <code>SELECT * FROM parquet</code> sin WHERE.</li>
+<li><strong>Row groups y stats</strong>: con <code>pyarrow.parquet.ParquetFile(path).metadata</code>, inspeccioná <code>min</code>/<code>max</code>/<code>null_count</code> por columna por row group.</li>
+<li><strong>Avro schema + roundtrip</strong>: definí schema Avro para evento de click. Serializá 1000 eventos con <code>fastavro</code>, deserializá. Compará tamaño con JSON puro.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Notebook + reporte:</p>
+<ol>
+<li>Benchmark sobre 1 año de NYC Taxi:
+   - CSV (raw), Parquet snappy, Parquet zstd, Avro snappy, JSON gzipped.
+   - Reportar para cada uno: tamaño en disco, tiempo de query <code>COUNT *</code>, tiempo de <code>SELECT col WHERE filter</code>.</li>
+<li>Demonstración de schema evolution: tabla Avro con schema v1 (5 campos), agregar campo opcional → v2. Consumer viejo (con v1) lee data de v2 sin romperse.</li>
+<li>Justificación de elección: para 3 casos de uso (analytics warehouse, Kafka stream, archive a largo plazo), recomendar formato y compresión.</li>
+<li>Cálculo de costos: pasar de CSV a Parquet en S3, asumir 100 GB/mes generados. ¿$ ahorrados en S3 + transferencia?</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: el alumno demuestra con números (no opinión) por qué Parquet es ~5-50× más rápido para queries analíticas, y produce esquema Avro funcional con evolución backward-compatible.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Parquet más grande que CSV</td>
+<td>(1) Schema con muchas columnas vacías. (2) Compresión <code>none</code>. (3) Row groups muy chicos. <strong>Fix</strong>: <code>compression='snappy'</code>, <code>row_group_size=128_000_000</code>.</td>
+</tr>
+<tr>
+<td>Lectura Parquet lenta — más lenta que CSV</td>
+<td>Estás haciendo <code>SELECT *</code> (no aprovecha columnar). <strong>Fix</strong>: <code>SELECT col1, col2</code> para usar column pruning.</td>
+</tr>
+<tr>
+<td><code>ArrowInvalid: Schema mismatch</code> al concatenar</td>
+<td>Dos parquets con types ligeramente distintos (<code>int32</code> vs <code>int64</code>). <strong>Fix</strong>: explicit schema al escribir; o <code>pyarrow.concat_tables(promote=True)</code>.</td>
+</tr>
+<tr>
+<td>Avro consumer rompe al evolucionar schema</td>
+<td>Cambio no-compatible (renombrar campo sin alias, cambiar tipo). <strong>Fix</strong>: solo agregar campos opcionales con default; renombrar requiere <code>aliases</code>.</td>
+</tr>
+<tr>
+<td><code>partitionBy('user_id')</code> en Parquet crea 1M directorios</td>
+<td>Particionado high-cardinality. <strong>Fix</strong>: particionar por low-cardinality (<code>date</code>, <code>country</code>); para hash-distribution usar Iceberg/Delta.</td>
+</tr>
+<tr>
+<td>zstd no se lee en sistema legacy</td>
+<td>Algunos viejos solo soportan snappy/gzip. <strong>Fix</strong>: snappy es lo más universal; zstd es estándar desde Spark 3.2 / pandas 1.5.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿Parquet o ORC?</strong></p>
+<p>Parquet: dominante fuera del ecosistema Hadoop puro. ORC: nativo del ecosistema Hive/Hortonworks (algo declining). Para 2026 greenfield: Parquet sin pensar.</p>
+<p><strong>❓ ¿Parquet o Delta Lake / Iceberg / Hudi?</strong></p>
+<p>Parquet es solo formato de archivo. <strong>Delta Lake</strong>, <strong>Iceberg</strong>, <strong>Hudi</strong> son "table formats" sobre Parquet que agregan: ACID transactions, time travel, schema evolution rica, MERGE/UPSERT. Para data lakes serios: una de estos sobre Parquet. Para análisis ad-hoc: Parquet pelado alcanza.</p>
+<p><strong>❓ ¿CSV alguna vez tiene sentido?</strong></p>
+<p>(1) Interoperabilidad humana (Excel, miras con <code>less</code>). (2) Tamaño chico (&lt;1 MB) — no vale la pena la complejidad. (3) Output de un proceso para humano. Para todo lo demás: Parquet o JSON.</p>
+<p><strong>❓ ¿Avro o Protobuf en Kafka?</strong></p>
+<p>Ambos serializan binario con schema. <strong>Avro</strong>: schema embeddable o Registry, mejor evolution semantics. <strong>Protobuf</strong>: más rápido, mejor ecosystem gRPC. Confluent Kafka favorece Avro (Schema Registry built-in); gRPC users favorecen Protobuf.</p>
+<p><strong>❓ ¿Cuánto comprime zstd vs snappy?</strong></p>
+<p>Aprox: snappy reduce 50-60%, zstd reduce 65-75%. Zstd CPU cost ~2-3× snappy en compresión, ~1× en decompresión. Para almacenamiento long-term: zstd. Para alta throughput: snappy.</p>
+<p><strong>❓ ¿Cómo manejo Parquet con timezone-aware datetimes?</strong></p>
+<p>Parquet 2.x soporta <code>timestamp(unit=us, tz='UTC')</code>. Polars y PyArrow lo respetan. Cuidado: pandas &lt;2.0 a veces hace conversión silenciosa. Estandarizar en UTC siempre.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li><a href="https://parquet.apache.org/docs/">Parquet docs</a> — file format spec.</li>
+<li><a href="https://avro.apache.org/docs/">Avro spec</a> — schema language.</li>
+<li><a href="https://arrow.apache.org/docs/python/parquet.html">PyArrow Parquet API</a>.</li>
+<li><a href="https://iceberg.apache.org/">Apache Iceberg</a> — table format moderno.</li>
+<li><a href="https://wesmckinney.com/blog/apache-arrow-pandas-internals/"><em>CSV is dead, long live Parquet</em> (mejor para 2026)</a>.</li>
+</ul>
+<h2 id="material-descargable">📥 Material descargable</h2>
+<ul>
+<li>📄 <a href="./clase-214-formatos-columnares-parquet-avro-guia-explicativa.pdf">Guía explicativa (PDF)</a> — versión imprimible con todo el contenido de la clase.</li>
+<li>🎞️ <a href="./clase-214-formatos-columnares-parquet-avro-presentacion.pptx">Presentación (PPTX)</a> — deck PowerPoint listo para proyectar en clase.</li>
+<li>🧮 <a href="./notebook.ipynb">Notebook ejecutable (.ipynb)</a> — abrilo desde el laboratorio del programa o desde Jupyter.</li>
+</ul>
 <h2 id="siguiente-clase">➡️ Siguiente clase</h2>
 <p><a href="../215-modelado-dimensional-star-snowflake-schemas/index.html">Clase 215 — Modelado dimensional (star/snowflake schemas)</a></p>
   </main>

@@ -24,34 +24,165 @@
   </header>
   <main class="cur-main">
     <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-8-capstones/231-capstone-3-vision-por-computadora-con-transfer-learning/notebook.ipynb">📓 Abrir notebook en GitHub</a>
-<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">Objetivo</a> · <a href="#resultados-esperados">Resultados esperados</a> · <a href="#temas-clave">Temas clave</a> · <a href="#materiales">Materiales</a> · <a href="#prerrequisitos">Prerrequisitos</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#fases-del-capstone">🗺️ Fases del capstone</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#material-descargable">📥 Material descargable</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
 <h1 id="clase-231-capstone-3-vision-por-computadora-con-transfer-learning">Clase 231 — Capstone 3: visión por computadora con transfer learning</h1>
 <blockquote>
-<p>Parte: <strong>8-capstones</strong>
-Estado: <strong>stub</strong> (pendiente desarrollar contenido).</p>
+<p>Parte: <strong>8 — Capstones</strong> · Fuente: Géron, <em>Hands-On ML</em> 3ª ed. <strong>cap. 14-15</strong> + <a href="https://huggingface.co/docs/timm/">timm</a> + <a href="https://lightning.ai/docs/pytorch/stable/">PyTorch Lightning docs</a>. ⏱️ Duración estimada: <strong>180 min</strong>.</p>
 </blockquote>
-<h2 id="objetivo">Objetivo</h2>
-<p>Describir el resultado de aprendizaje concreto de esta clase.</p>
-<h2 id="resultados-esperados">Resultados esperados</h2>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Construir un clasificador de imágenes de calidad producción usando <strong>transfer learning</strong> sobre un backbone moderno (ConvNeXt-tiny / EfficientNetV2-S / ViT-Base/16). Entrenar en dos fases (feature extraction → fine-tuning progresivo), aplicar augmentation moderna (RandAugment, MixUp, CutMix), evaluar con métricas per-clase + slice analysis, y servir vía <strong>ONNX + FastAPI</strong> con endpoint <code>/predict</code> que recibe imagen en base64. Cerrar el capstone con un fairness check si aplica.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
 <p>Al finalizar, el estudiante podrá:</p>
 <ul>
-<li>(resultado 1)</li>
-<li>(resultado 2)</li>
-<li>(resultado 3)</li>
+<li>Diseñar un pipeline de <strong>transfer learning</strong> completo: backbone preentrenado en ImageNet → head custom → fine-tuning progresivo con LR diferencial por grupo.</li>
+<li>Aplicar <strong>augmentation moderna</strong> con Albumentations (RandAugment, MixUp, CutMix, RandomErasing) y verificar invariancia de label.</li>
+<li>Entrenar con <strong>PyTorch Lightning</strong> + AMP (mixed precision) + <code>torch.compile</code> + grad accumulation, con <code>seed_everything</code> y deterministic algorithms.</li>
+<li>Reportar <strong>accuracy + per-class F1 + confusion matrix + slice analysis</strong> (Clase 169) y un <strong>fairness check</strong> (Clase 224) si el dataset tiene atributos sensibles.</li>
+<li>Exportar el modelo a <strong>ONNX</strong> o <strong>TorchScript</strong> y servirlo en un endpoint <strong>FastAPI <code>/predict</code></strong> que reciba imagen base64.</li>
 </ul>
-<h2 id="temas-clave">Temas clave</h2>
+<h2 id="fases-del-capstone">🗺️ Fases del capstone</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Fase</th>
+<th>Por qué importa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Dataset + EDA</td>
+<td>Class imbalance, resolución variable, leakage train/test son los killers silenciosos.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Augmentation</td>
+<td>RandAugment + MixUp suben 2-4 puntos de accuracy gratis; sin esto, fine-tune overfittea en 3 epochs.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Backbone preentrenado</td>
+<td>ConvNeXt-tiny / EffNetV2-S / ViT-B/16 vía <code>timm</code> — pesos ImageNet-21k aceleran 10× la convergencia.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Fine-tuning progresivo</td>
+<td>Feature extraction (head only) → unfreeze último bloque → unfreeze full con <strong>LR diferencial</strong> (1e-5 backbone, 1e-3 head).</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Evaluación</td>
+<td>Accuracy global engaña con imbalance; per-clase F1, confusion matrix y slice analysis revelan los puntos ciegos.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Serving</td>
+<td>Export a ONNX / TorchScript + FastAPI <code>/predict</code> con imagen base64 → JSON <code>{class, prob}</code>.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
 <ul>
-<li>(subtema 1)</li>
-<li>(subtema 2)</li>
-<li>(subtema 3)</li>
+<li><strong>Transfer learning</strong>: reutilizar pesos de un modelo entrenado en una tarea grande (ImageNet, 1.2M imágenes, 1000 clases) como punto de partida para tu tarea chica. Dos modos: <strong>feature extraction</strong> (congelar backbone, entrenar solo head) y <strong>fine-tuning</strong> (descongelar progresivamente).</li>
+<li><strong>Backbone moderno</strong> (2026): <strong>ConvNeXt-tiny</strong> (28M params, CNN moderna), <strong>EfficientNetV2-S</strong> (21M, balance speed/accuracy), <strong>ViT-Base/16</strong> (86M, attention puro). Todos disponibles en <code>timm</code> con pesos ImageNet-21k.</li>
+<li><strong>LR diferencial por grupo</strong>: el backbone preentrenado necesita LR ~100× menor que el head random. <code>torch.optim.AdamW([{'params': backbone, 'lr': 1e-5}, {'params': head, 'lr': 1e-3}])</code>.</li>
+<li><strong>RandAugment</strong>: política automática que aplica N=2 transformaciones random con magnitud M=9 (rotación, color jitter, equalize, shear...). Plug-and-play en <code>torchvision.transforms.v2</code>.</li>
+<li><strong>MixUp / CutMix</strong>: combinan 2 imágenes (MixUp = blend pixel-wise α≈0.2; CutMix = pega un parche de B sobre A). Labels se mezclan en la misma proporción. Regularizador potente para datasets chicos.</li>
+<li><strong>AMP (Automatic Mixed Precision)</strong>: usar <code>float16</code> para forward/backward, <code>float32</code> para pesos. 2× speedup y 2× memoria libre en GPUs ≥ Volta. <code>torch.amp.autocast() + GradScaler</code>.</li>
+<li><strong><code>torch.compile</code></strong>: en torch 2.x, JIT-compila el grafo del modelo. +20-40% throughput sin tocar código. <code>model = torch.compile(model, mode="reduce-overhead")</code>.</li>
+<li><strong>Slice analysis</strong>: accuracy/F1 desagregado por sub-grupo (tamaño del objeto, iluminación, demografía). Revela disparidades que la métrica global esconde (Clase 169 + 224).</li>
 </ul>
-<h2 id="materiales">Materiales</h2>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
 <ul>
-<li><code>README.md</code> — esta ficha</li>
-<li><code>notebook.ipynb</code> — cuaderno de la clase</li>
+<li><strong>Opciones de dataset</strong> (elegí una):</li>
+<li><strong>Cats vs Dogs</strong> (Kaggle, ~800 MB, 25K imágenes, binario) — el clásico para empezar.</li>
+<li><strong>Food-101 subset</strong> (10 clases de 101, ~500 MB) — multiclase realista, fondos heterogéneos.</li>
+<li><strong>Plant Disease</strong> (PlantVillage, 38 clases, ~1.5 GB) — class imbalance natural, alto impacto agro.</li>
+<li><strong>Casting Defect</strong> (Kaggle industrial, binario, ~100 MB) — defect detection, dataset chico (~7K) ideal para mostrar el valor del transfer learning.</li>
+<li><strong>Stack</strong>: <code>torch</code> 2.x · <code>torchvision</code> · <code>timm</code> · <code>pytorch-lightning</code> · <code>albumentations</code> · <code>onnx</code> · <code>onnxruntime</code> · <code>fastapi</code> · <code>uvicorn</code> · <code>wandb</code> o <code>mlflow</code>.</li>
 </ul>
-<h2 id="prerrequisitos">Prerrequisitos</h2>
-<p>Ver índice general en <code>classes/README.md</code> para dependencias entre clases.</p>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>Baseline tonto</strong>: entrenar una CNN de 2 capas conv from scratch (sin transfer). Reportar accuracy de validation. Esperá &lt;60% en multiclase — establece el piso.</li>
+<li><strong>Feature extraction</strong>: cargar <code>timm.create_model('convnext_tiny', pretrained=True, num_classes=N)</code>. Congelar backbone (<code>for p in model.parameters(): p.requires_grad = False</code>), entrenar solo head 5 epochs. Esperá +20-30 puntos sobre el baseline.</li>
+<li><strong>Fine-tuning progresivo</strong>: unfreeze último bloque → 5 epochs con LR 1e-4 → unfreeze full → 10 epochs con LR diferencial (1e-5 backbone, 1e-3 head). Loggear con W&amp;B/MLflow.</li>
+<li><strong>Augmentation ablation</strong>: comparar (a) sin aug, (b) flip + crop, (c) RandAugment, (d) RandAugment + MixUp + CutMix. Reportar curva val_acc.</li>
+<li><strong>Serving end-to-end</strong>: exportar a ONNX (<code>torch.onnx.export</code>), validar con <code>onnxruntime</code> que la inferencia da la misma probabilidad ±1e-4, levantar FastAPI con endpoint <code>POST /predict</code> que reciba <code>{"image_b64": "..."}</code> y devuelva <code>{"class": "...", "prob": 0.94}</code>. Probar con <code>curl</code>.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Notebook + repo con:</p>
+<ol>
+<li>Dataset elegido + EDA (distribución de clases, resolución, ejemplos por clase).</li>
+<li>Pipeline Lightning con <strong>3 fases</strong> de entrenamiento (feature extraction → unfreeze parcial → unfreeze full).</li>
+<li>Augmentation con Albumentations + verificación de label invariance.</li>
+<li>Reporte de métricas: accuracy global, <strong>per-class F1</strong>, <strong>confusion matrix</strong>, <strong>slice analysis</strong> sobre al menos 1 dimensión.</li>
+<li><strong>Si el dataset tiene atributos sensibles</strong> (rostros, demografía): fairness check con disparate impact + equal opportunity (Clase 224).</li>
+<li>Export a ONNX + script <code>serve.py</code> con FastAPI <code>/predict</code> funcionando localmente.</li>
+<li>README del repo con resultados, decisiones de diseño y limitaciones.</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: accuracy de test &gt; 90% en binario o &gt; 75% en multiclase (10+ clases), el endpoint <code>/predict</code> responde en &lt;500 ms en CPU, y el reporte identifica al menos 1 slice donde el modelo subperforma.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Accuracy de train sube a 99%, val se queda en 65%</td>
+<td>Overfitting clásico. <strong>Fix</strong>: subir augmentation (RandAugment + MixUp), bajar LR del head, EarlyStopping con <code>patience=5</code>, weight decay 0.05.</td>
+</tr>
+<tr>
+<td><code>CUDA out of memory</code> al hacer fine-tune full</td>
+<td>Batch demasiado grande para AMP off. <strong>Fix</strong>: activar <code>precision="16-mixed"</code> en Lightning + <code>accumulate_grad_batches=4</code>, o bajar <code>image_size</code> de 384→224.</td>
+</tr>
+<tr>
+<td>Val accuracy es altísima pero el modelo en producción falla</td>
+<td><strong>Leakage</strong> train/test (mismas imágenes duplicadas en ambos splits). <strong>Fix</strong>: deduplicar por hash perceptual (<code>imagehash.phash</code>) antes de splittear.</td>
+</tr>
+<tr>
+<td><code>RuntimeError: shape mismatch</code> al exportar a ONNX</td>
+<td>El head custom espera shape que el <code>dummy_input</code> no replica. <strong>Fix</strong>: usar <code>dummy = torch.randn(1, 3, 224, 224)</code> con <code>batch_size=1</code> y <code>dynamic_axes={'input': {0: 'batch'}}</code>.</td>
+</tr>
+<tr>
+<td>Predicciones ONNX difieren de PyTorch en 5to decimal</td>
+<td>Esperable (precisión float). <strong>Fix</strong>: validar con <code>np.allclose(out_torch, out_onnx, atol=1e-4)</code>, no <code>assert ==</code>.</td>
+</tr>
+<tr>
+<td>Una clase tiene F1=0.0 y nadie lo notó</td>
+<td>Class imbalance (esa clase es 2% del dataset). <strong>Fix</strong>: <code>WeightedRandomSampler</code> o <code>class_weight</code> en CrossEntropyLoss; mirar <strong>per-class F1</strong> siempre, nunca solo accuracy global.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿ConvNeXt, EfficientNetV2 o ViT?</strong></p>
+<p>Para datasets chicos (&lt;10K imágenes), <strong>ConvNeXt-tiny</strong> o <strong>EfficientNetV2-S</strong> ganan: las CNN tienen inductive bias (locality, translation equivariance) que ViT no tiene y por eso ViT necesita 10× más datos para igualar. Para datasets grandes (&gt;100K) o si tenés pretraining en ImageNet-21k, <strong>ViT-Base/16</strong> suele ser top. Probá los 3 vía <code>timm</code> y comparalos — son 3 líneas de código cada uno.</p>
+<p><strong>❓ ¿Feature extraction o fine-tuning?</strong></p>
+<p><strong>Feature extraction</strong> primero (más rápido, menos riesgo de catastrophic forgetting). Si la accuracy se estanca, hacer <strong>fine-tuning progresivo</strong>: descongelar el último bloque, después dos, después full, siempre con LR diferencial. Nunca descongelés todo en epoch 1 — el gradiente random del head corrompe los pesos preentrenados.</p>
+<p><strong>❓ ¿Por qué Lightning y no PyTorch puro?</strong></p>
+<p>Lightning te da gratis: AMP, multi-GPU, gradient accumulation, checkpointing, EarlyStopping, logging a W&amp;B/MLflow, y <code>seed_everything</code>. En un capstone querés invertir el tiempo en el modelo, no en el training loop.</p>
+<p><strong>❓ ¿ONNX o TorchScript para serving?</strong></p>
+<p><strong>ONNX</strong> si querés portabilidad (servir desde C++, Java, Node, navegador con onnxruntime-web). <strong>TorchScript</strong> si te quedás en Python/C++ con torch instalado y querés el path más simple. Para FastAPI en producción, ONNX + <code>onnxruntime</code> suele ser 2-3× más rápido que torch eager.</p>
+<p><strong>❓ ¿Fairness check siempre?</strong></p>
+<p>Solo si el dataset tiene <strong>atributos sensibles</strong> (rostros con edad/género/etnia, datos médicos con demografía). Si clasificás defectos industriales o platos de comida, no aplica. Cuando aplica, es <strong>obligatorio</strong> — releé Clase 224 antes de publicar el modelo.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Géron, A. <em>Hands-On Machine Learning with Scikit-Learn, Keras &amp; TensorFlow</em> 3ª ed. (O'Reilly, 2022), <strong>cap. 14</strong> (CNN) y <strong>15</strong> (transfer learning).</li>
+<li><a href="https://huggingface.co/docs/timm/">timm — PyTorch Image Models</a> (Ross Wightman) — 1000+ backbones preentrenados con API única.</li>
+<li><a href="https://lightning.ai/docs/pytorch/stable/">PyTorch Lightning docs</a> — el training loop estándar de facto.</li>
+<li><a href="https://albumentations.ai/docs/">Albumentations docs</a> — augmentation rápida y composable.</li>
+<li>He, K. et al. <em>Deep Residual Learning for Image Recognition</em> (CVPR 2016). <a href="https://arxiv.org/abs/1512.03385">https://arxiv.org/abs/1512.03385</a></li>
+<li>Dosovitskiy, A. et al. <em>An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale</em> (ICLR 2021, ViT). <a href="https://arxiv.org/abs/2010.11929">https://arxiv.org/abs/2010.11929</a></li>
+</ul>
+<h2 id="material-descargable">📥 Material descargable</h2>
+<ul>
+<li>📄 <a href="./clase-231-capstone-3-vision-por-computadora-con-transfer-learning-guia-explicativa.pdf">Guía explicativa (PDF)</a> — versión imprimible con todo el contenido de la clase.</li>
+<li>🎞️ <a href="./clase-231-capstone-3-vision-por-computadora-con-transfer-learning-presentacion.pptx">Presentación (PPTX)</a> — deck PowerPoint listo para proyectar en clase.</li>
+<li>🧮 <a href="./notebook.ipynb">Notebook ejecutable (.ipynb)</a> — abrilo desde el laboratorio del programa o desde Jupyter.</li>
+</ul>
 <h2 id="siguiente-clase">➡️ Siguiente clase</h2>
 <p><a href="../232-portafolio-publico-en-github-pages-y-presentacion/index.html">Clase 232 — Portafolio público en GitHub Pages y presentación</a></p>
   </main>

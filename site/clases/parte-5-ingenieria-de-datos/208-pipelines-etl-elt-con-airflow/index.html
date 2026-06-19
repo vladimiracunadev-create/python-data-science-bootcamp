@@ -24,34 +24,170 @@
   </header>
   <main class="cur-main">
     <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-5-ingenieria-de-datos/208-pipelines-etl-elt-con-airflow/notebook.ipynb">📓 Abrir notebook en GitHub</a>
-<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">Objetivo</a> · <a href="#resultados-esperados">Resultados esperados</a> · <a href="#temas-clave">Temas clave</a> · <a href="#materiales">Materiales</a> · <a href="#prerrequisitos">Prerrequisitos</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#material-descargable">📥 Material descargable</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
 <h1 id="clase-208-pipelines-etlelt-con-airflow">Clase 208 — Pipelines ETL/ELT con Airflow</h1>
 <blockquote>
-<p>Parte: <strong>5-ingenieria-de-datos</strong>
-Estado: <strong>stub</strong> (pendiente desarrollar contenido).</p>
+<p>Parte: <strong>5 — Ingeniería de Datos</strong> · Fuente: Reis &amp; Housley <em>Fundamentals of Data Engineering</em> (O'Reilly, 2022) <strong>cap. 8</strong> + <a href="https://airflow.apache.org/docs/">Airflow docs 2.10+</a>. ⏱️ Duración estimada: <strong>80 min</strong>.</p>
 </blockquote>
-<h2 id="objetivo">Objetivo</h2>
-<p>Describir el resultado de aprendizaje concreto de esta clase.</p>
-<h2 id="resultados-esperados">Resultados esperados</h2>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Escribir DAGs de <strong>Airflow 2.x</strong> con la API moderna (TaskFlow + <code>@dag</code>/<code>@task</code> decorators), entender la diferencia entre <strong>ETL</strong> (transform antes de cargar) y <strong>ELT</strong> (cargar al warehouse y transformar ahí), y orquestar un pipeline <code>extract → load → transform → notify</code> con retries, SLAs y backfill.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
 <p>Al finalizar, el estudiante podrá:</p>
 <ul>
-<li>(resultado 1)</li>
-<li>(resultado 2)</li>
-<li>(resultado 3)</li>
+<li>Escribir un DAG con TaskFlow API (<code>@dag</code>, <code>@task</code>) y entender el grafo resultante.</li>
+<li>Diferenciar ETL (clásico) de ELT (moderno, warehouse-first) y elegir según contexto.</li>
+<li>Configurar <strong>retries</strong>, <strong>SLAs</strong>, <strong>trigger rules</strong> (<code>all_success</code>, <code>one_failed</code>, <code>none_failed</code>), y <strong>XComs</strong>.</li>
+<li>Hacer <strong>backfill</strong> (<code>airflow dags backfill</code>) para reprocesar fechas históricas sin duplicar.</li>
+<li>Diagnosticar <code>Task stuck in queued</code>, <code>Worker died</code>, <code>DAG not appearing</code> con <code>airflow dags list</code>, logs, y <code>airflow.cfg</code>.</li>
 </ul>
-<h2 id="temas-clave">Temas clave</h2>
+<h2 id="temas">🗺️ Temas</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Tema</th>
+<th>Por qué importa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>ETL vs ELT — cuándo cada uno</td>
+<td>El warehouse moderno cambió el default.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>DAG = grafo dirigido acíclico</td>
+<td>Vocabulario fundacional.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>TaskFlow API vs Operators clásicos</td>
+<td>Código más limpio en Airflow 2.x.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>XComs — pasar data entre tasks</td>
+<td>Su uso correcto y sus límites (no para GBs).</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Schedule + catchup + backfill</td>
+<td>Reprocesar histórico sin duplicar.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Sensors, hooks, providers</td>
+<td>Esperar eventos externos, conectar a sistemas.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
 <ul>
-<li>(subtema 1)</li>
-<li>(subtema 2)</li>
-<li>(subtema 3)</li>
+<li><strong>ETL</strong> (Extract-Transform-Load): transformás en Python/Spark <strong>antes</strong> de cargar al warehouse. Patrón clásico cuando el warehouse era caro.</li>
+<li><strong>ELT</strong> (Extract-Load-Transform): cargás raw al warehouse y transformás con SQL ahí. Patrón moderno (BigQuery/Snowflake/DuckDB son baratos para compute SQL).</li>
+<li><strong>DAG</strong>: grafo de tareas con dependencias. En Airflow se define con <code>@dag</code> decorator + <code>@task</code> per tarea.</li>
+<li><strong>TaskFlow API</strong>: introducida en Airflow 2.0. Devuelve valores de <code>@task</code> que se vuelven inputs de otras <code>@task</code> — Airflow infiere XComs automático.</li>
+<li><strong>XCom</strong> (Cross-Communication): mecanismo para pasar pequeños valores entre tasks. Default backend: metadata DB. <strong>No usar para GBs</strong> — pasá referencias (paths S3) en su lugar.</li>
+<li><strong>Catchup</strong>: si un DAG con <code>schedule='@daily'</code> se prende un lunes, ¿corre todos los días desde su <code>start_date</code>? Si <code>catchup=True</code>: sí (reprocesa retroactivo). Si <code>False</code>: arranca desde hoy. <strong>Default <code>True</code></strong> — fuente de sorpresas caras.</li>
+<li><strong>Backfill</strong>: reprocesar fechas específicas. <code>airflow dags backfill --start-date 2026-06-01 --end-date 2026-06-15 my_dag</code>.</li>
+<li><strong>Sensor</strong>: tarea que espera un evento externo (archivo en S3, fila en DB) con polling. <code>reschedule</code> mode evita ocupar worker slot mientras espera.</li>
+<li><strong>Hook</strong>: wrapper sobre un cliente externo (S3Hook, PostgresHook). Lee credenciales desde <code>Connections</code> UI.</li>
+<li><strong>Provider</strong>: paquete con operators/hooks/sensors para una integración (<code>apache-airflow-providers-amazon</code>, <code>apache-airflow-providers-google</code>).</li>
 </ul>
-<h2 id="materiales">Materiales</h2>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
 <ul>
-<li><code>README.md</code> — esta ficha</li>
-<li><code>notebook.ipynb</code> — cuaderno de la clase</li>
+<li><strong>Stack ejemplo</strong>: Airflow 2.10+ con docker-compose oficial.</li>
+<li><strong>Pipeline target</strong>: extrae CSV → carga a DuckDB → transforma con SQL → publica métricas a Slack.</li>
+<li>Librerías: <code>apache-airflow&gt;=2.10</code>, <code>duckdb</code>, <code>pandas</code>.</li>
 </ul>
-<h2 id="prerrequisitos">Prerrequisitos</h2>
-<p>Ver índice general en <code>classes/README.md</code> para dependencias entre clases.</p>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>DAG mínimo TaskFlow</strong>: 3 tasks: <code>extract</code> (descarga CSV), <code>transform</code> (limpia con pandas), <code>load</code> (escribe a DuckDB). Ver el grafo en <code>/graph</code>.</li>
+<li><strong>Schedule + catchup</strong>: <code>schedule='@daily'</code>, <code>start_date=days_ago(7)</code>, <code>catchup=True</code>. Verificá que Airflow crea 7 runs históricos. Cambiar a <code>catchup=False</code> y observar diferencia.</li>
+<li><strong>Retries + SLA</strong>: agregá <code>retries=3</code>, <code>retry_delay=timedelta(minutes=2)</code>, <code>sla=timedelta(minutes=10)</code> al <code>transform</code>. Simulá falla con <code>raise Exception("flaky")</code> y observá reintento.</li>
+<li><strong>XCom</strong>: <code>extract</code> devuelve un dict pequeño (filename + row count). <code>transform</code> lo recibe como argumento (TaskFlow autoinjecta). Verificá en la UI tab "XCom".</li>
+<li><strong>Backfill</strong>: <code>airflow dags backfill --start-date 2026-06-01 --end-date 2026-06-05 my_dag</code>. Confirmá que se ejecutan los 5 días sin duplicar (gracias a idempotencia con <code>execution_date</code> como key).</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Repo con docker-compose Airflow + DAG que:</p>
+<ol>
+<li>Corre cada hora (<code>schedule='@hourly'</code>).</li>
+<li>Extrae data de una API pública (ej. CoinGecko BTC price), la carga a DuckDB.</li>
+<li>Transforma con SQL (<code>run_sql</code> task usando <code>DuckDBHook</code>).</li>
+<li>Calcula métrica (avg price 24h) y la postea a Slack via <code>SlackWebhookOperator</code>.</li>
+<li>SLA de 5 min en <code>extract</code>, retries=3.</li>
+<li>README con <code>docker-compose up</code>, comandos kubectl, captura de la UI.</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: el DAG corre 24 veces seguidas (1 día) sin fallar, los datos en DuckDB son idempotentes (re-run para misma hora no duplica), Slack recibe el mensaje cada hora.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DAG no aparece en la UI</td>
+<td>Sintaxis error en el archivo. <strong>Fix</strong>: <code>python my_dag.py</code> debe correr sin error; revisar <code>airflow dags list-import-errors</code>.</td>
+</tr>
+<tr>
+<td>Catchup explota: 365 runs creados al arrancar</td>
+<td><code>catchup=True</code> (default) con <code>start_date</code> de hace 1 año. <strong>Fix</strong>: <code>catchup=False</code> salvo que conscientemente quieras backfill.</td>
+</tr>
+<tr>
+<td><code>Task stuck in queued forever</code></td>
+<td>Worker no levantó, o pool agotado. <strong>Fix</strong>: <code>airflow tasks states-for-dag-run</code>, chequear logs del scheduler/worker, <code>airflow pools list</code>.</td>
+</tr>
+<tr>
+<td>XCom serialization error con DataFrame</td>
+<td>XCom default es JSON; un DataFrame no es JSON-serializable. <strong>Fix</strong>: serializá manual (<code>df.to_dict()</code>) o usá un custom XCom backend (S3, GCS). Mejor: no pasar GBs por XCom — pasá un path.</td>
+</tr>
+<tr>
+<td><code>start_date</code> en el futuro hace que no corra nunca</td>
+<td>El scheduler ignora DAGs con <code>start_date &gt; now()</code>. <strong>Fix</strong>: revisá timezone (UTC vs local) y que <code>start_date</code> sea pasado.</td>
+</tr>
+<tr>
+<td>Variables de entorno no llegan al worker</td>
+<td><code>airflow.cfg</code> o Docker compose con env vars mal mapeados. <strong>Fix</strong>: <code>airflow info</code> muestra config real, comparar vs lo esperado.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿Airflow, Prefect, Dagster, Mage — cuál elijo en 2026?</strong></p>
+<ul>
+<li><strong>Airflow</strong>: estándar de la industria, max madurez, syntax verbosa.</li>
+<li><strong>Prefect 3</strong>: API Python moderna, hybrid execution (Clase 209).</li>
+<li><strong>Dagster</strong>: data-aware (assets), mejor lineage.</li>
+<li><strong>Mage</strong>: notebook-first.</li>
+</ul>
+<p>Para empresas grandes / equipos data engineering serios: Airflow. Para equipos chicos / ML-focused: Prefect o Dagster son más rápidos.</p>
+<p><strong>❓ ¿ETL o ELT?</strong></p>
+<p>ELT cuando: warehouse moderno (BigQuery/Snowflake), data analyst con SQL, transformaciones cambian seguido. ETL cuando: data muy sensible (no podés cargar raw al warehouse), transformaciones complejas (geo, ML inference), warehouse caro. La industria converge a <strong>ELT con dbt</strong> para SQL transforms post-load.</p>
+<p><strong>❓ ¿XCom para pasar un DataFrame de 500 MB?</strong></p>
+<p>No. XCom default está en la metadata DB (Postgres/MySQL) — vas a saturarla. Pasá un path S3 / GCS por XCom, y cada task lee/escribe del storage. O configurá <code>Custom XCom Backend</code> con S3.</p>
+<p><strong>❓ ¿Tengo que aprender los Operators clásicos (<code>PythonOperator</code>, <code>BashOperator</code>)?</strong></p>
+<p>Para mantener DAGs viejos: sí. Para nuevos: TaskFlow API es mejor. Pero algunos casos (operators provider-specific como <code>BigQueryInsertJobOperator</code>) siguen siendo más limpios sin TaskFlow.</p>
+<p><strong>❓ ¿Cómo testeo un DAG?</strong></p>
+<p>Tres niveles: (1) <strong>import test</strong>: <code>python my_dag.py</code> no rompe. (2) <strong>unit test</strong> de tasks: extraer la lógica a funciones puras + tests. (3) <strong>integration</strong>: <code>airflow dags test my_dag 2026-06-01</code> corre el DAG sin scheduler.</p>
+<p><strong>❓ ¿Airflow corre el Python de mi DAG en cada heartbeat?</strong></p>
+<p>Sí — el scheduler parsea todos los DAGs cada <code>min_file_process_interval</code> segundos. <strong>No</strong> pongas código pesado al top level (<code>requests.get(...)</code> en import time es un anti-pattern). Todo lo costoso va <strong>dentro</strong> de tasks.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Reis, J. &amp; Housley, M. <em>Fundamentals of Data Engineering</em> (O'Reilly, 2022), <strong>cap. 8</strong> — <em>Queries, Modeling, and Transformation</em>.</li>
+<li><a href="https://airflow.apache.org/docs/apache-airflow/stable/">Airflow docs 2.x</a> — TaskFlow API.</li>
+<li><a href="https://github.com/jghoman/awesome-apache-airflow">Awesome Apache Airflow</a>.</li>
+<li><a href="https://docs.getdbt.com/">dbt-core</a> — el complemento natural para ELT.</li>
+<li><em>Designing Data-Intensive Applications</em> (Kleppmann, 2017) — fundamentos.</li>
+</ul>
+<h2 id="material-descargable">📥 Material descargable</h2>
+<ul>
+<li>📄 <a href="./clase-208-pipelines-etl-elt-con-airflow-guia-explicativa.pdf">Guía explicativa (PDF)</a> — versión imprimible con todo el contenido de la clase.</li>
+<li>🎞️ <a href="./clase-208-pipelines-etl-elt-con-airflow-presentacion.pptx">Presentación (PPTX)</a> — deck PowerPoint listo para proyectar en clase.</li>
+<li>🧮 <a href="./notebook.ipynb">Notebook ejecutable (.ipynb)</a> — abrilo desde el laboratorio del programa o desde Jupyter.</li>
+</ul>
 <h2 id="siguiente-clase">➡️ Siguiente clase</h2>
 <p><a href="../209-pipelines-con-prefect-o-dagster/index.html">Clase 209 — Pipelines con Prefect o Dagster</a></p>
   </main>

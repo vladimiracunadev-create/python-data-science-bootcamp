@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Clase 215 — Modelado dimensional (star/snowflake schemas) | Python Data Science Program</title>
+  <title>Clase 215 — Modelado dimensional: star/snowflake schemas | Python Data Science Program</title>
   <meta name="description" content="Clase 215 del Python Data Science Program">
   <meta name="theme-color" content="#0f3d3e">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -24,36 +24,173 @@
   </header>
   <main class="cur-main">
     <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-5-ingenieria-de-datos/215-modelado-dimensional-star-snowflake-schemas/notebook.ipynb">📓 Abrir notebook en GitHub</a>
-<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">Objetivo</a> · <a href="#resultados-esperados">Resultados esperados</a> · <a href="#temas-clave">Temas clave</a> · <a href="#materiales">Materiales</a> · <a href="#prerrequisitos">Prerrequisitos</a> · <a href="#siguiente-parte">➡️ Siguiente parte</a></nav>
-<h1 id="clase-215-modelado-dimensional-starsnowflake-schemas">Clase 215 — Modelado dimensional (star/snowflake schemas)</h1>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#material-descargable">📥 Material descargable</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-215-modelado-dimensional-starsnowflake-schemas">Clase 215 — Modelado dimensional: star/snowflake schemas</h1>
 <blockquote>
-<p>Parte: <strong>5-ingenieria-de-datos</strong>
-Estado: <strong>stub</strong> (pendiente desarrollar contenido).</p>
+<p>Parte: <strong>5 — Ingeniería de Datos</strong> · Fuente: Kimball &amp; Ross <em>The Data Warehouse Toolkit</em> (Wiley, 3ª ed.) + Reis &amp; Housley <strong>cap. 8</strong>. ⏱️ Duración estimada: <strong>75 min</strong>.</p>
 </blockquote>
-<h2 id="objetivo">Objetivo</h2>
-<p>Describir el resultado de aprendizaje concreto de esta clase.</p>
-<h2 id="resultados-esperados">Resultados esperados</h2>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Diseñar el esquema de un data warehouse usando <strong>modelado dimensional</strong> (Kimball): una <strong>fact table</strong> central + <strong>dimension tables</strong> alrededor (star schema), o dimensiones normalizadas (snowflake schema). Es el modelo que han usado los data warehouses serios desde los 90s y sigue vigente en BigQuery/Snowflake/dbt en 2026.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
 <p>Al finalizar, el estudiante podrá:</p>
 <ul>
-<li>(resultado 1)</li>
-<li>(resultado 2)</li>
-<li>(resultado 3)</li>
+<li>Identificar <strong>fact tables</strong> (eventos medibles: sale, click, payment) vs <strong>dimension tables</strong> (entidades descriptivas: customer, product, date).</li>
+<li>Diseñar un <strong>star schema</strong> con fact + dimensions desnormalizadas.</li>
+<li>Manejar <strong>slowly changing dimensions</strong> (SCD): Tipo 1 (overwrite), Tipo 2 (history con <code>valid_from</code>/<code>valid_to</code>), Tipo 3 (current + previous).</li>
+<li>Crear una <strong>date dimension</strong> completa (con feriados, fiscal year, etc.) — la dimensión más reutilizada.</li>
+<li>Diferenciar <strong>OLAP</strong> (modelado dimensional, query analíticas) de <strong>3NF</strong> (modelado normalizado, OLTP).</li>
 </ul>
-<h2 id="temas-clave">Temas clave</h2>
+<h2 id="temas">🗺️ Temas</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Tema</th>
+<th>Por qué importa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Star schema: fact + dims</td>
+<td>El patrón fundamental.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Snowflake schema: dims normalizadas</td>
+<td>Cuándo agregar el normalizado.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Surrogate keys vs natural keys</td>
+<td>Por qué usar IDs autoincrement en DW.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Slowly Changing Dimensions (SCD 1/2/3)</td>
+<td>Cómo manejar history.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Date dimension</td>
+<td>La que casi siempre olvidás generar.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Granularidad de la fact</td>
+<td>"Una fila por click" vs "una fila por sesión".</td>
+</tr>
+</tbody>
+</table>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
 <ul>
-<li>(subtema 1)</li>
-<li>(subtema 2)</li>
-<li>(subtema 3)</li>
+<li><strong>Fact table</strong>: tabla con métricas numéricas + foreign keys a dimensions. Ej: <code>fact_sales(date_key, product_key, customer_key, store_key, qty, revenue)</code>. Filas chicas, MUCHAS (millones-billones).</li>
+<li><strong>Dimension table</strong>: descripción de las entidades. Ej: <code>dim_product(product_key, sku, name, category, brand)</code>. Filas grandes (muchas columnas), POCAS (miles-millones).</li>
+<li><strong>Star schema</strong>: 1 fact + N dims, todas conectadas directo a la fact. Cada dim es plana (denormalizada). <strong>El default</strong> — mejor performance, joins simples.</li>
+<li><strong>Snowflake schema</strong>: las dims están normalizadas (dim_product → dim_category → dim_segment). Ahorra storage en dims gigantes; complica queries.</li>
+<li><strong>Surrogate key</strong>: ID autoincrement único para la dimensión (<code>product_key=42</code>), distinto del natural key del sistema source (<code>sku="ABC-123"</code>). Permite SCD Tipo 2 sin colisión.</li>
+<li><strong>SCD Tipo 1</strong> (overwrite): cambia el valor in-place. <strong>No mantiene historia</strong>. Útil para correcciones tipo "fix typo en nombre".</li>
+<li><strong>SCD Tipo 2</strong> (history): inserta nueva fila con <code>valid_from</code>, <code>valid_to</code>, <code>is_current</code>. La fact apunta al <code>product_key</code> vigente al momento del evento.</li>
+<li><strong>SCD Tipo 3</strong> (current + previous): columnas <code>current_value</code> + <code>previous_value</code>. Maneja solo 1 cambio histórico. Raro en práctica.</li>
+<li><strong>Date dimension</strong>: tabla precalculada con 1 row por día (<code>date_key</code>, <code>year</code>, <code>quarter</code>, <code>month</code>, <code>day_of_week</code>, <code>is_weekend</code>, <code>is_holiday</code>, <code>fiscal_year</code>, ...). Evita derivar en cada query.</li>
+<li><strong>Granularidad</strong> (grain): el nivel de detalle de la fact. "1 row per transaction" vs "1 row per day per customer". Definir el grain ES la decisión de diseño más importante.</li>
 </ul>
-<h2 id="materiales">Materiales</h2>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
 <ul>
-<li><code>README.md</code> — esta ficha</li>
-<li><code>notebook.ipynb</code> — cuaderno de la clase</li>
+<li><strong>Caso ejemplo</strong>: e-commerce con tablas operacionales <code>orders</code>, <code>order_items</code>, <code>products</code>, <code>customers</code>. Transformar a star schema.</li>
+<li>Librerías: DuckDB/SQL puro (las tablas son SQL, no Python).</li>
 </ul>
-<h2 id="prerrequisitos">Prerrequisitos</h2>
-<p>Ver índice general en <code>classes/README.md</code> para dependencias entre clases.</p>
-<h2 id="siguiente-parte">➡️ Siguiente parte</h2>
-<p><a href="../../parte-6-sistemas-de-recomendacion/216-filtrado-colaborativo-user-based-e-item-based/index.html">Clase 216 — Filtrado colaborativo user-based e item-based</a></p>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>Identificar grain</strong>: dado un dataset de pedidos de e-commerce, decidí el grain de tu fact. ¿"1 row per order"? ¿"1 row per order line"? Elegí, justificá.</li>
+<li><strong>Date dimension</strong>: SQL que genera <code>dim_date</code> con 5 años de días, columnas <code>year</code>, <code>quarter</code>, <code>month</code>, <code>day_of_week_iso</code>, <code>is_weekend</code>, <code>is_holiday_us</code>, <code>fiscal_year</code>. (<code>generate_series</code> de Postgres/DuckDB).</li>
+<li><strong>Star schema</strong>: del e-commerce, diseñá <code>fact_sales(date_key, product_key, customer_key, store_key, qty, revenue, discount)</code>, <code>dim_product</code>, <code>dim_customer</code>, <code>dim_store</code>, <code>dim_date</code>. SQL completo.</li>
+<li><strong>SCD Tipo 2 en dim_customer</strong>: cliente cambia de ciudad. Tu pipeline detecta el cambio → <code>UPDATE</code> la fila vigente con <code>valid_to=NOW(), is_current=FALSE</code> → <code>INSERT</code> nueva fila con <code>valid_from=NOW(), is_current=TRUE</code>. Toda venta del cliente queda asociada a su ciudad <strong>al momento de la compra</strong>.</li>
+<li><strong>Query típica</strong>: "Revenue por brand × month × is_weekend" — escribíla con JOINs entre fact + dims + dim_date. Comparala con la equivalente en tablas no-modeladas (más JOINs, más subqueries).</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Repo con:</p>
+<ol>
+<li>SQL completo para crear: <code>dim_date</code>, <code>dim_customer</code> (SCD 2), <code>dim_product</code>, <code>dim_store</code>, <code>fact_sales</code>.</li>
+<li>Script de carga: lee tablas operacionales (Postgres/CSV) → transforma → carga al DW (DuckDB local).</li>
+<li>Demonstración de SCD 2: un cliente que cambia de ciudad; venta antes y después del cambio quedan correctamente asociadas a la ciudad de ese momento.</li>
+<li>5 queries analíticas representativas: revenue por segment × quarter, top 10 products, cohort retention, etc.</li>
+<li>README explicando: grain elegido, decisiones de denormalización, qué dim usaría snowflake (si alguna).</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: las 5 queries corren limpio; SCD 2 está correctamente implementada (verificable con un test que valida revenue agregado por ciudad-en-momento).</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Star schema con grain mixto (algunas filas por order, otras por order_line)</td>
+<td>Confusión sobre el grain. <strong>Fix</strong>: definir UNA granularidad, documentarla, agregar todo a ese nivel. Si necesitás dos: dos fact tables.</td>
+</tr>
+<tr>
+<td>Customer cambia de ciudad y todas las ventas históricas "viajan" con él</td>
+<td>Usaste SCD Tipo 1. <strong>Fix</strong>: SCD Tipo 2 con surrogate keys distintas para cada versión.</td>
+</tr>
+<tr>
+<td>Date queries lentas: <code>WHERE EXTRACT(month FROM date) = 1</code></td>
+<td>Index no se usa con función. <strong>Fix</strong>: usar <code>dim_date</code> con columnas precalculadas (<code>month_num</code>).</td>
+</tr>
+<tr>
+<td>Fact table tiene 200 columnas</td>
+<td>Estás metiendo dimensiones como columnas. <strong>Fix</strong>: extraer a dim tables, dejar solo métricas + FKs.</td>
+</tr>
+<tr>
+<td>Snowflake schema con 10 niveles de jerarquía</td>
+<td>Over-engineering. <strong>Fix</strong>: empezar con star (planar). Snowflake solo cuando una dim mide GBs y la repetición duele.</td>
+</tr>
+<tr>
+<td>dbt jobs explotan: full refresh diario de fact con billones de filas</td>
+<td>Falta incremental loading. <strong>Fix</strong>: dbt incremental models con <code>unique_key</code> + <code>merge</code> strategy.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿Modelado dimensional sigue vigente con BigQuery/Snowflake?</strong></p>
+<p>Sí. Aunque el compute moderno es elástico, queries siguen siendo más rápidas y baratas con star schema. dbt promueve el patrón. La diferencia con los 90s: no necesitás crear índices manualmente (los DW modernos lo manejan).</p>
+<p><strong>❓ ¿Star o snowflake?</strong></p>
+<p>Star por default. Snowflake solo si tu dim tiene jerarquía profunda + millones de rows + repetición de strings que duele en storage. Para dim_product con <code>category</code> repetido 10K veces: snowflake (sacar <code>dim_category</code>). Para <code>customer.country</code> repetido 1M veces: dejar en star (no vale la pena el JOIN extra).</p>
+<p><strong>❓ ¿Qué grain elijo?</strong></p>
+<p>El <strong>más fino posible</strong> que tenga sentido. "1 row per transaction line" mejor que "1 row per order" — siempre podés agregar al sumar, no podés desagregar después. Excepción: si la fact crece en TBs por día, agregar a <code>daily_sales_by_product</code> puede ser necesario.</p>
+<p><strong>❓ ¿<code>dim_date</code> o calcular en query?</strong></p>
+<p><code>dim_date</code> siempre. Razones: (1) feriados, fiscal year, business days requieren lookup, no aritmética. (2) Performance: JOIN a <code>dim_date</code> es más rápido que <code>EXTRACT/CASE</code>. (3) Consistencia: un único lugar define "qué es weekend".</p>
+<p><strong>❓ ¿Data Vault, OBT (One Big Table), Activity Schema, Anchor model — y modelos alternativos?</strong></p>
+<ul>
+<li><strong>Data Vault</strong>: para enterprise con many sources, schema cambiando seguido. Más complejo.</li>
+<li><strong>OBT</strong>: una tabla con todo desnormalizado (extremo de star). Bueno para una sola dashboard; explota con más casos.</li>
+<li><strong>Activity Schema</strong>: 1 fact universal de "actividades" + 1 dim por entidad. Patrón moderno (Narrator).</li>
+<li><strong>Anchor model</strong>: 6NF extremo, raro fuera de academia.</li>
+</ul>
+<p>Para 90% de los casos: star schema sigue ganando.</p>
+<p><strong>❓ ¿dbt es necesario?</strong></p>
+<p>No estrictamente, pero es el estándar. dbt convierte SQL transforms en código (versionado, testeado, lineage). Si vas a hacer &gt;5 modelos: usá dbt.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Kimball, R. &amp; Ross, M. <em>The Data Warehouse Toolkit</em> (Wiley, 3ª ed., 2013) — la biblia del modelado dimensional.</li>
+<li>Reis &amp; Housley <em>Fundamentals of Data Engineering</em> (O'Reilly, 2022) <strong>cap. 8</strong>.</li>
+<li><a href="https://docs.getdbt.com/">dbt docs</a> — el ecosistema moderno.</li>
+<li><a href="https://www.coalesce.io/">The Open Source Data Stack Conference</a> — talks de Kimball moderno con DuckDB/dbt.</li>
+<li><a href="https://github.com/calogica/dbt-date"><code>dim_date</code> SQL generator</a> — dbt package listo para usar.</li>
+</ul>
+<h2 id="material-descargable">📥 Material descargable</h2>
+<ul>
+<li>📄 <a href="./clase-215-modelado-dimensional-star-snowflake-schemas-guia-explicativa.pdf">Guía explicativa (PDF)</a> — versión imprimible con todo el contenido de la clase.</li>
+<li>🎞️ <a href="./clase-215-modelado-dimensional-star-snowflake-schemas-presentacion.pptx">Presentación (PPTX)</a> — deck PowerPoint listo para proyectar en clase.</li>
+<li>🧮 <a href="./notebook.ipynb">Notebook ejecutable (.ipynb)</a> — abrilo desde el laboratorio del programa o desde Jupyter.</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../../parte-6-sistemas-de-recomendacion/216-recommender-systems-vision-general/index.html">Clase 216 — Recommender systems: visión general</a></p>
+<blockquote>
+<p>🎉 <strong>Fin de la Parte 5 — Ingeniería de Datos</strong>. Tenés el stack completo para mover/procesar/almacenar datos a escala: orquestación (208-209), procesamiento (210-211), warehouses (212), streaming (213), formatos (214), modelado (215). Parte 6 cierra con recommender systems.</p>
+</blockquote>
   </main>
   <footer class="cur-footer">
     <p>

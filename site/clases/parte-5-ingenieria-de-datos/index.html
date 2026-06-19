@@ -25,8 +25,8 @@
   <main class="cur-main">
     
     <h1 id="parte-5-ingenieria-de-datos">Parte 5 — Ingeniería de Datos</h1>
-<p><strong>8 clases</strong> · ~3 semanas</p>
-<p><strong>Fuente principal:</strong> Complementaria — fundamentos prácticos de data engineering necesarios para alimentar pipelines de ML a escala.</p>
+<p><strong>8 clases</strong> · ~3 semanas · ✅ <strong>completada (junio 2026)</strong></p>
+<p><strong>Fuente principal:</strong> Reis &amp; Housley <em>Fundamentals of Data Engineering</em> (O'Reilly, 2022) + Kimball &amp; Ross <em>The Data Warehouse Toolkit</em> (Wiley, 3ª ed.) + docs oficiales del stack moderno.</p>
 <hr>
 <h2 id="de-que-trata-esta-parte">🎯 ¿De qué trata esta parte?</h2>
 <p>La parte que enseña a <strong>mover y transformar datos a escala</strong>, más allá de lo que pandas aguanta. Cubre orquestación (Airflow, Prefect, Dagster), procesamiento distribuido (PySpark, Polars), almacenamiento analítico (BigQuery, Snowflake, DuckDB), streaming (Kafka, Kinesis), formatos columnares (Parquet, Avro) y modelado dimensional (star/snowflake schemas).</p>
@@ -49,15 +49,22 @@
 </ul>
 <h2 id="estructura-tematica">🗺️ Estructura temática</h2>
 <ul>
-<li><strong>Orquestación</strong> — clases 173–174 — Airflow, Prefect, Dagster.</li>
-<li><strong>Procesamiento distribuido y moderno</strong> — clases 175–176 — PySpark, Polars.</li>
-<li><strong>Data warehouses y streaming</strong> — clases 177–178 — BigQuery / Snowflake / DuckDB, Kafka / Kinesis.</li>
-<li><strong>Formatos y modelado</strong> — clases 179–180 — Parquet/Avro, modelado dimensional.</li>
+<li><strong>Orquestación</strong> — clases 208–209 — Airflow (TaskFlow API), Prefect 3 + Dagster (assets).</li>
+<li><strong>Procesamiento distribuido y moderno</strong> — clases 210–211 — PySpark (broadcast, AQE, skew), Polars (lazy, streaming).</li>
+<li><strong>Data warehouses y streaming</strong> — clases 212–213 — BigQuery / Snowflake / DuckDB, Kafka + Kinesis (consumer groups, exactly-once).</li>
+<li><strong>Formatos y modelado</strong> — clases 214–215 — Parquet/Avro (predicate pushdown, schema evolution), star/snowflake schemas (SCD 2, <code>dim_date</code>).</li>
 </ul>
+<h2 id="material-descargable-parte-completa">📥 Material descargable — parte completa</h2>
+<p>Materiales consolidados con TODAS las clases de esta parte (útiles para revisar offline o imprimir el bloque entero):</p>
+<ul>
+<li>📄 <a href="../../docs/pdfs/parts/parte-5-ingenieria-de-datos-completa.pdf">Guía PDF — parte completa</a> — todas las clases concatenadas con headings demoteados.</li>
+<li>🎞️ <a href="../../docs/presentaciones/parts/parte-5-ingenieria-de-datos-completa.pptx">Presentación PPTX — parte completa</a> — portada + TOC + slides de cada clase.</li>
+</ul>
+<hr>
     <hr>
     <h2>📚 Ficha por clase</h2>
-    
-    <div class="classes-list"><a href="208-pipelines-etl-elt-con-airflow/index.html"><span class="num">208</span> <span class="title">Pipelines ETL/ELT con Airflow</span><span class="enrich-row"></span></a><a href="209-pipelines-con-prefect-o-dagster/index.html"><span class="num">209</span> <span class="title">Pipelines con Prefect o Dagster</span><span class="enrich-row"></span></a><a href="210-pyspark-para-datasets-grandes/index.html"><span class="num">210</span> <span class="title">PySpark para datasets grandes</span><span class="enrich-row"></span></a><a href="211-polars-como-alternativa-moderna/index.html"><span class="num">211</span> <span class="title">Polars como alternativa moderna</span><span class="enrich-row"></span></a><a href="212-data-warehouses-bigquery-snowflake-duckdb/index.html"><span class="num">212</span> <span class="title">Data warehouses: BigQuery, Snowflake, DuckDB</span><span class="enrich-row"></span></a><a href="213-streaming-intro-kafka-kinesis/index.html"><span class="num">213</span> <span class="title">Streaming intro: Kafka, Kinesis</span><span class="enrich-row"></span></a><a href="214-formatos-columnares-parquet-avro/index.html"><span class="num">214</span> <span class="title">Formatos columnares: Parquet, Avro</span><span class="enrich-row"></span></a><a href="215-modelado-dimensional-star-snowflake-schemas/index.html"><span class="num">215</span> <span class="title">Modelado dimensional (star/snowflake schemas)</span><span class="enrich-row"></span></a></div>
+    <p class="enriched-note">✨ <strong>8 de 8</strong> clases tienen contenido pedagógico ampliado (<span class="enrich-badge">📖</span> Definiciones · <span class="enrich-badge">⚠️</span> Errores comunes · <span class="enrich-badge">❓</span> FAQ).</p>
+    <div class="classes-list"><a href="208-pipelines-etl-elt-con-airflow/index.html"><span class="num">208</span> <span class="title">Pipelines ETL/ELT con Airflow</span><span class="enrich-row"><span class="enrich-badge" title="📖 Definiciones">📖</span><span class="enrich-badge" title="⚠️ Errores comunes">⚠️</span><span class="enrich-badge" title="❓ FAQ">❓</span></span></a><a href="209-pipelines-con-prefect-o-dagster/index.html"><span class="num">209</span> <span class="title">Pipelines con Prefect o Dagster</span><span class="enrich-row"><span class="enrich-badge" title="📖 Definiciones">📖</span><span class="enrich-badge" title="⚠️ Errores comunes">⚠️</span><span class="enrich-badge" title="❓ FAQ">❓</span></span></a><a href="210-pyspark-para-datasets-grandes/index.html"><span class="num">210</span> <span class="title">PySpark para datasets grandes</span><span class="enrich-row"><span class="enrich-badge" title="📖 Definiciones">📖</span><span class="enrich-badge" title="⚠️ Errores comunes">⚠️</span><span class="enrich-badge" title="❓ FAQ">❓</span></span></a><a href="211-polars-como-alternativa-moderna/index.html"><span class="num">211</span> <span class="title">Polars como alternativa moderna</span><span class="enrich-row"><span class="enrich-badge" title="📖 Definiciones">📖</span><span class="enrich-badge" title="⚠️ Errores comunes">⚠️</span><span class="enrich-badge" title="❓ FAQ">❓</span></span></a><a href="212-data-warehouses-bigquery-snowflake-duckdb/index.html"><span class="num">212</span> <span class="title">Data warehouses: BigQuery, Snowflake, DuckDB</span><span class="enrich-row"><span class="enrich-badge" title="📖 Definiciones">📖</span><span class="enrich-badge" title="⚠️ Errores comunes">⚠️</span><span class="enrich-badge" title="❓ FAQ">❓</span></span></a><a href="213-streaming-intro-kafka-kinesis/index.html"><span class="num">213</span> <span class="title">Streaming intro: Kafka, Kinesis</span><span class="enrich-row"><span class="enrich-badge" title="📖 Definiciones">📖</span><span class="enrich-badge" title="⚠️ Errores comunes">⚠️</span><span class="enrich-badge" title="❓ FAQ">❓</span></span></a><a href="214-formatos-columnares-parquet-avro/index.html"><span class="num">214</span> <span class="title">Formatos columnares: Parquet, Avro</span><span class="enrich-row"><span class="enrich-badge" title="📖 Definiciones">📖</span><span class="enrich-badge" title="⚠️ Errores comunes">⚠️</span><span class="enrich-badge" title="❓ FAQ">❓</span></span></a><a href="215-modelado-dimensional-star-snowflake-schemas/index.html"><span class="num">215</span> <span class="title">Modelado dimensional: star/snowflake schemas</span><span class="enrich-row"><span class="enrich-badge" title="📖 Definiciones">📖</span><span class="enrich-badge" title="⚠️ Errores comunes">⚠️</span><span class="enrich-badge" title="❓ FAQ">❓</span></span></a></div>
     
   </main>
   <footer class="cur-footer">

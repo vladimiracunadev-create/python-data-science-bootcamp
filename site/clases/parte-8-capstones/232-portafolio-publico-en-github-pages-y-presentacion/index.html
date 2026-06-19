@@ -24,36 +24,164 @@
   </header>
   <main class="cur-main">
     <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-8-capstones/232-portafolio-publico-en-github-pages-y-presentacion/notebook.ipynb">📓 Abrir notebook en GitHub</a>
-<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">Objetivo</a> · <a href="#resultados-esperados">Resultados esperados</a> · <a href="#temas-clave">Temas clave</a> · <a href="#materiales">Materiales</a> · <a href="#prerrequisitos">Prerrequisitos</a> · <a href="#fin-del-programa">➡️ Fin del programa</a></nav>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#componentes-del-portafolio">🗺️ Componentes del portafolio</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#recursos">📂 Recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#cierre-del-programa">🎓 Cierre del programa</a> · <a href="#material-descargable">📥 Material descargable</a></nav>
 <h1 id="clase-232-portafolio-publico-en-github-pages-y-presentacion">Clase 232 — Portafolio público en GitHub Pages y presentación</h1>
 <blockquote>
-<p>Parte: <strong>8-capstones</strong>
-Estado: <strong>stub</strong> (pendiente desarrollar contenido).</p>
+<p>Parte: <strong>8 — Capstones</strong> · Fuentes: Chip Huyen, <em>How to build a data science portfolio</em> + Eugene Yan, <em>What I learned from looking at 200 ML portfolios</em> + Mitchell et al., <a href="https://arxiv.org/abs/1810.03993"><em>Model Cards for Model Reporting</em></a> (FAT<em> 2019). ⏱️ Duración estimada: </em><em>150 min</em>*.</p>
 </blockquote>
-<h2 id="objetivo">Objetivo</h2>
-<p>Describir el resultado de aprendizaje concreto de esta clase.</p>
-<h2 id="resultados-esperados">Resultados esperados</h2>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Empaquetar los tres capstones (229, 230, 231) en un <strong>portafolio público</strong> que un reclutador entienda en <strong>30 segundos</strong>: sitio en GitHub Pages, demos hosted, blog técnico, deck de presentación y CV. La regla es <strong>calidad &gt; cantidad</strong>: 3 proyectos terminados con métricas honestas valen más que 10 a medias.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
 <p>Al finalizar, el estudiante podrá:</p>
 <ul>
-<li>(resultado 1)</li>
-<li>(resultado 2)</li>
-<li>(resultado 3)</li>
+<li>Estructurar un sitio de portafolio con <strong>MkDocs Material</strong> o <strong>Quarto</strong> desplegado en GitHub Pages.</li>
+<li>Escribir un <strong>README de proyecto</strong> que comunica problema, approach, métricas y limitaciones sin marketing vacío.</li>
+<li>Publicar <strong>demos hosted</strong> (Streamlit Community Cloud, HuggingFace Spaces) y un blog técnico por capstone.</li>
+<li>Armar un <strong>deck de 10-15 slides</strong> que cuenta cada proyecto en formato problema → datos → enfoque → resultado → trade-offs.</li>
+<li>Detectar y evitar los <strong>antipatterns</strong> clásicos (10 proyectos a medias, README sin números, demo rota).</li>
 </ul>
-<h2 id="temas-clave">Temas clave</h2>
+<h2 id="componentes-del-portafolio">🗺️ Componentes del portafolio</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Componente</th>
+<th>Para qué sirve</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><strong>README pulido</strong> por proyecto</td>
+<td>Es la primera impresión. Badge de CI, hero image, quick start, métricas, limitaciones.</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>Demos hosted</strong> (Streamlit/HF Spaces)</td>
+<td>El reclutador clickea y prueba en 10 seg. Sin demo = invisible.</td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong>Blog técnico</strong> (1 post por capstone)</td>
+<td>Demuestra que sabés <strong>comunicar</strong> además de codear. Más diferenciador que el código.</td>
+</tr>
+<tr>
+<td>4</td>
+<td><strong>Presentación (deck 10-15 slides)</strong></td>
+<td>Para entrevistas técnicas y meetups. Reusable como guion de video.</td>
+</tr>
+<tr>
+<td>5</td>
+<td><strong>Video demo (2-3 min)</strong></td>
+<td>Loom o screencast. Único formato consumible para un reclutador no técnico.</td>
+</tr>
+<tr>
+<td>6</td>
+<td><strong>CV técnico (1 página)</strong></td>
+<td>Verbo de impacto + número medible. Linkea a portafolio, no al revés.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
 <ul>
-<li>(subtema 1)</li>
-<li>(subtema 2)</li>
-<li>(subtema 3)</li>
+<li><strong>Portafolio</strong>: sitio público (no PDF) que centraliza proyectos, blog, CV y links de contacto. Vive en <code>username.github.io</code> o subdominio propio.</li>
+<li><strong>GitHub Pages</strong>: hosting estático gratis de GitHub. Build con Jekyll por defecto, pero podés deployar cualquier sitio estático (MkDocs, Quarto, Docusaurus, Hugo).</li>
+<li><strong>MkDocs Material</strong>: generador estático en Python; búsqueda built-in, dark mode, navegación lateral. Lo más rápido de levantar.</li>
+<li><strong>Quarto</strong>: generador científico (Posit/RStudio); ejecuta notebooks <code>.qmd</code>/<code>.ipynb</code> y renderiza con bibliografía BibTeX y matemáticas LaTeX. Ideal si tu blog tiene mucho código + plots.</li>
+<li><strong>Model Card</strong> (Mitchell et al., 2019): ficha estándar de un modelo — datos de entrenamiento, métricas por subgrupo, casos de uso previstos y NO previstos, riesgos éticos.</li>
+<li><strong>Hero image / GIF</strong>: imagen o screencast al inicio del README que muestra el output en 1 vistazo. Sin hero, nadie scrollea.</li>
+<li><strong>Quick start de 30 segundos</strong>: bloque <code>bash</code> con 3-5 líneas para correr el proyecto local. Si no entra en 30 seg, perdiste al reviewer.</li>
+<li><strong>Reproducibilidad</strong> (Parte 7): lock file + Dockerfile + CI verde + dataset documentado. Es el diferenciador entre "proyecto de tutorial" y "proyecto serio".</li>
 </ul>
-<h2 id="materiales">Materiales</h2>
+<h2 id="recursos">📂 Recursos</h2>
 <ul>
-<li><code>README.md</code> — esta ficha</li>
-<li><code>notebook.ipynb</code> — cuaderno de la clase</li>
+<li>Herramientas: <strong>MkDocs Material</strong>, <strong>Quarto</strong>, <strong>Streamlit Community Cloud</strong>, <strong>HuggingFace Spaces</strong>, <strong>Render</strong>, <strong>Vercel</strong>.</li>
+<li>Templates: <a href="https://squidfunk.github.io/mkdocs-material/getting-started/"><code>mkdocs-material</code> starter</a>, <a href="https://quarto.org/docs/websites/website-blog.html">Quarto blog template</a>.</li>
+<li>Inspiración: portfolios de Eugene Yan, Chip Huyen, Vicki Boykis, Hamel Husain — todos en <code>eugeneyan.com</code>, <code>huyenchip.com</code>, etc.</li>
 </ul>
-<h2 id="prerrequisitos">Prerrequisitos</h2>
-<p>Ver índice general en <code>classes/README.md</code> para dependencias entre clases.</p>
-<h2 id="fin-del-programa">➡️ Fin del programa</h2>
-<p>Este es el final del currículo. ¡Felicitaciones!</p>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>MkDocs Material setup</strong>: <code>pip install mkdocs-material</code>, <code>mkdocs new portfolio</code>, editar <code>mkdocs.yml</code> con tema material y deployar a <code>gh-pages</code> con <code>mkdocs gh-deploy</code>. Verificar que el sitio carga en <code>https://&lt;user&gt;.github.io/portfolio</code>.</li>
+<li><strong>README de capstone</strong>: tomar el capstone 229 (NLP) y reescribir el README con hero image, badges (CI, license, Python version), quick start de 30 seg, sección "decisiones técnicas" (3 bullets) y "limitaciones" (3 bullets).</li>
+<li><strong>Demo hosted</strong>: subir el capstone 230 (CV) a HuggingFace Spaces con Gradio. URL pública compartible.</li>
+<li><strong>Blog post técnico</strong>: escribir 1 post de 800-1500 palabras sobre el capstone 231 (tabular) siguiendo el outline problema → datos → approach → resultado con un plot → trade-offs → próximos pasos.</li>
+<li><strong>Deck</strong>: armar 10-15 slides (Google Slides, Marp o <code>reveal.js</code>) presentando los 3 capstones con la regla de "1 idea por slide".</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Sitio en GitHub Pages con:</p>
+<ol>
+<li><strong>Index</strong> con foto, bio de 3 líneas, links a 3 proyectos, link a blog, link a CV PDF, link a LinkedIn/GitHub.</li>
+<li><strong>Una página por proyecto</strong> (3 capstones) con README + Model Card + link a demo + link a blog post + link a repo.</li>
+<li><strong>Blog</strong> con al menos 1 post técnico publicado.</li>
+<li><strong>CV PDF</strong> de 1 página linkeado desde el index.</li>
+<li><strong>Demos</strong>: al menos 1 de los 3 proyectos con demo hosted funcionando (Streamlit Cloud o HF Spaces).</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: un reclutador no técnico abre el sitio, en <strong>30 segundos</strong> sabe (a) tu nombre, (b) qué hacés, (c) ve un proyecto con métricas, (d) puede clickear una demo que funciona. Si falla algún paso → el portafolio no aprueba.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>README dice "implementé un modelo de ML para clasificar" sin número</td>
+<td>Cero métricas, cero credibilidad. <strong>Fix</strong>: poner accuracy/F1/AUC con baseline y mejora absoluta.</td>
+</tr>
+<tr>
+<td>10 proyectos en el portafolio, todos a 30%</td>
+<td>Cantidad sin profundidad. <strong>Fix</strong>: borrar 7, dejar 3 con README pulido, demo y blog.</td>
+</tr>
+<tr>
+<td>Demo rota (link a Streamlit que duerme y nunca despierta)</td>
+<td>Streamlit free duerme tras 7 días sin uso, tarda 30s en revivir. <strong>Fix</strong>: añadir nota "primera carga ~30s" o mover a HF Spaces.</td>
+</tr>
+<tr>
+<td>Hero image inexistente — README es solo texto</td>
+<td>Sin imagen no scrollean. <strong>Fix</strong>: GIF de 5 seg del output, o screenshot del dashboard/plot.</td>
+</tr>
+<tr>
+<td><code>requirements.txt</code> con <code>pandas</code> sin versión</td>
+<td>Imposible reproducir. <strong>Fix</strong>: lock file (<code>uv.lock</code>/<code>poetry.lock</code>) committeado.</td>
+</tr>
+<tr>
+<td>CV de 3 páginas con responsabilidades genéricas</td>
+<td>Nadie lee la pág 2. <strong>Fix</strong>: 1 página, verbos de impacto + números (<code>redujo latencia de inferencia 40% migrando a ONNX</code>).</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿MkDocs Material o Quarto?</strong></p>
+<p>MkDocs Material si el sitio es <strong>documentación + landing</strong>. Quarto si el sitio tiene <strong>mucho notebook ejecutable y math</strong> (papers, posts técnicos largos con BibTeX). Ambos deployan a GitHub Pages igual.</p>
+<p><strong>❓ ¿Necesito dominio propio?</strong></p>
+<p>No para empezar. <code>username.github.io</code> funciona perfecto. Comprá dominio (<code>tunombre.dev</code>, ~12 USD/año) cuando el portafolio esté en versión estable y quieras una URL más memorable.</p>
+<p><strong>❓ ¿Y si no tengo experiencia laboral todavía?</strong></p>
+<p>El portafolio <strong>reemplaza</strong> la falta de experiencia laboral. 3 capstones con métricas, demo y blog post pesan más en una entrevista junior que "tomé 5 cursos en Coursera".</p>
+<p><strong>❓ ¿Subo el código del homework de las clases?</strong></p>
+<p>No al portafolio principal. Mantenelos en un repo aparte (<code>python-data-science-program-homework</code>). El portafolio es solo para proyectos pulidos.</p>
+<p><strong>❓ ¿Cuánto tiempo dedicar al portafolio antes de aplicar a trabajos?</strong></p>
+<p>Regla práctica: <strong>1 semana</strong> de pulido full-time tras terminar el capstone 231. Pasada esa semana, aplicás aunque no sea perfecto — el portafolio se itera con feedback real de entrevistas.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Chip Huyen, <em>How to build a data science portfolio</em> — <a href="https://huyenchip.com/">huyenchip.com</a>.</li>
+<li>Eugene Yan, <em>What I learned from looking at 200 ML portfolios</em> — <a href="https://eugeneyan.com/">eugeneyan.com</a>.</li>
+<li><a href="https://squidfunk.github.io/mkdocs-material/">MkDocs Material</a> — documentación oficial.</li>
+<li><a href="https://quarto.org/">Quarto</a> — sitio oficial, especialmente <em>Websites</em> y <em>Blogs</em>.</li>
+<li><a href="https://huggingface.co/spaces">HuggingFace Spaces</a> — hosting gratis para demos.</li>
+<li>Mitchell, M. et al. <em>Model Cards for Model Reporting</em> (FAT* 2019) — <a href="https://arxiv.org/abs/1810.03993">arxiv:1810.03993</a>.</li>
+</ul>
+<h2 id="cierre-del-programa">🎓 Cierre del programa</h2>
+<p>Llegaste a la clase <strong>232 de 232</strong>. Empezaste con <code>print("hola mundo")</code> y terminás con un portafolio público, tres capstones con métricas honestas, demos hosted y un blog que explica cómo pensás. El programa termina acá; tu trabajo como practicante de data science recién arranca. Lo que sigue no es otro curso — es elegir una vertical (research, applied science, MLE, product DS), buscar a la gente que está haciendo el trabajo que querés hacer, y empezar a contribuir: issues en open source, posts en tu blog, charlas en meetups, un proyecto nuevo cada trimestre. La ventaja competitiva no es saber más algoritmos: es <strong>enviar cosas terminadas, medibles y reproducibles</strong>. Eso ya lo sabés hacer.</p>
+<p>Gracias por llegar hasta acá. Ahora andá a romperla.</p>
+<p><a href="../../../index.html">⬅️ Volver al índice general</a> · <a href="../index.html">📚 Índice de Parte 8</a></p>
+<h2 id="material-descargable">📥 Material descargable</h2>
+<ul>
+<li>📄 <a href="./clase-232-portafolio-publico-en-github-pages-y-presentacion-guia-explicativa.pdf">Guía explicativa (PDF)</a> — versión imprimible con todo el contenido de la clase.</li>
+<li>🎞️ <a href="./clase-232-portafolio-publico-en-github-pages-y-presentacion-presentacion.pptx">Presentación (PPTX)</a> — deck PowerPoint listo para proyectar en clase.</li>
+<li>🧮 <a href="./notebook.ipynb">Notebook ejecutable (.ipynb)</a> — abrilo desde el laboratorio del programa o desde Jupyter.</li>
+</ul>
   </main>
   <footer class="cur-footer">
     <p>

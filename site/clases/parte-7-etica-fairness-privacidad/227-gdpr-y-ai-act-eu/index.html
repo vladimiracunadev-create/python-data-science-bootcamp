@@ -24,34 +24,159 @@
   </header>
   <main class="cur-main">
     <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-7-etica-fairness-privacidad/227-gdpr-y-ai-act-eu/notebook.ipynb">📓 Abrir notebook en GitHub</a>
-<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">Objetivo</a> · <a href="#resultados-esperados">Resultados esperados</a> · <a href="#temas-clave">Temas clave</a> · <a href="#materiales">Materiales</a> · <a href="#prerrequisitos">Prerrequisitos</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#material-descargable">📥 Material descargable</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
 <h1 id="clase-227-gdpr-y-ai-act-eu">Clase 227 — GDPR y AI Act (EU)</h1>
 <blockquote>
-<p>Parte: <strong>7-etica-fairness-privacidad</strong>
-Estado: <strong>stub</strong> (pendiente desarrollar contenido).</p>
+<p>Parte: <strong>7 — Ética, Fairness y Privacidad</strong> · Fuente: <a href="https://eur-lex.europa.eu/eli/reg/2016/679/oj">Reglamento UE 2016/679 (GDPR)</a> + <a href="https://eur-lex.europa.eu/eli/reg/2024/1689/oj">Reglamento UE 2024/1689 (AI Act)</a>. ⏱️ Duración estimada: <strong>75 min</strong>.</p>
 </blockquote>
-<h2 id="objetivo">Objetivo</h2>
-<p>Describir el resultado de aprendizaje concreto de esta clase.</p>
-<h2 id="resultados-esperados">Resultados esperados</h2>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Entender qué exige la regulación europea a un sistema de ML que toca datos personales o decisiones automatizadas. <strong>GDPR</strong> (en vigor desde 25-may-2018) regula el <strong>dato</strong>: bases legales, derechos del titular, DPIA. <strong>AI Act</strong> (Reglamento UE 2024/1689, escalonado 2024-2027) regula el <strong>sistema de IA</strong> por nivel de riesgo: prohibido / alto / limitado / mínimo. Aterrizamos ambas normas en un <strong>mini-toolkit programático</strong> que un equipo de datos puede ejecutar antes de poner un modelo en producción.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
 <p>Al finalizar, el estudiante podrá:</p>
 <ul>
-<li>(resultado 1)</li>
-<li>(resultado 2)</li>
-<li>(resultado 3)</li>
+<li>Identificar la <strong>base legal del Art. 6 GDPR</strong> aplicable a un tratamiento (consentimiento, contrato, interés legítimo, etc.) y distinguir las <strong>categorías especiales del Art. 9</strong> (salud, biometría, raza).</li>
+<li>Implementar los derechos del titular más comunes: <strong>acceso, rectificación, supresión (Art. 17 — derecho al olvido) y portabilidad</strong>.</li>
+<li>Reconocer cuándo el Art. 22 GDPR (decisiones automatizadas con efectos significativos) exige <strong>supervisión humana</strong> y combinarlo con el Art. 14 del AI Act.</li>
+<li>Clasificar un caso de uso de IA en el <strong>nivel de riesgo del AI Act</strong> (prohibido, alto — Anexo III, limitado, mínimo) y listar las obligaciones que aplican.</li>
+<li>Generar una <strong>model card</strong> mínima y un <strong>checklist DPIA</strong> programático como artefactos de compliance.</li>
 </ul>
-<h2 id="temas-clave">Temas clave</h2>
+<h2 id="temas">🗺️ Temas</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Tema</th>
+<th>Por qué importa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Bases legales (Art. 6) y categorías especiales (Art. 9) GDPR</td>
+<td>Sin base legal válida, el tratamiento es ilícito de origen — el modelo entero queda contaminado.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Derechos del titular (acceso, supresión, portabilidad, Art. 22)</td>
+<td>El "derecho al olvido" obliga a poder <strong>borrar a un usuario</strong> de tus tablas y artefactos.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>DPIA (Art. 35) — Data Protection Impact Assessment</td>
+<td>Obligatoria para alto riesgo (perfilado masivo, biometría, vulnerables).</td>
+</tr>
+<tr>
+<td>4</td>
+<td>AI Act: pirámide de riesgo</td>
+<td>Prohibido → alto → limitado → mínimo. Define qué papeleo, qué CE-marking, qué multa.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Sistemas de alto riesgo (Anexo III)</td>
+<td>CV-screening, crédito, biometría, educación, infraestructura crítica → gestión de riesgos + supervisión humana + registros.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>GPAI y modelos fundacionales</td>
+<td>Transparencia + resumen de datos de entrenamiento; "systemic risk" si &gt;10²⁵ FLOPs.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
 <ul>
-<li>(subtema 1)</li>
-<li>(subtema 2)</li>
-<li>(subtema 3)</li>
+<li><strong>Dato personal</strong> (GDPR Art. 4.1): toda información sobre una persona física identificada o identificable — incluye IP, cookie ID, hashes débiles.</li>
+<li><strong>Categorías especiales</strong> (Art. 9): origen racial, opiniones políticas, religión, datos genéticos, biométricos para identificar, salud, orientación sexual. Requieren base reforzada (consentimiento explícito, interés público en salud, etc.).</li>
+<li><strong>Base legal Art. 6</strong>: una de seis: (a) consentimiento, (b) contrato, (c) obligación legal, (d) interés vital, (e) interés público, (f) interés legítimo.</li>
+<li><strong>DPIA</strong> (Art. 35): análisis previo de riesgos para los derechos del titular; obligatorio en perfilado sistemático a gran escala, categorías especiales, vigilancia pública.</li>
+<li><strong>Decisión automatizada significativa</strong> (Art. 22): el titular tiene derecho a no ser sujeto a una decisión basada <strong>solo</strong> en tratamiento automatizado con efectos jurídicos o significativos — se levanta con consentimiento explícito, ejecución contractual o ley, <strong>siempre con derecho a intervención humana</strong>.</li>
+<li><strong>Sistema de IA de alto riesgo</strong> (AI Act Anexo III): biometría, infraestructura crítica, educación, empleo, servicios esenciales (crédito, seguros), aplicación de la ley, migración, justicia. Obligaciones: gestión de riesgos, gobernanza de datos, documentación técnica, registros (logs), transparencia al usuario, <strong>supervisión humana (Art. 14)</strong>, robustez, conformidad CE.</li>
+<li><strong>GPAI</strong> (General Purpose AI): modelos fundacionales reutilizables. Transparencia + resumen público de datos de entrenamiento; si superan <strong>10²⁵ FLOPs</strong> entran en "systemic risk" con red-teaming y reporte de incidentes.</li>
+<li><strong>Multas</strong>: GDPR hasta <strong>20 M€ o 4% revenue global</strong>; AI Act hasta <strong>35 M€ o 7%</strong> (prácticas prohibidas).</li>
 </ul>
-<h2 id="materiales">Materiales</h2>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
 <ul>
-<li><code>README.md</code> — esta ficha</li>
-<li><code>notebook.ipynb</code> — cuaderno de la clase</li>
+<li><strong>Dataset sintético</strong> de decisiones de crédito (1000 filas) con campos personales (<code>email</code>, <code>dni</code>, <code>age</code>, <code>salary</code>, <code>score</code>, <code>is_minority</code>) generado en el notebook con <code>np.random.default_rng(42)</code> — sin datos reales.</li>
+<li>Librerías: <code>numpy</code>, <code>pandas</code>, <code>scikit-learn</code>, <code>re</code> (regex para PII).</li>
 </ul>
-<h2 id="prerrequisitos">Prerrequisitos</h2>
-<p>Ver índice general en <code>classes/README.md</code> para dependencias entre clases.</p>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>Clasificador de riesgo AI Act</strong>: <code>is_high_risk_use_case("CV screening")</code> → <code>"alto"</code>; <code>"juego móvil de match-3"</code> → <code>"mínimo"</code>. Cubrir los 4 niveles con lookup table basada en Anexo III.</li>
+<li><strong>DPIA checklist</strong>: dado <code>{"sensitive_categories": True, "automated_decisions": True, "scale": "large"}</code>, listar las obligaciones GDPR aplicables (DPIA, DPO, consentimiento reforzado, etc.).</li>
+<li><strong>Right to be forgotten</strong>: implementar <code>right_to_be_forgotten(df, user_id)</code> que elimine al usuario y devuelva un <strong>registro de auditoría</strong> con timestamp + columnas afectadas.</li>
+<li><strong>Data minimization audit</strong>: detectar columnas que parecen email (<code>r"[\w\.-]+@[\w\.-]+"</code>) o DNI (<code>r"\d{8}[A-Z]"</code>); sugerir hash o remoción.</li>
+<li><strong>Compliance report</strong>: pipeline de scoring de crédito que ejecuta los 7 chequeos del notebook (clasificación de riesgo, DPIA, model card, supervisión humana, minimización, auditoría de PII, registro de borrado) e imprime un reporte único.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Notebook con:</p>
+<ol>
+<li>Tomar un caso de uso <strong>real propio o público</strong> (ej.: recomendador de empleo, scoring de seguros) y clasificarlo en el AI Act con la función del ejercicio 1.</li>
+<li>Producir una <strong>model card</strong> completa (intended use, training data summary, performance global y por grupo sensible, limitaciones, fecha, owner).</li>
+<li>Ejecutar el <strong>DPIA checklist</strong> y listar las obligaciones GDPR aplicables al caso.</li>
+<li>Implementar el <strong>right to be forgotten</strong> sobre un dataset de &gt;10K filas y verificar que tras la deleción el usuario no aparece en ninguna columna (incluido <code>model.predict</code>).</li>
+<li>Generar un <strong>compliance report Markdown</strong> con todas las secciones (riesgo AI Act, DPIA, model card, PII audit, human-in-the-loop).</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: el reporte ejecuta sin errores, identifica correctamente el nivel de riesgo del caso, lista al menos 5 obligaciones GDPR justificadas, y demuestra el borrado de un usuario con auditoría.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"Tengo consentimiento, ya puedo hacer todo"</td>
+<td>Consentimiento debe ser <strong>libre, específico, informado, inequívoco y revocable</strong> (Art. 7). Pre-marcado no vale; bundled tampoco. <strong>Fix</strong>: opt-in granular por finalidad.</td>
+</tr>
+<tr>
+<td>Borrar al usuario de la tabla <code>users</code> pero seguir en <code>logs</code>, <code>model_weights</code>, backups</td>
+<td>El derecho al olvido aplica a <strong>todo el ecosistema</strong>, incluidos modelos entrenados con esos datos. <strong>Fix</strong>: catálogo de datos, propagación a derivados, re-entrenar si es viable.</td>
+</tr>
+<tr>
+<td>"Es solo un prototipo, GDPR no aplica"</td>
+<td>GDPR aplica desde el primer dato personal procesado, incluso en dev. <strong>Fix</strong>: sintéticos o anonimizados (k-anonymity, Clase 224) en exploración.</td>
+</tr>
+<tr>
+<td>Clasificar un CV-screener como "riesgo limitado"</td>
+<td>Anexo III lo lista explícitamente como <strong>alto riesgo</strong>. <strong>Fix</strong>: revisar Anexo III antes de auto-clasificar.</td>
+</tr>
+<tr>
+<td>"Anonimicé los datos" pero quedan IPs y user-agents</td>
+<td>Pseudoanonimización ≠ anonimización. Si se puede re-identificar con esfuerzo razonable, sigue siendo dato personal. <strong>Fix</strong>: k-anonymity, differential privacy (Clase 224).</td>
+</tr>
+<tr>
+<td>Modelo en producción sin <strong>human override</strong> para decisiones de alto impacto</td>
+<td>Art. 22 GDPR + Art. 14 AI Act exigen supervisión humana significativa. <strong>Fix</strong>: workflow con revisión humana para scores borderline y derecho de apelación.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ Si mi empresa está fuera de la UE, ¿GDPR/AI Act aplican?</strong></p>
+<p>Sí, si tratás datos de <strong>personas en la UE</strong> (GDPR Art. 3, alcance extraterritorial) o si ofrecés un sistema de IA cuyo <strong>output se usa en la UE</strong> (AI Act Art. 2). Es el mismo principio del CCPA / LGPD.</p>
+<p><strong>❓ ¿GDPR me obliga a explicar mi modelo?</strong></p>
+<p>Hay debate. Wachter, Mittelstadt &amp; Floridi (2017) argumentan que el Art. 22 + Recitales 71 garantizan <strong>información significativa sobre la lógica</strong>, no una explicación post-hoc tipo SHAP. En la práctica: documentación de la lógica + derecho a intervención humana + posibilidad de contestar la decisión.</p>
+<p><strong>❓ ¿Qué hago si entreno un LLM con datos scrapeados de internet?</strong></p>
+<p>Riesgo legal real (caso Clearview AI multado por la AEPD y otras DPAs). El AI Act prohíbe el scraping indiscriminado de imágenes faciales (Art. 5). Para texto, depende de base legal e intereses; minimizá, documentá fuentes, ofrecé opt-out.</p>
+<p><strong>❓ ¿Cuándo debo registrar un DPO (Data Protection Officer)?</strong></p>
+<p>Obligatorio si: autoridad pública, tratamiento a gran escala de categorías especiales, o monitoreo sistemático a gran escala (Art. 37). En la práctica, casi cualquier producto de ML con datos personales a escala lo requiere.</p>
+<p><strong>❓ ¿Cuándo entran en vigor las obligaciones del AI Act?</strong></p>
+<p>Escalonado: prohibiciones desde <strong>feb-2025</strong>, GPAI desde <strong>ago-2025</strong>, alto riesgo desde <strong>ago-2026/2027</strong> según anexo. Sanciones empiezan a aplicarse con cada hito.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li><a href="https://eur-lex.europa.eu/eli/reg/2016/679/oj">Reglamento UE 2016/679 (GDPR) — texto consolidado en EUR-Lex</a>.</li>
+<li><a href="https://eur-lex.europa.eu/eli/reg/2024/1689/oj">Reglamento UE 2024/1689 (AI Act) — texto consolidado en EUR-Lex</a>.</li>
+<li><a href="https://www.edpb.europa.eu/">European Data Protection Board — guidelines y decisiones</a>.</li>
+<li><a href="https://www.coe.int/en/web/artificial-intelligence/the-framework-convention-on-artificial-intelligence">Council of Europe Framework Convention on AI (2024)</a> — primer tratado internacional vinculante sobre IA.</li>
+<li>Wachter, S., Mittelstadt, B., Floridi, L. <em>Why a Right to Explanation of Automated Decision-Making Does Not Exist in the General Data Protection Regulation</em> (IDPL, 2017). <a href="https://academic.oup.com/idpl/article/7/2/76/3860948">https://academic.oup.com/idpl/article/7/2/76/3860948</a>.</li>
+<li>Mitchell, M. et al. <em>Model Cards for Model Reporting</em> (FAT* 2019) — base de la model card que implementamos.</li>
+</ul>
+<h2 id="material-descargable">📥 Material descargable</h2>
+<ul>
+<li>📄 <a href="./clase-227-gdpr-y-ai-act-eu-guia-explicativa.pdf">Guía explicativa (PDF)</a> — versión imprimible con todo el contenido de la clase.</li>
+<li>🎞️ <a href="./clase-227-gdpr-y-ai-act-eu-presentacion.pptx">Presentación (PPTX)</a> — deck PowerPoint listo para proyectar en clase.</li>
+<li>🧮 <a href="./notebook.ipynb">Notebook ejecutable (.ipynb)</a> — abrilo desde el laboratorio del programa o desde Jupyter.</li>
+</ul>
 <h2 id="siguiente-clase">➡️ Siguiente clase</h2>
 <p><a href="../228-reproducibilidad-seeds-lock-files-versionado-de-datasets/index.html">Clase 228 — Reproducibilidad: seeds, lock files, versionado de datasets</a></p>
   </main>

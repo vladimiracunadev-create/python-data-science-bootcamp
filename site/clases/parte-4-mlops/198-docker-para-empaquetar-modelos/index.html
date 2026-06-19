@@ -24,34 +24,164 @@
   </header>
   <main class="cur-main">
     <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-4-mlops/198-docker-para-empaquetar-modelos/notebook.ipynb">📓 Abrir notebook en GitHub</a>
-<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">Objetivo</a> · <a href="#resultados-esperados">Resultados esperados</a> · <a href="#temas-clave">Temas clave</a> · <a href="#materiales">Materiales</a> · <a href="#prerrequisitos">Prerrequisitos</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#material-descargable">📥 Material descargable</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
 <h1 id="clase-198-docker-para-empaquetar-modelos">Clase 198 — Docker para empaquetar modelos</h1>
 <blockquote>
-<p>Parte: <strong>4-mlops</strong>
-Estado: <strong>stub</strong> (pendiente desarrollar contenido).</p>
+<p>Parte: <strong>4 — MLOps</strong> · Fuente: Huyen <strong>cap. 11</strong> + <a href="https://docs.docker.com/">docs Docker</a> + Nilsson, <em>Docker Deep Dive</em>. ⏱️ Duración estimada: <strong>75 min</strong>.</p>
 </blockquote>
-<h2 id="objetivo">Objetivo</h2>
-<p>Describir el resultado de aprendizaje concreto de esta clase.</p>
-<h2 id="resultados-esperados">Resultados esperados</h2>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Empaquetar un modelo entrenado + su runtime (Python, deps, código) en una <strong>imagen Docker</strong> reproducible, optimizada (multi-stage build, capas cacheadas, imagen &lt;500 MB), y segura (non-root user, no secrets baked in). El resultado se corre idéntico en tu laptop, en CI, y en producción.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
 <p>Al finalizar, el estudiante podrá:</p>
 <ul>
-<li>(resultado 1)</li>
-<li>(resultado 2)</li>
-<li>(resultado 3)</li>
+<li>Escribir un <code>Dockerfile</code> correcto para un servicio ML: base slim, multi-stage, layer caching, non-root.</li>
+<li>Diferenciar <code>COPY</code> de <code>ADD</code>, <code>RUN</code> de <code>CMD</code> de <code>ENTRYPOINT</code>, y cuándo usar cada uno.</li>
+<li>Reducir tamaño de imagen (de 2 GB a &lt;500 MB) con <code>python:3.12-slim</code>, <code>.dockerignore</code>, y multi-stage builds.</li>
+<li>Versionar imágenes con tags semánticos (<code>mymodel:1.2.3</code>) y digests (<code>@sha256:...</code>) — y por qué <code>:latest</code> es trampa en producción.</li>
+<li>Diagnosticar <code>image not building</code>, <code>image too big</code>, <code>slow rebuild</code> con <code>docker history</code>, <code>dive</code>, <code>docker scout</code>.</li>
 </ul>
-<h2 id="temas-clave">Temas clave</h2>
+<h2 id="temas">🗺️ Temas</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Tema</th>
+<th>Por qué importa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Imagen, capa, container, registry</td>
+<td>Vocabulario base.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Dockerfile: <code>FROM</code>, <code>COPY</code>, <code>RUN</code>, <code>CMD</code>, <code>ENTRYPOINT</code></td>
+<td>Las instrucciones que importan.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Layer caching: orden de instrucciones</td>
+<td>Diferencia entre build de 2 min vs 30 s.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Multi-stage build</td>
+<td>Separar build-deps de runtime-deps.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Imágenes base: <code>python:slim</code> vs <code>distroless</code> vs <code>alpine</code></td>
+<td>Trade-off tamaño / compat / debug.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Security: non-root user, secrets via env/mount</td>
+<td>No bakear API keys en la imagen.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
 <ul>
-<li>(subtema 1)</li>
-<li>(subtema 2)</li>
-<li>(subtema 3)</li>
+<li><strong>Imagen</strong>: filesystem inmutable + metadata (entrypoint, env, ports). Compuesta por <strong>capas</strong> read-only apiladas (cada <code>RUN</code>/<code>COPY</code> es una capa).</li>
+<li><strong>Container</strong>: instancia ejecutándose de una imagen + capa writable encima. Efímero por default — al borrarlo, se pierde lo escrito (salvo volúmenes).</li>
+<li><strong>Layer caching</strong>: si la instrucción N de tu Dockerfile no cambió ni cambiaron las anteriores, Docker reusa la capa cacheada. <strong>Regla de oro</strong>: lo que cambia poco va primero, lo que cambia mucho va al final.</li>
+<li><strong>Multi-stage build</strong>: usar varias secciones <code>FROM ... AS stage</code> y copiar artefactos de una a otra con <code>COPY --from=stage</code>. Permite usar imagen grande para compilar y imagen pequeña para correr.</li>
+<li><strong><code>.dockerignore</code></strong>: como <code>.gitignore</code> pero para <code>docker build</code>. Crítico — sin él, mandás todo el repo (incluido <code>.git/</code>, <code>__pycache__/</code>, datasets) como build context.</li>
+<li><strong>Tag semántico</strong> (<code>myapp:1.2.3</code>): fija la versión exacta. <strong>Digest</strong> (<code>myapp@sha256:abc...</code>): fija el contenido exacto (inmutable). Producción usa digest. <code>:latest</code> no tiene garantía — puede cambiar entre <code>docker pull</code> y <code>docker run</code>.</li>
+<li><strong>Distroless</strong> (<code>gcr.io/distroless/python3</code>): imagen sin shell, sin package manager, casi sin nada. Reduce attack surface; complica debug (no podés <code>exec</code> un shell).</li>
 </ul>
-<h2 id="materiales">Materiales</h2>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
 <ul>
-<li><code>README.md</code> — esta ficha</li>
-<li><code>notebook.ipynb</code> — cuaderno de la clase</li>
+<li><strong>Modelo</strong>: <code>RandomForestClassifier</code> entrenado en Iris, serializado con <code>joblib</code>.</li>
+<li><strong>API</strong>: FastAPI sirviendo <code>POST /predict</code>.</li>
+<li>Herramientas: <code>docker&gt;=24</code>, opcional <code>dive</code>, <code>docker scout</code>.</li>
 </ul>
-<h2 id="prerrequisitos">Prerrequisitos</h2>
-<p>Ver índice general en <code>classes/README.md</code> para dependencias entre clases.</p>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>Dockerfile básico</strong>: empaquetá un script <code>predict.py</code> que carga <code>model.pkl</code> y predice una fila random. <code>FROM python:3.12-slim</code>, instalá deps de <code>requirements.txt</code>, <code>COPY . /app</code>, <code>CMD ["python", "predict.py"]</code>. Build con <code>docker build -t miml:v1 .</code> y corré.</li>
+<li><strong>Layer caching</strong>: cambiá una línea en <code>predict.py</code> sin tocar <code>requirements.txt</code>. Rebuildá. Confirmá que la capa de <code>pip install</code> se reusa (mensaje "CACHED").</li>
+<li><strong>Multi-stage</strong>: separá en dos stages: <code>builder</code> (<code>FROM python:3.12 AS builder</code>, instalá deps con compiladores) y <code>runtime</code> (<code>FROM python:3.12-slim</code>, copiá solo <code>site-packages</code> del builder). Compará tamaño con <code>docker images</code>.</li>
+<li><strong>Non-root</strong>: agregá <code>RUN useradd -m app &amp;&amp; USER app</code> antes del <code>CMD</code>. Verificá con <code>docker run --rm miml:v3 whoami</code>.</li>
+<li><strong>Tags y digest</strong>: hacé <code>docker push miml:v1</code> a Docker Hub. Obtené el digest con <code>docker inspect miml:v1 --format '{{index .RepoDigests 0}}'</code>. Discutí por qué deploys de producción referencian el digest.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Repo con:</p>
+<ol>
+<li><code>Dockerfile</code> multi-stage que produce imagen &lt;500 MB para un modelo sklearn + FastAPI.</li>
+<li><code>.dockerignore</code> que excluye <code>.git</code>, <code>__pycache__</code>, <code>*.ipynb</code>, <code>data/raw</code>, <code>mlruns/</code>.</li>
+<li><code>docker-compose.yml</code> que levanta el servicio en <code>:8000</code> con healthcheck.</li>
+<li>README del repo con comandos <code>build</code>, <code>run</code>, <code>push</code>, y la URL/digest de la imagen pushed.</li>
+<li>Output de <code>dive miml:latest</code> (o <code>docker history</code>) mostrando que ninguna capa única pesa más de 200 MB.</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: <code>docker run --rm -p 8000:8000 miml:v1</code> levanta y responde a <code>curl localhost:8000/predict -X POST -d '{"features":[5.1,3.5,1.4,0.2]}' -H 'content-type: application/json'</code>. El contenedor corre como <code>app</code>, no como root (<code>docker exec ... whoami</code> devuelve <code>app</code>).</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Imagen pesa 2.5 GB con un modelo de 50 MB</td>
+<td>Estás usando <code>python:3.12</code> (no slim) y/o trayendo <code>torch</code> con CUDA. <strong>Fix</strong>: <code>python:3.12-slim</code>, y para inferencia CPU sin GPU: <code>torch --index-url https://download.pytorch.org/whl/cpu</code>.</td>
+</tr>
+<tr>
+<td>Cada build rebuildea todo aunque no cambié deps</td>
+<td>Tenés <code>COPY . /app</code> antes de <code>RUN pip install</code>. <strong>Fix</strong>: <code>COPY requirements.txt /app/ &amp;&amp; RUN pip install -r requirements.txt &amp;&amp; COPY . /app</code>.</td>
+</tr>
+<tr>
+<td><code>docker build</code> manda 3 GB de context</td>
+<td>Falta <code>.dockerignore</code>. <strong>Fix</strong>: crearlo con al menos <code>.git</code>, <code>__pycache__</code>, <code>*.ipynb_checkpoints</code>, <code>data/</code>, <code>mlruns/</code>, <code>node_modules/</code>.</td>
+</tr>
+<tr>
+<td>Error <code>ModuleNotFoundError</code> en el container pero local funciona</td>
+<td>El <code>pip install</code> corrió en otra versión de Python. <strong>Fix</strong>: <code>python -m pip install</code> (no solo <code>pip</code>), y matcheá <code>python:X.Y-slim</code> con tu desarrollo local.</td>
+</tr>
+<tr>
+<td>Container corre como root</td>
+<td>No agregaste <code>USER</code> al Dockerfile. <strong>Fix</strong>: <code>RUN useradd -m app -u 1000 &amp;&amp; chown -R app /app &amp;&amp; USER app</code>.</td>
+</tr>
+<tr>
+<td><code>:latest</code> apunta a algo distinto que ayer</td>
+<td><code>:latest</code> es mutable. Otro <code>docker push myimg:latest</code> lo reemplaza. <strong>Fix</strong>: usá tags semánticos en CI (<code>myimg:1.2.3</code>) y digests en producción (<code>myimg@sha256:...</code>).</td>
+</tr>
+<tr>
+<td><code>COPY</code> no encuentra <code>model.pkl</code></td>
+<td>El path es relativo al <strong>build context</strong> (el <code>.</code> final de <code>docker build</code>), no al <code>Dockerfile</code>. <strong>Fix</strong>: chequeá que <code>model.pkl</code> está dentro de la carpeta que pasaste como context.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿<code>slim</code>, <code>alpine</code>, o <code>distroless</code>?</strong></p>
+<p><code>slim</code> (Debian-based, sin doc/locales): default razonable, ~120 MB, glibc, compatible con wheels precompilados. <code>alpine</code> (musl): 50 MB pero usa musl, no glibc — wheels precompilados de muchas libs Python no funcionan. <code>distroless</code>: la imagen runtime más chica y segura; complica debugging. Para ML: <strong>slim</strong> salvo razón fuerte.</p>
+<p><strong>❓ ¿Docker o Podman?</strong></p>
+<p>Podman es API-compatible con Docker (alias <code>podman</code> ↔ <code>docker</code>), rootless por default, sin daemon. Para individuales: indistinto. Para producción Kubernetes: el OCI runtime que use el cluster (containerd, CRI-O). Las imágenes son <strong>OCI</strong>, no "Docker images" — funcionan en cualquier OCI runtime.</p>
+<p><strong>❓ ¿Cómo paso credenciales al container?</strong></p>
+<p>(1) Variables de entorno (<code>docker run -e API_KEY=...</code>) — visible en <code>docker inspect</code>. (2) Secrets mount (<code>--secret</code>, Docker Swarm/Kubernetes Secret) — preferido. (3) IAM role (en EC2/EKS) — el container hereda credenciales sin que las escribas. <strong>Nunca</strong>: <code>ENV API_KEY=xxx</code> en el Dockerfile, queda en una capa para siempre.</p>
+<p><strong>❓ ¿Tamaño del modelo dentro o fuera de la imagen?</strong></p>
+<p>Modelos pequeños (&lt;200 MB): adentro, simple. Modelos grandes o que cambian seguido: afuera, en S3/MLflow, bajados en <code>entrypoint</code>. Trade-off: adentro = inmutable + lento de pull; afuera = imagen liviana pero acoplamiento con storage.</p>
+<p><strong>❓ ¿<code>CMD</code> vs <code>ENTRYPOINT</code>?</strong></p>
+<p><code>ENTRYPOINT</code> es el "binario" fijo del container; <code>CMD</code> son sus "args default". Combinados: <code>ENTRYPOINT ["python"]</code> + <code>CMD ["app.py"]</code> → <code>docker run img otro.py</code> ejecuta <code>python otro.py</code>. Para imagen de modelo: ambos juntos, o solo <code>CMD ["python", "app.py"]</code> si querés que sea fácilmente overrideable.</p>
+<p><strong>❓ ¿Por qué <code>docker scout</code> o <code>trivy</code>?</strong></p>
+<p>Escanean la imagen contra CVE conocidas. Crítico antes de subir a producción — una <code>python:3.12-slim</code> de hace 6 meses tiene 200 CVE conocidas; rebuildear con la base actual elimina la mayoría. CI debería tener un step <code>trivy image myimg:tag --severity HIGH,CRITICAL --exit-code 1</code>.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Huyen, Chip. <em>Designing Machine Learning Systems</em> (O'Reilly, 2022), <strong>cap. 11</strong> — <em>Model Deployment and Prediction Service</em>.</li>
+<li><a href="https://docs.docker.com/">Docker official docs</a> — <em>Best practices for writing Dockerfiles</em>.</li>
+<li><a href="https://github.com/wagoodman/dive">Dive</a> — TUI para inspeccionar capas y eficiencia.</li>
+<li><a href="https://docs.docker.com/scout/">Docker Scout</a> / <a href="https://github.com/aquasecurity/trivy">Trivy</a> — vulnerability scanning.</li>
+<li><a href="https://github.com/GoogleContainerTools/distroless"><code>distroless</code></a> — imágenes mínimas de Google.</li>
+</ul>
+<h2 id="material-descargable">📥 Material descargable</h2>
+<ul>
+<li>📄 <a href="./clase-198-docker-para-empaquetar-modelos-guia-explicativa.pdf">Guía explicativa (PDF)</a> — versión imprimible con todo el contenido de la clase.</li>
+<li>🎞️ <a href="./clase-198-docker-para-empaquetar-modelos-presentacion.pptx">Presentación (PPTX)</a> — deck PowerPoint listo para proyectar en clase.</li>
+<li>🧮 <a href="./notebook.ipynb">Notebook ejecutable (.ipynb)</a> — abrilo desde el laboratorio del programa o desde Jupyter.</li>
+</ul>
 <h2 id="siguiente-clase">➡️ Siguiente clase</h2>
 <p><a href="../199-apis-con-fastapi-sirviendo-modelos/index.html">Clase 199 — APIs con FastAPI sirviendo modelos</a></p>
   </main>

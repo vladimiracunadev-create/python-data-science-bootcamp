@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Clase 225 — Privacidad diferencial (intro) | Python Data Science Program</title>
+  <title>Clase 225 — Privacidad diferencial: intro | Python Data Science Program</title>
   <meta name="description" content="Clase 225 del Python Data Science Program">
   <meta name="theme-color" content="#0f3d3e">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -24,36 +24,162 @@
   </header>
   <main class="cur-main">
     <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-7-etica-fairness-privacidad/225-privacidad-diferencial-intro/notebook.ipynb">📓 Abrir notebook en GitHub</a>
-<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">Objetivo</a> · <a href="#resultados-esperados">Resultados esperados</a> · <a href="#temas-clave">Temas clave</a> · <a href="#materiales">Materiales</a> · <a href="#prerrequisitos">Prerrequisitos</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
-<h1 id="clase-225-privacidad-diferencial-intro">Clase 225 — Privacidad diferencial (intro)</h1>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#material-descargable">📥 Material descargable</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-225-privacidad-diferencial-intro">Clase 225 — Privacidad diferencial: intro</h1>
 <blockquote>
-<p>Parte: <strong>7-etica-fairness-privacidad</strong>
-Estado: <strong>stub</strong> (pendiente desarrollar contenido).</p>
+<p>Parte: <strong>7 — Ética, Fairness y Privacidad</strong> · Fuente: Dwork &amp; Roth, <em>The Algorithmic Foundations of Differential Privacy</em> (2014) <strong>caps. 2-3</strong> + Dwork, McSherry, Nissim, Smith (TCC, 2006) <a href="https://link.springer.com/chapter/10.1007/11681878_14"><em>Calibrating Noise to Sensitivity</em></a>. ⏱️ Duración estimada: <strong>75 min</strong>.</p>
 </blockquote>
-<h2 id="objetivo">Objetivo</h2>
-<p>Describir el resultado de aprendizaje concreto de esta clase.</p>
-<h2 id="resultados-esperados">Resultados esperados</h2>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Entender <strong>privacidad diferencial (DP)</strong> como la única definición formal de privacidad con garantías matemáticas — no "anonimización" heurística que se rompe con un join. Implementar el <strong>mecanismo de Laplace</strong> desde cero, observar el trade-off <strong>privacy-utility</strong> vía el <strong>presupuesto ε (epsilon)</strong>, y mirar conceptualmente <strong>DP-SGD</strong> (Abadi et al. 2016): cómo se entrena un modelo sin que un atacante pueda inferir si tu registro estuvo en el training set.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
 <p>Al finalizar, el estudiante podrá:</p>
 <ul>
-<li>(resultado 1)</li>
-<li>(resultado 2)</li>
-<li>(resultado 3)</li>
+<li>Enunciar la definición de <strong>(ε, δ)-DP</strong>: <code>P[M(D) ∈ S] ≤ e^ε · P[M(D') ∈ S] + δ</code> para datasets vecinos <code>D</code>, <code>D'</code>.</li>
+<li>Calcular la <strong>sensibilidad</strong> <code>Δf</code> de funciones típicas (conteos, sumas acotadas, medias) y elegir ruido Laplace o Gaussiano calibrado.</li>
+<li>Implementar <code>laplace_mechanism(value, sensitivity, epsilon)</code> y verificar que <code>ε</code> chico → más ruido → menos utilidad.</li>
+<li>Aplicar <strong>composición básica</strong>: <code>k</code> consultas con <code>ε</code> cada una gastan <code>k·ε</code> del presupuesto total.</li>
+<li>Reconocer la idea de <strong>DP-SGD</strong>: per-sample gradient clipping + ruido gaussiano → entrenamiento DP (Opacus, TF-Privacy).</li>
 </ul>
-<h2 id="temas-clave">Temas clave</h2>
+<h2 id="temas">🗺️ Temas</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Tema</th>
+<th>Por qué importa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Anonimización falla (Netflix Prize, AOL search logs)</td>
+<td>k-anonymity / pseudonimización son rotas por linkage attacks. DP es la respuesta formal.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Definición (ε, δ)-DP y datasets vecinos</td>
+<td>El ε es <strong>la garantía</strong>; sin él, "privacidad" es marketing.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Sensibilidad <code>Δf</code></td>
+<td>Calibra cuánto ruido hace falta. Conteo: <code>Δf=1</code>. Suma acotada a <code>[0, B]</code>: <code>Δf=B</code>.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Mecanismos Laplace y Gaussiano</td>
+<td>Laplace para ε-DP puro; Gaussiano para (ε, δ)-DP con δ chico.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Composición y post-processing</td>
+<td>Cada query gasta presupuesto; cualquier f(salida DP) sigue siendo DP.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>DP-SGD (Abadi 2016)</td>
+<td>Clip per-sample + ruido gaussiano. Es el estándar para deep learning privado.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
 <ul>
-<li>(subtema 1)</li>
-<li>(subtema 2)</li>
-<li>(subtema 3)</li>
+<li><strong>(ε, δ)-Differential Privacy</strong> (Dwork 2006): mecanismo aleatorizado <code>M</code> es (ε, δ)-DP si para todo par de datasets <strong>vecinos</strong> <code>D, D'</code> (que difieren en 1 registro) y todo conjunto de salidas <code>S</code>: <code>P[M(D) ∈ S] ≤ e^ε · P[M(D') ∈ S] + δ</code>. Si <code>δ = 0</code> se llama <strong>ε-DP puro</strong>.</li>
+<li><strong>Privacy budget ε</strong>: chico = más privacidad, menos utilidad. Valores típicos en la práctica: <code>ε=0.1</code> (fuerte), <code>ε=1</code> (estándar de la US Census 2020), <code>ε=10</code> (débil — más marketing que garantía).</li>
+<li><strong>δ</strong>: probabilidad de fallar la garantía. Regla: <code>δ &lt;&lt; 1/n</code> (con n = tamaño del dataset).</li>
+<li><strong>Sensibilidad <code>Δf</code></strong> (L1): <code>Δf = max_{D,D' vecinos} |f(D) − f(D')|</code>. Conteo de registros: <code>Δf=1</code>. Suma de valores en <code>[0, B]</code>: <code>Δf=B</code>. Media sobre n fijo y valores en <code>[0, B]</code>: <code>Δf = B/n</code>.</li>
+<li><strong>Mecanismo de Laplace</strong>: <code>M(D) = f(D) + Lap(0, Δf/ε)</code>. Cumple <strong>ε-DP puro</strong>.</li>
+<li><strong>Mecanismo Gaussiano</strong>: <code>M(D) = f(D) + N(0, σ²)</code> con <code>σ ≥ sqrt(2 ln(1.25/δ)) · Δf / ε</code>. Cumple <strong>(ε, δ)-DP</strong>.</li>
+<li><strong>Composición básica</strong>: <code>k</code> mecanismos <code>ε_i</code>-DP componen a <code>(Σ ε_i)</code>-DP. Composición avanzada da <code>sqrt(2k ln(1/δ)) · ε</code> — mejor escala.</li>
+<li><strong>Post-processing</strong>: si <code>M</code> es (ε, δ)-DP, entonces <code>g(M(D))</code> también — no podés "des-privatizar" mirando la salida.</li>
+<li><strong>DP-SGD</strong> (Abadi et al. 2016): en cada paso (1) calcular gradiente per-sample, (2) clipearlo a norma <code>C</code>, (3) promediar el batch, (4) sumar ruido gaussiano <code>N(0, σ²C²)</code>. Tracking del ε vía <strong>moments accountant</strong> / RDP.</li>
 </ul>
-<h2 id="materiales">Materiales</h2>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
 <ul>
-<li><code>README.md</code> — esta ficha</li>
-<li><code>notebook.ipynb</code> — cuaderno de la clase</li>
+<li><strong>Dataset</strong>: sintético — un dataframe de salarios <code>n=10_000</code> con valores en <code>[0, 200_000]</code>. Suficiente para Laplace, mean privado, histograma y DP-SGD demo. Sin descarga externa.</li>
+<li>Librerías: <code>numpy</code>, <code>pandas</code>, <code>scikit-learn</code>. En producción real: <a href="https://opacus.ai/"><code>opacus</code></a> (PyTorch), <a href="https://github.com/tensorflow/privacy"><code>tensorflow-privacy</code></a>, <a href="https://github.com/IBM/differential-privacy-library"><code>diffprivlib</code></a> (IBM).</li>
 </ul>
-<h2 id="prerrequisitos">Prerrequisitos</h2>
-<p>Ver índice general en <code>classes/README.md</code> para dependencias entre clases.</p>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>Laplace básico</strong>: implementar <code>laplace_mechanism(value, sensitivity, epsilon)</code> y verificar empíricamente sobre 10_000 corridas que la varianza es <code>2·(Δf/ε)²</code>.</li>
+<li><strong>Conteo privado</strong>: contar empleados con salario &gt; 100k con <code>ε ∈ {0.1, 1.0, 10.0}</code>. Reportar error medio absoluto y discutir el trade-off.</li>
+<li><strong>Mean privado con clipping</strong>: clip salarios a <code>[0, B]</code>, sumar con Laplace <code>(Δf=B/n, ε=1)</code>, dividir por <code>n</code>. Mostrar bias vs varianza al variar <code>B</code>.</li>
+<li><strong>Histograma privado</strong>: 10 bins de salario, ruido Laplace independiente por bin (sensibilidad = 1 por bin). Comparar con histograma no privado.</li>
+<li><strong>Composición</strong>: hacer 10 conteos con <code>ε=0.1</code> cada uno → presupuesto total <code>ε=1.0</code>. Mostrar acumulación empírica del ruido.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Notebook con:</p>
+<ol>
+<li>Cargar <a href="https://archive.ics.uci.edu/dataset/2/adult">Adult / Census Income</a> (UCI, ~32K filas).</li>
+<li>Publicar un <strong>dashboard DP</strong> con 5 estadísticas (count, mean age, mean hours-per-week, count por género, count por education) bajo presupuesto total <code>ε=1.0</code>. Repartir el presupuesto entre queries y justificar.</li>
+<li>Entrenar un <code>LogisticRegression</code> clásico para predecir <code>income &gt; 50k</code>, reportar accuracy.</li>
+<li>Re-entrenar con <strong>DP-SGD manual</strong>: clip per-sample gradient norm a <code>C=1.0</code>, sumar <code>N(0, σ²)</code> con <code>σ=1.0</code>. Reportar accuracy y comparar.</li>
+<li>Discutir: ¿cuánta utilidad perdés? ¿el modelo DP es publicable sin riesgo de membership inference?</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: el dashboard cumple <code>ε=1.0</code> total (verificable sumando los <code>ε_i</code>), el modelo DP-SGD entrena sin error y la pérdida de accuracy vs no-DP es &lt; 10 pp.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"Privatizo la salida pero el atacante reconstruye el dato"</td>
+<td>Olvidaste <strong>clippear</strong> la entrada — un outlier hace <code>Δf</code> explotar y el ruido no alcanza. <strong>Fix</strong>: clip a <code>[a, b]</code> ANTES de sumar.</td>
+</tr>
+<tr>
+<td>Calculo <code>Δf</code> de una media como <code>B</code> (no <code>B/n</code>)</td>
+<td>Confundís sensibilidad de suma vs media. <strong>Fix</strong>: para mean con <code>n</code> fijo y valores en <code>[0, B]</code>, <code>Δf = B/n</code>.</td>
+</tr>
+<tr>
+<td>Hago 100 queries con <code>ε=1</code> y digo "es ε=1-DP"</td>
+<td>Sin tracking, gastaste <code>ε=100</code> por composición básica. <strong>Fix</strong>: dividir el budget total entre queries o usar Rényi DP / moments accountant.</td>
+</tr>
+<tr>
+<td><code>ε=10</code> o <code>ε=20</code> "porque así da mejor utility"</td>
+<td><code>ε≥10</code> da garantía prácticamente nula (<code>e^10 ≈ 22000</code> veces más probable). <strong>Fix</strong>: empezar con <code>ε∈[0.1, 1]</code>; si la utility no alcanza, revisar el diseño, no inflar ε.</td>
+</tr>
+<tr>
+<td>DP-SGD sin clippear per-sample</td>
+<td>Sin clipping, la sensibilidad del gradiente es ilimitada → garantía vacía. <strong>Fix</strong>: <code>torch.nn.utils.clip_grad_norm_</code> <strong>por sample</strong>, no por batch.</td>
+</tr>
+<tr>
+<td>Reutilizar el dataset privado para "validar" el modelo DP</td>
+<td>El proceso de validación también gasta budget. <strong>Fix</strong>: contar TODO acceso al dato sensible dentro del ε total.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿Qué ε es "seguro"?</strong></p>
+<p>No hay un número universal. La US Census 2020 usó <code>ε ≈ 19.6</code> (TopDown algorithm, criticado por flojo). Apple iOS reporta <code>ε</code> por feature (típicamente 2-8 por día). Recomendación práctica: empezar en <code>ε=1</code>, justificar cualquier valor mayor. <code>ε≥10</code> es difícil de defender ante un comité de ética.</p>
+<p><strong>❓ ¿DP me protege de TODO ataque?</strong></p>
+<p>Te protege contra <strong>membership inference</strong> y <strong>reconstruction</strong> bajo el modelo de atacante con conocimiento auxiliar arbitrario. NO te protege contra: ataques al modelo no-DP entrenado paralelamente, side-channels (timing), o si el atacante tiene el dato original (no es encriptación).</p>
+<p><strong>❓ ¿Local DP vs Central DP?</strong></p>
+<p><strong>Central DP</strong>: confiás en el curador (el servidor agrega ruido). Más utilidad. <strong>Local DP</strong>: cada usuario agrega ruido antes de mandar (Apple, RAPPOR de Google). Menos utilidad, pero no confiás en nadie. La elección depende del modelo de amenaza.</p>
+<p><strong>❓ ¿Vale la pena en deep learning?</strong></p>
+<p>Sí, con caveats. DP-SGD penaliza accuracy (5-15 pp típicos), y necesita batches grandes para que el ruido se promedie. Opacus / TF-Privacy automatizan todo. Es <strong>obligatorio</strong> si vas a publicar el modelo o usar datos médicos/financieros bajo regulación.</p>
+<p><strong>❓ ¿Y federated learning?</strong></p>
+<p>Federated learning (Clase 226) por sí solo NO es DP — el server ve gradientes que filtran información. Se combina con <strong>secure aggregation</strong> + <strong>DP</strong> para garantías reales (lo que hace Google Gboard).</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Dwork, McSherry, Nissim, Smith. <a href="https://link.springer.com/chapter/10.1007/11681878_14"><em>Calibrating Noise to Sensitivity in Private Data Analysis</em></a> (TCC 2006) — el paper original que define DP.</li>
+<li>Dwork, C., Roth, A. <a href="https://www.cis.upenn.edu/~aaroth/Papers/privacybook.pdf"><em>The Algorithmic Foundations of Differential Privacy</em></a> (Foundations and Trends, 2014) — el libro de referencia.</li>
+<li>Abadi et al. <a href="https://arxiv.org/abs/1607.00133"><em>Deep Learning with Differential Privacy</em></a> (CCS 2016) — DP-SGD + moments accountant.</li>
+<li><a href="https://opacus.ai/">Opacus</a> — DP-SGD en PyTorch (Meta).</li>
+<li><a href="https://github.com/tensorflow/privacy">TensorFlow Privacy</a> — DP-SGD en TF/Keras (Google).</li>
+<li><a href="https://github.com/IBM/differential-privacy-library">IBM diffprivlib</a> — mecanismos básicos sklearn-compatible.</li>
+</ul>
+<h2 id="material-descargable">📥 Material descargable</h2>
+<ul>
+<li>📄 <a href="./clase-225-privacidad-diferencial-intro-guia-explicativa.pdf">Guía explicativa (PDF)</a> — versión imprimible con todo el contenido de la clase.</li>
+<li>🎞️ <a href="./clase-225-privacidad-diferencial-intro-presentacion.pptx">Presentación (PPTX)</a> — deck PowerPoint listo para proyectar en clase.</li>
+<li>🧮 <a href="./notebook.ipynb">Notebook ejecutable (.ipynb)</a> — abrilo desde el laboratorio del programa o desde Jupyter.</li>
+</ul>
 <h2 id="siguiente-clase">➡️ Siguiente clase</h2>
-<p><a href="../226-federated-learning-intro/index.html">Clase 226 — Federated learning (intro)</a></p>
+<p><a href="../226-federated-learning-intro/index.html">Clase 226 — Federated learning: intro</a></p>
   </main>
   <footer class="cur-footer">
     <p>

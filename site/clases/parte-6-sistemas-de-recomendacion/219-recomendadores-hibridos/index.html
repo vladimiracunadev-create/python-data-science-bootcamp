@@ -24,34 +24,165 @@
   </header>
   <main class="cur-main">
     <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-6-sistemas-de-recomendacion/219-recomendadores-hibridos/notebook.ipynb">📓 Abrir notebook en GitHub</a>
-<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">Objetivo</a> · <a href="#resultados-esperados">Resultados esperados</a> · <a href="#temas-clave">Temas clave</a> · <a href="#materiales">Materiales</a> · <a href="#prerrequisitos">Prerrequisitos</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#material-descargable">📥 Material descargable</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
 <h1 id="clase-219-recomendadores-hibridos">Clase 219 — Recomendadores híbridos</h1>
 <blockquote>
-<p>Parte: <strong>6-sistemas-de-recomendacion</strong>
-Estado: <strong>stub</strong> (pendiente desarrollar contenido).</p>
+<p>Parte: <strong>6 — Sistemas de Recomendación</strong> · Fuente: Burke, <a href="https://josquin.cti.depaul.edu/~rburke/pubs/burke-umuai02.pdf"><em>Hybrid Recommender Systems: Survey and Experiments</em></a> (UMUAI 2002) + Kula, <a href="https://arxiv.org/abs/1507.08439"><em>Metadata Embeddings for User and Item Cold-start Recommendations</em></a> (LightFM, 2015). ⏱️ Duración estimada: <strong>75 min</strong>.</p>
 </blockquote>
-<h2 id="objetivo">Objetivo</h2>
-<p>Describir el resultado de aprendizaje concreto de esta clase.</p>
-<h2 id="resultados-esperados">Resultados esperados</h2>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Combinar <strong>CF</strong> (filtrado colaborativo, Clase 216-217) + <strong>content-based</strong> (Clase 218) para conseguir lo mejor de ambos: serendipia + cold-start + explicabilidad. Aplicar los 7 patrones de hybrid de Burke (2002) y usar <strong>LightFM</strong> (que aprende un modelo único con CF + features).</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
 <p>Al finalizar, el estudiante podrá:</p>
 <ul>
-<li>(resultado 1)</li>
-<li>(resultado 2)</li>
-<li>(resultado 3)</li>
+<li>Diferenciar los 7 patrones de hybrid: weighted, switching, mixed, feature combination, cascade, feature augmentation, meta-level.</li>
+<li>Implementar un hybrid <strong>weighted</strong>: <code>score = α × score_cf + (1-α) × score_content</code>.</li>
+<li>Implementar un hybrid <strong>switching</strong>: usar content para users con &lt;N interactions, CF para el resto.</li>
+<li>Usar <strong>LightFM</strong> como hybrid built-in: el modelo aprende embeddings que combinan CF + content features.</li>
+<li>Tunear <code>α</code> con validation y entender por qué <code>α</code> óptimo varía por user/item segment.</li>
 </ul>
-<h2 id="temas-clave">Temas clave</h2>
+<h2 id="temas">🗺️ Temas</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Tema</th>
+<th>Por qué importa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>7 patrones de Burke (2002)</td>
+<td>Vocabulario para discutir arquitecturas.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Weighted hybrid: <code>α × CF + (1-α) × CB</code></td>
+<td>El más simple y muy efectivo.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Switching: cold-start triage</td>
+<td>"Si user tiene &lt;5 ratings, usá content".</td>
+</tr>
+<tr>
+<td>4</td>
+<td>LightFM: hybrid aprendido</td>
+<td>Embeddings que combinan ambas señales.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Tuning <code>α</code> por segmento</td>
+<td>Cold-start: peso a content; long-tail: peso a CF.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Two-tower modelo (concept)</td>
+<td>El sucesor moderno de LightFM.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
 <ul>
-<li>(subtema 1)</li>
-<li>(subtema 2)</li>
-<li>(subtema 3)</li>
+<li><strong>Weighted</strong>: combinar scores por suma ponderada. <code>score = α × CF + (1-α) × CB</code>. <code>α</code> se tunea con validación.</li>
+<li><strong>Switching</strong>: elegir uno u otro según contexto. Ej: cold-start (user nuevo) → content; usuario maduro → CF.</li>
+<li><strong>Mixed</strong>: presentar resultados de ambos en la misma página (ej: carousel "porque te gustó X" + carousel "popular ahora").</li>
+<li><strong>Feature combination</strong>: agregar señales CF (ratings) como features a un modelo content-based, o viceversa.</li>
+<li><strong>Cascade</strong>: primero filtra con un modelo (e.g. CF top-100), después re-rankea con otro (e.g. content-based fine-grained).</li>
+<li><strong>Feature augmentation</strong>: usar el output de un modelo (e.g. cluster CF del user) como feature de otro.</li>
+<li><strong>Meta-level</strong>: el modelo aprende cuándo usar cada uno (gating network, mixture of experts).</li>
+<li><strong>LightFM</strong>: librería que aprende <strong>un único embedding por user/item</strong> combinando CF + content features. Funciona en pure CF, pure content, o hybrid.</li>
+<li><strong>Two-tower architecture</strong>: red neuronal con dos encoders (user tower + item tower), ambos producen embeddings que se combinan via dot product. SOTA moderno para retrieval.</li>
 </ul>
-<h2 id="materiales">Materiales</h2>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
 <ul>
-<li><code>README.md</code> — esta ficha</li>
-<li><code>notebook.ipynb</code> — cuaderno de la clase</li>
+<li><strong>Dataset</strong>: MovieLens 100K con <code>u.item</code> que tiene géneros (19 binarios).</li>
+<li>Librerías: <code>lightfm&gt;=1.17</code>, <code>scipy.sparse</code>, <code>pandas</code>.</li>
 </ul>
-<h2 id="prerrequisitos">Prerrequisitos</h2>
-<p>Ver índice general en <code>classes/README.md</code> para dependencias entre clases.</p>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>Weighted hybrid manual</strong>: tomar scores de Clase 217 (ALS) y Clase 218 (content-based). Combinar <code>score = α × cf + (1-α) × cb</code> para <code>α ∈ {0, 0.25, 0.5, 0.75, 1}</code>. Reportar NDCG@10 para cada <code>α</code>.</li>
+<li><strong>Switching por user</strong>: si <code>interactions(u) &lt; 5</code>: usar content; si no: usar CF. Comparar contra weighted para users en distintos segmentos (new/mature).</li>
+<li><strong>LightFM hybrid</strong>: entrenar <code>LightFM(loss='warp')</code> con <code>item_features</code> (géneros) y <code>user_features</code> (demographics). Comparar NDCG vs pure CF (sin features).</li>
+<li><strong>Cold-start eval</strong>: held-out incluye items nuevos (no en train) y users nuevos (sin ratings). Comparar pure CF (~0%), pure content (~OK), LightFM hybrid (~mejor).</li>
+<li><strong>Cascade</strong>: top-100 con CF, re-rankear top-10 con content (boost a items con descripción similar al historial del user).</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Notebook con:</p>
+<ol>
+<li>4 modelos sobre MovieLens 100K:
+   - Pure CF (implicit ALS).
+   - Pure content-based (sentence-transformers).
+   - Weighted hybrid (<code>α</code> tunado).
+   - LightFM hybrid (con item features).</li>
+<li>Tabla comparativa: NDCG@10, recall@10, coverage, diversity, tiempo train, tiempo predict.</li>
+<li>Análisis por segmento: cold-start users (≤3 ratings), warm users (≥20). ¿Cuál gana en cada?</li>
+<li>Curva <code>α</code> vs NDCG@10 para weighted hybrid.</li>
+<li>Documentación: arquitectura recomendada para 3 casos: e-commerce, streaming, news.</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: weighted hybrid o LightFM gana sobre pure CF en al menos uno de los segmentos; el <code>α</code> óptimo está justificado con números; las recomendaciones por arquitectura son sensatas.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Weighted hybrid no mejora sobre CF</td>
+<td><code>α</code> no tuneado, o scores en escalas distintas. <strong>Fix</strong>: normalizar a <code>[0,1]</code> con MinMax o softmax antes de combinar; tunear <code>α</code> por validación.</td>
+</tr>
+<tr>
+<td>LightFM peor que pure CF</td>
+<td>Item features con poca info (e.g. 19 géneros para 10K movies — bajo signal). <strong>Fix</strong>: features más ricos (descripciones), o quedate con pure CF.</td>
+</tr>
+<tr>
+<td>Switching tiene "jump" entre user con 4 vs 5 ratings</td>
+<td>Discontinuidad. <strong>Fix</strong>: weighted con <code>α(n) = sigmoid((n - 5) / 2)</code> — transición suave.</td>
+</tr>
+<tr>
+<td>Cold-start eval reporta ~0 para CF</td>
+<td>Esperado. <strong>Fix</strong>: ese es el punto del ejercicio — content/hybrid se justifica acá.</td>
+</tr>
+<tr>
+<td>LightFM <code>WARP loss</code> muy lento</td>
+<td><code>WARP</code> es O(n_items × negatives) por ejemplo. <strong>Fix</strong>: <code>loss='bpr'</code> (más rápido, levemente peor) o reducir <code>num_threads</code>.</td>
+</tr>
+<tr>
+<td>Mismas recomendaciones para todos los users (hybrid)</td>
+<td>Probablemente <code>α=0</code> o <code>α=1</code> colapsa todo. <strong>Fix</strong>: chequeá la curva de <code>α</code>.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿Qué hybrid pattern elegir?</strong></p>
+<p>Empezá con <strong>weighted</strong> o <strong>switching</strong> — son los más simples e interpretables. <strong>LightFM</strong> si tenés features ricos. <strong>Two-tower deep</strong> solo si tenés equipo ML + escala que lo justifique.</p>
+<p><strong>❓ ¿LightFM sigue siendo relevante en 2026?</strong></p>
+<p>Sí para datasets pequeños/medianos con features. Para grandes escalas: two-tower (TF Recommenders, recsys-pytorch). Pero LightFM es el sweet spot "complejidad-calidad" para casos chicos-medianos.</p>
+<p><strong>❓ ¿Cómo tuneo <code>α</code>?</strong></p>
+<p>(1) Grid search con validation NDCG@10. (2) Bayesian opt si tenés más hiperparámetros. (3) Por segmento (cold-start users → α bajo, mature → α alto). (4) Online via contextual bandit (avanzado).</p>
+<p><strong>❓ ¿Mixed (carousels) cuenta como hybrid?</strong></p>
+<p>Sí — es el patrón más usado en producción real. Spotify/Netflix muestran múltiples carousels con distintas estrategias ("porque viste X", "popular en tu país", "nuevos lanzamientos"). Cada carousel es un recomendador distinto; el "hybrid" es la <strong>página final</strong>.</p>
+<p><strong>❓ ¿Cuándo NO usar hybrid?</strong></p>
+<p>Si: (1) tu dataset es 100% interactions sin features útiles → pure CF. (2) Tus items no tienen historial pero tenés metadata rica → pure content. (3) Sos un startup con 1 ML eng → empezá simple, sumá hybrid cuando duela.</p>
+<p><strong>❓ ¿Two-tower vs LightFM?</strong></p>
+<p>Two-tower (TF Recommenders, PyTorch) escala mejor + permite features más complejos (text embeddings, image embeddings). LightFM es matriz factorization + lineal sobre features. Para 2026 SOTA: two-tower. Para empezar: LightFM.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Burke, R. <em>Hybrid Recommender Systems: Survey and Experiments</em> (UMUAI 2002) — los 7 patrones canónicos.</li>
+<li>Kula, M. <em>Metadata Embeddings for User and Item Cold-start Recommendations</em> (DLRS 2015) — LightFM paper.</li>
+<li><a href="https://making.lyst.com/lightfm/docs/home.html">LightFM docs</a>.</li>
+<li><a href="https://www.tensorflow.org/recommenders">TensorFlow Recommenders</a> — two-tower moderno.</li>
+<li>Aggarwal <strong>cap. 6</strong> — <em>Ensemble-Based and Hybrid Recommender Systems</em>.</li>
+</ul>
+<h2 id="material-descargable">📥 Material descargable</h2>
+<ul>
+<li>📄 <a href="./clase-219-recomendadores-hibridos-guia-explicativa.pdf">Guía explicativa (PDF)</a> — versión imprimible con todo el contenido de la clase.</li>
+<li>🎞️ <a href="./clase-219-recomendadores-hibridos-presentacion.pptx">Presentación (PPTX)</a> — deck PowerPoint listo para proyectar en clase.</li>
+<li>🧮 <a href="./notebook.ipynb">Notebook ejecutable (.ipynb)</a> — abrilo desde el laboratorio del programa o desde Jupyter.</li>
+</ul>
 <h2 id="siguiente-clase">➡️ Siguiente clase</h2>
 <p><a href="../220-metricas-map-k-ndcg-recall-k/index.html">Clase 220 — Métricas: MAP@k, NDCG, recall@k</a></p>
   </main>

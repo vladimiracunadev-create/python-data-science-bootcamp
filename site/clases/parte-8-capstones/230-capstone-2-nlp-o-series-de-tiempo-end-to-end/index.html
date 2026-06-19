@@ -24,34 +24,160 @@
   </header>
   <main class="cur-main">
     <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-8-capstones/230-capstone-2-nlp-o-series-de-tiempo-end-to-end/notebook.ipynb">📓 Abrir notebook en GitHub</a>
-<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">Objetivo</a> · <a href="#resultados-esperados">Resultados esperados</a> · <a href="#temas-clave">Temas clave</a> · <a href="#materiales">Materiales</a> · <a href="#prerrequisitos">Prerrequisitos</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#fases-del-capstone">🗺️ Fases del capstone</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#material-descargable">📥 Material descargable</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
 <h1 id="clase-230-capstone-2-nlp-o-series-de-tiempo-end-to-end">Clase 230 — Capstone 2: NLP o series de tiempo end-to-end</h1>
 <blockquote>
-<p>Parte: <strong>8-capstones</strong>
-Estado: <strong>stub</strong> (pendiente desarrollar contenido).</p>
+<p>Parte: <strong>8 — Capstones</strong> · Fuente: Hyndman &amp; Athanasopoulos, <a href="https://otexts.com/fpp3/"><em>Forecasting: Principles and Practice</em> (3ª ed.)</a> + Hugging Face <a href="https://huggingface.co/learn/nlp-course">NLP course</a>. ⏱️ Duración estimada: <strong>180 min</strong>.</p>
 </blockquote>
-<h2 id="objetivo">Objetivo</h2>
-<p>Describir el resultado de aprendizaje concreto de esta clase.</p>
-<h2 id="resultados-esperados">Resultados esperados</h2>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Entregar un segundo capstone end-to-end eligiendo <strong>una de dos ramas</strong>: (A) <strong>NLP</strong> — clasificación de texto / NER / RAG con transformers y endpoint FastAPI, o (B) <strong>series de tiempo</strong> — forecasting con baselines + modelos modernos, backtesting honesto e intervalos de predicción. En ambas ramas: tracking con MLflow, contenedorización con Docker, reproducibilidad con <code>uv</code> lock + seeds, Model Card, y discusión de drift (texto o forecast).</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
 <p>Al finalizar, el estudiante podrá:</p>
 <ul>
-<li>(resultado 1)</li>
-<li>(resultado 2)</li>
-<li>(resultado 3)</li>
+<li>Elegir entre <strong>NLP</strong> o <strong>series de tiempo</strong> según interés/dominio y justificar la decisión en el README del proyecto.</li>
+<li>Construir un pipeline reproducible con <strong>split honesto</strong> (estratificado en NLP, temporal sin shuffle en series).</li>
+<li>Reportar métricas del dominio: <strong>F1/accuracy + slice analysis</strong> (NLP) o <strong>sMAPE/MASE + pinball loss</strong> (series).</li>
+<li>Servir el modelo en un endpoint <strong>FastAPI</strong> dockerizado, con MLflow tracking del entrenamiento.</li>
+<li>Detectar <strong>drift</strong> (Evidently text drift en NLP; KS sobre residuos en series) y documentarlo en la Model Card.</li>
 </ul>
-<h2 id="temas-clave">Temas clave</h2>
+<h2 id="fases-del-capstone">🗺️ Fases del capstone</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Fase</th>
+<th>Entregable</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Definición + dataset + Model Card v0</td>
+<td><code>README.md</code> del proyecto con problema, métrica primaria y rama elegida.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>EDA específico del dominio</td>
+<td>NLP: distribución de longitudes, balance de clases, idioma. Series: STL, ACF/PACF, estacionariedad.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Split honesto + baselines</td>
+<td>NLP: TF-IDF + Logistic / clase mayoritaria. Series: naive, seasonal naive, ETS, SARIMA.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Modelo moderno + MLflow tracking</td>
+<td>NLP: fine-tune DistilBERT o sentence-transformers / RAG con FAISS. Series: NeuralProphet / Darts / Statsforecast (N-BEATS opcional).</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Backtesting + intervalos</td>
+<td>NLP: slice analysis (longitud, idioma, clase). Series: expanding window + cuantiles P10/P90.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Empaquetado + endpoint + drift</td>
+<td>Docker + FastAPI (<code>/predict</code> o <code>/forecast</code>) + reporte de drift + Model Card final.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
 <ul>
-<li>(subtema 1)</li>
-<li>(subtema 2)</li>
-<li>(subtema 3)</li>
+<li><strong>sMAPE</strong> (symmetric MAPE): <code>mean(2·|y−ŷ| / (|y|+|ŷ|))</code>. Acotada en [0, 2], no estalla cuando <code>y=0</code> (a diferencia de MAPE).</li>
+<li><strong>MASE</strong> (Mean Absolute Scaled Error): error escalado por el error del <strong>naive estacional in-sample</strong>. <code>MASE&lt;1</code> ⇒ mejor que naive; comparable entre series de distinta escala.</li>
+<li><strong>Pinball loss</strong> (quantile loss): <code>max(τ·(y−ŷ), (τ−1)·(y−ŷ))</code>. Loss correcta para <strong>predicción de cuantiles</strong> (intervalos P10/P90).</li>
+<li><strong>Backtesting expanding window</strong>: <code>train[0:T₀] → predict[T₀:T₀+h]</code>, luego <code>train[0:T₀+h] → predict[...]</code>, etc. No re-mezcla; respeta el orden temporal.</li>
+<li><strong>Slice analysis (NLP)</strong>: medir métricas por subconjunto (longitud del texto, idioma, clase) — un F1 global de 0.92 puede esconder F1=0.40 en textos largos.</li>
+<li><strong>Fine-tuning ligero</strong>: entrenar solo la cabeza (head) de un transformer pre-entrenado o aplicar <strong>LoRA</strong> (adapters de bajo rango) → 10–100× menos parámetros entrenables.</li>
+<li><strong>RAG (Retrieval-Augmented Generation)</strong>: embeddings → vector index (FAISS) → recuperar top-k → LLM responde con contexto. Reduce alucinaciones, no requiere fine-tuning.</li>
+<li><strong>Drift de forecast</strong>: residuos <code>y−ŷ</code> cuya distribución cambia en el tiempo — señal de que el modelo necesita re-entrenamiento.</li>
 </ul>
-<h2 id="materiales">Materiales</h2>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
 <ul>
-<li><code>README.md</code> — esta ficha</li>
-<li><code>notebook.ipynb</code> — cuaderno de la clase</li>
+<li><strong>Rama A — NLP</strong>: IMDB reviews (50K, binario), AG News (120K, 4 clases), o reseñas de Yelp en español. Para RAG: Wikipedia dump pequeño o docs internos.</li>
+<li><strong>Rama B — Series</strong>: M5 (Walmart, jerárquica), electricity load (UCI), o clima diario (NOAA). Mínimo 2 años con estacionalidad clara.</li>
+<li>Stack común: <code>uv</code> (Parte 7), Docker, MLflow, FastAPI, Evidently. NLP extra: <code>transformers</code>, <code>datasets</code>, <code>sentence-transformers</code>, <code>faiss-cpu</code>. Series extra: <code>statsmodels</code>, <code>statsforecast</code>, <code>darts</code> o <code>neuralprophet</code>.</li>
 </ul>
-<h2 id="prerrequisitos">Prerrequisitos</h2>
-<p>Ver índice general en <code>classes/README.md</code> para dependencias entre clases.</p>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>Definición</strong>: escribir el problema en 5 líneas (qué se predice, para qué, métrica primaria, baseline aceptable, costo de errar). Elegir rama A o B.</li>
+<li><strong>EDA del dominio</strong>: rama A → distribuciones de longitud y balance de clases por idioma; rama B → STL + ACF/PACF + test de estacionariedad ADF.</li>
+<li><strong>Baselines</strong>: rama A → TF-IDF + LogisticRegression; rama B → naive + seasonal naive + ETS. Loggear todo a MLflow.</li>
+<li><strong>Modelo moderno</strong>: rama A → fine-tune DistilBERT 2 epochs con <code>transformers.Trainer</code>; rama B → SARIMA o NeuralProphet con backtesting expanding window 5 folds.</li>
+<li><strong>Endpoint + drift</strong>: FastAPI con <code>/predict</code> (NLP) o <code>/forecast?horizon=14</code> (series), dockerizado. Reporte de drift entre primera y segunda mitad del test (Evidently o KS test manual).</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Repositorio con:</p>
+<ol>
+<li><code>README.md</code> del proyecto con problema, rama elegida (A o B), métrica primaria y resultado.</li>
+<li>Notebook de EDA + entrenamiento con seeds fijas (42) y MLflow tracking visible (screenshot o <code>mlruns/</code> versionado).</li>
+<li><code>Dockerfile</code> + <code>compose.yml</code> que levanten FastAPI + MLflow UI con un solo <code>docker compose up</code>.</li>
+<li>Endpoint funcional: <code>curl -X POST localhost:8000/predict</code> (NLP) o <code>curl localhost:8000/forecast?horizon=14</code> (series) devuelve JSON válido.</li>
+<li><strong>Model Card</strong> (1 página) con métricas globales y por slice/horizonte, datos de entrenamiento, sesgos conocidos, y plan de monitoreo de drift.</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: el modelo moderno supera al mejor baseline en la métrica primaria (NLP: ≥ +3 puntos de F1; series: MASE &lt; 1.0 y sMAPE menor que seasonal naive), el endpoint responde en &lt;500 ms, y la Model Card identifica al menos un slice/horizonte donde el modelo es débil.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>sMAPE = 200% en algunos puntos</td>
+<td><code>y=0</code> con <code>ŷ&gt;0</code>. <strong>Fix</strong>: usar sMAPE simétrica <code>2·|y−ŷ|/(|y|+|ŷ|+ε)</code>, o cambiar a MASE.</td>
+</tr>
+<tr>
+<td>Modelo de forecast "perfecto" en test</td>
+<td>Hiciste <code>train_test_split</code> con <code>shuffle=True</code>. <strong>Fix</strong>: split temporal: <code>train = df[:T₀]</code>, <code>test = df[T₀:]</code>. Nunca shuffle en series.</td>
+</tr>
+<tr>
+<td><code>transformers</code> no carga pesos en Docker</td>
+<td>Falta caché o no hay internet. <strong>Fix</strong>: descargar pesos en build (<code>RUN python -c "from transformers import ..."</code>) o montar volumen <code>~/.cache/huggingface</code>.</td>
+</tr>
+<tr>
+<td>F1 global alto pero el cliente reclama</td>
+<td>No hiciste slice analysis. <strong>Fix</strong>: reportar F1 por longitud/idioma/clase; un slice débil explica las quejas.</td>
+</tr>
+<tr>
+<td>Intervalos P10/P90 cubren &lt;50% del test</td>
+<td>Modelo subestima la varianza. <strong>Fix</strong>: calibrar con conformal prediction o usar quantile regression con pinball loss directo.</td>
+</tr>
+<tr>
+<td><code>OOM</code> al fine-tunear DistilBERT en CPU</td>
+<td>Batch size demasiado grande. <strong>Fix</strong>: <code>per_device_train_batch_size=8</code>, <code>gradient_accumulation_steps=4</code>, o usar adapters/LoRA.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿NLP o series? ¿Cuál es más fácil?</strong></p>
+<p>Series suele ser más rápido de prototipar (statsforecast entrena SARIMA sobre miles de series en minutos, sin GPU). NLP con transformers requiere GPU para fine-tuning serio, o aceptar fine-tuning lento en CPU con DistilBERT y <code>max_length=128</code>.</p>
+<p><strong>❓ ¿Puedo usar GPT-4/Claude vía API en vez de fine-tunear?</strong></p>
+<p>Sí — es válido como baseline en RAG o clasificación zero-shot, pero el capstone pide al menos <strong>un modelo propio entrenado y versionado en MLflow</strong>. La llamada a API puede ser el comparativo.</p>
+<p><strong>❓ ¿Por qué MASE además de sMAPE?</strong></p>
+<p>Porque MASE es <strong>comparable entre series</strong> (escala-invariante vs el naive estacional). Si reportás solo sMAPE, no podés saber si 12% es bueno o malo sin contexto. MASE &lt; 1 ⇒ mejor que naive, en cualquier serie.</p>
+<p><strong>❓ ¿FastAPI o BentoML?</strong></p>
+<p>FastAPI por default (ya cubierto en Parte 4). BentoML si necesitás batch inference automática, model registry integrado, o despliegue a SageMaker/Vertex con menos código.</p>
+<p><strong>❓ ¿La Model Card es realmente necesaria?</strong></p>
+<p>Sí — Mitchell et al. (Google, 2019) la propusieron por una razón: sin ella, nadie sabe qué slices son débiles ni cuándo el modelo se rompe. Es lo primero que un evaluador externo (o auditor) pide.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Hyndman, R., Athanasopoulos, G. <em>Forecasting: Principles and Practice</em> (3ª ed., 2021) — https://otexts.com/fpp3/</li>
+<li>Hugging Face NLP course — https://huggingface.co/learn/nlp-course</li>
+<li>Hvitfeldt, E., Silge, J. <em>Supervised ML for Text Analysis</em> (2021) — https://smltar.com/ (R, conceptos aplican)</li>
+<li>Statsforecast docs — https://nixtlaverse.nixtla.io/statsforecast/index.html</li>
+<li>Darts (forecasting deep + clásico) — https://unit8co.github.io/darts/</li>
+<li>Mitchell, M. et al. <em>Model Cards for Model Reporting</em> (FAT* 2019).</li>
+</ul>
+<h2 id="material-descargable">📥 Material descargable</h2>
+<ul>
+<li>📄 <a href="./clase-230-capstone-2-nlp-o-series-de-tiempo-end-to-end-guia-explicativa.pdf">Guía explicativa (PDF)</a> — versión imprimible con todo el contenido de la clase.</li>
+<li>🎞️ <a href="./clase-230-capstone-2-nlp-o-series-de-tiempo-end-to-end-presentacion.pptx">Presentación (PPTX)</a> — deck PowerPoint listo para proyectar en clase.</li>
+<li>🧮 <a href="./notebook.ipynb">Notebook ejecutable (.ipynb)</a> — abrilo desde el laboratorio del programa o desde Jupyter.</li>
+</ul>
 <h2 id="siguiente-clase">➡️ Siguiente clase</h2>
 <p><a href="../231-capstone-3-vision-por-computadora-con-transfer-learning/index.html">Clase 231 — Capstone 3: visión por computadora con transfer learning</a></p>
   </main>

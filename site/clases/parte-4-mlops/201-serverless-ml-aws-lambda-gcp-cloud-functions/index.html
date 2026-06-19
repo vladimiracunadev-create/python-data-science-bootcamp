@@ -24,34 +24,159 @@
   </header>
   <main class="cur-main">
     <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-4-mlops/201-serverless-ml-aws-lambda-gcp-cloud-functions/notebook.ipynb">📓 Abrir notebook en GitHub</a>
-<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">Objetivo</a> · <a href="#resultados-esperados">Resultados esperados</a> · <a href="#temas-clave">Temas clave</a> · <a href="#materiales">Materiales</a> · <a href="#prerrequisitos">Prerrequisitos</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#material-descargable">📥 Material descargable</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
 <h1 id="clase-201-serverless-ml-aws-lambda-gcp-cloud-functions">Clase 201 — Serverless ML: AWS Lambda, GCP Cloud Functions</h1>
 <blockquote>
-<p>Parte: <strong>4-mlops</strong>
-Estado: <strong>stub</strong> (pendiente desarrollar contenido).</p>
+<p>Parte: <strong>4 — MLOps</strong> · Fuente: Huyen <strong>cap. 11</strong> + <a href="https://docs.aws.amazon.com/lambda/latest/dg/images-create.html">docs Lambda container images</a> + <a href="https://cloud.google.com/functions/docs/concepts/execution-environment">Cloud Functions 2nd gen</a>. ⏱️ Duración estimada: <strong>75 min</strong>.</p>
 </blockquote>
-<h2 id="objetivo">Objetivo</h2>
-<p>Describir el resultado de aprendizaje concreto de esta clase.</p>
-<h2 id="resultados-esperados">Resultados esperados</h2>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Desplegar un modelo como <strong>función serverless</strong> que escala de 0 a N sin gestionar servidores. Decidir cuándo serverless <strong>gana</strong> (tráfico bursty, batch chico, no podés mantener infra) y cuándo <strong>pierde</strong> (cold start crítico, modelo &gt;1 GB, latencia &lt;50 ms requerida).</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
 <p>Al finalizar, el estudiante podrá:</p>
 <ul>
-<li>(resultado 1)</li>
-<li>(resultado 2)</li>
-<li>(resultado 3)</li>
+<li>Empaquetar un modelo sklearn/XGBoost como <strong>Lambda Container Image</strong> (hasta 10 GB) o <strong>Cloud Function 2nd gen</strong> (build automático con Buildpacks).</li>
+<li>Mitigar <strong>cold starts</strong> con: provisioned concurrency (Lambda), min-instances=1 (Cloud Functions), o snapshot-based init (SnapStart).</li>
+<li>Configurar <strong>API Gateway</strong> o <strong>HTTP trigger</strong> para exponer la función como REST.</li>
+<li>Calcular costo: $/M invocations × duration × memory, vs un pod K8s 24/7.</li>
+<li>Reconocer límites: timeout 15 min (Lambda), payload 6 MB sync / 256 KB async, disco efímero 512 MB <code>/tmp</code> (10 GB con <code>ephemeral-storage</code>).</li>
 </ul>
-<h2 id="temas-clave">Temas clave</h2>
+<h2 id="temas">🗺️ Temas</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Tema</th>
+<th>Por qué importa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Modelo de ejecución: scale-to-zero, request-per-instance</td>
+<td>Diferente a K8s/EC2 24/7.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Cold start vs warm</td>
+<td>El bug que arruina la UX.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Package formats: ZIP (≤250 MB) vs Container (≤10 GB)</td>
+<td>Para modelos ML: container.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Cost model: invocations + GB-seconds</td>
+<td>Cruce con K8s al ~1M req/día sostenido.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Provisioned concurrency / min-instances</td>
+<td>Cambia la economía y la latencia.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Cuándo NO usar serverless</td>
+<td>Modelos grandes, latencia &lt;50 ms, stateful.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
 <ul>
-<li>(subtema 1)</li>
-<li>(subtema 2)</li>
-<li>(subtema 3)</li>
+<li><strong>Cold start</strong>: tiempo entre llegada del request y arranque del runtime + carga del modelo en una instancia nueva. Lambda Python: ~300 ms (runtime) + tu init code. Con modelo grande: 5-15 s.</li>
+<li><strong>Warm</strong>: instancia ya inicializada que recibe request → latencia = solo <code>predict</code>. Lambda mantiene warm ~5-15 min sin invocations (no garantizado).</li>
+<li><strong>Provisioned Concurrency</strong> (Lambda): pagás por mantener N instancias warm permanentemente. Elimina cold starts a cambio de costo fijo.</li>
+<li><strong>SnapStart</strong> (Lambda, Java/Python 3.12+): toma snapshot del runtime después de init y lo restaura — cold start &lt;500 ms aún con modelos grandes.</li>
+<li><strong>Cloud Functions 2nd gen</strong> (basado en Cloud Run): timeouts hasta 60 min, hasta 32 GB RAM, mejor cold start que 1st gen, y la opción <code>--min-instances=1</code> para mantener warm.</li>
+<li><strong>API Gateway</strong>: pone HTTP delante de Lambda. Maneja auth, throttling, CORS. Cobra extra por request — para tráfico volumétrico, <strong>Lambda Function URL</strong> (gratis) es alternativa.</li>
+<li><strong>Provisioned vs On-Demand</strong>: provisioned escala a 0 manteniendo N warm. On-demand escala a 0 puro. Trade-off costo vs latency tail.</li>
 </ul>
-<h2 id="materiales">Materiales</h2>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
 <ul>
-<li><code>README.md</code> — esta ficha</li>
-<li><code>notebook.ipynb</code> — cuaderno de la clase</li>
+<li><strong>Modelo</strong>: <code>LogisticRegression</code> sobre Iris (chico — buen fit serverless).</li>
+<li><strong>Tools</strong>: AWS CLI + SAM (Serverless Application Model), o <code>gcloud functions deploy</code>.</li>
+<li><strong>Imagen base Lambda</strong>: <code>public.ecr.aws/lambda/python:3.12</code>.</li>
 </ul>
-<h2 id="prerrequisitos">Prerrequisitos</h2>
-<p>Ver índice general en <code>classes/README.md</code> para dependencias entre clases.</p>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>Lambda con container</strong>: buildeá un Dockerfile basado en <code>public.ecr.aws/lambda/python:3.12</code>, copiá <code>app.py</code> con <code>lambda_handler(event, context)</code>, y <code>model.pkl</code>. Push a ECR. <code>aws lambda create-function</code> con <code>--package-type Image</code>.</li>
+<li><strong>API Gateway</strong>: creá una API HTTP y conectala a la Lambda. <code>curl &lt;api-url&gt;/predict -d '{"features":[5.1,3.5,1.4,0.2]}'</code>. Medí latencia primera vs segunda llamada (cold vs warm).</li>
+<li><strong>Provisioned Concurrency</strong>: configurá <code>provisioned-concurrency=1</code> en la Lambda. Vuelve a medir — debería eliminar el cold start.</li>
+<li><strong>Cloud Functions equivalent</strong>: <code>gcloud functions deploy iris --gen2 --runtime=python312 --trigger-http --source=. --entry-point=predict --memory=512Mi --min-instances=1</code>. Compará cold start con Lambda.</li>
+<li><strong>Cost calc</strong>: asumí 100 req/s sostenido, modelo en RAM 512 MB, 80 ms p99. Calculá $/mes en Lambda vs un pod K8s con 4 vCPU 24/7. Encontrá el punto de cruce.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<ol>
+<li>Lambda function (container image) que sirve <code>predict</code> con cold start &lt;3 s y warm &lt;80 ms.</li>
+<li>API Gateway HTTP exponiendo la Lambda.</li>
+<li>CloudWatch alarm que dispara si <code>Errors &gt; 5</code> en 5 min, o <code>Duration P99 &gt; 1000 ms</code>.</li>
+<li>Script <code>python cost_analysis.py</code> que dado <code>req_per_second_mean</code>, <code>req_size</code>, <code>mem_mb</code>, <code>duration_ms</code> calcula $/mes en (a) Lambda on-demand, (b) Lambda con PC=2, (c) ECS Fargate equivalente, (d) K8s con 3 pods t3.medium.</li>
+<li>Recomendación escrita: para tu workload, qué opción elegir y por qué.</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: <code>curl &lt;api&gt;/predict</code> responde en &lt;100 ms (warm) y &lt;3 s (cold), el cost analysis identifica el punto de cruce correcto (típicamente serverless gana &lt;~500k requests/día sostenido).</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cold start de 30 s</td>
+<td>Carga del modelo dentro del <code>handler</code>. <strong>Fix</strong>: cargar a <strong>module level</strong> (fuera del handler) — se carga una vez por instancia, no por request.</td>
+</tr>
+<tr>
+<td><code>Task timed out after 3.00 seconds</code></td>
+<td>Default Lambda timeout es 3 s. <strong>Fix</strong>: <code>aws lambda update-function-configuration --timeout 30</code> (máximo 900). Cloud Functions 2nd gen default 60 s, máx 3600.</td>
+</tr>
+<tr>
+<td>Imagen ZIP excede 250 MB descomprimido</td>
+<td>Probablemente trayendo <code>numpy</code>+<code>scipy</code>+<code>pandas</code>. <strong>Fix</strong>: cambiar a <strong>Container Image</strong> (hasta 10 GB). Lambda runtime soporta imágenes OCI desde 2020.</td>
+</tr>
+<tr>
+<td>Pérdida de estado entre invocations</td>
+<td>Esperado: cada instancia es efímera. <strong>Fix</strong>: estado en DynamoDB, S3, ElastiCache. NO en <code>/tmp</code> (cleared en cold start).</td>
+</tr>
+<tr>
+<td>Costos explotaron</td>
+<td>(1) Provisioned concurrency olvidada. (2) Loops infinitos o retries en cascade. (3) Memoria sobre-asignada (Lambda cobra por GB-second). <strong>Fix</strong>: CloudWatch metrics + cost anomaly detection.</td>
+</tr>
+<tr>
+<td><code>errorMessage: Unable to import module</code></td>
+<td>Falta una dep o estructura incorrecta. <strong>Fix</strong>: en Container Image, asegurarse que <code>CMD ["app.lambda_handler"]</code> referencia <code>app.py</code> con función <code>lambda_handler</code>.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿Cuándo serverless conviene para ML?</strong></p>
+<p>(1) Tráfico bursty con valles largos (1000 req/min picos, 0 req/min noche). (2) Modelo chico (&lt;1 GB) y latencia tolerante (&gt;200 ms p99 OK). (3) Equipo sin DevOps. (4) Predicciones batch ad-hoc (S3 trigger). Suma ~70% de los casos típicos en startups.</p>
+<p><strong>❓ ¿Cuándo NO?</strong></p>
+<p>(1) Latencia estricta &lt;50 ms — cold start es matador. (2) Modelo grande (&gt;3 GB) — init carísimo. (3) Throughput sostenido &gt;1000 req/s 24/7 — sale más caro que K8s. (4) Stateful: caches calientes, sessions, websockets persistentes.</p>
+<p><strong>❓ ¿Lambda o SageMaker Serverless Inference?</strong></p>
+<p>SageMaker Serverless: built-in para ML (deploy con un click desde model registry, batch transform). Misma idea de scale-to-zero. Latencia similar. Pros: integración con SageMaker; cons: vendor-locked y más caro por request. Para ML puro en AWS: SageMaker. Para mezcla ML + lógica de negocio: Lambda.</p>
+<p><strong>❓ ¿GPU en serverless?</strong></p>
+<p>Lambda no tiene GPU. Cloud Run/Functions 2nd gen tampoco (al momento de escribir). Para inferencia GPU serverless: <strong>Modal</strong>, <strong>Banana</strong>, <strong>Replicate</strong> (3rd party SaaS). Sino: K8s con GPU nodes.</p>
+<p><strong>❓ ¿Cómo monitoreo cold start vs warm?</strong></p>
+<p>CloudWatch: métrica <code>InitDuration</code> (solo en cold), <code>Duration</code> (siempre). Lambda Insights agrega CPU/mem/network. Para correlacionar con latencia user-facing: X-Ray tracing.</p>
+<p><strong>❓ ¿Container Image vs Layer?</strong></p>
+<p>Lambda Layers: hasta 5 layers de 250 MB cada uno (compartidos entre funciones). Container Image: hasta 10 GB, todo en uno. Para ML moderno: Container Image siempre — más simple, sin límite efectivo.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Huyen, Chip. <em>Designing Machine Learning Systems</em> (O'Reilly, 2022), <strong>cap. 11</strong>.</li>
+<li><a href="https://docs.aws.amazon.com/lambda/latest/dg/python-image.html">AWS Lambda container images for Python</a>.</li>
+<li><a href="https://docs.aws.amazon.com/lambda/latest/dg/snapstart.html">Lambda SnapStart for Python</a>.</li>
+<li><a href="https://cloud.google.com/functions/docs/2nd-gen/overview">Cloud Functions 2nd gen</a>.</li>
+<li><a href="https://modal.com/">Modal</a> — serverless con GPU para ML.</li>
+</ul>
+<h2 id="material-descargable">📥 Material descargable</h2>
+<ul>
+<li>📄 <a href="./clase-201-serverless-ml-aws-lambda-gcp-cloud-functions-guia-explicativa.pdf">Guía explicativa (PDF)</a> — versión imprimible con todo el contenido de la clase.</li>
+<li>🎞️ <a href="./clase-201-serverless-ml-aws-lambda-gcp-cloud-functions-presentacion.pptx">Presentación (PPTX)</a> — deck PowerPoint listo para proyectar en clase.</li>
+<li>🧮 <a href="./notebook.ipynb">Notebook ejecutable (.ipynb)</a> — abrilo desde el laboratorio del programa o desde Jupyter.</li>
+</ul>
 <h2 id="siguiente-clase">➡️ Siguiente clase</h2>
 <p><a href="../202-monitoreo-data-drift-model-drift-alertas/index.html">Clase 202 — Monitoreo: data drift, model drift, alertas</a></p>
   </main>

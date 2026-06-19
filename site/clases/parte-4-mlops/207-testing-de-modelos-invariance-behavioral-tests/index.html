@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Clase 207 — Testing de modelos: invariance, behavioral tests | Python Data Science Program</title>
+  <title>Clase 207 — Testing de modelos: invariance + behavioral tests | Python Data Science Program</title>
   <meta name="description" content="Clase 207 del Python Data Science Program">
   <meta name="theme-color" content="#0f3d3e">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -24,36 +24,170 @@
   </header>
   <main class="cur-main">
     <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-4-mlops/207-testing-de-modelos-invariance-behavioral-tests/notebook.ipynb">📓 Abrir notebook en GitHub</a>
-<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">Objetivo</a> · <a href="#resultados-esperados">Resultados esperados</a> · <a href="#temas-clave">Temas clave</a> · <a href="#materiales">Materiales</a> · <a href="#prerrequisitos">Prerrequisitos</a> · <a href="#siguiente-parte">➡️ Siguiente parte</a></nav>
-<h1 id="clase-207-testing-de-modelos-invariance-behavioral-tests">Clase 207 — Testing de modelos: invariance, behavioral tests</h1>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#material-descargable">📥 Material descargable</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-207-testing-de-modelos-invariance-behavioral-tests">Clase 207 — Testing de modelos: invariance + behavioral tests</h1>
 <blockquote>
-<p>Parte: <strong>4-mlops</strong>
-Estado: <strong>stub</strong> (pendiente desarrollar contenido).</p>
+<p>Parte: <strong>4 — MLOps</strong> · Fuente: Ribeiro et al., <a href="https://aclanthology.org/2020.acl-main.442/"><em>Beyond Accuracy: Behavioral Testing of NLP Models with CheckList</em></a> (ACL 2020, best paper) + Huyen <strong>cap. 9</strong> + <a href="https://docs.deepchecks.com/">Deepchecks docs</a>. ⏱️ Duración estimada: <strong>80 min</strong>.</p>
 </blockquote>
-<h2 id="objetivo">Objetivo</h2>
-<p>Describir el resultado de aprendizaje concreto de esta clase.</p>
-<h2 id="resultados-esperados">Resultados esperados</h2>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Ir más allá de "accuracy en hold-out": tests que verifican que el modelo se comporta <strong>como debería</strong> en casos específicos. Tres familias: <strong>invariance tests</strong> ("misma predicción si reemplazo Juan por María"), <strong>directional tests</strong> ("si subo el ingreso, la proba de aprobar el préstamo no debe bajar"), <strong>minimum functionality tests</strong> ("predicción correcta sobre casos canónicos hand-crafted").</p>
+<p>Cierra la Parte 4: con esto, el modelo en producción tiene <strong>6 capas de protección</strong> (data tests, model tests, monitoring, shadow, canary, rollback).</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
 <p>Al finalizar, el estudiante podrá:</p>
 <ul>
-<li>(resultado 1)</li>
-<li>(resultado 2)</li>
-<li>(resultado 3)</li>
+<li>Implementar <strong>invariance tests</strong> (perturbaciones que NO deben cambiar la predicción): swap de nombres protegidos, sinónimos, ruido pequeño.</li>
+<li>Implementar <strong>directional tests</strong> (perturbaciones que deben cambiar la predicción en una dirección esperada): subir ingreso → menos riesgo crediticio.</li>
+<li>Crear <strong>minimum functionality test sets</strong> (MFT): casos hand-crafted que cubren cada feature/segmento crítico.</li>
+<li>Integrar tests de modelo en <code>pytest</code> y correrlos en CI antes de promover (gate de Clase 197).</li>
+<li>Usar <strong>Deepchecks</strong> o <strong>CheckList</strong> para suites pre-armados (especialmente NLP).</li>
 </ul>
-<h2 id="temas-clave">Temas clave</h2>
+<h2 id="temas">🗺️ Temas</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Tema</th>
+<th>Por qué importa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Accuracy ≠ corrección — los 3 tipos de test</td>
+<td>Modelo "bueno" puede tener bugs sistemáticos.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Invariance tests</td>
+<td>Detecta sesgos (mismo CV con nombre cambia decisión).</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Directional tests</td>
+<td>Detecta inconsistencias (más experiencia → menor probabilidad de hire).</td>
+</tr>
+<tr>
+<td>4</td>
+<td>MFT (Minimum Functionality)</td>
+<td>Casos triviales que un humano resuelve sin pensar.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Slice-based testing</td>
+<td>Performance por subgrupo, no solo overall.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Integración con CI</td>
+<td>Tests verdes ≠ gate, requerir explícitamente.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
 <ul>
-<li>(subtema 1)</li>
-<li>(subtema 2)</li>
-<li>(subtema 3)</li>
+<li><strong>Invariance test (INV)</strong>: <code>assert model(x) == model(perturb(x))</code>. La perturbación es una transformación que no debería cambiar la predicción. Ej: cambiar nombre, agregar puntuación, sinónimos.</li>
+<li><strong>Directional Expectation test (DIR)</strong>: <code>assert sign(model(x_modified) - model(x)) == expected_direction</code>. Ej: si aumento <code>income</code>, <code>P(default)</code> debe <strong>bajar</strong> o quedar igual — nunca subir.</li>
+<li><strong>Minimum Functionality Test (MFT)</strong>: un set chico de ejemplos hand-crafted etiquetados manualmente. El modelo DEBE acertar todos. Ej: "Pésimo servicio" → negativo en un sentiment classifier.</li>
+<li><strong>Slice-based testing</strong>: medir métrica por sub-grupo (gender, age, country) y reportar el peor caso, no el promedio. El promedio esconde regresiones en minorías.</li>
+<li><strong>CheckList</strong> (Ribeiro et al.): framework + paper que estandarizó los 3 tipos de test (INV/DIR/MFT) para NLP. Acabó ganando best paper en ACL 2020.</li>
+<li><strong>Deepchecks</strong>: librería Python con suites pre-armados para tabular, vision, NLP. Detecta data leakage, train-test drift, performance bias.</li>
+<li><strong>Adversarial testing</strong>: variante de invariance — perturbaciones pequeñas adversarialmente diseñadas que rompen el modelo. <code>cleverhans</code>, <code>foolbox</code> para deep learning.</li>
 </ul>
-<h2 id="materiales">Materiales</h2>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
 <ul>
-<li><code>README.md</code> — esta ficha</li>
-<li><code>notebook.ipynb</code> — cuaderno de la clase</li>
+<li><strong>Tabular</strong>: Adult Income (UCI) con <code>gender</code> como atributo sensible.</li>
+<li><strong>NLP</strong>: subset de IMDb reviews para sentiment.</li>
+<li>Librerías: <code>deepchecks&gt;=0.18</code>, <code>checklist</code>, <code>pytest</code>, <code>pandas</code>.</li>
 </ul>
-<h2 id="prerrequisitos">Prerrequisitos</h2>
-<p>Ver índice general en <code>classes/README.md</code> para dependencias entre clases.</p>
-<h2 id="siguiente-parte">➡️ Siguiente parte</h2>
-<p><a href="../../parte-5-ingenieria-de-datos/208-pipelines-etl-elt-con-airflow/index.html">Clase 208 — Pipelines ETL/ELT con Airflow</a></p>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>MFT tabular</strong>: para un modelo de crédito sobre Adult, hand-craft 20 casos: 10 obvios "should approve" (alto ingreso, educación alta, sin debts) y 10 obvios "should reject" (ingreso bajo, edad joven, sin historial). Asseré con <code>pytest</code> que el modelo acierta los 20.</li>
+<li><strong>Invariance — gender swap</strong>: tomá 500 registros, cambiá <code>gender M ↔ F</code>, dejá el resto igual. Mediá <code>accuracy(predictions_original == predictions_swapped)</code>. Si &lt;99%: el modelo está usando gender (probablemente vía proxy).</li>
+<li><strong>Directional — income up</strong>: para los mismos 500, multiplicá <code>income × 1.5</code>. La proba predicha de <code>&gt;50K</code> debería subir (o quedar igual) en &gt;95% de los casos. Si baja en muchos: bug.</li>
+<li><strong>Slice-based</strong>: calculá accuracy por slice (gender × race × age_bucket). Reportá top 5 worst slices. Si el peor slice tiene accuracy 0.55 y el promedio 0.85: tenés un problema de fairness invisible en métricas agregadas.</li>
+<li><strong>Pytest gate</strong>: empaquetá los 4 tests anteriores en <code>tests/test_model_behavior.py</code>. Hacelo correr en GitHub Actions (Clase 197) como <code>required check</code>. Si tests rojos: PR no se mergea.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Repo con:</p>
+<ol>
+<li><code>tests/test_model_behavior.py</code> con ≥4 tests: 1 MFT, 1 INV, 1 DIR, 1 slice-based.</li>
+<li>CI workflow que corre <code>pytest tests/test_model_behavior.py</code> después de cada training.</li>
+<li><code>deepchecks</code> full suite ejecutado, reporte HTML guardado.</li>
+<li>Reporte por slice (markdown) con métricas en <code>gender</code>, <code>race</code>, <code>age_bucket</code> y bottom-5 worst slices identificados.</li>
+<li>Documentación de <strong>3 bugs reales encontrados</strong> por estos tests durante el desarrollo (puede ser bug fixed; lo importante es demostrar que los tests sirven).</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: si en una iteración futuro alguien cambia el modelo y un test rompe (ej. gender swap accuracy cae de 0.99 a 0.85), el CI falla y el PR no se mergea sin discusión explícita.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Gender swap test "falla" pero el modelo no usa gender directamente</td>
+<td>Está usando un <strong>proxy</strong> (ocupación, código postal). <strong>Fix</strong>: investigar correlación gender-feature, considerar quitar la feature o aplicar fairness constraints.</td>
+</tr>
+<tr>
+<td>MFT pasa pero el modelo rinde mal en producción</td>
+<td>El MFT está sesgado al subset que vos imaginás. <strong>Fix</strong>: expandir MFT con casos descubiertos en producción (error analysis).</td>
+</tr>
+<tr>
+<td>Slice-based: el worst slice tiene <code>n=12</code> y métrica <code>0.5</code></td>
+<td>Sample size insuficiente para sacar conclusiones. <strong>Fix</strong>: requerir <code>n &gt;= 50</code> por slice, y reportar CI de Wilson o bootstrap.</td>
+</tr>
+<tr>
+<td>Tests behavioral pasan todos siempre</td>
+<td>Probablemente las perturbaciones son triviales. <strong>Fix</strong>: revisar que las perturbaciones sean realistas (un domain expert debería validar).</td>
+</tr>
+<tr>
+<td>Directional test falla "raro"</td>
+<td>Quizás la relación NO es monótona — ej: ingreso vs probabilidad de default puede tener U-shape. <strong>Fix</strong>: revisar asunción antes de declararla bug.</td>
+</tr>
+<tr>
+<td>CI lento por tests</td>
+<td>Si <code>pytest</code> tarda 20 min, nadie los corre localmente. <strong>Fix</strong>: cachear el modelo entre tests (fixture <code>scope='session'</code>), paralelizar con <code>pytest-xdist</code>.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿Esto reemplaza al test set normal?</strong></p>
+<p>No, lo complementa. <strong>Hold-out test set</strong> mide <strong>performance estadística</strong> sobre distribución similar a training. <strong>Behavioral tests</strong> miden <strong>correctness</strong> sobre casos importantes hand-crafted. Necesitás ambos.</p>
+<p><strong>❓ ¿Cuántos behavioral tests son suficientes?</strong></p>
+<p>CheckList paper sugiere 1 MFT + 1 INV + 1 DIR por <strong>capability</strong> del modelo. En tabular: por cada feature crítica. En NLP: por cada fenómeno linguístico. Empezá con 10-20 tests bien diseñados, no con 1000 mediocres.</p>
+<p><strong>❓ ¿Esto es lo mismo que fairness testing?</strong></p>
+<p>Hay overlap. Fairness suele ser un subset de invariance tests (perturbar atributos protegidos) + slice-based (medir disparidad). Pero behavioral tests también cubren directional/MFT que no son sobre fairness directamente.</p>
+<p><strong>❓ ¿Deepchecks o escribir tests propios?</strong></p>
+<p>Deepchecks ofrece checks pre-armados (data leakage, integrity, performance bias) que cubren casos genéricos. Para tu <strong>dominio específico</strong> (correctness de negocio), escribís tests custom. Usar ambos.</p>
+<p><strong>❓ ¿Cómo manejo tests probabilísticos (no determinísticos)?</strong></p>
+<p>(1) Fijar seeds. (2) Para tests aproximados: <code>assert metric &gt; 0.99</code> (no <code>== 1.0</code>). (3) Bootstrap CI para asseré <code>lower_bound &gt; threshold</code>.</p>
+<p><strong>❓ ¿Y modelos LLM?</strong></p>
+<p>Aplican igual los 3 tipos:
+- <strong>MFT</strong>: prompts canónicos con respuestas esperadas exactas/reguladas.
+- <strong>INV</strong>: paráfrasis del mismo prompt no debería cambiar el output dramáticamente.
+- <strong>DIR</strong>: agregar "be brief" al prompt debería acortar output.</p>
+<p>Frameworks: <code>promptfoo</code>, <code>LangSmith</code>, <code>Phoenix</code> (Arize).</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Ribeiro, M. et al. <em>Beyond Accuracy: Behavioral Testing of NLP Models with CheckList</em> (ACL 2020) — el paper que estableció el vocabulario.</li>
+<li>Huyen, Chip. <em>Designing Machine Learning Systems</em> (O'Reilly, 2022), <strong>cap. 9</strong> — <em>Continual Learning and Test in Production</em>.</li>
+<li><a href="https://docs.deepchecks.com/">Deepchecks docs</a> — suites para tabular/vision/NLP.</li>
+<li><a href="https://github.com/marcotcr/checklist">CheckList GitHub</a> — framework de Ribeiro.</li>
+<li><a href="https://www.promptfoo.dev/">promptfoo</a> / <a href="https://www.langchain.com/langsmith">LangSmith</a> — equivalente para LLMs.</li>
+</ul>
+<h2 id="material-descargable">📥 Material descargable</h2>
+<ul>
+<li>📄 <a href="./clase-207-testing-de-modelos-invariance-behavioral-tests-guia-explicativa.pdf">Guía explicativa (PDF)</a> — versión imprimible con todo el contenido de la clase.</li>
+<li>🎞️ <a href="./clase-207-testing-de-modelos-invariance-behavioral-tests-presentacion.pptx">Presentación (PPTX)</a> — deck PowerPoint listo para proyectar en clase.</li>
+<li>🧮 <a href="./notebook.ipynb">Notebook ejecutable (.ipynb)</a> — abrilo desde el laboratorio del programa o desde Jupyter.</li>
+</ul>
+<h2 id="siguiente-clase">➡️ Siguiente clase</h2>
+<p><a href="../../parte-5-ingenieria-de-datos/208-bases-de-datos-relacionales-postgresql-para-ml/index.html">Clase 208 — Bases de datos relacionales: PostgreSQL para ML</a></p>
+<blockquote>
+<p>🎉 <strong>Fin de la Parte 4 — MLOps</strong>. Tenés ahora 6 capas de protección para modelos en producción: data tests (206), model tests (207), monitoring (202), shadow (204), canary (204), rollback (204). El próximo módulo (Parte 5) entra a <strong>ingeniería de datos</strong> — qué pasa antes de que la data llegue al modelo.</p>
+</blockquote>
   </main>
   <footer class="cur-footer">
     <p>

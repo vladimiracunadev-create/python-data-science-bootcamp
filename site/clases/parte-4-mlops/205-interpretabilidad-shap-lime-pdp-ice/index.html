@@ -24,34 +24,173 @@
   </header>
   <main class="cur-main">
     <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-4-mlops/205-interpretabilidad-shap-lime-pdp-ice/notebook.ipynb">📓 Abrir notebook en GitHub</a>
-<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">Objetivo</a> · <a href="#resultados-esperados">Resultados esperados</a> · <a href="#temas-clave">Temas clave</a> · <a href="#materiales">Materiales</a> · <a href="#prerrequisitos">Prerrequisitos</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#material-descargable">📥 Material descargable</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
 <h1 id="clase-205-interpretabilidad-shap-lime-pdp-ice">Clase 205 — Interpretabilidad: SHAP, LIME, PDP, ICE</h1>
 <blockquote>
-<p>Parte: <strong>4-mlops</strong>
-Estado: <strong>stub</strong> (pendiente desarrollar contenido).</p>
+<p>Parte: <strong>4 — MLOps</strong> · Fuente: <a href="https://christophm.github.io/interpretable-ml-book/">Molnar, <em>Interpretable ML</em> (2ª ed.)</a> + Lundberg &amp; Lee (2017, <em>NIPS</em>, SHAP paper) + Ribeiro et al. (2016, <em>KDD</em>, LIME paper). ⏱️ Duración estimada: <strong>80 min</strong>.</p>
+<p>📎 Esta clase es <strong>complementaria</strong> a la Clase 079 (SHAP profundo, Parte 1). Acá el foco es <strong>producción</strong>: cómo integrar interpretabilidad al servicio (<code>/explain</code> endpoint), cómo escalar SHAP a grandes datasets, y cómo presentar explicaciones a stakeholders no técnicos.</p>
 </blockquote>
-<h2 id="objetivo">Objetivo</h2>
-<p>Describir el resultado de aprendizaje concreto de esta clase.</p>
-<h2 id="resultados-esperados">Resultados esperados</h2>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Hacer interpretabilidad <strong>deployable</strong>: exponer un endpoint <code>/explain</code> que devuelva la atribución por feature de una predicción individual (SHAP/LIME), generar reportes globales (PDP/ICE) al promover un modelo, y entender los <strong>tres trade-offs</strong>: fidelidad vs simplicidad, global vs local, exacto vs aproximado.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
 <p>Al finalizar, el estudiante podrá:</p>
 <ul>
-<li>(resultado 1)</li>
-<li>(resultado 2)</li>
-<li>(resultado 3)</li>
+<li>Diferenciar <strong>local</strong> (esta predicción) vs <strong>global</strong> (modelo en general) y <strong>model-agnostic</strong> vs <strong>model-specific</strong>.</li>
+<li>Usar <strong>SHAP</strong> con <code>TreeExplainer</code> (rápido, exacto, árboles), <code>KernelExplainer</code> (lento, model-agnostic), <code>DeepExplainer</code> (redes neuronales) y <code>Partition</code> (recientes).</li>
+<li>Usar <strong>LIME</strong> para explicaciones model-agnostic en texto/imágenes/tabular.</li>
+<li>Generar <strong>PDP</strong> (Partial Dependence Plot) e <strong>ICE</strong> (Individual Conditional Expectation) con <code>sklearn.inspection</code>.</li>
+<li>Decidir cuándo SHAP es lo correcto y cuándo es overkill (ej. modelo lineal: usar coeficientes directamente).</li>
 </ul>
-<h2 id="temas-clave">Temas clave</h2>
+<h2 id="temas">🗺️ Temas</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Tema</th>
+<th>Por qué importa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Local vs global, model-agnostic vs specific</td>
+<td>Vocabulario antes de elegir herramienta.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>SHAP: TreeExplainer vs KernelExplainer</td>
+<td>Exacto y rápido vs aproximado y lento.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>LIME para texto/imágenes</td>
+<td>Cuando SHAP no aplica.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>PDP + ICE: efecto marginal vs heterogeneidad</td>
+<td>Lo que cambia con cada feature.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Endpoint <code>/explain</code> en producción</td>
+<td>Latencia, caching, on-demand vs pre-computado.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Comunicar a stakeholders no técnicos</td>
+<td>Bar chart con top 5 features ≠ paper academic.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
 <ul>
-<li>(subtema 1)</li>
-<li>(subtema 2)</li>
-<li>(subtema 3)</li>
+<li><strong>Interpretabilidad local</strong>: explica una predicción individual. "¿Por qué a este cliente lo categorizaste como riesgo?".</li>
+<li><strong>Interpretabilidad global</strong>: explica el modelo en agregado. "¿Qué features pesan más en general?".</li>
+<li><strong>Model-agnostic</strong>: funciona sin importar el modelo (LIME, KernelSHAP, PDP). Pro: portable. Con: más lento, aproximaciones.</li>
+<li><strong>Model-specific</strong>: usa estructura del modelo (TreeSHAP usa árboles). Pro: rápido, exacto. Con: solo para esa familia.</li>
+<li><strong>SHAP values</strong>: contribución de cada feature al cambio respecto a la predicción base, basado en teoría de juegos (valores de Shapley). Propiedades garantizadas: efficiency (suman al output), symmetry, dummy, additivity.</li>
+<li><strong>TreeExplainer</strong>: para tree-based (XGBoost, LightGBM, CatBoost, sklearn RF). Polynomial time, exacto.</li>
+<li><strong>KernelExplainer</strong>: agnostic. Aproxima Shapley values con regresión lineal local con kernel. <code>O(2^n)</code> para exacto, K samples para aprox.</li>
+<li><strong>PDP</strong> (Partial Dependence Plot): efecto promedio de una feature <code>j</code> sobre la predicción, marginalizando las demás. Asume independencia entre features (riesgo: si correladas, PDP miente).</li>
+<li><strong>ICE</strong> (Individual Conditional Expectation): un PDP por instancia, sin promediar. Permite ver <strong>heterogeneidad</strong> (si el efecto de la feature varía por sub-grupo).</li>
+<li><strong>LIME</strong>: aprende un modelo lineal/árbol simple alrededor de una instancia perturbando los inputs y observando outputs.</li>
 </ul>
-<h2 id="materiales">Materiales</h2>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
 <ul>
-<li><code>README.md</code> — esta ficha</li>
-<li><code>notebook.ipynb</code> — cuaderno de la clase</li>
+<li><strong>Dataset</strong>: California Housing.</li>
+<li><strong>Modelos</strong>: <code>XGBRegressor</code> (TreeSHAP) y <code>MLPRegressor</code> (KernelSHAP/DeepSHAP).</li>
+<li>Librerías: <code>shap&gt;=0.45</code>, <code>lime</code>, <code>sklearn&gt;=1.5</code>, <code>matplotlib</code>.</li>
 </ul>
-<h2 id="prerrequisitos">Prerrequisitos</h2>
-<p>Ver índice general en <code>classes/README.md</code> para dependencias entre clases.</p>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>TreeSHAP</strong>: entrená XGB sobre California. <code>explainer = shap.TreeExplainer(model)</code>. <code>shap_values = explainer(X_test[:100])</code>. <code>shap.plots.waterfall(shap_values[0])</code> (local) y <code>shap.plots.beeswarm(shap_values)</code> (global).</li>
+<li><strong>KernelSHAP vs TreeSHAP</strong>: corré <code>KernelExplainer</code> con 100 background samples sobre el mismo XGB. Compará SHAP values con TreeSHAP. ¿Son iguales? ¿Cuánto tardó cada uno?</li>
+<li><strong>LIME tabular</strong>: <code>LimeTabularExplainer</code> sobre el mismo modelo. Explicá la misma instancia que en SHAP. Compará las features importantes.</li>
+<li><strong>PDP + ICE</strong>: <code>sklearn.inspection.PartialDependenceDisplay.from_estimator(model, X, features=['MedInc', 'HouseAge'], kind='both')</code>. Identificá si hay no-linealidad y/o heterogeneidad.</li>
+<li><strong>Endpoint <code>/explain</code></strong>: extendé el FastAPI (Clase 199) con <code>POST /explain</code> que devuelve top-5 features + SHAP values + base value, para una instancia. Medí latencia — TreeSHAP debería ser &lt;50 ms.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Servicio FastAPI con:</p>
+<ol>
+<li><code>POST /predict</code> (de Clase 199).</li>
+<li><code>POST /explain</code> que devuelve <code>{"prediction": float, "base_value": float, "top_features": [{"name": "MedInc", "shap": 0.23}, ...]}</code>.</li>
+<li>Endpoint <code>GET /global-explanation</code> que devuelve PDP + global SHAP precomputados (cacheados al startup).</li>
+<li>UI HTML básica que muestra waterfall plot (SHAP) para inputs interactivos.</li>
+<li>README que justifica: por qué TreeSHAP y no KernelSHAP, por qué top-5 y no top-20, por qué pre-computar global.</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: <code>curl /explain -d '{"features":[...]}'</code> devuelve top-5 features con SHAP, latencia &lt;100 ms p99, y la UI muestra el waterfall correctamente.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>KernelExplainer</code> tarda 30 s por instancia</td>
+<td>Esperado — es O(N samples × N features). <strong>Fix</strong>: si tu modelo es árbol, usá TreeExplainer (1000× más rápido). Si es agnóstico: bajar <code>nsamples</code> (default es alto).</td>
+</tr>
+<tr>
+<td>SHAP values no suman a la predicción</td>
+<td>Probablemente comparás <code>shap_values + base_value</code> contra <code>predict_proba</code> (no <code>predict</code>). <strong>Fix</strong>: usar <code>explainer.expected_value</code> correcto y <code>model.predict</code> (en regresión) o <code>model.decision_function</code> (en clasificación).</td>
+</tr>
+<tr>
+<td>PDP miente: la curva sugiere <code>feature j</code> no afecta, pero el modelo sí depende de ella</td>
+<td><code>feature j</code> está correlada con otra feature; PDP marginaliza ignorando esto. <strong>Fix</strong>: usar <strong>ALE plots</strong> (Accumulated Local Effects, <code>alibi</code>) que respetan correlaciones.</td>
+</tr>
+<tr>
+<td>Explicaciones distintas en cada corrida</td>
+<td>LIME usa sampling random. <strong>Fix</strong>: fijar seed; o aceptar que LIME no es determinístico y promediar K corridas.</td>
+</tr>
+<tr>
+<td>Top features no coinciden entre SHAP y LIME</td>
+<td>Es esperado — son métodos distintos con asunciones distintas. SHAP es más principled (Shapley). LIME es heurístico. <strong>Recomendación</strong>: SHAP cuando posible.</td>
+</tr>
+<tr>
+<td>Bar chart con SHAP global muestra "MedInc primero", stakeholder no lo entiende</td>
+<td>Comunicación. <strong>Fix</strong>: traducir nombres ("MedInc" → "Ingreso mediano del bloque"), normalizar a 100%, mostrar dirección (signo) además de magnitud.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿SHAP, LIME, Permutation Importance — cuál uso?</strong></p>
+<ul>
+<li><strong>Modelo árbol</strong> (XGBoost, LightGBM, RF): <strong>TreeSHAP</strong> sin pensar.</li>
+<li><strong>Modelo agnóstico, dataset grande</strong>: <strong>Permutation Importance</strong> (sklearn) para global; <strong>LIME</strong> para local si SHAP es muy lento.</li>
+<li><strong>Red neuronal</strong>: <strong>DeepSHAP</strong> o <strong>Integrated Gradients</strong> (Captum para PyTorch).</li>
+<li><strong>Modelo lineal</strong>: coeficientes × valor de feature.</li>
+</ul>
+<p><strong>❓ ¿Por qué SHAP es "el estándar"?</strong></p>
+<p>Por las propiedades teóricas (axiomas de Shapley: efficiency, symmetry, dummy, additivity) y porque tiene implementaciones rápidas (TreeSHAP) para modelos populares. LIME es más viejo y más heurístico.</p>
+<p><strong>❓ ¿On-demand <code>/explain</code> o pre-computado?</strong></p>
+<ul>
+<li><strong>Pocas inferencias/día</strong>: on-demand está bien.</li>
+<li><strong>Muchas inferencias, mismo input recurrente</strong>: cachear.</li>
+<li><strong>Análisis batch (auditoría mensual)</strong>: pre-computar en bulk con TreeSHAP — sklearn pipelines + Spark/Dask.</li>
+</ul>
+<p><strong>❓ ¿Cómo manejo SHAP para LLMs?</strong></p>
+<p><code>shap.Explainer(model)</code> con <code>Partition</code> masker funciona para text. Para LLMs grandes: caro y lento. Alternativas: <strong>attention attribution</strong>, <strong>gradient-based</strong> (<code>Captum</code>), o <strong>prompt-level</strong> ("¿qué part del prompt fue importante?"). Área activa de research.</p>
+<p><strong>❓ ¿Y si el regulador me pide explicabilidad pero el modelo es Black Box?</strong></p>
+<p>Tres opciones: (1) Cambiá a un modelo intrínsecamente interpretable (Logistic Regression, GAM, EBM de <code>interpret</code>); (2) Generá SHAP por cada decisión + archivá; (3) Para fairness/compliance, también probá <code>aequitas</code> o <code>fairlearn</code> (Clase 161).</p>
+<p><strong>❓ ¿PDP o ALE?</strong></p>
+<p>PDP es más popular y simple, pero <strong>mentira</strong> con features correladas. ALE corrige eso, ligeramente más complejo. Si tus features son correladas (lo usual): ALE. Si independientes (raro): PDP alcanza.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Molnar, C. <em>Interpretable Machine Learning</em> (2ª ed., libro online gratis): https://christophm.github.io/interpretable-ml-book/</li>
+<li>Lundberg, S. &amp; Lee, S. <em>A Unified Approach to Interpreting Model Predictions</em> (NIPS 2017) — SHAP.</li>
+<li>Ribeiro, M. et al. <em>"Why Should I Trust You?": Explaining the Predictions of Any Classifier</em> (KDD 2016) — LIME.</li>
+<li><a href="https://shap.readthedocs.io/">SHAP docs</a> — TreeExplainer, KernelExplainer, plots.</li>
+<li><a href="https://interpret.ml/">InterpretML / EBM</a> — modelos intrínsecamente interpretables (Microsoft Research).</li>
+</ul>
+<h2 id="material-descargable">📥 Material descargable</h2>
+<ul>
+<li>📄 <a href="./clase-205-interpretabilidad-shap-lime-pdp-ice-guia-explicativa.pdf">Guía explicativa (PDF)</a> — versión imprimible con todo el contenido de la clase.</li>
+<li>🎞️ <a href="./clase-205-interpretabilidad-shap-lime-pdp-ice-presentacion.pptx">Presentación (PPTX)</a> — deck PowerPoint listo para proyectar en clase.</li>
+<li>🧮 <a href="./notebook.ipynb">Notebook ejecutable (.ipynb)</a> — abrilo desde el laboratorio del programa o desde Jupyter.</li>
+</ul>
 <h2 id="siguiente-clase">➡️ Siguiente clase</h2>
 <p><a href="../206-testing-de-datos-great-expectations-deequ/index.html">Clase 206 — Testing de datos: Great Expectations, Deequ</a></p>
   </main>

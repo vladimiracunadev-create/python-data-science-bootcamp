@@ -24,34 +24,165 @@
   </header>
   <main class="cur-main">
     <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-6-sistemas-de-recomendacion/220-metricas-map-k-ndcg-recall-k/notebook.ipynb">📓 Abrir notebook en GitHub</a>
-<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">Objetivo</a> · <a href="#resultados-esperados">Resultados esperados</a> · <a href="#temas-clave">Temas clave</a> · <a href="#materiales">Materiales</a> · <a href="#prerrequisitos">Prerrequisitos</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#material-descargable">📥 Material descargable</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
 <h1 id="clase-220-metricas-mapk-ndcg-recallk">Clase 220 — Métricas: MAP@k, NDCG, recall@k</h1>
 <blockquote>
-<p>Parte: <strong>6-sistemas-de-recomendacion</strong>
-Estado: <strong>stub</strong> (pendiente desarrollar contenido).</p>
+<p>Parte: <strong>6 — Sistemas de Recomendación</strong> · Fuente: Aggarwal <strong>cap. 7</strong> + Järvelin &amp; Kekäläinen, <a href="https://dl.acm.org/doi/10.1145/582415.582418"><em>Cumulated Gain-Based Evaluation of IR Techniques</em></a> (TOIS 2002 — NDCG paper). ⏱️ Duración estimada: <strong>70 min</strong>.</p>
 </blockquote>
-<h2 id="objetivo">Objetivo</h2>
-<p>Describir el resultado de aprendizaje concreto de esta clase.</p>
-<h2 id="resultados-esperados">Resultados esperados</h2>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Evaluar recomendadores con las <strong>métricas correctas</strong>: NO accuracy ni RMSE de rating (irrelevante para top-N). Sí <strong>recall@k</strong> (¿cuántos relevantes recuperaste en top-k?), <strong>precision@k</strong> (¿qué % del top-k es relevante?), <strong>MAP@k</strong> (precision promedio sensible al ranking), <strong>NDCG@k</strong> (gain descontado por posición). Decidir qué métrica reportar según objetivo de negocio.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
 <p>Al finalizar, el estudiante podrá:</p>
 <ul>
-<li>(resultado 1)</li>
-<li>(resultado 2)</li>
-<li>(resultado 3)</li>
+<li>Calcular <strong>precision@k</strong>, <strong>recall@k</strong>, <strong>F1@k</strong>, <strong>hit rate</strong> desde cero.</li>
+<li>Calcular <strong>MAP@k</strong> (Mean Average Precision) y entender por qué sensible al ranking dentro del top-k.</li>
+<li>Calcular <strong>NDCG@k</strong> (Normalized Discounted Cumulative Gain) y entender el descuento logarítmico.</li>
+<li>Diseñar el split correcto: <strong>leave-one-out</strong> por user vs <strong>temporal split</strong> vs <strong>random</strong>.</li>
+<li>Decidir métrica según objetivo: recall (catálogo grande, descubrimiento) vs NDCG (orden importa) vs MAP (búsqueda).</li>
 </ul>
-<h2 id="temas-clave">Temas clave</h2>
+<h2 id="temas">🗺️ Temas</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Tema</th>
+<th>Por qué importa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Por qué NO usar RMSE de rating</td>
+<td>Top-N no usa el rating predicho — usa el rank.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Precision@k vs recall@k</td>
+<td>Trade-off; recall importa más con catálogos grandes.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>MAP@k: precision promediada por posición</td>
+<td>Sensible a poner relevantes ARRIBA del top-k.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>NDCG@k con descuento <code>log2(i+1)</code></td>
+<td>El relevante en posición 1 vale más que en posición 10.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Leave-one-out vs temporal split</td>
+<td>Temporal evita data leakage en RS de tiempo real.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Coverage + diversity (beyond accuracy)</td>
+<td>Métricas de "salud" del catálogo.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
 <ul>
-<li>(subtema 1)</li>
-<li>(subtema 2)</li>
-<li>(subtema 3)</li>
+<li><strong>Recall@k</strong>: <code>|relevantes ∩ top-k| / |relevantes totales|</code>. Pregunta: "¿qué % de lo que el user quiere mostré?". Ideal con catálogo grande.</li>
+<li><strong>Precision@k</strong>: <code>|relevantes ∩ top-k| / k</code>. Pregunta: "¿qué % del top-k es relevante?". Ideal cuando el usuario consume pocos (top-5).</li>
+<li><strong>F1@k</strong>: armónico de precision y recall.</li>
+<li><strong>Hit rate@k</strong>: 1 si al menos 1 relevante en top-k, 0 si no. Más simple, popular en deep recsys research.</li>
+<li><strong>AP@k</strong> (Average Precision): <code>Σ_i (precision@i × rel(i)) / |relevantes|</code> para <code>i ∈ [1, k]</code>. Penaliza relevantes en posiciones bajas.</li>
+<li><strong>MAP@k</strong> (Mean AP): promedio de AP@k sobre todos los users.</li>
+<li><strong>DCG@k</strong> (Discounted Cumulative Gain): <code>Σ_i rel(i) / log2(i+1)</code>. Posiciones bajas valen menos.</li>
+<li><strong>NDCG@k</strong>: <code>DCG@k / iDCG@k</code> donde iDCG es el máximo posible. Normaliza a [0, 1].</li>
+<li><strong>Coverage</strong> (catalog coverage): <code>|items recomendados al menos 1 vez en N users| / |items totales|</code>.</li>
+<li><strong>Diversity</strong> (intra-list): <code>1 - avg(sim(i, j))</code> entre pares en la lista. Alto = recomendaciones diversas.</li>
 </ul>
-<h2 id="materiales">Materiales</h2>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
 <ul>
-<li><code>README.md</code> — esta ficha</li>
-<li><code>notebook.ipynb</code> — cuaderno de la clase</li>
+<li><strong>Dataset</strong>: MovieLens 100K.</li>
+<li>Librerías: numpy puro (las métricas son fáciles), opcional <code>recmetrics</code>.</li>
 </ul>
-<h2 id="prerrequisitos">Prerrequisitos</h2>
-<p>Ver índice general en <code>classes/README.md</code> para dependencias entre clases.</p>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>Implementar precision@k, recall@k</strong>: dadas listas <code>[1, 0, 0, 1, 0]</code> (relevancia) y <code>k=5</code>, calcular. Verificar contra <code>recmetrics</code> u otra librería.</li>
+<li><strong>MAP@k</strong>: implementar AP@k. Mostrar diferencia con precision@k: AP penaliza tener los relevantes al final.</li>
+<li><strong>NDCG@k</strong>: implementar DCG y iDCG. Mostrar caso donde recall@k es igual pero NDCG distinto porque el orden cambia.</li>
+<li><strong>Leave-one-out por user</strong>: para cada user con ≥5 ratings, dejar el último (cronológico o random) para test, resto para train. Evaluar.</li>
+<li><strong>Coverage y diversity</strong>: para 1000 users, ¿qué % del catálogo fue recomendado? Diversidad media intra-list (cosine entre items recomendados).</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Notebook con:</p>
+<ol>
+<li>Implementación de 6 métricas: recall@10, precision@10, F1@10, MAP@10, NDCG@10, hit rate@10. Validar contra librería.</li>
+<li>Aplicar a 4 modelos (kNN, ALS, content, hybrid de Clases 216-219). Tabla comparativa.</li>
+<li>Análisis: ¿qué métrica decidiría cuál modelo gana? Discutir.</li>
+<li>Beyond accuracy: coverage, diversity, novelty (1 - popularity rank promedio). ¿Algún modelo gana en accuracy pero pierde en diversity?</li>
+<li><strong>Temporal split</strong>: si tu dataset tiene timestamps, hacer split por fecha (no por ratio). Comparar con random split. Discutir por qué temporal es más realista.</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: las 6 métricas coinciden con <code>recmetrics</code> ±1e-6; la elección de "mejor modelo" depende de la métrica; el estudiante justifica una arquitectura con métricas de negocio.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MAP@k diferente a la librería</td>
+<td>Diferencias de convención: ¿dividís por <code>min(k, n_rel)</code> o por <code>n_rel</code>? <strong>Fix</strong>: documentar la convención y ser consistente.</td>
+</tr>
+<tr>
+<td>NDCG@k &gt; 1</td>
+<td>Bug: estás computando DCG sin normalizar por iDCG. <strong>Fix</strong>: chequear formula.</td>
+</tr>
+<tr>
+<td>Recall=0.0 cuando esperaba algo</td>
+<td>Probablemente recomendaste items que ya estaban en train. <strong>Fix</strong>: excluir train interactions del top-k.</td>
+</tr>
+<tr>
+<td>RMSE alto pero recall@10 alto</td>
+<td>Esperado en implicit. RMSE no importa para top-N. <strong>Fix</strong>: dejar de reportar RMSE en context implicit.</td>
+</tr>
+<tr>
+<td>Random split en dataset temporal → métricas optimistas</td>
+<td>Data leakage: train tiene futuro vs test. <strong>Fix</strong>: temporal split estricto.</td>
+</tr>
+<tr>
+<td>Coverage 100% → "óptimo"</td>
+<td>Coverage 100% probablemente significa recomendaciones random. <strong>Fix</strong>: balancear con NDCG; ambos deben ser buenos.</td>
+</tr>
+<tr>
+<td>Diversity alta pero NDCG bajo</td>
+<td>El modelo está recomendando cosas random. <strong>Fix</strong>: trade-off explícito (MMR — Maximal Marginal Relevance).</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿Qué métrica reportar?</strong></p>
+<p>Casi siempre: <strong>NDCG@k</strong> + <strong>recall@k</strong> + <strong>coverage</strong>. NDCG mide calidad del ranking, recall mide cobertura del relevante, coverage mide salud del catálogo. Si tu UI muestra top-5: <code>k=5</code>. Top-20: <code>k=20</code>.</p>
+<p><strong>❓ ¿MAP o NDCG?</strong></p>
+<p>NDCG es más expresivo (acepta relevancia graduada: rating 5 &gt; rating 3). MAP solo binario. En implicit feedback (binary): equivalentes en práctica. <strong>Default</strong>: NDCG.</p>
+<p><strong>❓ ¿RMSE alguna vez sirve?</strong></p>
+<p>Sí, en sistemas de <strong>rating prediction</strong> donde el rating predicho se muestra al usuario (ej. Netflix mostraba "92% match"). Si solo mostrás top-N: NO usar RMSE.</p>
+<p><strong>❓ ¿Leave-one-out o random split?</strong></p>
+<p>LOO por user es estándar en RS papers — emula la situación "predecir el próximo item". Random split puede sesgar (data leakage si hay temporalidad). Para producción real: <strong>temporal split</strong> (train con datos hasta T-7d, test con T-7d a T-0d).</p>
+<p><strong>❓ ¿Cómo manejo cold-start en evaluación?</strong></p>
+<p>(1) Reportar métricas por segmento (cold vs warm users; new vs popular items). (2) En "all", incluir cold-start (es honesto, aunque baje promedio). (3) NO excluir cold-start users — el sistema real los tiene.</p>
+<p><strong>❓ ¿Online metrics vs offline?</strong></p>
+<p>Las offline (NDCG, recall) son proxies. <strong>Online</strong> (CTR, conversion, watch time, retention) son la verdad. La correlación offline-online suele ser positiva pero no perfecta. En producción: A/B test (Clase 204).</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Aggarwal <em>Recommender Systems: The Textbook</em> (Springer, 2016), <strong>cap. 7</strong> — <em>Evaluating Recommender Systems</em>.</li>
+<li>Järvelin, K. &amp; Kekäläinen, J. <em>Cumulated Gain-Based Evaluation of IR Techniques</em> (ACM TOIS 2002) — paper original de NDCG.</li>
+<li><a href="https://github.com/statisticianinstilettos/recmetrics"><code>recmetrics</code></a> — libreria con todas implementadas.</li>
+<li><em>Beyond accuracy: evaluating recommender systems by coverage and serendipity</em> (Ge et al., RecSys 2010).</li>
+</ul>
+<h2 id="material-descargable">📥 Material descargable</h2>
+<ul>
+<li>📄 <a href="./clase-220-metricas-map-k-ndcg-recall-k-guia-explicativa.pdf">Guía explicativa (PDF)</a> — versión imprimible con todo el contenido de la clase.</li>
+<li>🎞️ <a href="./clase-220-metricas-map-k-ndcg-recall-k-presentacion.pptx">Presentación (PPTX)</a> — deck PowerPoint listo para proyectar en clase.</li>
+<li>🧮 <a href="./notebook.ipynb">Notebook ejecutable (.ipynb)</a> — abrilo desde el laboratorio del programa o desde Jupyter.</li>
+</ul>
 <h2 id="siguiente-clase">➡️ Siguiente clase</h2>
 <p><a href="../221-cold-start-problem/index.html">Clase 221 — Cold-start problem</a></p>
   </main>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Clase 216 — Filtrado colaborativo user-based e item-based | Python Data Science Program</title>
+  <title>Clase 216 — Filtrado colaborativo: user-based e item-based | Python Data Science Program</title>
   <meta name="description" content="Clase 216 del Python Data Science Program">
   <meta name="theme-color" content="#0f3d3e">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -24,34 +24,163 @@
   </header>
   <main class="cur-main">
     <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-6-sistemas-de-recomendacion/216-filtrado-colaborativo-user-based-e-item-based/notebook.ipynb">📓 Abrir notebook en GitHub</a>
-<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">Objetivo</a> · <a href="#resultados-esperados">Resultados esperados</a> · <a href="#temas-clave">Temas clave</a> · <a href="#materiales">Materiales</a> · <a href="#prerrequisitos">Prerrequisitos</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
-<h1 id="clase-216-filtrado-colaborativo-user-based-e-item-based">Clase 216 — Filtrado colaborativo user-based e item-based</h1>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#material-descargable">📥 Material descargable</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<h1 id="clase-216-filtrado-colaborativo-user-based-e-item-based">Clase 216 — Filtrado colaborativo: user-based e item-based</h1>
 <blockquote>
-<p>Parte: <strong>6-sistemas-de-recomendacion</strong>
-Estado: <strong>stub</strong> (pendiente desarrollar contenido).</p>
+<p>Parte: <strong>6 — Sistemas de Recomendación</strong> · Fuente: Aggarwal, <em>Recommender Systems: The Textbook</em> (Springer, 2016) <strong>cap. 2</strong> + Linden, Smith, York (Amazon, 2003) <a href="https://www.cs.umd.edu/~samir/498/Amazon-Recommendations.pdf"><em>Item-to-Item Collaborative Filtering</em></a>. ⏱️ Duración estimada: <strong>75 min</strong>.</p>
 </blockquote>
-<h2 id="objetivo">Objetivo</h2>
-<p>Describir el resultado de aprendizaje concreto de esta clase.</p>
-<h2 id="resultados-esperados">Resultados esperados</h2>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Construir el recomendador más antiguo y todavía usado: <strong>filtrado colaborativo basado en vecinos</strong> (kNN). Calcular similitudes user-user e item-item sobre una <strong>matriz usuario-item dispersa</strong>, generar top-N recomendaciones, y entender por qué Amazon publicó en 2003 que <strong>item-based gana a user-based en escala</strong> (computar similitudes item-item es offline y estable).</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
 <p>Al finalizar, el estudiante podrá:</p>
 <ul>
-<li>(resultado 1)</li>
-<li>(resultado 2)</li>
-<li>(resultado 3)</li>
+<li>Representar las interacciones usuario-item en una <strong><code>scipy.sparse.csr_matrix</code></strong> (típicamente &gt;99% sparse).</li>
+<li>Calcular similitud <strong>coseno</strong>, <strong>Pearson</strong> y <strong>Jaccard</strong> entre filas (users) o columnas (items).</li>
+<li>Generar top-N recomendaciones user-based: <code>predicted_rating = Σ sim(u, v) * rating(v, i) / Σ sim(u, v)</code>.</li>
+<li>Generar top-N recomendaciones item-based: <code>score(u, i) = Σ sim(i, j) * interaction(u, j)</code>.</li>
+<li>Reconocer límites: sparsity → similitudes ruidosas; cold-start → items/users nuevos sin recomendaciones (Clase 221).</li>
 </ul>
-<h2 id="temas-clave">Temas clave</h2>
+<h2 id="temas">🗺️ Temas</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Tema</th>
+<th>Por qué importa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Matriz usuario-item: dense vs sparse</td>
+<td>1M users × 100K items → 100B celdas; 99.9% son 0.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Similitud coseno, Pearson, Jaccard</td>
+<td>La elección define qué entiende el modelo por "parecido".</td>
+</tr>
+<tr>
+<td>3</td>
+<td>User-based kNN</td>
+<td>Intuitivo; no escala (similitudes user-user cambian con cada nuevo rating).</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Item-based kNN</td>
+<td>El paper de Amazon: similitudes item-item son <strong>estables</strong> y precomputables.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Implicit vs explicit feedback</td>
+<td>Rating 1-5 vs "vio/no vio". Cambia loss y métrica.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Mean centering</td>
+<td>Restar <code>user_mean</code> antes de calcular similitud — controla sesgo de usuarios "duros".</td>
+</tr>
+</tbody>
+</table>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
 <ul>
-<li>(subtema 1)</li>
-<li>(subtema 2)</li>
-<li>(subtema 3)</li>
+<li><strong>Matriz usuario-item</strong> <code>R[u, i]</code>: rating del user <code>u</code> sobre item <code>i</code>. Para implicit: 1 si interactuó, 0 si no.</li>
+<li><strong>Sparse matrix</strong>: solo almacenan los valores no-cero. <code>csr_matrix</code> (Compressed Sparse Row) — eficiente para acceso por fila. <code>csc_matrix</code> por columna.</li>
+<li><strong>Similitud coseno</strong>: <code>cos(u, v) = (u · v) / (|u| × |v|)</code>. Insensible a la <strong>magnitud</strong> — un usuario que rateó muchas pelis ≈ uno que rateó pocas si los patrones coinciden.</li>
+<li><strong>Correlación Pearson</strong>: similar a coseno pero <strong>resta la media</strong> antes — controla el sesgo del usuario (algunos califican 5 todo, otros 3 todo).</li>
+<li><strong>Jaccard</strong>: para datos binarios. <code>|A ∩ B| / |A ∪ B|</code>. Útil con implicit feedback.</li>
+<li><strong>User-based prediction</strong>: <code>r̂(u, i) = Σ_v sim(u, v) × r(v, i) / Σ_v |sim(u, v)|</code> con <code>v</code> vecinos del top-K más similares a <code>u</code> que rateó <code>i</code>.</li>
+<li><strong>Item-based prediction</strong>: <code>r̂(u, i) = Σ_j sim(i, j) × r(u, j) / Σ_j |sim(i, j)|</code> con <code>j</code> items más similares a <code>i</code> que <code>u</code> rateó.</li>
+<li><strong>Implicit feedback</strong>: el dato es "interactuó/no interactuó" (vio, clickeó, compró). No hay rating explícito; el modelo no debe asumir <code>0 = dislike</code>.</li>
 </ul>
-<h2 id="materiales">Materiales</h2>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
 <ul>
-<li><code>README.md</code> — esta ficha</li>
-<li><code>notebook.ipynb</code> — cuaderno de la clase</li>
+<li><strong>Dataset</strong>: MovieLens 100K (<code>ml-100k</code>, ~1 MB, ~100K ratings de 943 users × 1682 movies). El clásico para empezar.</li>
+<li>Librerías: <code>scipy.sparse</code>, <code>numpy</code>, <code>pandas</code>, <code>scikit-learn</code> (para cosine_similarity).</li>
 </ul>
-<h2 id="prerrequisitos">Prerrequisitos</h2>
-<p>Ver índice general en <code>classes/README.md</code> para dependencias entre clases.</p>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>Sparse matrix</strong>: cargar MovieLens 100K. Construir <code>R</code> como <code>csr_matrix</code> shape <code>(n_users, n_items)</code>. Verificar sparsity: <code>(1 - R.nnz / np.prod(R.shape))</code>.</li>
+<li><strong>User similarity</strong>: <code>sim_users = cosine_similarity(R)</code> — devuelve <code>(n_users, n_users)</code>. Encontrar los 5 más similares a <code>user_id=42</code>.</li>
+<li><strong>User-based top-10</strong>: para <code>user_id=42</code>, predecir score para items no vistos como <code>R.T @ sim_users[42]</code> (broadcasting). Recomendar top-10 que aún no vio.</li>
+<li><strong>Item-based top-10</strong>: <code>sim_items = cosine_similarity(R.T)</code> (ahora <code>(n_items, n_items)</code>). Para <code>user_id=42</code>, score = <code>R[42] @ sim_items</code>. Mostrar top-10.</li>
+<li><strong>Pearson + mean centering</strong>: <code>R_centered = R - user_means.reshape(-1, 1)</code> (cuidado con sparse — usar <code>sklearn</code>). Comparar recomendaciones con coseno vanilla.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Notebook con:</p>
+<ol>
+<li>Cargar MovieLens 1M (10× más grande que 100K).</li>
+<li>Implementar 2 recomendadores: user-based kNN (k=30) e item-based kNN (k=30).</li>
+<li>Split train/test con leave-one-out por user (el último rating de cada user va a test).</li>
+<li>Reportar <strong>MAP@10</strong>, <strong>NDCG@10</strong>, <strong>recall@10</strong> para ambos sobre test (Clase 220).</li>
+<li>Comparativa: tiempo de entrenamiento, tiempo de predicción, calidad. Discutir por qué item-based suele ganar en producción.</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: ambos recomendadores entrenan en &lt;5 min sobre 1M, recall@10 &gt; 0.05, y el estudiante justifica la elección item-based para producción.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>MemoryError</code> al construir <code>n_users × n_users</code> similarity</td>
+<td>Estás densificando. <strong>Fix</strong>: usar <code>sklearn.metrics.pairwise.cosine_similarity(R, dense_output=False)</code> o calcular por chunks.</td>
+</tr>
+<tr>
+<td>Recomendaciones son siempre los items populares</td>
+<td>Sin top-K filter de neighbors, dominan items rateados por muchos. <strong>Fix</strong>: aplicar <strong>inverse popularity weighting</strong> o IDF-like (<code>item_idf = log(N / item_count)</code>).</td>
+</tr>
+<tr>
+<td>Recall=0.0 sobre test</td>
+<td>Estás recomendando items que el user <strong>ya vio</strong> (que están en train). <strong>Fix</strong>: mask <code>R[u] &gt; 0</code> para excluirlos antes de top-N.</td>
+</tr>
+<tr>
+<td>Pearson sobre rows con poca overlap da <code>nan</code></td>
+<td>Si 2 users tienen &lt;3 items en común, Pearson es inestable. <strong>Fix</strong>: minimum support (ignorar pairs con &lt;5 overlap), o usar coseno.</td>
+</tr>
+<tr>
+<td>Item-based sim_matrix de 100K × 100K</td>
+<td>Densa = 80 GB. <strong>Fix</strong>: top-K nearest neighbors only (<code>NearestNeighbors</code>). Guardar sparse con K=50.</td>
+</tr>
+<tr>
+<td>Implicit feedback con coseno se sesga a items poco vistos</td>
+<td>Coseno normaliza, da peso a items raros. <strong>Fix</strong>: ALS implicit (Clase 217) o BPR ranking loss.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿User-based o item-based?</strong></p>
+<p><strong>Item-based</strong> en producción (Amazon, 2003). Razones:
+- Similitudes item-item cambian lento (un item es estable; un nuevo rating no mueve mucho). <strong>Pre-computable offline</strong>.
+- Similitudes user-user cambian con cada rating nuevo del user.
+- N items &lt;&lt; N users en muchos casos (productos vs millones de clientes).</p>
+<p><strong>❓ ¿<code>cosine_similarity</code> o <code>pearson_correlation</code>?</strong></p>
+<p>Coseno por default. Pearson cuando el <strong>sesgo absoluto del usuario</strong> importa (algunos califican alto todo, otros bajo todo) — frecuente en sistemas de rating 1-5 explícito.</p>
+<p><strong>❓ ¿Implicit feedback se trata igual?</strong></p>
+<p>No. Con implicit, <code>R[u, i] = 0</code> NO significa "dislike" — puede significar "no lo vio aún". Estrategias: BPR (Bayesian Personalized Ranking), ALS implicit con confidence weighting (Clase 217), o métricas top-N (NDCG@k) en vez de RMSE.</p>
+<p><strong>❓ ¿Cuándo CF se rompe?</strong></p>
+<p>(1) <strong>Cold-start</strong> total: user/item nuevo con 0 historia (Clase 221). (2) <strong>Sparsity extremo</strong> (&gt;99.99%): similitudes son ruidosas. (3) <strong>Long-tail dominante</strong>: 1% de items reciben 80% del tráfico, recomendador converge a "los populares".</p>
+<p><strong>❓ ¿Surprise/LightFM/Implicit hacen esto por mí?</strong></p>
+<p>Sí (Clase 222). Surprise tiene <code>KNNBasic</code>/<code>KNNWithMeans</code>. Implicit es especialista en implicit feedback. LightFM combina CF + content (Clase 219).</p>
+<p><strong>❓ ¿Y si tengo 100M users × 10M items?</strong></p>
+<p>kNN no escala. Saltá directo a factorización de matrices con ALS distribuido (Spark <code>ALS</code> o Implicit <code>als.AlternatingLeastSquares</code>), o a embeddings deep (TwoTowers, BERT4Rec).</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Aggarwal, C. <em>Recommender Systems: The Textbook</em> (Springer, 2016), <strong>cap. 2</strong> — <em>Neighborhood-Based Collaborative Filtering</em>.</li>
+<li>Linden, G., Smith, B., York, J. <em>Amazon.com Recommendations: Item-to-Item Collaborative Filtering</em> (IEEE Internet Computing, 2003) — el paper fundacional.</li>
+<li><a href="https://grouplens.org/datasets/movielens/">MovieLens datasets</a>.</li>
+<li><a href="https://scikit-learn.org/stable/modules/generated/sklearn.metrics.pairwise.cosine_similarity.html"><code>sklearn.metrics.pairwise.cosine_similarity</code></a> — con <code>dense_output=False</code> para sparse.</li>
+<li><em>Programming Collective Intelligence</em> (Segaran, 2007) — introducción accesible.</li>
+</ul>
+<h2 id="material-descargable">📥 Material descargable</h2>
+<ul>
+<li>📄 <a href="./clase-216-filtrado-colaborativo-user-based-e-item-based-guia-explicativa.pdf">Guía explicativa (PDF)</a> — versión imprimible con todo el contenido de la clase.</li>
+<li>🎞️ <a href="./clase-216-filtrado-colaborativo-user-based-e-item-based-presentacion.pptx">Presentación (PPTX)</a> — deck PowerPoint listo para proyectar en clase.</li>
+<li>🧮 <a href="./notebook.ipynb">Notebook ejecutable (.ipynb)</a> — abrilo desde el laboratorio del programa o desde Jupyter.</li>
+</ul>
 <h2 id="siguiente-clase">➡️ Siguiente clase</h2>
 <p><a href="../217-factorizacion-de-matrices-svd-als/index.html">Clase 217 — Factorización de matrices: SVD, ALS</a></p>
   </main>

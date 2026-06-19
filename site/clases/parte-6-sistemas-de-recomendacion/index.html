@@ -25,8 +25,8 @@
   <main class="cur-main">
     
     <h1 id="parte-6-sistemas-de-recomendacion">Parte 6 — Sistemas de Recomendación</h1>
-<p><strong>7 clases</strong> · ~2–3 semanas</p>
-<p><strong>Fuente principal:</strong> Complementaria — combinación de filtrado colaborativo clásico y enfoques modernos basados en embeddings.</p>
+<p><strong>7 clases</strong> · ~2–3 semanas · ✅ <strong>completada (junio 2026)</strong></p>
+<p><strong>Fuente principal:</strong> Aggarwal <em>Recommender Systems: The Textbook</em> (Springer, 2016) + Koren/Bell/Volinsky 2009 (matrix factorization) + Hu/Koren/Volinsky 2008 (implicit feedback) + Burke 2002 (hybrids) + docs LightFM/Implicit/Surprise.</p>
 <hr>
 <h2 id="de-que-trata-esta-parte">🎯 ¿De qué trata esta parte?</h2>
 <p>Una unidad especializada en una de las aplicaciones de ML con más impacto comercial directo: <strong>recomendar el siguiente producto, video, canción o contenido</strong>. Cubre los dos enfoques clásicos (filtrado colaborativo y content-based), su unión en sistemas <strong>híbridos</strong>, y la matemática detrás (factorización de matrices: SVD, ALS).</p>
@@ -48,15 +48,22 @@
 </ul>
 <h2 id="estructura-tematica">🗺️ Estructura temática</h2>
 <ul>
-<li><strong>Filtrado colaborativo</strong> — clases 181–182 — user-based, item-based, factorización de matrices (SVD, ALS).</li>
-<li><strong>Content-based e híbridos</strong> — clases 183–184 — content-based, recomendadores híbridos.</li>
-<li><strong>Evaluación y cold-start</strong> — clases 185–186 — métricas MAP@k / NDCG / recall@k, cold-start problem.</li>
-<li><strong>Tooling</strong> — clase 187 — LightFM, Implicit, Surprise.</li>
+<li><strong>Filtrado colaborativo</strong> — clases 216–217 — user/item-based kNN, factorización de matrices (SVD truncado + ALS explicit/implicit).</li>
+<li><strong>Content-based e híbridos</strong> — clases 218–219 — TF-IDF + sentence-transformers + FAISS, los 7 patrones de Burke + LightFM hybrid.</li>
+<li><strong>Evaluación y cold-start</strong> — clases 220–221 — MAP@k / NDCG@k / recall@k + coverage + diversity, popularity Bayesiana + onboarding + bandits.</li>
+<li><strong>Tooling</strong> — clase 222 — Surprise vs Implicit vs LightFM vs TF Recommenders, FAISS/Milvus para serving.</li>
 </ul>
+<h2 id="material-descargable-parte-completa">📥 Material descargable — parte completa</h2>
+<p>Materiales consolidados con TODAS las clases de esta parte (útiles para revisar offline o imprimir el bloque entero):</p>
+<ul>
+<li>📄 <a href="../../docs/pdfs/parts/parte-6-sistemas-de-recomendacion-completa.pdf">Guía PDF — parte completa</a> — todas las clases concatenadas con headings demoteados.</li>
+<li>🎞️ <a href="../../docs/presentaciones/parts/parte-6-sistemas-de-recomendacion-completa.pptx">Presentación PPTX — parte completa</a> — portada + TOC + slides de cada clase.</li>
+</ul>
+<hr>
     <hr>
     <h2>📚 Ficha por clase</h2>
-    
-    <div class="classes-list"><a href="216-filtrado-colaborativo-user-based-e-item-based/index.html"><span class="num">216</span> <span class="title">Filtrado colaborativo user-based e item-based</span><span class="enrich-row"></span></a><a href="217-factorizacion-de-matrices-svd-als/index.html"><span class="num">217</span> <span class="title">Factorización de matrices: SVD, ALS</span><span class="enrich-row"></span></a><a href="218-content-based-filtering/index.html"><span class="num">218</span> <span class="title">Content-based filtering</span><span class="enrich-row"></span></a><a href="219-recomendadores-hibridos/index.html"><span class="num">219</span> <span class="title">Recomendadores híbridos</span><span class="enrich-row"></span></a><a href="220-metricas-map-k-ndcg-recall-k/index.html"><span class="num">220</span> <span class="title">Métricas: MAP@k, NDCG, recall@k</span><span class="enrich-row"></span></a><a href="221-cold-start-problem/index.html"><span class="num">221</span> <span class="title">Cold-start problem</span><span class="enrich-row"></span></a><a href="222-librerias-lightfm-implicit-surprise/index.html"><span class="num">222</span> <span class="title">Librerías: LightFM, Implicit, Surprise</span><span class="enrich-row"></span></a></div>
+    <p class="enriched-note">✨ <strong>7 de 7</strong> clases tienen contenido pedagógico ampliado (<span class="enrich-badge">📖</span> Definiciones · <span class="enrich-badge">⚠️</span> Errores comunes · <span class="enrich-badge">❓</span> FAQ).</p>
+    <div class="classes-list"><a href="216-filtrado-colaborativo-user-based-e-item-based/index.html"><span class="num">216</span> <span class="title">Filtrado colaborativo: user-based e item-based</span><span class="enrich-row"><span class="enrich-badge" title="📖 Definiciones">📖</span><span class="enrich-badge" title="⚠️ Errores comunes">⚠️</span><span class="enrich-badge" title="❓ FAQ">❓</span></span></a><a href="217-factorizacion-de-matrices-svd-als/index.html"><span class="num">217</span> <span class="title">Factorización de matrices: SVD, ALS</span><span class="enrich-row"><span class="enrich-badge" title="📖 Definiciones">📖</span><span class="enrich-badge" title="⚠️ Errores comunes">⚠️</span><span class="enrich-badge" title="❓ FAQ">❓</span></span></a><a href="218-content-based-filtering/index.html"><span class="num">218</span> <span class="title">Content-based filtering</span><span class="enrich-row"><span class="enrich-badge" title="📖 Definiciones">📖</span><span class="enrich-badge" title="⚠️ Errores comunes">⚠️</span><span class="enrich-badge" title="❓ FAQ">❓</span></span></a><a href="219-recomendadores-hibridos/index.html"><span class="num">219</span> <span class="title">Recomendadores híbridos</span><span class="enrich-row"><span class="enrich-badge" title="📖 Definiciones">📖</span><span class="enrich-badge" title="⚠️ Errores comunes">⚠️</span><span class="enrich-badge" title="❓ FAQ">❓</span></span></a><a href="220-metricas-map-k-ndcg-recall-k/index.html"><span class="num">220</span> <span class="title">Métricas: MAP@k, NDCG, recall@k</span><span class="enrich-row"><span class="enrich-badge" title="📖 Definiciones">📖</span><span class="enrich-badge" title="⚠️ Errores comunes">⚠️</span><span class="enrich-badge" title="❓ FAQ">❓</span></span></a><a href="221-cold-start-problem/index.html"><span class="num">221</span> <span class="title">Cold-start problem</span><span class="enrich-row"><span class="enrich-badge" title="📖 Definiciones">📖</span><span class="enrich-badge" title="⚠️ Errores comunes">⚠️</span><span class="enrich-badge" title="❓ FAQ">❓</span></span></a><a href="222-librerias-lightfm-implicit-surprise/index.html"><span class="num">222</span> <span class="title">Librerías: LightFM, Implicit, Surprise</span><span class="enrich-row"><span class="enrich-badge" title="📖 Definiciones">📖</span><span class="enrich-badge" title="⚠️ Errores comunes">⚠️</span><span class="enrich-badge" title="❓ FAQ">❓</span></span></a></div>
     
   </main>
   <footer class="cur-footer">

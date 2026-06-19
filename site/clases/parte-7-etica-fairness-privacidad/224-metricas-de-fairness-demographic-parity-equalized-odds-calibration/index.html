@@ -24,36 +24,162 @@
   </header>
   <main class="cur-main">
     <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-7-etica-fairness-privacidad/224-metricas-de-fairness-demographic-parity-equalized-odds-calibration/notebook.ipynb">📓 Abrir notebook en GitHub</a>
-<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">Objetivo</a> · <a href="#resultados-esperados">Resultados esperados</a> · <a href="#temas-clave">Temas clave</a> · <a href="#materiales">Materiales</a> · <a href="#prerrequisitos">Prerrequisitos</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#material-descargable">📥 Material descargable</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
 <h1 id="clase-224-metricas-de-fairness-demographic-parity-equalized-odds-calibration">Clase 224 — Métricas de fairness: demographic parity, equalized odds, calibration</h1>
 <blockquote>
-<p>Parte: <strong>7-etica-fairness-privacidad</strong>
-Estado: <strong>stub</strong> (pendiente desarrollar contenido).</p>
+<p>Parte: <strong>7 — Ética, Fairness y Privacidad</strong> · Fuente: Barocas, Hardt, Narayanan — <a href="https://fairmlbook.org/"><em>Fairness and Machine Learning</em></a> <strong>cap. 3</strong> + Hardt, Price, Srebro (NeurIPS 2016) <a href="https://arxiv.org/abs/1610.02413"><em>Equality of Opportunity in Supervised Learning</em></a>. ⏱️ Duración estimada: <strong>75 min</strong>.</p>
 </blockquote>
-<h2 id="objetivo">Objetivo</h2>
-<p>Describir el resultado de aprendizaje concreto de esta clase.</p>
-<h2 id="resultados-esperados">Resultados esperados</h2>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Pasar de "el modelo es injusto" a <strong>medirlo con un número</strong>. Implementar las tres familias de métricas grupales que dominan la literatura — <strong>demographic parity</strong>, <strong>equalized odds</strong>, <strong>calibration</strong> — sobre un dataset binario con atributo protegido, y demostrar <strong>numéricamente</strong> el teorema de imposibilidad de Kleinberg-Mullainathan-Raghavan / Chouldechova (2017): salvo casos triviales, <strong>no se pueden satisfacer las tres a la vez</strong>.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
 <p>Al finalizar, el estudiante podrá:</p>
 <ul>
-<li>(resultado 1)</li>
-<li>(resultado 2)</li>
-<li>(resultado 3)</li>
+<li>Calcular <strong>demographic parity gap</strong> = |P(Ŷ=1|A=0) − P(Ŷ=1|A=1)| sobre predicciones de cualquier clasificador binario.</li>
+<li>Calcular <strong>equal opportunity</strong> (TPR por grupo) y <strong>equalized odds</strong> (TPR y FPR por grupo) — <em>Hardt, Price, Srebro 2016</em>.</li>
+<li>Verificar <strong>calibración por grupo</strong> con reliability curves: P(Y=1|Ŝ=s, A=a) debe ser igual entre grupos para un mismo score s.</li>
+<li>Demostrar el <strong>teorema de imposibilidad</strong>: ajustar threshold por grupo para forzar demographic parity rompe calibración.</li>
+<li>Aplicar <strong>mitigación post-processing</strong> con thresholds por grupo (Hardt 2016) y reportar el trade-off accuracy vs fairness gap.</li>
 </ul>
-<h2 id="temas-clave">Temas clave</h2>
+<h2 id="temas">🗺️ Temas</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Tema</th>
+<th>Por qué importa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Atributo protegido A y notación Y / Ŷ / Ŝ</td>
+<td>Sin notación común no se discute fairness; A puede ser género, raza, edad, código postal proxy.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Demographic parity (statistical parity)</td>
+<td>La métrica más antigua (regla del 80%, US EEOC); ignora el ground truth.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Equal opportunity y equalized odds (Hardt 2016)</td>
+<td>Condicionan en Y — corrigen el defecto de DP cuando las base-rates difieren.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Calibration por grupo (Chouldechova 2017)</td>
+<td>El score debe significar lo mismo en cada grupo; lo que reclamó ProPublica vs COMPAS.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Teorema de imposibilidad (KMR / Chouldechova 2017)</td>
+<td>Si las base-rates difieren, DP + equalized odds + calibration son <strong>mutuamente incompatibles</strong>.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Post-processing: threshold por grupo</td>
+<td>Mitigación más simple; revela explícitamente el trade-off.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
 <ul>
-<li>(subtema 1)</li>
-<li>(subtema 2)</li>
-<li>(subtema 3)</li>
+<li><strong>Atributo protegido</strong> <code>A</code>: variable demográfica sensible (sexo, raza, edad). En la práctica nunca está sola — hay <strong>proxies</strong> (zip code, nombre, historial).</li>
+<li><strong>Demographic parity (DP)</strong>: <code>P(Ŷ=1 | A=0) = P(Ŷ=1 | A=1)</code>. Métrica: <code>DP_gap = |selection_rate(A=0) − selection_rate(A=1)|</code>. <strong>Regla del 80%</strong>: ratio ≥ 0.8 para que la US EEOC no lo considere discriminación.</li>
+<li><strong>Equal opportunity</strong>: <code>P(Ŷ=1 | Y=1, A=0) = P(Ŷ=1 | Y=1, A=1)</code>. O sea, <strong>TPR igual</strong>. Solo a los positivos reales se les exige misma tasa de aceptación.</li>
+<li><strong>Equalized odds</strong> (Hardt-Price-Srebro 2016): equal opportunity <strong>+ FPR igual</strong>. <code>EO_gap = max(|TPR_diff|, |FPR_diff|)</code>.</li>
+<li><strong>Calibration</strong> (predictive parity, Chouldechova 2017): <code>P(Y=1 | Ŝ=s, A=a)</code> es igual entre grupos para todo score s. Un score 0.7 significa "70% chance" tanto para A=0 como para A=1.</li>
+<li><strong>Impossibility theorem</strong> (Kleinberg-Mullainathan-Raghavan 2017 + Chouldechova 2017): si <code>P(Y=1|A=0) ≠ P(Y=1|A=1)</code> (base rates diferentes) y el clasificador no es perfecto, <strong>no existe</strong> clasificador que sea simultáneamente calibrado por grupo y con equalized odds. Es matemático, no técnico — no se resuelve con más datos.</li>
+<li><strong>Accuracy-fairness trade-off</strong>: forzar cualquier paridad sobre un clasificador óptimo de Bayes <strong>baja accuracy</strong>. La pregunta política es cuánta accuracy estamos dispuestos a sacrificar.</li>
+<li><strong>Tooling</strong>: <a href="https://fairlearn.org/"><code>fairlearn</code></a> (Microsoft) — <code>MetricFrame</code>, <code>ThresholdOptimizer</code>. <a href="https://aif360.res.ibm.com/"><code>aif360</code></a> (IBM) — 70+ métricas y mitigadores. Ambas open source.</li>
 </ul>
-<h2 id="materiales">Materiales</h2>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
 <ul>
-<li><code>README.md</code> — esta ficha</li>
-<li><code>notebook.ipynb</code> — cuaderno de la clase</li>
+<li><strong>Dataset notebook</strong>: sintético binario con un atributo protegido <code>A∈{0,1}</code> y base rates diferentes (60% vs 40%) — necesario para que el teorema de imposibilidad se active.</li>
+<li><strong>Dataset real recomendado para tarea</strong>: <a href="https://archive.ics.uci.edu/dataset/2/adult">Adult / Census Income</a> (UCI) con <code>sex</code> como atributo protegido, o <a href="https://github.com/propublica/compas-analysis">COMPAS</a> (ProPublica) con <code>race</code>.</li>
+<li>Librerías: <code>numpy</code>, <code>pandas</code>, <code>scikit-learn</code>. Opcional: <code>fairlearn</code>.</li>
 </ul>
-<h2 id="prerrequisitos">Prerrequisitos</h2>
-<p>Ver índice general en <code>classes/README.md</code> para dependencias entre clases.</p>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>Selection rate por grupo</strong>: entrenar <code>LogisticRegression</code> baseline. Calcular <code>P(Ŷ=1|A=0)</code> y <code>P(Ŷ=1|A=1)</code> y el <code>DP_gap</code>. ¿Cumple regla del 80%?</li>
+<li><strong>TPR y FPR por grupo</strong>: armar <code>confusion_matrix</code> separada por grupo. Calcular <code>equal_opportunity_gap = |TPR_0 − TPR_1|</code> y <code>equalized_odds_gap = max(|TPR_diff|, |FPR_diff|)</code>.</li>
+<li><strong>Calibration curves por grupo</strong>: binning de scores en 10 bins. Para cada bin y cada grupo, graficar <code>mean(y_true) vs mean(y_score)</code>. ¿Las curvas coinciden?</li>
+<li><strong>Romper calibración</strong>: ajustar threshold por grupo (<code>t_0</code>, <code>t_1</code>) tal que se cumpla DP exacta. Recalcular calibración — debe degradarse. (Demostración numérica del teorema.)</li>
+<li><strong>Post-processing Hardt</strong>: buscar <code>(t_0, t_1)</code> que <strong>minimicen</strong> <code>equalized_odds_gap</code> y reportar el costo en accuracy global. Tabla: baseline vs DP-fixed vs EO-fixed.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Notebook con:</p>
+<ol>
+<li>Cargar <strong>Adult Census</strong> (UCI). Atributo protegido: <code>sex</code>. Target: <code>income &gt; 50K</code>.</li>
+<li>Entrenar baseline <code>LogisticRegression</code> + reportar accuracy, AUC.</li>
+<li>Calcular las tres métricas: <code>DP_gap</code>, <code>equal_opportunity_gap</code>, <code>equalized_odds_gap</code> y <strong>calibration_gap</strong> (max |calibration(A=0) − calibration(A=1)| sobre bins).</li>
+<li>Implementar post-processing con threshold por grupo que minimice <code>EO_gap</code> sujeto a <code>accuracy_drop ≤ 3pp</code>.</li>
+<li>Tabla final: 3 modelos (baseline, DP-mitigated, EO-mitigated) × 5 métricas (accuracy, AUC, DP_gap, EO_gap, calibration_gap). Discutir cuál elegirías y <strong>por qué</strong> — no hay respuesta universal.</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: las 4 métricas implementadas a mano (no llamando a <code>fairlearn</code>), el <code>EO_gap</code> mitigado &lt; 0.05, y un párrafo justificando la elección de métrica en función del <strong>dominio de aplicación</strong> (crédito vs admisión universitaria vs medicina).</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>DP_gap = 0</code> pero el modelo es claramente injusto</td>
+<td>DP ignora el ground truth — si las base rates difieren, forzar DP puede empeorar la utilidad para el grupo desfavorecido. <strong>Fix</strong>: reportar también equal opportunity.</td>
+</tr>
+<tr>
+<td>Calibration "perfecta" pero TPR diferente entre grupos</td>
+<td>Es el resultado natural cuando las base rates difieren — el teorema de imposibilidad en acción. <strong>Fix</strong>: documentar el trade-off explícitamente, no esconderlo.</td>
+</tr>
+<tr>
+<td>Quitar el atributo protegido del input "soluciona" el problema</td>
+<td><strong>Fairness through unawareness</strong> — no funciona: zip code, nombre, historial son <strong>proxies</strong>. <strong>Fix</strong>: medir igual con A presente.</td>
+</tr>
+<tr>
+<td>Threshold único 0.5 para todos los grupos</td>
+<td>Asume que los scores significan lo mismo en cada grupo. <strong>Fix</strong>: medir calibración antes de asumirlo.</td>
+</tr>
+<tr>
+<td>Usar accuracy global para comparar fairness</td>
+<td>Accuracy global puede subir y empeorar al grupo minoritario simultáneamente (Simpson). <strong>Fix</strong>: reportar accuracy <strong>por grupo</strong>.</td>
+</tr>
+<tr>
+<td><code>MetricFrame</code> de fairlearn devuelve <code>nan</code></td>
+<td>Algún grupo tiene 0 positivos predichos o 0 reales. <strong>Fix</strong>: filtrar splits estratificados; revisar tamaño mínimo por grupo (&gt;30).</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿Cuál de las tres métricas uso?</strong></p>
+<p>Depende del <strong>dominio</strong>. Crédito o contratación: <strong>equal opportunity</strong> (no negarle empleo a quien sí calificaría). Justicia penal / riesgo de reincidencia: <strong>calibration</strong> + <strong>FPR equal</strong> (el debate ProPublica vs COMPAS giró exactamente sobre cuál priorizar). Publicidad: <strong>DP</strong> suele alcanzar. Pero la elección es <strong>política, no técnica</strong>.</p>
+<p><strong>❓ ¿Demographic parity no es siempre lo que queremos?</strong></p>
+<p>No. Si la base rate real difiere entre grupos (ej. distribución de ingresos), DP puede forzar al modelo a aceptar candidatos peores de un grupo y rechazar mejores de otro. <strong>Equal opportunity</strong> suele ser más defendible.</p>
+<p><strong>❓ ¿El teorema de imposibilidad significa que fairness es imposible?</strong></p>
+<p>No — significa que no se pueden satisfacer las <strong>tres simultáneamente</strong> cuando las base rates difieren. Hay que <strong>elegir</strong> cuál priorizar, y documentarlo. El paper de Chouldechova (2017) es lectura obligada.</p>
+<p><strong>❓ ¿<code>fairlearn</code> o <code>aif360</code>?</strong></p>
+<p><code>fairlearn</code> para empezar (API más limpia, integrada con sklearn). <code>aif360</code> cuando se necesite catálogo amplio de mitigadores (pre/in/post-processing) y métricas exóticas. Ninguna sustituye entender las definiciones.</p>
+<p><strong>❓ ¿Y la fairness individual?</strong></p>
+<p>Otra familia (Dwork et al. 2012): "individuos similares deben recibir predicciones similares". Más difícil de operacionalizar (requiere métrica de similaridad justificable) y queda fuera del alcance de esta clase. Ver Clase 225-227 para privacy y Clase 228 para causal fairness.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Hardt, M., Price, E., Srebro, N. <em>Equality of Opportunity in Supervised Learning</em>, NeurIPS 2016. https://arxiv.org/abs/1610.02413</li>
+<li>Chouldechova, A. <em>Fair prediction with disparate impact: A study of bias in recidivism prediction instruments</em>, Big Data 2017. https://arxiv.org/abs/1610.07524</li>
+<li>Kleinberg, J., Mullainathan, S., Raghavan, M. <em>Inherent Trade-Offs in the Fair Determination of Risk Scores</em>, ITCS 2017. https://arxiv.org/abs/1609.05807</li>
+<li>Barocas, S., Hardt, M., Narayanan, A. <em>Fairness and Machine Learning</em> (fairmlbook.org), <strong>cap. 3</strong> — <em>Classification</em>.</li>
+<li><a href="https://fairlearn.org/"><code>fairlearn</code> documentation</a> — Microsoft, MIT license.</li>
+<li><a href="https://aif360.res.ibm.com/"><code>AIF360</code> documentation</a> — IBM, Apache 2.0.</li>
+</ul>
+<h2 id="material-descargable">📥 Material descargable</h2>
+<ul>
+<li>📄 <a href="./clase-224-metricas-de-fairness-demographic-parity-equalized-odds-calibration-guia-explicativa.pdf">Guía explicativa (PDF)</a> — versión imprimible con todo el contenido de la clase.</li>
+<li>🎞️ <a href="./clase-224-metricas-de-fairness-demographic-parity-equalized-odds-calibration-presentacion.pptx">Presentación (PPTX)</a> — deck PowerPoint listo para proyectar en clase.</li>
+<li>🧮 <a href="./notebook.ipynb">Notebook ejecutable (.ipynb)</a> — abrilo desde el laboratorio del programa o desde Jupyter.</li>
+</ul>
 <h2 id="siguiente-clase">➡️ Siguiente clase</h2>
-<p><a href="../225-privacidad-diferencial-intro/index.html">Clase 225 — Privacidad diferencial (intro)</a></p>
+<p><a href="../225-privacidad-diferencial-intro/index.html">Clase 225 — Privacidad diferencial: intro</a></p>
   </main>
   <footer class="cur-footer">
     <p>

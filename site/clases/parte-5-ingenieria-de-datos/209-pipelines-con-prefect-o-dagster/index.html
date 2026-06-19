@@ -24,34 +24,169 @@
   </header>
   <main class="cur-main">
     <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-5-ingenieria-de-datos/209-pipelines-con-prefect-o-dagster/notebook.ipynb">📓 Abrir notebook en GitHub</a>
-<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">Objetivo</a> · <a href="#resultados-esperados">Resultados esperados</a> · <a href="#temas-clave">Temas clave</a> · <a href="#materiales">Materiales</a> · <a href="#prerrequisitos">Prerrequisitos</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#material-descargable">📥 Material descargable</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
 <h1 id="clase-209-pipelines-con-prefect-o-dagster">Clase 209 — Pipelines con Prefect o Dagster</h1>
 <blockquote>
-<p>Parte: <strong>5-ingenieria-de-datos</strong>
-Estado: <strong>stub</strong> (pendiente desarrollar contenido).</p>
+<p>Parte: <strong>5 — Ingeniería de Datos</strong> · Fuente: <a href="https://docs.prefect.io/">Prefect 3 docs</a> + <a href="https://docs.dagster.io/">Dagster docs</a> + Reis &amp; Housley <strong>cap. 8</strong>. ⏱️ Duración estimada: <strong>75 min</strong>.</p>
 </blockquote>
-<h2 id="objetivo">Objetivo</h2>
-<p>Describir el resultado de aprendizaje concreto de esta clase.</p>
-<h2 id="resultados-esperados">Resultados esperados</h2>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Construir el mismo pipeline de Clase 208 con <strong>Prefect 3</strong> (API Python moderna, hybrid execution) y con <strong>Dagster</strong> (asset-oriented, mejor lineage). Entender qué problemas resuelven mejor que Airflow y cuándo elegir cada uno.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
 <p>Al finalizar, el estudiante podrá:</p>
 <ul>
-<li>(resultado 1)</li>
-<li>(resultado 2)</li>
-<li>(resultado 3)</li>
+<li>Escribir un flow Prefect con <code>@flow</code>/<code>@task</code>, deployments, work pools y workers.</li>
+<li>Definir <strong>assets</strong> Dagster (<code>@asset</code>) y entender la diferencia entre "task-oriented" (Airflow/Prefect) y "asset-oriented" (Dagster).</li>
+<li>Configurar <strong>hybrid execution</strong> Prefect: control plane en cloud, workers en tu infra (sin enviar data sensible).</li>
+<li>Usar <strong>Dagster's UI</strong> para ver lineage automático: qué asset depende de qué, cuándo se materializó cada uno.</li>
+<li>Decidir Airflow vs Prefect vs Dagster según contexto (equipo, escala, tipo de pipeline).</li>
 </ul>
-<h2 id="temas-clave">Temas clave</h2>
+<h2 id="temas">🗺️ Temas</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Tema</th>
+<th>Por qué importa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Prefect 3: flows, tasks, deployments</td>
+<td>Reemplaza DAGs con código Python idiomático.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Work pools + workers</td>
+<td>Hybrid execution: control en cloud, compute donde quieras.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Dagster: asset-oriented vs task-oriented</td>
+<td>Lineage automático, mejor para data products.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Software-defined assets (SDA)</td>
+<td>Cada asset es código + metadata + checks.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Scheduling: cron, interval, event-driven</td>
+<td>Las 3 formas de disparar.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Cuándo migrar de Airflow</td>
+<td>Costo de migración vs beneficio.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
 <ul>
-<li>(subtema 1)</li>
-<li>(subtema 2)</li>
-<li>(subtema 3)</li>
+<li><strong>Prefect Flow</strong>: equivalente al DAG. Decorador <code>@flow</code>. Puede invocar tasks (<code>@task</code>) y sub-flows.</li>
+<li><strong>Prefect Task</strong>: unidad de trabajo. Tiene retries, cache, timeout configurables. Diferente a Airflow: las tasks pueden tener loops/condicionales sin XCom hackery.</li>
+<li><strong>Deployment</strong>: la receta de "cómo y cuándo correr este flow" (schedule, parameters, infra). Prefect 3 los empaqueta como código (<code>flow.deploy(...)</code>).</li>
+<li><strong>Work pool</strong>: cola lógica donde los deployments mandan runs. Los <strong>workers</strong> la consumen.</li>
+<li><strong>Worker</strong>: proceso que corre los runs. Puede vivir en tu laptop, K8s, ECS, etc. <strong>Cloud variant</strong>: control plane managed; workers tuyos (hybrid).</li>
+<li><strong>Dagster Asset</strong>: objeto persistente versionado (una tabla, un modelo, un dashboard). Definido con <code>@asset</code>. Las dependencias entre assets se infieren del código.</li>
+<li><strong>Op</strong> (Dagster): equivalente más cercano a "task" — unidad atómica. Los assets generalmente componen ops.</li>
+<li><strong>Materializar</strong>: ejecutar el código que produce el asset (re-genera el output). Dagster trackea cuándo se materializó cada asset por última vez.</li>
+<li><strong>Sensor</strong> (Dagster/Prefect): trigger basado en eventos (nuevo archivo, mensaje en queue) en vez de schedule.</li>
 </ul>
-<h2 id="materiales">Materiales</h2>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
 <ul>
-<li><code>README.md</code> — esta ficha</li>
-<li><code>notebook.ipynb</code> — cuaderno de la clase</li>
+<li>Mismo pipeline de Clase 208 (BTC price), implementado dos veces.</li>
+<li>Librerías: <code>prefect&gt;=3</code>, <code>dagster&gt;=1.7</code>, <code>duckdb</code>, <code>pandas</code>, <code>requests</code>.</li>
 </ul>
-<h2 id="prerrequisitos">Prerrequisitos</h2>
-<p>Ver índice general en <code>classes/README.md</code> para dependencias entre clases.</p>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>Prefect flow</strong>: copiá la lógica del DAG Airflow al patrón Prefect: <code>@flow def btc_pipeline(): notify(transform(load(extract())))</code>. Corré <code>python btc.py</code> directo (no necesita scheduler).</li>
+<li><strong>Deployment Prefect</strong>: <code>flow.serve(name="btc-hourly", cron="0 * * * *")</code>. Dejá corriendo, observá ejecuciones programadas en <code>localhost:4200</code>.</li>
+<li><strong>Dagster assets</strong>: convertí las funciones a <code>@asset def btc_price()</code>, <code>@asset def daily_avg(btc_price)</code>. Dagster infiere <code>daily_avg</code> depende de <code>btc_price</code>. UI muestra el grafo.</li>
+<li><strong>Materializar</strong>: en Dagster UI, click "Materialize" sobre <code>btc_price</code>. Solo se ejecuta ese asset; <code>daily_avg</code> queda "stale" hasta que se materialice también.</li>
+<li><strong>Comparativa</strong>: mismo pipeline en Airflow + Prefect + Dagster. Compará LOC, claridad, UI, velocidad de feedback dev.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Repo con el <strong>mismo</strong> pipeline implementado en los 3 frameworks:</p>
+<ol>
+<li><code>airflow/dags/btc.py</code> (de Clase 208).</li>
+<li><code>prefect/btc.py</code> con <code>@flow</code>/<code>@task</code> y deployment programado.</li>
+<li><code>dagster/btc.py</code> con <code>@asset</code> definitions y un <code>Definitions</code> object.</li>
+<li>README comparativo: LOC, complejidad de setup, calidad de UI, lineage support, cuándo elegir cada uno.</li>
+<li>Bonus: GitHub Actions que corre los 3 en CI y verifica que producen el mismo output.</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: los 3 pipelines producen idénticos resultados sobre el mismo input; el README compara honestamente fortalezas/debilidades.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>prefect server start</code> falla</td>
+<td>Otro proceso en <code>:4200</code>. <strong>Fix</strong>: <code>--port 4201</code>.</td>
+</tr>
+<tr>
+<td>Deployment no se ejecuta automáticamente</td>
+<td>Workers no están corriendo o pool mal configurado. <strong>Fix</strong>: <code>prefect worker start --pool default-agent-pool</code>.</td>
+</tr>
+<tr>
+<td>Dagster asset materialization "stale" pero no se actualiza</td>
+<td>Auto-materialization no está habilitada. <strong>Fix</strong>: agregar <code>AutoMaterializePolicy.eager()</code> al asset.</td>
+</tr>
+<tr>
+<td>Re-import circular entre <code>@asset</code>s</td>
+<td>Dagster intenta resolver dependencias en import. <strong>Fix</strong>: definir todos los assets en un solo módulo o usar <code>SourceAsset</code> para externos.</td>
+</tr>
+<tr>
+<td>Performance lento en Prefect con muchas tasks</td>
+<td>El backend default está en SQLite. <strong>Fix</strong>: para &gt;1000 tasks/run usar Postgres backend.</td>
+</tr>
+<tr>
+<td>Mixed Airflow + Prefect + Dagster en el mismo repo causa import conflicts</td>
+<td>Cada uno tiene su propio ecosistema. <strong>Fix</strong>: separar en repos o usar venvs distintos.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ Airflow vs Prefect vs Dagster en una frase</strong></p>
+<ul>
+<li><strong>Airflow</strong>: el camión de carga industrial — feo pero llega.</li>
+<li><strong>Prefect</strong>: el Tesla — UI moderna, código limpio, hybrid execution.</li>
+<li><strong>Dagster</strong>: la BMW — lineage hermoso, ideal cuando pensás en data products.</li>
+</ul>
+<p><strong>❓ ¿Vale la pena migrar desde Airflow?</strong></p>
+<p>Calcular: (costo de migrar N DAGs) vs (ahorro mensual en mantenimiento + horas dev). Si Airflow funciona y nadie está sufriendo: no. Si nuevos pipelines: empezar con Prefect/Dagster, dejar los viejos donde están.</p>
+<p><strong>❓ ¿Prefect Cloud o self-hosted?</strong></p>
+<p>Cloud: control plane managed, free tier generoso, hybrid execution (workers tuyos). Self-hosted: <code>prefect server start</code> corre todo local — para dev. Para prod: Cloud es mucho más práctico.</p>
+<p><strong>❓ ¿Dagster's asset model es overkill para pipelines simples?</strong></p>
+<p>Para 3-5 tareas en cascada: sí, Prefect es más simple. Para data warehouse con 100+ tablas modeladas: Dagster brilla (lineage, freshness, partition awareness).</p>
+<p><strong>❓ ¿Cómo manejo secrets en Prefect/Dagster?</strong></p>
+<ul>
+<li><strong>Prefect</strong>: <code>Secret.load("my-key").get()</code> desde blocks (cifrados en backend).</li>
+<li><strong>Dagster</strong>: <code>EnvVar("MY_SECRET")</code> o resources con <code>ConfigurableResource</code>.</li>
+</ul>
+<p>Ambos integran con AWS Secrets Manager / GCP Secret Manager / Vault.</p>
+<p><strong>❓ ¿Puedo usar Dagster con dbt?</strong></p>
+<p>Sí — <code>dagster-dbt</code> carga modelos dbt como assets Dagster automático. Lineage atraviesa Python → dbt → SQL → tablas. Es el sweet spot del stack moderno.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li><a href="https://docs.prefect.io/">Prefect 3 docs</a> — empezar por <em>Quickstart</em>.</li>
+<li><a href="https://docs.dagster.io/">Dagster docs</a> — <em>Concepts → Assets</em>.</li>
+<li>Reis &amp; Housley <em>Fundamentals of Data Engineering</em> (O'Reilly, 2022) <strong>cap. 8</strong>.</li>
+<li><a href="https://www.prefect.io/blog/airflow-vs-prefect"><em>Prefect vs Airflow</em> (Prefect, 2024)</a> — sesgado pero útil.</li>
+<li><a href="https://docs.dagster.io/integrations/dbt"><code>dagster-dbt</code> integration</a> — el combo más usado.</li>
+</ul>
+<h2 id="material-descargable">📥 Material descargable</h2>
+<ul>
+<li>📄 <a href="./clase-209-pipelines-con-prefect-o-dagster-guia-explicativa.pdf">Guía explicativa (PDF)</a> — versión imprimible con todo el contenido de la clase.</li>
+<li>🎞️ <a href="./clase-209-pipelines-con-prefect-o-dagster-presentacion.pptx">Presentación (PPTX)</a> — deck PowerPoint listo para proyectar en clase.</li>
+<li>🧮 <a href="./notebook.ipynb">Notebook ejecutable (.ipynb)</a> — abrilo desde el laboratorio del programa o desde Jupyter.</li>
+</ul>
 <h2 id="siguiente-clase">➡️ Siguiente clase</h2>
 <p><a href="../210-pyspark-para-datasets-grandes/index.html">Clase 210 — PySpark para datasets grandes</a></p>
   </main>

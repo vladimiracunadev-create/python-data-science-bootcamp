@@ -24,34 +24,159 @@
   </header>
   <main class="cur-main">
     <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-4-mlops/199-apis-con-fastapi-sirviendo-modelos/notebook.ipynb">📓 Abrir notebook en GitHub</a>
-<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">Objetivo</a> · <a href="#resultados-esperados">Resultados esperados</a> · <a href="#temas-clave">Temas clave</a> · <a href="#materiales">Materiales</a> · <a href="#prerrequisitos">Prerrequisitos</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#material-descargable">📥 Material descargable</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
 <h1 id="clase-199-apis-con-fastapi-sirviendo-modelos">Clase 199 — APIs con FastAPI sirviendo modelos</h1>
 <blockquote>
-<p>Parte: <strong>4-mlops</strong>
-Estado: <strong>stub</strong> (pendiente desarrollar contenido).</p>
+<p>Parte: <strong>4 — MLOps</strong> · Fuente: Huyen <strong>cap. 11</strong> + <a href="https://fastapi.tiangolo.com/">docs FastAPI</a> + Ramalho cap. 5. ⏱️ Duración estimada: <strong>80 min</strong>.</p>
 </blockquote>
-<h2 id="objetivo">Objetivo</h2>
-<p>Describir el resultado de aprendizaje concreto de esta clase.</p>
-<h2 id="resultados-esperados">Resultados esperados</h2>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Exponer un modelo entrenado como <strong>REST API</strong> con FastAPI: validación de input con Pydantic, batching, async, healthcheck, métricas Prometheus, OpenAPI auto-generado. Target: p99 latency &lt;100 ms y throughput &gt;500 req/s en un solo nodo CPU.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
 <p>Al finalizar, el estudiante podrá:</p>
 <ul>
-<li>(resultado 1)</li>
-<li>(resultado 2)</li>
-<li>(resultado 3)</li>
+<li>Construir un servicio FastAPI con endpoints <code>POST /predict</code>, <code>POST /predict-batch</code>, <code>GET /health</code>, <code>GET /metrics</code>.</li>
+<li>Definir schemas de input/output con <code>pydantic.BaseModel</code> y obtener validación + docs gratis.</li>
+<li>Usar <code>lifespan</code> events para cargar el modelo una sola vez (no por request).</li>
+<li>Loadtestear con <code>locust</code> y medir latency p50/p95/p99 + throughput.</li>
+<li>Decidir entre <strong>sync def</strong> y <strong>async def</strong> según si el predict es CPU-bound o I/O-bound.</li>
 </ul>
-<h2 id="temas-clave">Temas clave</h2>
+<h2 id="temas">🗺️ Temas</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Tema</th>
+<th>Por qué importa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>ASGI vs WSGI: por qué FastAPI no es Flask</td>
+<td>Async nativo, perf en I/O-bound.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Pydantic v2: validación + serialización</td>
+<td>Schema = contrato; cambios rompen tests.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Lifespan: cargar modelo 1 vez</td>
+<td>Sin esto, cada request reabre <code>joblib.load</code>.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Sync vs async para predict</td>
+<td>CPU-bound → sync (deja al thread pool); I/O-bound → async.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Batching: <code>/predict-batch</code></td>
+<td>100 predicciones en 1 request, no en 100.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Observabilidad: <code>/health</code>, <code>/metrics</code>, logs estructurados</td>
+<td>Lo que pide el oncall a las 3 AM.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
 <ul>
-<li>(subtema 1)</li>
-<li>(subtema 2)</li>
-<li>(subtema 3)</li>
+<li><strong>FastAPI</strong>: framework ASGI (no WSGI). Web server: <code>uvicorn</code> (single-process) o <code>gunicorn -w N -k uvicorn.workers.UvicornWorker</code> (multi-worker).</li>
+<li><strong>ASGI</strong> (Asynchronous Server Gateway Interface): protocolo Python para apps async. Permite <code>async def</code> endpoints, websockets, streaming.</li>
+<li><strong>Pydantic v2</strong>: validación + serialización con modelos tipados. ~20× más rápido que v1 (re-escrito en Rust).</li>
+<li><strong><code>lifespan</code> event</strong> (<code>@asynccontextmanager</code>): hook para inicializar recursos (cargar modelo, abrir DB) cuando el server arranca y limpiarlos al apagar. Reemplaza el deprecado <code>@app.on_event("startup")</code>.</li>
+<li><strong>Sync vs async endpoint</strong>: en FastAPI, <code>def predict(...)</code> (sync) corre en un <strong>thread pool</strong> — bueno para CPU-bound o libs que no son async. <code>async def predict(...)</code> corre en el event loop — bueno para I/O-bound (DB, HTTP a otro servicio). Si tu <code>predict</code> es solo <code>model.predict(X)</code> (CPU): <strong>sync</strong>.</li>
+<li><strong>Batching</strong>: agrupar N predicciones en un solo request. Reduce overhead de HTTP (~5 ms por request) y permite vectorizar (<code>model.predict(matrix)</code> es ~10× más rápido que 100 <code>model.predict(vector)</code>).</li>
+<li><strong>Healthcheck</strong>: endpoint que devuelve 200 si el servicio puede servir tráfico. K8s lo usa para <code>livenessProbe</code> (reiniciar pod si falla) y <code>readinessProbe</code> (sacar del LB si falla).</li>
 </ul>
-<h2 id="materiales">Materiales</h2>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
 <ul>
-<li><code>README.md</code> — esta ficha</li>
-<li><code>notebook.ipynb</code> — cuaderno de la clase</li>
+<li><strong>Modelo</strong>: cualquiera entrenado en clases previas — usamos sklearn por simplicidad.</li>
+<li><strong>Librerías</strong>: <code>fastapi</code>, <code>uvicorn[standard]</code>, <code>pydantic&gt;=2</code>, <code>prometheus-fastapi-instrumentator</code>, <code>locust</code> (loadtest).</li>
 </ul>
-<h2 id="prerrequisitos">Prerrequisitos</h2>
-<p>Ver índice general en <code>classes/README.md</code> para dependencias entre clases.</p>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>API mínima</strong>: <code>POST /predict</code> con <code>IrisInput(features: list[float])</code> → <code>IrisOutput(class: int, proba: list[float])</code>. Levantá con <code>uvicorn app:app --reload</code>. Abrí <code>/docs</code> (OpenAPI Swagger UI). Confirmá que probar desde la UI funciona.</li>
+<li><strong>Lifespan</strong>: cargá el modelo en un <code>lifespan</code> y guardalo en <code>app.state.model</code>. Verificá que el modelo se carga UNA vez (<code>print</code> al inicio) aunque hagas 100 requests.</li>
+<li><strong>Batching</strong>: agregá <code>POST /predict-batch</code> con <code>BatchInput(rows: list[list[float]])</code>. Medí latencia de 100 predicciones individuales vs 1 batch de 100.</li>
+<li><strong>Async vs sync</strong>: simulá un <code>predict</code> que llama a una API externa (<code>await httpx.AsyncClient().get(...)</code>). Compará <code>def</code> (bloquea thread pool) vs <code>async def</code> (libera event loop). Loadtest con 200 concurrent users.</li>
+<li><strong>Observabilidad</strong>: agregá <code>prometheus-fastapi-instrumentator</code> → <code>/metrics</code>. Healthcheck <code>/health</code> que devuelve <code>{"status": "ok", "model_loaded": bool}</code>. Loggeá cada request con <code>logger.info</code> (JSON).</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Servicio FastAPI + Dockerfile (Clase 198) con:</p>
+<ol>
+<li>Endpoints <code>POST /predict</code>, <code>POST /predict-batch</code>, <code>GET /health</code>, <code>GET /metrics</code>, <code>GET /docs</code>.</li>
+<li>Pydantic models con validación: <code>features</code> debe tener exactamente 4 floats positivos.</li>
+<li><code>lifespan</code> que carga <code>model.pkl</code> una vez al startup.</li>
+<li><code>locustfile.py</code> que simula 100 users concurrentes durante 60 s.</li>
+<li>Reporte de loadtest con p50/p95/p99 latency y RPS, justificando si el target (&lt;100 ms p99, &gt;500 RPS) se cumple.</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: <code>curl -X POST localhost:8000/predict -d '{"features":[-1,2,3,4]}' -H 'content-type:application/json'</code> devuelve HTTP 422 (validación rechaza valor negativo). El loadtest cumple p99 &lt;100 ms en al menos un workload.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Latency altísima (p99 &gt;500 ms) con un modelo chico</td>
+<td>Estás cargando <code>joblib.load("model.pkl")</code> <em>dentro</em> del endpoint. <strong>Fix</strong>: cargarlo en <code>lifespan</code> y leer de <code>app.state.model</code>.</td>
+</tr>
+<tr>
+<td>Error <code>RuntimeError: This event loop is already running</code></td>
+<td>Mezclaste <code>asyncio.run(...)</code> dentro de un endpoint async. <strong>Fix</strong>: no llames <code>asyncio.run</code> adentro de FastAPI; usá <code>await</code> directo.</td>
+</tr>
+<tr>
+<td><code>422 Unprocessable Entity</code> en requests que parecen correctos</td>
+<td>Pydantic v2 es estricto: <code>list[float]</code> rechaza <code>[1, 2, 3]</code> (ints) si no permitís coerción. <strong>Fix</strong>: usá <code>list[Annotated[float, BeforeValidator(float)]]</code> o pasá floats explícitos desde el cliente.</td>
+</tr>
+<tr>
+<td>Single worker satura 1 CPU</td>
+<td><code>uvicorn app:app</code> corre 1 worker. <strong>Fix</strong>: <code>gunicorn -w 4 -k uvicorn.workers.UvicornWorker app:app</code> (4 workers, 1 por core). En K8s: 1 worker por pod y escalá pods (HPA).</td>
+</tr>
+<tr>
+<td><code>/docs</code> está activo en producción</td>
+<td>Por default FastAPI expone <code>/docs</code>, <code>/redoc</code>, <code>/openapi.json</code>. <strong>Fix</strong>: en prod, <code>FastAPI(docs_url=None, redoc_url=None, openapi_url=None)</code>.</td>
+</tr>
+<tr>
+<td>Healthcheck devuelve 200 aunque el modelo no cargó</td>
+<td>Healthcheck simplista. <strong>Fix</strong>: chequear <code>app.state.model is not None</code>, y opcionalmente hacer una predicción dummy.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿FastAPI o Flask?</strong></p>
+<p>Para servir modelos hoy: FastAPI. Pros: async nativo, validación con Pydantic (no <code>request.json</code> + checks manuales), OpenAPI gratis, performance superior en benchmarks (~3× Flask). Flask sigue siendo elegible para apps simples o equipos con experiencia previa.</p>
+<p><strong>❓ ¿Cuándo <code>async def</code> y cuándo <code>def</code>?</strong></p>
+<p>Regla: si el endpoint solo hace <strong>CPU-bound</strong> (cargar modelo, predecir): <code>def</code> (FastAPI lo manda al thread pool, no bloquea el event loop). Si hace <strong>I/O-bound</strong> (await DB, await HTTP): <code>async def</code>. Si mezclás <code>requests</code> (sync HTTP) en un <code>async def</code>: bloqueás el loop. Cambialo a <code>httpx.AsyncClient</code>.</p>
+<p><strong>❓ ¿Servir con <code>uvicorn</code> o <code>gunicorn</code>?</strong></p>
+<p>Dev: <code>uvicorn --reload</code>. Prod: <code>gunicorn -w N -k uvicorn.workers.UvicornWorker</code> (<code>N</code> = <code>2 * cores + 1</code>). Razón: gunicorn maneja restarts, multi-proceso, signals. En K8s con HPA + 1 worker/pod: <code>uvicorn</code> solo está bien.</p>
+<p><strong>❓ ¿Cómo manejo modelos grandes (&gt;1 GB) que tardan en cargar?</strong></p>
+<p>(1) <code>lifespan</code> (no re-cargar). (2) <code>readinessProbe</code> con <code>initialDelaySeconds: 60</code> — pod no recibe tráfico hasta cargar. (3) <code>model.eval()</code> + <code>torch.jit.script</code> (PyTorch) o <code>onnxruntime</code> (cualquier framework) — más rápido en inferencia que el framework original. (4) Para LLMs: vLLM/TGI con paged attention (Clase 165).</p>
+<p><strong>❓ ¿Validación strict de Pydantic me rompe clientes legacy?</strong></p>
+<p>Sí, si pasaban tipos laxos. Pydantic v2 puede ser permisivo con <code>model_config = {"strict": False}</code> o usar validators (<code>field_validator</code>). Lo correcto a mediano plazo: docs claras + versioning de API (<code>/v1/predict</code> vs <code>/v2/predict</code>).</p>
+<p><strong>❓ ¿FastAPI sirve modelos PyTorch/TF directamente?</strong></p>
+<p>Sí, pero para producción seria conviene un <strong>inference server</strong> dedicado: TorchServe, TensorFlow Serving, <strong>NVIDIA Triton</strong> (multi-framework, batching dinámico, GPU optimal). FastAPI queda como gateway/proxy con auth y reglas de negocio. Para casos simples sklearn/XGBoost: FastAPI alcanza.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Huyen, Chip. <em>Designing Machine Learning Systems</em> (O'Reilly, 2022), <strong>cap. 11</strong>.</li>
+<li><a href="https://fastapi.tiangolo.com/">FastAPI docs</a> — <em>Tutorial</em> y <em>Advanced User Guide</em>.</li>
+<li><a href="https://docs.pydantic.dev/latest/migration/">Pydantic v2 migration guide</a> — qué cambió desde v1.</li>
+<li><a href="https://locust.io/">Locust</a> — loadtest distribuido en Python.</li>
+<li><a href="https://github.com/triton-inference-server/server">NVIDIA Triton</a> — alternativa para producción seria.</li>
+</ul>
+<h2 id="material-descargable">📥 Material descargable</h2>
+<ul>
+<li>📄 <a href="./clase-199-apis-con-fastapi-sirviendo-modelos-guia-explicativa.pdf">Guía explicativa (PDF)</a> — versión imprimible con todo el contenido de la clase.</li>
+<li>🎞️ <a href="./clase-199-apis-con-fastapi-sirviendo-modelos-presentacion.pptx">Presentación (PPTX)</a> — deck PowerPoint listo para proyectar en clase.</li>
+<li>🧮 <a href="./notebook.ipynb">Notebook ejecutable (.ipynb)</a> — abrilo desde el laboratorio del programa o desde Jupyter.</li>
+</ul>
 <h2 id="siguiente-clase">➡️ Siguiente clase</h2>
 <p><a href="../200-kubernetes-para-servir-modelos-a-escala/index.html">Clase 200 — Kubernetes para servir modelos a escala</a></p>
   </main>

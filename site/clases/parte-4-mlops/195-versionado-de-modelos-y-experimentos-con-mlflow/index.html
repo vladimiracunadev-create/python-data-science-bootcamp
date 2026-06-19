@@ -24,34 +24,160 @@
   </header>
   <main class="cur-main">
     <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-4-mlops/195-versionado-de-modelos-y-experimentos-con-mlflow/notebook.ipynb">📓 Abrir notebook en GitHub</a>
-<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">Objetivo</a> · <a href="#resultados-esperados">Resultados esperados</a> · <a href="#temas-clave">Temas clave</a> · <a href="#materiales">Materiales</a> · <a href="#prerrequisitos">Prerrequisitos</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#material-descargable">📥 Material descargable</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
 <h1 id="clase-195-versionado-de-modelos-y-experimentos-con-mlflow">Clase 195 — Versionado de modelos y experimentos con MLflow</h1>
 <blockquote>
-<p>Parte: <strong>4-mlops</strong>
-Estado: <strong>stub</strong> (pendiente desarrollar contenido).</p>
+<p>Parte: <strong>4 — MLOps</strong> · Fuente: Huyen, <em>Designing Machine Learning Systems</em> <strong>cap. 6 + 11</strong> + <a href="https://mlflow.org/docs/latest/">docs MLflow 2.x</a>. ⏱️ Duración estimada: <strong>75 min</strong>.</p>
 </blockquote>
-<h2 id="objetivo">Objetivo</h2>
-<p>Describir el resultado de aprendizaje concreto de esta clase.</p>
-<h2 id="resultados-esperados">Resultados esperados</h2>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Trackear experimentos de ML (parámetros, métricas, artefactos, código) con <strong>MLflow Tracking</strong>, registrar modelos en el <strong>Model Registry</strong> con stages (<code>None → Staging → Production → Archived</code>), y entender la diferencia conceptual con DVC: <strong>DVC versiona el pipeline; MLflow versiona los runs</strong>.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
 <p>Al finalizar, el estudiante podrá:</p>
 <ul>
-<li>(resultado 1)</li>
-<li>(resultado 2)</li>
-<li>(resultado 3)</li>
+<li>Levantar un servidor MLflow local (<code>mlflow ui</code> o <code>mlflow server</code>) y logear runs con <code>mlflow.start_run()</code> + <code>log_param</code>/<code>log_metric</code>/<code>log_artifact</code>.</li>
+<li>Usar <strong>autolog</strong> (<code>mlflow.sklearn.autolog()</code>) para que params/metrics se capturen sin código boilerplate.</li>
+<li>Registrar un modelo en el Model Registry (<code>mlflow.register_model</code>) y transicionarlo de <code>Staging</code> a <code>Production</code> con la API o la UI.</li>
+<li>Cargar un modelo registrado en producción con <code>mlflow.pyfunc.load_model("models:/MiModelo/Production")</code>.</li>
+<li>Configurar un <strong>backend store</strong> (PostgreSQL) y un <strong>artifact store</strong> (S3) para uso en equipo.</li>
 </ul>
-<h2 id="temas-clave">Temas clave</h2>
+<h2 id="temas">🗺️ Temas</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Tema</th>
+<th>Por qué importa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Tracking server: backend store + artifact store</td>
+<td>Dónde van los metadatos vs los blobs (modelos, plots).</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Runs, experiments, tags</td>
+<td>Unidad atómica + agrupación + búsqueda.</td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>log_param</code>, <code>log_metric</code>, <code>log_artifact</code>, <code>log_model</code></td>
+<td>Las 4 primitivas.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Autolog por framework (sklearn, PyTorch, XGBoost, LightGBM)</td>
+<td>Cero boilerplate cuando funciona — y sus límites.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Model Registry + stages</td>
+<td>El camino entre "entrené esto" y "esto sirve la API".</td>
+</tr>
+<tr>
+<td>6</td>
+<td>MLflow Models flavor (<code>pyfunc</code>, <code>sklearn</code>, <code>pytorch</code>, ...)</td>
+<td>Un mismo modelo se puede cargar en N runtimes.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
 <ul>
-<li>(subtema 1)</li>
-<li>(subtema 2)</li>
-<li>(subtema 3)</li>
+<li><strong>MLflow Tracking</strong>: API + UI para registrar <strong>runs</strong> (params, metrics, artifacts, código source). Cada run pertenece a un <strong>experiment</strong> (agrupación lógica, ej. "fraud-detection-v2").</li>
+<li><strong>Backend store</strong>: dónde se guardan los <strong>metadatos</strong> del run (params, metrics, tags). Opciones: filesystem (default <code>./mlruns</code>), SQLite, PostgreSQL, MySQL. Para equipo: Postgres.</li>
+<li><strong>Artifact store</strong>: dónde se guardan los <strong>blobs</strong> (modelos, plots, datasets exportados). Opciones: filesystem local, S3, GCS, Azure Blob, HDFS. Para equipo: S3/GCS.</li>
+<li><strong>Run</strong>: ejecución atómica de un experimento. Tiene un <code>run_id</code> (UUID), <code>start_time</code>, <code>end_time</code>, <code>status</code>, y N params/metrics/tags/artifacts.</li>
+<li><strong>Autolog</strong>: hook que intercepta llamadas al framework (sklearn, XGBoost, PyTorch Lightning, …) y registra params/metrics sin código. Activar con <code>mlflow.&lt;framework&gt;.autolog()</code> antes del <code>.fit()</code>.</li>
+<li><strong>Model Registry</strong>: catálogo central de modelos versionados. Cada modelo registrado tiene <strong>versiones</strong> (v1, v2, …), cada versión tiene un <strong>stage</strong> (<code>None</code>/<code>Staging</code>/<code>Production</code>/<code>Archived</code>) y aliases (desde MLflow 2.5+: <code>@champion</code>, <code>@challenger</code>).</li>
+<li><strong>MLflow Models</strong>: formato estándar para guardar un modelo. Define un <code>MLmodel</code> YAML con uno o más <strong>flavors</strong> (sklearn, pyfunc, pytorch). <code>pyfunc</code> es el flavor universal — cualquier modelo se sirve como <code>predict(input_df)</code>.</li>
 </ul>
-<h2 id="materiales">Materiales</h2>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
 <ul>
-<li><code>README.md</code> — esta ficha</li>
-<li><code>notebook.ipynb</code> — cuaderno de la clase</li>
+<li><strong>Dataset</strong>: California Housing (<code>sklearn.datasets.fetch_california_housing</code>) — 20 640 filas, regresión, sin problemas de PII.</li>
+<li><strong>Backend local</strong>: SQLite (<code>mlflow server --backend-store-uri sqlite:///mlflow.db</code>).</li>
+<li><strong>Artifact local</strong>: <code>./mlruns/artifacts</code>.</li>
+<li>Librerías: <code>mlflow&gt;=2.10</code>, <code>scikit-learn</code>, <code>xgboost</code>.</li>
 </ul>
-<h2 id="prerrequisitos">Prerrequisitos</h2>
-<p>Ver índice general en <code>classes/README.md</code> para dependencias entre clases.</p>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>Tracking manual</strong>: entrená un <code>LinearRegression</code> y un <code>RandomForestRegressor</code> sobre California Housing. Para cada uno, abrí un run y logueá <code>n_estimators</code> (si aplica), <code>max_depth</code>, <code>rmse_train</code>, <code>rmse_test</code>. Comparalos en la UI (<code>mlflow ui --port 5000</code>).</li>
+<li><strong>Autolog</strong>: repetí el ejercicio anterior con <code>mlflow.sklearn.autolog()</code> y verificá que params + metrics + el modelo entero quedaron registrados sin código extra.</li>
+<li><strong>Sweep de hiperparámetros</strong>: corré 10 runs variando <code>max_depth ∈ {3, 5, 10, 15, 20}</code> y <code>n_estimators ∈ {50, 200}</code>. Usá <code>mlflow.search_runs()</code> para encontrar el mejor por <code>rmse_test</code>.</li>
+<li><strong>Registry</strong>: registrá el mejor modelo (<code>mlflow.register_model(model_uri, "housing-rf")</code>). Transicionalo a <code>Staging</code>, después a <code>Production</code> desde la API (<code>MlflowClient.transition_model_version_stage</code>).</li>
+<li><strong>Carga en "producción"</strong>: en una celda nueva, simulá un servicio que carga el modelo <code>Production</code> y predice una fila: <code>model = mlflow.pyfunc.load_model("models:/housing-rf/Production"); model.predict(X_one)</code>.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Notebook + carpeta <code>mlruns/</code> que contenga:</p>
+<ol>
+<li>≥ 10 runs en un experimento llamado <code>homework-195</code>.</li>
+<li>Cada run con al menos <code>model_type</code>, <code>rmse_test</code>, <code>r2_test</code>, y el modelo logueado (<code>mlflow.sklearn.log_model</code>).</li>
+<li>Un modelo registrado como <code>housing-best</code> con al menos una versión en stage <code>Production</code>.</li>
+<li>Una celda final que carga <code>models:/housing-best/Production</code> y predice sobre 5 filas de test.</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: <code>mlflow.search_runs(experiment_names=["homework-195"], order_by=["metrics.rmse_test ASC"])</code> devuelve la fila top, y su <code>run_id</code> coincide con la versión <code>Production</code> del modelo registrado.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Los runs van a <code>./mlruns</code> y no aparecen en la UI</td>
+<td>La UI está leyendo otro <code>--backend-store-uri</code>. <strong>Fix</strong>: lanzá <code>mlflow ui</code> desde el mismo directorio que el script, o explicitamente <code>mlflow ui --backend-store-uri ./mlruns</code>.</td>
+</tr>
+<tr>
+<td><code>mlflow.sklearn.autolog()</code> no registra el modelo</td>
+<td>El modelo se loguea solo si el <code>.fit()</code> ocurre <strong>dentro</strong> del scope de un run activo. <strong>Fix</strong>: envolvé en <code>with mlflow.start_run():</code> o llamá autolog antes y dejá que MLflow abra el run implícito.</td>
+</tr>
+<tr>
+<td><code>ConnectionRefusedError</code> contra el tracking server</td>
+<td>El <code>MLFLOW_TRACKING_URI</code> apunta a un server que no está corriendo. <strong>Fix</strong>: chequeá <code>echo $MLFLOW_TRACKING_URI</code>. Si no querés server: <code>unset</code> esa variable, MLflow usa filesystem local.</td>
+</tr>
+<tr>
+<td>Artefactos vacíos en la UI cuando uso S3</td>
+<td>El cliente no tiene credenciales AWS. <strong>Fix</strong>: <code>aws sts get-caller-identity</code> desde donde corre el script. Configurar <code>~/.aws/credentials</code> o variables <code>AWS_ACCESS_KEY_ID</code>/<code>AWS_SECRET_ACCESS_KEY</code>.</td>
+</tr>
+<tr>
+<td><code>RestException: RESOURCE_ALREADY_EXISTS</code> al registrar</td>
+<td>Ya existe un modelo con ese nombre. <strong>Fix</strong>: usá <code>mlflow.register_model(model_uri, name)</code> igual — agrega una versión nueva. Si querés borrar: <code>MlflowClient().delete_registered_model(name)</code> (cuidado: irreversible).</td>
+</tr>
+<tr>
+<td>El stage <code>Production</code> está deprecated en logs</td>
+<td>Desde MLflow 2.9+ se recomienda <strong>aliases</strong> (<code>@champion</code>) sobre stages. Stages siguen funcionando, pero migrar a <code>set_registered_model_alias(name, "champion", version)</code>.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿MLflow vs Weights &amp; Biases vs Neptune?</strong></p>
+<p>MLflow es <strong>open-source, self-hosted</strong>, y el estándar de facto en empresas que no quieren un SaaS externo. W&amp;B y Neptune tienen mejores UIs y features colaborativos (reports, sweeps integrados), pero son SaaS con costo por usuario. Para aprender y para deploys self-hosted: MLflow. Para equipos de research grandes con presupuesto: W&amp;B.</p>
+<p><strong>❓ ¿MLflow vs DVC?</strong></p>
+<p>Resuelven cosas distintas. <strong>DVC</strong> (Clase 194): versionado de datos + pipeline reproducible (vive en el repo git). <strong>MLflow</strong>: tracking de runs + model registry (vive en un server). Se usan <strong>juntos</strong>: el <code>dvc.yaml</code> define cómo correr el pipeline; dentro del script, MLflow logea cada run.</p>
+<p><strong>❓ ¿Debo usar <code>mlflow server</code> o <code>mlflow ui</code>?</strong></p>
+<p><code>mlflow ui</code> es la UI sobre un backend filesystem (local). <code>mlflow server</code> levanta también una <strong>REST API</strong> para que otros procesos/máquinas registren runs remotamente. Para equipo: <code>server</code>. Para vos solo: <code>ui</code> alcanza.</p>
+<p><strong>❓ ¿<code>pyfunc</code> o el flavor nativo (<code>sklearn</code>, <code>pytorch</code>)?</strong></p>
+<p>Si vas a cargar el modelo desde Python y usar features específicas (acceso a <code>.coef_</code>, <code>.feature_importances_</code>): flavor nativo. Si vas a servirlo detrás de una API REST o desde otro lenguaje: <code>pyfunc</code> — abstrae todo a <code>predict(DataFrame) → array</code>.</p>
+<p><strong>❓ ¿Qué pasa si pierdo <code>mlflow.db</code>?</strong></p>
+<p>Perdés metadatos (params, metrics, run history). Los artefactos sobreviven si están en S3. <strong>Backup</strong>: <code>pg_dump</code> si usás Postgres, o copiar <code>mlflow.db</code> si SQLite. En producción: backend Postgres con backups gestionados por la nube.</p>
+<p><strong>❓ ¿Cómo versionar el código junto al run?</strong></p>
+<p>MLflow registra automáticamente el commit git (<code>mlflow.source.git.commit</code> tag) si corrés desde un repo git limpio. Si tenés cambios sin commitear, el tag dice <code>dirty</code>. Política sana: el CI registra runs solo desde commits firmados.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Huyen, Chip. <em>Designing Machine Learning Systems</em> (O'Reilly, 2022), <strong>cap. 6</strong> (experimentos) y <strong>cap. 11</strong> (model serving).</li>
+<li><a href="https://mlflow.org/docs/latest/">MLflow Docs</a> — Tracking + Model Registry + Models.</li>
+<li><a href="https://mlflow.org/docs/latest/python_api/mlflow.sklearn.html#mlflow.sklearn.autolog"><code>mlflow.sklearn.autolog</code></a> — qué se captura automáticamente.</li>
+<li><a href="https://mlflow.org/docs/latest/model-registry.html">MLflow Model Registry</a> — stages, aliases (2.5+), webhooks.</li>
+<li><a href="https://neptune.ai/blog/mlflow-vs-wandb-vs-neptune">Comparativa MLflow vs W&amp;B vs Neptune (2024)</a> — tomar con grano de sal (parte interesada).</li>
+</ul>
+<h2 id="material-descargable">📥 Material descargable</h2>
+<ul>
+<li>📄 <a href="./clase-195-versionado-de-modelos-y-experimentos-con-mlflow-guia-explicativa.pdf">Guía explicativa (PDF)</a> — versión imprimible con todo el contenido de la clase.</li>
+<li>🎞️ <a href="./clase-195-versionado-de-modelos-y-experimentos-con-mlflow-presentacion.pptx">Presentación (PPTX)</a> — deck PowerPoint listo para proyectar en clase.</li>
+<li>🧮 <a href="./notebook.ipynb">Notebook ejecutable (.ipynb)</a> — abrilo desde el laboratorio del programa o desde Jupyter.</li>
+</ul>
 <h2 id="siguiente-clase">➡️ Siguiente clase</h2>
 <p><a href="../196-feature-stores-feast/index.html">Clase 196 — Feature stores (Feast)</a></p>
   </main>

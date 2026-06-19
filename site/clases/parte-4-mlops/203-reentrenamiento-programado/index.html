@@ -24,34 +24,167 @@
   </header>
   <main class="cur-main">
     <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-4-mlops/203-reentrenamiento-programado/notebook.ipynb">📓 Abrir notebook en GitHub</a>
-<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">Objetivo</a> · <a href="#resultados-esperados">Resultados esperados</a> · <a href="#temas-clave">Temas clave</a> · <a href="#materiales">Materiales</a> · <a href="#prerrequisitos">Prerrequisitos</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#material-descargable">📥 Material descargable</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
 <h1 id="clase-203-reentrenamiento-programado">Clase 203 — Reentrenamiento programado</h1>
 <blockquote>
-<p>Parte: <strong>4-mlops</strong>
-Estado: <strong>stub</strong> (pendiente desarrollar contenido).</p>
+<p>Parte: <strong>4 — MLOps</strong> · Fuente: Huyen <strong>cap. 9</strong> + <a href="https://airflow.apache.org/">Airflow docs</a> + <a href="https://docs.prefect.io/">Prefect docs</a>. ⏱️ Duración estimada: <strong>75 min</strong>.</p>
 </blockquote>
-<h2 id="objetivo">Objetivo</h2>
-<p>Describir el resultado de aprendizaje concreto de esta clase.</p>
-<h2 id="resultados-esperados">Resultados esperados</h2>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Convertir el reentrenamiento en un proceso <strong>programado, auditado y reversible</strong>: DAG que cada N horas/días corre <code>pull-data → validate → train → evaluate → promote-if-better → notify</code>, con shadow/canary (Clase 204) antes del rollout pleno. Decidir entre <strong>schedule fijo</strong>, <strong>trigger por drift</strong> y <strong>trigger por degradación</strong> según el caso.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
 <p>Al finalizar, el estudiante podrá:</p>
 <ul>
-<li>(resultado 1)</li>
-<li>(resultado 2)</li>
-<li>(resultado 3)</li>
+<li>Diseñar un DAG (Airflow/Prefect/Dagster) que orqueste el reentrenamiento completo.</li>
+<li>Implementar el patrón <strong>champion-challenger</strong>: el modelo Production sigue sirviendo hasta que el challenger demuestra ser mejor en métricas de validación + en shadow.</li>
+<li>Configurar tres estrategias de trigger: <code>cron(0 2 * * MON)</code>, <code>on_drift &gt; threshold</code>, <code>on_performance_degraded</code>.</li>
+<li>Garantizar <strong>idempotencia</strong> (re-runs no duplican datos) y <strong>observabilidad</strong> (logs estructurados, alertas en fallas).</li>
+<li>Diferenciar <strong>online learning</strong> (modelo actualiza con cada nueva muestra) de <strong>continual training</strong> (re-trainings periódicos).</li>
 </ul>
-<h2 id="temas-clave">Temas clave</h2>
+<h2 id="temas">🗺️ Temas</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Tema</th>
+<th>Por qué importa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Triggers: schedule vs drift vs degradation</td>
+<td>Sin trigger correcto, retrainings caros sin mejora.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>DAG = grafo de tareas con deps</td>
+<td>Airflow/Prefect/Dagster son variaciones del mismo concepto.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Champion-challenger</td>
+<td>Cómo evitar regresiones en producción.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Idempotencia</td>
+<td>Re-runs no deben duplicar/destruir state.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Online vs continual training</td>
+<td>Trade-off frescura vs estabilidad.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Catastrophic forgetting</td>
+<td>Retraining puede olvidar lo aprendido si data es no-iid.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
 <ul>
-<li>(subtema 1)</li>
-<li>(subtema 2)</li>
-<li>(subtema 3)</li>
+<li><strong>DAG</strong> (Directed Acyclic Graph): grafo de tareas con dependencias, ejecutable por un scheduler. Airflow inventó la categoría; Prefect/Dagster/Mage son alternativas modernas.</li>
+<li><strong>Champion</strong>: modelo activo en producción (alias <code>@champion</code> en MLflow, Clase 195).</li>
+<li><strong>Challenger</strong>: candidato nuevo entrenado. Promueve a champion solo si pasa todos los gates (validation metric + shadow + canary).</li>
+<li><strong>Promotion gate</strong>: criterio que debe cumplirse para que el challenger reemplace al champion. Ej: <code>f1_test &gt; f1_champion + 0.005 AND no_regression_in_protected_slices</code>.</li>
+<li><strong>Idempotencia</strong>: re-ejecutar la misma tarea con los mismos inputs produce el mismo output, sin efectos colaterales acumulativos. Implementación típica: usar <code>execution_date</code> como key, sobrescribir destino, evitar <code>INSERT INTO</code> sin <code>WHERE NOT EXISTS</code>.</li>
+<li><strong>Backfill</strong>: re-ejecutar el DAG para fechas pasadas (Airflow soporta nativo). Útil para corregir bugs o llenar gaps.</li>
+<li><strong>Online learning</strong>: el modelo actualiza con cada muestra/mini-batch que llega. Funciona bien con SGD-based (LR, RF online, RL). No funciona con XGBoost/RF batch.</li>
+<li><strong>Continual training</strong>: re-trainings periódicos (cada hora/día/semana) sobre data acumulada. Más común y más simple que online learning.</li>
+<li><strong>Catastrophic forgetting</strong>: cuando retraining sobre data reciente "olvida" patrones que aprendió antes. Mitigación: incluir data histórica en cada retraining, regularización (EWC en deep learning).</li>
 </ul>
-<h2 id="materiales">Materiales</h2>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
 <ul>
-<li><code>README.md</code> — esta ficha</li>
-<li><code>notebook.ipynb</code> — cuaderno de la clase</li>
+<li><strong>Pipeline target</strong>: Airflow local (Docker), o Prefect Cloud free tier, o GitHub Actions schedule.</li>
+<li>Librerías: <code>apache-airflow&gt;=2.9</code>, <code>prefect&gt;=3</code>, <code>mlflow</code>, <code>evidently</code>.</li>
 </ul>
-<h2 id="prerrequisitos">Prerrequisitos</h2>
-<p>Ver índice general en <code>classes/README.md</code> para dependencias entre clases.</p>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>DAG mínimo (Airflow o Prefect)</strong>: 5 tareas: <code>pull_data → validate_data → train → evaluate → promote</code>. Cada tarea es una función Python. Schedule diario.</li>
+<li><strong>Champion-challenger</strong>: en <code>promote</code>, comparar challenger.f1 vs champion.f1 (leídos de MLflow). Promover solo si <code>challenger.f1 &gt; champion.f1 + 0.005</code>. Sino, logear <code>[skipped] challenger no es significativamente mejor</code> y dejar champion intacto.</li>
+<li><strong>Idempotencia</strong>: ejecutá el DAG dos veces seguidas para la misma fecha. Verificá que no se duplican filas en <code>data/processed/</code>, ni se crean dos registros en MLflow con el mismo <code>execution_date</code>.</li>
+<li><strong>Trigger por drift</strong>: agregá una tarea inicial <code>check_drift</code> que (a) si PSI &gt; 0.2 continúa el DAG, (b) si no, hace <code>raise AirflowSkipException</code> (skipea el resto). Resultado: solo se entrena si hay drift.</li>
+<li><strong>Backfill</strong>: simulá un bug en la tarea <code>validate_data</code> que ya corrió bien por una semana. Fixeá el bug, <code>airflow dags backfill --start-date X --end-date Y</code>. Verificá que se re-procesan los días afectados sin duplicar registros downstream.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>DAG en producción (o local con docker-compose) que:</p>
+<ol>
+<li>Corre diariamente a las 02:00 UTC.</li>
+<li>Pull últimos 30 días de data, valida con Great Expectations (Clase 206) — falla con alert si no pasa.</li>
+<li>Re-entrena, evalúa contra hold-out + slices de fairness, registra en MLflow.</li>
+<li>Compara contra champion: promueve a <code>@challenger</code> (alias) si métrica supera umbral.</li>
+<li>Tarea <code>shadow_test</code> que durante 24 h compara predicciones challenger vs champion sobre tráfico real (Clase 204).</li>
+<li>Tarea <code>promote_champion</code> (manual o auto) que reemplaza alias <code>@champion</code> solo si shadow OK.</li>
+<li>Alertas Slack en cada falla del DAG + un resumen diario <code>[OK]</code> o <code>[NO TRAIN, no drift]</code>.</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: en una semana de operación, el DAG corrió 7 veces, ≥1 promoción real ocurrió, ≥1 skip por no-mejora ocurrió, y ningún re-run duplicó datos.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DAG corre OK pero modelo no mejora</td>
+<td>Probablemente estás re-entrenando solo con data reciente y olvidando histórico. <strong>Fix</strong>: ventana móvil grande (90+ días) o regularización temporal.</td>
+</tr>
+<tr>
+<td>Re-run del DAG duplica filas en la DB de features</td>
+<td>Insert sin idempotencia. <strong>Fix</strong>: <code>INSERT ... ON CONFLICT DO NOTHING</code> (Postgres) o <code>MERGE INTO</code> (SQL standard), usando <code>execution_date</code> como key.</td>
+</tr>
+<tr>
+<td>Catastrophic forgetting visible: f1 sobre slices viejos cae 10%</td>
+<td>El nuevo retraining sobre data fresca borró patrones viejos. <strong>Fix</strong>: incluir muestra de data histórica balanceada, o EWC.</td>
+</tr>
+<tr>
+<td>Champion-challenger nunca promueve</td>
+<td>Umbral muy estricto, o el modelo nuevo no es realmente mejor. <strong>Fix</strong>: investigar si es problema de calibración del umbral, o problema de data (ej. labels noise reciente).</td>
+</tr>
+<tr>
+<td>DAG falla pero nadie se entera</td>
+<td>Sin alerta en <code>on_failure_callback</code>. <strong>Fix</strong>: configurar callback Slack/Email. En Airflow: <code>default_args['on_failure_callback']</code>.</td>
+</tr>
+<tr>
+<td><code>TaskGroup</code> con N tareas paralelas satura el worker</td>
+<td>Sin paralelismo control. <strong>Fix</strong>: en Airflow, <code>pool</code> con N slots; en Prefect, <code>concurrency_limit</code>.</td>
+</tr>
+<tr>
+<td>MLflow runs sin tag de <code>dag_run_id</code></td>
+<td>Cuando algo falla, no podés trazar qué corrida del DAG generó el modelo X. <strong>Fix</strong>: <code>mlflow.set_tag("dag_run_id", context["dag_run"].run_id)</code>.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿Airflow, Prefect, Dagster, Mage, Kubeflow Pipelines?</strong></p>
+<p><strong>Airflow</strong>: el estándar, máxima madurez, syntax verbosa, multi-cloud. <strong>Prefect 3</strong>: API Python moderna, hybrid execution (workers locales + cloud). <strong>Dagster</strong>: orientado a software-defined assets (data-aware). <strong>Mage</strong>: notebooks-first, UI fuerte. <strong>Kubeflow Pipelines</strong>: K8s-native, orientado a ML específicamente. Para empezar en ML: Prefect o Dagster suelen ser más rápidos que Airflow.</p>
+<p><strong>❓ ¿Cada cuánto retrainear?</strong></p>
+<p>Depende del <strong>drift rate</strong> del dominio: NLP general (cambios estacionales): mensual. Fraud (atacantes adaptativos): diario u online. Recommendation (catalog drift): horario. Empezar conservador y acelerar si las métricas justifican.</p>
+<p><strong>❓ ¿Cuándo NO promover automáticamente?</strong></p>
+<p>(1) Decisiones de alto impacto (préstamos, salud): siempre human-in-the-loop. (2) Cuando el A/B test online no es factible: requerir aprobación manual. (3) Cuando el dataset tiene mucho ruido reciente: filtrar antes de retrainar.</p>
+<p><strong>❓ ¿<code>schedule_interval</code> o trigger por evento?</strong></p>
+<p>Para producción crítica: <strong>ambos</strong>. Schedule fijo como red de seguridad ("al menos 1 vez/día") + trigger por drift/degradación para ser reactivo. Falla del trigger no deja al sistema sin retraining.</p>
+<p><strong>❓ ¿Cómo manejo training caro (días) en un DAG?</strong></p>
+<p>Tarea <code>train</code> no corre en el worker Airflow — manda job a Vertex AI / SageMaker / Ray cluster vía API. La tarea Airflow es un proxy que polea hasta completion (<code>SageMakerTrainingOperator</code> lo hace).</p>
+<p><strong>❓ ¿Y si el retraining empeora producción?</strong></p>
+<p>Por eso existen los gates: shadow → canary → full rollout. Si la métrica online cae después de canary 10%: <strong>rollback automático</strong> del alias <code>@champion</code> al modelo previo, mantenido en el registry.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Huyen, Chip. <em>Designing Machine Learning Systems</em> (O'Reilly, 2022), <strong>cap. 9</strong> — <em>Continual Learning and Test in Production</em>.</li>
+<li><a href="https://airflow.apache.org/docs/apache-airflow/stable/">Airflow docs</a> — DAGs y operators.</li>
+<li><a href="https://docs.prefect.io/">Prefect docs</a> — flows modernos.</li>
+<li>Kirkpatrick et al. <em>Overcoming catastrophic forgetting in neural networks</em> (PNAS, 2017) — EWC.</li>
+<li><a href="https://docs.aws.amazon.com/sagemaker/latest/dg/pipelines.html">SageMaker Pipelines</a> — equivalente managed AWS.</li>
+</ul>
+<h2 id="material-descargable">📥 Material descargable</h2>
+<ul>
+<li>📄 <a href="./clase-203-reentrenamiento-programado-guia-explicativa.pdf">Guía explicativa (PDF)</a> — versión imprimible con todo el contenido de la clase.</li>
+<li>🎞️ <a href="./clase-203-reentrenamiento-programado-presentacion.pptx">Presentación (PPTX)</a> — deck PowerPoint listo para proyectar en clase.</li>
+<li>🧮 <a href="./notebook.ipynb">Notebook ejecutable (.ipynb)</a> — abrilo desde el laboratorio del programa o desde Jupyter.</li>
+</ul>
 <h2 id="siguiente-clase">➡️ Siguiente clase</h2>
 <p><a href="../204-shadow-deployment-y-canary-releases/index.html">Clase 204 — Shadow deployment y canary releases</a></p>
   </main>

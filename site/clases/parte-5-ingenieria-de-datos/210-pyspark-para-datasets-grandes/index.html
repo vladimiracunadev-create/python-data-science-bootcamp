@@ -24,34 +24,171 @@
   </header>
   <main class="cur-main">
     <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-5-ingenieria-de-datos/210-pyspark-para-datasets-grandes/notebook.ipynb">📓 Abrir notebook en GitHub</a>
-<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">Objetivo</a> · <a href="#resultados-esperados">Resultados esperados</a> · <a href="#temas-clave">Temas clave</a> · <a href="#materiales">Materiales</a> · <a href="#prerrequisitos">Prerrequisitos</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#material-descargable">📥 Material descargable</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
 <h1 id="clase-210-pyspark-para-datasets-grandes">Clase 210 — PySpark para datasets grandes</h1>
 <blockquote>
-<p>Parte: <strong>5-ingenieria-de-datos</strong>
-Estado: <strong>stub</strong> (pendiente desarrollar contenido).</p>
+<p>Parte: <strong>5 — Ingeniería de Datos</strong> · Fuente: Chambers &amp; Zaharia <em>Spark: The Definitive Guide</em> (O'Reilly, 2018) + <a href="https://spark.apache.org/docs/latest/api/python/">PySpark docs 3.5+</a>. ⏱️ Duración estimada: <strong>90 min</strong>.</p>
 </blockquote>
-<h2 id="objetivo">Objetivo</h2>
-<p>Describir el resultado de aprendizaje concreto de esta clase.</p>
-<h2 id="resultados-esperados">Resultados esperados</h2>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Procesar datasets que no entran en RAM con <strong>PySpark 3.5+</strong>: DataFrames con lazy evaluation, Spark SQL, particionado, joins eficientes (broadcast vs shuffle), y entender cuándo Spark <strong>gana</strong> vs pandas/Polars (&gt;10 GB) y cuándo <strong>pierde</strong> (&lt;1 GB, dev local).</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
 <p>Al finalizar, el estudiante podrá:</p>
 <ul>
-<li>(resultado 1)</li>
-<li>(resultado 2)</li>
-<li>(resultado 3)</li>
+<li>Crear una <code>SparkSession</code> (local o cluster) y leer Parquet/CSV/JSON con schema inference o explícito.</li>
+<li>Diferenciar <strong>transformations</strong> (lazy: <code>select</code>, <code>filter</code>, <code>groupBy</code>) de <strong>actions</strong> (eager: <code>count</code>, <code>collect</code>, <code>show</code>, <code>write</code>).</li>
+<li>Optimizar joins: <strong>broadcast join</strong> (tabla chica × tabla grande) vs <strong>sort-merge join</strong> (dos tablas grandes).</li>
+<li>Particionar correctamente (<code>partitionBy("date")</code> al escribir, evitar <code>partitionBy</code> con cardinalidad alta).</li>
+<li>Diagnosticar performance con Spark UI: stages, shuffle data, skew.</li>
 </ul>
-<h2 id="temas-clave">Temas clave</h2>
+<h2 id="temas">🗺️ Temas</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Tema</th>
+<th>Por qué importa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>RDD vs DataFrame vs SQL — 3 APIs</td>
+<td>DataFrame es el default; SQL si tu equipo lo prefiere.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Lazy evaluation + DAG de ejecución</td>
+<td>Optimización que pandas no tiene.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Particionado: al leer, al escribir, en memoria</td>
+<td>Donde se gana o pierde 10× perf.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Joins: broadcast vs shuffle vs sort-merge</td>
+<td>El bottleneck más común.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Caching / persist</td>
+<td>Cuándo materializar; cuándo NO.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Spark UI: stages, shuffle, skew</td>
+<td>Diagnosis sin esto = ciego.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
 <ul>
-<li>(subtema 1)</li>
-<li>(subtema 2)</li>
-<li>(subtema 3)</li>
+<li><strong>SparkSession</strong>: entrypoint a Spark. <code>SparkSession.builder.appName("x").getOrCreate()</code>.</li>
+<li><strong>DataFrame</strong>: tabla distribuida (RDD de Rows con schema). API similar a pandas pero <strong>lazy</strong>.</li>
+<li><strong>Transformation</strong>: operación que devuelve otro DataFrame sin ejecutar (<code>df.filter(...)</code>, <code>df.select(...)</code>). Construye el DAG.</li>
+<li><strong>Action</strong>: operación que dispara ejecución (<code>df.count()</code>, <code>df.show()</code>, <code>df.write...</code>). Spark optimiza el DAG entero y luego ejecuta.</li>
+<li><strong>Partition</strong>: chunk del DataFrame que vive en un task. Por default ~200 (config <code>spark.sql.shuffle.partitions</code>). Demasiadas → overhead; pocas → no paraleliza.</li>
+<li><strong>Broadcast join</strong>: si una tabla es chica (&lt;10 MB default), Spark la copia a todos los executors → join sin shuffle. <strong>Usar <code>broadcast()</code> hint</strong> para forzar.</li>
+<li><strong>Sort-merge join</strong>: dos tablas grandes → shuffle ambas por la key + sort + merge. Costoso pero general.</li>
+<li><strong>Skew</strong>: cuando una key tiene 10× más filas que el promedio → un task tarda 10×. Mitigación: salting, AQE (Adaptive Query Execution).</li>
+<li><strong>AQE</strong> (Adaptive Query Execution, Spark 3+): runtime optimization — re-particiona, coalesce shuffle, handle skew. Habilitado por default desde 3.2.</li>
+<li><strong>Catalyst</strong>: optimizer de queries SQL/DataFrame. Reescribe el plan lógico (predicate pushdown, column pruning) antes de ejecutar.</li>
 </ul>
-<h2 id="materiales">Materiales</h2>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
 <ul>
-<li><code>README.md</code> — esta ficha</li>
-<li><code>notebook.ipynb</code> — cuaderno de la clase</li>
+<li><strong>Local mode</strong>: <code>pyspark.SparkSession.builder.master("local[*]")</code> — usa todos los cores.</li>
+<li><strong>Dataset</strong>: NYC TLC Yellow Taxi 2024 (parquet, ~10 GB) — clásico para Spark demos.</li>
+<li>Librerías: <code>pyspark&gt;=3.5</code>, <code>pyarrow</code>.</li>
 </ul>
-<h2 id="prerrequisitos">Prerrequisitos</h2>
-<p>Ver índice general en <code>classes/README.md</code> para dependencias entre clases.</p>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>Spark session local</strong>: <code>spark = SparkSession.builder.master("local[4]").appName("demo").getOrCreate()</code>. Cargá un parquet, mostrá schema con <code>df.printSchema()</code>.</li>
+<li><strong>Lazy vs eager</strong>: <code>df2 = df.filter(...).select(...)</code> (rápido, no ejecuta). <code>df2.count()</code> (lento, ejecuta). Mirá en Spark UI (<code>localhost:4040</code>) los stages.</li>
+<li><strong>Broadcast join</strong>: cargá <code>taxi</code> (10 GB) y <code>zones</code> (1 KB). Hacé <code>taxi.join(broadcast(zones), "zone_id")</code>. Compará con <code>taxi.join(zones, "zone_id")</code> sin hint — debería ser igual gracias a AQE auto-broadcast.</li>
+<li><strong>Particionado al escribir</strong>: <code>df.write.partitionBy("date").parquet("out/")</code>. Verificá estructura <code>out/date=2024-01-01/part-*.parquet</code>. Lecturas con filtro <code>WHERE date='2024-01-01'</code> solo leen ese subdirectorio.</li>
+<li><strong>Skew</strong>: simulá una key skewed (90% rows con <code>user_id=1</code>). Hacé groupBy → observá UI: 1 task tarda 90% del tiempo. Mitigá con salting: agregar columna random <code>salt = (rand() * 10).cast("int")</code>, group por <code>(user_id, salt)</code>, después sumar.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Notebook + reporte:</p>
+<ol>
+<li>Pipeline PySpark que: lee NYC Taxi (parquet), filtra outliers, agrega por <code>pickup_zone</code> y <code>hour</code>, escribe parquet particionado por <code>pickup_date</code>.</li>
+<li>Comparación de performance: misma agregación en (a) pandas (si entra), (b) Polars, (c) PySpark. Reportar tiempo y RAM peak.</li>
+<li>Identificar 1 stage skewed en Spark UI y aplicar salting para mitigar — mostrar antes/después.</li>
+<li>Output final con <code>.write.bucketBy(20, "zone_id").parquet(...)</code> para acelerar joins futuros.</li>
+<li>README con cuándo elegir cada uno: criterios objetivos (tamaño, latencia, equipo).</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: el alumno justifica con números por qué Spark gana en su dataset y muestra una optimización (broadcast/salting/partitioning) con impacto medido.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>OutOfMemoryError: Java heap space</code></td>
+<td>Executor sin RAM. <strong>Fix</strong>: <code>--driver-memory 4g --executor-memory 8g</code>, o <code>.config("spark.driver.memory", "4g")</code>.</td>
+</tr>
+<tr>
+<td><code>df.show()</code> tarda 5 minutos</td>
+<td>Estás computando todo el DataFrame para mostrar 20 filas. <strong>Fix</strong>: <code>df.limit(20).show()</code> o materializar intermedio con <code>df.cache()</code>.</td>
+</tr>
+<tr>
+<td>Job tarda 30 min en una agregación de 1 GB</td>
+<td>Sospechosos: shuffle excesivo, default partitions=200 para 1 GB es overkill. <strong>Fix</strong>: <code>spark.sql.shuffle.partitions=20</code> para datasets chicos.</td>
+</tr>
+<tr>
+<td><code>Caused by: BindException: Address already in use</code></td>
+<td>Spark UI en <code>:4040</code> conflicto. <strong>Fix</strong>: <code>.config("spark.ui.port", "4041")</code> o matar proceso anterior.</td>
+</tr>
+<tr>
+<td><code>to_pandas()</code> falla con OOM</td>
+<td>Estás trayendo TODO el DataFrame al driver. <strong>Fix</strong>: o filtrá antes (<code>df.limit(1000).toPandas()</code>) o usá <code>df.toLocalIterator()</code> para streaming.</td>
+</tr>
+<tr>
+<td>Resultados distintos entre runs</td>
+<td>UDFs no-determinísticos, o <code>monotonically_increasing_id()</code> con coalesce. <strong>Fix</strong>: usar <code>row_number()</code> con orden explícito.</td>
+</tr>
+<tr>
+<td><code>partitionBy("user_id")</code> con 1M users crea 1M directorios</td>
+<td>High-cardinality partitioning es anti-pattern. <strong>Fix</strong>: particionar por columna baja-cardinalidad (<code>date</code>, <code>country</code>); para usuarios usar <strong>bucketing</strong>.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿PySpark, pandas, Polars o DuckDB?</strong></p>
+<p>Decisión por tamaño + uso:
+- <strong>&lt;1 GB local</strong>: pandas o Polars (Polars 5-10× más rápido).
+- <strong>1-50 GB single machine</strong>: Polars o DuckDB.
+- <strong>&gt;50 GB single machine</strong>: Polars streaming, DuckDB out-of-core, o PySpark local.
+- <strong>&gt;500 GB y/o cluster</strong>: PySpark.</p>
+<p><strong>❓ ¿PySpark en local o necesito cluster?</strong></p>
+<p><code>master("local[*]")</code> corre Spark en tu laptop usando todos los cores — perfecto para dev/test con datasets hasta unos GB. Para producción TB: Databricks, EMR, GCP Dataproc, Azure Synapse, o K8s con Spark Operator.</p>
+<p><strong>❓ ¿UDF Python vs Spark SQL functions?</strong></p>
+<p>SQL functions (<code>F.col</code>, <code>F.when</code>, <code>F.regexp_extract</code>) son <strong>mucho</strong> más rápidas — corren en JVM. UDFs Python serializan a Python por row (lento). Si no podés evitarlo: <strong>Pandas UDFs</strong> (vectorizadas, ~10× UDF normal).</p>
+<p><strong>❓ ¿Por qué <code>df.cache()</code> no aceleró?</strong></p>
+<p>Cache es lazy también. Tenés que disparar una action (<code>df.count()</code>) para materializarlo. Después las siguientes actions reutilizan el cache. Y: si tu dataset no entra en memoria, cache no ayuda — usá <code>df.persist(StorageLevel.DISK_ONLY)</code>.</p>
+<p><strong>❓ ¿Spark 3 vs 4 vs Databricks Runtime?</strong></p>
+<p>Spark 3.5 es el estándar open-source en 2026. Spark 4 trae Spark Connect (cliente liviano vs server JVM), Variant type, mejoras en streaming. Databricks Runtime es Spark + extensiones propietarias (Photon engine 2-5× más rápido). Para empezar: Spark 3.5 open-source.</p>
+<p><strong>❓ ¿Cuándo usar Spark SQL vs DataFrame API?</strong></p>
+<p>Equivalentes en performance (mismo Catalyst). DataFrame API: refactor-friendly, type hints. SQL: mejor si tu equipo es SQL-first o querés migrar de un warehouse. Mezclables: <code>spark.sql("SELECT * FROM tbl").filter(...)</code>.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Chambers, B. &amp; Zaharia, M. <em>Spark: The Definitive Guide</em> (O'Reilly, 2018) — algo viejo pero los conceptos siguen.</li>
+<li><a href="https://spark.apache.org/docs/latest/api/python/">PySpark docs 3.5+</a> — empezar por <em>Quickstart: DataFrame</em>.</li>
+<li><a href="https://www.databricks.com/blog/2020/05/29/adaptive-query-execution-speeding-up-spark-sql-at-runtime.html"><em>Adaptive Query Execution deep dive</em></a>.</li>
+<li><a href="https://spark.apache.org/docs/latest/sql-performance-tuning.html"><em>Spark Performance Tuning</em> (official)</a>.</li>
+<li><a href="https://github.com/zero323/pyspark-stubs"><code>pyspark-stubs</code></a> — type hints (incluidos en 3.4+).</li>
+</ul>
+<h2 id="material-descargable">📥 Material descargable</h2>
+<ul>
+<li>📄 <a href="./clase-210-pyspark-para-datasets-grandes-guia-explicativa.pdf">Guía explicativa (PDF)</a> — versión imprimible con todo el contenido de la clase.</li>
+<li>🎞️ <a href="./clase-210-pyspark-para-datasets-grandes-presentacion.pptx">Presentación (PPTX)</a> — deck PowerPoint listo para proyectar en clase.</li>
+<li>🧮 <a href="./notebook.ipynb">Notebook ejecutable (.ipynb)</a> — abrilo desde el laboratorio del programa o desde Jupyter.</li>
+</ul>
 <h2 id="siguiente-clase">➡️ Siguiente clase</h2>
 <p><a href="../211-polars-como-alternativa-moderna/index.html">Clase 211 — Polars como alternativa moderna</a></p>
   </main>

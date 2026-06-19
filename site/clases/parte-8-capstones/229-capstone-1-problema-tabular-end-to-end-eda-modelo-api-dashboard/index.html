@@ -24,34 +24,169 @@
   </header>
   <main class="cur-main">
     <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-8-capstones/229-capstone-1-problema-tabular-end-to-end-eda-modelo-api-dashboard/notebook.ipynb">📓 Abrir notebook en GitHub</a>
-<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">Objetivo</a> · <a href="#resultados-esperados">Resultados esperados</a> · <a href="#temas-clave">Temas clave</a> · <a href="#materiales">Materiales</a> · <a href="#prerrequisitos">Prerrequisitos</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#fases-del-capstone">🗺️ Fases del capstone</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#material-descargable">📥 Material descargable</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
 <h1 id="clase-229-capstone-1-problema-tabular-end-to-end-eda-modelo-api-dashboard">Clase 229 — Capstone 1: problema tabular end-to-end (EDA, modelo, API, dashboard)</h1>
 <blockquote>
-<p>Parte: <strong>8-capstones</strong>
-Estado: <strong>stub</strong> (pendiente desarrollar contenido).</p>
+<p>Parte: <strong>8 — Capstones</strong> · Fuente: integrador de Partes 0-7 + Huyen, C. <em>Designing Machine Learning Systems</em> (O'Reilly, 2022) <strong>caps. 4-7</strong> + Géron, A. <em>Hands-On ML</em>, 3ª ed. caps. 2-3. ⏱️ Duración estimada: <strong>180 min</strong>.</p>
 </blockquote>
-<h2 id="objetivo">Objetivo</h2>
-<p>Describir el resultado de aprendizaje concreto de esta clase.</p>
-<h2 id="resultados-esperados">Resultados esperados</h2>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Integrar en un único proyecto entregable <strong>todo lo aprendido en Partes 0-7</strong>: cargar un dataset tabular real, hacer EDA, construir un pipeline <code>ColumnTransformer</code> reproducible, entrenar y tunear un modelo gradient-boosting con <strong>MLflow tracking</strong>, serializar el modelo, exponerlo vía <strong>FastAPI con Pydantic v2</strong>, construir un <strong>dashboard Streamlit con SHAP</strong>, y dejar todo bajo <strong>CI con GitHub Actions</strong>. La entrega debe poder reproducirse desde un clon limpio con <code>uv sync</code> y un <code>docker compose up</code>.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
 <p>Al finalizar, el estudiante podrá:</p>
 <ul>
-<li>(resultado 1)</li>
-<li>(resultado 2)</li>
-<li>(resultado 3)</li>
+<li>Diseñar un pipeline ML end-to-end siguiendo el flujo de Huyen (Designing ML Systems): data → features → modelo → tracking → serving → monitoring.</li>
+<li>Tunear un gradient-boosting con <strong>Optuna</strong> (≥50 trials) y loguear cada run en <strong>MLflow</strong> con parámetros, métricas y artefactos.</li>
+<li>Exponer el modelo en <strong>FastAPI</strong> con schemas <strong>Pydantic v2</strong> validados y latencia P95 &lt; 200 ms.</li>
+<li>Construir un <strong>dashboard Streamlit</strong> con explicaciones <strong>SHAP</strong> por predicción + drift monitor (Evidently).</li>
+<li>Publicar una <strong>Model Card</strong> (Mitchell et al. 2019) con uso intencionado, métricas por subgrupo y limitaciones conocidas.</li>
 </ul>
-<h2 id="temas-clave">Temas clave</h2>
+<h2 id="fases-del-capstone">🗺️ Fases del capstone</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Fase</th>
+<th>Duración</th>
+<th>Entregable</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>EDA</td>
+<td>25 min</td>
+<td><code>notebooks/01_eda.ipynb</code> + reporte <code>ydata-profiling</code></td>
+</tr>
+<tr>
+<td>2</td>
+<td>Feature engineering</td>
+<td>25 min</td>
+<td><code>src/features.py</code> con <code>ColumnTransformer</code> reproducible</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Modelo + tuning</td>
+<td>40 min</td>
+<td><code>src/train.py</code> con Optuna 50 trials + MLflow runs ≥3</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Tracking + Model Card</td>
+<td>20 min</td>
+<td><code>mlruns/</code> + <code>MODEL_CARD.md</code></td>
+</tr>
+<tr>
+<td>5</td>
+<td>API FastAPI</td>
+<td>35 min</td>
+<td><code>src/api/main.py</code> con <code>/predict</code>, <code>/health</code>, OpenAPI</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Dashboard + CI</td>
+<td>35 min</td>
+<td><code>app.py</code> Streamlit con SHAP + <code>.github/workflows/ci.yml</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
 <ul>
-<li>(subtema 1)</li>
-<li>(subtema 2)</li>
-<li>(subtema 3)</li>
+<li><strong>Stack 2026 recomendado</strong>: <code>uv</code> (lock + venv) + <code>Polars</code> o <code>pandas 2.x</code> + <code>scikit-learn 1.5+</code> + <code>xgboost</code>/<code>lightgbm</code> + <code>optuna 3.x</code> + <code>mlflow 2.x</code> + <code>fastapi 0.115+</code> + <code>pydantic 2.x</code> + <code>streamlit 1.x</code> + <code>shap</code> + <code>evidently 0.4+</code> + <code>docker compose</code>.</li>
+<li><strong>Métricas clasificación</strong>: ROC-AUC (ranking), F1 al threshold elegido, log-loss (calibración), Brier score, PR-AUC si hay desbalance &gt;10:1.</li>
+<li><strong>Métricas regresión</strong>: RMSE, MAE, R², MAPE (cuidado con <code>y≈0</code>).</li>
+<li><strong>Threshold selection</strong>: el modelo devuelve probabilidad; el <strong>threshold</strong> se elige por F1, Youden's J, o coste-beneficio. No usar 0.5 por default.</li>
+<li><strong>MLflow run</strong>: una ejecución de entrenamiento con <code>params</code>, <code>metrics</code>, <code>tags</code> y <code>artifacts</code> (modelo + plots). Optuna integra vía <code>MLflowCallback</code>.</li>
+<li><strong>FastAPI schema</strong>: <code>BaseModel</code> Pydantic v2 con <code>Field(..., ge=0, le=100)</code> para validar rangos; OpenAPI auto-generado en <code>/docs</code>.</li>
+<li><strong>Streamlit dashboard</strong>: app reactiva en Python puro; cachear cargas pesadas con <code>@st.cache_resource</code>.</li>
+<li><strong>Model Card</strong> (Mitchell 2019): documento corto con uso intencionado, datos de entrenamiento, métricas por subgrupo, consideraciones éticas, limitaciones.</li>
+<li><strong>CI smoke test</strong>: GitHub Actions corre <code>pytest</code> + levanta la API en background + hace <code>curl /health</code> → debe responder 200.</li>
 </ul>
-<h2 id="materiales">Materiales</h2>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
 <ul>
-<li><code>README.md</code> — esta ficha</li>
-<li><code>notebook.ipynb</code> — cuaderno de la clase</li>
+<li><strong>Dataset sugerido</strong> (elegí uno): <strong>UCI Adult</strong> (clasificación binaria, 48K filas, mix num+cat), <strong>Telco Customer Churn</strong> (Kaggle, 7K filas, churn binario), o <strong>Ames House Prices</strong> (Kaggle, 1.5K filas, regresión).</li>
+<li><strong>Librerías</strong>: <code>pandas</code> o <code>polars</code>, <code>scikit-learn</code>, <code>xgboost</code>/<code>lightgbm</code>, <code>optuna</code>, <code>mlflow</code>, <code>fastapi</code>, <code>uvicorn</code>, <code>pydantic</code>, <code>streamlit</code>, <code>shap</code>, <code>evidently</code>, <code>joblib</code>, <code>pytest</code>, <code>httpx</code>.</li>
+<li><strong>Infra local</strong>: Docker + <code>compose.yml</code> con 3 servicios (<code>mlflow</code>, <code>api</code>, <code>streamlit</code>).</li>
 </ul>
-<h2 id="prerrequisitos">Prerrequisitos</h2>
-<p>Ver índice general en <code>classes/README.md</code> para dependencias entre clases.</p>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>EDA</strong>: cargar dataset, generar <code>ydata-profiling</code> HTML, identificar missing, outliers, balance de clases. Documentar 5 hallazgos en <code>notebooks/01_eda.ipynb</code>.</li>
+<li><strong>Pipeline FE</strong>: armar <code>ColumnTransformer</code> con <code>OneHotEncoder(handle_unknown='ignore')</code> para cat, <code>StandardScaler</code> para num, <code>SimpleImputer</code> para missing. Persistir el preprocessor.</li>
+<li><strong>Modelo + Optuna</strong>: entrenar baseline (<code>LogisticRegression</code>) y challenger (<code>XGBClassifier</code>/<code>LGBMClassifier</code>). Tunear con Optuna 50 trials maximizando ROC-AUC sobre validación. Loguear cada trial en MLflow.</li>
+<li><strong>API</strong>: en <code>src/api/main.py</code>, definir <code>PredictRequest(BaseModel)</code> con todas las features tipadas y <code>PredictResponse(BaseModel)</code> con <code>probability</code> y <code>prediction</code>. Cargar modelo en <code>lifespan</code>. Endpoint <code>/predict</code> + <code>/health</code>.</li>
+<li><strong>Dashboard</strong>: <code>app.py</code> Streamlit con (a) form input → llama a la API y muestra predicción, (b) plot SHAP waterfall de la última predicción, (c) Evidently report comparando producción vs training data.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Entregar <strong>un repo público en GitHub</strong> con:</p>
+<ol>
+<li>Estructura <code>src/</code>, <code>notebooks/</code>, <code>tests/</code>, <code>MODEL_CARD.md</code>, <code>README.md</code>, <code>pyproject.toml</code> lockeado con <code>uv</code>.</li>
+<li><strong>MLflow tracking</strong> con ≥3 runs registradas (baseline + 2 challengers) y artefactos (modelo, plots de ROC, calibration curve).</li>
+<li><strong>FastAPI</strong> con <code>/predict</code> y <code>/health</code>, schemas Pydantic v2 validados, OpenAPI en <code>/docs</code>, latencia P95 &lt; 200 ms medida con <code>locust</code> o <code>httpx</code>.</li>
+<li><strong>Dashboard Streamlit</strong> con SHAP plot por predicción y screenshot en el README.</li>
+<li><strong>Model Card</strong> completa (uso intencionado, métricas por subgrupo si aplica, limitaciones).</li>
+<li><strong>CI GitHub Actions</strong> corriendo <code>pytest</code> + smoke test contra <code>/health</code> con la API levantada en el runner. Badge verde en el README.</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: clonar el repo desde cero → <code>uv sync</code> → <code>docker compose up</code> → API responde a <code>/predict</code> con un request válido → dashboard Streamlit accesible en <code>localhost:8501</code> → CI verde en GitHub.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Modelo tunea AUC=0.99 en validación, 0.65 en test</td>
+<td><strong>Data leakage</strong> — features computadas con info del futuro (target encoding sobre todo el dataset, no solo train). <strong>Fix</strong>: hacer <code>fit</code> del preprocessor <strong>solo en train</strong>, después <code>transform</code> en val/test.</td>
+</tr>
+<tr>
+<td>ROC-AUC perfecto pero el modelo es inútil</td>
+<td><strong>Target leakage</strong> — alguna feature es proxy directo del target (ej. <code>total_charges</code> cuando target es <code>churn</code>). <strong>Fix</strong>: revisar feature importance, descartar las sospechosas.</td>
+</tr>
+<tr>
+<td><code>422 Unprocessable Entity</code> al llamar <code>/predict</code></td>
+<td>FastAPI sin schema Pydantic o tipos mal definidos. <strong>Fix</strong>: usar <code>BaseModel</code> con <code>Field</code> y rangos explícitos; mirar <code>/docs</code>.</td>
+</tr>
+<tr>
+<td>Latencia <code>/predict</code> &gt; 1 segundo</td>
+<td>Cargás el modelo en cada request. <strong>Fix</strong>: cargar en <code>lifespan</code> async context, mantener en memoria. Si sigue lento, batch predict o ONNX.</td>
+</tr>
+<tr>
+<td>Streamlit re-entrena modelo en cada interacción</td>
+<td>No cacheaste. <strong>Fix</strong>: <code>@st.cache_resource</code> para modelo, <code>@st.cache_data</code> para datos.</td>
+</tr>
+<tr>
+<td>MLflow run sin artefactos, solo métricas</td>
+<td>Olvidaste <code>mlflow.sklearn.log_model(model, "model")</code>. <strong>Fix</strong>: loguear modelo + plots + <code>requirements.txt</code> para reproducibilidad total.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿XGBoost o LightGBM?</strong></p>
+<p>Cualquiera. LightGBM suele ser 2-5× más rápido en entrenamiento sobre datasets &gt;100K filas; XGBoost tiene mejor soporte en producción legacy. Para el capstone: elegí uno y justificalo en el README.</p>
+<p><strong>❓ ¿Necesito GPU?</strong></p>
+<p>No. Datasets tabulares &lt;1M filas entrenan en CPU en minutos con XGBoost/LGBM. Reservá GPU para deep learning (Parte 7).</p>
+<p><strong>❓ ¿FastAPI o Flask?</strong></p>
+<p>FastAPI. Pydantic v2 da validación automática + OpenAPI gratis + async nativo. Flask sigue siendo válido pero pedís el doble de boilerplate.</p>
+<p><strong>❓ ¿Cómo pruebo la API en CI sin levantar Docker?</strong></p>
+<p><code>pytest</code> + <code>httpx.AsyncClient(app=app)</code> — testea la app FastAPI in-process, sin red. Smoke test real con Docker corre en otro job del workflow.</p>
+<p><strong>❓ ¿La Model Card es opcional?</strong></p>
+<p>No. Es entregable obligatorio. 1-2 páginas Markdown con: propósito, datos, métricas por subgrupo (género/edad/región si aplica), limitaciones conocidas, contacto. Mitchell et al. 2019 tiene el template.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Huyen, C. <em>Designing Machine Learning Systems</em> (O'Reilly, 2022) — caps. 4 (Training Data), 5 (Feature Engineering), 7 (Model Deployment).</li>
+<li>Géron, A. <em>Hands-On Machine Learning with Scikit-Learn, Keras &amp; TensorFlow</em>, 3ª ed. (O'Reilly, 2022) — caps. 2-3, el end-to-end project canónico.</li>
+<li><a href="https://mlflow.org/docs/latest/tracking.html">MLflow Tracking</a> — runs, params, metrics, artifacts.</li>
+<li><a href="https://fastapi.tiangolo.com/tutorial/">FastAPI tutorial</a> — Pydantic v2 + OpenAPI auto.</li>
+<li><a href="https://docs.streamlit.io/">Streamlit docs</a> — <code>cache_resource</code>, <code>cache_data</code>, layout.</li>
+<li>Mitchell, M. et al. <a href="https://arxiv.org/abs/1810.03993"><em>Model Cards for Model Reporting</em></a> (FAT* 2019) — el template oficial.</li>
+</ul>
+<h2 id="material-descargable">📥 Material descargable</h2>
+<ul>
+<li>📄 <a href="./clase-229-capstone-1-problema-tabular-end-to-end-eda-modelo-api-dashboard-guia-explicativa.pdf">Guía explicativa (PDF)</a> — versión imprimible con todo el contenido de la clase.</li>
+<li>🎞️ <a href="./clase-229-capstone-1-problema-tabular-end-to-end-eda-modelo-api-dashboard-presentacion.pptx">Presentación (PPTX)</a> — deck PowerPoint listo para proyectar en clase.</li>
+<li>🧮 <a href="./notebook.ipynb">Notebook ejecutable (.ipynb)</a> — abrilo desde el laboratorio del programa o desde Jupyter.</li>
+</ul>
 <h2 id="siguiente-clase">➡️ Siguiente clase</h2>
 <p><a href="../230-capstone-2-nlp-o-series-de-tiempo-end-to-end/index.html">Clase 230 — Capstone 2: NLP o series de tiempo end-to-end</a></p>
   </main>

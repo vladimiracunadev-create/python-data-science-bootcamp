@@ -24,34 +24,176 @@
   </header>
   <main class="cur-main">
     <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-6-sistemas-de-recomendacion/217-factorizacion-de-matrices-svd-als/notebook.ipynb">📓 Abrir notebook en GitHub</a>
-<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">Objetivo</a> · <a href="#resultados-esperados">Resultados esperados</a> · <a href="#temas-clave">Temas clave</a> · <a href="#materiales">Materiales</a> · <a href="#prerrequisitos">Prerrequisitos</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#material-descargable">📥 Material descargable</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
 <h1 id="clase-217-factorizacion-de-matrices-svd-als">Clase 217 — Factorización de matrices: SVD, ALS</h1>
 <blockquote>
-<p>Parte: <strong>6-sistemas-de-recomendacion</strong>
-Estado: <strong>stub</strong> (pendiente desarrollar contenido).</p>
+<p>Parte: <strong>6 — Sistemas de Recomendación</strong> · Fuente: Koren, Bell, Volinsky <a href="https://datajobs.com/data-science-repo/Recommender-Systems-%5BNetflix%5D.pdf"><em>Matrix Factorization Techniques for Recommender Systems</em></a> (IEEE Computer, 2009) + Hu, Koren, Volinsky <a href="http://yifanhu.net/PUB/cf.pdf"><em>Collaborative Filtering for Implicit Feedback Datasets</em></a> (ICDM 2008). ⏱️ Duración estimada: <strong>80 min</strong>.</p>
 </blockquote>
-<h2 id="objetivo">Objetivo</h2>
-<p>Describir el resultado de aprendizaje concreto de esta clase.</p>
-<h2 id="resultados-esperados">Resultados esperados</h2>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Reemplazar la matriz usuario-item dispersa por dos matrices densas de baja dimensión: <code>R ≈ P × Q^T</code> donde <code>P</code> (n_users × k) y <code>Q</code> (n_items × k). Aprender los <strong>embeddings k-dimensionales</strong> que capturan los factores latentes (género de película, gusto del usuario). Usar <strong>SVD</strong> (cuando hay datos completos) y <strong>ALS</strong> (Alternating Least Squares — robusto a sparse). Implicit-feedback ALS (Hu et al. 2008) es el algoritmo que ganó la mayoría de los Netflix Prize spin-offs en producción.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
 <p>Al finalizar, el estudiante podrá:</p>
 <ul>
-<li>(resultado 1)</li>
-<li>(resultado 2)</li>
-<li>(resultado 3)</li>
+<li>Explicar el modelo <code>r̂(u, i) = p_u · q_i + b_u + b_i + μ</code> (con biases).</li>
+<li>Aplicar <strong>SVD truncado</strong> sobre matriz densa (poco realista, pero base teórica).</li>
+<li>Implementar <strong>ALS explicit</strong> (rating predicho) y <strong>ALS implicit</strong> (con confidence weighting <code>c_ui = 1 + α × r_ui</code>).</li>
+<li>Elegir hiperparámetros: <code>factors</code> (típicamente 20-200), <code>regularization</code> (<code>λ</code> para evitar overfitting), <code>iterations</code> (10-30).</li>
+<li>Usar <code>implicit.AlternatingLeastSquares</code> (Cython, multi-thread, rápido).</li>
 </ul>
-<h2 id="temas-clave">Temas clave</h2>
+<h2 id="temas">🗺️ Temas</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Tema</th>
+<th>Por qué importa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Modelo latente: factores escondidos</td>
+<td>"Acción", "drama", "Tom Hanks" emergen sin etiquetarlos.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>SVD vs SVD truncado vs ALS</td>
+<td>SVD asume matriz completa; ALS maneja missing.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Biases: <code>μ</code>, <code>b_u</code>, <code>b_i</code></td>
+<td>"Usuarios duros" y "películas que todos aman" se modelan explícitos.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Implicit feedback + confidence</td>
+<td><code>0</code> no es "dislike"; ponderar por <code>α × r</code> la confianza.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Regularización L2</td>
+<td><code>λ × (|p|² + |q|²)</code> para evitar overfitting con <code>k</code> alto.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Cold-start parcial: con biases</td>
+<td>Para user nuevo: <code>r̂ = μ + b_i</code> (popularidad bayesiana).</td>
+</tr>
+</tbody>
+</table>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
 <ul>
-<li>(subtema 1)</li>
-<li>(subtema 2)</li>
-<li>(subtema 3)</li>
+<li><strong>Factor latente</strong>: dimensión del embedding que captura una variable no observada (género, mood, demographic).</li>
+<li><strong>SVD truncado</strong>: descomposición <code>R = U Σ V^T</code> quedándose con top-k singular values. Asume <code>R</code> completa (no es nuestro caso).</li>
+<li><strong>ALS</strong> (Alternating Least Squares): fija <code>Q</code>, resuelve <code>P</code> por LSQ → fija <code>P</code>, resuelve <code>Q</code> → iterá. Cada subproblema es lineal y paralelizable.</li>
+<li><strong>Modelo con biases</strong>: <code>r̂(u, i) = μ + b_u + b_i + p_u · q_i</code>. <code>μ</code> es la media global; <code>b_u</code>/<code>b_i</code> capturan el sesgo del usuario/item.</li>
+<li><strong>Implicit feedback ALS</strong>: en vez de minimizar error sobre ratings observados, minimiza sobre TODA la matriz, ponderando por <strong>confidence</strong> <code>c_ui = 1 + α × r_ui</code>. Items con interacción tienen alta confianza de "1" (preferencia); sin interacción tienen confianza baja de "0".</li>
+<li><strong>Regularización</strong>: <code>L = Σ (r_ui - p_u · q_i)² + λ × (|p_u|² + |q_i|²)</code>. Sin esto, embeddings explotan a memorizar el train.</li>
+<li><strong>Factors <code>k</code></strong>: típicamente 20-200. Más → más capacidad y más overfitting. Tunear con validación.</li>
+<li><strong>Funk SVD</strong> (Simon Funk, Netflix Prize 2006): el "SVD" popular del Netflix Prize NO es SVD sensu stricto — es <strong>factorización por SGD</strong> con regularización. El nombre quedó.</li>
 </ul>
-<h2 id="materiales">Materiales</h2>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
 <ul>
-<li><code>README.md</code> — esta ficha</li>
-<li><code>notebook.ipynb</code> — cuaderno de la clase</li>
+<li><strong>Explicit</strong>: MovieLens 1M con ratings 1-5.</li>
+<li><strong>Implicit</strong>: Last.fm "lastfm-360K" o convertir MovieLens (rating ≥ 4 = "le gustó" = 1).</li>
+<li>Librerías: <code>implicit&gt;=0.7</code> (ALS rápido en Cython), <code>scipy.sparse.linalg.svds</code>, opcional <code>surprise</code>.</li>
 </ul>
-<h2 id="prerrequisitos">Prerrequisitos</h2>
-<p>Ver índice general en <code>classes/README.md</code> para dependencias entre clases.</p>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>SVD truncado</strong>: tomar matriz <code>R</code> densa imputando 0. <code>U, sigma, Vt = svds(R, k=20)</code>. Reconstruir <code>R̂ = U × diag(sigma) × Vt</code>. Verificar que <code>R̂</code> predice valores no-cero similares y "rellena" los ceros con guesses.</li>
+<li><strong>ALS explicit con Surprise</strong>: <code>from surprise import SVD; algo = SVD(n_factors=50, n_epochs=20)</code>. <code>algo.fit(trainset)</code>. Predict <code>algo.predict(user, item)</code>. RMSE sobre test split.</li>
+<li><strong>ALS implicit con <code>implicit</code></strong>: <code>model = implicit.als.AlternatingLeastSquares(factors=64, regularization=0.05, iterations=15)</code>. <code>model.fit(R_train * 40)</code> (multiplicar por α=40). <code>model.recommend(user_id, R_train[user_id], N=10)</code>.</li>
+<li><strong>Inspeccionar embeddings</strong>: PCA de <code>model.item_factors</code> a 2D y plot. Items "parecidos" deben caer cerca.</li>
+<li><strong>Biases analysis</strong>: imprimir top 10 movies por <code>b_i</code> (las que todos aman / odian) y top 10 usuarios por <code>b_u</code>.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Notebook con:</p>
+<ol>
+<li>Comparar 3 modelos sobre MovieLens 1M con leave-one-out por user:
+   - kNN item-based (Clase 216).
+   - Funk SVD (Surprise).
+   - ALS implicit (binarizando rating ≥ 4).</li>
+<li>Reportar <strong>NDCG@10</strong>, <strong>recall@10</strong>, tiempo de entrenamiento.</li>
+<li>Plot 2D (UMAP/t-SNE) de <code>item_factors</code>. Colorear por género — los géneros deberían formar clusters visibles.</li>
+<li>Estudio de sensibilidad: <code>k ∈ {10, 50, 100, 200}</code> × <code>λ ∈ {0.001, 0.01, 0.1}</code> con cross-validation.</li>
+<li>Recomendar para 3 users diferentes (un cinéfilo, un casual, un nuevo) — mostrar diferencia cualitativa.</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: ALS implicit gana en NDCG@10 sobre kNN; el grid de <code>(k, λ)</code> revela el sweet spot; los embeddings de items muestran estructura por género al PCAear.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>svds</code> da componentes con signo arbitrario</td>
+<td>SVD no fija el signo de los singular vectors. <strong>Fix</strong>: no comparar <code>U</code> directo entre runs — solo el reconstruction o las similitudes derivadas.</td>
+</tr>
+<tr>
+<td>ALS converge a embeddings constantes</td>
+<td><code>λ</code> muy alto. <strong>Fix</strong>: bajar regularización (0.01 → 0.001).</td>
+</tr>
+<tr>
+<td><code>MemoryError</code> con ALS sobre 10M users × 1M items</td>
+<td>Implementación naive. <strong>Fix</strong>: <code>implicit</code> library (Cython + sparse + multi-thread) o Spark <code>pyspark.ml.recommendation.ALS</code>.</td>
+</tr>
+<tr>
+<td>Implicit-ALS overfit: recomienda solo lo que ya vio</td>
+<td>Sin confidence weighting o con α muy alto. <strong>Fix</strong>: probar <code>α ∈ {15, 40, 100}</code> y validar.</td>
+</tr>
+<tr>
+<td>Embeddings no muestran estructura semántica</td>
+<td><code>k</code> muy chico (k=5 no capta nada) o train set chico. <strong>Fix</strong>: k≥50, train ≥100K interactions.</td>
+</tr>
+<tr>
+<td>Predicciones constantes para todos los users</td>
+<td>Modelo bajó a solo predecir biases. <strong>Fix</strong>: chequear que <code>p_u</code> y <code>q_i</code> no son ceros — probablemente loss diverge.</td>
+</tr>
+<tr>
+<td>Cold-start total: nuevo user → score=0</td>
+<td><code>p_u</code> no existe para user nuevo. <strong>Fix</strong>: fallback a <code>μ + b_i</code> (popularidad bayesiana) hasta tener N interactions. Clase 221.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿SVD del Netflix Prize es SVD matemático?</strong></p>
+<p>No. Lo que ganó Netflix era <strong>factorización por SGD con regularización</strong> ("Funk SVD"), no SVD-decomposition real. El nombre pegó por marketing.</p>
+<p><strong>❓ ¿<code>implicit</code> o <code>lightfm</code> o <code>tensorflow recommenders</code>?</strong></p>
+<ul>
+<li><strong><code>implicit</code></strong>: ALS implicit + BPR. Rápido (Cython), implicit-only. <strong>Default para CF moderno</strong>.</li>
+<li><strong><code>lightfm</code></strong>: hybrid (CF + content features). Bueno si tenés metadata (Clase 219).</li>
+<li><strong><code>tensorflow recommenders</code></strong> / <strong><code>recsim</code></strong>: deep learning, two-towers, sequential. Para escala grande + features ricas.</li>
+</ul>
+<p><strong>❓ ¿Qué <code>k</code> (factors) elijo?</strong></p>
+<p>Típicamente 50-200. Más <code>k</code> requiere más data + más regularización. Si tu dataset es chico (&lt;100K interactions): k=20-50. Si tenés millones de interactions: k=100-200. Cross-validation es la única respuesta correcta.</p>
+<p><strong>❓ ¿ALS vs SGD para optimizar?</strong></p>
+<ul>
+<li><strong>ALS</strong>: cada subproblema es LSQ lineal → paralelizable, converge en pocas iteraciones. Bueno cuando matrix cabe en memoria y querés multi-core.</li>
+<li><strong>SGD</strong>: por minibatch, on-line, escala a streaming. Más sensible a learning rate.</li>
+</ul>
+<p><code>implicit</code> usa ALS; PyTorch implementations típicamente usan SGD.</p>
+<p><strong>❓ ¿Embeddings se pueden usar para más cosas?</strong></p>
+<p>Sí. Aplicaciones: (1) <strong>similar items</strong> (<code>cosine(q_i, q_j)</code>), (2) <strong>clustering</strong> de items, (3) <strong>features</strong> para modelos downstream (CTR prediction), (4) <strong>two-tower retrieval</strong> (precomputar <code>q_i</code>, buscar nearest neighbor de <code>p_u</code> en producción con FAISS).</p>
+<p><strong>❓ ¿Y deep learning recommenders (NCF, deep CF)?</strong></p>
+<p>Two-towers + transformers (BERT4Rec, SASRec) son SOTA para sequential recommendation. Pero: ALS implicit sigue compitiendo en producción por simplicidad, latencia y costo. <strong>Empezá con ALS; pasá a DL si la métrica lo justifica.</strong></p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Koren, Y., Bell, R., Volinsky, C. <em>Matrix Factorization Techniques for Recommender Systems</em> (IEEE Computer, 2009) — el clásico Netflix Prize.</li>
+<li>Hu, Y., Koren, Y., Volinsky, C. <em>Collaborative Filtering for Implicit Feedback Datasets</em> (ICDM 2008) — implicit ALS.</li>
+<li><a href="https://implicit.readthedocs.io/"><code>implicit</code> library</a> — ALS + BPR en Cython.</li>
+<li><a href="https://sifter.org/~simon/journal/20061211.html">Funk SVD blog (Simon Funk, 2006)</a> — el blog que cambió la historia.</li>
+<li><em>Recommender Systems: An Introduction</em> (Jannach et al., 2010).</li>
+</ul>
+<h2 id="material-descargable">📥 Material descargable</h2>
+<ul>
+<li>📄 <a href="./clase-217-factorizacion-de-matrices-svd-als-guia-explicativa.pdf">Guía explicativa (PDF)</a> — versión imprimible con todo el contenido de la clase.</li>
+<li>🎞️ <a href="./clase-217-factorizacion-de-matrices-svd-als-presentacion.pptx">Presentación (PPTX)</a> — deck PowerPoint listo para proyectar en clase.</li>
+<li>🧮 <a href="./notebook.ipynb">Notebook ejecutable (.ipynb)</a> — abrilo desde el laboratorio del programa o desde Jupyter.</li>
+</ul>
 <h2 id="siguiente-clase">➡️ Siguiente clase</h2>
 <p><a href="../218-content-based-filtering/index.html">Clase 218 — Content-based filtering</a></p>
   </main>

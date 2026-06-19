@@ -24,34 +24,159 @@
   </header>
   <main class="cur-main">
     <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-7-etica-fairness-privacidad/223-tipos-de-sesgo-algoritmico-y-origenes/notebook.ipynb">📓 Abrir notebook en GitHub</a>
-<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">Objetivo</a> · <a href="#resultados-esperados">Resultados esperados</a> · <a href="#temas-clave">Temas clave</a> · <a href="#materiales">Materiales</a> · <a href="#prerrequisitos">Prerrequisitos</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#material-descargable">📥 Material descargable</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
 <h1 id="clase-223-tipos-de-sesgo-algoritmico-y-origenes">Clase 223 — Tipos de sesgo algorítmico y orígenes</h1>
 <blockquote>
-<p>Parte: <strong>7-etica-fairness-privacidad</strong>
-Estado: <strong>stub</strong> (pendiente desarrollar contenido).</p>
+<p>Parte: <strong>7 — Ética, Fairness y Privacidad</strong> · Fuente: Suresh &amp; Guttag, <a href="https://arxiv.org/abs/1901.10002"><em>A Framework for Understanding Sources of Harm throughout the ML Life Cycle</em></a> (EAAMO 2021) + Barocas, Hardt, Narayanan, <a href="https://fairmlbook.org/"><em>Fairness and Machine Learning</em></a> (2023), <strong>caps. 1-2</strong>. ⏱️ Duración estimada: <strong>75 min</strong>.</p>
 </blockquote>
-<h2 id="objetivo">Objetivo</h2>
-<p>Describir el resultado de aprendizaje concreto de esta clase.</p>
-<h2 id="resultados-esperados">Resultados esperados</h2>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Aprender a <strong>nombrar y diagnosticar</strong> el origen del sesgo en un sistema ML antes de intentar mitigarlo. Un modelo "sesgado" no es un bug: es el resultado de decisiones tomadas en cada fase del life cycle (recolección, medición, modelado, evaluación, despliegue). Si no sabemos <strong>dónde</strong> entró el sesgo, no podemos elegir la mitigación correcta (Clases 225-227).</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
 <p>Al finalizar, el estudiante podrá:</p>
 <ul>
-<li>(resultado 1)</li>
-<li>(resultado 2)</li>
-<li>(resultado 3)</li>
+<li>Distinguir los <strong>6 tipos</strong> del framework Suresh-Guttag: <strong>histórico, representación, medición, agregación, evaluación, despliegue</strong>.</li>
+<li>Identificar el origen probable de un sesgo dado evidencia empírica (gap de accuracy entre subgrupos, drift, proxy-target gap).</li>
+<li>Reproducir el patrón de <strong>Gender Shades</strong> (Buolamwini &amp; Gebru 2018): accuracy alta global, accuracy baja en subgrupo minoritario.</li>
+<li>Reconocer <strong>Simpson's paradox</strong> y por qué un modelo único puede ser peor que un modelo por subgrupo.</li>
+<li>Justificar por qué <strong>fairness no es solo un problema del modelo</strong> — empieza en la definición de la tarea.</li>
 </ul>
-<h2 id="temas-clave">Temas clave</h2>
+<h2 id="temas">🗺️ Temas</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Tema</th>
+<th>Por qué importa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Sesgo histórico</td>
+<td>El dato es "correcto" pero refleja un mundo injusto. COMPAS, Amazon Hiring 2018.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Sesgo de representación</td>
+<td>Subgrupos sub-muestreados → modelo aprende mal sobre ellos (Gender Shades).</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Sesgo de medición</td>
+<td>El proxy ≠ el target real (re-arresto ≠ recidiva; calificación docente ≠ aprendizaje).</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Sesgo de agregación</td>
+<td>Un modelo único asume que todos los subgrupos comparten distribución (Simpson).</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Sesgo de evaluación</td>
+<td>El benchmark de test no representa la población de despliegue.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Sesgo de despliegue</td>
+<td>El modelo se usa fuera del contexto en que se entrenó (population shift).</td>
+</tr>
+</tbody>
+</table>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
 <ul>
-<li>(subtema 1)</li>
-<li>(subtema 2)</li>
-<li>(subtema 3)</li>
+<li><strong>Sesgo histórico</strong>: la realidad social que se midió ya era injusta. <em>El dato es preciso, pero codifica desigualdad.</em> Ej.: Amazon entrenó su hiring tool con 10 años de CVs (~mayoría hombres en tech) → penalizaba la palabra "women's" en CVs.</li>
+<li><strong>Sesgo de representación</strong>: el dataset bajo-representa un subgrupo. <em>No es que el modelo sea injusto: nunca vio suficientes ejemplos.</em> Ej.: IJB-A face dataset era 79% piel clara → Gender Shades mostró error 34.7% en mujeres de piel oscura vs 0.8% en hombres de piel clara (Buolamwini &amp; Gebru, 2018).</li>
+<li><strong>Sesgo de medición (proxy bias)</strong>: el <code>y</code> que medimos no es el <code>y</code> que queremos. <em>Recidiva</em> (queremos predecir) ≠ <em>re-arresto</em> (lo que medimos) — el arresto depende del policing, que ya está sesgado.</li>
+<li><strong>Sesgo de agregación</strong>: un modelo único asume una única función óptima <code>f(x) → y</code> para toda la población. Si los subgrupos tienen distintas <code>P(y | x)</code>, el modelo único es peor que <strong>k modelos por subgrupo</strong> (instancia del <em>Simpson's paradox</em>).</li>
+<li><strong>Sesgo de evaluación</strong>: el test set no representa la población objetivo. Ej.: evaluar un detector de melanoma sobre un benchmark 90% piel clara y reportar "97% accuracy".</li>
+<li><strong>Sesgo de despliegue</strong>: el modelo se aplica a una distribución distinta a la de entrenamiento (covariate shift, label shift) — o a un contexto socio-técnico donde su salida significa otra cosa. Un score que era "una sugerencia para el juez" se vuelve "la decisión".</li>
+<li><strong>Framework Suresh-Guttag (2021)</strong>: mapea los 6 sesgos a las fases del ML life cycle (data collection → preparation → modeling → evaluation → deployment). Cada fase introduce su propio harm; mitigar en la fase equivocada no funciona.</li>
+<li><strong>Harm allocacional vs representacional</strong> (Barocas et al., cap. 1): el sistema deniega recursos (préstamo, libertad bajo fianza) <strong>vs</strong> refuerza estereotipos (autocomplete de Google asocia "CEO" con foto de hombre).</li>
 </ul>
-<h2 id="materiales">Materiales</h2>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
 <ul>
-<li><code>README.md</code> — esta ficha</li>
-<li><code>notebook.ipynb</code> — cuaderno de la clase</li>
+<li><strong>Dataset</strong>: sintético (préstamos con sesgo histórico inyectado). Auto-generado en el notebook con <code>numpy</code> seed 42.</li>
+<li>Librerías: <code>numpy</code>, <code>pandas</code>, <code>scikit-learn</code>. Sin descargas externas.</li>
 </ul>
-<h2 id="prerrequisitos">Prerrequisitos</h2>
-<p>Ver índice general en <code>classes/README.md</code> para dependencias entre clases.</p>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>Sesgo histórico</strong>: generar un dataset de préstamos donde <code>P(aprobado | grupo=A) = 0.70</code> y <code>P(aprobado | grupo=B) = 0.30</code> por razones históricas (no por capacidad de pago). Entrenar <code>LogisticRegression</code> sin la feature <code>grupo</code> y mostrar que el modelo igual reproduce el gap vía proxies (código postal, ingreso, etc.).</li>
+<li><strong>Selection rate disparity</strong>: calcular <code>P(ŷ=1 | grupo=A)</code> vs <code>P(ŷ=1 | grupo=B)</code> — la métrica más simple de <strong>demographic parity</strong> (Clase 224).</li>
+<li><strong>Sesgo de representación (Gender Shades)</strong>: re-muestrear el dataset al 10% del grupo B. Reportar accuracy global vs accuracy por subgrupo. Mostrar el patrón "97% global, 60% en B".</li>
+<li><strong>Sesgo de medición</strong>: definir <code>y_proxy = y_true XOR ruido_correlacionado_con_grupo</code>. Entrenar sobre <code>y_proxy</code>. Mostrar que el modelo aprende el patrón del <strong>ruido</strong>, no del target real.</li>
+<li><strong>Sesgo de agregación (Simpson)</strong>: comparar AUC de <strong>un modelo único</strong> vs <strong>un modelo por subgrupo</strong>. Mostrar que el modelo único es subóptimo en ambos subgrupos.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Notebook con:</p>
+<ol>
+<li>Reproducir el patrón Gender Shades sobre un dataset tabular (sintético o UCI Adult con <code>sex</code> y <code>race</code>).</li>
+<li>Calcular <strong>gap de accuracy</strong> entre subgrupos para 3 niveles de sub-muestreo del grupo minoritario (50%, 20%, 5%).</li>
+<li>Aplicar el framework Suresh-Guttag a un caso real (COMPAS, Amazon Hiring, o un modelo del trabajo) — escribir 1 párrafo por cada uno de los 6 tipos: ¿está presente? evidencia.</li>
+<li>Implementar Simpson's paradox: dataset donde la correlación global es opuesta a la correlación intra-grupo.</li>
+<li>Discutir: ¿qué mitigación corresponde a cada tipo? (representación → re-sampling; medición → re-definir target; agregación → modelo por subgrupo).</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: el alumno identifica los 6 tipos en al menos un caso real con evidencia cuantitativa, y propone una mitigación específica por tipo (no genérica "más datos").</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"Saqué la variable sensible y el modelo sigue siendo sesgado"</td>
+<td><strong>Fairness through unawareness</strong> no funciona — hay proxies (ZIP, nombre, escuela). <strong>Fix</strong>: medir disparidad sobre la variable sensible aunque no la uses como input.</td>
+</tr>
+<tr>
+<td>Accuracy global alta pero el cliente reporta errores en un subgrupo</td>
+<td>Sesgo de representación o evaluación. <strong>Fix</strong>: stratified metrics — reportar accuracy/AUC <strong>por subgrupo</strong> siempre, no solo global.</td>
+</tr>
+<tr>
+<td>El modelo es "objetivo, solo aprendió del dato"</td>
+<td>El dato no es neutro — refleja decisiones históricas (sesgo histórico). <strong>Fix</strong>: cuestionar el dataset antes que el modelo.</td>
+</tr>
+<tr>
+<td>"Agregamos más datos del grupo minoritario y empeoró"</td>
+<td>Probablemente sesgo de medición — el <code>y</code> para ese grupo es ruidoso (ej. arrestos en zonas más patrulladas). <strong>Fix</strong>: auditar el proceso de labeling.</td>
+</tr>
+<tr>
+<td>Modelo único performa peor que k modelos por subgrupo</td>
+<td>Sesgo de agregación. <strong>Fix</strong>: modelo por subgrupo <strong>o</strong> features de interacción <code>grupo × features</code>.</td>
+</tr>
+<tr>
+<td>Modelo cae en producción pero pasó test</td>
+<td>Sesgo de evaluación/despliegue. <strong>Fix</strong>: test set representativo de <strong>deployment</strong>, no del train; monitoreo continuo.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿Por qué no simplemente sacar la variable sensible (sex, race)?</strong></p>
+<p>Eso es <strong>fairness through unawareness</strong> y casi nunca funciona. Las features que sí usás (ZIP, nombre, historial crediticio, escuela) son <strong>proxies</strong> correlacionados. Quitar la variable sensible te impide <strong>medir</strong> el sesgo pero no lo elimina. Lo que sí se hace: usar la variable sensible para <strong>auditar</strong> disparidades, no como input del modelo.</p>
+<p><strong>❓ ¿Sesgo histórico vs sesgo de representación — cuál es la diferencia?</strong></p>
+<p>Histórico = el dato es preciso pero el mundo medido era injusto (mujeres ganan menos → modelo de salarios predice salarios más bajos para mujeres). Representación = el dato no representa bien a un subgrupo (pocas caras oscuras en ImageNet → mala accuracy ahí). El primero requiere reescribir el target o el objetivo; el segundo, recolectar/re-muestrear.</p>
+<p><strong>❓ ¿Simpson's paradox es realmente común en ML?</strong></p>
+<p>Sí, especialmente en datasets con subgrupos heterogéneos (Berkeley admissions 1973 es el clásico). Si tu accuracy global mejora pero la accuracy por subgrupo empeora, es Simpson. Por eso <strong>siempre</strong> se reporta métrica stratificada.</p>
+<p><strong>❓ ¿Esto se resuelve con un algoritmo de fairness?</strong></p>
+<p>No solo. Los algoritmos (re-weighting, adversarial debiasing, Clase 226) atacan principalmente representación y agregación. El sesgo histórico y de medición requieren <strong>decisiones humanas</strong>: ¿qué estamos prediciendo? ¿es el target correcto? Ningún optimizador resuelve "el target estaba mal definido".</p>
+<p><strong>❓ ¿Cómo encaja todo esto con Clases 224 (métricas) y 225-227 (mitigación)?</strong></p>
+<p>223 = <strong>diagnóstico</strong> (qué tipo de sesgo y dónde nace). 224 = <strong>medición cuantitativa</strong> (demographic parity, equalized odds, calibration). 225-227 = <strong>mitigación</strong> (pre-procesamiento, in-procesamiento, post-procesamiento). El orden importa: sin diagnóstico, la mitigación es a ciegas.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Suresh, H., Guttag, J. <a href="https://arxiv.org/abs/1901.10002"><em>A Framework for Understanding Sources of Harm throughout the ML Life Cycle</em></a> (EAAMO 2021) — el framework canónico de los 6 tipos.</li>
+<li>Buolamwini, J., Gebru, T. <a href="http://proceedings.mlr.press/v81/buolamwini18a.html"><em>Gender Shades: Intersectional Accuracy Disparities in Commercial Gender Classification</em></a> (FAT* 2018) — el paper que disparó la auditoría algorítmica.</li>
+<li>Barocas, S., Hardt, M., Narayanan, A. <a href="https://fairmlbook.org/"><em>Fairness and Machine Learning: Limitations and Opportunities</em></a> (MIT Press, 2023) — caps. 1-2 (libre online).</li>
+<li>Mehrabi, N. et al. <a href="https://arxiv.org/abs/1908.09635"><em>A Survey on Bias and Fairness in Machine Learning</em></a> (ACM Computing Surveys, 2021).</li>
+<li>Angwin, J. et al. <a href="https://www.propublica.org/article/machine-bias-risk-assessments-in-criminal-sentencing"><em>Machine Bias</em></a> (ProPublica, 2016) — la investigación sobre COMPAS.</li>
+<li>Dastin, J. <a href="https://www.reuters.com/article/idUSKCN1MK0AG/"><em>Amazon scraps secret AI recruiting tool that showed bias against women</em></a> (Reuters, 2018).</li>
+</ul>
+<h2 id="material-descargable">📥 Material descargable</h2>
+<ul>
+<li>📄 <a href="./clase-223-tipos-de-sesgo-algoritmico-y-origenes-guia-explicativa.pdf">Guía explicativa (PDF)</a> — versión imprimible con todo el contenido de la clase.</li>
+<li>🎞️ <a href="./clase-223-tipos-de-sesgo-algoritmico-y-origenes-presentacion.pptx">Presentación (PPTX)</a> — deck PowerPoint listo para proyectar en clase.</li>
+<li>🧮 <a href="./notebook.ipynb">Notebook ejecutable (.ipynb)</a> — abrilo desde el laboratorio del programa o desde Jupyter.</li>
+</ul>
 <h2 id="siguiente-clase">➡️ Siguiente clase</h2>
 <p><a href="../224-metricas-de-fairness-demographic-parity-equalized-odds-calibration/index.html">Clase 224 — Métricas de fairness: demographic parity, equalized odds, calibration</a></p>
   </main>

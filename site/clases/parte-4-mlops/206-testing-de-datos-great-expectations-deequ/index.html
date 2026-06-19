@@ -24,34 +24,169 @@
   </header>
   <main class="cur-main">
     <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-4-mlops/206-testing-de-datos-great-expectations-deequ/notebook.ipynb">📓 Abrir notebook en GitHub</a>
-<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">Objetivo</a> · <a href="#resultados-esperados">Resultados esperados</a> · <a href="#temas-clave">Temas clave</a> · <a href="#materiales">Materiales</a> · <a href="#prerrequisitos">Prerrequisitos</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#material-descargable">📥 Material descargable</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
 <h1 id="clase-206-testing-de-datos-great-expectations-deequ">Clase 206 — Testing de datos: Great Expectations, Deequ</h1>
 <blockquote>
-<p>Parte: <strong>4-mlops</strong>
-Estado: <strong>stub</strong> (pendiente desarrollar contenido).</p>
+<p>Parte: <strong>4 — MLOps</strong> · Fuente: Huyen <strong>cap. 4</strong> + <a href="https://docs.greatexpectations.io/">Great Expectations docs (1.x)</a> + <a href="https://www.amazon.science/publications/automating-large-scale-data-quality-verification">Deequ paper</a>. ⏱️ Duración estimada: <strong>75 min</strong>.</p>
 </blockquote>
-<h2 id="objetivo">Objetivo</h2>
-<p>Describir el resultado de aprendizaje concreto de esta clase.</p>
-<h2 id="resultados-esperados">Resultados esperados</h2>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Aplicar <strong>testing como código</strong> a los datos: definir "expectations" (assertions sobre el dataset) y validarlas en cada corrida del pipeline. Detectar <strong>schema drift</strong>, <strong>outliers extremos</strong>, <strong>nulos inesperados</strong> antes de que lleguen al entrenamiento o a la predicción. Bug típico: no es que el modelo se rompe — es que la data está rota y nadie se entera.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
 <p>Al finalizar, el estudiante podrá:</p>
 <ul>
-<li>(resultado 1)</li>
-<li>(resultado 2)</li>
-<li>(resultado 3)</li>
+<li>Definir un <strong>Expectation Suite</strong> con Great Expectations 1.x: schema, ranges, uniqueness, null rates, regex.</li>
+<li>Generar un <strong>Data Docs HTML</strong> que documenta el dataset + resultados de validación (auditoría para regulador).</li>
+<li>Integrar GE en un pipeline DVC/Airflow: si validación falla, abortar el pipeline.</li>
+<li>Usar <strong>Deequ</strong> (Scala/Python via PyDeequ) para datasets grandes en Spark.</li>
+<li>Diferenciar <strong>data tests</strong> (sobre el dataset) de <strong>unit tests</strong> (sobre el código) — son ortogonales.</li>
 </ul>
-<h2 id="temas-clave">Temas clave</h2>
+<h2 id="temas">🗺️ Temas</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Tema</th>
+<th>Por qué importa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Por qué unit tests no alcanzan en data pipelines</td>
+<td>El código está OK; la data llega rota.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Expectation Suite: schema + business rules</td>
+<td>Catalogar lo que es "data correcta" en este contexto.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Profiling automático</td>
+<td>GE puede inferir un suite inicial del data actual.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Data Docs: docs ejecutables</td>
+<td>Auditoría + onboarding sin esfuerzo extra.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Checkpoints e integración con pipelines</td>
+<td>El gate que aborta el flow si la data está rota.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Deequ para Spark scale</td>
+<td>Cuando el dataset no entra en pandas.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
 <ul>
-<li>(subtema 1)</li>
-<li>(subtema 2)</li>
-<li>(subtema 3)</li>
+<li><strong>Expectation</strong>: assertion sobre los datos. Ej: <code>expect_column_values_to_not_be_null('user_id')</code>, <code>expect_column_values_to_be_between('age', 0, 120)</code>, <code>expect_column_distinct_values_to_be_in_set('country', ['AR', 'BR', 'CL'])</code>.</li>
+<li><strong>Expectation Suite</strong>: colección de expectations versionada (YAML/JSON).</li>
+<li><strong>Validation</strong>: ejecutar el suite contra un batch real → result con <code>success: true/false</code> por expectation.</li>
+<li><strong>Checkpoint</strong>: configuración que une <code>data + suite + acción</code> (postear a Slack, abortar pipeline, generar docs).</li>
+<li><strong>Data Docs</strong>: HTML auto-generado que muestra: schema, ejemplos, resultados de validación, evolución.</li>
+<li><strong>Profiling</strong>: GE puede generar un suite inicial inspeccionando el dataset (<code>UserConfigurableProfiler</code>). Punto de partida — siempre revisar manualmente.</li>
+<li><strong>Deequ</strong>: librería de Amazon (Scala, también PyDeequ para Python) que hace lo mismo pero sobre Spark. Diseñada para TB.</li>
+<li><strong>Pandera</strong>: alternativa Python-first, integrada con pandas/polars DataFrames con sintaxis decorator.</li>
 </ul>
-<h2 id="materiales">Materiales</h2>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
 <ul>
-<li><code>README.md</code> — esta ficha</li>
-<li><code>notebook.ipynb</code> — cuaderno de la clase</li>
+<li><strong>Dataset</strong>: California Housing (sin shift) como reference, después con shift sintético para ver fallas.</li>
+<li>Librerías: <code>great-expectations&gt;=1.0</code>, opcional <code>pandera</code>, <code>pydeequ</code>.</li>
 </ul>
-<h2 id="prerrequisitos">Prerrequisitos</h2>
-<p>Ver índice general en <code>classes/README.md</code> para dependencias entre clases.</p>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>Bootstrap de un suite</strong>: <code>gx init</code> para crear el proyecto. <code>gx datasource new</code> apuntando a CSV. Profileá el dataset para suite inicial. Revisalo a mano: descomentá las expectations razonables, borrá las absurdas.</li>
+<li><strong>Custom expectations</strong>: agregá: <code>expect_column_values_to_be_between('MedInc', 0, 20)</code>, <code>expect_table_row_count_to_be_between(1000, 100000)</code>, <code>expect_column_pair_values_A_to_be_greater_than_B('AveRooms', 'AveBedrms')</code> (más rooms que bedrooms).</li>
+<li><strong>Checkpoint</strong>: configurá un checkpoint que (a) corre el suite, (b) si falla, abre un Slack alert. Corré con <code>gx checkpoint run my_checkpoint</code>.</li>
+<li><strong>Data Docs</strong>: <code>gx docs build</code>. Abrí el HTML. Mostrá a un PM/regulador hipotético: la suite + el último validation result.</li>
+<li><strong>Pandera alternative</strong>: el mismo schema con <code>pandera</code>: <code>class HousingSchema(pa.DataFrameModel): MedInc: Series[float] = pa.Field(in_range={"min_value": 0, "max_value": 20})</code>. Compará verbosidad y velocidad.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Pipeline ML con:</p>
+<ol>
+<li>Expectation Suite Great Expectations versionada en git (YAML/JSON).</li>
+<li>Checkpoint que se corre como step del pipeline DVC o Airflow (Clase 203) antes del training.</li>
+<li>Data Docs HTML buildeado en CI y publicado a GitHub Pages.</li>
+<li>Slack alert (con webhook stub si no tenés real) cuando una expectation falla.</li>
+<li>Demonstración de un dataset alterado (NaN inyectados, outliers, schema cambiado) que el pipeline detecta y aborta, sin que el modelo se entrene con data sucia.</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: el pipeline corre clean con data buena. Inyectando NaN en <code>MedInc</code>: el checkpoint falla, el pipeline aborta, el Slack alerta dispara, el modelo NO se re-entrena con data corrupta.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>gx init</code> no encuentra Python venv correcto</td>
+<td>GE 1.x quiere su propio <code>gx</code> CLI. <strong>Fix</strong>: activá el venv correcto antes; <code>pip install great-expectations</code> debe estar en el mismo venv que corre el pipeline.</td>
+</tr>
+<tr>
+<td><code>expect_column_values_to_be_in_set</code> falla porque hay valores válidos nuevos</td>
+<td>Tu suite quedó vieja. <strong>Fix</strong>: actualizar el suite con nuevos valores legítimos, o cambiar a <code>expect_column_values_to_be_of_type</code>.</td>
+</tr>
+<tr>
+<td>Validation pasa pero el modelo igual rinde mal</td>
+<td>Validación de <strong>forma</strong> ≠ validación de <strong>distribución</strong>. Las expectations chequean schema; el drift (Clase 202) chequea distribución. Son complementarias.</td>
+</tr>
+<tr>
+<td>Profiler genera 200 expectations, todas se vuelven flaky</td>
+<td>El profiler es muy permisivo. <strong>Fix</strong>: empezar con un suite mínimo (5-10 expectations críticas) y agregar a demanda.</td>
+</tr>
+<tr>
+<td>El Data Docs no muestra el último validation</td>
+<td><code>data_docs</code> no se rebuildeó. <strong>Fix</strong>: agregar <code>update_data_docs</code> a tu checkpoint actions.</td>
+</tr>
+<tr>
+<td>Performance lento en 10M filas</td>
+<td>GE sobre pandas escanea todo. <strong>Fix</strong>: para volumen grande, usar PyDeequ (Spark) o muestrear (<code>expectations</code> sobre <code>sample_n=100k</code>).</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿Great Expectations, Pandera o Deequ?</strong></p>
+<ul>
+<li><strong>GE</strong>: más completo (Data Docs, suite versioning, plugin ecosystem), pero verboso.</li>
+<li><strong>Pandera</strong>: Python-first, sintaxis decorator, mejor DX para devs. No tiene Data Docs.</li>
+<li><strong>Deequ / PyDeequ</strong>: para Spark, datasets grandes.</li>
+</ul>
+<p>Para equipos chicos en pandas: Pandera. Para empresas con auditoría: GE. Para Spark: Deequ.</p>
+<p><strong>❓ ¿Cuándo data testing vs schema validation (Pydantic)?</strong></p>
+<ul>
+<li><strong>Pydantic / <code>dataclasses</code></strong>: validación por fila / record (en API requests). Rápido, in-process.</li>
+<li><strong>GE / Pandera</strong>: validación por dataset (batch). Tests sobre agregados (medias, conteos), no solo schema.</li>
+</ul>
+<p>Son complementarios: API valida cada request con Pydantic; pipeline batch valida cada slice con GE.</p>
+<p><strong>❓ ¿Cómo manejo expectations que cambian con el tiempo (estacionalidad)?</strong></p>
+<p>(1) Expectations relativas: "row count entre <code>last_week × 0.8</code> y <code>last_week × 1.2</code>". (2) Múltiples suites por época. (3) Marcar la expectation como <code>warning</code> (no aborta) y revisar manualmente.</p>
+<p><strong>❓ ¿GE rompe mi pipeline cada deploy?</strong></p>
+<p>Sí, si tu suite es muy estricto y la data cambia legítimamente. <strong>Fix</strong>: separar expectations <strong>críticas</strong> (abortan: PII no debe ser null, schema no debe cambiar) de <strong>alertas</strong> (warning, no abortan: distribución shift).</p>
+<p><strong>❓ ¿Versionar el Expectation Suite en git?</strong></p>
+<p>Sí siempre. Cambios al suite van por PR como cambios de código — review, CI, merge. El suite es contrato de datos = parte del contrato del producto.</p>
+<p><strong>❓ ¿Y datos de producción real-time (streaming)?</strong></p>
+<p>GE no es ideal para streaming. Alternativas: <strong>Apache Griffin</strong>, validations custom en el consumer Kafka, o aceptar que el testing es batch (validar cada 1 h sobre el último window).</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Huyen, Chip. <em>Designing Machine Learning Systems</em> (O'Reilly, 2022), <strong>cap. 4</strong> — <em>Training Data</em>.</li>
+<li><a href="https://docs.greatexpectations.io/docs/">Great Expectations docs</a> — 1.x es la versión actual (rompió compat con 0.x).</li>
+<li><a href="https://pandera.readthedocs.io/">Pandera docs</a> — schema validation for pandas/polars.</li>
+<li><a href="https://github.com/awslabs/python-deequ">PyDeequ</a> — Spark-scale data testing.</li>
+<li>Schelter et al. <em>Automating large-scale data quality verification</em> (VLDB 2018) — paper de Deequ.</li>
+</ul>
+<h2 id="material-descargable">📥 Material descargable</h2>
+<ul>
+<li>📄 <a href="./clase-206-testing-de-datos-great-expectations-deequ-guia-explicativa.pdf">Guía explicativa (PDF)</a> — versión imprimible con todo el contenido de la clase.</li>
+<li>🎞️ <a href="./clase-206-testing-de-datos-great-expectations-deequ-presentacion.pptx">Presentación (PPTX)</a> — deck PowerPoint listo para proyectar en clase.</li>
+<li>🧮 <a href="./notebook.ipynb">Notebook ejecutable (.ipynb)</a> — abrilo desde el laboratorio del programa o desde Jupyter.</li>
+</ul>
 <h2 id="siguiente-clase">➡️ Siguiente clase</h2>
 <p><a href="../207-testing-de-modelos-invariance-behavioral-tests/index.html">Clase 207 — Testing de modelos: invariance, behavioral tests</a></p>
   </main>

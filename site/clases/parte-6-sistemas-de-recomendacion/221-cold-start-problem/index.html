@@ -24,34 +24,166 @@
   </header>
   <main class="cur-main">
     <a class="notebook-link" href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-6-sistemas-de-recomendacion/221-cold-start-problem/notebook.ipynb">📓 Abrir notebook en GitHub</a>
-<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">Objetivo</a> · <a href="#resultados-esperados">Resultados esperados</a> · <a href="#temas-clave">Temas clave</a> · <a href="#materiales">Materiales</a> · <a href="#prerrequisitos">Prerrequisitos</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
+<nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#material-descargable">📥 Material descargable</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
 <h1 id="clase-221-cold-start-problem">Clase 221 — Cold-start problem</h1>
 <blockquote>
-<p>Parte: <strong>6-sistemas-de-recomendacion</strong>
-Estado: <strong>stub</strong> (pendiente desarrollar contenido).</p>
+<p>Parte: <strong>6 — Sistemas de Recomendación</strong> · Fuente: Schein, Popescul, Ungar, Pennock, <a href="https://dl.acm.org/doi/10.1145/564376.564421"><em>Methods and Metrics for Cold-Start Recommendations</em></a> (SIGIR 2002) + Aggarwal <strong>cap. 13</strong>. ⏱️ Duración estimada: <strong>70 min</strong>.</p>
 </blockquote>
-<h2 id="objetivo">Objetivo</h2>
-<p>Describir el resultado de aprendizaje concreto de esta clase.</p>
-<h2 id="resultados-esperados">Resultados esperados</h2>
+<h2 id="objetivo">🎯 Objetivo</h2>
+<p>Cuándo un user o item es "nuevo" (0 interacciones), CF (Clase 216-217) no funciona. Estrategias concretas para los 3 tipos de cold-start: <strong>user cold-start</strong> (onboarding), <strong>item cold-start</strong> (catalog launch), <strong>system cold-start</strong> (lanzamiento del producto). Las estrategias correctas son la diferencia entre un recomendador útil desde el día 1 vs uno inútil hasta el mes 6.</p>
+<h2 id="resultados-de-aprendizaje">📚 Resultados de aprendizaje</h2>
 <p>Al finalizar, el estudiante podrá:</p>
 <ul>
-<li>(resultado 1)</li>
-<li>(resultado 2)</li>
-<li>(resultado 3)</li>
+<li>Diferenciar <strong>user cold-start</strong> (usuario nuevo), <strong>item cold-start</strong> (item nuevo), <strong>system cold-start</strong> (todo nuevo).</li>
+<li>Aplicar <strong>popularity fallback con shrinkage Bayesiano</strong> (<code>(c + m × C) / (n + m)</code>) para users sin historia.</li>
+<li>Diseñar <strong>onboarding explícito</strong> (pedir N preferencias antes de personalizar).</li>
+<li>Usar <strong>content features</strong> (Clase 218) para items nuevos.</li>
+<li>Aplicar <strong>exploration-exploitation</strong> con bandits (epsilon-greedy, Thompson sampling) para users mid-cold-start.</li>
 </ul>
-<h2 id="temas-clave">Temas clave</h2>
+<h2 id="temas">🗺️ Temas</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Tema</th>
+<th>Por qué importa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>3 tipos de cold-start</td>
+<td>Cada uno necesita estrategia distinta.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Popularity fallback</td>
+<td>Default sano cuando no sabés nada.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Bayesian shrinkage para popularity</td>
+<td>Evita que items con 2 ratings 5/5 dominen.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Onboarding: preguntar al user</td>
+<td>"Elegí 3 géneros" cambia el juego.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Content-based para item cold-start</td>
+<td>Embeddings de texto/imágenes.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Bandits para explorar</td>
+<td>Cuando offline metrics no alcanzan.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
 <ul>
-<li>(subtema 1)</li>
-<li>(subtema 2)</li>
-<li>(subtema 3)</li>
+<li><strong>User cold-start</strong>: usuario sin historial (recién registrado). El modelo no tiene <code>p_u</code>. Estrategias: popularity, onboarding, demographics.</li>
+<li><strong>Item cold-start</strong>: item nuevo sin ratings. El modelo no tiene <code>q_i</code>. Estrategias: content features (descripción, categoría), boost temporal "nuevos".</li>
+<li><strong>System cold-start</strong>: lanzamiento del producto, ni users ni items con historia. Estrategias: editorial picks, externos (importar gustos desde Facebook/Google), popularity por geo/demographic.</li>
+<li><strong>Popularity shrinkage Bayesiano</strong>: <code>score = (Σ ratings + m × C) / (n + m)</code> donde <code>C</code> es la media global, <code>m</code> es el "weight" del prior. Items con <code>n=2 ratings 5/5</code> no superan items con <code>n=1000 ratings 4.2/5</code>.</li>
+<li><strong>Onboarding explícito</strong>: pedir al user N preferencias (géneros, intereses) antes de personalizar. Estilo Spotify/Netflix.</li>
+<li><strong>Bandits</strong>: framework de RL para exploration vs exploitation. Epsilon-greedy: con prob <code>ε</code> explora random, con prob <code>1-ε</code> recomienda el "best". Thompson sampling: muestra de la posterior de cada arm.</li>
+<li><strong>Contextual bandits</strong>: el contexto (user features) influye en la decisión. Más sofisticado que vanilla bandits.</li>
 </ul>
-<h2 id="materiales">Materiales</h2>
+<h2 id="dataset-recursos">📂 Dataset / recursos</h2>
 <ul>
-<li><code>README.md</code> — esta ficha</li>
-<li><code>notebook.ipynb</code> — cuaderno de la clase</li>
+<li><strong>Dataset</strong>: MovieLens 100K + new users / new items simulados.</li>
+<li>Librerías: <code>numpy</code>, opcional <code>vowpalwabbit</code> (bandits), <code>scikit-learn</code>.</li>
 </ul>
-<h2 id="prerrequisitos">Prerrequisitos</h2>
-<p>Ver índice general en <code>classes/README.md</code> para dependencias entre clases.</p>
+<h2 id="ejercicios">🧪 Ejercicios</h2>
+<ol>
+<li><strong>Popularity baseline</strong>: rankear items por <code>n_ratings</code>. Top-10 son siempre los mismos. Evaluar recall@10 para users cold-start (con 0 interactions).</li>
+<li><strong>Bayesian shrinkage</strong>: implementar <code>(sum + m × C) / (n + m)</code> con <code>m=10</code>, <code>C=mean_rating</code>. Comparar top-10 con popularity vanilla. Items con pocos ratings caen al promedio.</li>
+<li><strong>Onboarding 3 géneros</strong>: simular que user nuevo elige <code>["Action", "Sci-Fi", "Comedy"]</code>. Recomendar top-10 movies de esos géneros (content-based + popularity tiebreaker).</li>
+<li><strong>Item cold-start</strong>: agregar 10 movies nuevas con descripción pero 0 ratings. Content-based (Clase 218) las puede ranquear; CF no. Demostrar.</li>
+<li><strong>Epsilon-greedy</strong>: en cada slot del top-10, con prob <code>ε=0.1</code> recomendar item random (explore), con prob <code>0.9</code> recomendar el "best" del modelo (exploit). Medir coverage en N usuarios.</li>
+</ol>
+<h2 id="homework-verificable">📝 Homework verificable</h2>
+<p>Repo con:</p>
+<ol>
+<li>Recomendador full con manejo explícito de cold-start:
+   - User nuevo: onboarding (elegir géneros) → content-based.
+   - User con ≤5 interactions: weighted hybrid con <code>α</code> bajo (más content).
+   - User maduro: CF puro.</li>
+<li>Item nuevo: content-based hasta acumular 10 ratings, después ALS.</li>
+<li>Bayesian shrinkage en todos los rankings "popularity-based".</li>
+<li>Bandit epsilon-greedy en producción (simulado): tasa <code>ε=0.05</code>, decay a <code>0.01</code> después de 30 días.</li>
+<li>Evaluación por segmento (cold-start, warm) con NDCG@10. Mostrar que estrategia adaptativa supera a CF puro para cold.</li>
+</ol>
+<p><strong>Criterio de aceptación</strong>: cold-start users tienen NDCG@10 &gt; 0.05 (vs ~0 con CF puro); items nuevos aparecen en recomendaciones dentro de las primeras 48h.</p>
+<h2 id="errores-comunes">⚠️ Errores comunes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma / mensaje</th>
+<th>Causa y cómo arreglar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Popularity baseline domina todo</td>
+<td>Tu CF no está aprovechando — probable bug en pipeline. <strong>Fix</strong>: chequear que <code>R</code> tiene la signal que esperás (sparsity, distribución de ratings).</td>
+</tr>
+<tr>
+<td>Items nuevos nunca son recomendados ("recency-only fallback")</td>
+<td>Pure content sin boost por novelty. <strong>Fix</strong>: agregar <code>log(days_since_publication)</code> decay al score.</td>
+</tr>
+<tr>
+<td>Onboarding pide 20 géneros — los users se van</td>
+<td>UX trade-off. <strong>Fix</strong>: pedir 3-5 max; mejor 1 pregunta inicial + observar primeras interacciones.</td>
+</tr>
+<tr>
+<td><code>ε</code>-greedy estanca: nunca aprende</td>
+<td><code>ε</code> muy bajo desde día 1. <strong>Fix</strong>: arrancar con <code>ε=0.2</code>, decay a <code>0.02</code>.</td>
+</tr>
+<tr>
+<td>Bayesian shrinkage me da scores casi iguales</td>
+<td><code>m</code> muy alto. <strong>Fix</strong>: tunear <code>m</code> por validación — típicamente <code>m ≈ median(n_ratings)</code> por item.</td>
+</tr>
+<tr>
+<td>Geographic popularity sesga a country mayoritario</td>
+<td>Sin segmentación. <strong>Fix</strong>: popularity por (country, language, age_bucket) separado, fallback al global.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
+<p><strong>❓ ¿Onboarding pregunta directa o implícita?</strong></p>
+<ul>
+<li><strong>Directa</strong> (elegir 3 géneros): rápida, controlable, pero rompe el flujo. Spotify la usa al sign-up.</li>
+<li><strong>Implícita</strong> (observar primeras N interacciones, no recomendar hasta tener señal): seamless, pero los primeros 5 clicks son perdidos.</li>
+</ul>
+<p>Híbrido: pregunta directa básica (1-2 items) + observar primeras N.</p>
+<p><strong>❓ ¿Mostrar items "Nuevo" boost por cuánto tiempo?</strong></p>
+<p>Depende del catálogo. News: minutos-horas. Movies: días-semanas. Productos e-commerce: días. Decay logarítmico: <code>boost = 1 / (1 + days)</code>.</p>
+<p><strong>❓ ¿Bandits valen la pena vs A/B test?</strong></p>
+<p>A/B test mide impacto de una variante vs otra. Bandits <strong>explotan automáticamente</strong> la mejor opción mientras siguen explorando. Para múltiples variantes (10+ tipos de recomendación) o cuando el costo de no explorar es alto: bandits. Para 2-3 variantes y experimentación controlada: A/B (Clase 204).</p>
+<p><strong>❓ ¿Cold-start de sistema cómo arranco?</strong></p>
+<p>(1) Importar gustos desde otra plataforma (Facebook Connect, Google sign-in). (2) Editorial picks curados. (3) Promociones para incentivar primer rating. (4) Partner con plataforma que ya tiene data.</p>
+<p><strong>❓ ¿Cuándo termina el cold-start?</strong></p>
+<p>Heurística: cuando NDCG@10 personal supera consistente a NDCG@10 de popularity baseline. Típicamente: 5-20 interactions. Depende del catálogo.</p>
+<p><strong>❓ ¿Hay solo CF + content para resolverlo?</strong></p>
+<p>No. <strong>Cross-domain transfer</strong> (gustos en Spotify → recomendaciones en Audible), <strong>demographic CF</strong> (gente como vos suele consumir X), <strong>conversational</strong> ("¿qué te interesa hoy?") son alternativas avanzadas.</p>
+<h2 id="referencias">🔗 Referencias</h2>
+<ul>
+<li>Schein, A. et al. <em>Methods and Metrics for Cold-Start Recommendations</em> (SIGIR 2002).</li>
+<li>Aggarwal <em>Recommender Systems: The Textbook</em> (Springer, 2016), <strong>cap. 13</strong> — <em>Advanced Topics</em> (incluye cold-start).</li>
+<li>Sutton &amp; Barto, <em>Reinforcement Learning: An Introduction</em> (2nd ed., 2018), <strong>cap. 2</strong> — Multi-armed bandits.</li>
+<li><a href="https://vowpalwabbit.org/docs/vowpal_wabbit/python/latest/tutorials/python_Contextual_bandits_and_Vowpal_Wabbit.html">Vowpal Wabbit contextual bandits</a>.</li>
+<li><em>Two Decades of Recommender Systems at Amazon</em> (Smith &amp; Linden, IEEE, 2017) — perspectiva histórica.</li>
+</ul>
+<h2 id="material-descargable">📥 Material descargable</h2>
+<ul>
+<li>📄 <a href="./clase-221-cold-start-problem-guia-explicativa.pdf">Guía explicativa (PDF)</a> — versión imprimible con todo el contenido de la clase.</li>
+<li>🎞️ <a href="./clase-221-cold-start-problem-presentacion.pptx">Presentación (PPTX)</a> — deck PowerPoint listo para proyectar en clase.</li>
+<li>🧮 <a href="./notebook.ipynb">Notebook ejecutable (.ipynb)</a> — abrilo desde el laboratorio del programa o desde Jupyter.</li>
+</ul>
 <h2 id="siguiente-clase">➡️ Siguiente clase</h2>
 <p><a href="../222-librerias-lightfm-implicit-surprise/index.html">Clase 222 — Librerías: LightFM, Implicit, Surprise</a></p>
   </main>
