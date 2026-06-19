@@ -22,7 +22,7 @@ Este repositorio está pensado para uso local, docente y de laboratorio. La app 
 
 | 🔖 Versión | 🚦 Estado |
 |---|---|
-| `v3.7.0` (rama `main`) | ✅ activamente desarrollada |
+| `v3.8.0` (rama `main`) | ✅ activamente desarrollada |
 
 > 🚀 El próximo binario distribuible se publicará cuando el contenido alcance un hito publicable.
 

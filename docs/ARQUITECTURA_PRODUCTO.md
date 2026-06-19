@@ -18,8 +18,11 @@
 
 El producto se organiza en tres capas coordinadas:
 
-- una **capa pedagógica reusable** (`classes/`, `datasets/`) — **232 clases en 9 partes** (v3.7.0, numeración secuencial 001-232; 🎓 **232/232 clases · 232/232 notebooks ejecutables · cobertura 100% real** — el lab con kernel Jupyter ejecuta el 100% del currículo, modernizado 2024-2026 + 35 clases dedicadas a temas modernos + stack completo MLOps + data engineering + recomendadores + ética/fairness/privacidad + 4 capstones integradores tabular/NLP-series/visión/portafolio);
-- una **capa operativa local** para el laboratorio (`app/`, `launcher.py`, `mobile/`);
+- una **capa pedagógica reusable** (`classes/`, `datasets/`) — **232 clases en 9 partes** (v3.8.0, numeración secuencial 001-232; 🎓 **232/232 clases · 232/232 notebooks ejecutables · cobertura 100% real** — el lab con kernel Jupyter ejecuta el 100% del currículo, modernizado 2024-2026 + 35 clases dedicadas a temas modernos + stack completo MLOps + data engineering + recomendadores + ética/fairness/privacidad + 4 capstones integradores tabular/NLP-series/visión/portafolio);
+- una **capa operativa local** dividida en dos superficies independientes:
+  - **App Windows nativa (PySide6)** — `launcher.py` + `app_desktop/` (Qt puro, sin web, sin localhost, sin WebView); es solo viewer del currículo (READMEs + notebooks con outputs renderizados).
+  - **Laboratorio de ejecución Python (Flask + Jupyter kernel)** — `app/` (`python -m app.app`); herramienta separada para EJECUTAR código sobre los notebooks reales del currículo.
+  - **App Android** (`mobile/`).
 - una **capa pública** para alumnos e institución (`site/`, GitHub Pages).
 
 ---

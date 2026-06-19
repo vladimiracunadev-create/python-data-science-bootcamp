@@ -13,6 +13,30 @@
 
 ---
 
+## [v3.8.0] — 2026-06-19 (App Windows nativa con PySide6 — sin web ni localhost)
+
+### Cambiado
+- **`launcher.py` reescrito**: ya no arranca Flask+pywebview+Edge WebView2. Ahora arranca directo PySide6 (Qt nativo). El ejecutable .exe no levanta servidor HTTP ni renderiza web.
+- **NUEVO paquete `app_desktop/`** (8 módulos, ~1000 líneas) — la app Windows nativa:
+  - `main_window.py` — QMainWindow con QTreeView de los 9 partes + 232 clases, búsqueda en vivo, tabs README/Notebook, toolbar con "Abrir PDF/PPTX/Carpeta", navegación anterior/siguiente, theme light/dark persistente vía QSettings.
+  - `readme_view.py` — QTextBrowser con `setMarkdown()` (rich text Qt **nativo**, no QWebEngineView).
+  - `notebook_view.py` — QScrollArea + widgets por celda: markdown en QTextBrowser, code en QTextEdit oscuro monoespaciado, outputs (stdout, image/png base64 → QPixmap, errores en rojo).
+  - `curriculum.py` — adapter que reusa `app.notebook_loader` y funciona en dev y en bundle PyInstaller (`sys._MEIPASS`).
+  - `styles.py` — QSS light/dark.
+- **`program.spec` reescrito**: bundle PyInstaller trae ahora PySide6 + shiboken6, sin pywebview/Flask/torch/sklearn. Empaqueta `classes/` + bundles PDF/PPTX + `app_desktop/`. El .exe queda en ~150-200 MB (vs ~500 MB del bundle anterior con torch).
+
+### Conservado
+- El laboratorio Flask + kernel Jupyter (`app/`) sigue como herramienta separada para EJECUTAR código sobre los notebooks (`python -m app.app`). La app desktop nativa es solo viewer; quien necesite ejecución usa el lab Flask.
+- `installer/setup.iss` (Inno Setup), `build_windows.bat`, `docs/pdfs/`, `docs/presentaciones/`, todo el currículo.
+
+### Tests
+- `tests/test_app_desktop.py` — 6 smoke tests (corren con `QT_QPA_PLATFORM=offscreen`): paquete importable, adapter ve 232 clases, resolver de paths PDF/PPTX/notebook, MainWindow instanciable, NotebookView renderiza una clase real, ReadmeView usa setMarkdown.
+
+### Por qué este cambio
+El usuario pidió "app de Windows que no sea web y no levante localhost". El wrapper pywebview seguía dependiendo de Flask + Edge WebView2 (web por dentro). La nueva app PySide6 cumple: widgets Qt nativos, cero HTTP, cero WebView.
+
+---
+
 ## [v3.7.0] — 2026-06-18 (35 notebooks faltantes generados · cobertura ejecutable 100%)
 
 ### Añadido

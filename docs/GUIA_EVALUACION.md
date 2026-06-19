@@ -17,7 +17,7 @@
 Este repositorio es una **pauta avanzada y completa de Python y Data Science** organizada en 232 clases y 9 partes. La pauta está derivada de referentes profesionales: *Hands-On ML* (Géron, 3ª ed.), *Python Data Science Handbook* (VanderPlas), *Designing ML Systems* (Huyen), *ISLP* (James et al) y *Fairness and ML* (Barocas/Hardt/Narayanan).
 
 ```
-v3.7.0:  232 clases · 9 partes · 🎓 232/232 READMEs · 232/232 notebooks ejecutables · cobertura 100% real — todas las partes completas y modernizadas 2024-2026, el lab con kernel Jupyter ejecuta el 100% del currículo
+v3.8.0:  232 clases · 9 partes · 🎓 232/232 READMEs · 232/232 notebooks ejecutables · cobertura 100% real — todas las partes completas y modernizadas 2024-2026, el lab con kernel Jupyter ejecuta el 100% del currículo. App Windows nativa con PySide6 (Qt puro, sin web, sin localhost) como diferencial técnico de la superficie de escritorio.
 ```
 
 Incluye laboratorio interactivo local (Flask), app de escritorio nativa para Windows, app Android y una familia documental que distingue producto, operación y seguridad.
@@ -33,7 +33,7 @@ Incluye laboratorio interactivo local (Flask), app de escritorio nativa para Win
 | Diseño curricular profesional | 232 clases en 9 partes con prerrequisitos, ML, DL, MLOps, ética, capstones | `classes/README.md` · `docs/syllabus.md` |
 | Fuentes acreditadas del currículo | pauta derivada de 5 libros referentes en el campo | `docs/syllabus.md` |
 | Laboratorio operativo | Flask shell + kernel Jupyter real (`jupyter_client`) ejecutando notebooks reales del currículo | `app/` → `python run_program.py` |
-| Distribución de escritorio | App nativa Windows con Edge WebView2, sin navegador, sin Python instalado | `installer/` · `launcher.py` |
+| Distribución de escritorio | App nativa Windows con PySide6 / Qt puro (v3.8.0) — sin web, sin localhost, sin WebView; viewer del currículo con tree + tabs README/Notebook | `installer/` · `launcher.py` · `app_desktop/` |
 | Distribución móvil | App Android Expo/React Native (pendiente migrar contenido al índice actual) | `mobile/` |
 | Portal público funcional | GitHub Pages con portal del alumno + vista institucional | `site/` |
 | Postura de seguridad | Validación de slugs, timeout de ejecución, CSP estricto, sin CDN externas | `SECURITY.md` · `app/app.py` |

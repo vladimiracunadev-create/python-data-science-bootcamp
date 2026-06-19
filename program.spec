@@ -1,122 +1,124 @@
-# program.spec — Especificacion de PyInstaller para el Python Data Science Program
+# program.spec — Especificación PyInstaller del Python Data Science Program (v3.8.0)
 #
-# Genera un directorio dist/PythonDSProgram/ con el ejecutable y todos los datos.
+# Construye dist/PythonDSProgram/PythonDSProgram.exe — app Windows NATIVA con
+# PySide6 (Qt). Sin Flask, sin servidor HTTP, sin localhost, sin WebView2.
+# El usuario abre el .exe y ve directamente la ventana Qt que recorre el
+# currículo: árbol de partes + clases, viewer de README con `setMarkdown` nativo,
+# viewer de celdas .ipynb, links a PDF/PPTX/notebook que abren con el sistema.
+#
 # Uso:
-#   pip install pyinstaller pywebview
+#   pip install pyinstaller PySide6
 #   pyinstaller program.spec
 #
-# El resultado en dist/PythonDSProgram/PythonDSProgram.exe es el ejecutable
-# que se entrega al instalador Inno Setup (setup.iss).
+# El bundle queda en dist/PythonDSProgram/ y el instalador Inno Setup
+# (installer/setup.iss) lo empaqueta como .exe distribuible.
 
-import os
 from pathlib import Path
 
 # collect_all recoge datas, binaries e hiddenimports de un paquete completo.
-# Es necesario para pywebview porque incluye WebView2Loader.dll y hooks .NET.
-from PyInstaller.utils.hooks import collect_all, collect_data_files  # noqa: E402
+# Es necesario para PySide6 — incluye los .dll de Qt6 (Widgets, Gui, Core).
+from PyInstaller.utils.hooks import collect_all  # noqa: E402
 
 # ---------------------------------------------------------------------------
-# DIRECTORIO RAIZ DEL PROYECTO
+# DIRECTORIO RAÍZ DEL PROYECTO
 # ---------------------------------------------------------------------------
 ROOT = Path(SPECPATH)  # noqa: F821 — PyInstaller inyecta SPECPATH
 
 # ---------------------------------------------------------------------------
-# RECOLECTAR PYWEBVIEW COMPLETO
-# Incluye: WebView2Loader.dll, hooks de pythonnet, JS internos, etc.
+# RECOLECTAR PYSIDE6 + SHIBOKEN COMPLETOS
+# Incluye DLLs Qt6 (Core, Gui, Widgets), plugins de plataforma (qwindows),
+# fuentes embebidas y ICU. Sin esto la app no arranca al congelarse.
 # ---------------------------------------------------------------------------
-wv_datas, wv_binaries, wv_hiddenimports = collect_all("webview")
+pyside_datas, pyside_binaries, pyside_hiddenimports = collect_all("PySide6")
+shiboken_datas, shiboken_binaries, shiboken_hiddenimports = collect_all("shiboken6")
 
 # ---------------------------------------------------------------------------
-# ANALISIS DE DEPENDENCIAS
+# ANÁLISIS DE DEPENDENCIAS
 # ---------------------------------------------------------------------------
 a = Analysis(
-    # Script de entrada: launcher que levanta Flask y abre la ventana nativa
+    # Script de entrada: launcher delgado que arranca la QApplication de
+    # `app_desktop.main`. Sin Flask, sin pywebview.
     scripts=[str(ROOT / "launcher.py")],
 
     pathex=[str(ROOT)],
 
-    binaries=wv_binaries,
+    binaries=[*pyside_binaries, *shiboken_binaries],
 
     # ---------------------------------------------------------------------------
-    # DATOS
+    # DATOS — el contenido del curso se empaqueta DENTRO del .exe (modo congelado).
+    # `app_desktop.curriculum._project_root()` usa `sys._MEIPASS` para encontrarlos.
     # ---------------------------------------------------------------------------
     datas=[
-        # Plantillas HTML y CSS/JS del laboratorio de ejecución Python (Flask + kernel Jupyter)
-        (str(ROOT / "app" / "templates"),   "app/templates"),
-        (str(ROOT / "app" / "static"),      "app/static"),
+        # Currículo entero: 232 carpetas con README.md + notebook.ipynb +
+        # clase-NNN-...-guia-explicativa.pdf + clase-NNN-...-presentacion.pptx.
+        # Esto es lo que la app abre y muestra.
+        (str(ROOT / "classes"), "classes"),
 
-        # Notebooks de laboratorio (JSON)
-        (str(ROOT / "app" / "notebooks"),   "app/notebooks"),
-
-        # Curriculum: 12 clases con teoria, ejercicios y notebooks
-        (str(ROOT / "classes"),             "classes"),
-
-        # Datasets sinteticos para las practicas
-        (str(ROOT / "datasets"),            "datasets"),
-
-        # Materiales derivados por clase y apoyo imprimible
-        (str(ROOT / "docs" / "pdfs"),       "docs/pdfs"),
+        # Materiales consolidados por parte + curso completo (bundles).
+        (str(ROOT / "docs" / "pdfs"),           "docs/pdfs"),
         (str(ROOT / "docs" / "presentaciones"), "docs/presentaciones"),
 
-        # Portal publico del alumno (HTML/CSS/JS estatico)
-        (str(ROOT / "site"),                "site"),
+        # Datasets sintéticos (algunos notebooks los referencian).
+        (str(ROOT / "datasets"),                "datasets"),
 
-        # Datos internos de pywebview (JS, recursos WebView2)
-        *wv_datas,
+        # Recursos del paquete app_desktop (íconos, estilos QSS si los hubiera).
+        (str(ROOT / "app_desktop"),             "app_desktop"),
+
+        # Datos internos de PySide6 (plugins de plataforma, fuentes, ICU).
+        *pyside_datas,
+        *shiboken_datas,
     ],
 
     # ---------------------------------------------------------------------------
-    # HIDDEN IMPORTS
+    # HIDDEN IMPORTS — módulos que PyInstaller no detecta por análisis estático.
     # ---------------------------------------------------------------------------
     hiddenimports=[
-        # Flask y werkzeug
-        "flask",
-        "flask.templating",
-        "flask.json",
-        "jinja2",
-        "jinja2.ext",
-        "werkzeug",
-        "werkzeug.serving",
-        "werkzeug.routing",
+        # PySide6 / shiboken6 recolectados por collect_all.
+        *pyside_hiddenimports,
+        *shiboken_hiddenimports,
 
-        # Markdown
+        # Parser de notebooks .ipynb usado por app_desktop.notebook_view.
+        "nbformat",
+        "nbformat.v4",
+
+        # Markdown server-side (lo usa notebook_loader.load_notebook para
+        # renderizar a HTML los markdown cells; opcional pero útil).
         "markdown",
         "markdown.extensions.fenced_code",
         "markdown.extensions.tables",
-        "markdown.extensions.codehilite",
-
-        # Ciencia de datos
-        "pandas",
-        "pandas.core.arrays.masked",
-        "numpy",
-        "numpy.core._multiarray_umath",
-        "matplotlib",
-        "matplotlib.backends.backend_agg",
-        "sklearn",
-        "sklearn.utils._cython_blas",
-        "sklearn.neighbors._partition_nodes",
-        "sklearn.tree._utils",
-
-        # Notebooks
-        "nbformat",
-
-        # pywebview — detectados por collect_all pero los declaramos explicitamente
-        *wv_hiddenimports,
-
-        # pythonnet / clr (necesario para el backend winforms de pywebview en Windows)
-        "clr",
-        "pythonnet",
     ],
 
-    # Excluir lo que no se usa
+    # ---------------------------------------------------------------------------
+    # EXCLUSIONES — librerías pesadas que NO necesita el viewer nativo.
+    # El alumno que quiera ejecutar código abre el lab Flask aparte; el .exe
+    # nativo es solo viewer y no carga torch/sklearn/jupyter_client/etc.
+    # ---------------------------------------------------------------------------
     excludes=[
         "tkinter",
         "PyQt5",
         "PyQt6",
         "wx",
-        "IPython",
+        # Sin Flask en el bundle nativo — la app no levanta HTTP.
+        "flask",
+        "werkzeug",
+        "jinja2",
+        # Sin kernel Jupyter en el bundle nativo — solo se muestran las celdas.
         "jupyter_client",
+        "ipykernel",
         "notebook",
+        "IPython",
+        # Sin pywebview en el bundle nativo.
+        "webview",
+        "clr",
+        "pythonnet",
+        # Stack de ML pesado — no se usa para visualizar.
+        "torch",
+        "tensorflow",
+        "transformers",
+        "sklearn",
+        "scipy",
+        "pandas",
+        "matplotlib",
         "test",
     ],
 
@@ -147,11 +149,10 @@ exe = EXE(  # noqa: F821
     bootloader_ignore_signals=False,
     strip=False,
 
-    # Sin consola negra — la app muestra una ventana nativa
-    # Cambiar a True solo para depuracion
+    # Sin consola negra — la app muestra una ventana Qt nativa.
+    # Cambiá a True solo para depurar errores de startup.
     console=False,
 
-    # Icono del ejecutable (si existe el .ico)
     icon=str(ROOT / "installer" / "icon.ico") if (ROOT / "installer" / "icon.ico").exists() else None,
 
     uac_admin=False,

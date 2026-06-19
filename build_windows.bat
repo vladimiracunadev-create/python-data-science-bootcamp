@@ -8,7 +8,7 @@ REM   - Inno Setup 6 instalado en la ruta por defecto (para el instalador)
 REM
 REM Que hace este script:
 REM   1. Verifica Python y dependencias
-REM   2. Instala pywebview si falta
+REM   2. Verifica PySide6 (la app de escritorio es Qt nativo, sin pywebview)
 REM   3. Construye el bundle con PyInstaller
 REM   4. Empaqueta el ZIP portable
 REM   5. Compila el instalador con Inno Setup
@@ -27,7 +27,7 @@ REM ---------------------------------------------------------------------------
 set PYTHON=python
 set PIP=pip
 set APP_NAME=PythonDSProgram
-set VERSION=2.0.0-scaffold
+set VERSION=3.8.0
 set SPEC_FILE=program.spec
 set INNO_SETUP="C:\Program Files (x86)\Inno Setup 6\ISCC.exe"
 set INNO_SCRIPT=installer\setup.iss
@@ -85,23 +85,23 @@ if errorlevel 1 (
 echo   OK: flask, pandas, scikit-learn, matplotlib, nbformat
 
 REM ---------------------------------------------------------------------------
-REM PASO 3: VERIFICAR / INSTALAR PYWEBVIEW
+REM PASO 3: VERIFICAR / INSTALAR PYSIDE6 (Qt nativo, reemplaza a pywebview)
 REM ---------------------------------------------------------------------------
 
 echo.
-echo [3/6] Verificando pywebview...
-%PYTHON% -c "import webview" >nul 2>&1
+echo [3/6] Verificando PySide6 (app Qt nativa, sin WebView)...
+%PYTHON% -c "import PySide6" >nul 2>&1
 if errorlevel 1 (
-    echo   Instalando pywebview...
-    %PIP% install pywebview
+    echo   Instalando PySide6...
+    %PIP% install "PySide6>=6.6"
     if errorlevel 1 (
-        echo   ERROR: No se pudo instalar pywebview.
-        echo   Intenta manualmente: pip install pywebview
+        echo   ERROR: No se pudo instalar PySide6.
+        echo   Intenta manualmente: pip install "PySide6>=6.6"
         exit /b 1
     )
 )
-for /f "tokens=*" %%v in ('%PYTHON% -c "import webview; print(webview.__version__)"') do set WV_VER=%%v
-echo   OK: pywebview !WV_VER!
+for /f "tokens=*" %%v in ('%PYTHON% -c "import PySide6; print(PySide6.__version__)"') do set WV_VER=%%v
+echo   OK: PySide6 !WV_VER!
 
 REM ---------------------------------------------------------------------------
 REM PASO 4: VERIFICAR / INSTALAR PYINSTALLER
@@ -234,9 +234,8 @@ if exist "%OUTPUT_DIR%\%APP_NAME%_Setup_v%VERSION%.exe" (
     echo     %OUTPUT_DIR%\%APP_NAME%_Setup_v%VERSION%.exe
     echo.
 )
-echo   NOTA: El ejecutable abre una ventana de escritorio nativa.
-echo   No se abre ningun navegador. No usa localhost visible.
-echo   Requiere Edge WebView2 Runtime (incluido en Win10 20H2+ y Win11).
+echo   NOTA: El ejecutable abre una ventana de escritorio Qt nativa (PySide6).
+echo   No se abre ningun navegador. No levanta servidor HTTP. No usa WebView.
 echo.
 echo ============================================================
 

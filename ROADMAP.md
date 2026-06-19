@@ -4,7 +4,7 @@
 
 ### **Dirección futura del Python Data Science Program**
 
-[![Version](https://img.shields.io/badge/release-v3.7.0-2e8b57?style=for-the-badge)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/release-v3.8.0-2e8b57?style=for-the-badge)](CHANGELOG.md)
 [![Estado](https://img.shields.io/badge/contenido-en%20desarrollo-f59e0b?style=for-the-badge)](#-trabajo-cr%C3%ADtico--completar-el-contenido-pedag%C3%B3gico)
 
 </div>
@@ -13,13 +13,16 @@
 
 ---
 
-## 📊 Estado actual — v3.7.0 (junio 2026 — **🎓 232/232 clases · 232/232 notebooks ejecutables · cobertura 100% real**)
+## 📊 Estado actual — v3.8.0 (junio 2026 — **app Windows nativa PySide6 · 🎓 232/232 clases · 232/232 notebooks ejecutables · cobertura 100% real**)
+
+- ✅ App Windows nativa (PySide6) — reemplaza el wrapper pywebview/Flask, sin web ni localhost
+
 
 | 🎛️ Superficie | 🚦 Estado |
 |---|---|
 | 📚 Currículo (**232 clases · 232 READMEs · 232 notebooks ejecutables**, 9 partes, numeración secuencial limpia 001-232) | 🟢 **Las 9 partes (232/232 README + 232/232 notebooks = 🎓 100% real) completas v3.7** (todas las clases corren en el laboratorio con kernel Jupyter) (Definiciones · Errores · FAQ en cada clase + 35 clases dedicadas a temas modernos 2024-2026: Polars/Arrow/DuckDB, async, validación temporal, FE+MICE, Optuna, Model Cards, SMOTE, calibración, SHAP profundo, Ray Tune, Lion/Sophia, Stochastic Depth, PyTorch+Lightning, SAM/YOLOv11, Flash Attention/RoPE/GQA, CLIP/Whisper, LoRA/DPO/vLLM, MCP/Agentes/Eval, SDXL/ControlNet, ONNX, JAX/Flax, effect size, BCa bootstrap, CUPED+sequential, DoubleML, Synthetic Controls, PyMC v5/NumPyro/ArviZ) + **Parte 4 MLOps (14 clases): DVC, MLflow, Feast, GH Actions/CML, Docker multi-stage, FastAPI, Kubernetes, serverless cost calc, drift detection (PSI/KS/Wasserstein/CBPE), retraining (Prefect+champion-challenger), shadow/canary/auto-rollback, SHAP/LIME/PDP/ICE en producción, Great Expectations+Pandera, behavioral tests INV/DIR/MFT/slice** · Partes 5-8 (25 clases) pendientes desarrollo |
 | 🧪 Laboratorio de ejecución Python (Flask + Jupyter kernel) | ✅ operativo |
-| 🖥️ App de escritorio Windows (pywebview) | 🟡 código operativo · binario pendiente de rebuild |
+| 🖥️ App de escritorio Windows (PySide6 nativo, sin web, sin localhost) | 🟢 código nativo operativo · binario pendiente de rebuild con `program.spec` actualizado |
 | 📱 App Android | 🟡 APK debug publicado — pendiente migrar contenido al índice actual |
 | 🌐 Portal del alumno | 🟡 en vivo — pendiente migrar al índice actual |
 | 🏛️ Vista institucional | ✅ en vivo |

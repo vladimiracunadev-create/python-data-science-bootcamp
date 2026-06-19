@@ -5,7 +5,7 @@
 ### **Fuente de verdad de superficies, artefactos y reglas de comunicación**
 
 [![Autoridad](https://img.shields.io/badge/prioridad-este%20documento-ef4444?style=for-the-badge)](#-regla-de-prioridad)
-[![Estado](https://img.shields.io/badge/release-v3.7.0-2e8b57?style=for-the-badge)](../CHANGELOG.md)
+[![Estado](https://img.shields.io/badge/release-v3.8.0-2e8b57?style=for-the-badge)](../CHANGELOG.md)
 
 </div>
 
@@ -31,7 +31,7 @@
 | Superficie | Tipo | Estado | Audiencia | Qué entrega hoy |
 |---|---|---|---|---|
 | Laboratorio de ejecución Python (`app/`) | núcleo operativo | operativo | docente / estudiante guiado | Flask shell + kernel Jupyter real (`jupyter_client`), lee notebooks reales del currículo, outputs ricos (HTML/imágenes/errores), 🎓 232/232 notebooks ejecutables (cobertura 100%) |
-| App de escritorio Windows (`launcher.py` + `installer/`) | distribución de escritorio | listo para build | alumno / docente en aula | ventana nativa Edge WebView2 sin navegador, sin Python instalado en el equipo del usuario, Flask interno transparente |
+| App de escritorio Windows (`launcher.py` + `app_desktop/` + `installer/`) | distribución de escritorio | listo para build (v3.8.0) | alumno / docente en aula | **app Qt nativa con PySide6 — sin web, sin localhost, sin WebView, sin Flask de fondo**; QTreeView con los 9 partes + 232 clases, QTextBrowser `setMarkdown` para los READMEs, render por celda para los notebooks (outputs PNG base64 → QPixmap). Sin Python instalado en el equipo del usuario. |
 | App Android (`mobile/`) | distribución móvil | **catálogo vacío** | alumno en movimiento | código operativo, pero `mobile/src/data/classes.js` quedó como stub; pendiente cargar entradas del currículo actual |
 | Portal del alumno (`site/`) | superficie pública | operativo | alumno | muestra el resumen de 232 clases en 9 partes con tarjeta por parte |
 | Vista institucional (`site/product/`) | superficie pública | operativo (mensaje genérico) | institución / evaluador | narrativa del producto, alcance, arquitectura visual |

@@ -4,7 +4,7 @@
 
 Este directorio contiene los datasets base usados en las clases. Todos los datos son sinteticos con contexto realista y fueron preparados para practicar lectura, limpieza, análisis, visualización y modelado inicial.
 
-> **Nota:** la asignación dataset → clase concreta del currículo (**232 clases** en 9 partes, v3.7.0 — 🎓 232/232 clases · 232/232 notebooks ejecutables · cobertura 100% real) se define al desarrollar el contenido pedagógico de cada bloque. Las descripciones por dataset abajo no incluyen ya un mapeo fijo.
+> **Nota:** la asignación dataset → clase concreta del currículo (**232 clases** en 9 partes, v3.8.0 — 🎓 232/232 clases · 232/232 notebooks ejecutables · cobertura 100% real) se define al desarrollar el contenido pedagógico de cada bloque. Las descripciones por dataset abajo no incluyen ya un mapeo fijo.
 
 ## 1. ventas_tienda.csv
 

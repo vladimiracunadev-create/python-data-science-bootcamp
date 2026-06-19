@@ -16,9 +16,9 @@
 
 Un sistema de capacitación en Python y Data Science que integra:
 
-- 📚 **currículo modular** (232 clases · 9 partes · v3.7.0 · pauta derivada de Géron 3ª ed., VanderPlas, Huyen, ISLP, Barocas/Hardt/Narayanan + Reis & Housley, Kimball & Ross, Aggarwal + Suresh-Guttag, Hardt-Price-Srebro, Chouldechova, Kleinberg, Dwork-Roth, Abadi, McMahan + Hyndman & Athanasopoulos FPP3 + timm/Lightning/Albumentations + MkDocs Material/Quarto + papers seminales 2002-2026) — 🎓 **232/232 READMEs · 232/232 notebooks ejecutables · cobertura 100% real** con Definiciones, Errores comunes y FAQ en cada clase + 35 clases dedicadas a temas modernos 2024-2026 + stack completo de MLOps (DVC, MLflow, Feast, K8s, FastAPI, drift, shadow/canary, SHAP, Great Expectations, behavioral tests) + data engineering (Airflow, PySpark, Polars, DuckDB/BQ/Snowflake, Kafka, Parquet/Avro, star schemas SCD2) + recomendadores (CF, SVD/ALS, content+FAISS, LightFM, métricas top-N, cold-start) + ética/fairness/privacidad (Suresh-Guttag taxonomía sesgos, DP/EO/calibration + impossibility theorem, privacidad diferencial (Laplace/Gauss/DP-SGD), federated learning (FedAvg + gradient leakage), GDPR + AI Act EU 2024/1689, reproducibilidad (seeds/lock files/model cards/datasheets)) + **Capstones integradores** (Capstone 1 tabular E2E (ColumnTransformer+GBM+Optuna+MLflow+FastAPI+Streamlit+SHAP+CI), Capstone 2 NLP/series (DistilBERT o forecasting con baselines+SARIMA+backtesting+cuantiles), Capstone 3 visión transfer learning (ConvNeXt/EfficientNetV2/ViT + RandAugment/MixUp/CutMix + ONNX), Portafolio público (MkDocs Material/Quarto + GitHub Pages + demos hosted + deck + CV técnico)); ya no quedan clases pendientes — siguiente foco: superficies (regen PDFs/PPTX, mobile UI, mejoras lab de ejecución Python);
+- 📚 **currículo modular** (232 clases · 9 partes · v3.8.0 · pauta derivada de Géron 3ª ed., VanderPlas, Huyen, ISLP, Barocas/Hardt/Narayanan + Reis & Housley, Kimball & Ross, Aggarwal + Suresh-Guttag, Hardt-Price-Srebro, Chouldechova, Kleinberg, Dwork-Roth, Abadi, McMahan + Hyndman & Athanasopoulos FPP3 + timm/Lightning/Albumentations + MkDocs Material/Quarto + papers seminales 2002-2026) — 🎓 **232/232 READMEs · 232/232 notebooks ejecutables · cobertura 100% real** con Definiciones, Errores comunes y FAQ en cada clase + 35 clases dedicadas a temas modernos 2024-2026 + stack completo de MLOps (DVC, MLflow, Feast, K8s, FastAPI, drift, shadow/canary, SHAP, Great Expectations, behavioral tests) + data engineering (Airflow, PySpark, Polars, DuckDB/BQ/Snowflake, Kafka, Parquet/Avro, star schemas SCD2) + recomendadores (CF, SVD/ALS, content+FAISS, LightFM, métricas top-N, cold-start) + ética/fairness/privacidad (Suresh-Guttag taxonomía sesgos, DP/EO/calibration + impossibility theorem, privacidad diferencial (Laplace/Gauss/DP-SGD), federated learning (FedAvg + gradient leakage), GDPR + AI Act EU 2024/1689, reproducibilidad (seeds/lock files/model cards/datasheets)) + **Capstones integradores** (Capstone 1 tabular E2E (ColumnTransformer+GBM+Optuna+MLflow+FastAPI+Streamlit+SHAP+CI), Capstone 2 NLP/series (DistilBERT o forecasting con baselines+SARIMA+backtesting+cuantiles), Capstone 3 visión transfer learning (ConvNeXt/EfficientNetV2/ViT + RandAugment/MixUp/CutMix + ONNX), Portafolio público (MkDocs Material/Quarto + GitHub Pages + demos hosted + deck + CV técnico)); ya no quedan clases pendientes — siguiente foco: superficies (regen PDFs/PPTX, mobile UI, mejoras lab de ejecución Python);
 - 🧪 **laboratorio de ejecución Python** (Flask shell + kernel Jupyter real vía `jupyter_client`, lee notebooks reales del currículo, outputs ricos);
-- 🖥️ **app de escritorio nativa para Windows** (pywebview + Edge WebView2, sin navegador);
+- 🖥️ **app de escritorio nativa para Windows** (PySide6 / Qt nativo · v3.8.0 — sin web, sin localhost, sin WebView; widgets Qt puros con QTreeView, QTextBrowser `setMarkdown`, QScrollArea por celda de notebook · diferencial técnico vs el wrapper pywebview anterior);
 - 📱 **app Android** (Expo/React Native, contenido embebido + Google Colab) — pendiente migrar contenido al índice actual;
 - 🌐 **portal público** (GitHub Pages para alumnos + vista institucional) — pendiente migrar al índice actual;
 - 📖 **documentación de producto** organizada por audiencia.
@@ -33,7 +33,7 @@ Un sistema de capacitación en Python y Data Science que integra:
 | Ejecución de código Python | ✅ operativo | Jupyter kernel real (`jupyter_client` + `ipykernel`), pandas, matplotlib, scikit-learn, timeout por celda + interrupt/restart |
 | 232 clases · 232 notebooks ejecutables (🎓 100% real) | ✅ operativo | `/api/classes` → 232 clases, `/api/class/<path:slug>` → HTML, `/api/curriculum` → 232/232 con `has_notebook: true` |
 | 6 notebooks interactivos | ✅ operativo | `/api/notebooks` → 6 templates, ejecución por celda |
-| App de escritorio Windows | 🟡 código operativo · binario pendiente | pywebview 6.1 + PyInstaller 6.19, ZIP portable 92MB |
+| App de escritorio Windows | 🟢 código nativo Qt operativo · binario pendiente de rebuild | PySide6 + PyInstaller (v3.8.0) — sin Flask, sin localhost, sin Edge WebView2 |
 | Instalador Windows | 🟡 pendiente de rebuild | Inno Setup — sin Python requerido en el PC del usuario |
 | App Android | 🟡 APK debug | 137MB, Expo/React Native — pendiente migrar contenido |
 | Portal del alumno | ✅ en vivo | GitHub Pages — pendiente migrar al índice actual |
@@ -48,7 +48,7 @@ Un sistema de capacitación en Python y Data Science que integra:
 |---|---|
 | 🐍 Backend | Python 3.10–3.12, Flask 3.x |
 | 📊 Data Science | pandas 2.x, numpy 1.26+, matplotlib 3.8+, scikit-learn 1.4+ |
-| 🖥️ Desktop Windows | pywebview 6.1 (Edge WebView2), PyInstaller 6.19 |
+| 🖥️ Desktop Windows | PySide6 / Qt nativo (sin WebView), PyInstaller 6.19 |
 | 📦 Instalador | Inno Setup 6 |
 | 📱 Mobile | Expo SDK 51, React Native, Android Gradle |
 | 🎨 Frontend | HTML/CSS/JS vanilla (SPA sin framework) |
@@ -63,7 +63,7 @@ Un sistema de capacitación en Python y Data Science que integra:
 
 ## 💪 Lo que demuestra este proyecto
 
-- ✅ capacidad de integrar backend Python con experiencia de escritorio nativa (pywebview);
+- ✅ capacidad de construir una app de escritorio Windows verdaderamente nativa (Qt/PySide6: sin WebView, sin localhost, sin Flask de fondo);
 - ✅ criterio de seguridad documentado y verificado con análisis estático;
 - ✅ diseño pedagógico con separación clara entre contenido, laboratorio y presentación;
 - ✅ estructura de producto con documentación organizada por audiencias;
