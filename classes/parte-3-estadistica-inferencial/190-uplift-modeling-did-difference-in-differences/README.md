@@ -112,6 +112,12 @@ No con tratamientos **escalonados** (unidades tratadas en momentos distintos). T
 - Gutierrez & Gerardy (2017), *Causal Inference and Uplift Modeling*, JMLR Workshop.
 - [econml](https://econml.azurewebsites.net/), [causalml](https://github.com/uber/causalml) (Uber), [pysyncon](https://github.com/sdfordham/pysyncon), [SparseSC](https://github.com/microsoft/SparseSC).
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-190-uplift-modeling-did-difference-in-differences-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-190-uplift-modeling-did-difference-in-differences-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 191 — Synthetic Control Method dedicado (pysyncon, SparseSC)](../191-synthetic-control-method-pysyncon/README.md)

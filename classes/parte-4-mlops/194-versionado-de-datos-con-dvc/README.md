@@ -107,6 +107,12 @@ Sí, pero el notebook *en sí* sigue versionado por git. DVC entra cuando un cel
 - [Iterative Studio](https://studio.iterative.ai) — UI hosted opcional para visualizar pipelines DVC (no requerida, gratis para repos públicos).
 - Comparativa práctica DVC vs LFS vs LakeFS: [*Data versioning landscape 2024*](https://lakefs.io/blog/data-version-control/).
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-194-versionado-de-datos-con-dvc-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-194-versionado-de-datos-con-dvc-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 195 — Versionado de modelos y experimentos con MLflow](../195-versionado-de-modelos-y-experimentos-con-mlflow/README.md)

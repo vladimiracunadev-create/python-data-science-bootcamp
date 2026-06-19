@@ -461,6 +461,67 @@ def build_class_page(part: Path, klass: Path) -> None:
 # Main
 # ──────────────────────────────────────────────────────────────────────────────
 
+def copy_class_assets(part_name: str, klass_name: str) -> int:
+    """Copia los PDF + PPTX por clase desde la carpeta de la clase al sitio.
+
+    Qué resuelve:
+        Los READMEs renderizados usan links relativos (``./clase-NNN-...pdf``).
+        En GitHub Pages esos links solo resuelven si los archivos están al lado
+        del ``index.html`` generado. Sin esta copia los botones de descarga
+        del lab y del sitio terminan en 404 para los visitantes externos.
+    """
+    src_dir = CLASSES / part_name / klass_name
+    dst_dir = OUT / part_name / klass_name
+    copied = 0
+    for asset in src_dir.glob("clase-*-guia-explicativa.pdf"):
+        shutil.copy2(asset, dst_dir / asset.name)
+        copied += 1
+    for asset in src_dir.glob("clase-*-presentacion.pptx"):
+        shutil.copy2(asset, dst_dir / asset.name)
+        copied += 1
+    # El notebook ejecutable también se ofrece como descarga.
+    nb = src_dir / "notebook.ipynb"
+    if nb.exists():
+        shutil.copy2(nb, dst_dir / nb.name)
+        copied += 1
+    return copied
+
+
+def copy_bundle_assets() -> int:
+    """Replica la estructura ``docs/`` con los bundles para que los links del
+    repo (``../../docs/pdfs/parts/...``) resuelvan también en GitHub Pages.
+
+    Qué resuelve:
+        Los READMEs de Parte y el README raíz usan paths relativos al repo
+        (que GitHub renderiza correctamente). Para que esos mismos paths
+        funcionen en Pages, replicamos la jerarquía ``site/docs/...`` con
+        los archivos ya copiados. Sin esto los links a bundles consolidados
+        terminarían en 404 cuando un visitante navega desde Pages.
+    """
+    site_root = OUT.parent  # site/
+    targets = [
+        (ROOT / "docs" / "pdfs" / "parts", site_root / "docs" / "pdfs" / "parts", "*.pdf"),
+        (ROOT / "docs" / "presentaciones" / "parts", site_root / "docs" / "presentaciones" / "parts", "*.pptx"),
+    ]
+    copied = 0
+    for src_dir, dst_dir, pattern in targets:
+        if not src_dir.exists():
+            continue
+        dst_dir.mkdir(parents=True, exist_ok=True)
+        for src in src_dir.glob(pattern):
+            shutil.copy2(src, dst_dir / src.name)
+            copied += 1
+    # Bundles unificados (curso completo).
+    for kind, ext in (("pdfs", "pdf"), ("presentaciones", "pptx")):
+        src = ROOT / "docs" / kind / f"curso-completo.{ext}"
+        if src.exists():
+            dst = site_root / "docs" / kind / src.name
+            dst.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(src, dst)
+            copied += 1
+    return copied
+
+
 def main() -> int:
     if OUT.exists():
         shutil.rmtree(OUT)
@@ -471,13 +532,20 @@ def main() -> int:
 
     parts = list_parts()
     n_classes_total = 0
+    n_assets_copied = 0
     for part in parts:
         build_part_page(part)
         for klass in list_classes(part):
             build_class_page(part, klass)
+            n_assets_copied += copy_class_assets(part.name, klass.name)
             n_classes_total += 1
 
-    print(f"[OK] Generated {len(parts)} parts and {n_classes_total} classes under {OUT.relative_to(ROOT)}")
+    n_assets_copied += copy_bundle_assets()
+
+    print(
+        f"[OK] Generated {len(parts)} parts and {n_classes_total} classes "
+        f"under {OUT.relative_to(ROOT)}  (+ {n_assets_copied} assets copied)"
+    )
     return 0
 
 

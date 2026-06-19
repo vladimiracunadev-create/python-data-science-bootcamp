@@ -153,6 +153,13 @@ Al finalizar esta parte, el estudiante podrá:
 - [173 — JAX y Flax: el stack moderno de Google para DL](173-jax-flax-fundamentos/README.md)
 - [174 — Entrenamiento a escala con Vertex AI](174-entrenamiento-a-escala-con-vertex-ai/README.md)
 
+## 📥 Material descargable — parte completa
+
+Materiales consolidados con TODAS las clases de esta parte (útiles para revisar offline o imprimir el bloque entero):
+
+- 📄 [Guía PDF — parte completa](../../docs/pdfs/parts/parte-2-deep-learning-completa.pdf) — todas las clases concatenadas con headings demoteados.
+- 🎞️ [Presentación PPTX — parte completa](../../docs/presentaciones/parts/parte-2-deep-learning-completa.pptx) — portada + TOC + slides de cada clase.
+
 ---
 
 > [⬅️ Volver al programa](../../README.md) · [📚 Índice completo](../README.md) · [⏮️ Parte anterior](../parte-1-machine-learning-clasico/README.md) · [⏭️ Parte siguiente](../parte-3-estadistica-inferencial/README.md)

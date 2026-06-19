@@ -84,6 +84,12 @@ Sobre `fetch_california_housing`:
 - Geurts, P., Ernst, D., & Wehenkel, L. (2006). *Extremely Randomized Trees*. Machine Learning, 63(1), 3–42.
 - Documentación scikit-learn: [`RandomForestClassifier`](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html) y [`ExtraTreesClassifier`](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.ExtraTreesClassifier.html).
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-085-random-forests-y-extra-trees-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-085-random-forests-y-extra-trees-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 086 — Feature importance](../086-feature-importance/README.md)

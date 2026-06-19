@@ -116,6 +116,12 @@ Accuracy global enmascara errores localizados entre pocas clases. La matriz de c
 - [sklearn — `MultiOutputClassifier`](https://scikit-learn.org/stable/modules/generated/sklearn.multioutput.MultiOutputClassifier.html)
 - [sklearn — Métricas de clasificación (`hamming_loss`, `f1_score`)](https://scikit-learn.org/stable/modules/model_evaluation.html#classification-metrics)
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-067-clasificacion-multiclase-multilabel-multioutput-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-067-clasificacion-multiclase-multilabel-multioutput-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 068 — Análisis de errores](../068-analisis-de-errores/README.md)

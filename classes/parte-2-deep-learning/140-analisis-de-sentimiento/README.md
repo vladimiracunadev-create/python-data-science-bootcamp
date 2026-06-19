@@ -94,6 +94,12 @@ Cambiar última capa a `Dense(5, softmax)` + `sparse_categorical_crossentropy`. 
 - Maas et al. (2011), *Learning Word Vectors for Sentiment Analysis* — IMDB dataset.
 - Pennington et al. (2014), *GloVe*, EMNLP.
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-140-analisis-de-sentimiento-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-140-analisis-de-sentimiento-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 141 — Encoder-Decoder para traducción](../141-encoder-decoder-para-traduccion/README.md)

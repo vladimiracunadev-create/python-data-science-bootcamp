@@ -95,6 +95,12 @@ MaxPool tiene gradiente subdiferencial (= 1 en el max, 0 en el resto). Avg es di
 - [Keras MaxPooling2D](https://keras.io/api/layers/pooling_layers/max_pooling2d/).
 - Springenberg et al. (2015), *Striving for Simplicity: The All Convolutional Net* — argumenta eliminar pool intermedio.
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-129-pooling-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-129-pooling-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 130 — Arquitecturas CNN: LeNet, AlexNet, VGG, GoogLeNet, ResNet, Xception, SENet, EfficientNet, ConvNeXt](../130-arquitecturas-cnn-lenet-alexnet-vgg-googlenet-resnet-xception-senet-ef/README.md)

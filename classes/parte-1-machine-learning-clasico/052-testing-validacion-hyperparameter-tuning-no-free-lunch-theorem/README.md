@@ -124,6 +124,12 @@ Sí, pero entendé que estás haciendo CV anidada implícita. Lo correcto cuando
 - Bergstra & Bengio (2012), *Random Search for Hyper-Parameter Optimization*, JMLR.
 - Wolpert (1996), *The Lack of A Priori Distinctions Between Learning Algorithms*.
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-052-testing-validacion-hyperparameter-tuning-no-free-lunch-theorem-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-052-testing-validacion-hyperparameter-tuning-no-free-lunch-theorem-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 053 — Validación temporal: TimeSeriesSplit, walk-forward, blocking](../053-validacion-temporal-timeseries-walk-forward/README.md)

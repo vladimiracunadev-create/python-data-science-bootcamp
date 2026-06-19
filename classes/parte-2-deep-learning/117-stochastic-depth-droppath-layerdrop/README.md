@@ -94,6 +94,12 @@ Less común. Llama no usa DropPath. BERT/RoBERTa sí.
 - Dosovitskiy et al. (2020), *ViT* — DropPath aplicado.
 - [timm DropPath](https://timm.fast.ai/).
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-117-stochastic-depth-droppath-layerdrop-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-117-stochastic-depth-droppath-layerdrop-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 118 — TensorFlow: tensores, variables, operaciones](../118-tensorflow-tensores-variables-operaciones/README.md)

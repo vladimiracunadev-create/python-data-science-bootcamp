@@ -107,6 +107,12 @@ Sí, pero para producción seria conviene un **inference server** dedicado: Torc
 - [Locust](https://locust.io/) — loadtest distribuido en Python.
 - [NVIDIA Triton](https://github.com/triton-inference-server/server) — alternativa para producción seria.
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-199-apis-con-fastapi-sirviendo-modelos-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-199-apis-con-fastapi-sirviendo-modelos-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 200 — Kubernetes para servir modelos a escala](../200-kubernetes-para-servir-modelos-a-escala/README.md)

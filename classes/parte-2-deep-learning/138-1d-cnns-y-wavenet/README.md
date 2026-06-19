@@ -94,6 +94,12 @@ Todas las posiciones se computan en paralelo (no hay dependencia temporal explí
 - van den Oord et al. (2016), *WaveNet*.
 - Bai et al. (2018), *An Empirical Evaluation of Generic Convolutional and Recurrent Networks for Sequence Modeling*.
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-138-1d-cnns-y-wavenet-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-138-1d-cnns-y-wavenet-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 139 — Generación de texto char-RNN](../139-generacion-de-texto-char-rnn/README.md)

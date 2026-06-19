@@ -96,6 +96,12 @@ LLMs llevan su propio tokenizer (BPE, SentencePiece, tiktoken). `TextVectorizati
 - [Keras — Preprocessing layers](https://keras.io/api/layers/preprocessing_layers/).
 - [Keras — Working with preprocessing layers](https://keras.io/guides/preprocessing_layers/).
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-126-keras-preprocessing-layers-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-126-keras-preprocessing-layers-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 127 — TensorFlow Datasets (TFDS)](../127-tensorflow-datasets-tfds/README.md)

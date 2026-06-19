@@ -80,6 +80,12 @@ Sobre California Housing (split 60/20/20 train/val/test, features escaladas con 
 - scikit-learn docs: [`SGDRegressor`](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.SGDRegressor.html) (parámetros `early_stopping`, `validation_fraction`, `n_iter_no_change`, `tol`).
 - Prechelt, L. (1998). *Early Stopping — But When?* en *Neural Networks: Tricks of the Trade*.
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-074-early-stopping-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-074-early-stopping-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 075 — Regresión logística binaria y softmax](../075-regresion-logistica-binaria-y-softmax/README.md)

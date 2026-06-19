@@ -95,6 +95,12 @@ W&B (Weights & Biases) — mejor DX, comparación de experimentos. TensorBoard s
 - Falcon et al. (2019), *PyTorch Lightning*.
 - W&B: <https://wandb.ai/>.
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-123-pytorch-lightning-trainer-distribuido-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-123-pytorch-lightning-trainer-distribuido-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 124 — tf.data API](../124-tf-data-api/README.md)

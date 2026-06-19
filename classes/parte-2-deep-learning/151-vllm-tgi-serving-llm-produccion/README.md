@@ -98,6 +98,12 @@ Sí con `guided_json` (vLLM uses outlines library). Mucho más confiable que pro
 - [TGI docs](https://huggingface.co/docs/text-generation-inference).
 - [Outlines (structured output)](https://github.com/outlines-dev/outlines).
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-151-vllm-tgi-serving-llm-produccion-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-151-vllm-tgi-serving-llm-produccion-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 152 — RAG básico y embeddings (+ hybrid search, re-ranking, MCP)](../152-rag-basico-y-embeddings/README.md)

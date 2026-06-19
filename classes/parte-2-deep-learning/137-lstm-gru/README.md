@@ -97,6 +97,12 @@ Sí, para forecasting de series temporales chicas, sistemas embedded, NER simple
 - Cho et al. (2014), *Learning Phrase Representations using RNN Encoder–Decoder (GRU)*, EMNLP.
 - Chung et al. (2014), *Empirical Evaluation of Gated Recurrent Neural Networks*.
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-137-lstm-gru-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-137-lstm-gru-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 138 — 1D CNNs y WaveNet](../138-1d-cnns-y-wavenet/README.md)

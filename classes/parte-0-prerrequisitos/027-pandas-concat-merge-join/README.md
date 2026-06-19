@@ -112,6 +112,12 @@ Con N=1M ya empieza a notarse. Acelera: setea index a la key antes (`set_index('
 - VanderPlas, **cap. 3** §§ 3.7-3.8.
 - [pandas Merge user guide](https://pandas.pydata.org/docs/user_guide/merging.html)
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-027-pandas-concat-merge-join-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-027-pandas-concat-merge-join-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 028 — Pandas: groupby (split-apply-combine)](../028-pandas-groupby-split-apply-combine/README.md)

@@ -110,6 +110,12 @@ Cada una optimizó una métrica distinta (accuracy puro, params, latencia, efici
 - Tan & Le (2019), *EfficientNet*, ICML.
 - Liu et al. (2022), *A ConvNet for the 2020s (ConvNeXt)*, CVPR.
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-130-arquitecturas-cnn-lenet-alexnet-vgg-googlenet-resnet-xception-senet-ef-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-130-arquitecturas-cnn-lenet-alexnet-vgg-googlenet-resnet-xception-senet-ef-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 131 — Transfer learning con CNNs preentrenadas](../131-transfer-learning-con-cnns-preentrenadas/README.md)

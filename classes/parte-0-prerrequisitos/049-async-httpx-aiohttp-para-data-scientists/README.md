@@ -105,3 +105,9 @@ Django 4+ soporta async views. Flask 2+ también. FastAPI es async-native (defau
 ## ➡️ Siguiente parte
 
 [Clase 050 — Panorama del ML: tipos, batch vs online, instance vs model-based](../../parte-1-machine-learning-clasico/050-panorama-del-ml-tipos-batch-vs-online-instance-vs-model-based/README.md)
+
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-049-async-httpx-aiohttp-para-data-scientists-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-049-async-httpx-aiohttp-para-data-scientists-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.

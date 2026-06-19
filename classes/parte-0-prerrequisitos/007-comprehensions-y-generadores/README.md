@@ -108,6 +108,12 @@ Sí, pero ojo: **nunca** lo conviertas a lista directo (`list(gen)`) — bucle i
 - [PEP 255 — Simple Generators](https://peps.python.org/pep-0255/)
 - [`itertools` docs](https://docs.python.org/3/library/itertools.html)
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-007-comprehensions-y-generadores-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-007-comprehensions-y-generadores-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 008 — Funciones: args, kwargs, lambdas, closures](../008-funciones-args-kwargs-lambdas-closures/README.md)

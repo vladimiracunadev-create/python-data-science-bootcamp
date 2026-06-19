@@ -109,6 +109,12 @@ Escanean la imagen contra CVE conocidas. Crítico antes de subir a producción �
 - [Docker Scout](https://docs.docker.com/scout/) / [Trivy](https://github.com/aquasecurity/trivy) — vulnerability scanning.
 - [`distroless`](https://github.com/GoogleContainerTools/distroless) — imágenes mínimas de Google.
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-198-docker-para-empaquetar-modelos-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-198-docker-para-empaquetar-modelos-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 199 — APIs con FastAPI sirviendo modelos](../199-apis-con-fastapi-sirviendo-modelos/README.md)

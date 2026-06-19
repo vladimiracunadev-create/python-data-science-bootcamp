@@ -111,6 +111,12 @@ Respeta. Aumentar agresividad (proxies, rotating User-Agents) puede ser ilegal e
 - [quotes.toscrape.com](https://quotes.toscrape.com/) (sitio para practicar)
 - [Google — robots.txt](https://developers.google.com/search/docs/crawling-indexing/robots/intro)
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-048-web-scraping-con-beautifulsoup-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-048-web-scraping-con-beautifulsoup-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 049 — async / httpx / aiohttp para data scientists](../049-async-httpx-aiohttp-para-data-scientists/README.md)

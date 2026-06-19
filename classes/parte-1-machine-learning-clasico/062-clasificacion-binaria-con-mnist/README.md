@@ -123,6 +123,12 @@ Para `SGDClassifier` sí, conviene (los píxeles 0-255 son grandes y SGD es sens
 - [sklearn `fetch_openml`](https://scikit-learn.org/stable/modules/generated/sklearn.datasets.fetch_openml.html)
 - [sklearn `StratifiedKFold`](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.StratifiedKFold.html)
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-062-clasificacion-binaria-con-mnist-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-062-clasificacion-binaria-con-mnist-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 063 — Métricas: confusion matrix, precision, recall, F1](../063-metricas-confusion-matrix-precision-recall-f1/README.md)

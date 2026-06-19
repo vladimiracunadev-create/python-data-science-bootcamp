@@ -110,6 +110,12 @@ Sí, con `raise ExceptionNueva(...) from e` — preserva el stacktrace original 
 - Ramalho, *Fluent Python* 2e — cap. 18 *Context Managers and else Blocks*.
 - [`contextlib` docs](https://docs.python.org/3/library/contextlib.html)
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-009-manejo-de-excepciones-y-context-managers-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-009-manejo-de-excepciones-y-context-managers-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 010 — OOP básico, dataclasses, herencia](../010-oop-basico-dataclasses-herencia/README.md)

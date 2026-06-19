@@ -96,6 +96,12 @@ Recomendado para tuning + evaluation honesta. Outer TSSplit para reportar, inner
 - [`sklearn.model_selection.TimeSeriesSplit`](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.TimeSeriesSplit.html).
 - Hyndman & Athanasopoulos, *Forecasting: Principles and Practice*.
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-053-validacion-temporal-timeseries-walk-forward-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-053-validacion-temporal-timeseries-walk-forward-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 054 — Proyecto end-to-end: visión, datos, exploración, preparación](../054-proyecto-end-to-end-vision-datos-exploracion-preparacion/README.md)

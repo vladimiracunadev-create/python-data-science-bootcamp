@@ -43,6 +43,13 @@ Al finalizar esta parte, el estudiante podrá:
 - [231 — Capstone 3: visión por computadora con transfer learning](231-capstone-3-vision-por-computadora-con-transfer-learning/README.md)
 - [232 — Portafolio público en GitHub Pages y presentación](232-portafolio-publico-en-github-pages-y-presentacion/README.md)
 
+## 📥 Material descargable — parte completa
+
+Materiales consolidados con TODAS las clases de esta parte (útiles para revisar offline o imprimir el bloque entero):
+
+- 📄 [Guía PDF — parte completa](../../docs/pdfs/parts/parte-8-capstones-completa.pdf) — todas las clases concatenadas con headings demoteados.
+- 🎞️ [Presentación PPTX — parte completa](../../docs/presentaciones/parts/parte-8-capstones-completa.pptx) — portada + TOC + slides de cada clase.
+
 ---
 
 > [⬅️ Volver al programa](../../README.md) · [📚 Índice completo](../README.md) · [⏮️ Parte anterior](../parte-7-etica-fairness-privacidad/README.md)

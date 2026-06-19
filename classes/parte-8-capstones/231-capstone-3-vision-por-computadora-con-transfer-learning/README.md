@@ -111,6 +111,12 @@ Solo si el dataset tiene **atributos sensibles** (rostros con edad/género/etnia
 - He, K. et al. *Deep Residual Learning for Image Recognition* (CVPR 2016). <https://arxiv.org/abs/1512.03385>
 - Dosovitskiy, A. et al. *An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale* (ICLR 2021, ViT). <https://arxiv.org/abs/2010.11929>
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-231-capstone-3-vision-por-computadora-con-transfer-learning-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-231-capstone-3-vision-por-computadora-con-transfer-learning-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 232 — Portafolio público en GitHub Pages y presentación](../232-portafolio-publico-en-github-pages-y-presentacion/README.md)

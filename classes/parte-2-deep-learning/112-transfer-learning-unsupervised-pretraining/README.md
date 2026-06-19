@@ -98,6 +98,12 @@ Misma idea: cargar `bert-base` o `distilbert` desde Hugging Face (clase 127), ag
 - Chen et al. (2020), *A Simple Framework for Contrastive Learning of Visual Representations (SimCLR)*, ICML.
 - He et al. (2022), *Masked Autoencoders Are Scalable Vision Learners (MAE)*, CVPR.
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-112-transfer-learning-unsupervised-pretraining-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-112-transfer-learning-unsupervised-pretraining-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 113 — Optimizadores: Momentum, Nesterov, AdaGrad, RMSProp, Adam, AdamW (+ Lion, Sophia)](../113-optimizadores-momentum-nesterov-adagrad-rmsprop-adam-adamw/README.md)

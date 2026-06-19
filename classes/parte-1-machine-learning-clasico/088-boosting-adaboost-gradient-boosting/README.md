@@ -86,6 +86,12 @@ Sobre `load_breast_cancer()` con `train_test_split(test_size=0.2, random_state=4
 - Friedman, J. (2001). *Greedy Function Approximation: A Gradient Boosting Machine*. Annals of Statistics.
 - Freund & Schapire (1997). *A Decision-Theoretic Generalization of On-Line Learning and an Application to Boosting*.
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-088-boosting-adaboost-gradient-boosting-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-088-boosting-adaboost-gradient-boosting-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 089 — XGBoost, LightGBM y CatBoost](../089-xgboost-lightgbm-catboost/README.md)

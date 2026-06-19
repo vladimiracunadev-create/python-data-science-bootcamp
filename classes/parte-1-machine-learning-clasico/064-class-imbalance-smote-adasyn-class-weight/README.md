@@ -101,6 +101,12 @@ Sí. Por eso es un last resort. SMOTE/oversampling sintético suele ser mejor.
 - Saito & Rehmsmeier (2015), *The Precision-Recall Plot Is More Informative than the ROC Plot*, PLOS ONE.
 - [imbalanced-learn docs](https://imbalanced-learn.org/).
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-064-class-imbalance-smote-adasyn-class-weight-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-064-class-imbalance-smote-adasyn-class-weight-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 065 — Precision/Recall tradeoff](../065-precision-recall-tradeoff/README.md)

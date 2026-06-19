@@ -98,6 +98,12 @@ Algunas ops sí (decode JPG en GPU con `nvidia.dali` o `tf.image`). En general e
 - [TF — tf.data: Build TensorFlow input pipelines](https://www.tensorflow.org/guide/data).
 - [TF — Better performance with the tf.data API](https://www.tensorflow.org/guide/data_performance).
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-124-tf-data-api-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-124-tf-data-api-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 125 — TFRecord](../125-tfrecord/README.md)

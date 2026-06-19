@@ -116,6 +116,12 @@ Métodos: (a) PCA + curva de varianza explicada (rápido, lineal); (b) `sklearn.
 - Radovanović, M. (2010). *Hubs in space: Popular nearest neighbors in high-dimensional data* — fenómeno de hubness.
 - [scikit-learn — Manifold learning](https://scikit-learn.org/stable/modules/manifold.html)
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-091-maldicion-de-la-dimensionalidad-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-091-maldicion-de-la-dimensionalidad-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 092 — PCA: proyección, varianza explicada, incremental, randomized, kernel](../092-pca-proyeccion-varianza-explicada-incremental-randomized-kernel/README.md)

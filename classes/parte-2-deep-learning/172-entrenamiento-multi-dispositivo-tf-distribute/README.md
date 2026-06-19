@@ -97,6 +97,12 @@ Sí, con `TF_CONFIG` env var y orquestación (K8s, Slurm, Vertex AI). Vertex AI 
 - [DeepSpeed](https://www.deepspeed.ai/).
 - Rajbhandari et al. (2020), *ZeRO: Memory Optimizations Toward Training Trillion Parameter Models*.
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-172-entrenamiento-multi-dispositivo-tf-distribute-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-172-entrenamiento-multi-dispositivo-tf-distribute-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 173 — JAX y Flax: el stack moderno de Google para DL](../173-jax-flax-fundamentos/README.md)

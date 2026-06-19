@@ -111,6 +111,12 @@ Cada motor su dialecto. SQLite: strings ISO `'2024-01-15'` + `date()`, `strftime
 - [SQLite SELECT docs](https://www.sqlite.org/lang_select.html)
 - [DuckDB docs](https://duckdb.org/docs/)
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-043-sql-fundamental-select-where-join-group-by-having-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-043-sql-fundamental-select-where-join-group-by-having-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 044 — SQL avanzado: CTEs, window functions, subqueries correlacionadas](../044-sql-avanzado-ctes-window-functions-subqueries-correlacionadas/README.md)

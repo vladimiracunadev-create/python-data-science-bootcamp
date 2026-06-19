@@ -117,6 +117,12 @@ NO. `.venv/` se reconstruye con `requirements.txt`. Datos grandes/sensibles van 
 - [Conventional Commits](https://www.conventionalcommits.org/)
 - [GitHub CLI manual](https://cli.github.com/manual/)
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-003-git-y-github-para-data-scientists-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-003-git-y-github-para-data-scientists-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 004 — Estructura reproducible de proyecto (cookiecutter-data-science)](../004-estructura-reproducible-de-proyecto-cookiecutter-data-science/README.md)

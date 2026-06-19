@@ -96,6 +96,12 @@ Más histórico. Hoy se usan Vector Quantized AE (VQ-VAE) para representaciones 
 - Vincent et al. (2008), *Extracting and Composing Robust Features with Denoising Autoencoders*.
 - He et al. (2022), *Masked Autoencoders Are Scalable Vision Learners (MAE)*, CVPR.
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-156-autoencoders-undercomplete-stacked-denoising-sparse-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-156-autoencoders-undercomplete-stacked-denoising-sparse-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 157 — Variational Autoencoders (VAE)](../157-variational-autoencoders-vae/README.md)

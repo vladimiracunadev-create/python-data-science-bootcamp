@@ -46,6 +46,13 @@ Al finalizar esta parte, el estudiante podrá:
 - [227 — GDPR y AI Act (EU)](227-gdpr-y-ai-act-eu/README.md)
 - [228 — Reproducibilidad: seeds, lock files, versionado de datasets](228-reproducibilidad-seeds-lock-files-versionado-de-datasets/README.md)
 
+## 📥 Material descargable — parte completa
+
+Materiales consolidados con TODAS las clases de esta parte (útiles para revisar offline o imprimir el bloque entero):
+
+- 📄 [Guía PDF — parte completa](../../docs/pdfs/parts/parte-7-etica-fairness-privacidad-completa.pdf) — todas las clases concatenadas con headings demoteados.
+- 🎞️ [Presentación PPTX — parte completa](../../docs/presentaciones/parts/parte-7-etica-fairness-privacidad-completa.pptx) — portada + TOC + slides de cada clase.
+
 ---
 
 > [⬅️ Volver al programa](../../README.md) · [📚 Índice completo](../README.md) · [⏮️ Parte anterior](../parte-6-sistemas-de-recomendacion/README.md) · [⏭️ Parte siguiente](../parte-8-capstones/README.md)

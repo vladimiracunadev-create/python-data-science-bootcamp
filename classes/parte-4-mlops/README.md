@@ -69,6 +69,13 @@ Al terminar P4, todo modelo en producción está cubierto por:
 - [206 — Testing de datos: Great Expectations, Deequ](206-testing-de-datos-great-expectations-deequ/README.md)
 - [207 — Testing de modelos: invariance, behavioral tests](207-testing-de-modelos-invariance-behavioral-tests/README.md)
 
+## 📥 Material descargable — parte completa
+
+Materiales consolidados con TODAS las clases de esta parte (útiles para revisar offline o imprimir el bloque entero):
+
+- 📄 [Guía PDF — parte completa](../../docs/pdfs/parts/parte-4-mlops-completa.pdf) — todas las clases concatenadas con headings demoteados.
+- 🎞️ [Presentación PPTX — parte completa](../../docs/presentaciones/parts/parte-4-mlops-completa.pptx) — portada + TOC + slides de cada clase.
+
 ---
 
 > [⬅️ Volver al programa](../../README.md) · [📚 Índice completo](../README.md) · [⏮️ Parte anterior](../parte-3-estadistica-inferencial/README.md) · [⏭️ Parte siguiente](../parte-5-ingenieria-de-datos/README.md)

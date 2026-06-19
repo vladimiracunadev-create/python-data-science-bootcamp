@@ -96,6 +96,12 @@ Sí — Pinterest, Adobe, Shopify. Vector DB (Qdrant, Pinecone) con embeddings C
 - [OpenCLIP](https://github.com/mlfoundations/open_clip).
 - [LAION-5B](https://laion.ai/) — dataset abierto.
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-146-clip-siglip-multimodal-embeddings-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-146-clip-siglip-multimodal-embeddings-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 147 — Whisper: ASR, transcripción, traducción de audio](../147-whisper-asr-audio-transcripcion-traduccion/README.md)

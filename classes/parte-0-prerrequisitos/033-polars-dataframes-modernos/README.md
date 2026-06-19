@@ -97,6 +97,12 @@ Sí: `pl.scan_parquet('s3://bucket/*.parquet')` con credentials configuradas. Le
 - McKinney (2022 blog), *Apache Arrow and the "10 Things I Hate About pandas"*.
 - Comparativa: <https://h2oai.github.io/db-benchmark/> — Polars consistentemente top.
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-033-polars-dataframes-modernos-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-033-polars-dataframes-modernos-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 034 — Parquet, Arrow, PyArrow, DuckDB](../034-parquet-arrow-pyarrow-duckdb/README.md)

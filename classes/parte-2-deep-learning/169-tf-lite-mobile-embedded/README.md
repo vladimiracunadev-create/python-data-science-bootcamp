@@ -96,6 +96,12 @@ Modelos grandes (>100 MB) o que requieren GPU server (LLMs grandes). Para LLMs e
 - [ONNX Runtime Mobile](https://onnxruntime.ai/docs/tutorials/mobile/).
 - [CoreML Tools](https://coremltools.readme.io/).
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-169-tf-lite-mobile-embedded-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-169-tf-lite-mobile-embedded-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 170 — TensorFlow.js (navegador)](../170-tensorflow-js-navegador/README.md)

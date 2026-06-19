@@ -99,6 +99,12 @@ Solo indica dirección. La magnitud `|d|` es lo que se interpreta.
 - [pingouin docs](https://pingouin-stats.org/).
 - APA Publication Manual 7th ed.
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-177-effect-size-cohen-d-hedges-g-cliff-delta-pingouin-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-177-effect-size-cohen-d-hedges-g-cliff-delta-pingouin-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 178 — Test chi-cuadrado de independencia y bondad de ajuste](../178-test-chi-cuadrado-de-independencia-y-bondad-de-ajuste/README.md)

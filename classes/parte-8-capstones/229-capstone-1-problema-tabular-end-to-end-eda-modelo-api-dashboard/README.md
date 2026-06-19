@@ -108,6 +108,12 @@ No. Es entregable obligatorio. 1-2 páginas Markdown con: propósito, datos, mé
 - [Streamlit docs](https://docs.streamlit.io/) — `cache_resource`, `cache_data`, layout.
 - Mitchell, M. et al. [*Model Cards for Model Reporting*](https://arxiv.org/abs/1810.03993) (FAT* 2019) — el template oficial.
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-229-capstone-1-problema-tabular-end-to-end-eda-modelo-api-dashboard-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-229-capstone-1-problema-tabular-end-to-end-eda-modelo-api-dashboard-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 230 — Capstone 2: NLP o series de tiempo end-to-end](../230-capstone-2-nlp-o-series-de-tiempo-end-to-end/README.md)

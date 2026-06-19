@@ -108,6 +108,12 @@ Etiquetá runners (`runs-on: [self-hosted, gpu]`). Para jobs cortos sin GPU, dej
 - [Configuring OIDC with AWS](https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/configuring-openid-connect-in-amazon-web-services) — deploy sin claves.
 - [`awesome-actions`](https://github.com/sdras/awesome-actions) — actions útiles del marketplace.
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-197-ci-cd-para-ml-con-github-actions-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-197-ci-cd-para-ml-con-github-actions-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 198 — Docker para empaquetar modelos](../198-docker-para-empaquetar-modelos/README.md)

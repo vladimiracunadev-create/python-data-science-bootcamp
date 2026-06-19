@@ -100,6 +100,12 @@ CartPole: 1 minuto. Atari: horas-días. AlphaGo: semanas en cluster. RL es **muy
 - [Gymnasium docs](https://gymnasium.farama.org/).
 - [Stable-Baselines3 docs](https://stable-baselines3.readthedocs.io/).
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-161-rl-aprendizaje-por-recompensa-openai-gymnasium-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-161-rl-aprendizaje-por-recompensa-openai-gymnasium-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 162 — Policy gradients](../162-policy-gradients/README.md)

@@ -118,6 +118,12 @@ Inspección manual del top-k con `score_samples`. Si hay labels parciales o un s
 - [sklearn — LocalOutlierFactor](https://scikit-learn.org/stable/modules/generated/sklearn.neighbors.LocalOutlierFactor.html)
 - Liu, Ting & Zhou (2008), *Isolation Forest*, ICDM.
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-099-deteccion-de-anomalias-isolation-forest-lof-one-class-svm-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-099-deteccion-de-anomalias-isolation-forest-lof-one-class-svm-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 100 — Perceptrón, MLP y backpropagation](../../parte-2-deep-learning/100-perceptron-mlp-y-backpropagation/README.md)

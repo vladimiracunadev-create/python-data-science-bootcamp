@@ -126,6 +126,12 @@ Casi nunca — es el default de `predict()` pero no tiene base teórica. Con `pr
 - [imbalanced-learn — SMOTE](https://imbalanced-learn.org/stable/references/generated/imblearn.over_sampling.SMOTE.html)
 - Chawla et al. (2002), *SMOTE: Synthetic Minority Over-sampling Technique*, JAIR 16.
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-063-metricas-confusion-matrix-precision-recall-f1-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-063-metricas-confusion-matrix-precision-recall-f1-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 064 — Class imbalance: SMOTE, ADASYN, class_weight, threshold tuning](../064-class-imbalance-smote-adasyn-class-weight/README.md)

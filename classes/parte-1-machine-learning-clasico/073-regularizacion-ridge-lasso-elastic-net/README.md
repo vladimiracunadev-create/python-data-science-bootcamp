@@ -91,6 +91,12 @@ Sobre `make_regression(n_samples=200, n_features=50, n_informative=10, noise=10,
 - Hastie, Tibshirani, Friedman — *The Elements of Statistical Learning*, cap. 3.4 (Shrinkage Methods).
 - Zou & Hastie (2005), "Regularization and variable selection via the elastic net".
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-073-regularizacion-ridge-lasso-elastic-net-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-073-regularizacion-ridge-lasso-elastic-net-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 074 — Early stopping](../074-early-stopping/README.md)

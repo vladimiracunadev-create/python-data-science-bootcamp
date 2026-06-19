@@ -97,6 +97,12 @@ CNN domina en visión clásica (eficiente, buen prior espacial). ViT (Vision Tra
 - [Keras Conv2D](https://keras.io/api/layers/convolution_layers/convolution2d/).
 - [CS231n CNN notes](https://cs231n.github.io/convolutional-networks/) — referencia clásica de Stanford.
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-128-capas-convolucionales-filtros-feature-maps-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-128-capas-convolucionales-filtros-feature-maps-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 129 — Pooling](../129-pooling/README.md)

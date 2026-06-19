@@ -142,6 +142,12 @@ Para este curso, sí (varias features usadas dependen). En general, usa la últi
 - [Astral uv — Getting started](https://docs.astral.sh/uv/getting-started/).
 - [Conda vs pip vs venv](https://www.anaconda.com/blog/understanding-conda-and-pip) — comparación oficial.
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-001-instalacion-de-python-3-12-y-entornos-virtuales-venv-uv-conda-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-001-instalacion-de-python-3-12-y-entornos-virtuales-venv-uv-conda-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 002 — Jupyter y JupyterLab — kernels, magics, debugging, profiling](../002-jupyter-y-jupyterlab-kernels-magics-debugging-profiling/README.md)

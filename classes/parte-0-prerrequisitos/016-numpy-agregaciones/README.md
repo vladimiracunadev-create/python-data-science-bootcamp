@@ -109,6 +109,12 @@ No directa. Usa `np.partition(arr, -3)[-3:]` para los 3 mayores (más rápido qu
 - VanderPlas, **cap. 2** § 2.4.
 - [NumPy statistics functions](https://numpy.org/doc/stable/reference/routines.statistics.html)
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-016-numpy-agregaciones-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-016-numpy-agregaciones-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 017 — NumPy: broadcasting](../017-numpy-broadcasting/README.md)

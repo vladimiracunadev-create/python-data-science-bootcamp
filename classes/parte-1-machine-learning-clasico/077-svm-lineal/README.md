@@ -83,6 +83,12 @@ Entregá un script `tarea_068.py` que:
 - scikit-learn user guide: [1.4. Support Vector Machines](https://scikit-learn.org/stable/modules/svm.html).
 - API: [`sklearn.svm.LinearSVC`](https://scikit-learn.org/stable/modules/generated/sklearn.svm.LinearSVC.html).
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-077-svm-lineal-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-077-svm-lineal-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 078 — SVM no lineal: kernel polinomial y RBF](../078-svm-no-lineal-kernel-polinomial-rbf/README.md)

@@ -103,6 +103,12 @@ No. Una **iteración** (= un batch) es 1 forward + 1 backward + 1 update. Una **
 - 3Blue1Brown — serie "But what is a neural network?" (4 videos, intuición visual de backprop).
 - [Keras docs — Sequential model](https://keras.io/guides/sequential_model/).
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-100-perceptron-mlp-y-backpropagation-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-100-perceptron-mlp-y-backpropagation-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 101 — Regresión y clasificación con MLP](../101-regresion-y-clasificacion-con-mlp/README.md)

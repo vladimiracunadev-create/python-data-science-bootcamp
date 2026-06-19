@@ -116,6 +116,12 @@ AUC sirve para **comparar modelos**. Para deployar tenés que elegir umbral seg�
 - [scikit-learn — *Precision-Recall vs ROC*](https://scikit-learn.org/stable/auto_examples/model_selection/plot_precision_recall.html)
 - Saito & Rehmsmeier (2015), *The Precision-Recall Plot Is More Informative than the ROC Plot When Evaluating Binary Classifiers on Imbalanced Datasets*.
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-066-curva-roc-y-auc-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-066-curva-roc-y-auc-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 067 — Clasificación multiclase, multilabel, multioutput](../067-clasificacion-multiclase-multilabel-multioutput/README.md)

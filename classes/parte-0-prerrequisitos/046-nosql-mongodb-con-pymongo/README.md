@@ -111,6 +111,12 @@ Como **fuente** sí (extraes datos con aggregation, los pasas a pandas). Para **
 - [mongomock](https://github.com/mongomock/mongomock)
 - Bradshaw, *MongoDB: The Definitive Guide* 3e, cap. 1.
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-046-nosql-mongodb-con-pymongo-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-046-nosql-mongodb-con-pymongo-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 047 — APIs REST con requests](../047-apis-rest-con-requests/README.md)

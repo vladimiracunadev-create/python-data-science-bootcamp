@@ -118,6 +118,12 @@ Siempre que los clusters tengan **densidades distintas** entre sí. DBSCAN usa u
 - [HDBSCAN docs](https://hdbscan.readthedocs.io/)
 - Ester et al. (1996), *A Density-Based Algorithm for Discovering Clusters in Large Spatial Databases with Noise* — paper original.
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-096-dbscan-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-096-dbscan-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 097 — Agglomerative, BIRCH, Mean Shift, Affinity Propagation, Spectral](../097-clustering-agglomerative-birch-mean-shift-affinity-propagation-spectra/README.md)

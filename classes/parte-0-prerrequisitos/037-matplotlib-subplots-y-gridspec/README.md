@@ -106,6 +106,12 @@ Para artículos: ancho de columna (típicamente 3.5" para 1 col, 7" para ancho p
 - VanderPlas, **cap. 4** § 4.6.
 - [GridSpec tutorial](https://matplotlib.org/stable/users/explain/axes/arranging_axes.html)
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-037-matplotlib-subplots-y-gridspec-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-037-matplotlib-subplots-y-gridspec-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 038 — Matplotlib: legends, colorbars, ticks, anotaciones](../038-matplotlib-legends-colorbars-ticks-anotaciones/README.md)

@@ -106,6 +106,12 @@ Casi todo PyTorch desde 2022. Los modelos modernos (Llama, Mistral, Mixtral, etc
 - Falcon et al. (2019), *PyTorch Lightning*.
 - [Hugging Face — Trainer (built on Lightning concepts)](https://huggingface.co/docs/transformers/trainer).
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-121-custom-training-loops-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-121-custom-training-loops-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 122 — PyTorch fundamentos: tensores, autograd, nn.Module](../122-pytorch-fundamentos-tensores-autograd/README.md)

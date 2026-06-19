@@ -106,6 +106,12 @@ Style del libro *Bayesian Methods for Hackers* — popular para gráficos estad�
 - VanderPlas, **cap. 4** § 4.11.
 - [matplotlib stylesheets gallery](https://matplotlib.org/stable/gallery/style_sheets/style_sheets_reference.html)
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-039-matplotlib-stylesheets-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-039-matplotlib-stylesheets-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 040 — Matplotlib: 3D plotting](../040-matplotlib-3d-plotting/README.md)

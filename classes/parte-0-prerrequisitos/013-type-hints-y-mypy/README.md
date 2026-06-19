@@ -113,6 +113,12 @@ Empieza permisivo (sin `--strict`), arregla lo obvio, luego activa `--strict` gr
 - [PEP 484 — Type Hints](https://peps.python.org/pep-0484/)
 - [PEP 604 — `X | Y` syntax](https://peps.python.org/pep-0604/)
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-013-type-hints-y-mypy-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-013-type-hints-y-mypy-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 014 — NumPy: tipos, creación, atributos](../014-numpy-tipos-creacion-atributos/README.md)

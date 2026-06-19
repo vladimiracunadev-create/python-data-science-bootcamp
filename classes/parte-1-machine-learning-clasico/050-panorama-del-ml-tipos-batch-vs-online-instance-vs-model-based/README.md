@@ -124,6 +124,12 @@ Porque sin el mapa, cada algoritmo nuevo se siente desconectado del anterior. Co
 - Mitchell, T. *Machine Learning* (McGraw-Hill, 1997) — definición clásica de aprendizaje (T, P, E).
 - [Distill — *A visual exploration of Gaussian Processes*](https://distill.pub/2019/visual-exploration-gaussian-processes/) — bonus para entender model-based no paramétrico.
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-050-panorama-del-ml-tipos-batch-vs-online-instance-vs-model-based-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-050-panorama-del-ml-tipos-batch-vs-online-instance-vs-model-based-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 051 — Desafíos del ML: overfitting, underfitting, datos insuficientes](../051-desafios-del-ml-overfitting-underfitting-datos-insuficientes/README.md)

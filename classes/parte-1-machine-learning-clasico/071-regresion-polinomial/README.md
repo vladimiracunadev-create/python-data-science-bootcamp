@@ -112,6 +112,12 @@ Polinomial es el ejemplo canónico de modelo con **alto bias** en grado bajo y *
 - [sklearn `PolynomialFeatures`](https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.PolynomialFeatures.html)
 - [sklearn user guide § Polynomial regression](https://scikit-learn.org/stable/modules/linear_model.html#polynomial-regression-extending-linear-models-with-basis-functions)
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-071-regresion-polinomial-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-071-regresion-polinomial-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 072 — Curvas de aprendizaje y bias-variance tradeoff](../072-curvas-de-aprendizaje-bias-variance/README.md)

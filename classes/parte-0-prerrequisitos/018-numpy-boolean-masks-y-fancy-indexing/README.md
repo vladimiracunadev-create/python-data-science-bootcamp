@@ -106,6 +106,12 @@ Idénticos cuando `where` se llama con un solo argumento. `nonzero` es más expl
 - VanderPlas, **cap. 2** §§ 2.6, 2.7.
 - [NumPy indexing user guide](https://numpy.org/doc/stable/user/basics.indexing.html)
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-018-numpy-boolean-masks-y-fancy-indexing-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-018-numpy-boolean-masks-y-fancy-indexing-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 019 — NumPy: ordenamiento y búsqueda](../019-numpy-ordenamiento-y-busqueda/README.md)

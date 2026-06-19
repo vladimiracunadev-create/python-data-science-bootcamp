@@ -104,3 +104,9 @@ Casi siempre. Centered solo si hay mucho data por nivel.
 ## ➡️ Siguiente parte
 
 [Clase 194 — Versionado de datos con DVC](../../parte-4-mlops/194-versionado-de-datos-con-dvc/README.md)
+
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-193-pymc-v5-numpyro-arviz-stack-bayesiano-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-193-pymc-v5-numpyro-arviz-stack-bayesiano-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.

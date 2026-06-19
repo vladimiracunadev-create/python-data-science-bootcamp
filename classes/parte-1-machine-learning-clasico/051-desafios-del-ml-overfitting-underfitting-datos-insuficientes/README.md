@@ -115,6 +115,12 @@ Casi siempre. La excepción rara: cuando deploy y train son el **mismo** univers
 - Banko & Brill (2001), *Scaling to very very large corpora for natural language disambiguation*.
 - Halevy, Norvig & Pereira (2009), *The Unreasonable Effectiveness of Data*.
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-051-desafios-del-ml-overfitting-underfitting-datos-insuficientes-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-051-desafios-del-ml-overfitting-underfitting-datos-insuficientes-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 052 — Testing, validación, hyperparameter tuning, no free lunch theorem](../052-testing-validacion-hyperparameter-tuning-no-free-lunch-theorem/README.md)

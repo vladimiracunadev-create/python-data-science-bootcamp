@@ -97,6 +97,12 @@ Endpoint con `n1-standard-4` 24/7 ≈ $100/mes. Con GPU T4 ≈ $250/mes. Si auto
 - [SageMaker docs](https://docs.aws.amazon.com/sagemaker/).
 - [Modal](https://modal.com/), [Replicate](https://replicate.com/).
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-168-despliegue-en-vertex-ai-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-168-despliegue-en-vertex-ai-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 169 — TF Lite (mobile/embedded)](../169-tf-lite-mobile-embedded/README.md)

@@ -113,6 +113,12 @@ Ahí la curva PR brilla y la ROC engaña. Lo cierra la clase 058 (ROC y AUC).
 - [scikit-learn — `average_precision_score`](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.average_precision_score.html)
 - [scikit-learn — Precision-Recall example](https://scikit-learn.org/stable/auto_examples/model_selection/plot_precision_recall.html)
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-065-precision-recall-tradeoff-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-065-precision-recall-tradeoff-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 066 — Curva ROC y AUC](../066-curva-roc-y-auc/README.md)

@@ -105,6 +105,12 @@ Escalonado: prohibiciones desde **feb-2025**, GPAI desde **ago-2025**, alto ries
 - Wachter, S., Mittelstadt, B., Floridi, L. *Why a Right to Explanation of Automated Decision-Making Does Not Exist in the General Data Protection Regulation* (IDPL, 2017). <https://academic.oup.com/idpl/article/7/2/76/3860948>.
 - Mitchell, M. et al. *Model Cards for Model Reporting* (FAT* 2019) — base de la model card que implementamos.
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-227-gdpr-y-ai-act-eu-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-227-gdpr-y-ai-act-eu-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 228 — Reproducibilidad: seeds, lock files, versionado de datasets](../228-reproducibilidad-seeds-lock-files-versionado-de-datasets/README.md)

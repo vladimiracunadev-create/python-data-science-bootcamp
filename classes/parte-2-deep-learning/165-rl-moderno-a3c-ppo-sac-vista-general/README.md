@@ -99,6 +99,12 @@ Optuna sobre SB3 o `rl_zoo3` que tiene hyperparams pre-tuneados para muchos envs
 - [Stable-Baselines3 docs](https://stable-baselines3.readthedocs.io/).
 - Sutton & Barto, capítulos avanzados.
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-165-rl-moderno-a3c-ppo-sac-vista-general-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-165-rl-moderno-a3c-ppo-sac-vista-general-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 166 — TF Serving + gRPC (+ ONNX, TensorRT, vLLM/TGI)](../166-tf-serving-grpc/README.md)

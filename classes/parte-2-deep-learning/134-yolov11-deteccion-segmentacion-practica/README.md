@@ -97,6 +97,12 @@ Sí, mosaic/mixup/etc. Built-in. Tunear con `model.train(augment=True)`.
 - Redmon et al. (2016), *You Only Look Once* — paper original.
 - [Roboflow Universe](https://universe.roboflow.com/) — datasets pre-anotados.
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-134-yolov11-deteccion-segmentacion-practica-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-134-yolov11-deteccion-segmentacion-practica-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 135 — RNNs: neuronas recurrentes, BPTT](../135-rnns-neuronas-recurrentes-bptt/README.md)

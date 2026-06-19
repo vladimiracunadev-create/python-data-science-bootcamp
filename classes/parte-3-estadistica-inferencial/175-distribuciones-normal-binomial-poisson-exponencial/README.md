@@ -104,6 +104,12 @@ Porque `P(X > s + t | X > s) = P(X > t)`. Aplicado a un servidor que lleva 3 h s
 - [`numpy.random.Generator`](https://numpy.org/doc/stable/reference/random/generator.html) — API moderna recomendada desde NumPy 1.17.
 - 3Blue1Brown — *Why π appears in the normal distribution* (intuición visual del TCL).
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-175-distribuciones-normal-binomial-poisson-exponencial-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-175-distribuciones-normal-binomial-poisson-exponencial-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 176 — Test t (una muestra, dos muestras, pareado)](../176-test-t-una-muestra-dos-muestras-pareado/README.md)

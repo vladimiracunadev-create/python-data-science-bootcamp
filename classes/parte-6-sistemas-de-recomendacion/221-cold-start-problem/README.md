@@ -113,6 +113,12 @@ No. **Cross-domain transfer** (gustos en Spotify → recomendaciones en Audible)
 - [Vowpal Wabbit contextual bandits](https://vowpalwabbit.org/docs/vowpal_wabbit/python/latest/tutorials/python_Contextual_bandits_and_Vowpal_Wabbit.html).
 - *Two Decades of Recommender Systems at Amazon* (Smith & Linden, IEEE, 2017) — perspectiva histórica.
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-221-cold-start-problem-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-221-cold-start-problem-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 222 — Librerías: LightFM, Implicit, Surprise](../222-librerias-lightfm-implicit-surprise/README.md)

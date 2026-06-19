@@ -125,6 +125,12 @@ Platt e isotonic son **monótonas no-decrecientes** → no cambian el ranking ni
 - Niculescu-Mizil & Caruana (2005), *Predicting Good Probabilities With Supervised Learning*, ICML — paper canónico sobre Platt vs isotonic en RF, SVM, boosting, NB.
 - Guo et al. (2017), *On Calibration of Modern Neural Networks* — temperature scaling.
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-075-regresion-logistica-binaria-y-softmax-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-075-regresion-logistica-binaria-y-softmax-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 076 — Calibración de probabilidades: Platt, isotonic, temperature scaling](../076-calibracion-de-probabilidades-platt-isotonic/README.md)

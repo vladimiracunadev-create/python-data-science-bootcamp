@@ -97,6 +97,12 @@ Sí — `pd.read_csv(..., dtype_backend='pyarrow')` usa Arrow types internamente
 - [DuckDB docs](https://duckdb.org/docs/)
 - McKinney (2017 blog), *Apache Arrow and the "10 Things I Hate About pandas"*.
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-034-parquet-arrow-pyarrow-duckdb-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-034-parquet-arrow-pyarrow-duckdb-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 035 — Matplotlib: anatomía figura/axes](../035-matplotlib-anatomia-figura-axes/README.md)

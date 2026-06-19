@@ -119,6 +119,12 @@ Por ahora, no. **Pandas primero** — es la base del curso, lo vas a ver en clas
 - [Palmer Penguins](https://github.com/allisonhorst/palmerpenguins)
 - [Polars user guide](https://docs.pola.rs/)
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-022-pandas-series-y-dataframe-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-022-pandas-series-y-dataframe-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 023 — Pandas: indexación (loc, iloc, at, iat)](../023-pandas-indexacion-loc-iloc-at-iat/README.md)

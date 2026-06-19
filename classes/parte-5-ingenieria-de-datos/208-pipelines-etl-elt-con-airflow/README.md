@@ -117,6 +117,12 @@ Sí — el scheduler parsea todos los DAGs cada `min_file_process_interval` segu
 - [dbt-core](https://docs.getdbt.com/) — el complemento natural para ELT.
 - *Designing Data-Intensive Applications* (Kleppmann, 2017) — fundamentos.
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-208-pipelines-etl-elt-con-airflow-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-208-pipelines-etl-elt-con-airflow-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 209 — Pipelines con Prefect o Dagster](../209-pipelines-con-prefect-o-dagster/README.md)

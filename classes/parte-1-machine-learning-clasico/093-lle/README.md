@@ -78,6 +78,12 @@ Generá un Swiss roll con `n_samples=1500` y `random_state=42`. Aplicá LLE est�
 - scikit-learn docs: [`LocallyLinearEmbedding`](https://scikit-learn.org/stable/modules/generated/sklearn.manifold.LocallyLinearEmbedding.html) y [manifold learning comparison](https://scikit-learn.org/stable/modules/manifold.html).
 - Zhang, Z. & Wang, J. (2007). *MLLE: Modified Locally Linear Embedding Using Multiple Weights*.
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-093-lle-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-093-lle-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 094 — MDS, Isomap, t-SNE, UMAP, LDA](../094-mds-isomap-t-sne-umap-lda/README.md)

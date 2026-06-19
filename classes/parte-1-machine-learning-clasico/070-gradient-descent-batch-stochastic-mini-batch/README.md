@@ -117,6 +117,12 @@ Empezá con `0.01`. Si diverge, dividilo por 10. Si converge pero lento, multipl
 - [scikit-learn — Stochastic Gradient Descent user guide](https://scikit-learn.org/stable/modules/sgd.html)
 - [Sebastian Ruder — *An overview of gradient descent optimization algorithms*](https://www.ruder.io/optimizing-gradient-descent/)
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-070-gradient-descent-batch-stochastic-mini-batch-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-070-gradient-descent-batch-stochastic-mini-batch-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 071 — Regresión polinomial](../071-regresion-polinomial/README.md)

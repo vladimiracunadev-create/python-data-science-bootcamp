@@ -96,6 +96,12 @@ VAE con codebook discreto. Base de muchos modelos modernos: DALL-E 1, Jukebox, E
 - Higgins et al. (2017), *β-VAE*, ICLR.
 - van den Oord et al. (2017), *Neural Discrete Representation Learning (VQ-VAE)*, NeurIPS.
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-157-variational-autoencoders-vae-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-157-variational-autoencoders-vae-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 158 — GANs: DCGAN, Progressive GAN, StyleGAN](../158-gans-dcgan-progressive-gan-stylegan/README.md)

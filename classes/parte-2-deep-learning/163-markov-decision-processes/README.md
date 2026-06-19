@@ -97,6 +97,12 @@ Model-based RL: aprender un modelo, planificar con él. Más sample-efficient pe
 - Sutton & Barto, cap. 3-4.
 - Bellman (1957), *Dynamic Programming*.
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-163-markov-decision-processes-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-163-markov-decision-processes-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 164 — TD Learning, Q-Learning, Deep Q-Networks](../164-td-learning-q-learning-deep-q-networks/README.md)

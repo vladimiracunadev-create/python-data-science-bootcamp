@@ -47,6 +47,13 @@ Al finalizar esta parte, el estudiante podrá:
 - [221 — Cold-start problem](221-cold-start-problem/README.md)
 - [222 — Librerías: LightFM, Implicit, Surprise](222-librerias-lightfm-implicit-surprise/README.md)
 
+## 📥 Material descargable — parte completa
+
+Materiales consolidados con TODAS las clases de esta parte (útiles para revisar offline o imprimir el bloque entero):
+
+- 📄 [Guía PDF — parte completa](../../docs/pdfs/parts/parte-6-sistemas-de-recomendacion-completa.pdf) — todas las clases concatenadas con headings demoteados.
+- 🎞️ [Presentación PPTX — parte completa](../../docs/presentaciones/parts/parte-6-sistemas-de-recomendacion-completa.pptx) — portada + TOC + slides de cada clase.
+
 ---
 
 > [⬅️ Volver al programa](../../README.md) · [📚 Índice completo](../README.md) · [⏮️ Parte anterior](../parte-5-ingenieria-de-datos/README.md) · [⏭️ Parte siguiente](../parte-7-etica-fairness-privacidad/README.md)

@@ -118,6 +118,12 @@ Two-towers + transformers (BERT4Rec, SASRec) son SOTA para sequential recommenda
 - [Funk SVD blog (Simon Funk, 2006)](https://sifter.org/~simon/journal/20061211.html) — el blog que cambió la historia.
 - *Recommender Systems: An Introduction* (Jannach et al., 2010).
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-217-factorizacion-de-matrices-svd-als-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-217-factorizacion-de-matrices-svd-als-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 218 — Content-based filtering](../218-content-based-filtering/README.md)

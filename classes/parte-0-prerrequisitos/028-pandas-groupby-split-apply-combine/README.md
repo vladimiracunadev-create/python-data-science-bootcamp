@@ -110,6 +110,12 @@ Con N=1M filas y K=1000 grupos, debería ser <1s. Si es más lento, posibles cau
 - [pandas groupby user guide](https://pandas.pydata.org/docs/user_guide/groupby.html)
 - Wickham, ["The split-apply-combine strategy for data analysis"](https://www.jstatsoft.org/article/view/v040i01) (J Stat Software, 2011).
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-028-pandas-groupby-split-apply-combine-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-028-pandas-groupby-split-apply-combine-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 029 — Pandas: pivot tables y crosstab](../029-pandas-pivot-tables-y-crosstab/README.md)

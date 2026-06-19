@@ -100,6 +100,12 @@ Sí: Microsoft (CUPED), Netflix (sequential), Optimizely (always-valid). Buscar 
 - Kohavi, Tang & Xu (2020), *Trustworthy Online Controlled Experiments*, Cambridge.
 - [confseq](https://github.com/gostevehoward/confseq).
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-186-cuped-sequential-testing-always-valid-p-values-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-186-cuped-sequential-testing-always-valid-p-values-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 187 — Diseño experimental](../187-diseno-experimental/README.md)

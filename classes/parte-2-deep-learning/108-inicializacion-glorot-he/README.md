@@ -95,6 +95,12 @@ Es el promedio armónico de "preservar varianza en forward (`1/fan_in`)" y "pres
 - He, Zhang, Ren & Sun (2015), *Delving Deep into Rectifiers*, ICCV — paper original de He init.
 - [Keras initializers](https://keras.io/api/layers/initializers/).
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-108-inicializacion-glorot-he-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-108-inicializacion-glorot-he-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 109 — Activaciones: ReLU, ELU, GELU, Swish, Mish](../109-activaciones-relu-elu-gelu-swish-mish/README.md)

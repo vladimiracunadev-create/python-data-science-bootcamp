@@ -119,3 +119,9 @@ OLS te da `β̂` puntual + IC frecuentista. Bayes te da **distribución completa
 ## ➡️ Siguiente parte
 
 [Clase 193 — Stack bayesiano moderno: PyMC v5, NumPyro, ArviZ](../193-pymc-v5-numpyro-arviz-stack-bayesiano/README.md)
+
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-192-bayes-intro-priors-posterior-mcmc-con-pymc-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-192-bayes-intro-priors-posterior-mcmc-con-pymc-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.

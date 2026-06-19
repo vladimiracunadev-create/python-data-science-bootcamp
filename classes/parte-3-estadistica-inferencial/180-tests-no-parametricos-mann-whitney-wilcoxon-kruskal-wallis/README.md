@@ -103,6 +103,12 @@ No paramétrico siempre. Ranks son la operación natural sobre escalas ordinales
 - [`scipy.stats.mannwhitneyu`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.mannwhitneyu.html), [`wilcoxon`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.wilcoxon.html), [`kruskal`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.kruskal.html).
 - [scikit-posthocs](https://scikit-posthocs.readthedocs.io/) — Dunn, Conover, Nemenyi.
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-180-tests-no-parametricos-mann-whitney-wilcoxon-kruskal-wallis-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-180-tests-no-parametricos-mann-whitney-wilcoxon-kruskal-wallis-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 181 — Corrección de comparaciones múltiples (Bonferroni, FDR)](../181-correccion-de-comparaciones-multiples-bonferroni-fdr/README.md)

@@ -97,6 +97,12 @@ Whisper es batch (audio completo). Para streaming: `faster-whisper` con VAD, o *
 - [Distil-Whisper](https://github.com/huggingface/distil-whisper).
 - [Insanely Fast Whisper](https://github.com/Vaibhavs10/insanely-fast-whisper).
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-147-whisper-asr-audio-transcripcion-traduccion-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-147-whisper-asr-audio-transcripcion-traduccion-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 148 — LLMs aplicados: fine-tuning, prompting (+ LoRA / QLoRA, DPO, vLLM)](../148-llms-aplicados-fine-tuning-prompting/README.md)

@@ -112,6 +112,12 @@ Polars usa **multi-thread** (Rust + Rayon) — sin GIL. Mejor que pandas + multi
 - *Modern Polars* (book): https://kevinheavey.github.io/modern-polars/
 - [`hyperscan` Arrow ecosystem](https://arrow.apache.org/docs/) — zero-copy interop.
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-211-polars-como-alternativa-moderna-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-211-polars-como-alternativa-moderna-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 212 — Data warehouses: BigQuery, Snowflake, DuckDB](../212-data-warehouses-bigquery-snowflake-duckdb/README.md)

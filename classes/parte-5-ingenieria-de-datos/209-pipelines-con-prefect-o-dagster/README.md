@@ -114,6 +114,12 @@ Sí — `dagster-dbt` carga modelos dbt como assets Dagster automático. Lineage
 - [*Prefect vs Airflow* (Prefect, 2024)](https://www.prefect.io/blog/airflow-vs-prefect) — sesgado pero útil.
 - [`dagster-dbt` integration](https://docs.dagster.io/integrations/dbt) — el combo más usado.
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-209-pipelines-con-prefect-o-dagster-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-209-pipelines-con-prefect-o-dagster-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 210 — PySpark para datasets grandes](../210-pyspark-para-datasets-grandes/README.md)

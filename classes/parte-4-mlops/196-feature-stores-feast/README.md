@@ -109,6 +109,12 @@ Job de comparación periódica: tomar N entities random, computar features offli
 - [Tecton vs Feast (2024 comparison)](https://www.tecton.ai/blog/feast-vs-tecton/) — vendor-biased, leer con criterio.
 - *MLOps at Reasonable Scale* (Tagliabue, 2022) — cuándo NO usar feature store.
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-196-feature-stores-feast-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-196-feature-stores-feast-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 197 — CI/CD para ML con GitHub Actions](../197-ci-cd-para-ml-con-github-actions/README.md)

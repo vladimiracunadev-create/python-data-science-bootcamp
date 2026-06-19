@@ -98,6 +98,12 @@ AWS p4/p5, GCP A2/A3, Lambda Labs, Vast.ai. Lambda/Vast son más baratos para ex
 - [Mixed precision guide](https://www.tensorflow.org/guide/mixed_precision).
 - NVIDIA H100 / Hopper architecture whitepaper.
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-171-aceleracion-con-gpu-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-171-aceleracion-con-gpu-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 172 — Entrenamiento multi-dispositivo, tf.distribute](../172-entrenamiento-multi-dispositivo-tf-distribute/README.md)

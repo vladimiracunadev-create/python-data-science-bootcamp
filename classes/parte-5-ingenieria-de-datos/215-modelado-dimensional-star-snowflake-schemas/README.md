@@ -115,6 +115,12 @@ No estrictamente, pero es el estándar. dbt convierte SQL transforms en código 
 - [The Open Source Data Stack Conference](https://www.coalesce.io/) — talks de Kimball moderno con DuckDB/dbt.
 - [`dim_date` SQL generator](https://github.com/calogica/dbt-date) — dbt package listo para usar.
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-215-modelado-dimensional-star-snowflake-schemas-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-215-modelado-dimensional-star-snowflake-schemas-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 216 — Recommender systems: visión general](../../parte-6-sistemas-de-recomendacion/216-recommender-systems-vision-general/README.md)

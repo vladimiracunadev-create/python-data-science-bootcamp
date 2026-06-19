@@ -117,6 +117,12 @@ Casi. Random Forest = bagging de árboles + sampling de features **en cada split
 - [sklearn user guide — Bagging](https://scikit-learn.org/stable/modules/ensemble.html#bagging)
 - Breiman, L. (1996). *Bagging predictors*. Machine Learning, 24(2).
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-084-bagging-y-pasting-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-084-bagging-y-pasting-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 085 — Random Forests y Extra Trees](../085-random-forests-y-extra-trees/README.md)

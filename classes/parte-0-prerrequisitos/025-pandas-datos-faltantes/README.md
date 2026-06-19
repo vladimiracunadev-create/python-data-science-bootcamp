@@ -110,6 +110,12 @@ No nativo. Usa `sklearn.impute.KNNImputer` o `IterativeImputer` (= MICE). Más c
 - [pandas — Missing data user guide](https://pandas.pydata.org/docs/user_guide/missing_data.html)
 - [pandas nullable Integer dtypes](https://pandas.pydata.org/docs/user_guide/integer_na.html)
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-025-pandas-datos-faltantes-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-025-pandas-datos-faltantes-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 026 — Pandas: MultiIndex](../026-pandas-multiindex/README.md)

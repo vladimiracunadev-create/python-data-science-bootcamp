@@ -115,6 +115,12 @@ Frameworks de research, mucho catálogo de algoritmos. Útiles para **comparar 2
 - [TensorFlow Recommenders](https://www.tensorflow.org/recommenders) — two-tower + ranking.
 - [FAISS docs](https://github.com/facebookresearch/faiss) — vector similarity search.
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-222-librerias-lightfm-implicit-surprise-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-222-librerias-lightfm-implicit-surprise-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 223 — Sesgos algorítmicos: tipos y origen](../../parte-7-etica-fairness-privacidad/223-sesgos-algoritmicos-tipos-y-origen/README.md)

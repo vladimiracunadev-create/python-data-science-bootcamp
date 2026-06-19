@@ -116,6 +116,12 @@ No completamente. RCT randomiza el tratamiento → corta todas las flechas backd
 - [EconML docs](https://econml.azurewebsites.net/) — Microsoft Research.
 - [DoWhy](https://www.pywhy.org/dowhy/) — framework de identificación + estimación + refutación.
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-188-inferencia-causal-dags-confounders-instrumentos-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-188-inferencia-causal-dags-confounders-instrumentos-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 189 — DoubleML / EconML: Machine Learning para causalidad](../189-doubleml-econml-ml-para-causalidad/README.md)

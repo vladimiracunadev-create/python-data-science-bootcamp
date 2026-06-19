@@ -99,3 +99,9 @@ Cuando solo necesitás API a modelos open-source preentrenados (LLMs, difusión)
 ## ➡️ Siguiente parte
 
 [Clase 175 — Distribuciones: normal, binomial, Poisson, exponencial](../../parte-3-estadistica-inferencial/175-distribuciones-normal-binomial-poisson-exponencial/README.md)
+
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-174-entrenamiento-a-escala-con-vertex-ai-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-174-entrenamiento-a-escala-con-vertex-ai-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.

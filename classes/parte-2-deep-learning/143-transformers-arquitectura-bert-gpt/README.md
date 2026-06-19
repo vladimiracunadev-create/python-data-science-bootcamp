@@ -112,6 +112,12 @@ Se entrena con GQA desde el principio. Beneficio principal es inference; trainin
 - Su et al. (2021), *RoFormer: Enhanced Transformer with Rotary Position Embedding*.
 - Ainslie et al. (2023), *GQA: Training Generalized Multi-Query Transformer Models*.
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-143-transformers-arquitectura-bert-gpt-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-143-transformers-arquitectura-bert-gpt-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 144 — Flash Attention v2/v3, RoPE, GQA: el motor de los LLMs modernos](../144-flash-attention-rope-gqa-llm-engines/README.md)

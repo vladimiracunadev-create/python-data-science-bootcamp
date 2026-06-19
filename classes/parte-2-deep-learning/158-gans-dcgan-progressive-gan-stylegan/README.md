@@ -102,6 +102,12 @@ Más estable de entrenar (sin min-max), mejor calidad de outputs, controllable c
 - Karras et al. (2019, 2020, 2021), *StyleGAN1/2/3*, NeurIPS/CVPR.
 - Gulrajani et al. (2017), *WGAN-GP*, NeurIPS.
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-158-gans-dcgan-progressive-gan-stylegan-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-158-gans-dcgan-progressive-gan-stylegan-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 159 — Modelos de difusión (+ Stable Diffusion XL, ControlNet, LCM)](../159-modelos-de-difusion-ddpm-score-based/README.md)

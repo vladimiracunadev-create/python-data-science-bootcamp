@@ -90,6 +90,12 @@ Sobre `load_iris` (sin usar la etiqueta para entrenar):
 - scikit-learn — [`GaussianMixture`](https://scikit-learn.org/stable/modules/generated/sklearn.mixture.GaussianMixture.html) y [`BayesianGaussianMixture`](https://scikit-learn.org/stable/modules/generated/sklearn.mixture.BayesianGaussianMixture.html).
 - Bishop, *Pattern Recognition and Machine Learning*, cap. 9 (EM y mixtures).
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-098-gaussian-mixture-models-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-098-gaussian-mixture-models-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 099 — Detección de anomalías: Isolation Forest, LOF, One-Class SVM](../099-deteccion-de-anomalias-isolation-forest-lof-one-class-svm/README.md)

@@ -83,6 +83,12 @@ Tomá `load_digits` y producí un script `compare_dimred.py` que:
 - van der Maaten & Hinton (2008). *Visualizing Data using t-SNE*. JMLR.
 - Documentación: <https://umap-learn.readthedocs.io/> · <https://scikit-learn.org/stable/modules/manifold.html>
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-094-mds-isomap-t-sne-umap-lda-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-094-mds-isomap-t-sne-umap-lda-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 095 — Clustering K-Means: selección de K, MiniBatch](../095-clustering-k-means-seleccion-de-k-mini-batch/README.md)

@@ -111,6 +111,12 @@ Sí — Random Forest hace bootstrap sobre filas para cada árbol, y las muestra
 - [`scipy.stats.bootstrap`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.bootstrap.html) y [`permutation_test`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.permutation_test.html).
 - [arch.bootstrap](https://arch.readthedocs.io/en/latest/bootstrap/bootstrap.html) — block bootstrap para series temporales.
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-183-bootstrap-y-permutation-tests-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-183-bootstrap-y-permutation-tests-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 184 — BCa bootstrap y APIs modernas de scipy](../184-bca-bootstrap-scipy-permutation-test-moderno/README.md)

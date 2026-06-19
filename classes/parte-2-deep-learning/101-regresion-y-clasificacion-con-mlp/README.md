@@ -103,6 +103,12 @@ Una neurona por clase. Softmax convierte los 10 logits en probabilidades que sum
 - [Keras docs — Callbacks API](https://keras.io/api/callbacks/).
 - Glorot & Bengio (2010), *Understanding the difficulty of training deep feedforward neural networks*.
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-101-regresion-y-clasificacion-con-mlp-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-101-regresion-y-clasificacion-con-mlp-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 102 — Keras Sequential API](../102-keras-sequential-api/README.md)

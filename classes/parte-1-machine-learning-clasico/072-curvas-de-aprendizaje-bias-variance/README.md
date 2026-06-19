@@ -103,6 +103,12 @@ Sobre el dataset `california_housing`:
 - scikit-learn user guide: [Validation curves: plotting scores to evaluate models](https://scikit-learn.org/stable/modules/learning_curve.html).
 - API: [`sklearn.model_selection.learning_curve`](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.learning_curve.html).
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-072-curvas-de-aprendizaje-bias-variance-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-072-curvas-de-aprendizaje-bias-variance-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 073 — Regularización: Ridge, Lasso, Elastic Net](../073-regularizacion-ridge-lasso-elastic-net/README.md)

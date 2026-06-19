@@ -82,6 +82,12 @@ Entregar un script `svr_california.py` que:
 - scikit-learn docs: [`sklearn.svm.SVR`](https://scikit-learn.org/stable/modules/generated/sklearn.svm.SVR.html) y [`sklearn.svm.LinearSVR`](https://scikit-learn.org/stable/modules/generated/sklearn.svm.LinearSVR.html).
 - scikit-learn user guide: [Support Vector Machines — Regression](https://scikit-learn.org/stable/modules/svm.html#regression).
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-079-svm-para-regresion-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-079-svm-para-regresion-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 080 — Árboles de decisión: entrenamiento, visualización, CART](../080-arboles-de-decision-entrenamiento-visualizacion-cart/README.md)

@@ -124,6 +124,12 @@ Para Python: PyFlink y Spark Structured Streaming son los más usados.
 - Reis & Housley *Fundamentals of Data Engineering* (O'Reilly, 2022) **cap. 7**.
 - [Awesome Kafka](https://github.com/monksy/awesome-kafka).
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-213-streaming-intro-kafka-kinesis-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-213-streaming-intro-kafka-kinesis-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 214 — Formatos columnares: Parquet, Avro](../214-formatos-columnares-parquet-avro/README.md)

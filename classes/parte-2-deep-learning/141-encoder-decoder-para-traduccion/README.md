@@ -97,6 +97,12 @@ Aceptable para traducción "literal". Falla con paráfrasis. Para evaluación hu
 - Cho et al. (2014), *Learning Phrase Representations using RNN Encoder-Decoder*.
 - Papineni et al. (2002), *BLEU*, ACL.
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-141-encoder-decoder-para-traduccion-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-141-encoder-decoder-para-traduccion-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 142 — Mecanismos de atención](../142-mecanismos-de-atencion/README.md)

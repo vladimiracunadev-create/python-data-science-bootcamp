@@ -110,6 +110,12 @@ Plots scatter/hist sí. Pairplot con muchas cols se vuelve lento. Para datasets 
 - [seaborn user guide](https://seaborn.pydata.org/tutorial.html)
 - Waskom, [seaborn paper (JOSS, 2021)](https://joss.theoj.org/papers/10.21105/joss.03021)
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-041-seaborn-distribuciones-relaciones-categoricas-facetas-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-041-seaborn-distribuciones-relaciones-categoricas-facetas-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 042 — Visualización geográfica (Plotly / folium)](../042-visualizacion-geografica-plotly-folium/README.md)

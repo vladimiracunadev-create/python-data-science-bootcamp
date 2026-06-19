@@ -97,6 +97,12 @@ Mucho menos crítico — los árboles manejan categóricas razonable. Pero targe
 - [category_encoders docs](https://contrib.scikit-learn.org/category_encoders/).
 - [`sklearn IterativeImputer`](https://scikit-learn.org/stable/modules/generated/sklearn.impute.IterativeImputer.html).
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-055-feature-engineering-avanzado-target-encoding-mice-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-055-feature-engineering-avanzado-target-encoding-mice-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 056 — Selección y entrenamiento de modelo](../056-seleccion-y-entrenamiento-de-modelo/README.md)

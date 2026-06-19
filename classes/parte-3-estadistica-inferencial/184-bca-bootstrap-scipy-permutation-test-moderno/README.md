@@ -97,6 +97,12 @@ Si tu statistic acepta `axis=`, sí — 100× más rápido.
 - [`scipy.stats.bootstrap`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.bootstrap.html).
 - [`scipy.stats.permutation_test`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.permutation_test.html).
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-184-bca-bootstrap-scipy-permutation-test-moderno-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-184-bca-bootstrap-scipy-permutation-test-moderno-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 185 — A/B testing: tamaño de muestra, poder estadístico](../185-a-b-testing-tamano-de-muestra-poder-estadistico/README.md)

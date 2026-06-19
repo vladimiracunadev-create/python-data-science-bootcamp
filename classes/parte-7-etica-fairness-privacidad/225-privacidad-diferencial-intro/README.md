@@ -106,6 +106,12 @@ Federated learning (Clase 226) por sí solo NO es DP — el server ve gradientes
 - [TensorFlow Privacy](https://github.com/tensorflow/privacy) — DP-SGD en TF/Keras (Google).
 - [IBM diffprivlib](https://github.com/IBM/differential-privacy-library) — mecanismos básicos sklearn-compatible.
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-225-privacidad-diferencial-intro-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-225-privacidad-diferencial-intro-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 226 — Federated learning: intro](../226-federated-learning-intro/README.md)

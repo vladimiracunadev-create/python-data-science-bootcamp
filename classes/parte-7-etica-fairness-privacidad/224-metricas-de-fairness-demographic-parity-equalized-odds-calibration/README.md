@@ -106,6 +106,12 @@ Otra familia (Dwork et al. 2012): "individuos similares deben recibir prediccion
 - [`fairlearn` documentation](https://fairlearn.org/) — Microsoft, MIT license.
 - [`AIF360` documentation](https://aif360.res.ibm.com/) — IBM, Apache 2.0.
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-224-metricas-de-fairness-demographic-parity-equalized-odds-calibration-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-224-metricas-de-fairness-demographic-parity-equalized-odds-calibration-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 225 — Privacidad diferencial: intro](../225-privacidad-diferencial-intro/README.md)

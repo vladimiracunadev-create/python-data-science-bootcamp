@@ -164,6 +164,12 @@ Porque te olvidaste de la `r` del raw string. `"\d"` en Python plano no es un es
 - [pandas Categorical](https://pandas.pydata.org/docs/user_guide/categorical.html)
 - [Python `re` HOWTO](https://docs.python.org/3/howto/regex.html)
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-030-pandas-operaciones-vectorizadas-sobre-strings-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-030-pandas-operaciones-vectorizadas-sobre-strings-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 031 — Pandas: series de tiempo, resampling, rolling](../031-pandas-series-de-tiempo-resampling-rolling/README.md)

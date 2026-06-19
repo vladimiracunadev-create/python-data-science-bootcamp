@@ -108,6 +108,12 @@ MLflow registra automáticamente el commit git (`mlflow.source.git.commit` tag) 
 - [MLflow Model Registry](https://mlflow.org/docs/latest/model-registry.html) — stages, aliases (2.5+), webhooks.
 - [Comparativa MLflow vs W&B vs Neptune (2024)](https://neptune.ai/blog/mlflow-vs-wandb-vs-neptune) — tomar con grano de sal (parte interesada).
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-195-versionado-de-modelos-y-experimentos-con-mlflow-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-195-versionado-de-modelos-y-experimentos-con-mlflow-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 196 — Feature stores (Feast)](../196-feature-stores-feast/README.md)

@@ -99,6 +99,12 @@ Mínimo 1000-5000 para CATE confiable. Para ATE, menos.
 - Imbens (2020), *Potential Outcome and Directed Acyclic Graph Approaches to Causality*.
 - [DoubleML docs](https://docs.doubleml.org/), [EconML docs](https://econml.azurewebsites.net/).
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-189-doubleml-econml-ml-para-causalidad-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-189-doubleml-econml-ml-para-causalidad-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 190 — Uplift modeling, DiD (difference-in-differences)](../190-uplift-modeling-did-difference-in-differences/README.md)

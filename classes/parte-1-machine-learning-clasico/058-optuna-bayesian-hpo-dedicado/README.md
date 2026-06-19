@@ -96,6 +96,12 @@ Solo si el objective expone progreso intermedio (cada época en NN, cada boostin
 - [Optuna docs](https://optuna.org/) — tutorials y examples.
 - Bergstra, Bardenet, Bengio & Kégl (2011), *Algorithms for Hyper-Parameter Optimization*, NeurIPS — paper original TPE.
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-058-optuna-bayesian-hpo-dedicado-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-058-optuna-bayesian-hpo-dedicado-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 059 — Launch, monitoreo y mantenimiento de modelos](../059-launch-monitoreo-y-mantenimiento/README.md)

@@ -95,6 +95,12 @@ No para `model.fit` (ya está jitteado). Sí para custom training loops (clase 1
 - [TF — Better performance with tf.function](https://www.tensorflow.org/guide/function).
 - [TF — AutoGraph](https://www.tensorflow.org/guide/autograph).
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-120-funciones-y-grafos-autograph-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-120-funciones-y-grafos-autograph-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 121 — Custom training loops (+ PyTorch & PyTorch Lightning)](../121-custom-training-loops/README.md)

@@ -96,6 +96,12 @@ Cloud service from Ray creators. Para producción serio sin manejar infra propia
 - Jaderberg et al. (2017), *Population Based Training*, DeepMind.
 - [Ray Tune docs](https://docs.ray.io/en/latest/tune/index.html).
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-106-ray-tune-hpo-distribuido-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-106-ray-tune-hpo-distribuido-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 107 — Vanishing/exploding gradients](../107-vanishing-exploding-gradients/README.md)

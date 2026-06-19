@@ -117,6 +117,12 @@ Ese es exactamente el trabajo de Business Understanding — ayudar al negocio a 
 - [Microsoft Team Data Science Process (TDSP)](https://learn.microsoft.com/en-us/azure/architecture/data-science-process/overview)
 - [Google ML Lifecycle / MLOps levels](https://cloud.google.com/architecture/mlops-continuous-delivery-and-automation-pipelines-in-machine-learning)
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-061-crisp-dm-como-framework-metodologico-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-061-crisp-dm-como-framework-metodologico-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 062 — Clasificación binaria con MNIST](../062-clasificacion-binaria-con-mnist/README.md)

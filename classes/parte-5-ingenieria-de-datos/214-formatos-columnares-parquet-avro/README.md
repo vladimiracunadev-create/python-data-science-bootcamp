@@ -111,6 +111,12 @@ Parquet 2.x soporta `timestamp(unit=us, tz='UTC')`. Polars y PyArrow lo respetan
 - [Apache Iceberg](https://iceberg.apache.org/) — table format moderno.
 - [*CSV is dead, long live Parquet* (mejor para 2026)](https://wesmckinney.com/blog/apache-arrow-pandas-internals/).
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-214-formatos-columnares-parquet-avro-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-214-formatos-columnares-parquet-avro-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 215 — Modelado dimensional (star/snowflake schemas)](../215-modelado-dimensional-star-snowflake-schemas/README.md)

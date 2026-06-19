@@ -79,6 +79,13 @@ Al finalizar esta parte, el estudiante podrá:
 - [192 — Bayes intro: priors, posterior, MCMC con PyMC](192-bayes-intro-priors-posterior-mcmc-con-pymc/README.md)
 - [193 — Stack bayesiano moderno: PyMC v5, NumPyro, ArviZ](193-pymc-v5-numpyro-arviz-stack-bayesiano/README.md)
 
+## 📥 Material descargable — parte completa
+
+Materiales consolidados con TODAS las clases de esta parte (útiles para revisar offline o imprimir el bloque entero):
+
+- 📄 [Guía PDF — parte completa](../../docs/pdfs/parts/parte-3-estadistica-inferencial-completa.pdf) — todas las clases concatenadas con headings demoteados.
+- 🎞️ [Presentación PPTX — parte completa](../../docs/presentaciones/parts/parte-3-estadistica-inferencial-completa.pptx) — portada + TOC + slides de cada clase.
+
 ---
 
 > [⬅️ Volver al programa](../../README.md) · [📚 Índice completo](../README.md) · [⏮️ Parte anterior](../parte-2-deep-learning/README.md) · [⏭️ Parte siguiente](../parte-4-mlops/README.md)

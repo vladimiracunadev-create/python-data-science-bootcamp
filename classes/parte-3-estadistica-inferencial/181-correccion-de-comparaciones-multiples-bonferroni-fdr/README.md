@@ -102,6 +102,12 @@ Si forman parte del **mismo objetivo de inferencia** (la misma "familia"), sí. 
 - [`statsmodels.stats.multitest.multipletests`](https://www.statsmodels.org/stable/generated/statsmodels.stats.multitest.multipletests.html) — todos los métodos en una sola función.
 - Efron, B. (2010), *Large-Scale Inference: Empirical Bayes Methods for Estimation, Testing, and Prediction*.
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-181-correccion-de-comparaciones-multiples-bonferroni-fdr-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-181-correccion-de-comparaciones-multiples-bonferroni-fdr-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 182 — Intervalos de confianza](../182-intervalos-de-confianza/README.md)

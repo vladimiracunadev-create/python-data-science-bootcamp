@@ -97,6 +97,12 @@ Casi gratis en GPU (ops elementwise + pocas reducciones). En CPU es notable pero
 - Wu & He (2018), *Group Normalization*, ECCV.
 - Santurkar et al. (2018), *How Does Batch Normalization Help Optimization?*, NeurIPS — explicación moderna.
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-110-batch-normalization-layer-normalization-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-110-batch-normalization-layer-normalization-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 111 — Gradient clipping](../111-gradient-clipping/README.md)

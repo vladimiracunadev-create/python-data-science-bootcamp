@@ -111,6 +111,12 @@ kNN no escala. Saltá directo a factorización de matrices con ALS distribuido (
 - [`sklearn.metrics.pairwise.cosine_similarity`](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.pairwise.cosine_similarity.html) — con `dense_output=False` para sparse.
 - *Programming Collective Intelligence* (Segaran, 2007) — introducción accesible.
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-216-filtrado-colaborativo-user-based-e-item-based-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-216-filtrado-colaborativo-user-based-e-item-based-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 217 — Factorización de matrices: SVD, ALS](../217-factorizacion-de-matrices-svd-als/README.md)

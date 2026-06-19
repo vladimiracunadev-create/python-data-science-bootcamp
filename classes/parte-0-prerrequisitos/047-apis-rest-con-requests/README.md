@@ -130,6 +130,12 @@ Regla práctica: cuando tenés **>20 requests simultáneos** al mismo proveedor 
 - [httpx docs](https://www.python-httpx.org/)
 - [asyncio + Jupyter (autoawait)](https://ipython.readthedocs.io/en/stable/interactive/autoawait.html)
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-047-apis-rest-con-requests-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-047-apis-rest-con-requests-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 048 — Web scraping con BeautifulSoup](../048-web-scraping-con-beautifulsoup/README.md)

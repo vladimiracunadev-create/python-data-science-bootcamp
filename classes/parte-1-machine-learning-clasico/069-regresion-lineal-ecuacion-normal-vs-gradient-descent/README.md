@@ -119,6 +119,12 @@ $X^T X$ es singular → la ecuación normal falla. La pseudoinversa SVD devuelve
 - [NumPy `linalg.pinv`](https://numpy.org/doc/stable/reference/generated/numpy.linalg.pinv.html)
 - [Wikipedia — Moore-Penrose pseudoinverse](https://en.wikipedia.org/wiki/Moore%E2%80%93Penrose_inverse)
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-069-regresion-lineal-ecuacion-normal-vs-gradient-descent-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-069-regresion-lineal-ecuacion-normal-vs-gradient-descent-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 070 — Gradient Descent: batch, stochastic, mini-batch](../070-gradient-descent-batch-stochastic-mini-batch/README.md)

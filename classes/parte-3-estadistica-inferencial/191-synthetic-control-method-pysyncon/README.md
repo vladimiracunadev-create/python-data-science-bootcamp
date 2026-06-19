@@ -102,6 +102,12 @@ Existe (Bayesian Structural Time Series — CausalImpact de Google). Otra altern
 - [SparseSC (Microsoft)](https://github.com/microsoft/SparseSC).
 - Google CausalImpact (R / Python ports).
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-191-synthetic-control-method-pysyncon-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-191-synthetic-control-method-pysyncon-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 192 — Bayes intro: priors, posterior, MCMC con PyMC](../192-bayes-intro-priors-posterior-mcmc-con-pymc/README.md)

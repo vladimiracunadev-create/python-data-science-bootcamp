@@ -96,6 +96,12 @@ Sí — paper original lo demostró en ViT, CLIP, modelos de difusión. Especial
 - Defazio et al. (2024), *The Road Less Scheduled (Schedule-Free)*.
 - [schedulefree](https://github.com/facebookresearch/schedule_free).
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-114-optimizadores-modernos-lion-sophia-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-114-optimizadores-modernos-lion-sophia-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 115 — Learning rate scheduling](../115-learning-rate-scheduling/README.md)

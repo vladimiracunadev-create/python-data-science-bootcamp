@@ -106,6 +106,12 @@ MultiIndex tiene overhead. Para datasets grandes (>1M filas) con acceso intenso,
 - VanderPlas, **cap. 3** § 3.6.
 - [pandas MultiIndex user guide](https://pandas.pydata.org/docs/user_guide/advanced.html)
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-026-pandas-multiindex-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-026-pandas-multiindex-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 027 — Pandas: concat, merge, join](../027-pandas-concat-merge-join/README.md)

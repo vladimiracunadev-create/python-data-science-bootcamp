@@ -100,6 +100,12 @@ A veces. Toma más tiempo. Probar con vs sin para tu caso.
 - [Flux (Black Forest Labs)](https://blackforestlabs.ai/).
 - [CivitAI](https://civitai.com/) — comunidad LoRA/checkpoints.
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-160-stable-diffusion-xl-controlnet-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-160-stable-diffusion-xl-controlnet-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 161 — RL: aprendizaje por recompensa, Gymnasium (Farama)](../161-rl-aprendizaje-por-recompensa-openai-gymnasium/README.md)

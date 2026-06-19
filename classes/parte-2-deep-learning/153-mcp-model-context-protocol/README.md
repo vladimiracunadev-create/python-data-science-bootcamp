@@ -96,6 +96,12 @@ Anthropic open-sourceó el spec; otros vendors lo están adoptando (Microsoft Co
 - [fastmcp](https://github.com/jlowin/fastmcp).
 - Anthropic blog (Nov 2024), *Introducing the Model Context Protocol*.
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-153-mcp-model-context-protocol-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-153-mcp-model-context-protocol-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 154 — Agentes: tool use, ReAct, multi-agent](../154-agentes-tool-use-react-multi-agent/README.md)

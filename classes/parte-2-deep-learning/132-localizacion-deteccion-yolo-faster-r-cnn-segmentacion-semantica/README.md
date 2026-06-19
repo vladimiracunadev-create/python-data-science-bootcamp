@@ -110,6 +110,12 @@ YOLO + tracker (ByteTrack, BoT-SORT) integrados en `ultralytics`. Para video má
 - [Ultralytics YOLOv11 docs](https://docs.ultralytics.com/).
 - [Segment Anything project](https://segment-anything.com/).
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-132-localizacion-deteccion-yolo-faster-r-cnn-segmentacion-semantica-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-132-localizacion-deteccion-yolo-faster-r-cnn-segmentacion-semantica-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 133 — Segment Anything (SAM / SAM 2): foundation model para segmentación](../133-segment-anything-sam-sam2/README.md)

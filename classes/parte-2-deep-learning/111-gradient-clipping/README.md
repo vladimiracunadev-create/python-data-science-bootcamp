@@ -94,6 +94,12 @@ Transformers profundos + sequences largas → gradientes pueden ser muy heterog�
 - [`tf.clip_by_global_norm`](https://www.tensorflow.org/api_docs/python/tf/clip_by_global_norm).
 - [Keras Optimizer base — `clipnorm`/`clipvalue`/`global_clipnorm`](https://keras.io/api/optimizers/).
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-111-gradient-clipping-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-111-gradient-clipping-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 112 — Transfer learning, unsupervised pretraining](../112-transfer-learning-unsupervised-pretraining/README.md)

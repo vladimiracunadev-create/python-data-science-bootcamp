@@ -96,6 +96,12 @@ Depende. Imágenes: 32–128. Texto/NLP: a menudo 8–16 por memoria. Tabular gr
 - [Keras — The Sequential model](https://keras.io/guides/sequential_model/).
 - [Keras 3 release notes](https://keras.io/keras_3/).
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-102-keras-sequential-api-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-102-keras-sequential-api-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 103 — Keras Functional API y Subclassing](../103-keras-functional-api-y-subclassing/README.md)

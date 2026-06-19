@@ -112,6 +112,12 @@ Opciones: (a) aumentar MDE (¿es realista el efecto que esperás?), (b) reducir 
 - [`statsmodels.stats.power`](https://www.statsmodels.org/stable/stats.html#power-and-sample-size-calculations).
 - [confseq](https://github.com/gostevehoward/confseq) — always-valid CIs.
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-185-a-b-testing-tamano-de-muestra-poder-estadistico-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-185-a-b-testing-tamano-de-muestra-poder-estadistico-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 186 — CUPED, sequential testing, always-valid p-values](../186-cuped-sequential-testing-always-valid-p-values/README.md)

@@ -96,6 +96,12 @@ Predecir varias versiones augmentadas de la misma imagen y promediar. Mejora acc
 - Cubuk et al. (2020), *RandAugment*.
 - [Keras — Image data preprocessing](https://keras.io/api/data_loading/image/).
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-131-transfer-learning-con-cnns-preentrenadas-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-131-transfer-learning-con-cnns-preentrenadas-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 132 — Localización, detección, segmentación (+ DETR, Segment Anything, YOLOv11)](../132-localizacion-deteccion-yolo-faster-r-cnn-segmentacion-semantica/README.md)

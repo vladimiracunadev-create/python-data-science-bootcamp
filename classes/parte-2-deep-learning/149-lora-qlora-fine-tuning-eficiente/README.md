@@ -97,6 +97,12 @@ Variantes: DoRA (weight-decomposed) y AdaLoRA (rank adaptativo). Mejoras margina
 - [PEFT docs](https://huggingface.co/docs/peft).
 - [TRL docs](https://huggingface.co/docs/trl).
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-149-lora-qlora-fine-tuning-eficiente-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-149-lora-qlora-fine-tuning-eficiente-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 150 — DPO y RLHF: alineamiento de LLMs](../150-dpo-rlhf-alineamiento-de-llms/README.md)

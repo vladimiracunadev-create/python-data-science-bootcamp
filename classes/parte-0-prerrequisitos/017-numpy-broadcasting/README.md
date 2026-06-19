@@ -109,6 +109,12 @@ Operaciones que no se ajustan a las reglas: usa `np.einsum` (más expresivo), `n
 - VanderPlas, **cap. 2** § 2.5 *Broadcasting*.
 - [NumPy broadcasting docs](https://numpy.org/doc/stable/user/basics.broadcasting.html)
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-017-numpy-broadcasting-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-017-numpy-broadcasting-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 018 — NumPy: boolean masks y fancy indexing](../018-numpy-boolean-masks-y-fancy-indexing/README.md)

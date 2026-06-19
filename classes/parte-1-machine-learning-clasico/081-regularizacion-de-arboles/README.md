@@ -116,6 +116,12 @@ Porque (a) requiere doble pasada (path + CV), (b) en ensembles ya tenés regular
 - [scikit-learn — Post pruning decision trees with cost complexity pruning](https://scikit-learn.org/stable/auto_examples/tree/plot_cost_complexity_pruning.html)
 - Breiman, Friedman, Olshen & Stone (1984), *Classification and Regression Trees* — el paper original de CART y cost-complexity pruning.
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-081-regularizacion-de-arboles-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-081-regularizacion-de-arboles-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 082 — Regresión con árboles](../082-regresion-con-arboles/README.md)

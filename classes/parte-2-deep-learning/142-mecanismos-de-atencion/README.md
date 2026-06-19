@@ -98,6 +98,12 @@ Inspiración loose. El mecanismo no es realmente cómo funciona el cerebro, pero
 - Luong, Pham & Manning (2015), *Effective Approaches to Attention-based Neural Machine Translation*, EMNLP.
 - Vaswani et al. (2017), *Attention Is All You Need*, NeurIPS — paper del Transformer.
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-142-mecanismos-de-atencion-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-142-mecanismos-de-atencion-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 143 — Transformers: arquitectura, BERT, GPT (+ Flash Attention, RoPE, GQA)](../143-transformers-arquitectura-bert-gpt/README.md)

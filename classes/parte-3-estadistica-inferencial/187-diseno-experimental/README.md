@@ -104,6 +104,12 @@ Sí pero requiere modelar la tendencia (ej.: incluir hora del día como covariab
 - [pyDOE2](https://github.com/clicumu/pyDOE2) — generación de matrices de diseño.
 - Athey, Eckles & Imbens (2018), *Exact p-Values for Network Interference*, JASA.
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-187-diseno-experimental-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-187-diseno-experimental-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 188 — Inferencia causal: DAGs, confounders, instrumentos](../188-inferencia-causal-dags-confounders-instrumentos/README.md)

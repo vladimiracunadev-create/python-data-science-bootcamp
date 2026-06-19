@@ -113,3 +113,9 @@ Llegaste a la clase **232 de 232**. Empezaste con `print("hola mundo")` y termin
 Gracias por llegar hasta acá. Ahora andá a romperla.
 
 [⬅️ Volver al índice general](../../../README.md) · [📚 Índice de Parte 8](../README.md)
+
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-232-portafolio-publico-en-github-pages-y-presentacion-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-232-portafolio-publico-en-github-pages-y-presentacion-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.

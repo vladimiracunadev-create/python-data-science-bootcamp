@@ -116,6 +116,13 @@ Al finalizar esta parte, el estudiante podrá:
 - [098 — Gaussian Mixture Models](098-gaussian-mixture-models/README.md)
 - [099 — Detección de anomalías: Isolation Forest, LOF, One-Class SVM](099-deteccion-de-anomalias-isolation-forest-lof-one-class-svm/README.md)
 
+## 📥 Material descargable — parte completa
+
+Materiales consolidados con TODAS las clases de esta parte (útiles para revisar offline o imprimir el bloque entero):
+
+- 📄 [Guía PDF — parte completa](../../docs/pdfs/parts/parte-1-machine-learning-clasico-completa.pdf) — todas las clases concatenadas con headings demoteados.
+- 🎞️ [Presentación PPTX — parte completa](../../docs/presentaciones/parts/parte-1-machine-learning-clasico-completa.pptx) — portada + TOC + slides de cada clase.
+
 ---
 
 > [⬅️ Volver al programa](../../README.md) · [📚 Índice completo](../README.md) · [⏮️ Parte anterior](../parte-0-prerrequisitos/README.md) · [⏭️ Parte siguiente](../parte-2-deep-learning/README.md)

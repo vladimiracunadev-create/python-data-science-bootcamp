@@ -110,6 +110,12 @@ Mínimo (es solo una referencia). Lo costoso es la **invocación** repetida en b
 - [Python docs — More on Defining Functions](https://docs.python.org/3/tutorial/controlflow.html#more-on-defining-functions)
 - [PEP 3102 — Keyword-Only Arguments](https://peps.python.org/pep-3102/)
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-008-funciones-args-kwargs-lambdas-closures-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-008-funciones-args-kwargs-lambdas-closures-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 009 — Manejo de excepciones y context managers](../009-manejo-de-excepciones-y-context-managers/README.md)

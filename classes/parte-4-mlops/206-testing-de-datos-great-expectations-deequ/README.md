@@ -115,6 +115,12 @@ GE no es ideal para streaming. Alternativas: **Apache Griffin**, validations cus
 - [PyDeequ](https://github.com/awslabs/python-deequ) — Spark-scale data testing.
 - Schelter et al. *Automating large-scale data quality verification* (VLDB 2018) — paper de Deequ.
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-206-testing-de-datos-great-expectations-deequ-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-206-testing-de-datos-great-expectations-deequ-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 207 — Testing de modelos: invariance, behavioral tests](../207-testing-de-modelos-invariance-behavioral-tests/README.md)

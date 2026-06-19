@@ -97,6 +97,12 @@ Triton (NVIDIA) puede servir modelos ONNX como uno de sus backends. Triton para 
 - [ONNX Runtime Mobile](https://onnxruntime.ai/docs/tutorials/mobile/).
 - [ONNX Runtime GenAI](https://github.com/microsoft/onnxruntime-genai).
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-167-onnx-onnx-runtime-portabilidad-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-167-onnx-onnx-runtime-portabilidad-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 168 — Despliegue en Vertex AI](../168-despliegue-en-vertex-ai/README.md)

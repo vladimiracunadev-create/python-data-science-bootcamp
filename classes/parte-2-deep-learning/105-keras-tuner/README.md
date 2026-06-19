@@ -108,6 +108,12 @@ Sí si tenés ≥ 4 cores o ≥ 2 GPUs. Optuna `n_jobs` también paraleliza pero
 - Liaw et al. (2018), *Tune: A Research Platform for Distributed Model Selection and Training*.
 - [Keras Tuner docs](https://keras.io/keras_tuner/), [Optuna docs](https://optuna.org/), [Ray Tune docs](https://docs.ray.io/en/latest/tune/index.html).
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-105-keras-tuner-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-105-keras-tuner-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 106 — Ray Tune: HPO distribuido y a escala](../106-ray-tune-hpo-distribuido/README.md)

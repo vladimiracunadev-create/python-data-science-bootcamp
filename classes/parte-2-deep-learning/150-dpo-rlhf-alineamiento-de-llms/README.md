@@ -101,6 +101,12 @@ Sí, con FSDP / DeepSpeed. Trabajo "expensive" pero factible.
 - Hong et al. (2024), *ORPO*.
 - [TRL docs](https://huggingface.co/docs/trl).
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-150-dpo-rlhf-alineamiento-de-llms-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-150-dpo-rlhf-alineamiento-de-llms-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 151 — vLLM y TGI: serving de LLMs en producción](../151-vllm-tgi-serving-llm-produccion/README.md)

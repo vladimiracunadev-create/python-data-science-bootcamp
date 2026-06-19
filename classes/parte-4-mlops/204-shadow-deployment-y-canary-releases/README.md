@@ -114,6 +114,12 @@ Para **proporciones** (CTR, conversion): test de proporciones con corrección de
 - Kohavi, R. et al. *Trustworthy Online Controlled Experiments* (Cambridge, 2020) — la biblia del A/B test.
 - [LaunchDarkly](https://launchdarkly.com/) / [Unleash](https://www.getunleash.io/) — feature flags as a service.
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-204-shadow-deployment-y-canary-releases-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-204-shadow-deployment-y-canary-releases-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 205 — Interpretabilidad: SHAP, LIME, PDP, ICE](../205-interpretabilidad-shap-lime-pdp-ice/README.md)

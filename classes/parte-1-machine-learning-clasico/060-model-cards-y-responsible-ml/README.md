@@ -99,6 +99,12 @@ Sistema de gestión de IA (publicado dic 2023). Certificación auditable. Análo
 - NIST AI Risk Management Framework: <https://www.nist.gov/itl/ai-risk-management-framework>.
 - HuggingFace Model Cards: <https://huggingface.co/docs/hub/model-cards>.
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-060-model-cards-y-responsible-ml-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-060-model-cards-y-responsible-ml-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 061 — CRISP-DM como framework metodológico](../061-crisp-dm-como-framework-metodologico/README.md)

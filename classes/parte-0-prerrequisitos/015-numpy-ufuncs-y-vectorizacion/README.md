@@ -106,6 +106,12 @@ Suelen empatar (`**` también es ufunc). Para potencias enteras pequeñas (2, 3)
 - VanderPlas, **cap. 2** § 2.3 *Computation on NumPy Arrays*.
 - [NumPy ufuncs reference](https://numpy.org/doc/stable/reference/ufuncs.html)
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-015-numpy-ufuncs-y-vectorizacion-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-015-numpy-ufuncs-y-vectorizacion-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 016 — NumPy: agregaciones](../016-numpy-agregaciones/README.md)

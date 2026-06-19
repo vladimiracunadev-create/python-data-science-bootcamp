@@ -100,6 +100,12 @@ Sample logs → LLM-as-judge daily → alertar si win-rate baja vs baseline.
 - [LMSys Arena](https://chat.lmsys.org/).
 - [Inspect AI](https://inspect.ai-safety-institute.org.uk/) — UK AISI eval framework.
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-155-llm-evaluation-mmlu-mtbench-llm-as-judge-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-155-llm-evaluation-mmlu-mtbench-llm-as-judge-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 156 — Autoencoders: undercomplete, stacked, denoising, sparse](../156-autoencoders-undercomplete-stacked-denoising-sparse/README.md)

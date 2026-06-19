@@ -153,6 +153,12 @@ Los notebooks **no** se testean directamente — son scratchpads exploratorios y
 - [Palmer Penguins dataset](https://github.com/allisonhorst/palmerpenguins)
 - [pytest docs](https://docs.pytest.org/)
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-004-estructura-reproducible-de-proyecto-cookiecutter-data-science-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-004-estructura-reproducible-de-proyecto-cookiecutter-data-science-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 005 — VS Code / Cursor para Python y Jupyter](../005-vs-code-cursor-para-python-y-jupyter/README.md)

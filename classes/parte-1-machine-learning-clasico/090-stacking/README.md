@@ -118,6 +118,12 @@ Mal. Con N chico, las predicciones OOF tienen mucha varianza y el blender no enc
 - [sklearn `StackingRegressor`](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.StackingRegressor.html)
 - [sklearn user guide — Stacked generalization](https://scikit-learn.org/stable/modules/ensemble.html#stacked-generalization)
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-090-stacking-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-090-stacking-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 091 — La maldición de la dimensionalidad](../091-maldicion-de-la-dimensionalidad/README.md)

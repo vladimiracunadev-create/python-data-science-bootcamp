@@ -118,6 +118,12 @@ PDP es más popular y simple, pero **mentira** con features correladas. ALE corr
 - [SHAP docs](https://shap.readthedocs.io/) — TreeExplainer, KernelExplainer, plots.
 - [InterpretML / EBM](https://interpret.ml/) — modelos intrínsecamente interpretables (Microsoft Research).
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-205-interpretabilidad-shap-lime-pdp-ice-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-205-interpretabilidad-shap-lime-pdp-ice-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 206 — Testing de datos: Great Expectations, Deequ](../206-testing-de-datos-great-expectations-deequ/README.md)

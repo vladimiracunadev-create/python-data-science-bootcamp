@@ -93,6 +93,12 @@ TFDS versiona por defecto (`'cifar10:3.0.2'`). HF también. Es importante report
 - [TFDS catalog](https://www.tensorflow.org/datasets/catalog/overview).
 - [Hugging Face datasets](https://huggingface.co/docs/datasets/).
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-127-tensorflow-datasets-tfds-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-127-tensorflow-datasets-tfds-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 128 — Capas convolucionales, filtros, feature maps](../128-capas-convolucionales-filtros-feature-maps/README.md)

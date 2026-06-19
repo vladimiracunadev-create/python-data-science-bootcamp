@@ -116,6 +116,12 @@ Sí, pero solo como **diagnóstico**, no como métrica de selección. Train bajo
 - [sklearn Scoring parameter](https://scikit-learn.org/stable/modules/model_evaluation.html#scoring-parameter)
 - [Model Cards for Model Reporting (Mitchell et al., 2019)](https://arxiv.org/abs/1810.03993)
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-056-seleccion-y-entrenamiento-de-modelo-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-056-seleccion-y-entrenamiento-de-modelo-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 057 — Fine-tuning: grid search y randomized search](../057-fine-tuning-grid-search-randomized-search/README.md)

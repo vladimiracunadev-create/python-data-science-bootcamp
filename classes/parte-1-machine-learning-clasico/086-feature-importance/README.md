@@ -91,6 +91,12 @@ Sobre el dataset `load_breast_cancer`, entrená un `RandomForestClassifier` y en
 - LIME paper: Ribeiro, Singh & Guestrin (2016), *"Why Should I Trust You?": Explaining the Predictions of Any Classifier*, KDD. Repo: <https://github.com/marcotcr/lime>.
 - Molnar, C. *Interpretable Machine Learning* (libro online gratuito): <https://christophm.github.io/interpretable-ml-book/>.
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-086-feature-importance-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-086-feature-importance-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 087 — SHAP en profundidad: TreeExplainer, KernelExplainer, DeepExplainer](../087-shap-en-profundidad-treeexplainer-deepexplainer/README.md)

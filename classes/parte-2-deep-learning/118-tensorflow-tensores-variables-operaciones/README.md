@@ -97,6 +97,12 @@ GPUs son MUCHO más rápidas en float32 (y aún más en bfloat16). Default ML.
 - [TF Tensor guide](https://www.tensorflow.org/guide/tensor).
 - [TF Variable guide](https://www.tensorflow.org/guide/variable).
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-118-tensorflow-tensores-variables-operaciones-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-118-tensorflow-tensores-variables-operaciones-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 119 — Losses, métricas, capas, modelos custom](../119-losses-metricas-capas-modelos-custom/README.md)

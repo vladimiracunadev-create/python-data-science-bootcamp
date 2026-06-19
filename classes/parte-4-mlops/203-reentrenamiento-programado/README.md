@@ -112,6 +112,12 @@ Por eso existen los gates: shadow → canary → full rollout. Si la métrica on
 - Kirkpatrick et al. *Overcoming catastrophic forgetting in neural networks* (PNAS, 2017) — EWC.
 - [SageMaker Pipelines](https://docs.aws.amazon.com/sagemaker/latest/dg/pipelines.html) — equivalente managed AWS.
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-203-reentrenamiento-programado-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-203-reentrenamiento-programado-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 204 — Shadow deployment y canary releases](../204-shadow-deployment-y-canary-releases/README.md)

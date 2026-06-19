@@ -110,6 +110,12 @@ Porque son la misma información presentada de otra forma. Si el IC95 % de `μ_a
 - [pingouin docs](https://pingouin-stats.org/) — Vallat, R. (2018), *Pingouin: statistics in Python*, JOSS.
 - [`scipy.stats.ttest_ind`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.ttest_ind.html) — atención a `equal_var` y `alternative`.
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-176-test-t-una-muestra-dos-muestras-pareado-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-176-test-t-una-muestra-dos-muestras-pareado-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 177 — Effect size dedicado: Cohen's d, Hedges' g, Cliff's δ con pingouin](../177-effect-size-cohen-d-hedges-g-cliff-delta-pingouin/README.md)

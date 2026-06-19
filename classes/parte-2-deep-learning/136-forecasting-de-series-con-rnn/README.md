@@ -96,6 +96,12 @@ Features explícitas (mes, día de semana, hora) ayudan mucho. Diferenciar la se
 - Lim et al. (2021), *Temporal Fusion Transformers*, IJF.
 - Nie et al. (2023), *PatchTST*, ICLR.
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-136-forecasting-de-series-con-rnn-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-136-forecasting-de-series-con-rnn-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 137 — LSTM, GRU](../137-lstm-gru/README.md)

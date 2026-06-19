@@ -98,6 +98,12 @@ Logueá `(prob_predicha, y_real)`. Cada N días, calculá Brier y ECE. Si drift,
 - Guo et al. (2017), *On Calibration of Modern Neural Networks*, ICML.
 - [sklearn calibration docs](https://scikit-learn.org/stable/modules/calibration.html).
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-076-calibracion-de-probabilidades-platt-isotonic-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-076-calibracion-de-probabilidades-platt-isotonic-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 077 — SVM lineal](../077-svm-lineal/README.md)

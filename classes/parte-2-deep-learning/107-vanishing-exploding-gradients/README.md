@@ -98,6 +98,12 @@ Sí — los LLMs usan combinación de LayerNorm + residual + GELU + init cuidado
 - Bengio, Simard & Frasconi (1994), *Learning Long-Term Dependencies with Gradient Descent is Difficult*.
 - Glorot & Bengio (2010), *Understanding the difficulty of training deep feedforward neural networks*, AISTATS.
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-107-vanishing-exploding-gradients-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-107-vanishing-exploding-gradients-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 108 — Inicialización (Glorot, He)](../108-inicializacion-glorot-he/README.md)

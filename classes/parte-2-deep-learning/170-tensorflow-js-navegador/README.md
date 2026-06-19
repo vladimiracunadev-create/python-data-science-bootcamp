@@ -95,6 +95,12 @@ Modelos grandes (>100 MB), datasets propietarios (no quieres exponerlos), latenc
 - [ONNX Runtime Web](https://onnxruntime.ai/docs/tutorials/web/).
 - [MLC WebLLM](https://webllm.mlc.ai/).
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-170-tensorflow-js-navegador-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-170-tensorflow-js-navegador-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 171 — Aceleración con GPU](../171-aceleracion-con-gpu/README.md)

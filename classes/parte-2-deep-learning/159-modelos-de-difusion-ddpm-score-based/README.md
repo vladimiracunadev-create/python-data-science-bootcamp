@@ -109,6 +109,12 @@ Sí pero menos competitivo que LLMs autoregresivos. Áreas activas de investigac
 - Luo et al. (2023), *Latent Consistency Models*.
 - [diffusers docs](https://huggingface.co/docs/diffusers).
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-159-modelos-de-difusion-ddpm-score-based-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-159-modelos-de-difusion-ddpm-score-based-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 160 — Stable Diffusion XL + ControlNet en profundidad](../160-stable-diffusion-xl-controlnet/README.md)

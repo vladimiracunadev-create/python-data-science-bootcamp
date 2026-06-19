@@ -111,6 +111,12 @@ Es lo normal en muchos casos. Estrategias: (1) **CBPE** (NannyML) — estima con
 - Gama et al., *A Survey on Concept Drift Adaptation* (ACM Computing Surveys, 2014) — taxonomía clásica.
 - [*Monitoring ML Models: Theory* (Tagliabue)](https://www.tecton.ai/blog/monitoring-machine-learning/) — visión práctica.
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-202-monitoreo-data-drift-model-drift-alertas-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-202-monitoreo-data-drift-model-drift-alertas-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 203 — Reentrenamiento programado](../203-reentrenamiento-programado/README.md)

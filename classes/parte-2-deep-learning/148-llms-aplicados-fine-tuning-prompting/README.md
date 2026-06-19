@@ -113,6 +113,12 @@ Llama 3 70B: estimado $10M-50M en compute. Para custom: forget about it — fine
 - Kwon et al. (2023), *Efficient Memory Management for LLM Serving with PagedAttention*, SOSP.
 - [PEFT docs](https://huggingface.co/docs/peft), [TRL docs](https://huggingface.co/docs/trl), [vLLM docs](https://docs.vllm.ai/).
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-148-llms-aplicados-fine-tuning-prompting-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-148-llms-aplicados-fine-tuning-prompting-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 149 — LoRA / QLoRA: fine-tuning eficiente de LLMs](../149-lora-qlora-fine-tuning-eficiente/README.md)

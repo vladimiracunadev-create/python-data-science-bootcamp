@@ -96,6 +96,12 @@ Cuando tenés modalidades distintas (imagen + metadatos del usuario, texto + fea
 - [Keras — The Functional API](https://keras.io/guides/functional_api/).
 - [Keras — Making new layers and models via subclassing](https://keras.io/guides/making_new_layers_and_models_via_subclassing/).
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-103-keras-functional-api-y-subclassing-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-103-keras-functional-api-y-subclassing-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 104 — Callbacks, TensorBoard, guardar/restaurar modelos](../104-callbacks-tensorboard-guardar-restaurar-modelos/README.md)

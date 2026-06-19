@@ -109,6 +109,12 @@ Default: NaN en los primeros N-1 (no hay datos suficientes para la ventana). Si 
 - VanderPlas, **cap. 3** § 3.12.
 - [pandas Time Series user guide](https://pandas.pydata.org/docs/user_guide/timeseries.html)
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-031-pandas-series-de-tiempo-resampling-rolling-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-031-pandas-series-de-tiempo-resampling-rolling-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 032 — Pandas: eval y query](../032-pandas-eval-y-query/README.md)

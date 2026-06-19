@@ -106,6 +106,12 @@ Si los datos cubren >2 órdenes de magnitud (1, 100, 10000), sí. Pero **siempre
 - VanderPlas, **cap. 4** §§ 4.7-4.9.
 - [matplotlib text and annotations](https://matplotlib.org/stable/users/explain/text/annotations.html)
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-038-matplotlib-legends-colorbars-ticks-anotaciones-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-038-matplotlib-legends-colorbars-ticks-anotaciones-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 039 — Matplotlib: stylesheets](../039-matplotlib-stylesheets/README.md)

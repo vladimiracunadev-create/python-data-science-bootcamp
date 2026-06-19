@@ -125,6 +125,12 @@ No. PCA proyecta sobre direcciones de **máxima varianza** (lineal). Spectral us
 - [Frey & Dueck (2007) — Affinity Propagation paper](https://www.science.org/doi/10.1126/science.1136800)
 - [von Luxburg (2007) — A Tutorial on Spectral Clustering](https://arxiv.org/abs/0711.0189)
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-097-clustering-agglomerative-birch-mean-shift-affinity-propagation-spectra-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-097-clustering-agglomerative-birch-mean-shift-affinity-propagation-spectra-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 098 — Gaussian Mixture Models](../098-gaussian-mixture-models/README.md)

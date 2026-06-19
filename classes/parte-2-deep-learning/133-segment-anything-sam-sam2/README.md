@@ -97,6 +97,12 @@ Apache 2.0. Comercialmente OK.
 - [Segment Anything project](https://segment-anything.com/).
 - [Grounded-SAM](https://github.com/IDEA-Research/Grounded-Segment-Anything).
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-133-segment-anything-sam-sam2-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-133-segment-anything-sam-sam2-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 134 — YOLOv11 práctico: detección, segmentación, pose, tracking](../134-yolov11-deteccion-segmentacion-practica/README.md)

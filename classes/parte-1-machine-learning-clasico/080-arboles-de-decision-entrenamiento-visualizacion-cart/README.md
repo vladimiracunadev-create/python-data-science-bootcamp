@@ -118,6 +118,12 @@ Devuelve la **clase con índice menor** entre las empatadas (orden de `clf.class
 - [`DecisionTreeClassifier` API](https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html)
 - [Graphviz](https://graphviz.org/) — para `export_graphviz` + `dot`.
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-080-arboles-de-decision-entrenamiento-visualizacion-cart-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-080-arboles-de-decision-entrenamiento-visualizacion-cart-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 081 — Regularización de árboles](../081-regularizacion-de-arboles/README.md)

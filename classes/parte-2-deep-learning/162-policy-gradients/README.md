@@ -94,6 +94,12 @@ Plot del return promedio por epoch (smoothed). Sube → converge.
 - Williams (1992), *Simple Statistical Gradient-Following Algorithms (REINFORCE)*.
 - Sutton & Barto (2018), cap. 13.
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-162-policy-gradients-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-162-policy-gradients-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 163 — Markov Decision Processes](../163-markov-decision-processes/README.md)

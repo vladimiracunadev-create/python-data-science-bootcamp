@@ -84,6 +84,12 @@ Entregá un script `homework_085.py` que:
 - Arthur, D. & Vassilvitskii, S. (2007). *k-means++: The Advantages of Careful Seeding*.
 - Sculley, D. (2010). *Web-Scale K-Means Clustering* (paper original de MiniBatchKMeans).
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-095-clustering-k-means-seleccion-de-k-mini-batch-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-095-clustering-k-means-seleccion-de-k-mini-batch-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 096 — DBSCAN](../096-dbscan/README.md)

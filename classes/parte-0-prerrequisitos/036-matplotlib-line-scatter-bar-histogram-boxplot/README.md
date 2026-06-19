@@ -109,6 +109,12 @@ Notebook con penguins: (a) 5 plots básicos cada uno bien etiquetado; (b) scatte
 - VanderPlas, **cap. 4** §§ 4.2-4.5.
 - [matplotlib gallery](https://matplotlib.org/stable/gallery/index.html)
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-036-matplotlib-line-scatter-bar-histogram-boxplot-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-036-matplotlib-line-scatter-bar-histogram-boxplot-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 037 — Matplotlib: subplots y gridspec](../037-matplotlib-subplots-y-gridspec/README.md)

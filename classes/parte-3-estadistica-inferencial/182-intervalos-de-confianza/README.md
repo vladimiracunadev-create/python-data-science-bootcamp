@@ -102,6 +102,12 @@ Para la media t-based, sí. Para proporciones y bootstrap, **no** — sobre todo
 - [`statsmodels.stats.proportion.proportion_confint`](https://www.statsmodels.org/stable/generated/statsmodels.stats.proportion.proportion_confint.html).
 - [`scipy.stats.bootstrap`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.bootstrap.html) — API moderna.
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-182-intervalos-de-confianza-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-182-intervalos-de-confianza-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 183 — Bootstrap y permutation tests](../183-bootstrap-y-permutation-tests/README.md)

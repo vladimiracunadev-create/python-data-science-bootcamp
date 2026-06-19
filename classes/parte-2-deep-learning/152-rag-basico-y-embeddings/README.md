@@ -113,6 +113,12 @@ Sí, ya. Anthropic y comunidad ofrecen MCP servers para muchas tools comunes. Ad
 - Anthropic (2024), *Model Context Protocol* — <https://modelcontextprotocol.io/>.
 - [LlamaIndex docs](https://docs.llamaindex.ai/), [LangChain docs](https://docs.langchain.com/).
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-152-rag-basico-y-embeddings-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-152-rag-basico-y-embeddings-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 153 — MCP (Model Context Protocol): herramientas y datos para LLMs](../153-mcp-model-context-protocol/README.md)

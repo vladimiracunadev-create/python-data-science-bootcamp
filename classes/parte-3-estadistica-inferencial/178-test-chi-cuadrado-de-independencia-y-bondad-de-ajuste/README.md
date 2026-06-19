@@ -106,6 +106,12 @@ Sí — `crosstab(y_true, y_pred)` da la **confusion matrix**, y un chi² sobre 
 - [`scipy.stats.chi2_contingency`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.chi2_contingency.html) y [`fisher_exact`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.fisher_exact.html).
 - [pingouin.chi2_independence](https://pingouin-stats.org/generated/pingouin.chi2_independence.html) — reporta Cramér's V automáticamente.
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-178-test-chi-cuadrado-de-independencia-y-bondad-de-ajuste-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-178-test-chi-cuadrado-de-independencia-y-bondad-de-ajuste-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 179 — ANOVA (one-way, two-way)](../179-anova-one-way-two-way/README.md)

@@ -117,6 +117,12 @@ Si `len(svm.support_) > 0.5 · n_train`, el modelo está overfitteando o `C` es 
 - [sklearn — RBF kernel intuition](https://scikit-learn.org/stable/auto_examples/svm/plot_rbf_parameters.html)
 - [sklearn — Kernel approximation (Nystroem)](https://scikit-learn.org/stable/modules/kernel_approximation.html)
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-078-svm-no-lineal-kernel-polinomial-rbf-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-078-svm-no-lineal-kernel-polinomial-rbf-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 079 — SVM para regresión (SVR)](../079-svm-para-regresion/README.md)

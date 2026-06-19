@@ -111,6 +111,12 @@ Casi siempre **JOIN o window function** es más rápido. Correlacionada solo cua
 - [PostgreSQL window functions tutorial](https://www.postgresql.org/docs/current/tutorial-window.html)
 - [Modern SQL — CTEs](https://modern-sql.com/feature/with)
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-044-sql-avanzado-ctes-window-functions-subqueries-correlacionadas-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-044-sql-avanzado-ctes-window-functions-subqueries-correlacionadas-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 045 — SQL desde Python: sqlite3, SQLAlchemy, DuckDB](../045-sql-desde-python-sqlite3-sqlalchemy-duckdb/README.md)

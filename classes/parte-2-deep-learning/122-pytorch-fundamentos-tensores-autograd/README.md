@@ -97,6 +97,12 @@ Sequential para pilas lineales. Custom Module para cualquier topología no trivi
 - Howard & Gugger, *Deep Learning for Coders with fastai & PyTorch*.
 - Paszke et al. (2019), *PyTorch: An Imperative Style, High-Performance Deep Learning Library*, NeurIPS.
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-122-pytorch-fundamentos-tensores-autograd-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-122-pytorch-fundamentos-tensores-autograd-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 123 — PyTorch Lightning: Trainer, callbacks, distributed](../123-pytorch-lightning-trainer-distribuido/README.md)

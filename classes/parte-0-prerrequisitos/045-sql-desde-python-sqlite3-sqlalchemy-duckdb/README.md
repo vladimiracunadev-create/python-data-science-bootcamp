@@ -111,6 +111,12 @@ Usa context manager: `with sqlite3.connect(...) as con: ...` o `con.close()` en 
 - [DuckDB Python API](https://duckdb.org/docs/api/python/overview)
 - [OWASP — SQL injection prevention](https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html)
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-045-sql-desde-python-sqlite3-sqlalchemy-duckdb-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-045-sql-desde-python-sqlite3-sqlalchemy-duckdb-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 046 — NoSQL: MongoDB con pymongo](../046-nosql-mongodb-con-pymongo/README.md)

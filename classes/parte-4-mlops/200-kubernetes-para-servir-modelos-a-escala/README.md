@@ -112,6 +112,12 @@ No para empezar. Resuelve: mTLS automático entre pods, retries/timeouts/circuit
 - [Horizontal Pod Autoscaler walkthrough](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale-walkthrough/).
 - [Kind quickstart](https://kind.sigs.k8s.io/docs/user/quick-start/) — cluster local en segundos.
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-200-kubernetes-para-servir-modelos-a-escala-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-200-kubernetes-para-servir-modelos-a-escala-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 201 — Serverless ML: AWS Lambda, GCP Cloud Functions](../201-serverless-ml-aws-lambda-gcp-cloud-functions/README.md)

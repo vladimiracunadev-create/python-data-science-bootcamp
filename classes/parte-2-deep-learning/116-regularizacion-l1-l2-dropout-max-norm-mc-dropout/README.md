@@ -106,6 +106,12 @@ ViT-Base original: `dropout=0.1` en attention, `droppath=0.1` lineal en cada blo
 - Fan et al. (2020), *Reducing Transformer Depth on Demand with Structured Dropout (LayerDrop)*.
 - [keras DropPath / StochasticDepth](https://keras.io/api/layers/regularization_layers/).
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-116-regularizacion-l1-l2-dropout-max-norm-mc-dropout-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-116-regularizacion-l1-l2-dropout-max-norm-mc-dropout-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 117 — Regularización moderna: Stochastic Depth, DropPath, LayerDrop](../117-stochastic-depth-droppath-layerdrop/README.md)

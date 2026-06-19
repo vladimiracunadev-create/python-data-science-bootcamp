@@ -104,6 +104,12 @@ TF Serving por default sirve el "latest" entre las carpetas numeradas. Para A/B:
 - [Triton Inference Server](https://github.com/triton-inference-server/server).
 - [vLLM docs](https://docs.vllm.ai/), [TGI docs](https://huggingface.co/docs/text-generation-inference).
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-166-tf-serving-grpc-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-166-tf-serving-grpc-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 167 — ONNX y ONNX Runtime: portabilidad e inference optimizada](../167-onnx-onnx-runtime-portabilidad/README.md)

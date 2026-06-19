@@ -109,6 +109,13 @@ Al finalizar esta parte, el estudiante podrá:
 - [048 — Web scraping con BeautifulSoup](048-web-scraping-con-beautifulsoup/README.md)
 - [049 — async / httpx / aiohttp para data scientists](049-async-httpx-aiohttp-para-data-scientists/README.md)
 
+## 📥 Material descargable — parte completa
+
+Materiales consolidados con TODAS las clases de esta parte (útiles para revisar offline o imprimir el bloque entero):
+
+- 📄 [Guía PDF — parte completa](../../docs/pdfs/parts/parte-0-prerrequisitos-completa.pdf) — todas las clases concatenadas con headings demoteados.
+- 🎞️ [Presentación PPTX — parte completa](../../docs/presentaciones/parts/parte-0-prerrequisitos-completa.pptx) — portada + TOC + slides de cada clase.
+
 ---
 
 > [⬅️ Volver al programa](../../README.md) · [📚 Índice completo](../README.md) · [⏭️ Parte siguiente](../parte-1-machine-learning-clasico/README.md)

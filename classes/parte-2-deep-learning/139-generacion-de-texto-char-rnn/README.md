@@ -93,6 +93,12 @@ Sí: NER muy específico, dominios con vocabulario muy chico, o como baseline. P
 - Karpathy (2015), *The Unreasonable Effectiveness of Recurrent Neural Networks* (blog).
 - Holtzman et al. (2020), *The Curious Case of Neural Text Degeneration (nucleus sampling)*, ICLR.
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-139-generacion-de-texto-char-rnn-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-139-generacion-de-texto-char-rnn-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 140 — Análisis de sentimiento](../140-analisis-de-sentimiento/README.md)

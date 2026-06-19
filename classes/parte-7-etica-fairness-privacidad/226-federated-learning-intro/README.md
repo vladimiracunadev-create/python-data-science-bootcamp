@@ -105,6 +105,12 @@ Sigue siendo el baseline. Variantes modernas: **FedProx** (regularización local
 - [Flower framework](https://flower.dev/) — librería FL agnóstica al framework ML.
 - Li, T., Sahu, A., Talwalkar, A., Smith, V. *Federated Learning: Challenges, Methods, and Future Directions* (IEEE Signal Processing, 2020).
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-226-federated-learning-intro-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-226-federated-learning-intro-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 227 — GDPR y AI Act (EU)](../227-gdpr-y-ai-act-eu/README.md)

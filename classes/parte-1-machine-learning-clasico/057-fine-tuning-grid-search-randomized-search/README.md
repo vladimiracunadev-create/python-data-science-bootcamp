@@ -128,6 +128,12 @@ Con CV adentro de `GridSearchCV` ya tenés validación honesta sobre folds del t
 - [Optuna docs](https://optuna.readthedocs.io/) — TPE, pruners, dashboard.
 - Bergstra & Bengio (2012), *Random Search for Hyper-Parameter Optimization*, JMLR.
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-057-fine-tuning-grid-search-randomized-search-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-057-fine-tuning-grid-search-randomized-search-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 058 — Optuna y HPO bayesiano dedicado](../058-optuna-bayesian-hpo-dedicado/README.md)

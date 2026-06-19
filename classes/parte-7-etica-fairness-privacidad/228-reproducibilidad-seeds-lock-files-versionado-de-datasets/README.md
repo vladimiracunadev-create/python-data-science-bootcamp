@@ -109,6 +109,12 @@ No si la usás como gate de release. Auditorías regulatorias (EU AI Act 2024, N
 - [PyTorch Reproducibility notes](https://pytorch.org/docs/stable/notes/randomness.html) — qué controla cada flag.
 - [DVC docs](https://dvc.org/doc) · [uv (lock files modernos)](https://docs.astral.sh/uv/).
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-228-reproducibilidad-seeds-lock-files-versionado-de-datasets-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-228-reproducibilidad-seeds-lock-files-versionado-de-datasets-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 229 — Capstone 1 — Problema tabular end-to-end](../../parte-8-capstones/229-capstone-1-problema-tabular-end-to-end-eda-modelo-api-dashboard/README.md)

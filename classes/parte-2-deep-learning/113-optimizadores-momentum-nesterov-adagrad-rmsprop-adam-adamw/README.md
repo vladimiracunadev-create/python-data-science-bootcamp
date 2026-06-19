@@ -113,6 +113,12 @@ Adam el 2do momento debe ser estable (decay muy lento). Lion no tiene 2do moment
 - Liu et al. (2023), *Sophia: A Scalable Stochastic Second-order Optimizer*.
 - [Keras optimizers](https://keras.io/api/optimizers/).
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-113-optimizadores-momentum-nesterov-adagrad-rmsprop-adam-adamw-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-113-optimizadores-momentum-nesterov-adagrad-rmsprop-adam-adamw-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 114 — Optimizadores modernos: Lion, Sophia, Schedule-Free](../114-optimizadores-modernos-lion-sophia/README.md)

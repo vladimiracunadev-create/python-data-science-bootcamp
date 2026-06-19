@@ -113,6 +113,12 @@ Construí un script `boosting_showdown.py` que reciba `--dataset <nombre openml>
 - Prokhorenkova, L. et al. (2018). *CatBoost: unbiased boosting with categorical features*. NeurIPS. <https://arxiv.org/abs/1706.09516>
 - Géron, A. *Hands-On Machine Learning*, **cap. 7** (Ensemble Learning — mención a XGBoost).
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-089-xgboost-lightgbm-catboost-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-089-xgboost-lightgbm-catboost-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 090 — Stacking (stacked generalization)](../090-stacking/README.md)

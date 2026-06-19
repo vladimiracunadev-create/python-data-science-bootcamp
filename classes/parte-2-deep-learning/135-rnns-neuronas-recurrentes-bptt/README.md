@@ -94,6 +94,12 @@ Modelos de "1 paso" suelen ser más precisos. Para "varios", entrenar con `retur
 - Pascanu et al. (2013), *On the difficulty of training RNNs*.
 - [Keras RNN guide](https://keras.io/guides/working_with_rnns/).
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-135-rnns-neuronas-recurrentes-bptt-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-135-rnns-neuronas-recurrentes-bptt-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 136 — Forecasting de series con RNN](../136-forecasting-de-series-con-rnn/README.md)

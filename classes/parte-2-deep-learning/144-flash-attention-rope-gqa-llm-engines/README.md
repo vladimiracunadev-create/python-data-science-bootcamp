@@ -97,6 +97,12 @@ ViT moderno también usa Flash Attention (timm support). RoPE en algunos (DiT). 
 - Ainslie et al. (2023), *GQA: Training Generalized Multi-Query Transformer Models*.
 - Touvron et al. (2023), *Llama 2*.
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-144-flash-attention-rope-gqa-llm-engines-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-144-flash-attention-rope-gqa-llm-engines-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 145 — Hugging Face Transformers (uso práctico)](../145-hugging-face-transformers-uso-practico/README.md)

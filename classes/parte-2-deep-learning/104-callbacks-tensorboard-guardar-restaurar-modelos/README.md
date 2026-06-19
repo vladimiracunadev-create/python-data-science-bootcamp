@@ -97,6 +97,12 @@ Sí: `class MyCB(keras.callbacks.Callback)`. La base provee `self.model` y manej
 - [Keras callbacks](https://keras.io/api/callbacks/).
 - [TensorBoard quickstart](https://www.tensorflow.org/tensorboard/get_started).
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-104-callbacks-tensorboard-guardar-restaurar-modelos-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-104-callbacks-tensorboard-guardar-restaurar-modelos-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 105 — Keras Tuner (+ Optuna, Ray Tune)](../105-keras-tuner/README.md)

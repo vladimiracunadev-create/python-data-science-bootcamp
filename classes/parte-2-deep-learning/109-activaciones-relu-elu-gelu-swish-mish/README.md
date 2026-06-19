@@ -100,6 +100,12 @@ No. La activación final depende del problema (linear, sigmoid, softmax). GELU/R
 - Ramachandran et al. (2017), *Searching for Activation Functions*, ICLR — Swish.
 - Misra (2019), *Mish: A Self Regularized Non-Monotonic Activation Function*.
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-109-activaciones-relu-elu-gelu-swish-mish-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-109-activaciones-relu-elu-gelu-swish-mish-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 110 — Batch Normalization, Layer Normalization](../110-batch-normalization-layer-normalization/README.md)

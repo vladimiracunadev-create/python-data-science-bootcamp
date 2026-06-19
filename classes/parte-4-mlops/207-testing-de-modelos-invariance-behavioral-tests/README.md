@@ -115,6 +115,12 @@ Frameworks: `promptfoo`, `LangSmith`, `Phoenix` (Arize).
 - [CheckList GitHub](https://github.com/marcotcr/checklist) — framework de Ribeiro.
 - [promptfoo](https://www.promptfoo.dev/) / [LangSmith](https://www.langchain.com/langsmith) — equivalente para LLMs.
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-207-testing-de-modelos-invariance-behavioral-tests-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-207-testing-de-modelos-invariance-behavioral-tests-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 208 — Bases de datos relacionales: PostgreSQL para ML](../../parte-5-ingenieria-de-datos/208-bases-de-datos-relacionales-postgresql-para-ml/README.md)

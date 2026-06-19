@@ -82,6 +82,12 @@ Entregar un script `voting.py` que:
 - scikit-learn — [`VotingClassifier`](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.VotingClassifier.html).
 - scikit-learn — [Ensemble methods: voting classifier](https://scikit-learn.org/stable/modules/ensemble.html#voting-classifier).
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-083-voting-classifiers-hard-soft-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-083-voting-classifiers-hard-soft-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 084 — Bagging y pasting](../084-bagging-y-pasting/README.md)

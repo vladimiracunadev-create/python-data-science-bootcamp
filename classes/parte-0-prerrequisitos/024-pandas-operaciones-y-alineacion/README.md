@@ -109,6 +109,12 @@ Overhead del index, manejo de NaN, dtype-aware. Para operaciones puramente numé
 - VanderPlas, **cap. 3** § 3.4.
 - [pandas — apply, map](https://pandas.pydata.org/docs/user_guide/basics.html#function-application)
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-024-pandas-operaciones-y-alineacion-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-024-pandas-operaciones-y-alineacion-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 025 — Pandas: datos faltantes](../025-pandas-datos-faltantes/README.md)

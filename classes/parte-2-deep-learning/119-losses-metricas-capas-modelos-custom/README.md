@@ -93,6 +93,12 @@ Subclass `train_step` cuando podés (preserva `fit`, callbacks, etc.). Custom lo
 - [Keras — Making new layers and models](https://keras.io/guides/making_new_layers_and_models_via_subclassing/).
 - [Keras — Customize what happens in `fit()`](https://keras.io/guides/customizing_what_happens_in_fit/).
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-119-losses-metricas-capas-modelos-custom-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-119-losses-metricas-capas-modelos-custom-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 120 — Funciones y grafos (autograph)](../120-funciones-y-grafos-autograph/README.md)

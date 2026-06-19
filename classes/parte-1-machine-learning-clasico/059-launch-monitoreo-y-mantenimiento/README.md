@@ -127,6 +127,12 @@ Las dos. La doc técnica (README, API reference) es para desarrolladores. La mod
 - [Google `model-card-toolkit`](https://github.com/tensorflow/model-card-toolkit).
 - [EU AI Act — documentación técnica (Anexo IV)](https://artificialintelligenceact.eu/).
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-059-launch-monitoreo-y-mantenimiento-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-059-launch-monitoreo-y-mantenimiento-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 060 — Model Cards y Responsible ML](../060-model-cards-y-responsible-ml/README.md)

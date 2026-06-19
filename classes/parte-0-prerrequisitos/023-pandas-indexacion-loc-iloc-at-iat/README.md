@@ -107,6 +107,12 @@ Ambos válidos. `.loc[mask, cols]` para máscaras computadas; `.query()` para fi
 - [pandas Indexing user guide](https://pandas.pydata.org/docs/user_guide/indexing.html)
 - [SettingWithCopyWarning explained](https://pandas.pydata.org/docs/user_guide/indexing.html#returning-a-view-versus-a-copy)
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-023-pandas-indexacion-loc-iloc-at-iat-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-023-pandas-indexacion-loc-iloc-at-iat-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 024 — Pandas: operaciones y alineación](../024-pandas-operaciones-y-alineacion/README.md)

@@ -120,6 +120,12 @@ Regla práctica: **CSV solo para intercambio con no-técnicos** (alguien lo va a
 - Slatkin, *Effective Python* 2e — ítem 38 *Use Pathlib instead of os.path*.
 - [Apache Arrow / Parquet](https://arrow.apache.org/docs/python/parquet.html)
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-011-pathlib-lectura-y-escritura-de-archivos-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-011-pathlib-lectura-y-escritura-de-archivos-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 012 — Logging](../012-logging/README.md)

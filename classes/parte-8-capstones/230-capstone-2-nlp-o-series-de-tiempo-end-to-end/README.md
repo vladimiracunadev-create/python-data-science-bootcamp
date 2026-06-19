@@ -106,6 +106,12 @@ Sí — Mitchell et al. (Google, 2019) la propusieron por una razón: sin ella, 
 - Darts (forecasting deep + clásico) — https://unit8co.github.io/darts/
 - Mitchell, M. et al. *Model Cards for Model Reporting* (FAT* 2019).
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-230-capstone-2-nlp-o-series-de-tiempo-end-to-end-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-230-capstone-2-nlp-o-series-de-tiempo-end-to-end-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 231 — Capstone 3: visión por computadora con transfer learning](../231-capstone-3-vision-por-computadora-con-transfer-learning/README.md)

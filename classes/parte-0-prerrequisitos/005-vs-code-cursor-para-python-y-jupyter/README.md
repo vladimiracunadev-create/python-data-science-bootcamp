@@ -109,6 +109,12 @@ Sí — `ruff format` es drop-in replacement de black (mismo output prácticamen
 - [ruff docs](https://docs.astral.sh/ruff/)
 - [Cursor docs](https://docs.cursor.com/)
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-005-vs-code-cursor-para-python-y-jupyter-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-005-vs-code-cursor-para-python-y-jupyter-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 006 — Python: tipos, estructuras, control de flujo](../006-python-tipos-estructuras-control-de-flujo/README.md)

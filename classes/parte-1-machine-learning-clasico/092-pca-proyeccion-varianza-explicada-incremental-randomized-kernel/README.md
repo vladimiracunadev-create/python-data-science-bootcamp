@@ -86,6 +86,12 @@ Construí un pipeline `StandardScaler → PCA → LogisticRegression` sobre MNIS
 - Halko, Martinsson & Tropp (2011), *Finding structure with randomness* — paper original de Randomized SVD.
 - Schölkopf, Smola & Müller (1998), *Nonlinear component analysis as a kernel eigenvalue problem*.
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-092-pca-proyeccion-varianza-explicada-incremental-randomized-kernel-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-092-pca-proyeccion-varianza-explicada-incremental-randomized-kernel-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 093 — LLE (Locally Linear Embedding)](../093-lle/README.md)

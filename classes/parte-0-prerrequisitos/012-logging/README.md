@@ -107,6 +107,12 @@ Por default, sí — cada logger propaga al padre hasta root. Si configuras hand
 - [Logging Cookbook](https://docs.python.org/3/howto/logging-cookbook.html)
 - [`logging.config` — dictConfig](https://docs.python.org/3/library/logging.config.html)
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-012-logging-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-012-logging-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 013 — Type hints y mypy](../013-type-hints-y-mypy/README.md)

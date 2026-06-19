@@ -127,6 +127,12 @@ Features que dependen **solo de la fila** (ratios, log, sin/cos): antes o despu�
 - [`category_encoders` docs](https://contrib.scikit-learn.org/category_encoders/)
 - Rubin, D. B. (1976). *Inference and missing data*. Biometrika.
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-054-proyecto-end-to-end-vision-datos-exploracion-preparacion-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-054-proyecto-end-to-end-vision-datos-exploracion-preparacion-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 055 — Feature Engineering avanzado: target encoding + MICE imputation](../055-feature-engineering-avanzado-target-encoding-mice/README.md)

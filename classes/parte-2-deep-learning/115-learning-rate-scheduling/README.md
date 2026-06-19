@@ -95,6 +95,12 @@ Casi no — `Adam(lr=schedule)` funciona igual que `SGD(lr=schedule)`. La difere
 - Smith (2018), *Super-Convergence: Very Fast Training of Neural Networks Using Large Learning Rates*.
 - [Keras LR schedules](https://keras.io/api/optimizers/learning_rate_schedules/).
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-115-learning-rate-scheduling-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-115-learning-rate-scheduling-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 116 — Regularización: L1/L2, dropout, max-norm, MC dropout (+ Stochastic Depth, DropPath)](../116-regularizacion-l1-l2-dropout-max-norm-mc-dropout/README.md)

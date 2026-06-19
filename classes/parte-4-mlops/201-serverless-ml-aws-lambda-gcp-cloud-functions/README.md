@@ -106,6 +106,12 @@ Lambda Layers: hasta 5 layers de 250 MB cada uno (compartidos entre funciones). 
 - [Cloud Functions 2nd gen](https://cloud.google.com/functions/docs/2nd-gen/overview).
 - [Modal](https://modal.com/) — serverless con GPU para ML.
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-201-serverless-ml-aws-lambda-gcp-cloud-functions-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-201-serverless-ml-aws-lambda-gcp-cloud-functions-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 202 — Monitoreo: data drift, model drift, alertas](../202-monitoreo-data-drift-model-drift-alertas/README.md)

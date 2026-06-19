@@ -105,6 +105,12 @@ No solo. Los algoritmos (re-weighting, adversarial debiasing, Clase 226) atacan 
 - Angwin, J. et al. [*Machine Bias*](https://www.propublica.org/article/machine-bias-risk-assessments-in-criminal-sentencing) (ProPublica, 2016) — la investigación sobre COMPAS.
 - Dastin, J. [*Amazon scraps secret AI recruiting tool that showed bias against women*](https://www.reuters.com/article/idUSKCN1MK0AG/) (Reuters, 2018).
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-223-tipos-de-sesgo-algoritmico-y-origenes-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-223-tipos-de-sesgo-algoritmico-y-origenes-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 224 — Métricas de fairness: demographic parity, equalized odds, calibration](../224-metricas-de-fairness-demographic-parity-equalized-odds-calibration/README.md)

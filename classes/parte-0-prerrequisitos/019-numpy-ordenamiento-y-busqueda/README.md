@@ -106,6 +106,12 @@ Si solo necesitas los valores ordenados, `sort`. Si necesitas el orden para **ap
 - VanderPlas, **cap. 2** § 2.8.
 - [NumPy sorting reference](https://numpy.org/doc/stable/reference/routines.sort.html)
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-019-numpy-ordenamiento-y-busqueda-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-019-numpy-ordenamiento-y-busqueda-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 020 — NumPy: álgebra lineal con numpy.linalg](../020-numpy-algebra-lineal-con-numpy-linalg/README.md)

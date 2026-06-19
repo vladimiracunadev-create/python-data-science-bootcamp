@@ -113,6 +113,12 @@ Two-tower (TF Recommenders, PyTorch) escala mejor + permite features más comple
 - [TensorFlow Recommenders](https://www.tensorflow.org/recommenders) — two-tower moderno.
 - Aggarwal **cap. 6** — *Ensemble-Based and Hybrid Recommender Systems*.
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-219-recomendadores-hibridos-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-219-recomendadores-hibridos-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 220 — Métricas: MAP@k, NDCG, recall@k](../220-metricas-map-k-ndcg-recall-k/README.md)

@@ -113,6 +113,12 @@ Optimización: define los atributos permitidos y ahorra memoria (~50%) al no usa
 - [`dataclasses` docs](https://docs.python.org/3/library/dataclasses.html)
 - [Python Tutorial — Classes](https://docs.python.org/3/tutorial/classes.html)
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-010-oop-basico-dataclasses-herencia-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-010-oop-basico-dataclasses-herencia-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 011 — pathlib, lectura y escritura de archivos](../011-pathlib-lectura-y-escritura-de-archivos/README.md)

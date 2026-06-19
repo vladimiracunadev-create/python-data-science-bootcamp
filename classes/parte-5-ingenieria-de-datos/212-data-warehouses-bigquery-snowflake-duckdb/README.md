@@ -116,6 +116,12 @@ En 2026: ~$23/TB/mes en BQ/Snowflake. Para 10 TB = $230/mes. Para 1 PB: $23K/mes
 - [DuckDB docs](https://duckdb.org/docs/) + [MotherDuck](https://motherduck.com/) (DuckDB managed).
 - *Designing Data-Intensive Applications* (Kleppmann, 2017) — fundamentos OLAP.
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-212-data-warehouses-bigquery-snowflake-duckdb-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-212-data-warehouses-bigquery-snowflake-duckdb-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 213 — Streaming intro: Kafka, Kinesis](../213-streaming-intro-kafka-kinesis/README.md)

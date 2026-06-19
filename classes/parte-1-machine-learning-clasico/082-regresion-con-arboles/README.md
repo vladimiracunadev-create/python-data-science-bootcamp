@@ -82,6 +82,12 @@ Entregar un script `tarea_073.py` que:
 - scikit-learn: [`DecisionTreeRegressor`](https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeRegressor.html).
 - scikit-learn user guide: [Decision Trees — Regression](https://scikit-learn.org/stable/modules/tree.html#regression).
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-082-regresion-con-arboles-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-082-regresion-con-arboles-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 083 — Voting classifiers: hard y soft](../083-voting-classifiers-hard-soft/README.md)

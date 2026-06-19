@@ -111,6 +111,12 @@ NumPy ya los usa por debajo (vía OpenBLAS o MKL). Si tu `np.linalg.solve` parec
 - [PEP 465 — `@` operator](https://peps.python.org/pep-0465/)
 - Trefethen & Bau, *Numerical Linear Algebra* (1997) — fondo matemático.
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-020-numpy-algebra-lineal-con-numpy-linalg-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-020-numpy-algebra-lineal-con-numpy-linalg-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 021 — NumPy: aleatoriedad y semillas](../021-numpy-aleatoriedad-y-semillas/README.md)

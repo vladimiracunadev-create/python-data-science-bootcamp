@@ -100,6 +100,12 @@ Vector DB + tool `recall(query)`. O frameworks como **mem0**.
 - Anthropic (2024), *Building Effective Agents* — patterns guide.
 - [LangGraph docs](https://langchain-ai.github.io/langgraph/), [CrewAI](https://www.crewai.com/), [AutoGen](https://microsoft.github.io/autogen/).
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-154-agentes-tool-use-react-multi-agent-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-154-agentes-tool-use-react-multi-agent-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 155 — LLM Evaluation: MMLU, MT-Bench, LLM-as-judge, evals propios](../155-llm-evaluation-mmlu-mtbench-llm-as-judge/README.md)

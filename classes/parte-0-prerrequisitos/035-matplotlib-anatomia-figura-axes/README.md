@@ -107,6 +107,12 @@ Para 1 plot rápido en notebook, OK. Para cualquier cosa más compleja (subplots
 - [matplotlib quick start](https://matplotlib.org/stable/users/explain/quick_start.html)
 - [Anatomy of a figure (matplotlib gallery)](https://matplotlib.org/stable/gallery/showcase/anatomy.html)
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-035-matplotlib-anatomia-figura-axes-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-035-matplotlib-anatomia-figura-axes-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 036 — Matplotlib: line, scatter, bar, histogram, boxplot](../036-matplotlib-line-scatter-bar-histogram-boxplot/README.md)

@@ -111,6 +111,12 @@ Si tenés <10K items: cosine_similarity con sklearn alcanza. Si tenés >100K ite
 - [FAISS](https://github.com/facebookresearch/faiss) — similarity search.
 - Carbonell & Goldstein, *The Use of MMR, Diversity-Based Reranking for Reordering Documents* (1998) — para combatir filter bubble.
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-218-content-based-filtering-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-218-content-based-filtering-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 219 — Recomendadores híbridos](../219-recomendadores-hibridos/README.md)

@@ -110,6 +110,12 @@ Tiles son online por default. Para offline: descarga tiles con `mbtiles`, sirve 
 - [plotly choropleth docs](https://plotly.com/python/choropleth-maps/)
 - [Natural Earth GeoJSON](https://datahub.io/core/geo-countries)
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-042-visualizacion-geografica-plotly-folium-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-042-visualizacion-geografica-plotly-folium-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 043 — SQL fundamental: SELECT, WHERE, JOIN, GROUP BY, HAVING](../043-sql-fundamental-select-where-join-group-by-having/README.md)

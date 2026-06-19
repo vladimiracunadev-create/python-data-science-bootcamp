@@ -105,6 +105,12 @@ En matplotlib moderno, basta `subplot_kw={'projection': '3d'}` — no necesitas 
 - VanderPlas, **cap. 4** § 4.12.
 - [matplotlib mplot3d tutorial](https://matplotlib.org/stable/users/explain/toolkits/mplot3d.html)
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-040-matplotlib-3d-plotting-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-040-matplotlib-3d-plotting-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 041 — Seaborn: distribuciones, relaciones, categóricas, facetas](../041-seaborn-distribuciones-relaciones-categoricas-facetas/README.md)

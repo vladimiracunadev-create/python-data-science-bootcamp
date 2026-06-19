@@ -108,6 +108,12 @@ Modelo no balanceado: usar **Type III SS** (`statsmodels` lo soporta vía `sm.st
 - [`scipy.stats.f_oneway`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.f_oneway.html), [`pingouin.welch_anova`](https://pingouin-stats.org/generated/pingouin.welch_anova.html), [`pingouin.pairwise_tukey`](https://pingouin-stats.org/generated/pingouin.pairwise_tukey.html).
 - [statsmodels — ANOVA](https://www.statsmodels.org/stable/anova.html) (para Type II/III SS y modelos mixtos).
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-179-anova-one-way-two-way-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-179-anova-one-way-two-way-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 180 — Tests no paramétricos: Mann-Whitney, Wilcoxon, Kruskal-Wallis](../180-tests-no-parametricos-mann-whitney-wilcoxon-kruskal-wallis/README.md)

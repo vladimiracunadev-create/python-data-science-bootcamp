@@ -110,6 +110,12 @@ El error decrece como `1/√N`. Para 1 decimal de precisión: N ≈ 100. Para 2 
 - [NEP 19 — Random number generator policy](https://numpy.org/neps/nep-0019-rng-policy.html)
 - Press et al., *Numerical Recipes* 3e — cap. 7 *Random Numbers*.
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-021-numpy-aleatoriedad-y-semillas-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-021-numpy-aleatoriedad-y-semillas-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 022 — Pandas: Series y DataFrame](../022-pandas-series-y-dataframe/README.md)

@@ -113,6 +113,12 @@ No. Las curvas ROC/PR son para **threshold tuning** y comparación de modelos a 
 - [scikit-learn — `confusion_matrix` y `ConfusionMatrixDisplay`](https://scikit-learn.org/stable/modules/model_evaluation.html#confusion-matrix).
 - [scikit-learn — `cross_val_predict`](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.cross_val_predict.html).
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-068-analisis-de-errores-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-068-analisis-de-errores-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 069 — Regresión lineal: ecuación normal vs gradient descent](../069-regresion-lineal-ecuacion-normal-vs-gradient-descent/README.md)

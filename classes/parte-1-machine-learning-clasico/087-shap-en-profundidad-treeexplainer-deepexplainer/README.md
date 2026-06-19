@@ -98,6 +98,12 @@ Sí — para decisiones high-stake (crédito, medicina), el SHAP por predicción
 - [SHAP docs](https://shap.readthedocs.io/).
 - Molnar, C. *Interpretable Machine Learning* — cap. SHAP.
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-087-shap-en-profundidad-treeexplainer-deepexplainer-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-087-shap-en-profundidad-treeexplainer-deepexplainer-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 088 — Boosting: AdaBoost y Gradient Boosting](../088-boosting-adaboost-gradient-boosting/README.md)

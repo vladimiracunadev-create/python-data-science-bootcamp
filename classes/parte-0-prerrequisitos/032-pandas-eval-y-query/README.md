@@ -106,6 +106,12 @@ Para filtros, sí (mismo nivel expresivo). Para joins y aggregations, no — usa
 - [pandas eval/query docs](https://pandas.pydata.org/docs/user_guide/enhancingperf.html)
 - [`numexpr` project](https://numexpr.readthedocs.io/)
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-032-pandas-eval-y-query-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-032-pandas-eval-y-query-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 033 — Polars: DataFrames modernos](../033-polars-dataframes-modernos/README.md)

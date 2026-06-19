@@ -116,6 +116,12 @@ Equivalentes en performance (mismo Catalyst). DataFrame API: refactor-friendly, 
 - [*Spark Performance Tuning* (official)](https://spark.apache.org/docs/latest/sql-performance-tuning.html).
 - [`pyspark-stubs`](https://github.com/zero323/pyspark-stubs) — type hints (incluidos en 3.4+).
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-210-pyspark-para-datasets-grandes-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-210-pyspark-para-datasets-grandes-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 211 — Polars como alternativa moderna](../211-polars-como-alternativa-moderna/README.md)

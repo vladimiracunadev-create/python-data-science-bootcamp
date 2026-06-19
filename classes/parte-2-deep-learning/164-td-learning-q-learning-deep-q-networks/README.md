@@ -102,6 +102,12 @@ CartPole para entender. LunarLander para algo más complejo. Atari para serio (r
 - Mnih et al. (2015), *Human-level control through deep reinforcement learning*, Nature — DQN paper.
 - van Hasselt et al. (2016), *Deep Reinforcement Learning with Double Q-learning*.
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-164-td-learning-q-learning-deep-q-networks-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-164-td-learning-q-learning-deep-q-networks-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 165 — RL moderno: A3C, PPO, SAC (vista general)](../165-rl-moderno-a3c-ppo-sac-vista-general/README.md)

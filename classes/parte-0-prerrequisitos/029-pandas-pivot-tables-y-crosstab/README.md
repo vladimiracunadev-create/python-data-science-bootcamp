@@ -106,6 +106,12 @@ Cuando los datos ya están en formato wide y solo necesitas plot/agregaciones �
 - VanderPlas, **cap. 3** § 3.10.
 - [pandas Pivot guide](https://pandas.pydata.org/docs/user_guide/reshaping.html)
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-029-pandas-pivot-tables-y-crosstab-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-029-pandas-pivot-tables-y-crosstab-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 030 — Pandas: operaciones vectorizadas sobre strings](../030-pandas-operaciones-vectorizadas-sobre-strings/README.md)

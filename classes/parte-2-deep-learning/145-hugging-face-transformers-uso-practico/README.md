@@ -98,6 +98,12 @@ Sí, para prototipos. Para producción serio, self-host con `transformers` o **v
 - [Hugging Face course](https://huggingface.co/learn/nlp-course) — el mejor recurso gratuito para empezar.
 - Wolf et al. (2020), *Transformers: State-of-the-Art Natural Language Processing*, EMNLP demo.
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-145-hugging-face-transformers-uso-practico-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-145-hugging-face-transformers-uso-practico-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 146 — CLIP, SigLIP: multimodal embeddings (visión + texto)](../146-clip-siglip-multimodal-embeddings/README.md)

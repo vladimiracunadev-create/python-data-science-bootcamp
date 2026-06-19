@@ -94,6 +94,12 @@ Sí, formato moderno (basado en Arrow/Parquet) con caching automático y API má
 - [WebDataset](https://github.com/webdataset/webdataset) — alternativa PyTorch.
 - [Hugging Face datasets](https://huggingface.co/docs/datasets/) — alternativa moderna multi-framework.
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-125-tfrecord-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-125-tfrecord-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 126 — Keras preprocessing layers](../126-keras-preprocessing-layers/README.md)

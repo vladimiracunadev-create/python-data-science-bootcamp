@@ -145,7 +145,24 @@ La fuente de verdad de esta taxonomía vive en [docs/CATALOGO_PRODUCTO.md](docs/
 
 - 🧭 **Índice navegable:** [classes/README.md](classes/README.md)
 - 📖 **Pauta completa:** [docs/syllabus.md](docs/syllabus.md)
-- 📝 Cada clase: `README.md` (ficha) + `notebook.ipynb` (stub). Los materiales PDF/PPTX se regeneran por bloque al madurar el contenido.
+- 📝 Cada clase incluye `README.md` (ficha pedagógica) + `notebook.ipynb` (ejecutable) + `clase-NNN-...-guia-explicativa.pdf` + `clase-NNN-...-presentacion.pptx` para descarga directa desde la carpeta de la clase.
+
+### 📥 Material consolidado del curso
+
+| 📦 Bundle | PDF | PPTX |
+|---|---|---|
+| 🎓 **Curso completo** (232 clases · 9 partes) | [curso-completo.pdf](docs/pdfs/curso-completo.pdf) (1.9 MB) | [curso-completo.pptx](docs/presentaciones/curso-completo.pptx) (2.0 MB) |
+| Parte 0 — Prerrequisitos | [parte-0…-completa.pdf](docs/pdfs/parts/parte-0-prerrequisitos-completa.pdf) | [parte-0…-completa.pptx](docs/presentaciones/parts/parte-0-prerrequisitos-completa.pptx) |
+| Parte 1 — ML clásico | [parte-1…-completa.pdf](docs/pdfs/parts/parte-1-machine-learning-clasico-completa.pdf) | [parte-1…-completa.pptx](docs/presentaciones/parts/parte-1-machine-learning-clasico-completa.pptx) |
+| Parte 2 — Deep Learning | [parte-2…-completa.pdf](docs/pdfs/parts/parte-2-deep-learning-completa.pdf) | [parte-2…-completa.pptx](docs/presentaciones/parts/parte-2-deep-learning-completa.pptx) |
+| Parte 3 — Estadística inferencial | [parte-3…-completa.pdf](docs/pdfs/parts/parte-3-estadistica-inferencial-completa.pdf) | [parte-3…-completa.pptx](docs/presentaciones/parts/parte-3-estadistica-inferencial-completa.pptx) |
+| Parte 4 — MLOps | [parte-4…-completa.pdf](docs/pdfs/parts/parte-4-mlops-completa.pdf) | [parte-4…-completa.pptx](docs/presentaciones/parts/parte-4-mlops-completa.pptx) |
+| Parte 5 — Ingeniería de datos | [parte-5…-completa.pdf](docs/pdfs/parts/parte-5-ingenieria-de-datos-completa.pdf) | [parte-5…-completa.pptx](docs/presentaciones/parts/parte-5-ingenieria-de-datos-completa.pptx) |
+| Parte 6 — Recomendadores | [parte-6…-completa.pdf](docs/pdfs/parts/parte-6-sistemas-de-recomendacion-completa.pdf) | [parte-6…-completa.pptx](docs/presentaciones/parts/parte-6-sistemas-de-recomendacion-completa.pptx) |
+| Parte 7 — Ética / Fairness / Privacidad | [parte-7…-completa.pdf](docs/pdfs/parts/parte-7-etica-fairness-privacidad-completa.pdf) | [parte-7…-completa.pptx](docs/presentaciones/parts/parte-7-etica-fairness-privacidad-completa.pptx) |
+| Parte 8 — Capstones | [parte-8…-completa.pdf](docs/pdfs/parts/parte-8-capstones-completa.pdf) | [parte-8…-completa.pptx](docs/presentaciones/parts/parte-8-capstones-completa.pptx) |
+
+> Generación: `python scripts/generate_class_assets_v3.py` (por clase) y `python scripts/generate_part_bundles.py` (bundles por parte + unificado).
 
 ### 📄 PDFs de estudio adicionales
 

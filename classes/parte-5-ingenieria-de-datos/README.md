@@ -49,6 +49,13 @@ Al finalizar esta parte, el estudiante podrá:
 - [214 — Formatos columnares: Parquet, Avro](214-formatos-columnares-parquet-avro/README.md)
 - [215 — Modelado dimensional (star/snowflake schemas)](215-modelado-dimensional-star-snowflake-schemas/README.md)
 
+## 📥 Material descargable — parte completa
+
+Materiales consolidados con TODAS las clases de esta parte (útiles para revisar offline o imprimir el bloque entero):
+
+- 📄 [Guía PDF — parte completa](../../docs/pdfs/parts/parte-5-ingenieria-de-datos-completa.pdf) — todas las clases concatenadas con headings demoteados.
+- 🎞️ [Presentación PPTX — parte completa](../../docs/presentaciones/parts/parte-5-ingenieria-de-datos-completa.pptx) — portada + TOC + slides de cada clase.
+
 ---
 
 > [⬅️ Volver al programa](../../README.md) · [📚 Índice completo](../README.md) · [⏮️ Parte anterior](../parte-4-mlops/README.md) · [⏭️ Parte siguiente](../parte-6-sistemas-de-recomendacion/README.md)

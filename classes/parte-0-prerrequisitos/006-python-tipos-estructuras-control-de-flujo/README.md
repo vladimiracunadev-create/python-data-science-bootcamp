@@ -107,6 +107,12 @@ El segundo valor sobrescribe al primero. El orden de inserción se preserva (Pyt
 - Ramalho, *Fluent Python* 2e — cap. 1 *The Python Data Model*.
 - [Python Tutorial — Control flow](https://docs.python.org/3/tutorial/controlflow.html)
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-006-python-tipos-estructuras-control-de-flujo-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-006-python-tipos-estructuras-control-de-flujo-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 007 — Comprehensions y generadores](../007-comprehensions-y-generadores/README.md)

@@ -111,6 +111,12 @@ Funciona pero está deprecated en favor del nuevo API. Razones: estado global (p
 - [NumPy dtypes](https://numpy.org/doc/stable/reference/arrays.dtypes.html)
 - [`Generator` random API](https://numpy.org/doc/stable/reference/random/generator.html)
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-014-numpy-tipos-creacion-atributos-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-014-numpy-tipos-creacion-atributos-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 015 — NumPy: ufuncs y vectorización](../015-numpy-ufuncs-y-vectorizacion/README.md)

@@ -110,6 +110,12 @@ Las offline (NDCG, recall) son proxies. **Online** (CTR, conversion, watch time,
 - [`recmetrics`](https://github.com/statisticianinstilettos/recmetrics) — libreria con todas implementadas.
 - *Beyond accuracy: evaluating recommender systems by coverage and serendipity* (Ge et al., RecSys 2010).
 
+## 📥 Material descargable
+
+- 📄 [Guía explicativa (PDF)](./clase-220-metricas-map-k-ndcg-recall-k-guia-explicativa.pdf) — versión imprimible con todo el contenido de la clase.
+- 🎞️ [Presentación (PPTX)](./clase-220-metricas-map-k-ndcg-recall-k-presentacion.pptx) — deck PowerPoint listo para proyectar en clase.
+- 🧮 [Notebook ejecutable (.ipynb)](./notebook.ipynb) — abrilo desde el laboratorio del programa o desde Jupyter.
+
 ## ➡️ Siguiente clase
 
 [Clase 221 — Cold-start problem](../221-cold-start-problem/README.md)
