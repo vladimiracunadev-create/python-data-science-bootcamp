@@ -493,8 +493,8 @@ def build_guia_rapida():
 
     res_items = [
         ("Repositorio", "github.com/vladimiracunadev-create/python-data-science-program"),
-        ("Datasets", ".../tree/master/datasets"),
-        ("Clases/Notebooks", ".../tree/master/classes"),
+        ("Datasets", ".../tree/main/datasets"),
+        ("Clases/Notebooks", ".../tree/main/classes"),
         ("Vista institucional", PORTAL_URL + "product/"),
     ]
     res_rows = [[

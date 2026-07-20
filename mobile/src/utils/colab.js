@@ -8,13 +8,13 @@
  *
  * @param {string} githubUser - Usuario de GitHub
  * @param {string} repo - Nombre del repositorio
- * @param {string} branch - Nombre de la rama (ej: 'master', 'main')
+ * @param {string} branch - Nombre de la rama (ej: 'main')
  * @param {string} notebookPath - Ruta relativa al notebook dentro del repo
  * @returns {string} URL completa de Google Colab
  *
  * @example
- * getColabUrl('usuario', 'repo', 'master', 'classes/01/notebook.ipynb')
- * // → 'https://colab.research.google.com/github/usuario/repo/blob/master/classes/01/notebook.ipynb'
+ * getColabUrl('usuario', 'repo', 'main', 'classes/parte-0-x/001-y/notebook.ipynb')
+ * // → 'https://colab.research.google.com/github/usuario/repo/blob/main/classes/parte-0-x/001-y/notebook.ipynb'
  */
 export const getColabUrl = (githubUser, repo, branch, notebookPath) => {
   const base = 'https://colab.research.google.com/github';

@@ -34,7 +34,7 @@ Incluye laboratorio interactivo local (Flask), app de escritorio nativa para Win
 | Fuentes acreditadas del currículo | pauta derivada de 5 libros referentes en el campo | `docs/syllabus.md` |
 | Laboratorio operativo | Flask shell + kernel Jupyter real (`jupyter_client`) ejecutando notebooks reales del currículo | `app/` → `python run_program.py` |
 | Distribución de escritorio | App nativa Windows con PySide6 / Qt puro (v3.8.0) — sin web, sin localhost, sin WebView; viewer del currículo con tree + tabs README/Notebook | `installer/` · `launcher.py` · `app_desktop/` |
-| Distribución móvil | App Android Expo/React Native (pendiente migrar contenido al índice actual) | `mobile/` |
+| Distribución móvil | App Android Expo/React Native (232 clases embebidas) | `mobile/` |
 | Portal público funcional | GitHub Pages con portal del alumno + vista institucional | `site/` |
 | Postura de seguridad | Validación de slugs, timeout de ejecución, CSP estricto, sin CDN externas | `SECURITY.md` · `app/app.py` |
 | CI/CD activo | Tests + lint + build de contenedor + SAST en GitHub Actions | `.github/workflows/` |
@@ -93,7 +93,7 @@ Incluye laboratorio interactivo local (Flask), app de escritorio nativa para Win
 | Vista institucional (GitHub Pages) | operativo |
 | Laboratorio de ejecución Python (Flask + kernel Jupyter) | operativo |
 | App Windows (PySide6 Qt nativa) | ✅ [binario v3.8.0 publicado en release](https://github.com/vladimiracunadev-create/python-data-science-program/releases/tag/v3.8.0) — ZIP portable slim (274 MB) |
-| App Android (Expo/React Native) | ✅ [APK debug v3.8.0 publicado en release](https://github.com/vladimiracunadev-create/python-data-science-program/releases/tag/v3.8.0) (139 MB · versionCode 38) — pendiente migrar contenido embebido al índice actual |
+| App Android (Expo/React Native) | ✅ [APK debug v3.8.0 publicado en release](https://github.com/vladimiracunadev-create/python-data-science-program/releases/tag/v3.8.0) (versionCode 38) — 232 clases embebidas, generadas desde `classes/**/README.md` |
 
 ---
 

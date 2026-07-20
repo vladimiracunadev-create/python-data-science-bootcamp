@@ -42,7 +42,7 @@ mobile/
 ├── package.json                <- Dependencias npm
 ├── src/
 │   ├── data/
-│   │   └── classes.js          <- Stub vacío en main (pendiente cargar v2)
+│   │   └── classes.js          <- GENERADO: 232 clases (scripts/generate_mobile_curriculum.py)
 │   ├── screens/
 │   │   ├── HomeScreen.js       <- Lista de clases + barra de progreso
 │   │   └── ClassScreen.js      <- Detalle con pestañas teoría/ejercicios
@@ -72,7 +72,7 @@ La app móvil NO ejecuta Python directamente. El flujo es:
      └── [Boton "Abrir en Colab"]
                |
                └── Abre en el navegador:
-                   https://colab.research.google.com/github/[user]/[repo]/blob/master/classes/[clase]/notebook.ipynb
+                   https://colab.research.google.com/github/[user]/[repo]/blob/main/classes/[parte]/[clase]/notebook.ipynb
                              |
                              └── Google Colab ejecuta el notebook en la nube
                                  (el alumno puede modificarlo y ejecutar celda a celda)

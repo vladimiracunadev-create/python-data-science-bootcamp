@@ -2,7 +2,7 @@
 
 Este script fue construido contra el currículo v1 (estructura plana
 `classes/NN-tema/`) y genera, entre otros, los datos de `mobile/src/data/classes.js`
-con URLs Colab apuntando a `master/classes/{slug}/notebook.ipynb`. Esos
+con URLs Colab apuntando a `main/classes/{slug}/notebook.ipynb`. Esos
 supuestos ya no aplican en main: la rama es `main`, la estructura es anidada
 (`classes/parte-N/NNN-tema/`), y los slugs cambiaron.
 
@@ -773,7 +773,7 @@ def render_mobile_data() -> str:
                 "level": item["level"],
                 "colabUrl": None
                 if item["number"] == 0
-                else f"https://colab.research.google.com/github/vladimiracunadev-create/python-data-science-program/blob/master/classes/{item['slug']}/notebook.ipynb",
+                else f"https://colab.research.google.com/github/vladimiracunadev-create/python-data-science-program/blob/main/classes/{item['slug']}/notebook.ipynb",
                 "topics": item["topics"],
                 "theory": f"{item['idea']} {item['objective']}",
                 "outcomes": item["outcomes"],

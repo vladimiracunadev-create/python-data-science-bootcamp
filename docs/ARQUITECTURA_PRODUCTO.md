@@ -152,7 +152,7 @@ Layout por clase: `classes/parte-N-slug/NNN-tema-slug/` con `README.md` (ficha p
 
 ### `mobile/` — App Android
 
-- Expo/React Native — **pendiente migrar el contenido embebido al índice actual**;
+- Expo/React Native — **232 clases embebidas**, generadas desde `classes/**/README.md`;
 - integración con Google Colab para ejecución de código;
 - seguimiento de progreso local con AsyncStorage.
 

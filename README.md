@@ -434,7 +434,7 @@ Workflows activos:
 ### ❌ Lo que este repo no vende
 
 - 🚫 una plataforma multiusuario endurecida para internet abierta;
-- 🚫 una app móvil ya en producción (el APK debug v3.8.0 está publicado pero el catálogo de clases en la UI sigue pendiente de migrar);
+- 🚫 una app móvil ya en producción (el APK debug v3.8.0 embebe las 232 clases, pero es un build debug sin firmar, no una publicación en Play Store);
 - 🚫 una promesa de personalización infinita antes de cerrar condiciones;
 - 🚫 profundidad total en todas las direcciones desde la primera versión.
 
