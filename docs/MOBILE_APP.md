@@ -1,6 +1,6 @@
 # Guía: App Móvil Android
 
-> **Estado v3.8.0:** la app embebe las **232 clases en 9 partes**. `mobile/src/data/classes.js` se genera desde `classes/**/README.md` con `python scripts/generate_mobile_curriculum.py` y se valida en `tests/test_mobile_curriculum.py` — no se edita a mano.
+> **Estado v3.8.1:** la app embebe las **232 clases en 9 partes**. `mobile/src/data/classes.js` se genera desde `classes/**/README.md` con `python scripts/generate_mobile_curriculum.py` y se valida en `tests/test_mobile_curriculum.py` — no se edita a mano.
 >
 > La navegación es jerárquica: **Home** (9 partes con progreso) → **Parte** (sus clases, con buscador) → **Clase** (objetivo, resultados, temas, materiales, práctica y Colab).
 

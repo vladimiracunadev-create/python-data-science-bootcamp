@@ -22,9 +22,9 @@ Este repositorio está pensado para uso local, docente y de laboratorio. La app 
 
 | 🔖 Versión | 🚦 Estado |
 |---|---|
-| `v3.8.0` (rama `main`) | ✅ activamente desarrollada |
+| `v3.8.1` (rama `main`) | ✅ activamente desarrollada |
 
-> 🚀 Release actual: [v3.8.0](https://github.com/vladimiracunadev-create/python-data-science-program/releases/tag/v3.8.0) (publicado 2026-06-19) con ZIP portable Windows (Qt nativo) + APK Android debug + bundles PDF/PPTX del curso completo.
+> 🚀 Release actual: [v3.8.1](https://github.com/vladimiracunadev-create/python-data-science-program/releases/tag/v3.8.1) (publicado 2026-06-19) con ZIP portable Windows (Qt nativo) + APK Android debug + bundles PDF/PPTX del curso completo.
 
 ---
 

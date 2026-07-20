@@ -2,19 +2,19 @@
 
 App móvil del Python Data Science Program.
 
-> **Estado actual:** la app embebe las **232 clases** del currículo v3.8.0 (232/232 notebooks ejecutables). `src/data/classes.js` se **genera** desde `classes/**/README.md` con `python scripts/generate_mobile_curriculum.py` y se valida en `tests/test_mobile_curriculum.py`.
+> **Estado actual (v3.8.1):** la app embebe las **232 clases** del currículo (232/232 notebooks ejecutables). `src/data/classes.js` se **genera** desde `classes/**/README.md` con `python scripts/generate_mobile_curriculum.py` y se valida en `tests/test_mobile_curriculum.py`.
 >
 > La UX es jerárquica: **Home** lista las 9 partes con su progreso → **Parte** lista sus clases con buscador → **Clase** muestra objetivo, resultados, temas, materiales, práctica y el enlace a Colab.
 >
-> ⚠️ El APK `v3.8.0` publicado originalmente en el release traía `classes.js` como stub vacío y por eso se instalaba **con el catálogo vacío**. El artefacto se regeneró manteniendo `versionName 3.8.0` / `versionCode 38`; el hash en `SHA256SUMS_v3.8.0.txt` cambió respecto a la primera publicación.
+> ⚠️ **Histórico:** el APK `v3.8.0` se publicó con `classes.js` como stub vacío y se instalaba **con el catálogo vacío**. Corregido en `v3.8.1` — usa ese release, no el anterior.
 
 ## 📥 Descarga del APK
 
-APK debug oficial publicado en el [**release v3.8.0**](https://github.com/vladimiracunadev-create/python-data-science-program/releases/tag/v3.8.0):
+APK debug oficial publicado en el [**release v3.8.1**](https://github.com/vladimiracunadev-create/python-data-science-program/releases/tag/v3.8.1):
 
-- 📱 [`PythonDSProgram_android_v3.8.0_debug.apk`](https://github.com/vladimiracunadev-create/python-data-science-program/releases/download/v3.8.0/PythonDSProgram_android_v3.8.0_debug.apk) — 139 MB · Expo SDK 51 · `versionCode 38` · `versionName 3.8.0`.
+- 📱 [`PythonDSProgram_android_v3.8.1_debug.apk`](https://github.com/vladimiracunadev-create/python-data-science-program/releases/download/v3.8.1/PythonDSProgram_android_v3.8.1_debug.apk) — 139 MB · Expo SDK 51 · `versionCode 39` · `versionName 3.8.1`.
 
-Instalación directa en Android (habilitar "instalar de fuentes desconocidas"). Verificación de integridad en [`SHA256SUMS_v3.8.0.txt`](https://github.com/vladimiracunadev-create/python-data-science-program/releases/download/v3.8.0/SHA256SUMS_v3.8.0.txt).
+Instalación directa en Android (habilitar "instalar de fuentes desconocidas"). Verificación de integridad en [`SHA256SUMS_v3.8.1.txt`](https://github.com/vladimiracunadev-create/python-data-science-program/releases/download/v3.8.1/SHA256SUMS_v3.8.1.txt).
 
 ## Requisitos
 

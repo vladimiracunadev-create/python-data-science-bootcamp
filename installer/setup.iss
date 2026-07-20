@@ -1,6 +1,6 @@
 ; setup.iss — Script de Inno Setup para el Python Data Science Program
 ;
-; Genera: PythonDSProgram_Setup_v3.8.0.exe
+; Genera: PythonDSProgram_Setup_v3.8.1.exe
 ;
 ; Requisitos:
 ;   - Inno Setup 6+ instalado: https://jrsoftware.org/isinfo.php
@@ -20,7 +20,7 @@
 AppName=Python Data Science Program
 
 ; Version del producto
-AppVersion=3.8.0
+AppVersion=3.8.1
 
 ; Identificador unico de la aplicacion (GUID)
 ; Cambiar si se crea una aplicacion completamente nueva
@@ -40,7 +40,7 @@ DefaultDirName={pf}\PythonDSProgram
 DefaultGroupName=Python Data Science Program
 
 ; Nombre del archivo instalador de salida (sin .exe)
-OutputBaseFilename=PythonDSProgram_Setup_v3.8.0
+OutputBaseFilename=PythonDSProgram_Setup_v3.8.1
 
 ; Directorio de salida del instalador generado
 OutputDir=..\dist_installer

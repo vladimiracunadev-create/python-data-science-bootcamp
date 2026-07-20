@@ -2,7 +2,7 @@
   "expo": {
     "name": "Python Data Science Program",
     "slug": "python-ds-program",
-    "version": "3.8.0",
+    "version": "3.8.1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "dark",

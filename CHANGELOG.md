@@ -13,6 +13,31 @@
 
 ---
 
+## [v3.8.1] — 2026-07-20 (Las 232 clases embebidas en la app Android)
+
+### Corregido
+- **La app Android se instalaba con el catálogo vacío.** `mobile/src/data/classes.js` era un stub `export const CLASSES = []`, así que el APK `v3.8.0` mostraba "0/0 clases" y ninguna tarjeta. Se confirmó extrayendo `assets/index.android.bundle` del APK publicado: 0 referencias al currículo frente al shell de la app presente.
+- **`ClassScreen` crasheaba al abrir cualquier clase.** Llamaba a `normalizeLevel`, una función que no existía ni se importaba (`ReferenceError`). Estaba latente porque con el catálogo vacío nunca se llegaba a esa pantalla. Ahora usa `levelColor` del theme, que ya normaliza acentos.
+- **Los 232 enlaces a Google Colab daban 404.** `mobile/src/utils/colab.js` apuntaba a la rama `master`; la única rama del remoto es `main`. Mismo fallo en `scripts/generate_release_pdfs.py` y `scripts/rebuild_curriculum.py`, que lo propagaban a los PDFs y notebooks generados.
+- **El APK debug no era autónomo.** Con el valor por defecto de `debuggableVariants` (`["debug"]`), Gradle omite el bundle JS y la app instalada muere en "Unable to load script" sin un servidor Metro delante. Ahora `debuggableVariants = []`.
+
+### Añadido
+- **`scripts/generate_mobile_curriculum.py`** — genera `mobile/src/data/classes.js` desde `classes/**/README.md` (las 232 clases en 9 partes). El parser ancla las secciones en el **emoji** del encabezado, no en su texto, porque el título varía entre partes (`🗺️ Temas` vs `🗺️ Fases del capstone`, `📂 Dataset / recursos` vs `📂 Recursos`).
+- **Navegación jerárquica en la app**: `HomeScreen` lista las 9 partes con progreso → `PartScreen` (nueva) lista las clases de la parte con buscador que ignora acentos → `ClassScreen` muestra el detalle. Una lista plana de 232 elementos era inusable. Nuevo componente `PartCard`.
+- **`tests/test_mobile_curriculum.py`** — 20 tests sobre el catálogo embebido: reparto por parte, numeración contigua, campos no vacíos, enlaces de Colab a notebooks existentes, y un test que regenera y compara para detectar deriva respecto del markdown.
+- **`.gitignore`**: los binarios de release (`*.apk`, `*.exe`, `*.zip`, `*.aab` bajo `dist_installer/`) quedan fuera del control de versiones. Pesan 140-280 MB y GitHub rechaza cualquier archivo de más de 100 MB, así que commitearlos rompía el push.
+
+### Cambiado
+- `mobile/package.json` (1.0.0) y `pyproject.toml` (2.0.0) estaban desincronizados del release; ambos pasan a `3.8.1`. La descripción de `pyproject.toml` seguía diciendo "12 clases".
+- Android `versionCode 38 → 39`, `versionName "3.8.0" → "3.8.1"`.
+- README, ROADMAP, RECRUITER, `docs/MOBILE_APP.md`, `docs/CATALOGO_PRODUCTO.md`, `docs/ARQUITECTURA_PRODUCTO.md` y `docs/GUIA_EVALUACION.md` dejaban de declarar el contenido móvil como "pendiente migrar".
+
+### Verificado
+- APK instalado en emulador Android (API 36): arranca **sin** servidor Metro, se recorre Home → Parte → Clase → Práctica sin crash y el progreso persiste entre pantallas.
+- Instalador `.exe` verificado instalando en aislado: 232 clases y 232 notebooks en el payload. ZIP portable: 241 README + 232 notebooks. **Ninguno de los dos artefactos Windows tenía el fallo del catálogo** — leen el árbol `classes/` real que empaqueta PyInstaller.
+
+---
+
 ## [v3.8.0] — 2026-06-19 (App Windows nativa con PySide6 — sin web ni localhost)
 
 ### Released
