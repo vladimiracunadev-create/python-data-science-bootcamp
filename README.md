@@ -285,7 +285,8 @@ graph TD
 - Expo/React Native (SDK 51, RN 0.74.5, versionCode 38, versionName 3.8.0);
 - integración con Google Colab para ejecución de código sin Python local;
 - seguimiento de progreso local con AsyncStorage;
-- APK debug `v3.8.0` publicado · catálogo (`mobile/src/data/classes.js`) sigue stub vacío, pendiente migrar las 232 clases a la UI.
+- APK debug `v3.8.0` publicado · catálogo con las **232 clases en 9 partes**, generado desde `classes/**/README.md` con `scripts/generate_mobile_curriculum.py`;
+- navegación jerárquica: partes → clases (con buscador) → detalle de clase.
 
 ### 📊 Presentación y distribución de materiales
 

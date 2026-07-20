@@ -20,3 +20,11 @@ mobile/node_modules/
 mobile/android/app/src/main/assets/index.android.bundle
 mobile/android/app/src/main/res/drawable-*/node_modules_*
 mobile/android/local.properties
+
+# Binarios de release: se publican como assets de GitHub Releases, NUNCA en el
+# repo. Pesan 140-280 MB y GitHub rechaza cualquier archivo de mas de 100 MB,
+# asi que commitearlos rompe el push. Los SHA256SUMS_*.txt si se versionan.
+dist_installer/*.exe
+dist_installer/*.apk
+dist_installer/*.zip
+dist_installer/*.aab

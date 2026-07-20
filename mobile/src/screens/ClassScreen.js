@@ -13,6 +13,7 @@ import {
 import DiagnosticQuiz from "../components/DiagnosticQuiz";
 import CodeBlock from "../components/CodeBlock";
 import { isClassCompleted, removeProgress, saveProgress } from "../utils/progress";
+import { levelColor } from "../theme";
 
 const colors = {
   bg: "#0f0f1a",
@@ -25,19 +26,18 @@ const colors = {
   border: "#334155",
 };
 
-const LEVEL_COLORS = {
-  Diagnóstico: "#38bdf8",
-  Basico: "#22c55e",
-  Intermedio: "#f59e0b",
-  "Intermedio-Avanzado": "#8b5cf6",
-  Avanzado: "#ef4444",
-  Integrador: "#f59e0b",
-};
-
 export default function ClassScreen({ route }) {
   const { classData } = route.params;
   const hasQuiz = Boolean(classData.quiz?.questions?.length);
   const hasColab = Boolean(classData.colabUrl);
+
+  // Listas con default: el curriculo siempre las trae, pero un parametro de ruta
+  // incompleto no debe tumbar la pantalla.
+  const outcomes = classData.outcomes ?? [];
+  const topics = classData.topics ?? [];
+  const materials = classData.materials ?? [];
+  const exercises = classData.exercises ?? [];
+  const codeExamples = classData.codeExamples ?? [];
 
   const [activeTab, setActiveTab] = useState(hasQuiz ? "quiz" : "theory");
   const [completed, setCompleted] = useState(false);
@@ -88,8 +88,8 @@ export default function ClassScreen({ route }) {
 
       <View style={styles.card}>
         <Text style={styles.cardTitle}>Resultados esperados</Text>
-        {classData.outcomes.map((item) => (
-          <View key={item} style={styles.rowItem}>
+        {outcomes.map((item, index) => (
+          <View key={`outcome-${index}`} style={styles.rowItem}>
             <View style={styles.bullet} />
             <Text style={styles.rowText}>{item}</Text>
           </View>
@@ -98,8 +98,8 @@ export default function ClassScreen({ route }) {
 
       <View style={styles.card}>
         <Text style={styles.cardTitle}>Temas de esta clase</Text>
-        {classData.topics.map((item) => (
-          <View key={item} style={styles.rowItem}>
+        {topics.map((item, index) => (
+          <View key={`topic-${index}`} style={styles.rowItem}>
             <View style={[styles.bullet, styles.bulletBlue]} />
             <Text style={styles.rowText}>{item}</Text>
           </View>
@@ -109,8 +109,8 @@ export default function ClassScreen({ route }) {
       <View style={styles.card}>
         <Text style={styles.cardTitle}>Materiales del módulo</Text>
         <View style={styles.materialsWrap}>
-          {classData.materials.map((item) => (
-            <View key={item} style={styles.materialChip}>
+          {materials.map((item, index) => (
+            <View key={`material-${index}`} style={styles.materialChip}>
               <Text style={styles.materialChipText}>{item}</Text>
             </View>
           ))}
@@ -118,8 +118,8 @@ export default function ClassScreen({ route }) {
       </View>
 
       <Text style={styles.sectionTitle}>Bloques de codigo documentados</Text>
-      {classData.codeExamples.length > 0 ? (
-        classData.codeExamples.map((example) => (
+      {codeExamples.length > 0 ? (
+        codeExamples.map((example) => (
           <View key={example.id} style={styles.exampleCard}>
             <Text style={styles.exampleTitle}>{example.title}</Text>
             <Text style={styles.exampleExplanation}>{example.explanation}</Text>
@@ -151,31 +151,39 @@ export default function ClassScreen({ route }) {
       <View style={styles.card}>
         <Text style={styles.cardTitle}>Cómo practicar</Text>
         <Text style={styles.cardText}>
-          Lee la pregunta del módulo, ejecuta o revisa el bloque principal y deja comentarios breves
-          sobre qué hace cada paso y para qué sirve.
+          Resuelve los ejercicios en orden. Abre el notebook de la clase en Colab para ejecutarlos y
+          deja comentarios breves sobre qué hace cada paso y para qué sirve.
         </Text>
       </View>
 
-      {classData.codeExamples.length > 0 ? (
-        classData.codeExamples.map((example, index) => (
-          <View key={example.id} style={styles.exerciseCard}>
-            <Text style={styles.exerciseNumber}>Ejercicio {index + 1}</Text>
-            <Text style={styles.exampleTitle}>{example.title}</Text>
-            <Text style={styles.exampleExplanation}>{example.explanation}</Text>
-            <View style={styles.schemaBox}>
-              <Text style={styles.schemaText}>{example.schema}</Text>
-            </View>
-            <CodeBlock code={example.code} language={example.language ?? "python"} />
+      {/* Ejercicios del currículo — la práctica principal de casi todas las clases */}
+      {exercises.map((exercise, index) => (
+        <View key={`${classData.id}-ex-${index}`} style={styles.exerciseCard}>
+          <Text style={styles.exerciseNumber}>Ejercicio {index + 1}</Text>
+          <Text style={styles.exampleExplanation}>{exercise}</Text>
+        </View>
+      ))}
+
+      {/* Bloques de código, solo en las clases que los traen en el README */}
+      {codeExamples.map((example, index) => (
+        <View key={example.id} style={styles.exerciseCard}>
+          <Text style={styles.exerciseNumber}>Código {index + 1}</Text>
+          <Text style={styles.exampleTitle}>{example.title}</Text>
+          <Text style={styles.exampleExplanation}>{example.explanation}</Text>
+          <View style={styles.schemaBox}>
+            <Text style={styles.schemaText}>{example.schema}</Text>
           </View>
-        ))
-      ) : (
+          <CodeBlock code={example.code} language={example.language ?? "python"} />
+        </View>
+      ))}
+
+      {exercises.length === 0 && codeExamples.length === 0 ? (
         <View style={styles.card}>
           <Text style={styles.cardText}>
-            En esta clase la práctica principal está en la pestaña Diagnóstico. Responde todo el quiz y
-            revisa por pregunta donde acertaste y donde necesitas refuerzo.
+            Esta clase no lista ejercicios en el material. Abre el notebook en Colab para practicarla.
           </Text>
         </View>
-      )}
+      ) : null}
 
       <View style={styles.bottomSpacer} />
     </ScrollView>
@@ -200,10 +208,7 @@ export default function ClassScreen({ route }) {
             <Text style={styles.description}>{classData.description}</Text>
             <View style={styles.badgesRow}>
               <View
-                style={[
-                  styles.levelBadge,
-                  { backgroundColor: LEVEL_COLORS[normalizeLevel(classData.level)] ?? colors.accent },
-                ]}
+                style={[styles.levelBadge, { backgroundColor: levelColor(classData.level) }]}
               >
                 <Text style={styles.levelBadgeText}>{classData.level}</Text>
               </View>

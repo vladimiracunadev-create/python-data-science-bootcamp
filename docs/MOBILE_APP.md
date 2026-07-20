@@ -1,6 +1,8 @@
 # Guía: App Móvil Android
 
-> **Estado v2:** el código de la app está operativo (UI, navegación, AsyncStorage, integración con Colab) pero `mobile/src/data/classes.js` quedó como **stub vacío** en la migración. La adaptación de las 232 clases del currículo v2 a una UX móvil está pendiente — ver `ROADMAP.md`. Esta guía describe la arquitectura del código que ya existe.
+> **Estado v3.8.0:** la app embebe las **232 clases en 9 partes**. `mobile/src/data/classes.js` se genera desde `classes/**/README.md` con `python scripts/generate_mobile_curriculum.py` y se valida en `tests/test_mobile_curriculum.py` — no se edita a mano.
+>
+> La navegación es jerárquica: **Home** (9 partes con progreso) → **Parte** (sus clases, con buscador) → **Clase** (objetivo, resultados, temas, materiales, práctica y Colab).
 
 App React Native (Expo) standalone diseñada para que los alumnos lean el contenido del programa, vean los ejemplos de código con resaltado de sintaxis y abran los notebooks directamente en Google Colab desde su celular.
 

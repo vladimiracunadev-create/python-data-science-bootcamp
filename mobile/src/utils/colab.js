@@ -28,13 +28,15 @@ export const getColabUrl = (githubUser, repo, branch, notebookPath) => {
 export const GITHUB_CONFIG = {
   user: 'vladimiracunadev-create',
   repo: 'python-data-science-program',
-  branch: 'master',
+  // `main` es la unica rama del remoto — con 'master' Colab devuelve 404.
+  branch: 'main',
 };
 
 /**
  * Genera la URL de Colab para una clase especifica usando la configuracion global.
  *
- * @param {string} classFolder - Carpeta de la clase (ej: '01-python-fundamentos')
+ * @param {string} classFolder - Ruta de la clase dentro de `classes/`
+ *                               (ej: 'parte-0-prerrequisitos/001-instalacion-de-python-3-12-...')
  * @returns {string} URL de Colab
  */
 export const getClassColabUrl = (classFolder) => {

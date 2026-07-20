@@ -2,13 +2,15 @@
  * AppNavigator.js — Configuracion de rutas de la app
  *
  * Rutas disponibles:
- *   Home       → Lista de los 13 módulos con progreso
- *   Class      → Detalle de una clase (teoría + ejercicios + Colab)
+ *   Home       → Las 9 partes del programa, con progreso global
+ *   Part       → Las clases de una parte, con buscador
+ *   Class      → Detalle de una clase (teoría + práctica + Colab)
  */
 
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import HomeScreen from '../screens/HomeScreen';
+import PartScreen from '../screens/PartScreen';
 import ClassScreen from '../screens/ClassScreen';
 
 const Stack = createStackNavigator();
@@ -36,11 +38,20 @@ export default function AppNavigator() {
       initialRouteName="Home"
       screenOptions={headerOptions}
     >
-      {/* Pantalla principal: lista de clases */}
+      {/* Pantalla principal: las 9 partes del programa */}
       <Stack.Screen
         name="Home"
         component={HomeScreen}
         options={{ title: 'Python Data Science Program' }}
+      />
+
+      {/* Pantalla de parte: lista las clases de la parte seleccionada */}
+      <Stack.Screen
+        name="Part"
+        component={PartScreen}
+        options={({ route }) => ({
+          title: route.params?.partTitle ?? 'Parte',
+        })}
       />
 
       {/* Pantalla de clase: el titulo se asigna dinamicamente en ClassScreen */}

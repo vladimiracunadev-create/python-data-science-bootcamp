@@ -2,7 +2,11 @@
 
 App móvil del Python Data Science Program.
 
-> **Estado actual:** el código de la app está operativo (UI, navegación, almacenamiento de progreso, integración con Google Colab) pero `src/data/classes.js` quedó como **stub vacío**. La adaptación de las **232 clases** (v3.8.0 — 🎓 232/232 clases · 232/232 notebooks ejecutables · cobertura 100% real) del currículo a una UX móvil está pendiente — ver [ROADMAP.md](../ROADMAP.md). El APK publicado hoy es funcional pero con catálogo vacío.
+> **Estado actual:** la app embebe las **232 clases** del currículo v3.8.0 (232/232 notebooks ejecutables). `src/data/classes.js` se **genera** desde `classes/**/README.md` con `python scripts/generate_mobile_curriculum.py` y se valida en `tests/test_mobile_curriculum.py`.
+>
+> La UX es jerárquica: **Home** lista las 9 partes con su progreso → **Parte** lista sus clases con buscador → **Clase** muestra objetivo, resultados, temas, materiales, práctica y el enlace a Colab.
+>
+> ⚠️ El APK `v3.8.0` publicado originalmente en el release traía `classes.js` como stub vacío y por eso se instalaba **con el catálogo vacío**. El artefacto se regeneró manteniendo `versionName 3.8.0` / `versionCode 38`; el hash en `SHA256SUMS_v3.8.0.txt` cambió respecto a la primera publicación.
 
 ## 📥 Descarga del APK
 
@@ -63,14 +67,16 @@ mobile/
 └── src/
     ├── theme.js                # Design system: colores, espaciado, tipografia
     ├── data/
-    │   └── classes.js          # Stub vacío (CLASSES = []); pendiente cargar el catálogo
+    │   └── classes.js          # GENERADO: 232 clases + 9 partes (no editar a mano)
     ├── navigation/
-    │   └── AppNavigator.js     # Stack Navigator con rutas Home y Class
+    │   └── AppNavigator.js     # Stack Navigator: rutas Home, Part y Class
     ├── screens/
-    │   ├── HomeScreen.js       # Lista de clases con barra de progreso
-    │   └── ClassScreen.js      # Detalle de clase: teoría + ejercicios + Colab
+    │   ├── HomeScreen.js       # Las 9 partes con progreso global
+    │   ├── PartScreen.js       # Clases de una parte, con buscador
+    │   └── ClassScreen.js      # Detalle de clase: teoría + práctica + Colab
     ├── components/
     │   ├── ClassCard.js        # Tarjeta de clase con badge, topics y boton
+    │   ├── PartCard.js         # Tarjeta de parte con progreso propio
     │   ├── CodeBlock.js        # Bloque de código con syntax highlighting y copiar
     │   └── ColabButton.js      # Boton para abrir Google Colab
     └── utils/
@@ -92,7 +98,20 @@ mobile/
 
 ## Agregar/modificar contenido
 
-> El archivo `src/data/classes.js` está hoy vacío (stub). Cuando se decida la UX para representar **232 clases** (v3.7.0) en móvil (jerarquía por partes, búsqueda, progreso por bloque), se irán cargando entradas en este archivo. Estructura de objeto sugerida por clase:
+> **No edites `src/data/classes.js` a mano** — se sobrescribe. La fuente de verdad es
+> `classes/parte-*/NNN-*/README.md`. Edita el markdown y regenera:
+>
+> ```bash
+> python scripts/generate_mobile_curriculum.py
+> pytest tests/test_mobile_curriculum.py
+> ```
+>
+> El parser ancla las secciones en el emoji del encabezado (`🎯` objetivo, `📚` resultados,
+> `🗺️` temas, `📂` recursos, `🧪` ejercicios) porque el texto del título varía entre partes.
+> Si añades una clase con otra estructura, el test de sincronización la delata.
+>
+> Cada clase generada expone además `codeExamples`, que solo se llena en las clases cuyo
+> README trae bloques de código:
 
 ```js
 codeExamples: [
