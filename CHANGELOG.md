@@ -13,6 +13,33 @@
 
 ---
 
+## [v3.9.0] — 2026-07-27 (Los 112 notebooks stub resueltos — 232/232 cuadernos con contenido real)
+
+### Corregido
+- **112 de los 232 `notebook.ipynb` eran stubs vacíos.** Contenían `# TODO: implementar` y "Notebook stub generado automáticamente. Reemplazar con contenido real." (~450 chars, 8 celdas idénticas). Afectaba a Parte 1 (43/50), Parte 2 (56/75) y Parte 3 (13/19); las partes 0, 4, 5, 6, 7 y 8 ya estaban completas. El README de cada clase sí tenía la sección `🧪 Ejercicios`, por eso la app mostraba el enunciado pero el cuaderno abría vacío en Colab. Ahora los 232 notebooks tienen contenido real, ejecutable y derivado del README (título + secciones numeradas con código + `## Ejercicios` + `## Conclusiones`), con la misma estructura que los 120 ya completos.
+- **Enlaces "Versión profundizada — 2026" rotos en 13 READMEs.** Apuntaban a una numeración vieja `../NNNb-<slug>/` inexistente (p. ej. `102b`, `104b`, `049b`); se reescriben a la carpeta real `../MMM-<slug>/` con el mismo slug.
+- **Numeración de título desincronizada en 14 notebooks de Parte 0 (035-048).** Conservaban el número previo a insertar Polars (033) y Parquet (034): el cuaderno de la carpeta `035` se titulaba "Clase 033". Ahora `# Clase NNN` coincide con carpeta y README. (El `Ã¡` de la clase 048 es un ejemplo pedagógico de mojibake en la tabla de errores comunes de web scraping — intencional, se conserva.)
+
+### Verificado
+- **Parte 1 (43) y Parte 3 (12 de 13)**: cada notebook se ejecuta headless con `nbclient` (numpy/pandas/scipy/scikit-learn/statsmodels/xgboost/lightgbm) hasta `OK`.
+- **Parte 2 · Deep Learning (56)** y la clase 192 (PyMC): verificación estática (nbformat + AST por celda) + **doble revisión adversarial** de la corrección de API (Keras 3 / tf.keras / TF2 / HuggingFace / gymnasium). Esa revisión cazó y corrigió 3 bugs reales: alineación de target 1-step en la 135, término de reconstrucción del ELBO en el VAE de la 157, y un comentario de física invertido en la 161.
+- Barrido global: **0 stubs, 0 `TODO: implementar`, 0 errores de sintaxis** en los 232 notebooks. Auditoría de coherencia (título README↔notebook, mojibake, presencia de assets) limpia.
+
+### Añadido
+- **`scripts/nbbuild.py`** — builder canónico de notebooks (nbformat 4.5 sin outputs, igual a los del repo) + runner headless de verificación (`--run` ejecuta, `--strip` limpia outputs).
+
+### Cambiado
+- Regenerados los `guia-explicativa.pdf` y `presentacion.pptx` (+ mirrors en `docs/`) de las 112 clases resueltas y las 14 de Parte 0, más el `docs/pdfs/curso-completo.pdf` / `.pptx` y los 8 bundles por parte: el apéndice PDF y la slide de código ahora reflejan el primer bloque real de cada notebook.
+- `mobile/src/data/classes.js` **no cambia**: embebe campos del README (sin cambios) y enlaza los notebooks a Colab/GitHub, que ya resuelven a contenido real en `main`.
+- Versión `3.8.1 → 3.9.0` en `pyproject.toml`, `app_desktop/__init__.py`, `mobile/package.json`, `mobile/app.json`, `mobile/src/data/classes.js`, `installer/setup.iss` y `build_windows.bat` (que además arrastraba `3.8.0`). Android `versionCode 39 → 40`, `versionName "3.8.1" → "3.9.0"`.
+
+### Release
+- **`PythonDSProgram_windows_portable_v3.9.0.zip`** — app Windows Qt nativa (PySide6) reconstruida con PyInstaller; empaqueta el árbol `classes/` con los **232 notebooks reales** (el binario v3.8.1 llevaba los stubs).
+- **APK Android**: se reutiliza el `PythonDSProgram_android_v3.8.1_debug.apk` sin cambios — su catálogo embebido (`classes.js`) es idéntico y los 232 enlaces a Colab ahora resuelven a notebooks reales en `main`. No requería rebuild.
+- `curso-completo.pdf` / `.pptx` regenerados + `SHA256SUMS_v3.9.0.txt`.
+
+---
+
 ## [v3.8.1] — 2026-07-20 (Las 232 clases embebidas en la app Android)
 
 ### Corregido

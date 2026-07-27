@@ -1,6 +1,6 @@
 [project]
 name = "python-data-science-program"
-version = "3.8.1"
+version = "3.9.0"
 description = "Python Data Science Program: 232 clases en 9 partes, notebooks ejecutables, datasets y entorno de ejecución local"
 authors = [{ name = "Vladimir Acuña", email = "vladimiracunadev-create@github" }]
 license = { text = "MIT" }

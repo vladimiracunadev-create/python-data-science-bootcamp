@@ -7,4 +7,4 @@ Qué resuelve:
     el render de README/Markdown.
 """
 
-__version__ = "3.8.1"
+__version__ = "3.9.0"
