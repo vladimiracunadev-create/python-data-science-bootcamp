@@ -32,7 +32,7 @@ Al finalizar, el estudiante podrá:
 
 El tema moderno que vivía como complemento dentro de esta clase ahora tiene clase propia dedicada con patrón completo, ejercicios y homework:
 
-- 👉 [Clase 158b — Stack bayesiano moderno: PyMC v5, NumPyro, ArviZ](../158b-pymc-v5-numpyro-arviz-stack-bayesiano/README.md)
+- 👉 [Clase 158b — Stack bayesiano moderno: PyMC v5, NumPyro, ArviZ](../193-pymc-v5-numpyro-arviz-stack-bayesiano/README.md)
 
 ## 📖 Definiciones y características
 

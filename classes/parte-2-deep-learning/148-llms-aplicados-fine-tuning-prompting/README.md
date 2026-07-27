@@ -30,7 +30,7 @@ Al finalizar, el estudiante podrá:
 El tema moderno que antes vivía como complemento dentro de esta clase ahora tiene su(s) clase(s) propia(s) con patrón completo, ejercicios y homework:
 
 - 👉 [Clase 128a — LoRA / QLoRA: fine-tuning eficiente de LLMs](../128a-lora-qlora-fine-tuning-eficiente/README.md)
-- 👉 [Clase 128b — DPO y RLHF: alineamiento de LLMs](../128b-dpo-rlhf-alineamiento-de-llms/README.md)
+- 👉 [Clase 128b — DPO y RLHF: alineamiento de LLMs](../150-dpo-rlhf-alineamiento-de-llms/README.md)
 - 👉 [Clase 128c — vLLM y TGI: serving de LLMs en producción](../128c-vllm-tgi-serving-llm-produccion/README.md)
 
 ## 📖 Definiciones y características

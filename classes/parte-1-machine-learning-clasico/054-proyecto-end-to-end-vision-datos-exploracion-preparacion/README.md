@@ -36,7 +36,7 @@ Al finalizar la clase, el alumno podrá:
 
 El tema moderno que vivía como complemento dentro de esta clase ahora tiene clase propia dedicada con patrón completo, ejercicios y homework:
 
-- 👉 [Clase 050b — Feature Engineering avanzado + MICE imputation](../050b-feature-engineering-avanzado-target-encoding-mice/README.md)
+- 👉 [Clase 050b — Feature Engineering avanzado + MICE imputation](../055-feature-engineering-avanzado-target-encoding-mice/README.md)
 
 ## 📖 Definiciones y características
 

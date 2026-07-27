@@ -34,7 +34,7 @@ Al finalizar la clase, el alumno podrá:
 
 El tema moderno que vivía como complemento dentro de esta clase ahora tiene clase propia dedicada con patrón completo, ejercicios y homework:
 
-- 👉 [Clase 049b — Validación temporal: TimeSeriesSplit, walk-forward, blocking](../049b-validacion-temporal-timeseries-walk-forward/README.md)
+- 👉 [Clase 049b — Validación temporal: TimeSeriesSplit, walk-forward, blocking](../053-validacion-temporal-timeseries-walk-forward/README.md)
 
 ## 📖 Definiciones y características
 

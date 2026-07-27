@@ -31,7 +31,7 @@ Al finalizar, el estudiante podrá:
 El tema moderno que antes vivía como complemento dentro de esta clase ahora tiene su(s) clase(s) propia(s) con patrón completo, ejercicios y homework:
 
 - 👉 [Clase 129a — MCP (Model Context Protocol)](../129a-mcp-model-context-protocol/README.md)
-- 👉 [Clase 129b — Agentes: tool use, ReAct, multi-agent](../129b-agentes-tool-use-react-multi-agent/README.md)
+- 👉 [Clase 129b — Agentes: tool use, ReAct, multi-agent](../154-agentes-tool-use-react-multi-agent/README.md)
 - 👉 [Clase 129c — LLM Evaluation: MMLU, MT-Bench, LLM-as-judge](../129c-llm-evaluation-mmlu-mtbench-llm-as-judge/README.md)
 
 ## 📖 Definiciones y características

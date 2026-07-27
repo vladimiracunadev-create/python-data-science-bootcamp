@@ -31,7 +31,7 @@ Al finalizar, el estudiante podrá:
 
 El tema moderno que vivía como complemento dentro de esta clase ahora tiene clase propia dedicada con patrón completo, ejercicios y homework:
 
-- 👉 [Clase 153b — BCa bootstrap y APIs modernas de scipy](../153b-bca-bootstrap-scipy-permutation-test-moderno/README.md)
+- 👉 [Clase 153b — BCa bootstrap y APIs modernas de scipy](../184-bca-bootstrap-scipy-permutation-test-moderno/README.md)
 
 ## 📖 Definiciones y características
 

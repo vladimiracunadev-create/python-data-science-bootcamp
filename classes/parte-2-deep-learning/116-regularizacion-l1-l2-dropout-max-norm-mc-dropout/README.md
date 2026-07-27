@@ -30,7 +30,7 @@ Al finalizar, el estudiante podrá:
 
 El tema moderno que vivía como complemento dentro de esta clase ahora tiene clase propia dedicada con patrón completo, ejercicios y homework:
 
-- 👉 [Clase 104b — Regularización moderna: Stochastic Depth, DropPath, LayerDrop](../104b-stochastic-depth-droppath-layerdrop/README.md)
+- 👉 [Clase 104b — Regularización moderna: Stochastic Depth, DropPath, LayerDrop](../117-stochastic-depth-droppath-layerdrop/README.md)
 
 ## 📖 Definiciones y características
 

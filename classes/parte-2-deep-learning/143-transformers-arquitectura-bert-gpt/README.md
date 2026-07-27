@@ -30,7 +30,7 @@ Al finalizar, el estudiante podrá:
 
 El tema moderno que vivía como complemento dentro de esta clase ahora tiene clase propia dedicada con patrón completo, ejercicios y homework:
 
-- 👉 [Clase 126b — Flash Attention v2/v3, RoPE, GQA: el motor de los LLMs modernos](../126b-flash-attention-rope-gqa-llm-engines/README.md)
+- 👉 [Clase 126b — Flash Attention v2/v3, RoPE, GQA: el motor de los LLMs modernos](../144-flash-attention-rope-gqa-llm-engines/README.md)
 
 ## 📖 Definiciones y características
 

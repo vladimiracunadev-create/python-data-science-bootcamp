@@ -31,7 +31,7 @@ Al finalizar, el estudiante podrá:
 El tema moderno que vivía como complemento dentro de esta clase ahora tiene clase propia dedicada con patrón completo, ejercicios y homework:
 
 - 👉 [Clase 052a — Optuna y HPO bayesiano dedicado (ML clásico)](../../parte-1-machine-learning-clasico/052a-optuna-bayesian-hpo-dedicado/README.md)
-- 👉 [Clase 095b — Ray Tune: HPO distribuido y a escala](../095b-ray-tune-hpo-distribuido/README.md)
+- 👉 [Clase 095b — Ray Tune: HPO distribuido y a escala](../106-ray-tune-hpo-distribuido/README.md)
 
 ## 📖 Definiciones y características
 

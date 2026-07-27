@@ -32,7 +32,7 @@ Al finalizar, el estudiante podrá:
 
 El tema moderno que vivía como complemento dentro de esta clase ahora tiene clase propia dedicada con patrón completo, ejercicios y homework:
 
-- 👉 [Clase 102b — Optimizadores modernos: Lion, Sophia, Schedule-Free](../102b-optimizadores-modernos-lion-sophia/README.md)
+- 👉 [Clase 102b — Optimizadores modernos: Lion, Sophia, Schedule-Free](../114-optimizadores-modernos-lion-sophia/README.md)
 
 ## 📖 Definiciones y características
 

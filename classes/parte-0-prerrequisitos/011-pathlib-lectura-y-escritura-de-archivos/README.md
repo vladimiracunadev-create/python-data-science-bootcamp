@@ -35,7 +35,7 @@ Al finalizar la clase, el alumno podrá:
 
 El tema moderno que vivía como complemento dentro de esta clase ahora tiene clase propia dedicada:
 
-- 👉 [Clase 032b — Parquet, Arrow, PyArrow, DuckDB](../032b-parquet-arrow-pyarrow-duckdb/README.md)
+- 👉 [Clase 032b — Parquet, Arrow, PyArrow, DuckDB](../034-parquet-arrow-pyarrow-duckdb/README.md)
 
 ## 📖 Definiciones y características
 
