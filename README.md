@@ -12,7 +12,7 @@
 [![Security](https://github.com/vladimiracunadev-create/python-data-science-program/actions/workflows/security.yml/badge.svg?branch=main)](https://github.com/vladimiracunadev-create/python-data-science-program/actions/workflows/security.yml)
 [![Pages](https://github.com/vladimiracunadev-create/python-data-science-program/actions/workflows/deploy-pages.yml/badge.svg?branch=main)](https://github.com/vladimiracunadev-create/python-data-science-program/actions/workflows/deploy-pages.yml)
 
-[![Version](https://img.shields.io/badge/release-v3.8.1-2e8b57?style=for-the-badge)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/release-v3.9.0-2e8b57?style=for-the-badge)](CHANGELOG.md)
 [![Clases](https://img.shields.io/badge/clases-232%20%C2%B7%209%20partes-7c5cff?style=for-the-badge)](classes/README.md)
 [![Parte 0](https://img.shields.io/badge/Parte%200-49%2F49%20%E2%9C%85-3fb950?style=for-the-badge)](classes/parte-0-prerrequisitos/README.md)
 [![Parte 1](https://img.shields.io/badge/Parte%201-50%2F50%20%E2%9C%85-3fb950?style=for-the-badge)](classes/parte-1-machine-learning-clasico/README.md)
@@ -60,29 +60,30 @@ Integra currículo modular extenso, laboratorio interactivo local, portal del al
 
 | 🎯 Aspecto | Estado |
 |---|---|
-| 🏷️ **Versión** | `v3.8.1` (julio 2026 — **app Windows nativa con PySide6 (Qt, sin web, sin localhost) · 🎓 232/232 clases · 232/232 notebooks ejecutables · cobertura 100% real · lab con kernel Jupyter real ejecuta los 232 notebooks**) |
+| 🏷️ **Versión** | `v3.9.0` (julio 2026 — **app Windows nativa con PySide6 (Qt, sin web, sin localhost) reconstruida ahora empaqueta los 232 notebooks REALES · 🎓 232/232 clases · 232/232 notebooks ejecutables · cobertura 100% real · lab con kernel Jupyter real ejecuta los 232 notebooks**) |
 | 📚 **Clases** | **232 en 9 partes** · numeración secuencial limpia 001-232 |
 | 🗂️ **Estructura** | ✅ **las 232 clases con `README.md` pedagógico + `notebook.ipynb` ejecutable (cobertura 100%)** |
 | ✍️ **Contenido pedagógico** | 🟢 **Las 9 partes (232/232 = 100%) — completas y modernizadas** con Definiciones · Errores comunes · FAQ en cada clase + 35 clases dedicadas a temas modernos 2024-2026 + stack completo de MLOps (DVC, MLflow, Feast, K8s, FastAPI, drift, shadow/canary, SHAP, Great Expectations, behavioral tests) + data engineering (Airflow, Prefect/Dagster, PySpark, Polars, DuckDB/BQ/Snowflake, Kafka, Parquet/Avro, star schemas) + recomendadores (CF, SVD/ALS, content+FAISS, LightFM, métricas top-N, cold-start) + ética/fairness/privacidad (DP/EO/calibration, DP-SGD, FedAvg, GDPR + AI Act 2024/1689, reproducibilidad) + **4 capstones integradores** (tabular E2E con MLflow+FastAPI+Streamlit, NLP o series con backtesting cuantil, visión transfer learning con ONNX, portafolio público en GitHub Pages con MkDocs/Quarto) |
 | 🧭 **Descubribilidad Pages** | ✅ tabla de contenidos automática + badges por clase + banner global de progreso |
 | 🧪 **Laboratorio de ejecución Python** | ✅ Flask shell + kernel Jupyter real (`jupyter_client` + `ipykernel`), lee los `classes/**/notebook.ipynb` reales, outputs ricos (HTML, imágenes, errores con traceback) — **herramienta separada** del viewer nativo, pensada para ejecutar código sobre los notebooks |
-| 🖥️ **App Windows** | ✅ **app Qt nativa** (PySide6) — sin web, sin localhost · [binario publicado en release v3.8.1](https://github.com/vladimiracunadev-create/python-data-science-program/releases/tag/v3.8.1) (`PythonDSProgram_windows_portable_v3.8.1.zip`, 278 MB) |
-| 📱 **App Android** | ✅ **232 clases embebidas** · [APK debug publicado en release v3.8.1](https://github.com/vladimiracunadev-create/python-data-science-program/releases/tag/v3.8.1) (`PythonDSProgram_android_v3.8.1_debug.apk`, 138 MB, Expo SDK 51, versionCode 39) |
+| 🖥️ **App Windows** | ✅ **app Qt nativa** (PySide6) reconstruida — sin web, sin localhost · empaqueta los 232 notebooks reales · [binario publicado en release v3.9.0](https://github.com/vladimiracunadev-create/python-data-science-program/releases/tag/v3.9.0) (`PythonDSProgram_windows_portable_v3.9.0.zip`, 278 MB) |
+| 📱 **App Android** | ✅ **232 clases embebidas** · [APK debug publicado en release v3.9.0](https://github.com/vladimiracunadev-create/python-data-science-program/releases/tag/v3.9.0) (`PythonDSProgram_android_v3.8.1_debug.apk`, 138 MB, Expo SDK 51, versionCode 39 — **reutilizado sin cambios desde v3.8.1**; mismo catálogo, los enlaces a Colab ahora resuelven a notebooks reales) |
 | 🛡️ **Postura** | local-first — no internet abierta sin capas adicionales |
 
-### 📥 Descarga rápida — Release v3.8.1 (2026-07-20)
+### 📥 Descarga rápida — Release v3.9.0 (2026-07-27)
 
-Binarios oficiales del programa. Verificación de integridad en [`SHA256SUMS_v3.8.1.txt`](https://github.com/vladimiracunadev-create/python-data-science-program/releases/download/v3.8.1/SHA256SUMS_v3.8.1.txt).
+Binarios oficiales del programa. Verificación de integridad en [`SHA256SUMS_v3.9.0.txt`](https://github.com/vladimiracunadev-create/python-data-science-program/releases/download/v3.9.0/SHA256SUMS_v3.9.0.txt).
 
 | Artefacto | Tamaño | Qué es |
 |---|---|---|
-| [`PythonDSProgram_windows_portable_v3.8.1.zip`](https://github.com/vladimiracunadev-create/python-data-science-program/releases/download/v3.8.1/PythonDSProgram_windows_portable_v3.8.1.zip) | 278 MB | App Windows Qt nativa (PySide6) — bundle **slim**, sin PDFs/PPTX embebidos; el viewer abre la URL raw del repo cuando el archivo local no existe |
-| [`PythonDSProgram_Setup_v3.8.1.exe`](https://github.com/vladimiracunadev-create/python-data-science-program/releases/download/v3.8.1/PythonDSProgram_Setup_v3.8.1.exe) | 183 MB | Instalador Windows (Inno Setup) — no requiere permisos de administrador |
-| [`PythonDSProgram_android_v3.8.1_debug.apk`](https://github.com/vladimiracunadev-create/python-data-science-program/releases/download/v3.8.1/PythonDSProgram_android_v3.8.1_debug.apk) | 138 MB | APK Android debug (Expo SDK 51 · versionCode 39 · versionName 3.8.1) — **232 clases embebidas** |
+| [`PythonDSProgram_windows_portable_v3.9.0.zip`](https://github.com/vladimiracunadev-create/python-data-science-program/releases/download/v3.9.0/PythonDSProgram_windows_portable_v3.9.0.zip) | 278 MB | App Windows Qt nativa (PySide6) **reconstruida** — ahora empaqueta los 232 notebooks reales (el binario v3.8.1 llevaba stubs); bundle **slim**, sin PDFs/PPTX embebidos; el viewer abre la URL raw del repo cuando el archivo local no existe |
+| [`PythonDSProgram_android_v3.8.1_debug.apk`](https://github.com/vladimiracunadev-create/python-data-science-program/releases/download/v3.9.0/PythonDSProgram_android_v3.8.1_debug.apk) | 138 MB | APK Android debug (Expo SDK 51 · versionCode 39 · versionName 3.8.1) — **232 clases embebidas** · **reutilizado sin cambios desde v3.8.1** (mismo catálogo; los enlaces a Colab ahora resuelven a notebooks reales) |
 
-> ⚠️ El APK de `v3.8.0` se publicó con el catálogo vacío (mostraba 0 clases). Usa el de `v3.8.1`.
+> ℹ️ El release v3.9.0 **no** incluye instalador Inno Setup `.exe` (no había Inno Setup en el entorno de build). El instalador queda **pendiente para v3.9.0** — el ZIP portable es el artefacto autónomo. La versión v3.8.1 del instalador sigue disponible en su [release histórico](https://github.com/vladimiracunadev-create/python-data-science-program/releases/tag/v3.8.1).
 
-> 🔗 [Página completa del release v3.8.1](https://github.com/vladimiracunadev-create/python-data-science-program/releases/tag/v3.8.1)
+> ⚠️ El APK de `v3.8.0` se publicó con el catálogo vacío (mostraba 0 clases). El APK debug `v3.8.1` (con las 232 clases) se reutiliza sin cambios en este release.
+
+> 🔗 [Página completa del release v3.9.0](https://github.com/vladimiracunadev-create/python-data-science-program/releases/tag/v3.9.0)
 
 ### 🗺️ Las 9 partes del currículo
 
@@ -143,8 +144,8 @@ Cada parte tiene su **propio README** con narrativa completa: de qué trata, qu�
 | 🌐 Portal del alumno (`site/`) | punto de entrada oficial para estudiantes | ✅ operativo |
 | 🏛️ Vista institucional (`site/product/`) | presentación visual del producto | ✅ operativa |
 | 📚 Currículo modular (`classes/`) | **232 clases** en 9 partes (numeración secuencial 001-232): Prerrequisitos, ML clásico, Deep Learning, Estadística inferencial y causal, MLOps, Ingeniería de datos, Recomendadores, Ética, Capstones | 🟢 **Las 9 partes (232/232 = 100%) completas y modernizadas** — 35 clases dedicadas a temas 2024-2026 + stack MLOps + data engineering + recomendadores + ética/fairness/privacidad + 4 capstones integradores end-to-end |
-| 🖥️ App de escritorio Windows (`launcher.py` + `app_desktop/` + `program.spec` + `installer/`) | ventana Qt nativa (PySide6) — sin web, sin localhost, sin WebView, sin Python en el PC del alumno | ✅ binario v3.8.1 publicado en release |
-| 📱 App Android (`mobile/`) | Expo/React Native con integración Google Colab | ✅ APK debug v3.8.1 publicado · 232 clases embebidas |
+| 🖥️ App de escritorio Windows (`launcher.py` + `app_desktop/` + `program.spec` + `installer/`) | ventana Qt nativa (PySide6) — sin web, sin localhost, sin WebView, sin Python en el PC del alumno | ✅ binario v3.9.0 publicado en release (reconstruido con los 232 notebooks reales) |
+| 📱 App Android (`mobile/`) | Expo/React Native con integración Google Colab | ✅ APK debug v3.8.1 reutilizado en release v3.9.0 · 232 clases embebidas |
 | 📄 PDFs (`docs/pdfs/`) | guías por clase + bundles por parte + curso completo | ✅ generados (232 por clase + 9 por parte + 1 unificado) |
 | 📊 Presentaciones (`docs/presentaciones/`) | decks `.pptx` por clase + bundles por parte + curso completo | ✅ generados (232 por clase + 9 por parte + 1 unificado) |
 
@@ -213,7 +214,7 @@ graph LR
 
 La arquitectura completa, con flujos y fronteras, está en [docs/ARQUITECTURA_PRODUCTO.md](docs/ARQUITECTURA_PRODUCTO.md).
 
-### 🗺️ Mapa del currículo (9 partes · 232 clases · v3.8.1 · 🎓 232/232 README + 232/232 notebooks ejecutables · 100% real)
+### 🗺️ Mapa del currículo (9 partes · 232 clases · v3.9.0 · 🎓 232/232 README + 232/232 notebooks ejecutables · 100% real)
 
 ```mermaid
 graph TD
@@ -258,7 +259,7 @@ graph TD
 
 ### 📚 Currículo y pedagogía
 
-- **Currículo (v3.8.1):** **232 clases** en 9 partes (numeración secuencial 001-232) — Prerrequisitos (49), ML clásico (50), Deep Learning (75), Estadística inferencial y causal (19), MLOps (14), Ingeniería de datos (8), Recomendadores (7), Ética (6), Capstones (4). **Las 9 partes (232/232 = 100%) completas y modernizadas 2024-2026**;
+- **Currículo (v3.9.0):** **232 clases** en 9 partes (numeración secuencial 001-232) — Prerrequisitos (49), ML clásico (50), Deep Learning (75), Estadística inferencial y causal (19), MLOps (14), Ingeniería de datos (8), Recomendadores (7), Ética (6), Capstones (4). **Las 9 partes (232/232 = 100%) completas y modernizadas 2024-2026**;
 - pauta derivada de **Hands-On ML** (Géron 3ª ed.), **Python Data Science Handbook** (VanderPlas), **Designing ML Systems** (Huyen), **ISLP** (James et al), **Fairness and ML** (Barocas/Hardt/Narayanan);
 - cada clase: `README.md` pedagógico (Definiciones · Errores comunes · FAQ · Referencias) + `notebook.ipynb` ejecutable + `clase-NNN-...-guia-explicativa.pdf` + `clase-NNN-...-presentacion.pptx`;
 - **6 datasets** sintéticos: ventas_tienda, retencion_clientes, soporte_tickets, transporte, estudiantes, comentarios_productos;
@@ -278,7 +279,7 @@ graph TD
 - ventana Qt nativa con `QTreeView` del currículo y tabs README / Notebook — **sin web, sin localhost, sin WebView, sin Flask de fondo**;
 - READMEs renderizados con `QTextBrowser.setMarkdown()`; notebooks renderizados celda por celda con outputs (imágenes base64 → `QPixmap`);
 - toolbar con "Abrir PDF/PPTX/Carpeta" — en el bundle frozen abre la URL raw del repo (los PDFs/PPTX no van empaquetados);
-- bundle slim distribuido como ZIP portable (278 MB) **y como instalador Inno Setup `PythonDSProgram_Setup_v3.8.1.exe` (183 MB)** en el [release v3.8.1](https://github.com/vladimiracunadev-create/python-data-science-program/releases/tag/v3.8.1);
+- bundle slim distribuido como ZIP portable (278 MB) en el [release v3.9.0](https://github.com/vladimiracunadev-create/python-data-science-program/releases/tag/v3.9.0); el instalador Inno Setup `.exe` queda **pendiente para v3.9.0** (no había Inno Setup en el entorno de build — el ZIP portable es el artefacto autónomo; la versión v3.8.1 del instalador sigue en su release histórico);
 - sin dependencias Python en el PC del usuario final.
 
 ### 📱 App Android
@@ -286,7 +287,7 @@ graph TD
 - Expo/React Native (SDK 51, RN 0.74.5, versionCode 39, versionName 3.8.1);
 - integración con Google Colab para ejecución de código sin Python local;
 - seguimiento de progreso local con AsyncStorage;
-- APK debug `v3.8.1` publicado · catálogo con las **232 clases en 9 partes**, generado desde `classes/**/README.md` con `scripts/generate_mobile_curriculum.py`;
+- APK debug `v3.8.1` reutilizado sin cambios en el release v3.9.0 · catálogo con las **232 clases en 9 partes**, generado desde `classes/**/README.md` con `scripts/generate_mobile_curriculum.py` (los enlaces a Colab ahora resuelven a notebooks reales);
 - navegación jerárquica: partes → clases (con buscador) → detalle de clase.
 
 ### 📊 Presentación y distribución de materiales
@@ -303,7 +304,7 @@ graph TD
 
 ### 🅰️ Opción A — app de escritorio Windows (usuarios finales)
 
-Descarga `PythonDSProgram_windows_portable_v3.8.0.zip` (274 MB) desde el [release v3.8.0](https://github.com/vladimiracunadev-create/python-data-science-program/releases/tag/v3.8.0), descomprime y ejecuta `PythonDSProgram.exe`. Es una app Qt nativa (PySide6): no abre navegador, no levanta servidor HTTP, no requiere Python ni Edge WebView2 instalados. Para construir el `.exe` desde fuente ver [docs/BUILD_INSTALLER.md](docs/BUILD_INSTALLER.md).
+Descarga `PythonDSProgram_windows_portable_v3.9.0.zip` (278 MB) desde el [release v3.9.0](https://github.com/vladimiracunadev-create/python-data-science-program/releases/tag/v3.9.0), descomprime y ejecuta `PythonDSProgram.exe`. Es una app Qt nativa (PySide6): no abre navegador, no levanta servidor HTTP, no requiere Python ni Edge WebView2 instalados. Para construir el `.exe` desde fuente ver [docs/BUILD_INSTALLER.md](docs/BUILD_INSTALLER.md).
 
 ### 🅱️ Opción B — modo desarrollo (entorno virtual)
 

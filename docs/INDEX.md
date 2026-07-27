@@ -10,7 +10,7 @@
 
 </div>
 
-> 📌 El currículo tiene **232 clases en 9 partes** (v3.8.1 — app Windows nativa con PySide6, Qt sin web ni localhost). Este repositorio nació como muestra de habilidades técnicas y pedagógicas, y hoy se desarrolla como recurso personal de aprendizaje y enseñanza, abierto a cualquier persona.
+> 📌 El currículo tiene **232 clases en 9 partes** (v3.9.0 — app Windows nativa con PySide6, Qt sin web ni localhost, reconstruida con los 232 notebooks reales). Este repositorio nació como muestra de habilidades técnicas y pedagógicas, y hoy se desarrolla como recurso personal de aprendizaje y enseñanza, abierto a cualquier persona.
 
 ---
 

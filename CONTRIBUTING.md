@@ -87,7 +87,7 @@ curl http://127.0.0.1:8000/health
 
 ## 🗂️ Estructura del currículo
 
-El currículo vive en `classes/parte-N-slug/NNN-tema-slug/` (anidado por parte). Las 232 clases están desarrolladas (v3.8.1 · 🎓 100% real) con la siguiente estructura:
+El currículo vive en `classes/parte-N-slug/NNN-tema-slug/` (anidado por parte). Las 232 clases están desarrolladas (v3.9.0 · 🎓 100% real) con la siguiente estructura:
 
 ```
 classes/parte-N-slug/NNN-tema-slug/

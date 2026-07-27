@@ -89,7 +89,7 @@ PAGE = """<!doctype html>
     <p>
       Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/{repo_path}"><code>{repo_path}</code></a>
       · <a href="{root}index.html">← Volver al portal del alumno</a>
-      · 📥 <a href="https://github.com/vladimiracunadev-create/python-data-science-program/releases/tag/v3.8.1" target="_blank" rel="noreferrer">Descargar binarios (release v3.8.1)</a>
+      · 📥 <a href="https://github.com/vladimiracunadev-create/python-data-science-program/releases/tag/v3.9.0" target="_blank" rel="noreferrer">Descargar binarios (release v3.9.0)</a>
     </p>
   </footer>
 </body>

@@ -4,7 +4,7 @@
 
 ### **Dirección futura del Python Data Science Program**
 
-[![Version](https://img.shields.io/badge/release-v3.8.1-2e8b57?style=for-the-badge)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/release-v3.9.0-2e8b57?style=for-the-badge)](CHANGELOG.md)
 [![Estado](https://img.shields.io/badge/curr%C3%ADculo-100%25%20completo-3fb950?style=for-the-badge)](#-trabajo-cr%C3%ADtico--completar-el-contenido-pedag%C3%B3gico)
 
 </div>
@@ -13,9 +13,10 @@
 
 ---
 
-## 📊 Estado actual — v3.8.1 (julio 2026 — **app Android con las 232 clases embebidas · app Windows nativa PySide6 · 🎓 232/232 clases · 232/232 notebooks ejecutables · cobertura 100% real**)
+## 📊 Estado actual — v3.9.0 (julio 2026 — **112 notebooks stub resueltos → app Windows nativa PySide6 reconstruida con los 232 notebooks REALES · app Android con las 232 clases embebidas · 🎓 232/232 clases · 232/232 notebooks ejecutables · cobertura 100% real**)
 
 - ✅ App Windows nativa (PySide6) — reemplaza el wrapper pywebview/Flask, sin web ni localhost
+- ✅ [Release v3.9.0 publicado (2026-07-27)](https://github.com/vladimiracunadev-create/python-data-science-program/releases/tag/v3.9.0): app Windows Qt nativa **reconstruida** que ahora empaqueta los 232 notebooks reales (el binario v3.8.1 llevaba stubs) — ZIP portable Windows slim (278 MB) + APK Android debug v3.8.1 **reutilizado sin cambios** (versionCode 39, **232 clases embebidas**; los enlaces a Colab ahora resuelven a notebooks reales) + bundles curso-completo PDF/PPTX + SHA256SUMS. Sin instalador Inno Setup `.exe` (no había Inno Setup en el entorno de build) — pendiente para v3.9.0.
 - ✅ [Release v3.8.1 publicado (2026-07-20)](https://github.com/vladimiracunadev-create/python-data-science-program/releases/tag/v3.8.1): ZIP portable Windows slim + instalador Inno Setup + APK Android debug v3.8.1 (versionCode 39, **232 clases embebidas**) + bundles curso-completo PDF/PPTX + SHA256SUMS
 - ✅ [Release v3.8.0 (2026-06-19)](https://github.com/vladimiracunadev-create/python-data-science-program/releases/tag/v3.8.0): primera publicación de la app Windows nativa. Su APK salió con el catálogo vacío — corregido en v3.8.1.
 
@@ -24,8 +25,8 @@
 |---|---|
 | 📚 Currículo (**232 clases · 232 READMEs · 232 notebooks ejecutables**, 9 partes, numeración secuencial limpia 001-232) | 🟢 **Las 9 partes (232/232 README + 232/232 notebooks = 🎓 100% real) completas v3.7** (todas las clases corren en el laboratorio con kernel Jupyter) (Definiciones · Errores · FAQ en cada clase + 35 clases dedicadas a temas modernos 2024-2026: Polars/Arrow/DuckDB, async, validación temporal, FE+MICE, Optuna, Model Cards, SMOTE, calibración, SHAP profundo, Ray Tune, Lion/Sophia, Stochastic Depth, PyTorch+Lightning, SAM/YOLOv11, Flash Attention/RoPE/GQA, CLIP/Whisper, LoRA/DPO/vLLM, MCP/Agentes/Eval, SDXL/ControlNet, ONNX, JAX/Flax, effect size, BCa bootstrap, CUPED+sequential, DoubleML, Synthetic Controls, PyMC v5/NumPyro/ArviZ) + **Parte 4 MLOps (14 clases): DVC, MLflow, Feast, GH Actions/CML, Docker multi-stage, FastAPI, Kubernetes, serverless cost calc, drift detection (PSI/KS/Wasserstein/CBPE), retraining (Prefect+champion-challenger), shadow/canary/auto-rollback, SHAP/LIME/PDP/ICE en producción, Great Expectations+Pandera, behavioral tests INV/DIR/MFT/slice** + Partes 5-8 (25 clases): Data Engineering (Airflow/Prefect/Dagster/PySpark/Polars/DuckDB/BQ/Snowflake/Kafka/Parquet/Avro/star schemas SCD2), Recomendadores (CF/SVD+ALS/content+FAISS/LightFM/cold-start+bandits), Ética/Fairness/Privacidad (Suresh-Guttag taxonomía/DP+EO+calibration+impossibility theorem/DP-SGD/FedAvg+leakage/GDPR+AI Act 2024/1689/reproducibilidad), 4 Capstones integradores (tabular E2E/NLP-series/visión transfer learning/portafolio público) — todas completas |
 | 🧪 Laboratorio de ejecución Python (Flask + Jupyter kernel) | ✅ operativo |
-| 🖥️ App de escritorio Windows (PySide6 nativo, sin web, sin localhost) | ✅ [binario v3.8.1 publicado en release](https://github.com/vladimiracunadev-create/python-data-science-program/releases/tag/v3.8.1) — ZIP portable slim, sin PDFs embebidos (viewer abre URL raw del repo) |
-| 📱 App Android | ✅ [APK debug v3.8.1 publicado en release](https://github.com/vladimiracunadev-create/python-data-science-program/releases/tag/v3.8.1) (versionCode 39) — 232 clases embebidas, navegación jerárquica partes → clases → detalle |
+| 🖥️ App de escritorio Windows (PySide6 nativo, sin web, sin localhost) | ✅ [binario v3.9.0 publicado en release](https://github.com/vladimiracunadev-create/python-data-science-program/releases/tag/v3.9.0) — reconstruido con los 232 notebooks reales; ZIP portable slim, sin PDFs embebidos (viewer abre URL raw del repo) |
+| 📱 App Android | ✅ [APK debug v3.8.1 reutilizado en release v3.9.0](https://github.com/vladimiracunadev-create/python-data-science-program/releases/tag/v3.9.0) (versionCode 39, sin cambios) — 232 clases embebidas, navegación jerárquica partes → clases → detalle |
 | 🌐 Portal del alumno | 🟡 en vivo — pendiente migrar al índice actual |
 | 🏛️ Vista institucional | ✅ en vivo |
 | 📖 Documentación | ✅ alineada con el currículo actual |

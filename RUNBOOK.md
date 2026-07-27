@@ -118,8 +118,8 @@ build_windows.bat
 
 Genera:
 - 💾 `dist/PythonDSProgram/PythonDSProgram.exe` — ejecutable principal (Qt nativo)
-- 🗜️ `release_artifacts/PythonDSProgram_windows_portable_v3.8.1.zip` — portable (ZIP, ~274 MB)
-- 📦 `dist_installer/PythonDSProgram_Setup_v3.8.1.exe` — instalador (requiere Inno Setup 6)
+- 🗜️ `release_artifacts/PythonDSProgram_windows_portable_v3.9.0.zip` — portable (ZIP, ~278 MB)
+- 📦 `dist_installer/PythonDSProgram_Setup_v3.9.0.exe` — instalador (requiere Inno Setup 6; no se incluyó en el release v3.9.0 porque no había Inno Setup en el entorno de build)
 
 > 📖 Ver [docs/BUILD_INSTALLER.md](docs/BUILD_INSTALLER.md) para detalle completo.
 
