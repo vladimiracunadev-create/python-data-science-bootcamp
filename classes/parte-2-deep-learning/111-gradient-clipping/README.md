@@ -1,6 +1,7 @@
 # Clase 111 — Gradient clipping
 
 > Parte: **2 — Deep Learning** · Fuente: Géron, **cap. 11** § *Gradient Clipping* + Pascanu, Mikolov & Bengio (2013). ⏱️ Duración estimada: **45 min**.
+> 🎚️ **Nivel:** Avanzado
 
 ## 🎯 Objetivo
 

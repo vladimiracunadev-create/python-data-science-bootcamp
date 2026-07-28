@@ -1,6 +1,7 @@
 # Clase 113 — Optimizadores: Momentum, Nesterov, AdaGrad, RMSProp, Adam, AdamW (+ Lion, Sophia)
 
 > Parte: **2 — Deep Learning** · Fuente: Géron, **cap. 11** § *Faster Optimizers* + papers Lion (Chen et al. 2023), Sophia (Liu et al. 2023). ⏱️ Duración estimada: **80 min**.
+> 🎚️ **Nivel:** Avanzado
 
 ## 🎯 Objetivo
 

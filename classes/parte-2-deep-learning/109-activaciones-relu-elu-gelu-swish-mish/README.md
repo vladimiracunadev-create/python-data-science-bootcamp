@@ -1,6 +1,7 @@
 # Clase 109 — Activaciones: ReLU, ELU, GELU, Swish, Mish
 
 > Parte: **2 — Deep Learning** · Fuente: Géron, **cap. 11** § *Better Activation Functions*. ⏱️ Duración estimada: **60 min**.
+> 🎚️ **Nivel:** Avanzado
 
 ## 🎯 Objetivo
 

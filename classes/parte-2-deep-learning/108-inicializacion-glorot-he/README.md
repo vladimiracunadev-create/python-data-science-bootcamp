@@ -1,6 +1,7 @@
 # Clase 108 — Inicialización (Glorot, He)
 
 > Parte: **2 — Deep Learning** · Fuente: Géron, **cap. 11** § *Glorot and He Initialization*. ⏱️ Duración estimada: **55 min**.
+> 🎚️ **Nivel:** Avanzado
 
 ## 🎯 Objetivo
 

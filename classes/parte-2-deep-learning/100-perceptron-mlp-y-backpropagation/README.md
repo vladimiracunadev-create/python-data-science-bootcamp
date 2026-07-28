@@ -1,6 +1,7 @@
 # Clase 100 — Perceptrón, MLP y backpropagation
 
 > Parte: **2 — Deep Learning** · Fuente: Géron, **cap. 10** § *From Biological to Artificial Neurons*. ⏱️ Duración estimada: **80 min**.
+> 🎚️ **Nivel:** Avanzado
 
 ## 🎯 Objetivo
 

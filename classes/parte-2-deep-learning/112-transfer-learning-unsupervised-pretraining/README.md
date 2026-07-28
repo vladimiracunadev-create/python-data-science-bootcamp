@@ -1,6 +1,7 @@
 # Clase 112 — Transfer learning, unsupervised pretraining
 
 > Parte: **2 — Deep Learning** · Fuente: Géron, **cap. 11** § *Reusing Pretrained Layers*. ⏱️ Duración estimada: **70 min**.
+> 🎚️ **Nivel:** Avanzado
 
 ## 🎯 Objetivo
 

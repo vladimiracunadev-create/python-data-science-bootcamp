@@ -1,6 +1,7 @@
 # Clase 101 — Regresión y clasificación con MLP
 
 > Parte: **2 — Deep Learning** · Fuente: Géron, **cap. 10** § *Building an Image Classifier* y § *Building a Regression MLP*. ⏱️ Duración estimada: **75 min**.
+> 🎚️ **Nivel:** Avanzado
 
 ## 🎯 Objetivo
 

@@ -1,6 +1,7 @@
 # Clase 105 — Keras Tuner (+ Optuna, Ray Tune)
 
 > Parte: **2 — Deep Learning** · Fuente: Géron, **cap. 10** § *Fine-Tuning Neural Network Hyperparameters* + docs Keras Tuner / Optuna / Ray Tune. ⏱️ Duración estimada: **85 min**.
+> 🎚️ **Nivel:** Avanzado
 
 ## 🎯 Objetivo
 

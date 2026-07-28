@@ -1,6 +1,7 @@
 # Clase 103 — Keras Functional API y Subclassing
 
 > Parte: **2 — Deep Learning** · Fuente: Géron, **cap. 10** § *Building Complex Models Using the Functional API* y § *Building Dynamic Models Using the Subclassing API*. ⏱️ Duración estimada: **70 min**.
+> 🎚️ **Nivel:** Avanzado
 
 ## 🎯 Objetivo
 

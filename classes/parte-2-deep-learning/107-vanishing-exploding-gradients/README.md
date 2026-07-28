@@ -1,6 +1,7 @@
 # Clase 107 — Vanishing/exploding gradients
 
 > Parte: **2 — Deep Learning** · Fuente: Géron, **cap. 11** § *The Vanishing/Exploding Gradients Problems*. ⏱️ Duración estimada: **70 min**.
+> 🎚️ **Nivel:** Avanzado
 
 ## 🎯 Objetivo
 

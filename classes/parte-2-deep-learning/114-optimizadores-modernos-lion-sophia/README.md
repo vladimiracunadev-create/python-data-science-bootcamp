@@ -1,6 +1,7 @@
 # Clase 114 — Optimizadores modernos: Lion, Sophia, Schedule-Free
 
 > Parte: **2 — Deep Learning** · Fuente: Chen et al. (2023) Lion + Liu et al. (2023) Sophia + Defazio et al. (2024) Schedule-Free. ⏱️ Duración estimada: **75 min**.
+> 🎚️ **Nivel:** Avanzado
 
 ## 🎯 Objetivo
 

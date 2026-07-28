@@ -1,6 +1,7 @@
 # Clase 106 — Ray Tune: HPO distribuido y a escala
 
 > Parte: **2 — Deep Learning** · Fuente: Liaw et al. (2018) Ray Tune + [Ray docs](https://docs.ray.io/en/latest/tune/index.html). ⏱️ Duración estimada: **75 min**.
+> 🎚️ **Nivel:** Avanzado
 
 ## 🎯 Objetivo
 

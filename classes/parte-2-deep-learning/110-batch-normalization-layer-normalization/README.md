@@ -1,6 +1,7 @@
 # Clase 110 — Batch Normalization, Layer Normalization
 
 > Parte: **2 — Deep Learning** · Fuente: Géron, **cap. 11** § *Batch Normalization*. ⏱️ Duración estimada: **75 min**.
+> 🎚️ **Nivel:** Avanzado
 
 ## 🎯 Objetivo
 

@@ -1,6 +1,7 @@
 # Clase 102 — Keras Sequential API
 
 > Parte: **2 — Deep Learning** · Fuente: Géron, **cap. 10** § *The Sequential API*. ⏱️ Duración estimada: **60 min**.
+> 🎚️ **Nivel:** Avanzado
 
 ## 🎯 Objetivo
 

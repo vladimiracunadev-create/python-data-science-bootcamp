@@ -1,6 +1,7 @@
 # Clase 104 — Callbacks, TensorBoard, guardar/restaurar modelos
 
 > Parte: **2 — Deep Learning** · Fuente: Géron, **cap. 10** § *Using Callbacks* y § *Using TensorBoard for Visualization*. ⏱️ Duración estimada: **60 min**.
+> 🎚️ **Nivel:** Avanzado
 
 ## 🎯 Objetivo
 
