@@ -2254,10 +2254,10 @@ export const CLASSES = [
     "slug": "056-seleccion-y-entrenamiento-de-modelo",
     "partSlug": "parte-1-machine-learning-clasico",
     "title": "Selección y entrenamiento de modelo",
-    "description": "Que el alumno entrene varios modelos baseline sobre el pipeline ya preparado (California Housing), los compare con cross-validation en vez de un único split, identifique sub/overfitting con learning curves, y elija el c…",
+    "description": "Que el alumno entrene varios modelos baseline sobre un dataset de regresión (el notebook usa load_diabetes de scikit-learn, sin descargas), los compare con cross-validation en vez de un único split, identifique sub/over…",
     "level": "Intermedio",
     "duration": "60 min",
-    "theory": "Que el alumno entrene varios modelos baseline sobre el pipeline ya preparado (California Housing), los compare con cross-validation en vez de un único split, identifique sub/overfitting con learning curves, y elija el candidato más prometedor para pasar a fine-tuning — sin malgastar tiempo afinando un modelo que no tiene techo.",
+    "theory": "Que el alumno entrene varios modelos baseline sobre un dataset de regresión (el notebook usa load_diabetes de scikit-learn, sin descargas), los compare con cross-validation en vez de un único split, identifique sub/overfitting con learning curves, y elija el candidato más prometedor para pasar a fine-tuning — sin malgastar tiempo afinando un modelo que no tiene techo.",
     "outcomes": [
       "Entrenar baselines (LinearRegression, DecisionTreeRegressor, RandomForestRegressor) sobre el X_prepared del pipeline de la clase anterior.",
       "Evaluar con cross_val_score usando K-Fold y scoring='neg_root_mean_squared_error' en vez de un solo train/test.",
@@ -2596,7 +2596,7 @@ export const CLASSES = [
       "class_weight: penalizar más errores en minoría durante training.",
       "Threshold tuning: mover el umbral fuera del 0.5 default.",
       "SMOTE: interpola entre vecinos de la minoría.",
-      "ADASIN: como SMOTE pero con más densidad en zonas \"difíciles\".",
+      "ADASYN: como SMOTE pero con más densidad en zonas \"difíciles\".",
       "Tomek links / ENN: remueve borderline de la mayoría.",
       "imbalanced-learn pipelines."
     ],
@@ -3843,7 +3843,7 @@ export const CLASSES = [
       "Para K en range(2, 11), calculá inertia_ y silhouette_score. Graficá ambas curvas y justificá el K elegido.",
       "Repetí el ajuste sin escalar un dataset donde una feature tenga escala 100× mayor que la otra. Compará con StandardScaler previo y comentá el cambio en las etiquetas.",
       "Sobre load_digits(), ajustá KMeans(n_clusters=10) y MiniBatchKMeans(n_clusters=10, batch_size=256). Cronometrá ambos con %timeit y compará inercias.",
-      "Probá K-Means sobre make_moons(noise=0.05). Mostrá visualmente por qué falla y proponé qué algoritmo usarías en su lugar (te lo vamos a contestar en la clase 086)."
+      "Probá K-Means sobre make_moons(noise=0.05). Mostrá visualmente por qué falla y proponé qué algoritmo usarías en su lugar (te lo vamos a contestar en la clase 096)."
     ],
     "codeExamples": [],
     "colabUrl": "https://colab.research.google.com/github/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-1-machine-learning-clasico/095-clustering-k-means-seleccion-de-k-mini-batch/notebook.ipynb"
@@ -4098,7 +4098,7 @@ export const CLASSES = [
     "description": "Dominar la Sequential API de Keras — la forma más simple y declarativa de construir un modelo cuando es una pila lineal de capas.",
     "level": "Avanzado",
     "duration": "60 min",
-    "theory": "Dominar la Sequential API de Keras — la forma más simple y declarativa de construir un modelo cuando es una pila lineal de capas. Saber cuándo NO alcanza (cualquier topología con ramas, skip connections, multi-input/multi-output → Functional API, clase 093).",
+    "theory": "Dominar la Sequential API de Keras — la forma más simple y declarativa de construir un modelo cuando es una pila lineal de capas. Saber cuándo NO alcanza (cualquier topología con ramas, skip connections, multi-input/multi-output → Functional API, clase 103).",
     "outcomes": [
       "Construir un modelo con keras.Sequential([...]) o model.add(...) incrementalmente.",
       "Inspeccionar la arquitectura con model.summary() (parámetros por capa, output shape, total).",
