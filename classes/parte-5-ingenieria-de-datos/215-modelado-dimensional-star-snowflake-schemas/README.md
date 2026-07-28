@@ -123,6 +123,6 @@ No estrictamente, pero es el estándar. dbt convierte SQL transforms en código 
 
 ## ➡️ Siguiente clase
 
-[Clase 216 — Recommender systems: visión general](../../parte-6-sistemas-de-recomendacion/216-recommender-systems-vision-general/README.md)
+[Clase 216 — Filtrado colaborativo: user-based e item-based](../../parte-6-sistemas-de-recomendacion/216-filtrado-colaborativo-user-based-e-item-based/README.md)
 
 > 🎉 **Fin de la Parte 5 — Ingeniería de Datos**. Tenés el stack completo para mover/procesar/almacenar datos a escala: orquestación (208-209), procesamiento (210-211), warehouses (212), streaming (213), formatos (214), modelado (215). Parte 6 cierra con recommender systems.

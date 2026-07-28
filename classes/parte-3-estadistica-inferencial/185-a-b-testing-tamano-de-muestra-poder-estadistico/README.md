@@ -32,7 +32,7 @@ Al finalizar, el estudiante podrá:
 
 El tema moderno que antes vivía como complemento dentro de esta clase ahora tiene su(s) clase(s) propia(s) con patrón completo, ejercicios y homework:
 
-- 👉 [Clase 154a — CUPED, sequential testing, always-valid p-values](../154a-cuped-sequential-testing-always-valid-p-values/README.md)
+- 👉 [Clase 186 — CUPED, sequential testing, always-valid p-values](../186-cuped-sequential-testing-always-valid-p-values/README.md)
 
 ## 📖 Definiciones y características
 

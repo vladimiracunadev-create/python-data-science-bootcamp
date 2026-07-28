@@ -34,7 +34,7 @@ Al finalizar la clase, el alumno podrá:
 
 El tema moderno que antes vivía como complemento dentro de esta clase ahora tiene su(s) clase(s) propia(s) con patrón completo, ejercicios y homework:
 
-- 👉 [Clase 056a — Class imbalance: SMOTE, ADASYN, class_weight, threshold tuning](../056a-class-imbalance-smote-adasyn-class-weight/README.md)
+- 👉 [Clase 064 — Class imbalance: SMOTE, ADASYN, class_weight, threshold tuning](../064-class-imbalance-smote-adasyn-class-weight/README.md)
 
 ## 📖 Definiciones y características
 

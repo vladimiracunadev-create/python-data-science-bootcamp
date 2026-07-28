@@ -30,7 +30,7 @@ Al finalizar, el estudiante podrá:
 
 El tema moderno que antes vivía como complemento dentro de esta clase ahora tiene su(s) clase(s) propia(s) con patrón completo, ejercicios y homework:
 
-- 👉 [Clase 133a — Stable Diffusion XL + ControlNet en profundidad](../133a-stable-diffusion-xl-controlnet/README.md)
+- 👉 [Clase 160 — Stable Diffusion XL + ControlNet en profundidad](../160-stable-diffusion-xl-controlnet/README.md)
 
 ## 📖 Definiciones y características
 

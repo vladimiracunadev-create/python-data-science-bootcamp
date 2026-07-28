@@ -27,7 +27,7 @@ Al finalizar, el estudiante podrá:
 
 El tema moderno que antes vivía como complemento dentro de esta clase ahora tiene su(s) clase(s) propia(s) con patrón completo, ejercicios y homework:
 
-- 👉 [Clase 139a — ONNX y ONNX Runtime: portabilidad e inference optimizada](../139a-onnx-onnx-runtime-portabilidad/README.md)
+- 👉 [Clase 167 — ONNX y ONNX Runtime: portabilidad e inference optimizada](../167-onnx-onnx-runtime-portabilidad/README.md)
 
 ## 📖 Definiciones y características
 

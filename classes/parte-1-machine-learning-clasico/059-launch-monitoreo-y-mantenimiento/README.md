@@ -36,7 +36,7 @@ Al finalizar la clase, el alumno podrá:
 
 El tema moderno que antes vivía como complemento dentro de esta clase ahora tiene su(s) clase(s) propia(s) con patrón completo, ejercicios y homework:
 
-- 👉 [Clase 053a — Model Cards y Responsible ML](../053a-model-cards-y-responsible-ml/README.md)
+- 👉 [Clase 060 — Model Cards y Responsible ML](../060-model-cards-y-responsible-ml/README.md)
 
 ## 📖 Definiciones y características
 

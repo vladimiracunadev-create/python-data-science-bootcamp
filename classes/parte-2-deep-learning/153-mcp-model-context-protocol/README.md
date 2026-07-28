@@ -50,7 +50,7 @@ Al finalizar, el estudiante podrá:
 
 MCP server propio para RAG sobre documentación:
 
-1. `fastmcp` con tool `search(query)` que usa el RAG de clase 129.
+1. `fastmcp` con tool `search(query)` que usa el RAG de clase 152.
 2. Resource `list_documents()` que lista archivos indexados.
 3. Conectar a Claude Desktop; usarlo en una conversación.
 4. Comparar UX vs hacer RAG manual en código.

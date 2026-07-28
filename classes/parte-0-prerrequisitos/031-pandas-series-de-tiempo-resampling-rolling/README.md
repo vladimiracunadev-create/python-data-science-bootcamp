@@ -92,7 +92,7 @@ Cuando vas a hacer `resample`, slicing por fechas, o cualquier operación tempor
 
 **`resample`** es nativo y maneja gaps + zonas horarias mejor. **`groupby`** para agrupaciones no temporales ("por mes ignorando año").
 
-**❓ ¿Rolling cuánto Nuevoiniciar?**
+**❓ ¿Desde cuándo empieza a dar valores el rolling?**
 
 Default: NaN en los primeros N-1 (no hay datos suficientes para la ventana). Si quieres usar lo que haya: `.rolling(N, min_periods=1)`.
 

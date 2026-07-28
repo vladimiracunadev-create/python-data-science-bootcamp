@@ -85,7 +85,7 @@ Notebook con dataset California Housing (`sklearn.datasets.fetch_california_hous
 | Síntoma / mensaje | Causa y cómo arreglar |
 |---|---|
 | `LinAlgError: Singular matrix` al hacer `np.linalg.inv(X.T @ X)` | Features colineales o $m < n$. **Fix**: usá `np.linalg.pinv` (pseudoinversa SVD) — siempre funciona. Sklearn ya lo hace internamente. |
-| `coef_` enormes y de signo contrario a lo esperado | Features no escaladas y multicolinealidad. **Fix**: `StandardScaler` antes de fit, o usá regresión regularizada (Ridge/Lasso, clase 063). |
+| `coef_` enormes y de signo contrario a lo esperado | Features no escaladas y multicolinealidad. **Fix**: `StandardScaler` antes de fit, o usá regresión regularizada (Ridge/Lasso, clase 073). |
 | Olvido de la columna de unos en la ecuación normal manual | Resolvés sin intercept y el modelo pasa por el origen. **Fix**: `X_b = np.c_[np.ones((m, 1)), X]` antes de la ecuación normal. |
 | `LinearRegression` da resultado distinto al ecuación normal manual | Olvidaste agregar la columna de unos en una y en la otra no. Sklearn lo agrega solo si `fit_intercept=True`. **Fix**: alineá las dos formas (con o sin intercept en ambas). |
 | "Mi modelo lineal tarda horas con 50k features" | Ecuación normal $O(n^3)$ no escala. **Fix**: cambiá a `SGDRegressor` (gradient descent estocástico) — $O(mn)$ por epoch. Esto se ve en la clase 062. |
@@ -110,7 +110,7 @@ Para que el modelo **funcione**, no — la ecuación normal da exactamente la mi
 
 **❓ ¿Qué pasa si tengo más features que muestras ($n > m$)?**
 
-$X^T X$ es singular → la ecuación normal falla. La pseudoinversa SVD devuelve la solución de **norma mínima** entre las infinitas posibles, pero el modelo va a sobreajustar feísimo. **Fix real**: regularización (Ridge/Lasso, clase 063) o reducción de dimensionalidad.
+$X^T X$ es singular → la ecuación normal falla. La pseudoinversa SVD devuelve la solución de **norma mínima** entre las infinitas posibles, pero el modelo va a sobreajustar feísimo. **Fix real**: regularización (Ridge/Lasso, clase 073) o reducción de dimensionalidad.
 
 ## 🔗 Referencias
 

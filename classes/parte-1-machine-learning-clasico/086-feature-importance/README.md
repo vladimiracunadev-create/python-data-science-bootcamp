@@ -30,7 +30,7 @@ Al finalizar, el estudiante podrá:
 
 El tema moderno que antes vivía como complemento dentro de esta clase ahora tiene su(s) clase(s) propia(s) con patrón completo, ejercicios y homework:
 
-- 👉 [Clase 077a — SHAP en profundidad: TreeExplainer, KernelExplainer, DeepExplainer](../077a-shap-en-profundidad-treeexplainer-deepexplainer/README.md)
+- 👉 [Clase 087 — SHAP en profundidad: TreeExplainer, KernelExplainer, DeepExplainer](../087-shap-en-profundidad-treeexplainer-deepexplainer/README.md)
 
 ## 📖 Definiciones y características
 

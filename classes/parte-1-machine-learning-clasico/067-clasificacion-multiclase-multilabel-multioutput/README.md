@@ -103,7 +103,7 @@ No — entrena un modelo independiente por columna. Si las etiquetas están corr
 
 **❓ ¿Por qué `cross_val_score` con `SGDClassifier` en MNIST da accuracy alta pero la matriz de confusión muestra confusión entre 3 y 5?**
 
-Accuracy global enmascara errores localizados entre pocas clases. La matriz de confusión normalizada por filas es indispensable en multiclase — la clase 060 (la próxima) se dedica exactamente a eso.
+Accuracy global enmascara errores localizados entre pocas clases. La matriz de confusión normalizada por filas es indispensable en multiclase — la clase 068 (la próxima) se dedica exactamente a eso.
 
 **❓ ¿Puedo combinar `class_weight` / SMOTE con multilabel?**
 

@@ -30,7 +30,7 @@ Al finalizar, el estudiante podrá:
 
 El tema moderno que antes vivía como complemento dentro de esta clase ahora tiene su(s) clase(s) propia(s) con patrón completo, ejercicios y homework:
 
-- 👉 [Clase 147a — Effect size dedicado: Cohen's d, Hedges' g, Cliff's δ con pingouin](../147a-effect-size-cohen-d-hedges-g-cliff-delta-pingouin/README.md)
+- 👉 [Clase 177 — Effect size dedicado: Cohen's d, Hedges' g, Cliff's δ con pingouin](../177-effect-size-cohen-d-hedges-g-cliff-delta-pingouin/README.md)
 
 ## 📖 Definiciones y características
 

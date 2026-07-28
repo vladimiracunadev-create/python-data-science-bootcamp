@@ -7,7 +7,7 @@
 
 ## 🎯 Objetivo
 
-Que el alumno entrene varios modelos baseline sobre el pipeline ya preparado (California Housing), los compare con **cross-validation** en vez de un único split, identifique sub/overfitting con **learning curves**, y elija el candidato más prometedor para pasar a fine-tuning — sin malgastar tiempo afinando un modelo que no tiene techo.
+Que el alumno entrene varios modelos baseline sobre un dataset de regresión (el notebook usa `load_diabetes` de scikit-learn, sin descargas), los compare con **cross-validation** en vez de un único split, identifique sub/overfitting con **learning curves**, y elija el candidato más prometedor para pasar a fine-tuning — sin malgastar tiempo afinando un modelo que no tiene techo.
 
 ## 📚 Resultados de aprendizaje
 
@@ -56,7 +56,7 @@ Al finalizar la clase, el alumno podrá:
 
 ## 📂 Dataset / recursos
 
-Seguimos con **California Housing** y el `X_prepared` que sale del pipeline construido en las clases 049-050. Si arrancás esta clase fresca, el notebook regenera el pipeline desde `fetch_california_housing()` para que sea autocontenido.
+El notebook usa el dataset **Diabetes** de scikit-learn (`load_diabetes`) — un problema de regresión que viene incluido en la librería, **sin descargas ni conexión**. Conceptualmente equivale al flujo de California Housing de las clases 049-050 (mismo objetivo: comparar modelos baseline de regresión con un `X`/`y` ya preparado); se eligió `load_diabetes` para que la clase sea 100 % autocontenida y ejecutable offline.
 
 ## 🧪 Ejercicios
 

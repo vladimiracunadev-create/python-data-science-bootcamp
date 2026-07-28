@@ -33,7 +33,7 @@ Al finalizar la clase, el alumno podrá:
 
 El tema moderno que antes vivía como complemento dentro de esta clase ahora tiene su(s) clase(s) propia(s) con patrón completo, ejercicios y homework:
 
-- 👉 [Clase 067a — Calibración de probabilidades: Platt, isotonic, temperature scaling](../067a-calibracion-de-probabilidades-platt-isotonic/README.md)
+- 👉 [Clase 076 — Calibración de probabilidades: Platt, isotonic, temperature scaling](../076-calibracion-de-probabilidades-platt-isotonic/README.md)
 
 ## 📖 Definiciones y características
 

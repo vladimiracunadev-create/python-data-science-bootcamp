@@ -123,6 +123,6 @@ Frameworks de research, mucho catálogo de algoritmos. Útiles para **comparar 2
 
 ## ➡️ Siguiente clase
 
-[Clase 223 — Sesgos algorítmicos: tipos y origen](../../parte-7-etica-fairness-privacidad/223-sesgos-algoritmicos-tipos-y-origen/README.md)
+[Clase 223 — Tipos de sesgo algorítmico y orígenes](../../parte-7-etica-fairness-privacidad/223-tipos-de-sesgo-algoritmico-y-origenes/README.md)
 
 > 🎉 **Fin de la Parte 6 — Sistemas de Recomendación**. Tenés CF (216-217) + content (218) + híbridos (219) + métricas (220) + cold-start (221) + ecosistema de librerías (222). Parte 7 cierra el ciclo con **ética, fairness, privacidad** — qué hacer cuando tus recomendaciones afectan vidas reales.

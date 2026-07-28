@@ -54,6 +54,8 @@ Al finalizar la clase, el alumno podrá:
 
 ## 📂 Dataset / recursos
 
+> **📌 Nota — dataset en el notebook:** el **notebook** de esta clase usa `load_digits` de scikit-learn (dígitos manuscritos de **8×8 = 64 features**, ~1.800 imágenes, incluido en la librería) como **sustituto offline de MNIST**. La técnica y el flujo (clasificador binario 5-vs-no-5, `cross_val_score`, accuracy que engaña con clases desbalanceadas) son idénticos; se eligió `load_digits` para que la clase corra **sin descargar los ~55 MB de MNIST ni depender del servidor de OpenML**. El texto que sigue describe MNIST completo (`fetch_openml`) para quien quiera replicarlo a escala real.
+
 **MNIST vía `fetch_openml`** (se cachea localmente en `~/scikit_learn_data/` después de la primera descarga):
 
 ```python

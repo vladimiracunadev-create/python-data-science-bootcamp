@@ -32,7 +32,7 @@ Al finalizar, el estudiante podrá:
 
 El tema moderno que antes vivía como complemento dentro de esta clase ahora tiene su(s) clase(s) propia(s) con patrón completo, ejercicios y homework:
 
-- 👉 [Clase 156a — DoubleML / EconML: Machine Learning para causalidad](../156a-doubleml-econml-ml-para-causalidad/README.md)
+- 👉 [Clase 189 — DoubleML / EconML: Machine Learning para causalidad](../189-doubleml-econml-ml-para-causalidad/README.md)
 
 ## 📖 Definiciones y características
 

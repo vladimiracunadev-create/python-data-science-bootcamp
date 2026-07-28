@@ -49,7 +49,7 @@ Al finalizar, vas a poder:
 2. Para `K` en `range(2, 11)`, calculá `inertia_` y `silhouette_score`. Graficá ambas curvas y justificá el `K` elegido.
 3. Repetí el ajuste **sin escalar** un dataset donde una feature tenga escala 100× mayor que la otra. Compará con `StandardScaler` previo y comentá el cambio en las etiquetas.
 4. Sobre `load_digits()`, ajustá `KMeans(n_clusters=10)` y `MiniBatchKMeans(n_clusters=10, batch_size=256)`. Cronometrá ambos con `%timeit` y compará inercias.
-5. Probá K-Means sobre `make_moons(noise=0.05)`. Mostrá visualmente por qué falla y proponé qué algoritmo usarías en su lugar (te lo vamos a contestar en la clase 086).
+5. Probá K-Means sobre `make_moons(noise=0.05)`. Mostrá visualmente por qué falla y proponé qué algoritmo usarías en su lugar (te lo vamos a contestar en la clase 096).
 
 ## 📝 Homework verificable
 

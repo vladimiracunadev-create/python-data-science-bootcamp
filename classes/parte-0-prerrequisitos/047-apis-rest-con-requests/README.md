@@ -37,7 +37,7 @@ Al finalizar la clase, el alumno podrá:
 
 El tema moderno que vivía como complemento dentro de esta clase ahora tiene clase propia dedicada:
 
-- 👉 [Clase 046a — async / httpx / aiohttp para data scientists](../046a-async-httpx-aiohttp-para-data-scientists/README.md)
+- 👉 [Clase 049 — async / httpx / aiohttp para data scientists](../049-async-httpx-aiohttp-para-data-scientists/README.md)
 
 ## 📖 Definiciones y características
 

@@ -29,7 +29,7 @@ Al finalizar, el estudiante podrá:
 
 El tema moderno que antes vivía como complemento dentro de esta clase ahora tiene su(s) clase(s) propia(s) con patrón completo, ejercicios y homework:
 
-- 👉 [Clase 108a — PyTorch fundamentos: tensores, autograd, nn.Module](../108a-pytorch-fundamentos-tensores-autograd/README.md)
+- 👉 [Clase 122 — PyTorch fundamentos: tensores, autograd, nn.Module](../122-pytorch-fundamentos-tensores-autograd/README.md)
 - 👉 [Clase 108b — PyTorch Lightning: Trainer + distributed](../123-pytorch-lightning-trainer-distribuido/README.md)
 
 ## 📖 Definiciones y características

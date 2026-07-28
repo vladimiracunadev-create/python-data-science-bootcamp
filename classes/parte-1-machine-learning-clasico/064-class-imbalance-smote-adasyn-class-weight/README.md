@@ -24,7 +24,7 @@ Al finalizar, el estudiante podrá:
 - class_weight: penalizar más errores en minoría durante training.
 - Threshold tuning: mover el umbral fuera del 0.5 default.
 - SMOTE: interpola entre vecinos de la minoría.
-- ADASIN: como SMOTE pero con más densidad en zonas "difíciles".
+- ADASYN: como SMOTE pero con más densidad en zonas "difíciles".
 - Tomek links / ENN: remueve borderline de la mayoría.
 - imbalanced-learn pipelines.
 
@@ -33,7 +33,7 @@ Al finalizar, el estudiante podrá:
 - **Class imbalance**: una clase mucho más frecuente que otra(s).
 - **class_weight='balanced'**: pesos automáticos inversamente proporcionales a frecuencia.
 - **SMOTE**: para cada sample minoritario, crear sintéticos en línea recta a sus k vecinos.
-- **ADASIN**: SMOTE adaptativo — genera más cerca de la frontera de decisión.
+- **ADASYN**: SMOTE adaptativo — genera más cerca de la frontera de decisión.
 - **PR-AUC**: área bajo Precision-Recall curve. Más informativa que ROC-AUC cuando hay imbalance fuerte.
 - **MCC**: `(TP*TN - FP*FN) / sqrt(...)`. Único valor en [-1, 1]. Robusto a imbalance.
 - **Threshold tuning**: elegir el cutoff `p > τ → predict 1` que maximiza la métrica de negocio.

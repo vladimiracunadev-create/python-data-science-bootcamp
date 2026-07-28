@@ -123,6 +123,6 @@ Frameworks: `promptfoo`, `LangSmith`, `Phoenix` (Arize).
 
 ## ➡️ Siguiente clase
 
-[Clase 208 — Bases de datos relacionales: PostgreSQL para ML](../../parte-5-ingenieria-de-datos/208-bases-de-datos-relacionales-postgresql-para-ml/README.md)
+[Clase 208 — Pipelines ETL/ELT con Airflow](../../parte-5-ingenieria-de-datos/208-pipelines-etl-elt-con-airflow/README.md)
 
 > 🎉 **Fin de la Parte 4 — MLOps**. Tenés ahora 6 capas de protección para modelos en producción: data tests (206), model tests (207), monitoring (202), shadow (204), canary (204), rollback (204). El próximo módulo (Parte 5) entra a **ingeniería de datos** — qué pasa antes de que la data llegue al modelo.

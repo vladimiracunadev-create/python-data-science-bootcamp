@@ -30,7 +30,7 @@ Al finalizar, el estudiante podrá:
 El tema moderno que antes vivía como complemento dentro de esta clase ahora tiene su(s) clase(s) propia(s) con patrón completo, ejercicios y homework:
 
 - 👉 [Clase 117b — Segment Anything (SAM / SAM 2)](../133-segment-anything-sam-sam2/README.md)
-- 👉 [Clase 117c — YOLOv11 práctico: detección, segmentación, pose, tracking](../117c-yolov11-deteccion-segmentacion-practica/README.md)
+- 👉 [Clase 134 — YOLOv11 práctico: detección, segmentación, pose, tracking](../134-yolov11-deteccion-segmentacion-practica/README.md)
 
 ## 📖 Definiciones y características
 

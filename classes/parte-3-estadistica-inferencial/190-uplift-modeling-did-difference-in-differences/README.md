@@ -30,7 +30,7 @@ Al finalizar, el estudiante podrá:
 
 El tema moderno que antes vivía como complemento dentro de esta clase ahora tiene su(s) clase(s) propia(s) con patrón completo, ejercicios y homework:
 
-- 👉 [Clase 157a — Synthetic Control Method dedicado (pysyncon, SparseSC)](../157a-synthetic-control-method-pysyncon/README.md)
+- 👉 [Clase 191 — Synthetic Control Method dedicado (pysyncon, SparseSC)](../191-synthetic-control-method-pysyncon/README.md)
 
 ## 📖 Definiciones y características
 

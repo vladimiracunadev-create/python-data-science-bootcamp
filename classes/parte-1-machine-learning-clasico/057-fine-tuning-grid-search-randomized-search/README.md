@@ -34,7 +34,7 @@ Al finalizar la clase, el alumno podrá:
 
 El tema moderno que antes vivía como complemento dentro de esta clase ahora tiene su(s) clase(s) propia(s) con patrón completo, ejercicios y homework:
 
-- 👉 [Clase 052a — Optuna y HPO bayesiano dedicado](../052a-optuna-bayesian-hpo-dedicado/README.md)
+- 👉 [Clase 058 — Optuna y HPO bayesiano dedicado](../058-optuna-bayesian-hpo-dedicado/README.md)
 
 ## 📖 Definiciones y características
 

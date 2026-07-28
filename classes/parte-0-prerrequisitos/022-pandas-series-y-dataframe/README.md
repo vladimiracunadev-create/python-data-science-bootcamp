@@ -35,7 +35,7 @@ Al finalizar la clase, el alumno podrá:
 
 El tema moderno que vivía como complemento dentro de esta clase ahora tiene clase propia dedicada:
 
-- 👉 [Clase 032a — Polars: DataFrames modernos](../032a-polars-dataframes-modernos/README.md)
+- 👉 [Clase 033 — Polars: DataFrames modernos](../033-polars-dataframes-modernos/README.md)
 
 ## 📖 Definiciones y características
 

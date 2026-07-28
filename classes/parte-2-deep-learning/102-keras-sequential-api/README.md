@@ -4,7 +4,7 @@
 
 ## 🎯 Objetivo
 
-Dominar la **Sequential API** de Keras — la forma más simple y declarativa de construir un modelo cuando es una **pila lineal** de capas. Saber cuándo NO alcanza (cualquier topología con ramas, skip connections, multi-input/multi-output → Functional API, clase 093).
+Dominar la **Sequential API** de Keras — la forma más simple y declarativa de construir un modelo cuando es una **pila lineal** de capas. Saber cuándo NO alcanza (cualquier topología con ramas, skip connections, multi-input/multi-output → Functional API, clase 103).
 
 ## 📚 Resultados de aprendizaje
 
@@ -72,7 +72,7 @@ Reportar: # parámetros, accuracy en test, tiempo de entrenamiento.
 
 **❓ ¿Cuándo Sequential no alcanza?**
 
-Cuando hay branching (skip connections de ResNet), multiple inputs (modelos de fusión), multiple outputs (multi-task), o capas compartidas. Para todo eso → Functional API (clase 093).
+Cuando hay branching (skip connections de ResNet), multiple inputs (modelos de fusión), multiple outputs (multi-task), o capas compartidas. Para todo eso → Functional API (clase 103).
 
 **❓ ¿Es más lento Sequential que Functional?**
 
