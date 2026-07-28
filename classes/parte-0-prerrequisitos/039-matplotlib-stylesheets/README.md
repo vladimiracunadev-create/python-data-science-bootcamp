@@ -2,6 +2,7 @@
 
 > Parte: **0 — Prerrequisitos** · Fuente: VanderPlas, **cap. 4** § 4.11 *Customizing Matplotlib: Configurations and Stylesheets*.
 > ⏱️ Duración estimada: **30 min**.
+> 🎚️ **Nivel:** Básico
 
 ---
 

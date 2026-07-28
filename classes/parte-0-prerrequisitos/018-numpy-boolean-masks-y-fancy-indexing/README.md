@@ -2,6 +2,7 @@
 
 > Parte: **0 — Prerrequisitos** · Fuente: VanderPlas, **cap. 2**, §§ 2.6–2.7 *Comparisons, Masks, and Boolean Logic* + *Fancy Indexing*.
 > ⏱️ Duración estimada: **75 min**.
+> 🎚️ **Nivel:** Básico
 
 ---
 

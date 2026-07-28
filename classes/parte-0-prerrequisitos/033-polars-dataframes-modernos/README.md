@@ -1,6 +1,7 @@
 # Clase 033 — Polars: DataFrames modernos
 
 > Parte: **0 — Prerrequisitos** · Fuente: [Polars User Guide](https://docs.pola.rs/) + Vink (2020+) · ⏱️ Duración estimada: **75 min**.
+> 🎚️ **Nivel:** Básico-Intermedio
 
 ## 🎯 Objetivo
 

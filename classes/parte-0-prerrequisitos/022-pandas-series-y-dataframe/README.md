@@ -2,6 +2,7 @@
 
 > Parte: **0 — Prerrequisitos** · Fuente: VanderPlas, **cap. 3**, §§ 3.1–3.2 *Introducing Pandas Objects*.
 > ⏱️ Duración estimada: **90 min**.
+> 🎚️ **Nivel:** Básico
 
 ---
 

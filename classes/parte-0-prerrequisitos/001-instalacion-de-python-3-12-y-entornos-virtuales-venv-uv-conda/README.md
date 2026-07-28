@@ -2,6 +2,7 @@
 
 > Parte: **0 — Prerrequisitos** · Fuente: VanderPlas, *Python Data Science Handbook*, prefacio "Installation Considerations".
 > ⏱️ Duración estimada: **90 min** (45 lectura + 45 práctica).
+> 🎚️ **Nivel:** Básico
 
 ---
 

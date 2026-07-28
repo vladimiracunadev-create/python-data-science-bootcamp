@@ -2,6 +2,7 @@
 
 > Parte: **0 — Prerrequisitos** · Fuente: VanderPlas, **cap. 2** § 2.4 *Aggregations: Min, Max, and Everything in Between*.
 > ⏱️ Duración estimada: **60 min**.
+> 🎚️ **Nivel:** Básico
 
 ---
 

@@ -2,6 +2,7 @@
 
 > Parte: **0 — Prerrequisitos** · Fuente: VanderPlas, **cap. 3** §§ 3.7–3.8 *Combining Datasets: Concat/Merge*.
 > ⏱️ Duración estimada: **90 min**.
+> 🎚️ **Nivel:** Básico
 
 ---
 

@@ -1,6 +1,7 @@
 # Clase 034 — Parquet, Arrow, PyArrow, DuckDB
 
 > Parte: **0 — Prerrequisitos** · Fuente: docs Apache Arrow + DuckDB + Wes McKinney blogs. ⏱️ Duración estimada: **75 min**.
+> 🎚️ **Nivel:** Básico-Intermedio
 
 ## 🎯 Objetivo
 

@@ -2,6 +2,7 @@
 
 > Parte: **0 — Prerrequisitos** · Fuente: VanderPlas, **cap. 3** § 3.11 *Vectorized String Operations*.
 > ⏱️ Duración estimada: **60 min**.
+> 🎚️ **Nivel:** Básico
 
 ---
 

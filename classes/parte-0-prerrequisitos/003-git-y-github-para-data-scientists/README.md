@@ -2,6 +2,7 @@
 
 > Parte: **0 — Prerrequisitos** · Fuente: Pro Git (Chacon & Straub) — caps. 2 y 3 · GitHub docs.
 > ⏱️ Duración estimada: **120 min**.
+> 🎚️ **Nivel:** Básico
 
 ---
 

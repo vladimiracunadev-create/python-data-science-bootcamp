@@ -2,6 +2,7 @@
 
 > Parte: **0 — Prerrequisitos** · Fuente: VanderPlas, **cap. 4** § 4.13 *Visualization with Seaborn* · seaborn docs.
 > ⏱️ Duración estimada: **75 min**.
+> 🎚️ **Nivel:** Básico
 
 ---
 

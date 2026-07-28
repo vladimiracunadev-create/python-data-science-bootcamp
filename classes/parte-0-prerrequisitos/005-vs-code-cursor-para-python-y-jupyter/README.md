@@ -2,6 +2,7 @@
 
 > Parte: **0 — Prerrequisitos** · Fuente: VS Code Python docs · Cursor docs · *The Pragmatic Programmer* cap. "Power Editing".
 > ⏱️ Duración estimada: **60 min**.
+> 🎚️ **Nivel:** Básico
 
 ---
 

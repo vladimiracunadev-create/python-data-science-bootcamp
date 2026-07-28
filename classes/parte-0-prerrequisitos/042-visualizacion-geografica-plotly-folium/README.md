@@ -2,6 +2,7 @@
 
 > Parte: **0 — Prerrequisitos** · Fuente: Plotly Choropleth docs · folium docs · *Cartographies of the Mind* (background).
 > ⏱️ Duración estimada: **60 min**.
+> 🎚️ **Nivel:** Básico
 
 ---
 

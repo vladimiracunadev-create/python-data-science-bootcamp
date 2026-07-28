@@ -2,6 +2,7 @@
 
 > Parte: **0 — Prerrequisitos** · Fuente: Tanimura, *SQL for Data Scientists* caps. 4-5 · PostgreSQL docs (window functions).
 > ⏱️ Duración estimada: **120 min**.
+> 🎚️ **Nivel:** Básico-Intermedio
 
 ---
 

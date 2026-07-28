@@ -2,6 +2,7 @@
 
 > Parte: **0 — Prerrequisitos** · Fuente: VanderPlas, *Python Data Science Handbook*, **cap. 1** — IPython: Beyond Normal Python.
 > ⏱️ Duración estimada: **90 min**.
+> 🎚️ **Nivel:** Básico
 
 ---
 

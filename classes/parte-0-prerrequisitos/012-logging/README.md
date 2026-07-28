@@ -2,6 +2,7 @@
 
 > Parte: **0 — Prerrequisitos** · Fuente: *Python Tutorial* logging HOWTO · *The Pragmatic Programmer* — "Programming by Coincidence".
 > ⏱️ Duración estimada: **60 min**.
+> 🎚️ **Nivel:** Básico
 
 ---
 

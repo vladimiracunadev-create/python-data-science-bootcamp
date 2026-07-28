@@ -2,6 +2,7 @@
 
 > Parte: **0 — Prerrequisitos** · Fuente: *HTTP: The Definitive Guide* caps. 1-2 · requests docs.
 > ⏱️ Duración estimada: **90 min**.
+> 🎚️ **Nivel:** Básico-Intermedio
 
 ---
 

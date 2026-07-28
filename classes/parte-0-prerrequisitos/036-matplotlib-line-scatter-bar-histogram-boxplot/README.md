@@ -2,6 +2,7 @@
 
 > Parte: **0 — Prerrequisitos** · Fuente: VanderPlas, **cap. 4** §§ 4.2–4.5 *Simple Line/Scatter/Bar/Histogram Plots*.
 > ⏱️ Duración estimada: **75 min**.
+> 🎚️ **Nivel:** Básico
 
 ---
 

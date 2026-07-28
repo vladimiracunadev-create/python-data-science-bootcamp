@@ -2,6 +2,7 @@
 
 > Parte: **0 — Prerrequisitos** · Fuente: *SQL for Data Scientists* (Tanimura) caps. 1-3 · SQLite docs · DuckDB docs.
 > ⏱️ Duración estimada: **120 min**.
+> 🎚️ **Nivel:** Básico
 
 ---
 

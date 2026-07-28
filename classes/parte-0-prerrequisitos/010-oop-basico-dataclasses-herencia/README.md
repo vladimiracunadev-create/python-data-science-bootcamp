@@ -2,6 +2,7 @@
 
 > Parte: **0 — Prerrequisitos** · Fuente: Ramalho, *Fluent Python* 2e — caps. 5 (Data Class Builders) y 14 (Inheritance) · *Python Tutorial* cap. 9.
 > ⏱️ Duración estimada: **90 min**.
+> 🎚️ **Nivel:** Básico
 
 ---
 

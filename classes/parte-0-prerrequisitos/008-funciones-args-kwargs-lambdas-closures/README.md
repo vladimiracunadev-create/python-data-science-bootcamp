@@ -2,6 +2,7 @@
 
 > Parte: **0 — Prerrequisitos** · Fuente: Ramalho, *Fluent Python* 2e — cap. 7 (Functions as First-Class Objects), cap. 9 (Decorators and Closures).
 > ⏱️ Duración estimada: **90 min**.
+> 🎚️ **Nivel:** Básico
 
 ---
 

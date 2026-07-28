@@ -2,6 +2,7 @@
 
 > Parte: **0 — Prerrequisitos** · Fuente: *Numerical Recipes* cap. 7 (Random Numbers) · NumPy `random.Generator` docs.
 > ⏱️ Duración estimada: **60 min**.
+> 🎚️ **Nivel:** Básico
 
 ---
 

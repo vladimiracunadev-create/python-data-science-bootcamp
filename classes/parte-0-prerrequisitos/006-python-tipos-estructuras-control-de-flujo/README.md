@@ -2,6 +2,7 @@
 
 > Parte: **0 — Prerrequisitos** · Fuente: *Python Tutorial* oficial (caps. 3-5) · *Fluent Python* (Ramalho, 2ª ed.) cap. 1.
 > ⏱️ Duración estimada: **120 min**.
+> 🎚️ **Nivel:** Básico
 
 ---
 

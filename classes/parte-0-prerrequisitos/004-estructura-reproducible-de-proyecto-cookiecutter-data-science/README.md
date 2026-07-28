@@ -2,6 +2,7 @@
 
 > Parte: **0 — Prerrequisitos** · Fuente: cookiecutter-data-science v2 · *Hidden Technical Debt in ML Systems* (Sculley et al., 2015).
 > ⏱️ Duración estimada: **60 min**.
+> 🎚️ **Nivel:** Básico
 
 ---
 

@@ -2,6 +2,7 @@
 
 > Parte: **0 — Prerrequisitos** · Fuente: VanderPlas, **cap. 3** § 3.3 *Data Indexing and Selection*.
 > ⏱️ Duración estimada: **75 min**.
+> 🎚️ **Nivel:** Básico
 
 ---
 

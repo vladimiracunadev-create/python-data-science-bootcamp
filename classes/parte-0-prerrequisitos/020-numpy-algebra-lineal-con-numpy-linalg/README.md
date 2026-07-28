@@ -2,6 +2,7 @@
 
 > Parte: **0 — Prerrequisitos** · Fuente: VanderPlas, **cap. 2** § 2.9 *Structured Arrays* (referencia) · *Numerical Linear Algebra* (Trefethen & Bau).
 > ⏱️ Duración estimada: **90 min**.
+> 🎚️ **Nivel:** Básico
 
 ---
 

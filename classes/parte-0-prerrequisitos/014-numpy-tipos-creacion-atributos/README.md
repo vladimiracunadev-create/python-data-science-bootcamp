@@ -2,6 +2,7 @@
 
 > Parte: **0 — Prerrequisitos** · Fuente: VanderPlas, *Python Data Science Handbook*, **cap. 2** — *Introduction to NumPy*, §§ 2.1–2.2.
 > ⏱️ Duración estimada: **75 min**.
+> 🎚️ **Nivel:** Básico
 
 ---
 

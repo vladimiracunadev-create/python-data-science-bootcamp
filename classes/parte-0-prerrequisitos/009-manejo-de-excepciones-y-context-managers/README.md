@@ -2,6 +2,7 @@
 
 > Parte: **0 — Prerrequisitos** · Fuente: *Python Tutorial* cap. 8 (Errors and Exceptions) · Ramalho, *Fluent Python* 2e — cap. 18 (Context Managers).
 > ⏱️ Duración estimada: **75 min**.
+> 🎚️ **Nivel:** Básico
 
 ---
 

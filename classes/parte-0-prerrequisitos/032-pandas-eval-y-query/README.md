@@ -2,6 +2,7 @@
 
 > Parte: **0 — Prerrequisitos** · Fuente: VanderPlas, **cap. 3** § 3.13 *High-Performance Pandas: eval and query*.
 > ⏱️ Duración estimada: **45 min**.
+> 🎚️ **Nivel:** Básico
 
 ---
 

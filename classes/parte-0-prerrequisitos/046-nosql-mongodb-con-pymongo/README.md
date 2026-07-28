@@ -2,6 +2,7 @@
 
 > Parte: **0 — Prerrequisitos** · Fuente: MongoDB docs · pymongo docs · *MongoDB: The Definitive Guide* (Bradshaw et al.) cap. 1.
 > ⏱️ Duración estimada: **75 min**.
+> 🎚️ **Nivel:** Básico
 
 ---
 

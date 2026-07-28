@@ -2,6 +2,7 @@
 
 > Parte: **0 — Prerrequisitos** · Fuente: *Python Tutorial* cap. 10 · `pathlib` docs · *Effective Python* (Slatkin) ítem 38.
 > ⏱️ Duración estimada: **60 min**.
+> 🎚️ **Nivel:** Básico
 
 ---
 

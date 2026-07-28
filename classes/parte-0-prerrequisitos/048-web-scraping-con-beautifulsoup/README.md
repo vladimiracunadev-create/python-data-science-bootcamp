@@ -2,6 +2,7 @@
 
 > Parte: **0 — Prerrequisitos** · Fuente: *Web Scraping with Python* (Mitchell, 2ª ed.) caps. 1-3 · BeautifulSoup docs.
 > ⏱️ Duración estimada: **75 min**.
+> 🎚️ **Nivel:** Básico-Intermedio
 
 ---
 

@@ -2,6 +2,7 @@
 
 > Parte: **0 — Prerrequisitos** · Fuente: *Fluent Python* 2e cap. 8 (Type Hints in Functions) · *typing* docs · mypy docs.
 > ⏱️ Duración estimada: **75 min**.
+> 🎚️ **Nivel:** Básico-Intermedio
 
 ---
 

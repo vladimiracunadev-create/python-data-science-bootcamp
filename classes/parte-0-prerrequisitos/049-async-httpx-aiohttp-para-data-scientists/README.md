@@ -1,6 +1,7 @@
 # Clase 049 — async / httpx / aiohttp para data scientists
 
 > Parte: **0 — Prerrequisitos** · Fuente: docs `asyncio` + `httpx` + Beazley *Python Concurrency*. ⏱️ Duración estimada: **80 min**.
+> 🎚️ **Nivel:** Básico-Intermedio
 
 ## 🎯 Objetivo
 

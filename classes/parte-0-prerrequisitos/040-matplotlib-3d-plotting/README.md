@@ -2,6 +2,7 @@
 
 > Parte: **0 — Prerrequisitos** · Fuente: VanderPlas, **cap. 4** § 4.12 *Three-Dimensional Plotting in Matplotlib*.
 > ⏱️ Duración estimada: **45 min**.
+> 🎚️ **Nivel:** Básico
 
 ---
 
