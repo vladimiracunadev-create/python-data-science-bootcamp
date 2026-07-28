@@ -1,6 +1,8 @@
 # Clase 230 — Capstone 2: NLP o series de tiempo end-to-end
 
 > Parte: **8 — Capstones** · Fuente: Hyndman & Athanasopoulos, [*Forecasting: Principles and Practice* (3ª ed.)](https://otexts.com/fpp3/) + Hugging Face [NLP course](https://huggingface.co/learn/nlp-course). ⏱️ Duración estimada: **180 min**.
+>
+> 🎚️ **Nivel:** Avanzado
 
 ## 🎯 Objetivo
 

@@ -1,6 +1,8 @@
 # Clase 223 — Tipos de sesgo algorítmico y orígenes
 
 > Parte: **7 — Ética, Fairness y Privacidad** · Fuente: Suresh & Guttag, [*A Framework for Understanding Sources of Harm throughout the ML Life Cycle*](https://arxiv.org/abs/1901.10002) (EAAMO 2021) + Barocas, Hardt, Narayanan, [*Fairness and Machine Learning*](https://fairmlbook.org/) (2023), **caps. 1-2**. ⏱️ Duración estimada: **75 min**.
+>
+> 🎚️ **Nivel:** Intermedio-Avanzado
 
 ## 🎯 Objetivo
 

@@ -1,6 +1,8 @@
 # Clase 229 — Capstone 1: problema tabular end-to-end (EDA, modelo, API, dashboard)
 
 > Parte: **8 — Capstones** · Fuente: integrador de Partes 0-7 + Huyen, C. *Designing Machine Learning Systems* (O'Reilly, 2022) **caps. 4-7** + Géron, A. *Hands-On ML*, 3ª ed. caps. 2-3. ⏱️ Duración estimada: **180 min**.
+>
+> 🎚️ **Nivel:** Avanzado
 
 ## 🎯 Objetivo
 

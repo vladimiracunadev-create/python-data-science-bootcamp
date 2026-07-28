@@ -1,6 +1,8 @@
 # Clase 224 — Métricas de fairness: demographic parity, equalized odds, calibration
 
 > Parte: **7 — Ética, Fairness y Privacidad** · Fuente: Barocas, Hardt, Narayanan — [*Fairness and Machine Learning*](https://fairmlbook.org/) **cap. 3** + Hardt, Price, Srebro (NeurIPS 2016) [*Equality of Opportunity in Supervised Learning*](https://arxiv.org/abs/1610.02413). ⏱️ Duración estimada: **75 min**.
+>
+> 🎚️ **Nivel:** Intermedio-Avanzado
 
 ## 🎯 Objetivo
 

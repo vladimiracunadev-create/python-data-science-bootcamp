@@ -1,6 +1,8 @@
 # Clase 231 — Capstone 3: visión por computadora con transfer learning
 
 > Parte: **8 — Capstones** · Fuente: Géron, *Hands-On ML* 3ª ed. **cap. 14-15** + [timm](https://huggingface.co/docs/timm/) + [PyTorch Lightning docs](https://lightning.ai/docs/pytorch/stable/). ⏱️ Duración estimada: **180 min**.
+>
+> 🎚️ **Nivel:** Avanzado
 
 ## 🎯 Objetivo
 

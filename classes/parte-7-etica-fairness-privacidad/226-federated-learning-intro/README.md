@@ -1,6 +1,8 @@
 # Clase 226 — Federated learning: intro
 
 > Parte: **7 — Ética, Fairness y Privacidad** · Fuente: McMahan et al. [*Communication-Efficient Learning of Deep Networks from Decentralized Data*](https://arxiv.org/abs/1602.05629) (AISTATS 2017) + Kairouz et al. [*Advances and Open Problems in Federated Learning*](https://arxiv.org/abs/1912.04977) (FnTML 2021). ⏱️ Duración estimada: **75 min**.
+>
+> 🎚️ **Nivel:** Intermedio-Avanzado
 
 ## 🎯 Objetivo
 

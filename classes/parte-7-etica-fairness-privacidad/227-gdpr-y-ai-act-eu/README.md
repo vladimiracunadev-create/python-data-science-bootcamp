@@ -1,6 +1,8 @@
 # Clase 227 — GDPR y AI Act (EU)
 
 > Parte: **7 — Ética, Fairness y Privacidad** · Fuente: [Reglamento UE 2016/679 (GDPR)](https://eur-lex.europa.eu/eli/reg/2016/679/oj) + [Reglamento UE 2024/1689 (AI Act)](https://eur-lex.europa.eu/eli/reg/2024/1689/oj). ⏱️ Duración estimada: **75 min**.
+>
+> 🎚️ **Nivel:** Intermedio-Avanzado
 
 ## 🎯 Objetivo
 

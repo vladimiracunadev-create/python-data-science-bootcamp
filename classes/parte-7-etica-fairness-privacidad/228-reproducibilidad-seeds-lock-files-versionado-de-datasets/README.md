@@ -1,6 +1,8 @@
 # Clase 228 — Reproducibilidad: seeds, lock files, versionado de datasets
 
 > Parte: **7 — Ética, Fairness y Privacidad** · Fuente: Pineau et al., [*Improving Reproducibility in ML Research*](https://arxiv.org/abs/2003.12206) (JMLR 2021) + Gebru et al., [*Datasheets for Datasets*](https://arxiv.org/abs/1803.09010) (CACM 2021) + Mitchell et al., [*Model Cards for Model Reporting*](https://arxiv.org/abs/1810.03993) (FAT* 2019). ⏱️ Duración estimada: **75 min**.
+>
+> 🎚️ **Nivel:** Intermedio-Avanzado
 
 ## 🎯 Objetivo
 

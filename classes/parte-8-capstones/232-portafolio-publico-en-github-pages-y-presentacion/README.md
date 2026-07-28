@@ -1,6 +1,8 @@
 # Clase 232 — Portafolio público en GitHub Pages y presentación
 
 > Parte: **8 — Capstones** · Fuentes: Chip Huyen, *How to build a data science portfolio* + Eugene Yan, *What I learned from looking at 200 ML portfolios* + Mitchell et al., [*Model Cards for Model Reporting*](https://arxiv.org/abs/1810.03993) (FAT* 2019). ⏱️ Duración estimada: **150 min**.
+>
+> 🎚️ **Nivel:** Avanzado
 
 ## 🎯 Objetivo
 

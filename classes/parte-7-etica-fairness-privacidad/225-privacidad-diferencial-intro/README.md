@@ -1,6 +1,8 @@
 # Clase 225 — Privacidad diferencial: intro
 
 > Parte: **7 — Ética, Fairness y Privacidad** · Fuente: Dwork & Roth, *The Algorithmic Foundations of Differential Privacy* (2014) **caps. 2-3** + Dwork, McSherry, Nissim, Smith (TCC, 2006) [*Calibrating Noise to Sensitivity*](https://link.springer.com/chapter/10.1007/11681878_14). ⏱️ Duración estimada: **75 min**.
+>
+> 🎚️ **Nivel:** Intermedio-Avanzado
 
 ## 🎯 Objetivo
 
