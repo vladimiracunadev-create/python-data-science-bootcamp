@@ -1,6 +1,8 @@
 # Clase 209 — Pipelines con Prefect o Dagster
 
 > Parte: **5 — Ingeniería de Datos** · Fuente: [Prefect 3 docs](https://docs.prefect.io/) + [Dagster docs](https://docs.dagster.io/) + Reis & Housley **cap. 8**. ⏱️ Duración estimada: **75 min**.
+>
+> 🎚️ **Nivel:** Intermedio-Avanzado
 
 ## 🎯 Objetivo
 

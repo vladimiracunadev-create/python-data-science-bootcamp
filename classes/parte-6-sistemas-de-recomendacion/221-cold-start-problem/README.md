@@ -1,6 +1,8 @@
 # Clase 221 — Cold-start problem
 
 > Parte: **6 — Sistemas de Recomendación** · Fuente: Schein, Popescul, Ungar, Pennock, [*Methods and Metrics for Cold-Start Recommendations*](https://dl.acm.org/doi/10.1145/564376.564421) (SIGIR 2002) + Aggarwal **cap. 13**. ⏱️ Duración estimada: **70 min**.
+>
+> 🎚️ **Nivel:** Intermedio-Avanzado
 
 ## 🎯 Objetivo
 

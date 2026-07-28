@@ -1,6 +1,8 @@
 # Clase 211 — Polars como alternativa moderna
 
 > Parte: **5 — Ingeniería de Datos** · Fuente: [docs Polars](https://docs.pola.rs/) + [*Polars vs pandas* benchmark](https://duckdblabs.github.io/db-benchmark/). ⏱️ Duración estimada: **75 min**.
+>
+> 🎚️ **Nivel:** Intermedio-Avanzado
 
 > 📎 Esta clase es **complementaria** a la Clase 008 (Polars básico, Parte 0). Acá el foco es **producción**: lazy API, streaming engine, Arrow zero-copy, integración con DuckDB/Parquet.
 

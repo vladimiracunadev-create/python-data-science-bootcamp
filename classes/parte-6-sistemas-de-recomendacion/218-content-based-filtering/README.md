@@ -1,6 +1,8 @@
 # Clase 218 — Content-based filtering
 
 > Parte: **6 — Sistemas de Recomendación** · Fuente: Aggarwal *Recommender Systems: The Textbook* **cap. 4** + [docs scikit-learn `TfidfVectorizer`](https://scikit-learn.org/stable/modules/feature_extraction.html#text-feature-extraction). ⏱️ Duración estimada: **70 min**.
+>
+> 🎚️ **Nivel:** Intermedio-Avanzado
 
 ## 🎯 Objetivo
 

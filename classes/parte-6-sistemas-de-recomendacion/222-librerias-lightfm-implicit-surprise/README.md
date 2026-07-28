@@ -1,6 +1,8 @@
 # Clase 222 — Librerías: LightFM, Implicit, Surprise
 
 > Parte: **6 — Sistemas de Recomendación** · Fuente: docs oficiales [Surprise](https://surprise.readthedocs.io/) + [LightFM](https://making.lyst.com/lightfm/docs/home.html) + [Implicit](https://implicit.readthedocs.io/) + [TensorFlow Recommenders](https://www.tensorflow.org/recommenders). ⏱️ Duración estimada: **70 min**.
+>
+> 🎚️ **Nivel:** Intermedio-Avanzado
 
 ## 🎯 Objetivo
 

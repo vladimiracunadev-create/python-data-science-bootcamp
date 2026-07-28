@@ -1,6 +1,8 @@
 # Clase 220 — Métricas: MAP@k, NDCG, recall@k
 
 > Parte: **6 — Sistemas de Recomendación** · Fuente: Aggarwal **cap. 7** + Järvelin & Kekäläinen, [*Cumulated Gain-Based Evaluation of IR Techniques*](https://dl.acm.org/doi/10.1145/582415.582418) (TOIS 2002 — NDCG paper). ⏱️ Duración estimada: **70 min**.
+>
+> 🎚️ **Nivel:** Intermedio-Avanzado
 
 ## 🎯 Objetivo
 

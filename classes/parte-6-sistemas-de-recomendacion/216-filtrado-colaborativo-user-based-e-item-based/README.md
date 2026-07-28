@@ -1,6 +1,8 @@
 # Clase 216 — Filtrado colaborativo: user-based e item-based
 
 > Parte: **6 — Sistemas de Recomendación** · Fuente: Aggarwal, *Recommender Systems: The Textbook* (Springer, 2016) **cap. 2** + Linden, Smith, York (Amazon, 2003) [*Item-to-Item Collaborative Filtering*](https://www.cs.umd.edu/~samir/498/Amazon-Recommendations.pdf). ⏱️ Duración estimada: **75 min**.
+>
+> 🎚️ **Nivel:** Intermedio-Avanzado
 
 ## 🎯 Objetivo
 

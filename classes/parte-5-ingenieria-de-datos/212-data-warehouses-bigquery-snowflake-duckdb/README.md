@@ -1,6 +1,8 @@
 # Clase 212 — Data warehouses: BigQuery, Snowflake, DuckDB
 
 > Parte: **5 — Ingeniería de Datos** · Fuente: Reis & Housley *Fundamentals of Data Engineering* (O'Reilly, 2022) **cap. 6 + 9** + docs oficiales. ⏱️ Duración estimada: **80 min**.
+>
+> 🎚️ **Nivel:** Intermedio-Avanzado
 
 ## 🎯 Objetivo
 

@@ -1,6 +1,8 @@
 # Clase 219 — Recomendadores híbridos
 
 > Parte: **6 — Sistemas de Recomendación** · Fuente: Burke, [*Hybrid Recommender Systems: Survey and Experiments*](https://josquin.cti.depaul.edu/~rburke/pubs/burke-umuai02.pdf) (UMUAI 2002) + Kula, [*Metadata Embeddings for User and Item Cold-start Recommendations*](https://arxiv.org/abs/1507.08439) (LightFM, 2015). ⏱️ Duración estimada: **75 min**.
+>
+> 🎚️ **Nivel:** Intermedio-Avanzado
 
 ## 🎯 Objetivo
 

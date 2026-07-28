@@ -1,6 +1,8 @@
 # Clase 210 — PySpark para datasets grandes
 
 > Parte: **5 — Ingeniería de Datos** · Fuente: Chambers & Zaharia *Spark: The Definitive Guide* (O'Reilly, 2018) + [PySpark docs 3.5+](https://spark.apache.org/docs/latest/api/python/). ⏱️ Duración estimada: **90 min**.
+>
+> 🎚️ **Nivel:** Intermedio-Avanzado
 
 ## 🎯 Objetivo
 

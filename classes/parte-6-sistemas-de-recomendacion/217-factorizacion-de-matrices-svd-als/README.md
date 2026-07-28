@@ -1,6 +1,8 @@
 # Clase 217 — Factorización de matrices: SVD, ALS
 
 > Parte: **6 — Sistemas de Recomendación** · Fuente: Koren, Bell, Volinsky [*Matrix Factorization Techniques for Recommender Systems*](https://datajobs.com/data-science-repo/Recommender-Systems-%5BNetflix%5D.pdf) (IEEE Computer, 2009) + Hu, Koren, Volinsky [*Collaborative Filtering for Implicit Feedback Datasets*](http://yifanhu.net/PUB/cf.pdf) (ICDM 2008). ⏱️ Duración estimada: **80 min**.
+>
+> 🎚️ **Nivel:** Intermedio-Avanzado
 
 ## 🎯 Objetivo
 

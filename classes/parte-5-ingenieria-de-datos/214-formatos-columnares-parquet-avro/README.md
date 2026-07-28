@@ -1,6 +1,8 @@
 # Clase 214 — Formatos columnares: Parquet, Avro
 
 > Parte: **5 — Ingeniería de Datos** · Fuente: [docs Parquet 2.x](https://parquet.apache.org/docs/) + [Avro spec](https://avro.apache.org/docs/) + Reis & Housley **cap. 6**. ⏱️ Duración estimada: **70 min**.
+>
+> 🎚️ **Nivel:** Intermedio-Avanzado
 
 ## 🎯 Objetivo
 

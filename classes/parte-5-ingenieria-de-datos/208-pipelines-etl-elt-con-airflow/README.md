@@ -1,6 +1,8 @@
 # Clase 208 — Pipelines ETL/ELT con Airflow
 
 > Parte: **5 — Ingeniería de Datos** · Fuente: Reis & Housley *Fundamentals of Data Engineering* (O'Reilly, 2022) **cap. 8** + [Airflow docs 2.10+](https://airflow.apache.org/docs/). ⏱️ Duración estimada: **80 min**.
+>
+> 🎚️ **Nivel:** Intermedio-Avanzado
 
 ## 🎯 Objetivo
 

@@ -1,6 +1,8 @@
 # Clase 215 — Modelado dimensional: star/snowflake schemas
 
 > Parte: **5 — Ingeniería de Datos** · Fuente: Kimball & Ross *The Data Warehouse Toolkit* (Wiley, 3ª ed.) + Reis & Housley **cap. 8**. ⏱️ Duración estimada: **75 min**.
+>
+> 🎚️ **Nivel:** Intermedio-Avanzado
 
 ## 🎯 Objetivo
 

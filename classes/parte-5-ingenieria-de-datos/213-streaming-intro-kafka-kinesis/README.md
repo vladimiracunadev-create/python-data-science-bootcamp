@@ -1,6 +1,8 @@
 # Clase 213 — Streaming intro: Kafka, Kinesis
 
 > Parte: **5 — Ingeniería de Datos** · Fuente: Kreps, [*Building a Real-Time Data Pipeline*](https://www.confluent.io/blog/build-real-time-data-pipeline/) + Narkhede, Shapira, Palino *Kafka: The Definitive Guide* (O'Reilly, 2ª ed., 2021) + Reis & Housley **cap. 7**. ⏱️ Duración estimada: **85 min**.
+>
+> 🎚️ **Nivel:** Intermedio-Avanzado
 
 ## 🎯 Objetivo
 
