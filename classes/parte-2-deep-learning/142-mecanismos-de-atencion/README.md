@@ -2,6 +2,8 @@
 
 > Parte: **2 — Deep Learning** · Fuente: Géron, **cap. 16** § *Attention Mechanisms* + Bahdanau et al. (2015), Luong et al. (2015). ⏱️ Duración estimada: **75 min**.
 
+> 🎚️ **Nivel:** Avanzado
+
 ## 🎯 Objetivo
 
 Entender la **atención** — el mecanismo que destrabó NLP moderno. Bahdanau (2015): permite al decoder mirar **todos los hidden states del encoder**, ponderando dinámicamente. Luego self-attention (Vaswani 2017): tokens dentro de la misma secuencia se atienden entre sí → Transformer (clase 126).

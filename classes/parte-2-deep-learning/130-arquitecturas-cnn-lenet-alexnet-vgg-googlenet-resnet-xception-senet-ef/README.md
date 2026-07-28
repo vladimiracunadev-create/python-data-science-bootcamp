@@ -2,6 +2,8 @@
 
 > Parte: **2 — Deep Learning** · Fuente: Géron, **cap. 14** § *CNN Architectures* + papers originales. ⏱️ Duración estimada: **95 min**.
 
+> 🎚️ **Nivel:** Avanzado
+
 ## 🎯 Objetivo
 
 Conocer la **historia y evolución de las arquitecturas CNN** desde **LeNet-5 (1998)** hasta **ConvNeXt (2022)** — qué innovación introdujo cada una, por qué importaba, y cuál usar hoy. Identificar 3 patrones clave: **profundidad creciente, módulos con paths múltiples, eficiencia paramétrica**.

@@ -2,6 +2,8 @@
 
 > Parte: **2 — Deep Learning** · Fuente: Géron, **cap. 14** § *Using Pretrained Models from Keras*. ⏱️ Duración estimada: **70 min**.
 
+> 🎚️ **Nivel:** Avanzado
+
 ## 🎯 Objetivo
 
 Aplicar transfer learning **específicamente en visión** — el caso de uso más común del campo. Profundizar la clase 101 con receta industrial: data augmentation, fine-tuning gradual, learning rate diferencial, y manejo de **BatchNorm en fine-tuning** (un gotcha clásico).

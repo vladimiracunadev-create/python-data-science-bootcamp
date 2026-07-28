@@ -2,6 +2,8 @@
 
 > Parte: **2 — Deep Learning** · Fuente: Géron, **cap. 16** § *Generating Shakespearean Text Using a Character RNN*. ⏱️ Duración estimada: **70 min**.
 
+> 🎚️ **Nivel:** Avanzado
+
 ## 🎯 Objetivo
 
 Construir un **modelo de lenguaje autoregresivo a nivel carácter** — el ejercicio canónico de Karpathy 2015 sobre Shakespeare. Entender **next-token prediction** como tarea de pre-training (la base de todo LLM moderno), **sampling** con temperatura, y por qué char-RNN fue importante históricamente aunque hoy se hace con tokens BPE y Transformers.

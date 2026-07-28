@@ -1,6 +1,7 @@
 # Clase 125 — TFRecord
 
 > Parte: **2 — Deep Learning** · Fuente: Géron, **cap. 13** § *The TFRecord Format*. ⏱️ Duración estimada: **60 min**.
+> 🎚️ **Nivel:** Avanzado
 
 ## 🎯 Objetivo
 

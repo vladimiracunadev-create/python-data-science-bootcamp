@@ -1,6 +1,7 @@
 # Clase 124 — tf.data API
 
 > Parte: **2 — Deep Learning** · Fuente: Géron, **cap. 13** § *The Data API*. ⏱️ Duración estimada: **65 min**.
+> 🎚️ **Nivel:** Avanzado
 
 ## 🎯 Objetivo
 

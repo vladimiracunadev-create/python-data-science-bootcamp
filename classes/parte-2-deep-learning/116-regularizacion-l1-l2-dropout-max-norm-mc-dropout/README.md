@@ -1,6 +1,7 @@
 # Clase 116 — Regularización: L1/L2, dropout, max-norm, MC dropout (+ Stochastic Depth, DropPath)
 
 > Parte: **2 — Deep Learning** · Fuente: Géron, **cap. 11** § *Regularization* + Huang et al. (2016) *Deep Networks with Stochastic Depth*. ⏱️ Duración estimada: **80 min**.
+> 🎚️ **Nivel:** Avanzado
 
 ## 🎯 Objetivo
 

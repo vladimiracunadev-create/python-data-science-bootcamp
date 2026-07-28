@@ -1,6 +1,7 @@
 # Clase 128 — Capas convolucionales, filtros, feature maps
 
 > Parte: **2 — Deep Learning** · Fuente: Géron, **cap. 14** § *Convolutional Layers*. ⏱️ Duración estimada: **75 min**.
+> 🎚️ **Nivel:** Avanzado
 
 ## 🎯 Objetivo
 

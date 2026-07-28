@@ -2,6 +2,8 @@
 
 > Parte: **2 — Deep Learning** · Fuente: Dao et al. (2022, 2023, 2024) FlashAttention + Su et al. (2021) RoPE + Ainslie et al. (2023) GQA. ⏱️ Duración estimada: **90 min**.
 
+> 🎚️ **Nivel:** Avanzado
+
 ## 🎯 Objetivo
 
 Entender en profundidad las **3 piezas técnicas** que hacen que un LLM moderno (Llama 3, Mistral, Qwen, Gemma) sea rápido y memory-efficient: **Flash Attention v2/v3** (O(N) memoria + 2-3× speedup), **Rotary Position Embeddings (RoPE)** (mejor extrapolación), **Grouped-Query Attention (GQA)** (menos KV cache en inference).

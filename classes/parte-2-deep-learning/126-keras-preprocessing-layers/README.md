@@ -1,6 +1,7 @@
 # Clase 126 — Keras preprocessing layers
 
 > Parte: **2 — Deep Learning** · Fuente: Géron, **cap. 13** § *The Keras Preprocessing Layers*. ⏱️ Duración estimada: **65 min**.
+> 🎚️ **Nivel:** Avanzado
 
 ## 🎯 Objetivo
 

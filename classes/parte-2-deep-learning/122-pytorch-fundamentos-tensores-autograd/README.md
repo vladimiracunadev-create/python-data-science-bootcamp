@@ -1,6 +1,7 @@
 # Clase 122 — PyTorch fundamentos: tensores, autograd, nn.Module
 
 > Parte: **2 — Deep Learning** · Fuente: [PyTorch tutorials](https://pytorch.org/tutorials/) + Howard & Gugger, *Deep Learning for Coders with fastai & PyTorch*. ⏱️ Duración estimada: **90 min**.
+> 🎚️ **Nivel:** Avanzado
 
 ## 🎯 Objetivo
 

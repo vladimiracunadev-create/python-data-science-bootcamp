@@ -2,6 +2,8 @@
 
 > Parte: **2 — Deep Learning** · Fuente: Géron, **cap. 15** § *Recurrent Neurons and Layers*. ⏱️ Duración estimada: **70 min**.
 
+> 🎚️ **Nivel:** Avanzado
+
 ## 🎯 Objetivo
 
 Entender las **redes recurrentes (RNN)** — la primera arquitectura para secuencias: misma celda aplicada en cada timestep, **estado oculto** `h_t` que acumula contexto, y **BPTT (Backpropagation Through Time)** que entrena estos modelos. Reconocer sus limitaciones (vanishing en secuencias largas) que motivaron LSTM (clase 120) y eventualmente Transformers.

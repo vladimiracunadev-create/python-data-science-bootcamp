@@ -1,6 +1,7 @@
 # Clase 115 — Learning rate scheduling
 
 > Parte: **2 — Deep Learning** · Fuente: Géron, **cap. 11** § *Learning Rate Scheduling*. ⏱️ Duración estimada: **60 min**.
+> 🎚️ **Nivel:** Avanzado
 
 ## 🎯 Objetivo
 

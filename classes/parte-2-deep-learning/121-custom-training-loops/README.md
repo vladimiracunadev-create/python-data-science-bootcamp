@@ -1,6 +1,7 @@
 # Clase 121 — Custom training loops (+ PyTorch & PyTorch Lightning)
 
 > Parte: **2 — Deep Learning** · Fuente: Géron, **cap. 12** § *Custom Training Loops* + docs PyTorch, Lightning. ⏱️ Duración estimada: **85 min**.
+> 🎚️ **Nivel:** Avanzado
 
 ## 🎯 Objetivo
 

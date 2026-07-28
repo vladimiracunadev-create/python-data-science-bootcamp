@@ -2,6 +2,8 @@
 
 > Parte: **2 — Deep Learning** · Fuente: Géron, **cap. 16** § *The Transformer Architecture* + Vaswani et al. (2017) + papers BERT, GPT, FlashAttention. ⏱️ Duración estimada: **100 min**.
 
+> 🎚️ **Nivel:** Avanzado
+
 ## 🎯 Objetivo
 
 Dominar la arquitectura **Transformer** —encoder, decoder, ambas variantes (BERT encoder-only, GPT decoder-only, T5 encoder-decoder)— a nivel de poder implementarla a mano. Conocer las **mejoras clave 2022-2024** que hacen a los LLMs modernos rápidos y eficientes: **Flash Attention v2/v3**, **RoPE** (Rotary Position Embeddings), **Grouped-Query Attention (GQA)**.

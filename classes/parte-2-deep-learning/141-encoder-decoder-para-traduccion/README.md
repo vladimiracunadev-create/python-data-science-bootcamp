@@ -2,6 +2,8 @@
 
 > Parte: **2 — Deep Learning** · Fuente: Géron, **cap. 16** § *Encoder–Decoder Network for Neural Machine Translation*. ⏱️ Duración estimada: **80 min**.
 
+> 🎚️ **Nivel:** Avanzado
+
 ## 🎯 Objetivo
 
 Implementar la arquitectura **seq2seq** (Sutskever, Vinyals & Le 2014) — un **encoder** que comprime la oración fuente en un vector de contexto + un **decoder** que genera la oración destino token por token. Conocer **teacher forcing** (durante training, el decoder ve los targets reales como input) vs **inference autoregresiva**. Esta arquitectura es la antesala de **atención** (clase 125) y de Transformers (clase 126).

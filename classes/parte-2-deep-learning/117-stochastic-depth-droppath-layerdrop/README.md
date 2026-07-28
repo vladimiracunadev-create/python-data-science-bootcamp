@@ -1,6 +1,7 @@
 # Clase 117 — Regularización moderna: Stochastic Depth, DropPath, LayerDrop
 
 > Parte: **2 — Deep Learning** · Fuente: Huang et al. (2016) Stochastic Depth + Fan et al. (2020) LayerDrop + DropPath en ViT/Swin/ConvNeXt. ⏱️ Duración estimada: **70 min**.
+> 🎚️ **Nivel:** Avanzado
 
 ## 🎯 Objetivo
 

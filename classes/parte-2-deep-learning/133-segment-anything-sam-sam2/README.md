@@ -2,6 +2,8 @@
 
 > Parte: **2 — Deep Learning** · Fuente: Kirillov et al. (2023) + Ravi et al. (2024) SAM 2. ⏱️ Duración estimada: **85 min**.
 
+> 🎚️ **Nivel:** Avanzado
+
 ## 🎯 Objetivo
 
 Usar **Segment Anything** (Meta AI 2023) y **SAM 2** (2024) — el **foundation model para segmentación**: entrenado en 11M imágenes + 1.1B máscaras (SAM 2 agrega video). Segmenta **cualquier objeto** dado un prompt (punto, caja, máscara, "todo"). Zero-shot — no requiere training para empezar.

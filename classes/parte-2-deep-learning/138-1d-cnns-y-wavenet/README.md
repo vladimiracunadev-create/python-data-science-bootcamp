@@ -2,6 +2,8 @@
 
 > Parte: **2 — Deep Learning** · Fuente: Géron, **cap. 15** § *Handling Long Sequences* + WaveNet paper (van den Oord et al. 2016). ⏱️ Duración estimada: **60 min**.
 
+> 🎚️ **Nivel:** Avanzado
+
 ## 🎯 Objetivo
 
 Conocer la alternativa a RNN para secuencias: **Conv1D** y **WaveNet** (dilated causal convolutions). Más rápido que LSTM (paralelizable), receptive field amplio con pocas capas (dilated convolutions). Útil para audio, series temporales y como capa de preprocesamiento.

@@ -1,6 +1,7 @@
 # Clase 127 — TensorFlow Datasets (TFDS)
 
 > Parte: **2 — Deep Learning** · Fuente: Géron, **cap. 13** § *The TensorFlow Datasets (TFDS) Project*. ⏱️ Duración estimada: **40 min**.
+> 🎚️ **Nivel:** Avanzado
 
 ## 🎯 Objetivo
 

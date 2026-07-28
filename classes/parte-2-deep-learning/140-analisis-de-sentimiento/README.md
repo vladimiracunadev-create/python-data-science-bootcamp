@@ -2,6 +2,8 @@
 
 > Parte: **2 — Deep Learning** · Fuente: Géron, **cap. 16** § *Sentiment Analysis*. ⏱️ Duración estimada: **65 min**.
 
+> 🎚️ **Nivel:** Avanzado
+
 ## 🎯 Objetivo
 
 Aplicar un modelo de **clasificación de texto** sobre IMDB reviews — la tarea NLP más clásica para benchmarks. Pipeline completo: `TextVectorization` → `Embedding` → arquitectura (Dense / CNN / RNN / Transformer) → `Dense(1, sigmoid)`. Comparar el zoo de approaches y reconocer que con Hugging Face hoy se hace en 3 líneas (clase 127).

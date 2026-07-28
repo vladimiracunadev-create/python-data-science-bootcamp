@@ -1,6 +1,7 @@
 # Clase 123 — PyTorch Lightning: Trainer, callbacks, distributed
 
 > Parte: **2 — Deep Learning** · Fuente: [Lightning docs](https://lightning.ai/docs/pytorch/stable/). ⏱️ Duración estimada: **80 min**.
+> 🎚️ **Nivel:** Avanzado
 
 ## 🎯 Objetivo
 

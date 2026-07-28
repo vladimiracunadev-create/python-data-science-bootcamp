@@ -2,6 +2,8 @@
 
 > Parte: **2 — Deep Learning** · Fuente: Géron, **cap. 15** § *Tackling Short-Term Memory Problems*. ⏱️ Duración estimada: **70 min**.
 
+> 🎚️ **Nivel:** Avanzado
+
 ## 🎯 Objetivo
 
 Entender **LSTM** (Hochreiter & Schmidhuber 1997) y **GRU** (Cho et al. 2014) — celdas recurrentes con **gates** que solucionan el vanishing gradient de SimpleRNN: la información puede fluir sin atenuación por la **cell state**, y los gates aprenden qué olvidar, recordar y emitir.

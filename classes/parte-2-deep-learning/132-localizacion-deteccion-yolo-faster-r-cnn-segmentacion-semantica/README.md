@@ -2,6 +2,8 @@
 
 > Parte: **2 — Deep Learning** · Fuente: Géron, **cap. 14** § *Object Detection* y § *Semantic Segmentation* + papers DETR, SAM, YOLOv11. ⏱️ Duración estimada: **90 min**.
 
+> 🎚️ **Nivel:** Avanzado
+
 ## 🎯 Objetivo
 
 Saber **detectar y segmentar objetos en imágenes** — la tarea de visión más compleja y más comercial. Conocer la evolución: Faster R-CNN (two-stage, lento + preciso) → YOLO (one-stage, rápido) → **DETR** (Transformer, end-to-end) → **YOLOv11** (estado del arte 2024) → **Segment Anything (SAM/SAM 2)** (foundation model para segmentación).

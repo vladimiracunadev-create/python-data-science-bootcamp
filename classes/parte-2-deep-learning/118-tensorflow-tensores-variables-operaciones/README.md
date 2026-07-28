@@ -1,6 +1,7 @@
 # Clase 118 — TensorFlow: tensores, variables, operaciones
 
 > Parte: **2 — Deep Learning** · Fuente: Géron, **cap. 12** § *Using TensorFlow like NumPy*. ⏱️ Duración estimada: **60 min**.
+> 🎚️ **Nivel:** Avanzado
 
 ## 🎯 Objetivo
 

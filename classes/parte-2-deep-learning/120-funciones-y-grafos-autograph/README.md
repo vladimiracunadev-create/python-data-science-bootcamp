@@ -1,6 +1,7 @@
 # Clase 120 — Funciones y grafos (autograph)
 
 > Parte: **2 — Deep Learning** · Fuente: Géron, **cap. 12** § *TF Functions and Graphs*. ⏱️ Duración estimada: **55 min**.
+> 🎚️ **Nivel:** Avanzado
 
 ## 🎯 Objetivo
 

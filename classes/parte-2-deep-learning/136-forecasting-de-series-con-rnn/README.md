@@ -2,6 +2,8 @@
 
 > Parte: **2 — Deep Learning** · Fuente: Géron, **cap. 15** § *Forecasting a Time Series*. ⏱️ Duración estimada: **80 min**.
 
+> 🎚️ **Nivel:** Avanzado
+
 ## 🎯 Objetivo
 
 Aplicar RNN/LSTM/GRU a un problema real de **forecasting de series temporales**. Hacer split temporal (NO aleatorio), preparar windows, comparar contra **baselines** (naive, MA, ARIMA), y reportar métricas estándar (MAE, MAPE, RMSE).

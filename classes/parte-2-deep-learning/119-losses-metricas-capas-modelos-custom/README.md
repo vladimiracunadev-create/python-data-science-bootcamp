@@ -1,6 +1,7 @@
 # Clase 119 — Losses, métricas, capas, modelos custom
 
 > Parte: **2 — Deep Learning** · Fuente: Géron, **cap. 12** § *Customizing Models and Training Algorithms*. ⏱️ Duración estimada: **70 min**.
+> 🎚️ **Nivel:** Avanzado
 
 ## 🎯 Objetivo
 

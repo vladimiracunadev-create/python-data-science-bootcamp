@@ -1,6 +1,7 @@
 # Clase 129 — Pooling
 
 > Parte: **2 — Deep Learning** · Fuente: Géron, **cap. 14** § *Pooling Layers*. ⏱️ Duración estimada: **45 min**.
+> 🎚️ **Nivel:** Avanzado
 
 ## 🎯 Objetivo
 

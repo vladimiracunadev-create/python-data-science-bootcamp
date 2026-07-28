@@ -2,6 +2,8 @@
 
 > Parte: **2 — Deep Learning** · Fuente: [Ultralytics YOLOv11 docs](https://docs.ultralytics.com/). ⏱️ Duración estimada: **85 min**.
 
+> 🎚️ **Nivel:** Avanzado
+
 ## 🎯 Objetivo
 
 Dominar **YOLOv11** (Ultralytics, 2024) — el detector default industrial 2026: inference real-time, fine-tuning sencillo, export a ONNX/TensorRT/CoreML/TFLite con un kwarg. Cubrir las 4 tareas: detection, segmentation, pose estimation, oriented bounding boxes (OBB).
