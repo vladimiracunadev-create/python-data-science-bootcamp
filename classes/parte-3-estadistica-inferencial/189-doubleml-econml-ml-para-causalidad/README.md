@@ -1,6 +1,8 @@
 # Clase 189 — DoubleML / EconML: Machine Learning para causalidad
 
 > Parte: **3 — Estadística Inferencial y Causal** · Fuente: Chernozhukov et al. (2018) DML + docs DoubleML + EconML. ⏱️ Duración estimada: **95 min**.
+>
+> 🎚️ **Nivel:** Avanzado
 
 ## 🎯 Objetivo
 

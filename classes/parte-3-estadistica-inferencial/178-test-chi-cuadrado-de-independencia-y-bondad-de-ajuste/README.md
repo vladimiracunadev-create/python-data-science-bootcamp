@@ -2,6 +2,8 @@
 
 > Parte: **3 — Estadística Inferencial y Causal** · Fuente: ISLP, **cap. 4** + Bruce & Bruce, **cap. 3** *Chi-Square Test*. ⏱️ Duración estimada: **70 min**.
 
+> 🎚️ **Nivel:** Intermedio-Avanzado
+
 ## 🎯 Objetivo
 
 Aplicar el test **chi-cuadrado de Pearson** en sus dos formas: (a) **independencia** en una tabla de contingencia de dos variables categóricas, y (b) **bondad de ajuste** entre una distribución observada y una teórica. Reconocer cuándo el test es válido (frecuencias esperadas ≥ 5 por celda) y cuándo hay que recurrir a **Fisher exact** o a la simulación de Monte Carlo.

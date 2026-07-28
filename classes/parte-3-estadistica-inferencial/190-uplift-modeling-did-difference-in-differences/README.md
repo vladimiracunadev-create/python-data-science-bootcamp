@@ -1,6 +1,8 @@
 # Clase 190 — Uplift modeling, DiD (difference-in-differences)
 
 > Parte: **3 — Estadística Inferencial y Causal** · Fuente: Gutierrez & Gerardy (2017), *Causal Inference and Uplift Modeling* + Abadie, Diamond & Hainmueller (2010), *Synthetic Control Methods*. ⏱️ Duración estimada: **90 min**.
+>
+> 🎚️ **Nivel:** Avanzado
 
 ## 🎯 Objetivo
 

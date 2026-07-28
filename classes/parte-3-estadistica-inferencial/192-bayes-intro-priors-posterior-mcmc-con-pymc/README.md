@@ -1,6 +1,8 @@
 # Clase 192 — Bayes intro: priors, posterior, MCMC con PyMC
 
 > Parte: **3 — Estadística Inferencial y Causal** · Fuente: McElreath, *Statistical Rethinking* (2ª ed.) + Gelman et al., *Bayesian Data Analysis* (3ª ed.) + Martin, *Bayesian Modeling and Computation in Python*. ⏱️ Duración estimada: **95 min**.
+>
+> 🎚️ **Nivel:** Avanzado
 
 ## 🎯 Objetivo
 

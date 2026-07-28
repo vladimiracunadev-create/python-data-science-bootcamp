@@ -2,6 +2,8 @@
 
 > Parte: **3 — Estadística Inferencial y Causal** · Fuente: Cohen (1988) + Lakens (2013) + Vallat (2018) pingouin. ⏱️ Duración estimada: **75 min**.
 
+> 🎚️ **Nivel:** Intermedio-Avanzado
+
 ## 🎯 Objetivo
 
 Dominar **effect size** —la métrica que el p-value no responde: "cuán grande es la diferencia"—. Cubrir 6 medidas: **Cohen's d** (means, varianzas similares), **Hedges' g** (bias-corrected para n chico), **Glass's Δ** (varianza del control como denominador), **Cliff's δ** (no paramétrico), **r de correlación**, **odds ratio**. Aplicar con `pingouin` en una sola llamada. Reportar correctamente: APA 7 lo exige.

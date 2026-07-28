@@ -1,6 +1,8 @@
 # Clase 187 — Diseño experimental
 
 > Parte: **3 — Estadística Inferencial y Causal** · Fuente: Montgomery, *Design and Analysis of Experiments* (8ª ed.) + Kohavi, Tang & Xu (cap. 4-5). ⏱️ Duración estimada: **80 min**.
+>
+> 🎚️ **Nivel:** Avanzado
 
 ## 🎯 Objetivo
 

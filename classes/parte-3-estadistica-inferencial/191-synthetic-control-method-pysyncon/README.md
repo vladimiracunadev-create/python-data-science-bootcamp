@@ -1,6 +1,8 @@
 # Clase 191 — Synthetic Control Method dedicado (pysyncon, SparseSC)
 
 > Parte: **3 — Estadística Inferencial y Causal** · Fuente: Abadie, Diamond & Hainmueller (2010) + Doudchenko & Imbens (2016) + Arkhangelsky et al. (2021) Synthetic DiD. ⏱️ Duración estimada: **80 min**.
+>
+> 🎚️ **Nivel:** Avanzado
 
 ## 🎯 Objetivo
 

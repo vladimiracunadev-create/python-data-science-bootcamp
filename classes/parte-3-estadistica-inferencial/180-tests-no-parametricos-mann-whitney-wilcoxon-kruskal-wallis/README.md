@@ -2,6 +2,8 @@
 
 > Parte: **3 — Estadística Inferencial y Causal** · Fuente: Bruce & Bruce, **cap. 3** *Resampling and Non-parametric Tests* + Conover, *Practical Nonparametric Statistics*. ⏱️ Duración estimada: **70 min**.
 
+> 🎚️ **Nivel:** Intermedio-Avanzado
+
 ## 🎯 Objetivo
 
 Aplicar las tres alternativas no paramétricas más usadas: **Mann-Whitney U** (= dos muestras independientes, análogo a Welch's t), **Wilcoxon signed-rank** (= pareado, análogo a `ttest_rel`) y **Kruskal-Wallis** (= ≥ 3 grupos, análogo a ANOVA one-way). Saber cuándo elegirlos sobre los paramétricos: muestras chicas con datos visiblemente asimétricos, datos ordinales (Likert, ranks), o presencia de outliers extremos.

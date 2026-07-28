@@ -2,6 +2,8 @@
 
 > Parte: **3 — Estadística Inferencial y Causal** · Fuente: ISLP, **cap. 5** *Resampling Methods* + Efron & Tibshirani, *An Introduction to the Bootstrap*. ⏱️ Duración estimada: **85 min**.
 
+> 🎚️ **Nivel:** Intermedio-Avanzado
+
 ## 🎯 Objetivo
 
 Sustituir los supuestos paramétricos (normalidad, homocedasticidad, fórmulas cerradas) por **resampling**: el **bootstrap** estima la distribución muestral de cualquier estadístico re-muestreando *con reemplazo*, y los **permutation tests** calculan un p-value re-mezclando etiquetas de tratamiento. Aprender a usar las APIs modernas de scipy (`bootstrap`, `permutation_test`, ≥ 1.9) y a interpretar las tres variantes de IC bootstrap (percentil, basic, **BCa**).

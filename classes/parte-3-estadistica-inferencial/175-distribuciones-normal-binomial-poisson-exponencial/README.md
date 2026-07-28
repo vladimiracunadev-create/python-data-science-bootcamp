@@ -2,6 +2,8 @@
 
 > Parte: **3 — Estadística Inferencial y Causal** · Fuente: ISLP, **cap. 2** + Bruce & Bruce, **cap. 2** *Data and Sampling Distributions*. ⏱️ Duración estimada: **70 min**.
 
+> 🎚️ **Nivel:** Intermedio-Avanzado
+
 ## 🎯 Objetivo
 
 Reconocer las cuatro distribuciones de probabilidad que aparecen en el 90 % de los problemas reales de data science —**normal, binomial, Poisson, exponencial**— sabiendo qué fenómeno modela cada una, cuáles son sus parámetros, cómo simularlas con `scipy.stats` / `numpy.random`, y cómo verificar empíricamente si los datos *realmente* siguen esa distribución antes de aplicar un test que la asuma.

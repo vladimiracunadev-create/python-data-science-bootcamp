@@ -2,6 +2,8 @@
 
 > Parte: **3 — Estadística Inferencial y Causal** · Fuente: ISLP, **cap. 13** + Bruce & Bruce, **cap. 3** *ANOVA*. ⏱️ Duración estimada: **80 min**.
 
+> 🎚️ **Nivel:** Intermedio-Avanzado
+
 ## 🎯 Objetivo
 
 Que el alumno aplique **ANOVA de una vía** (≥ 3 grupos, una variable categórica) y **ANOVA de dos vías** (dos factores categóricos + interacción), entienda por qué no se hacen "t-tests todos contra todos" (inflación de α) y sepa hacer **post-hoc** con Tukey HSD. Reconocer los supuestos (independencia, normalidad por grupo, homogeneidad de varianzas) y cuándo usar la alternativa robusta **Welch ANOVA** o el no paramétrico **Kruskal-Wallis** (Clase 150).

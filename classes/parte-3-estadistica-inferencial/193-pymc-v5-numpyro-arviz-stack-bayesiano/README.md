@@ -1,6 +1,8 @@
 # Clase 193 — Stack bayesiano moderno: PyMC v5, NumPyro, ArviZ
 
 > Parte: **3 — Estadística Inferencial y Causal** · Fuente: [PyMC v5 docs](https://www.pymc.io/) + [NumPyro docs](https://num.pyro.ai/) + [ArviZ docs](https://arviz-devs.github.io/arviz/). ⏱️ Duración estimada: **90 min**.
+>
+> 🎚️ **Nivel:** Avanzado
 
 ## 🎯 Objetivo
 

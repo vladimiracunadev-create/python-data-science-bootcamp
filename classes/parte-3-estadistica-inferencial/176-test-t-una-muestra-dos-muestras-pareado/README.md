@@ -2,6 +2,8 @@
 
 > Parte: **3 — Estadística Inferencial y Causal** · Fuente: ISLP, **cap. 13** + Bruce & Bruce, **cap. 3** *Statistical Experiments and Significance Testing*. ⏱️ Duración estimada: **80 min**.
 
+> 🎚️ **Nivel:** Intermedio-Avanzado
+
 ## 🎯 Objetivo
 
 Que el alumno aplique correctamente las tres variantes del test t —**una muestra, dos muestras independientes (Welch por default), pareado**—, distinga **hipótesis nula y alternativa**, lea **p-value e intervalo de confianza** de la salida de `scipy.stats` y `pingouin`, y aprenda a reportar **effect size** (Cohen's d, Hedges' g) junto con el p-value para no caer en la trampa de "significativo pero irrelevante".

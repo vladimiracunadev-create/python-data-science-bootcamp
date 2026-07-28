@@ -1,6 +1,8 @@
 # Clase 185 — A/B testing: tamaño de muestra, poder estadístico
 
 > Parte: **3 — Estadística Inferencial y Causal** · Fuente: Bruce & Bruce, **cap. 3** *A/B Testing* + Kohavi, Tang & Xu, *Trustworthy Online Controlled Experiments* (2020). ⏱️ Duración estimada: **90 min**.
+>
+> 🎚️ **Nivel:** Intermedio-Avanzado
 
 ## 🎯 Objetivo
 

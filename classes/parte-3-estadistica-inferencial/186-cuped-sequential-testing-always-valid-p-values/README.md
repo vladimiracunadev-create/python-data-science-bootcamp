@@ -1,6 +1,8 @@
 # Clase 186 — CUPED, sequential testing, always-valid p-values
 
 > Parte: **3 — Estadística Inferencial y Causal** · Fuente: Deng et al. (2013) CUPED + Howard et al. (2021) always-valid + Kohavi et al. (2020). ⏱️ Duración estimada: **85 min**.
+>
+> 🎚️ **Nivel:** Avanzado
 
 ## 🎯 Objetivo
 

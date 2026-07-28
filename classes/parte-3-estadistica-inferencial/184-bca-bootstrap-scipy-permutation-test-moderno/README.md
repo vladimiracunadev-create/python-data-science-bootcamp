@@ -2,6 +2,8 @@
 
 > Parte: **3 — Estadística Inferencial y Causal** · Fuente: Efron (1987) BCa + DiCiccio & Efron (1996) + [scipy.stats.bootstrap docs](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.bootstrap.html). ⏱️ Duración estimada: **75 min**.
 
+> 🎚️ **Nivel:** Intermedio-Avanzado
+
 ## 🎯 Objetivo
 
 Profundizar el **BCa (Bias-Corrected and accelerated) bootstrap** —el default moderno (Efron 1987)— y las **APIs modernas de scipy** (`scipy.stats.bootstrap` ≥ 1.9, `scipy.stats.permutation_test` ≥ 1.8). Cubrir las correcciones que BCa hace sobre percentile clásico: **bias correction** (z₀) y **acceleration** (a) vía jackknife.

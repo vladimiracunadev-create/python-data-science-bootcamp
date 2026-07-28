@@ -2,6 +2,8 @@
 
 > Parte: **3 — Estadística Inferencial y Causal** · Fuente: ISLP, **cap. 13** *Multiple Testing* + Benjamini & Hochberg (1995). ⏱️ Duración estimada: **70 min**.
 
+> 🎚️ **Nivel:** Intermedio-Avanzado
+
 ## 🎯 Objetivo
 
 Entender por qué hacer 100 tests al α=0.05 produce ≈ 5 falsos positivos esperados aunque todas las `H₀` sean verdaderas, y aplicar las dos familias de corrección: **family-wise error rate (FWER)** con Bonferroni y Holm, y **false discovery rate (FDR)** con Benjamini-Hochberg (BH). Saber elegir entre ambas según el contexto (medicina/seguridad → FWER; screening exploratorio → FDR).

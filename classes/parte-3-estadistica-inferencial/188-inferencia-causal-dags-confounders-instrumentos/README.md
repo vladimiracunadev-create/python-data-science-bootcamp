@@ -1,6 +1,8 @@
 # Clase 188 — Inferencia causal: DAGs, confounders, instrumentos
 
 > Parte: **3 — Estadística Inferencial y Causal** · Fuente: Pearl, *The Book of Why* + Hernán & Robins, *Causal Inference: What If* (libro gratuito, 2024) + Imbens & Rubin. ⏱️ Duración estimada: **95 min**.
+>
+> 🎚️ **Nivel:** Avanzado
 
 ## 🎯 Objetivo
 

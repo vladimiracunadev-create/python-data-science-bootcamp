@@ -2,6 +2,8 @@
 
 > Parte: **3 — Estadística Inferencial y Causal** · Fuente: ISLP, **cap. 5** + Bruce & Bruce, **cap. 2** *Confidence Intervals*. ⏱️ Duración estimada: **70 min**.
 
+> 🎚️ **Nivel:** Intermedio-Avanzado
+
 ## 🎯 Objetivo
 
 Construir e interpretar correctamente intervalos de confianza para **media** (t-based, z-based, bootstrap) y **proporción** (Wald, Wilson, Clopper-Pearson), entendiendo que un IC95 % **NO** significa "95 % de probabilidad de que el parámetro caiga en el intervalo" sino "si repitiéramos el experimento muchas veces, el 95 % de los intervalos construidos contendrían el parámetro". Saber elegir el método según `n` y la métrica.
