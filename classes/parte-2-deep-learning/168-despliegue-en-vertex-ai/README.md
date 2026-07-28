@@ -1,6 +1,8 @@
 # Clase 168 — Despliegue en Vertex AI
 
 > Parte: **2 — Deep Learning** · Fuente: Géron, **cap. 19** § *Deploying a Model to Vertex AI* + docs Vertex AI. ⏱️ Duración estimada: **60 min**.
+>
+> 🎚️ **Nivel:** Avanzado
 
 ## 🎯 Objetivo
 

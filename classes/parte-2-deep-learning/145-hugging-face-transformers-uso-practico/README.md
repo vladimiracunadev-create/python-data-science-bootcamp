@@ -1,6 +1,8 @@
 # Clase 145 — Hugging Face Transformers (uso práctico)
 
 > Parte: **2 — Deep Learning** · Fuente: HuggingFace docs + Géron, **cap. 16** § *Pretrained Transformer Models*. ⏱️ Duración estimada: **80 min**.
+>
+> 🎚️ **Nivel:** Avanzado
 
 ## 🎯 Objetivo
 

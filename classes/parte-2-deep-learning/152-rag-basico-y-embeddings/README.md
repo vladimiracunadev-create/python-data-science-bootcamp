@@ -1,6 +1,8 @@
 # Clase 152 — RAG básico y embeddings (+ hybrid search, re-ranking, MCP)
 
 > Parte: **2 — Deep Learning** · Fuente: Lewis et al. (2020) RAG paper + LlamaIndex / LangChain docs + Anthropic MCP spec. ⏱️ Duración estimada: **100 min**.
+>
+> 🎚️ **Nivel:** Avanzado
 
 ## 🎯 Objetivo
 

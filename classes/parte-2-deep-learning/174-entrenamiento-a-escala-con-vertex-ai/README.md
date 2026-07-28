@@ -1,6 +1,8 @@
 # Clase 174 — Entrenamiento a escala con Vertex AI
 
 > Parte: **2 — Deep Learning** · Fuente: Géron, **cap. 19** § *Running Large Training Jobs on Vertex AI* + docs Vertex AI Training. ⏱️ Duración estimada: **65 min**.
+>
+> 🎚️ **Nivel:** Avanzado
 
 ## 🎯 Objetivo
 

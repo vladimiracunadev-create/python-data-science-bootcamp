@@ -1,6 +1,8 @@
 # Clase 153 — MCP (Model Context Protocol): herramientas y datos para LLMs
 
 > Parte: **2 — Deep Learning** · Fuente: [MCP spec (Anthropic 2024)](https://modelcontextprotocol.io/). ⏱️ Duración estimada: **80 min**.
+>
+> 🎚️ **Nivel:** Avanzado
 
 ## 🎯 Objetivo
 

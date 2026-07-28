@@ -1,6 +1,8 @@
 # Clase 154 — Agentes: tool use, ReAct, multi-agent
 
 > Parte: **2 — Deep Learning** · Fuente: Yao et al. (2023) ReAct + Schick et al. (2023) Toolformer + Anthropic agent patterns (2024). ⏱️ Duración estimada: **95 min**.
+>
+> 🎚️ **Nivel:** Avanzado
 
 ## 🎯 Objetivo
 

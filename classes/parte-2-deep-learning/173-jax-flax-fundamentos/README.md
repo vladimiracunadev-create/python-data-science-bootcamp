@@ -1,6 +1,8 @@
 # Clase 173 — JAX y Flax: el stack moderno de Google para DL
 
 > Parte: **2 — Deep Learning** · Fuente: [JAX docs](https://jax.readthedocs.io/) + [Flax NNX docs](https://flax.readthedocs.io/). ⏱️ Duración estimada: **85 min**.
+>
+> 🎚️ **Nivel:** Avanzado
 
 ## 🎯 Objetivo
 

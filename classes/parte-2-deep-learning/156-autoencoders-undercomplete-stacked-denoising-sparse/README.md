@@ -1,6 +1,8 @@
 # Clase 156 — Autoencoders: undercomplete, stacked, denoising, sparse
 
 > Parte: **2 — Deep Learning** · Fuente: Géron, **cap. 17** § *Autoencoders, GANs, and Diffusion Models*. ⏱️ Duración estimada: **70 min**.
+>
+> 🎚️ **Nivel:** Avanzado
 
 ## 🎯 Objetivo
 

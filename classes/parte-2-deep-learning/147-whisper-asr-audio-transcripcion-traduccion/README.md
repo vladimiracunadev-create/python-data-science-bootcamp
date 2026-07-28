@@ -1,6 +1,8 @@
 # Clase 147 — Whisper: ASR, transcripción, traducción de audio
 
 > Parte: **2 — Deep Learning** · Fuente: Radford et al. (2022) Whisper + OpenAI release notes. ⏱️ Duración estimada: **70 min**.
+>
+> 🎚️ **Nivel:** Avanzado
 
 ## 🎯 Objetivo
 

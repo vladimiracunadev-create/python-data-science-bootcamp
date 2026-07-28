@@ -1,6 +1,8 @@
 # Clase 159 — Modelos de difusión (+ Stable Diffusion XL, ControlNet, LCM)
 
 > Parte: **2 — Deep Learning** · Fuente: Géron, **cap. 17** § *Diffusion Models* + Ho et al. (2020) DDPM + papers SDXL, ControlNet, LCM. ⏱️ Duración estimada: **105 min**.
+>
+> 🎚️ **Nivel:** Avanzado
 
 ## 🎯 Objetivo
 

@@ -1,6 +1,8 @@
 # Clase 150 — DPO y RLHF: alineamiento de LLMs
 
 > Parte: **2 — Deep Learning** · Fuente: Ouyang et al. (2022) InstructGPT/RLHF + Rafailov et al. (2023) DPO + papers IPO/KTO/ORPO. ⏱️ Duración estimada: **95 min**.
+>
+> 🎚️ **Nivel:** Avanzado
 
 ## 🎯 Objetivo
 

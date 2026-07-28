@@ -1,6 +1,8 @@
 # Clase 149 — LoRA / QLoRA: fine-tuning eficiente de LLMs
 
 > Parte: **2 — Deep Learning** · Fuente: Hu et al. (2021) LoRA + Dettmers et al. (2023) QLoRA. ⏱️ Duración estimada: **100 min**.
+>
+> 🎚️ **Nivel:** Avanzado
 
 ## 🎯 Objetivo
 

@@ -1,6 +1,8 @@
 # Clase 146 — CLIP, SigLIP: multimodal embeddings (visión + texto)
 
 > Parte: **2 — Deep Learning** · Fuente: Radford et al. (2021) CLIP + Zhai et al. (2023) SigLIP. ⏱️ Duración estimada: **80 min**.
+>
+> 🎚️ **Nivel:** Avanzado
 
 ## 🎯 Objetivo
 

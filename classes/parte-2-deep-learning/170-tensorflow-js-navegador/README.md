@@ -1,6 +1,8 @@
 # Clase 170 — TensorFlow.js (navegador)
 
 > Parte: **2 — Deep Learning** · Fuente: Géron, **cap. 19** § *Running a Model in a Web Page* + TF.js docs. ⏱️ Duración estimada: **55 min**.
+>
+> 🎚️ **Nivel:** Avanzado
 
 ## 🎯 Objetivo
 

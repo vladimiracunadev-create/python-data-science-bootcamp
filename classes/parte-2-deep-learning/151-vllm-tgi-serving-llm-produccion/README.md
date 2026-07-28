@@ -1,6 +1,8 @@
 # Clase 151 — vLLM y TGI: serving de LLMs en producción
 
 > Parte: **2 — Deep Learning** · Fuente: Kwon et al. (2023) vLLM + HuggingFace TGI docs. ⏱️ Duración estimada: **80 min**.
+>
+> 🎚️ **Nivel:** Avanzado
 
 ## 🎯 Objetivo
 

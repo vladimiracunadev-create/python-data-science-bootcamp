@@ -1,6 +1,8 @@
 # Clase 158 — GANs: DCGAN, Progressive GAN, StyleGAN
 
 > Parte: **2 — Deep Learning** · Fuente: Géron, **cap. 17** § *Generative Adversarial Networks* + Goodfellow (2014). ⏱️ Duración estimada: **80 min**.
+>
+> 🎚️ **Nivel:** Avanzado
 
 ## 🎯 Objetivo
 

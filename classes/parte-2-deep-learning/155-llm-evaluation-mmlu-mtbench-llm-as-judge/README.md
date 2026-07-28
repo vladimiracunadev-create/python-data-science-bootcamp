@@ -1,6 +1,8 @@
 # Clase 155 — LLM Evaluation: MMLU, MT-Bench, LLM-as-judge, evals propios
 
 > Parte: **2 — Deep Learning** · Fuente: Hendrycks et al. (2021) MMLU + Zheng et al. (2023) MT-Bench + LMSys Arena. ⏱️ Duración estimada: **85 min**.
+>
+> 🎚️ **Nivel:** Avanzado
 
 ## 🎯 Objetivo
 

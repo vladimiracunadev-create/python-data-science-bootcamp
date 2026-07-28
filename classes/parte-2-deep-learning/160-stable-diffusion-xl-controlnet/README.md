@@ -1,6 +1,8 @@
 # Clase 160 — Stable Diffusion XL + ControlNet en profundidad
 
 > Parte: **2 — Deep Learning** · Fuente: Rombach et al. (2022) SD + Podell et al. (2023) SDXL + Zhang et al. (2023) ControlNet. ⏱️ Duración estimada: **90 min**.
+>
+> 🎚️ **Nivel:** Avanzado
 
 ## 🎯 Objetivo
 

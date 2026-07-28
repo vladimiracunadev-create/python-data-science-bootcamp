@@ -1,6 +1,8 @@
 # Clase 166 — TF Serving + gRPC (+ ONNX, TensorRT, vLLM/TGI)
 
 > Parte: **2 — Deep Learning** · Fuente: Géron, **cap. 19** § *Deploying a Model to a Service* + docs ONNX, TensorRT, vLLM, TGI. ⏱️ Duración estimada: **100 min**.
+>
+> 🎚️ **Nivel:** Avanzado
 
 ## 🎯 Objetivo
 

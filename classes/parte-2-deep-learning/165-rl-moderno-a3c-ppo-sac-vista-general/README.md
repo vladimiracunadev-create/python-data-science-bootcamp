@@ -1,6 +1,8 @@
 # Clase 165 — RL moderno: A3C, PPO, SAC (vista general)
 
 > Parte: **2 — Deep Learning** · Fuente: papers A3C (Mnih 2016), PPO (Schulman 2017), SAC (Haarnoja 2018) + docs Stable-Baselines3. ⏱️ Duración estimada: **65 min**.
+>
+> 🎚️ **Nivel:** Avanzado
 
 ## 🎯 Objetivo
 

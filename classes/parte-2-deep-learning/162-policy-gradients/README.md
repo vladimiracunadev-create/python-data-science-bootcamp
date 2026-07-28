@@ -1,6 +1,8 @@
 # Clase 162 — Policy gradients
 
 > Parte: **2 — Deep Learning** · Fuente: Géron, **cap. 18** § *Policy Gradients* + Sutton & Barto, cap. 13. ⏱️ Duración estimada: **70 min**.
+>
+> 🎚️ **Nivel:** Avanzado
 
 ## 🎯 Objetivo
 

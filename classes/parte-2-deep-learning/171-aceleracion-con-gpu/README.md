@@ -1,6 +1,8 @@
 # Clase 171 — Aceleración con GPU
 
 > Parte: **2 — Deep Learning** · Fuente: Géron, **cap. 19** § *Using GPUs to Speed Up Computations*. ⏱️ Duración estimada: **60 min**.
+>
+> 🎚️ **Nivel:** Avanzado
 
 ## 🎯 Objetivo
 

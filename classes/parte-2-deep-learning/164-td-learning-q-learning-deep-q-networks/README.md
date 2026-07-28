@@ -1,6 +1,8 @@
 # Clase 164 — TD Learning, Q-Learning, Deep Q-Networks
 
 > Parte: **2 — Deep Learning** · Fuente: Géron, **cap. 18** § *Q-Learning* y § *Deep Q-Learning*. ⏱️ Duración estimada: **80 min**.
+>
+> 🎚️ **Nivel:** Avanzado
 
 ## 🎯 Objetivo
 

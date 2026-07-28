@@ -1,6 +1,8 @@
 # Clase 161 — RL: aprendizaje por recompensa, Gymnasium (Farama)
 
 > Parte: **2 — Deep Learning** · Fuente: Géron, **cap. 18** § *Introduction to Reinforcement Learning* + docs Gymnasium. ⏱️ Duración estimada: **75 min**.
+>
+> 🎚️ **Nivel:** Avanzado
 
 ## 🎯 Objetivo
 

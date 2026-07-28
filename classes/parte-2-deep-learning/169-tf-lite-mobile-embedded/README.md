@@ -1,6 +1,8 @@
 # Clase 169 — TF Lite (mobile/embedded)
 
 > Parte: **2 — Deep Learning** · Fuente: Géron, **cap. 19** § *Deploying a Model to a Mobile or Embedded Device*. ⏱️ Duración estimada: **55 min**.
+>
+> 🎚️ **Nivel:** Avanzado
 
 ## 🎯 Objetivo
 

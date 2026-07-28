@@ -1,6 +1,8 @@
 # Clase 167 — ONNX y ONNX Runtime: portabilidad e inference optimizada
 
 > Parte: **2 — Deep Learning** · Fuente: [ONNX docs](https://onnx.ai/) + ONNX Runtime team blogs. ⏱️ Duración estimada: **80 min**.
+>
+> 🎚️ **Nivel:** Avanzado
 
 ## 🎯 Objetivo
 

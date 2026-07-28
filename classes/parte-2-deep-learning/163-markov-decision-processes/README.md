@@ -1,6 +1,8 @@
 # Clase 163 — Markov Decision Processes
 
 > Parte: **2 — Deep Learning** · Fuente: Géron, **cap. 18** § *Markov Decision Processes* + Sutton & Barto cap. 3. ⏱️ Duración estimada: **60 min**.
+>
+> 🎚️ **Nivel:** Avanzado
 
 ## 🎯 Objetivo
 

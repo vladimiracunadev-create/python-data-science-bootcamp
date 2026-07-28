@@ -1,6 +1,8 @@
 # Clase 172 — Entrenamiento multi-dispositivo, tf.distribute
 
 > Parte: **2 — Deep Learning** · Fuente: Géron, **cap. 19** § *Training Models Across Multiple Devices*. ⏱️ Duración estimada: **75 min**.
+>
+> 🎚️ **Nivel:** Avanzado
 
 ## 🎯 Objetivo
 

@@ -1,6 +1,8 @@
 # Clase 157 — Variational Autoencoders (VAE)
 
 > Parte: **2 — Deep Learning** · Fuente: Géron, **cap. 17** § *Variational Autoencoders* + Kingma & Welling (2014). ⏱️ Duración estimada: **80 min**.
+>
+> 🎚️ **Nivel:** Avanzado
 
 ## 🎯 Objetivo
 
