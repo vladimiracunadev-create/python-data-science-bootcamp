@@ -2,6 +2,7 @@
 
 > Parte: **1 — Machine Learning Clásico** · Fuente: Géron, **cap. 2** § *Select and Train a Model*.
 > ⏱️ Duración estimada: **60 min**.
+> 🎚️ **Nivel:** Intermedio
 
 ---
 

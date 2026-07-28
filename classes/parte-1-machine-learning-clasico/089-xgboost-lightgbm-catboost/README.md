@@ -2,6 +2,8 @@
 
 > Parte: **1 — Machine Learning Clásico** · Fuente: docs XGBoost/LightGBM/CatBoost + Géron, **cap. 7**. ⏱️ Duración estimada: **80 min**.
 
+> 🎚️ **Nivel:** Avanzado
+
 ## 🎯 Objetivo
 
 Conocer las tres librerías de **gradient boosting moderno** que dominan tabular ML —XGBoost, LightGBM y CatBoost—, entender sus diferencias algorítmicas (level-wise vs leaf-wise, manejo de categóricas, regularización) y saber elegir la adecuada según el problema, usando sus APIs sklearn-compatibles con `early_stopping_rounds`.

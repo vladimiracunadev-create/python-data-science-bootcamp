@@ -1,6 +1,7 @@
 # Clase 057 — Fine-tuning: grid search y randomized search
 
 > Parte: **1 — Machine Learning Clásico** · Fuente: Géron, **cap. 2**. ⏱️ Duración estimada: **70 min**.
+> 🎚️ **Nivel:** Intermedio
 
 ---
 

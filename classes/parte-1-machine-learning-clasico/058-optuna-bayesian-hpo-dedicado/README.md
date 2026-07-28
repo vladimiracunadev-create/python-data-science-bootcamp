@@ -1,6 +1,7 @@
 # Clase 058 — Optuna y HPO bayesiano dedicado
 
 > Parte: **1 — Machine Learning Clásico** · Fuente: Akiba et al. (2019) + [Optuna docs](https://optuna.org/). ⏱️ Duración estimada: **80 min**.
+> 🎚️ **Nivel:** Intermedio
 
 ## 🎯 Objetivo
 

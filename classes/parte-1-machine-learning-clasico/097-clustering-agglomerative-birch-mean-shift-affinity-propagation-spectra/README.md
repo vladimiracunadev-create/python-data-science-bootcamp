@@ -2,6 +2,8 @@
 
 > Parte: **1 — Machine Learning Clásico** · Fuente: Géron, **cap. 9** § *Other Clustering Algorithms*. ⏱️ Duración estimada: **70 min**.
 
+> 🎚️ **Nivel:** Avanzado
+
 ---
 
 ## 🎯 Objetivo

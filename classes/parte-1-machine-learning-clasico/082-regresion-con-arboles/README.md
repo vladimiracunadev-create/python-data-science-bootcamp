@@ -1,6 +1,8 @@
 # Clase 082 — Regresión con árboles
 
 > Parte: **1 — Machine Learning Clásico** · Fuente: Géron, **cap. 6**. ⏱️ Duración estimada: **45 min**.
+>
+> 🎚️ **Nivel:** Intermedio
 
 ## 🎯 Objetivo
 

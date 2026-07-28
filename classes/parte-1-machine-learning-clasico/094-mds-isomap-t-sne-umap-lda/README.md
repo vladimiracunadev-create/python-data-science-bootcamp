@@ -2,6 +2,8 @@
 
 > Parte: **1 — Machine Learning Clásico** · Fuente: Géron, **cap. 8** + UMAP docs. ⏱️ Duración estimada: **80 min**.
 
+> 🎚️ **Nivel:** Avanzado
+
 ## 🎯 Objetivo
 
 Conocer y aplicar técnicas de reducción de dimensionalidad más allá de PCA: MDS, Isomap, t-SNE, UMAP y LDA. Entender qué preserva cada una (distancias, geodésicas, vecindarios locales, estructura global, separación entre clases) y cuándo elegir cada método según el problema (visualización 2D, preprocesamiento para clasificación, datos en variedades no lineales).

@@ -1,6 +1,8 @@
 # Clase 067 — Clasificación multiclase, multilabel, multioutput
 
 > Parte: **1 — Machine Learning Clásico** · Fuente: Géron, **cap. 3**. ⏱️ Duración estimada: **60 min**.
+>
+> 🎚️ **Nivel:** Intermedio
 
 ---
 

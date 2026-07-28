@@ -2,6 +2,7 @@
 
 > Parte: **1 — Machine Learning Clásico** · Fuente: Géron, **cap. 2** § *Launch, Monitor, and Maintain Your System*.
 > ⏱️ Duración estimada: **60 min**.
+> 🎚️ **Nivel:** Intermedio
 
 ---
 

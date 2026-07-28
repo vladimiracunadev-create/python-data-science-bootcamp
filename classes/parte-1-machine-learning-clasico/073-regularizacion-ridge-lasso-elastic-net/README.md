@@ -1,6 +1,8 @@
 # Clase 073 — Regularización: Ridge, Lasso, Elastic Net
 
 > Parte: **1 — Machine Learning Clásico** · Fuente: Géron, **cap. 4**. ⏱️ Duración estimada: **70 min**.
+>
+> 🎚️ **Nivel:** Intermedio
 
 ## 🎯 Objetivo
 

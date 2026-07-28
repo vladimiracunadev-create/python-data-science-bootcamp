@@ -1,6 +1,8 @@
 # Clase 079 — SVM para regresión (SVR)
 
 > Parte: **1 — Machine Learning Clásico** · Fuente: Géron, **cap. 5**. ⏱️ Duración estimada: **50 min**.
+>
+> 🎚️ **Nivel:** Intermedio
 
 ## 🎯 Objetivo
 

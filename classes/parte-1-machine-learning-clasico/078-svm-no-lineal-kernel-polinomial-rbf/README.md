@@ -1,6 +1,8 @@
 # Clase 078 — SVM no lineal: kernel polinomial y RBF
 
 > Parte: **1 — Machine Learning Clásico** · Fuente: Géron, **cap. 5**. ⏱️ Duración estimada: **70 min**.
+>
+> 🎚️ **Nivel:** Intermedio
 
 ---
 

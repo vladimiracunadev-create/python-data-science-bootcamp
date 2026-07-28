@@ -1,6 +1,8 @@
 # Clase 070 — Gradient Descent: batch, stochastic, mini-batch
 
 > Parte: **1 — Machine Learning Clásico** · Fuente: Géron, **cap. 4**. ⏱️ Duración estimada: **60 min**.
+>
+> 🎚️ **Nivel:** Intermedio
 
 ---
 

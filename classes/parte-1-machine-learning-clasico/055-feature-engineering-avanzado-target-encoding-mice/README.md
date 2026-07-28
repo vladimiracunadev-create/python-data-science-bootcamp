@@ -1,6 +1,7 @@
 # Clase 055 — Feature Engineering avanzado: target encoding + MICE imputation
 
 > Parte: **1 — Machine Learning Clásico** · Fuente: Micci-Barreca (2001) target encoding + Van Buuren (2018) *Flexible Imputation of Missing Data*. ⏱️ Duración estimada: **85 min**.
+> 🎚️ **Nivel:** Intermedio
 
 ## 🎯 Objetivo
 

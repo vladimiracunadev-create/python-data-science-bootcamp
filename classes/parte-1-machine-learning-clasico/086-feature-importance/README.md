@@ -2,6 +2,8 @@
 
 > Parte: **1 — Machine Learning Clásico** · Fuente: Géron, **cap. 7** + sklearn permutation_importance docs. ⏱️ Duración estimada: **70 min**.
 
+> 🎚️ **Nivel:** Intermedio
+
 ## 🎯 Objetivo
 
 Aprender a medir y comunicar qué variables aportan a un modelo basado en árboles, distinguiendo entre **Mean Decrease in Impurity (MDI)** —el `feature_importances_` por default de scikit-learn— y **permutation importance**, entendiendo los sesgos de cada método. Como complemento, conocer las herramientas modernas de interpretabilidad **SHAP** y **LIME** para explicar predicciones individuales.

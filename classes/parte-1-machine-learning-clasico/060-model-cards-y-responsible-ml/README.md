@@ -1,6 +1,7 @@
 # Clase 060 — Model Cards y Responsible ML
 
 > Parte: **1 — Machine Learning Clásico** · Fuente: Mitchell et al. (2018) *Model Cards for Model Reporting* + EU AI Act + NIST AI RMF. ⏱️ Duración estimada: **70 min**.
+> 🎚️ **Nivel:** Intermedio
 
 ## 🎯 Objetivo
 

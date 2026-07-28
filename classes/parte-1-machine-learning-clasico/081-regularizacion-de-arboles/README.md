@@ -1,6 +1,8 @@
 # Clase 081 — Regularización de árboles
 
 > Parte: **1 — Machine Learning Clásico** · Fuente: Géron, **cap. 6**. ⏱️ Duración estimada: **50 min**.
+>
+> 🎚️ **Nivel:** Intermedio
 
 ---
 

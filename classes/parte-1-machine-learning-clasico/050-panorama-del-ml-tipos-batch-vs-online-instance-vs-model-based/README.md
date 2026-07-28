@@ -1,6 +1,7 @@
 # Clase 050 — Panorama del ML: tipos, batch vs online, instance vs model-based
 
 > Parte: **1 — Machine Learning Clásico** · Fuente: Géron, **cap. 1**. ⏱️ Duración estimada: **60 min**.
+> 🎚️ **Nivel:** Básico-Intermedio
 
 ---
 

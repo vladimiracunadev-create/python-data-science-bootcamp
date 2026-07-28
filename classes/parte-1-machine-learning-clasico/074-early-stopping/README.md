@@ -1,6 +1,8 @@
 # Clase 074 — Early stopping
 
 > Parte: **1 — Machine Learning Clásico** · Fuente: Géron, **cap. 4**. ⏱️ Duración estimada: **45 min**.
+>
+> 🎚️ **Nivel:** Intermedio
 
 ## 🎯 Objetivo
 

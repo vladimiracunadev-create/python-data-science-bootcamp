@@ -2,6 +2,8 @@
 
 > Parte: **1 — Machine Learning Clásico** · Fuente: Géron, **cap. 9**. ⏱️ Duración estimada: **70 min**.
 
+> 🎚️ **Nivel:** Intermedio
+
 ## 🎯 Objetivo
 
 Aplicar K-Means para segmentar datos no etiquetados, elegir el número de clusters `K` con criterios reproducibles (elbow, silhouette) y escalar el algoritmo con `MiniBatchKMeans` cuando el dataset no entra cómodo en memoria.

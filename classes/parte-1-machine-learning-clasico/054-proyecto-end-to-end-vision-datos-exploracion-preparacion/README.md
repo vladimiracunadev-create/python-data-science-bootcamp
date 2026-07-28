@@ -1,6 +1,7 @@
 # Clase 054 — Proyecto end-to-end: visión, datos, exploración, preparación
 
 > Parte: **1 — Machine Learning Clásico** · Fuente: Géron, **cap. 2** (California Housing). ⏱️ Duración estimada: **90 min**.
+> 🎚️ **Nivel:** Básico-Intermedio
 
 ---
 

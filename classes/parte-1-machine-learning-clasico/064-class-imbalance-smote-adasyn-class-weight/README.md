@@ -1,6 +1,7 @@
 # Clase 064 — Class imbalance: SMOTE, ADASYN, class_weight, threshold tuning
 
 > Parte: **1 — Machine Learning Clásico** · Fuente: Chawla et al. (2002) SMOTE + He et al. (2008) ADASYN + [imbalanced-learn](https://imbalanced-learn.org/) docs. ⏱️ Duración estimada: **80 min**.
+> 🎚️ **Nivel:** Intermedio
 
 ## 🎯 Objetivo
 

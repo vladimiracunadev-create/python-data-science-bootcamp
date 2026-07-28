@@ -2,6 +2,8 @@
 
 > Parte: **1 — Machine Learning Clásico** · Fuente: Géron, **cap. 6** § *Training and Visualizing a Decision Tree*.
 > ⏱️ Duración estimada: **60 min**.
+>
+> 🎚️ **Nivel:** Intermedio
 
 ---
 

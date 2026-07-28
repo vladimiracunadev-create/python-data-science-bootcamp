@@ -1,6 +1,7 @@
 # Clase 051 — Desafíos del ML: overfitting, underfitting, datos insuficientes
 
 > Parte: **1 — Machine Learning Clásico** · Fuente: Géron, **cap. 1**. ⏱️ Duración estimada: **60 min**.
+> 🎚️ **Nivel:** Básico-Intermedio
 
 ---
 

@@ -1,6 +1,7 @@
 # Clase 061 — CRISP-DM como framework metodológico
 
 > Parte: **1 — Machine Learning Clásico** · Fuente: CRISP-DM 1.0 spec + Géron cap. 2. ⏱️ Duración estimada: **50 min**.
+> 🎚️ **Nivel:** Intermedio
 
 ---
 

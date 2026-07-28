@@ -2,6 +2,8 @@
 
 > Parte: **1 — Machine Learning Clásico** · Fuente: Géron, **cap. 9** + sklearn outlier detection. ⏱️ Duración estimada: **70 min**.
 
+> 🎚️ **Nivel:** Intermedio
+
 ---
 
 ## 🎯 Objetivo

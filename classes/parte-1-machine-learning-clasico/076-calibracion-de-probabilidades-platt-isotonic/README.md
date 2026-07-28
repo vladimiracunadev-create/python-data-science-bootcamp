@@ -1,6 +1,8 @@
 # Clase 076 — Calibración de probabilidades: Platt, isotonic, temperature scaling
 
 > Parte: **1 — Machine Learning Clásico** · Fuente: Platt (1999) + Niculescu-Mizil & Caruana (2005) + Guo et al. (2017). ⏱️ Duración estimada: **75 min**.
+>
+> 🎚️ **Nivel:** Intermedio
 
 ## 🎯 Objetivo
 

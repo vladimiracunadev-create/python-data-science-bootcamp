@@ -1,6 +1,7 @@
 # Clase 053 — Validación temporal: TimeSeriesSplit, walk-forward, blocking
 
 > Parte: **1 — Machine Learning Clásico** · Fuente: Bergmeir & Benítez (2012) + sklearn TimeSeriesSplit docs. ⏱️ Duración estimada: **70 min**.
+> 🎚️ **Nivel:** Básico-Intermedio
 
 ## 🎯 Objetivo
 

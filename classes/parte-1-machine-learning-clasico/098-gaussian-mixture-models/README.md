@@ -2,6 +2,8 @@
 
 > Parte: **1 — Machine Learning Clásico** · Fuente: Géron, **cap. 9**. ⏱️ Duración estimada: **70 min**.
 
+> 🎚️ **Nivel:** Intermedio
+
 ## 🎯 Objetivo
 
 Entender los **Gaussian Mixture Models (GMM)** como modelo probabilístico de *soft clustering*, ajustarlos con el algoritmo **EM** en scikit-learn, elegir el número de componentes con **BIC/AIC**, y conocer las variantes (`covariance_type`, `BayesianGaussianMixture`) para aplicarlas en clustering, densidad y detección de anomalías.

@@ -3,6 +3,8 @@
 > Parte: **1 — Machine Learning Clásico** · Fuente: Géron, **cap. 8** § *The Curse of Dimensionality*.
 > ⏱️ Duración estimada: **45 min**.
 
+> 🎚️ **Nivel:** Intermedio
+
 ---
 
 ## 🎯 Objetivo

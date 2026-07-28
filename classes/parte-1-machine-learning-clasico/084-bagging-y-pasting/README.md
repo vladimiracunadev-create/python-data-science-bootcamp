@@ -2,6 +2,8 @@
 
 > Parte: **1 — Machine Learning Clásico** · Fuente: Géron, **cap. 7**. ⏱️ Duración estimada: **55 min**.
 
+> 🎚️ **Nivel:** Intermedio
+
 ---
 
 ## 🎯 Objetivo

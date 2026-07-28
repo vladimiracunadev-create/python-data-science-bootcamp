@@ -2,6 +2,8 @@
 
 > Parte: **1 — Machine Learning Clásico** · Fuente: Géron, **cap. 8**. ⏱️ Duración estimada: **80 min**.
 
+> 🎚️ **Nivel:** Intermedio
+
 ## 🎯 Objetivo
 
 Dominar **PCA** como técnica de reducción de dimensionalidad lineal: entender la proyección al subespacio de máxima varianza vía SVD, elegir el número de componentes con `explained_variance_ratio_`, y aplicar las variantes (**Incremental**, **Randomized**, **Kernel**) según el tamaño y la geometría del dataset.

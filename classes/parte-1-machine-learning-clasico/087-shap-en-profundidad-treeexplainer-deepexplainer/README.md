@@ -2,6 +2,8 @@
 
 > Parte: **1 — Machine Learning Clásico** · Fuente: Lundberg & Lee (2017) + [shap docs](https://shap.readthedocs.io/). ⏱️ Duración estimada: **90 min**.
 
+> 🎚️ **Nivel:** Avanzado
+
 ## 🎯 Objetivo
 
 Dominar **SHAP** (SHapley Additive exPlanations) en profundidad: teoría de Shapley values (teoría de juegos cooperativos), **TreeExplainer** (rápido y exacto para árboles), **KernelExplainer** (model-agnostic, lento), **DeepExplainer** (para NN), y los plots clave: `summary_plot`, `waterfall_plot`, `force_plot`, `dependence_plot`, `decision_plot`.

@@ -1,6 +1,7 @@
 # Clase 052 — Testing, validación, hyperparameter tuning, no free lunch theorem
 
 > Parte: **1 — Machine Learning Clásico** · Fuente: Géron, **cap. 2** + sklearn user guide. ⏱️ Duración estimada: **70 min**.
+> 🎚️ **Nivel:** Básico-Intermedio
 
 ---
 

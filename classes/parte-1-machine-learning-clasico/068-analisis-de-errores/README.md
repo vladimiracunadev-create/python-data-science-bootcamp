@@ -1,6 +1,8 @@
 # Clase 068 — Análisis de errores
 
 > Parte: **1 — Machine Learning Clásico** · Fuente: Géron, **cap. 3** § *Error Analysis*. ⏱️ Duración estimada: **60 min**.
+>
+> 🎚️ **Nivel:** Intermedio
 
 ---
 

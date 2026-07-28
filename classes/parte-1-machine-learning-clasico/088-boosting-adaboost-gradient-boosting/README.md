@@ -2,6 +2,8 @@
 
 > Parte: **1 — Machine Learning Clásico** · Fuente: Géron, **cap. 7**. ⏱️ Duración estimada: **70 min**.
 
+> 🎚️ **Nivel:** Intermedio
+
 ## 🎯 Objetivo
 
 Entender la idea de **boosting** como combinación secuencial de aprendices débiles, dominar los dos enfoques clásicos —**AdaBoost** (reponderar errores) y **Gradient Boosting** (ajustar al residuo)— y saber tunear `learning_rate`, `n_estimators` y aplicar **early stopping** con `staged_predict`.

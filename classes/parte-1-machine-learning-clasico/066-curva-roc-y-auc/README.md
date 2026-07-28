@@ -2,6 +2,7 @@
 
 > Parte: **1 — Machine Learning Clásico** · Fuente: Géron, **cap. 3** § *The ROC Curve*.
 > ⏱️ Duración estimada: **50 min**.
+> 🎚️ **Nivel:** Intermedio
 
 ---
 

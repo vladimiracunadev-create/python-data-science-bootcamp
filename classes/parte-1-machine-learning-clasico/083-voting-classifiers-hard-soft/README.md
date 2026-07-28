@@ -1,6 +1,8 @@
 # Clase 083 — Voting classifiers: hard y soft
 
 > Parte: **1 — Machine Learning Clásico** · Fuente: Géron, **cap. 7**. ⏱️ Duración estimada: **45 min**.
+>
+> 🎚️ **Nivel:** Intermedio
 
 ## 🎯 Objetivo
 

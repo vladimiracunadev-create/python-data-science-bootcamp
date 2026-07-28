@@ -1,6 +1,8 @@
 # Clase 071 — Regresión polinomial
 
 > Parte: **1 — Machine Learning Clásico** · Fuente: Géron, **cap. 4** § *Polynomial Regression*. ⏱️ Duración estimada: **50 min**.
+>
+> 🎚️ **Nivel:** Intermedio
 
 ---
 

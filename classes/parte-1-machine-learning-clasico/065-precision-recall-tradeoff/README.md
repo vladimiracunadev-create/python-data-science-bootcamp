@@ -1,6 +1,7 @@
 # Clase 065 — Precision/Recall tradeoff
 
 > Parte: **1 — Machine Learning Clásico** · Fuente: Géron, **cap. 3**. ⏱️ Duración estimada: **50 min**.
+> 🎚️ **Nivel:** Intermedio
 
 ---
 

@@ -1,6 +1,8 @@
 # Clase 072 — Curvas de aprendizaje y bias-variance tradeoff
 
 > Parte: **1 — Machine Learning Clásico** · Fuente: Géron, **cap. 4**. ⏱️ Duración estimada: **60 min**.
+>
+> 🎚️ **Nivel:** Intermedio
 
 ## 🎯 Objetivo
 

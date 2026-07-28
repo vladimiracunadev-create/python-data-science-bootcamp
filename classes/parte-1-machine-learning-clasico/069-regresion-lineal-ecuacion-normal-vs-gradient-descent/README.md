@@ -1,6 +1,8 @@
 # Clase 069 — Regresión lineal: ecuación normal vs gradient descent
 
 > Parte: **1 — Machine Learning Clásico** · Fuente: Géron, **cap. 4** § *Linear Regression*. ⏱️ Duración estimada: **60 min**.
+>
+> 🎚️ **Nivel:** Intermedio
 
 ---
 

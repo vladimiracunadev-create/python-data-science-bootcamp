@@ -1,6 +1,7 @@
 # Clase 063 — Métricas: confusion matrix, precision, recall, F1
 
 > Parte: **1 — Machine Learning Clásico** · Fuente: Géron, **cap. 3**. ⏱️ Duración estimada: **70 min**.
+> 🎚️ **Nivel:** Intermedio
 
 ---
 
