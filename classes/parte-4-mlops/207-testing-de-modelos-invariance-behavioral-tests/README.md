@@ -1,6 +1,8 @@
 # Clase 207 — Testing de modelos: invariance + behavioral tests
 
 > Parte: **4 — MLOps** · Fuente: Ribeiro et al., [*Beyond Accuracy: Behavioral Testing of NLP Models with CheckList*](https://aclanthology.org/2020.acl-main.442/) (ACL 2020, best paper) + Huyen **cap. 9** + [Deepchecks docs](https://docs.deepchecks.com/). ⏱️ Duración estimada: **80 min**.
+>
+> 🎚️ **Nivel:** Avanzado
 
 ## 🎯 Objetivo
 

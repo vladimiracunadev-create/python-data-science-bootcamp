@@ -1,6 +1,8 @@
 # Clase 196 — Feature stores (Feast)
 
 > Parte: **4 — MLOps** · Fuente: Huyen **cap. 6** + [Feast docs 0.40+](https://docs.feast.dev/). ⏱️ Duración estimada: **70 min**.
+>
+> 🎚️ **Nivel:** Avanzado
 
 ## 🎯 Objetivo
 

@@ -1,6 +1,8 @@
 # Clase 201 — Serverless ML: AWS Lambda, GCP Cloud Functions
 
 > Parte: **4 — MLOps** · Fuente: Huyen **cap. 11** + [docs Lambda container images](https://docs.aws.amazon.com/lambda/latest/dg/images-create.html) + [Cloud Functions 2nd gen](https://cloud.google.com/functions/docs/concepts/execution-environment). ⏱️ Duración estimada: **75 min**.
+>
+> 🎚️ **Nivel:** Avanzado
 
 ## 🎯 Objetivo
 

@@ -1,6 +1,8 @@
 # Clase 203 — Reentrenamiento programado
 
 > Parte: **4 — MLOps** · Fuente: Huyen **cap. 9** + [Airflow docs](https://airflow.apache.org/) + [Prefect docs](https://docs.prefect.io/). ⏱️ Duración estimada: **75 min**.
+>
+> 🎚️ **Nivel:** Avanzado
 
 ## 🎯 Objetivo
 

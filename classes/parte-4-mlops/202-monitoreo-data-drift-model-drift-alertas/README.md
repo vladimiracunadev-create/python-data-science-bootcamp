@@ -1,6 +1,8 @@
 # Clase 202 — Monitoreo: data drift, model drift, alertas
 
 > Parte: **4 — MLOps** · Fuente: Huyen **cap. 8** + [Evidently AI docs](https://docs.evidentlyai.com/) + [NannyML](https://nannyml.readthedocs.io/) + Gama et al., *A Survey on Concept Drift Adaptation* (ACM, 2014). ⏱️ Duración estimada: **80 min**.
+>
+> 🎚️ **Nivel:** Avanzado
 
 ## 🎯 Objetivo
 

@@ -1,6 +1,8 @@
 # Clase 194 — Versionado de datos con DVC
 
 > Parte: **4 — MLOps** · Fuente: Huyen, *Designing Machine Learning Systems* **cap. 6** + [docs oficiales DVC 3.x](https://dvc.org/doc). ⏱️ Duración estimada: **75 min**.
+>
+> 🎚️ **Nivel:** Avanzado
 
 ## 🎯 Objetivo
 

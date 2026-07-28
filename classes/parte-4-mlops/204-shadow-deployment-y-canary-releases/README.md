@@ -1,6 +1,8 @@
 # Clase 204 — Shadow deployment y canary releases
 
 > Parte: **4 — MLOps** · Fuente: Huyen **cap. 11** + Fowler, *Continuous Delivery* + [Istio traffic management](https://istio.io/latest/docs/concepts/traffic-management/). ⏱️ Duración estimada: **75 min**.
+>
+> 🎚️ **Nivel:** Avanzado
 
 ## 🎯 Objetivo
 

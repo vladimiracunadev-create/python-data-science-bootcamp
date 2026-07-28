@@ -1,6 +1,8 @@
 # Clase 199 — APIs con FastAPI sirviendo modelos
 
 > Parte: **4 — MLOps** · Fuente: Huyen **cap. 11** + [docs FastAPI](https://fastapi.tiangolo.com/) + Ramalho cap. 5. ⏱️ Duración estimada: **80 min**.
+>
+> 🎚️ **Nivel:** Avanzado
 
 ## 🎯 Objetivo
 

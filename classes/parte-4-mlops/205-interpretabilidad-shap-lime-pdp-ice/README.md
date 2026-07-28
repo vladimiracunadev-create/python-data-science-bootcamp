@@ -1,6 +1,8 @@
 # Clase 205 — Interpretabilidad: SHAP, LIME, PDP, ICE
 
 > Parte: **4 — MLOps** · Fuente: [Molnar, *Interpretable ML* (2ª ed.)](https://christophm.github.io/interpretable-ml-book/) + Lundberg & Lee (2017, *NIPS*, SHAP paper) + Ribeiro et al. (2016, *KDD*, LIME paper). ⏱️ Duración estimada: **80 min**.
+>
+> 🎚️ **Nivel:** Avanzado
 
 > 📎 Esta clase es **complementaria** a la Clase 079 (SHAP profundo, Parte 1). Acá el foco es **producción**: cómo integrar interpretabilidad al servicio (`/explain` endpoint), cómo escalar SHAP a grandes datasets, y cómo presentar explicaciones a stakeholders no técnicos.
 

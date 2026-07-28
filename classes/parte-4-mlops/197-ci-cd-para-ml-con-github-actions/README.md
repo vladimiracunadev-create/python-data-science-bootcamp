@@ -1,6 +1,8 @@
 # Clase 197 — CI/CD para ML con GitHub Actions
 
 > Parte: **4 — MLOps** · Fuente: Huyen **cap. 10** + [docs GitHub Actions](https://docs.github.com/en/actions) + [CML.dev](https://cml.dev/). ⏱️ Duración estimada: **80 min**.
+>
+> 🎚️ **Nivel:** Avanzado
 
 ## 🎯 Objetivo
 

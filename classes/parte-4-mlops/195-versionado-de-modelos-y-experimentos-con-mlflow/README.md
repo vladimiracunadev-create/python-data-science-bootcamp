@@ -1,6 +1,8 @@
 # Clase 195 — Versionado de modelos y experimentos con MLflow
 
 > Parte: **4 — MLOps** · Fuente: Huyen, *Designing Machine Learning Systems* **cap. 6 + 11** + [docs MLflow 2.x](https://mlflow.org/docs/latest/). ⏱️ Duración estimada: **75 min**.
+>
+> 🎚️ **Nivel:** Avanzado
 
 ## 🎯 Objetivo
 

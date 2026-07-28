@@ -1,6 +1,8 @@
 # Clase 200 — Kubernetes para servir modelos a escala
 
 > Parte: **4 — MLOps** · Fuente: Huyen **cap. 11** + Burns et al., *Kubernetes: Up and Running* (3ª ed.) + [docs k8s](https://kubernetes.io/docs/). ⏱️ Duración estimada: **90 min**.
+>
+> 🎚️ **Nivel:** Avanzado
 
 ## 🎯 Objetivo
 

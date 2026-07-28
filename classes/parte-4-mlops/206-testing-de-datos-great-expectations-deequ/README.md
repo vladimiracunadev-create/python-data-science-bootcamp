@@ -1,6 +1,8 @@
 # Clase 206 — Testing de datos: Great Expectations, Deequ
 
 > Parte: **4 — MLOps** · Fuente: Huyen **cap. 4** + [Great Expectations docs (1.x)](https://docs.greatexpectations.io/) + [Deequ paper](https://www.amazon.science/publications/automating-large-scale-data-quality-verification). ⏱️ Duración estimada: **75 min**.
+>
+> 🎚️ **Nivel:** Avanzado
 
 ## 🎯 Objetivo
 

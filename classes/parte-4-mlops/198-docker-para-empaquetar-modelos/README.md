@@ -1,6 +1,8 @@
 # Clase 198 — Docker para empaquetar modelos
 
 > Parte: **4 — MLOps** · Fuente: Huyen **cap. 11** + [docs Docker](https://docs.docker.com/) + Nilsson, *Docker Deep Dive*. ⏱️ Duración estimada: **75 min**.
+>
+> 🎚️ **Nivel:** Avanzado
 
 ## 🎯 Objetivo
 
