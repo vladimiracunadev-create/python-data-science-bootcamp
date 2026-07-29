@@ -13,6 +13,33 @@
 
 ---
 
+## [v3.10.0] — 2026-07-28 (Mejora pedagógica profunda — solucionario, niveles y ejecutabilidad para autoestudio)
+
+Tras una **auditoría pedagógica de las 232 clases** (lente autoestudio desde cero, informe en `docs/AUDITORIA_PEDAGOGICA.md`), se implementaron las mejoras que faltaban para que el curso sirva a un principiante **sin instructor**. Los dos gaps sistémicos que detectó la auditoría eran: (1) los ejercicios no traían solución trabajada, y (2) las clases concepto/CLI/despliegue no demostraban nada ejecutable.
+
+### Añadido
+- **Solucionario en las 232 clases.** Cada `notebook.ipynb` gana una sección final `## ✅ Soluciones de los ejercicios`: por cada ejercicio del README, una solución trabajada, comentada y **ejecutable con `assert`/`print`** (≈1 160 soluciones). Las librerías no instaladas (pingouin, dowhy/econml, pysyncon, aif360, surprise/lightfm/implicit, opacus, flower) se **reimplementan desde cero** en numpy/scipy para que la solución corra sin internet; los frameworks pesados (TF/torch/transformers) llevan el código correcto de referencia + un núcleo ejecutable.
+- **Tag de nivel** (`🎚️ Nivel: Básico / Intermedio / Avanzado`) en el header de cada README, para orientar al alumno self-paced.
+- **Intuición previa** (`## 🧠 Intuición previa`, analogía antes de la definición densa) en las clases que la auditoría marcó con andamiaje flojo (053, 055, 058, 064, 076, 087, 094, 097, 100, 107, 116, 128, 135, 142, 152, 157, 163, 168, 177, 183, 186, 188, 192, 200, 202, 210, 217, 224, 225, …).
+
+### Corregido
+- **Clases mock / de frontera** que "vendían" demos falsas: 117 (stochastic-depth), 141 (encoder-decoder), 146 (CLIP), 158 (GAN) ahora incluyen en la solución un núcleo real ejecutable (p. ej. GAN de juguete en numpy que converge, coseno multimodal, greedy decode correcto).
+- **Clases de despliegue/cloud** sin demostración: 166 (TF Serving) gana una simulación local ejecutable (servir un modelo sklearn con `http.server`), 169 cuantización int8 a mano en numpy, etc.
+- **Setup/tooling** (001 venv, 003 git, 004 cookiecutter, 005 VS Code): walkthrough **ejecutable** en tempdir (crear/inspeccionar un venv real, correr git de verdad en repos temporales y simular un PR con remoto `--bare`, generar el árbol CCDS).
+- **Higiene:** 37 enlaces internos rotos, typos (ADASIN→ADASYN, …) y desalineaciones README↔notebook.
+- **Bugs pre-existentes destapados** al ejecutar con el entorno bleeding-edge (pandas 3.0 / numpy 2.4 / sklearn 1.8 / polars 1.43): 014, 037, 045, 048, 076, 095, 207, 223, entre otros.
+
+### Cambiado
+- Regenerados los `guia-explicativa.pdf` / `presentacion.pptx` de las 232 clases + `curso-completo.pdf`/`.pptx` + bundles por parte. Bundle móvil `classes.js` regenerado y en sync (validado por `tests/test_mobile_curriculum.py`, CI verde).
+- Versión `3.9.0 → 3.10.0`. Android `versionCode 40 → 41`.
+- Añadido `scripts/nbbuild.py` (builder/runner de notebooks) y `.gitignore` para artefactos de ejecución.
+
+### Release
+- **`PythonDSProgram_windows_portable_v3.10.0.zip`** — app Windows reconstruida con los 232 notebooks (ya con solucionario) embebidos.
+- **APK Android**: el catálogo embebido (`classes.js`) se actualiza con los niveles; los enlaces a Colab siguen apuntando a los notebooks reales en `main` (232 enlaces a rama `main`, 0 rotos). Requiere rebuild con toolchain Android.
+
+---
+
 ## [v3.9.0] — 2026-07-27 (Los 112 notebooks stub resueltos — 232/232 cuadernos con contenido real)
 
 ### Corregido

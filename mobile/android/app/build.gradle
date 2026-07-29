@@ -119,8 +119,8 @@ android {
         applicationId 'com.pythondsprogram'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 40
-        versionName "3.9.0"
+        versionCode 41
+        versionName "3.10.0"
     }
     signingConfigs {
         debug {

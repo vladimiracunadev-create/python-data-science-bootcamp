@@ -20,7 +20,7 @@ def test_package_metadata_importable():
     """El paquete y su versión deben importar sin tocar Qt."""
     import app_desktop
 
-    assert app_desktop.__version__ == "3.9.0"
+    assert app_desktop.__version__ == "3.10.0"
 
 
 def test_curriculum_adapter_lists_232_classes():

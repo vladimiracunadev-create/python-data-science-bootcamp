@@ -338,7 +338,7 @@ def render(parts: list[dict[str, Any]], classes: list[dict[str, Any]]) -> str:
 // El contenido va embebido en el bundle JS para que el programa se pueda leer
 // sin conexión; solo los enlaces a Colab requieren internet.
 
-export const CURRICULUM_VERSION = "v3.9.0";
+export const CURRICULUM_VERSION = "v3.10.0";
 
 export const PARTS = {dump(parts)};
 
