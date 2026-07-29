@@ -28,3 +28,24 @@ dist_installer/*.exe
 dist_installer/*.apk
 dist_installer/*.zip
 dist_installer/*.aab
+
+# Artefactos generados al EJECUTAR los notebooks de clase (los notebooks se
+# committean sin outputs; estos archivos son subproductos de la ejecucion).
+classes/**/*.png
+classes/**/*.pkl
+classes/**/*.joblib
+classes/**/*.h5
+classes/**/*.keras
+classes/**/*.onnx
+classes/**/*.tflite
+classes/**/*.db
+classes/**/*.sqlite
+classes/**/.last_alert
+classes/**/model.pkl
+classes/**/manifest.json
+classes/**/index.html
+classes/**/backend.js
+classes/**/Dockerfile
+classes/**/mlruns/
+classes/**/.dvc/
+classes/**/outputs/
