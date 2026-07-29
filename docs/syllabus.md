@@ -83,12 +83,12 @@ Capaz de:
 | Componente | Estado |
 |---|---|
 | Estructura de carpetas (232) | ✅ creada |
-| README por clase | 🎓 **232/232 completos y modernizados** (v3.9.0 · 100%) |
-| `notebook.ipynb` por clase | 🎓 **232/232 ejecutables · cobertura 100% real** (v3.9.0) — todas las clases corren en el laboratorio con kernel Jupyter real |
-| Contenido pedagógico real | 🎓 **232 READMEs · 232 notebooks ejecutables · 100% real** (v3.9.0) |
-| Definiciones + Errores comunes + FAQ por clase | 🎓 **232/232** (v3.9.0 · 100%) |
+| README por clase | 🎓 **232/232 completos y modernizados** (v3.10.0 · 100%) |
+| `notebook.ipynb` por clase | 🎓 **232/232 ejecutables · cobertura 100% real** (v3.10.0) — todas las clases corren en el laboratorio con kernel Jupyter real |
+| Contenido pedagógico real | 🎓 **232 READMEs · 232 notebooks ejecutables · 100% real** (v3.10.0) |
+| Definiciones + Errores comunes + FAQ por clase | 🎓 **232/232** (v3.10.0 · 100%) |
 | Clases dedicadas modernas 2024-2026 | 🟢 **35 clases dedicadas** en Partes 0-3 + stack moderno completo en Partes 4-7 (DVC/MLflow/Feast/K8s/FastAPI/Evidently/NannyML/Prefect/Istio/SHAP/Great Expectations/CheckList; Airflow/Prefect/Dagster/PySpark/Polars/DuckDB/BQ/Snowflake/Kafka/Parquet/Avro/star schema; CF/SVD+ALS/sentence-transformers/FAISS/LightFM/bandits; Suresh-Guttag taxonomía sesgos/DP+EO+calibration+impossibility theorem/privacidad diferencial Laplace+Gauss+DP-SGD/FedAvg+gradient leakage/GDPR+AI Act EU 2024/1689/seeds+lock files+model cards+datasheets) |
-| PDFs y PPTX por clase | ✅ **232 PDFs + 232 PPTX por clase + 9 bundles por parte + `curso-completo.pdf`/`.pptx`** (v3.9.0) |
+| PDFs y PPTX por clase | ✅ **232 PDFs + 232 PPTX por clase + 9 bundles por parte + `curso-completo.pdf`/`.pptx`** (v3.10.0) |
 | Quizzes pre/post lección | ⏳ pendiente |
 | Datasets temáticos por bloque | ⏳ pendiente |
 

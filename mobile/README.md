@@ -2,19 +2,19 @@
 
 App móvil del Python Data Science Program.
 
-> **Estado actual (v3.9.0):** la app embebe las **232 clases** del currículo (232/232 notebooks ejecutables). `src/data/classes.js` se **genera** desde `classes/**/README.md` con `python scripts/generate_mobile_curriculum.py` y se valida en `tests/test_mobile_curriculum.py`. El APK se **reutiliza sin cambios desde v3.8.1** (mismo catálogo, mismo `versionCode 39`; los enlaces a Colab ahora resuelven a notebooks reales del release v3.9.0).
+> **Estado actual (v3.10.0):** la app embebe las **232 clases** del currículo (232/232 notebooks ejecutables). `src/data/classes.js` se **genera** desde `classes/**/README.md` con `python scripts/generate_mobile_curriculum.py` y se valida en `tests/test_mobile_curriculum.py`. El APK se **reutiliza sin cambios desde v3.8.1** (mismo catálogo, mismo `versionCode 39`; los enlaces a Colab ahora resuelven a notebooks reales del release v3.10.0).
 >
 > La UX es jerárquica: **Home** lista las 9 partes con su progreso → **Parte** lista sus clases con buscador → **Clase** muestra objetivo, resultados, temas, materiales, práctica y el enlace a Colab.
 >
-> ⚠️ **Histórico:** el APK `v3.8.0` se publicó con `classes.js` como stub vacío y se instalaba **con el catálogo vacío**. Corregido en `v3.8.1` — ese mismo APK corregido es el que se reutiliza en el release v3.9.0.
+> ⚠️ **Histórico:** el APK `v3.8.0` se publicó con `classes.js` como stub vacío y se instalaba **con el catálogo vacío**. Corregido en `v3.8.1` — ese mismo APK corregido es el que se reutiliza en el release v3.10.0.
 
 ## 📥 Descarga del APK
 
-APK debug oficial publicado en el [**release v3.9.0**](https://github.com/vladimiracunadev-create/python-data-science-program/releases/tag/v3.9.0) (reutilizado sin cambios desde v3.8.1):
+APK debug oficial publicado en el [**release v3.10.0**](https://github.com/vladimiracunadev-create/python-data-science-program/releases/tag/v3.10.0) (reutilizado sin cambios desde v3.8.1):
 
-- 📱 [`PythonDSProgram_android_v3.8.1_debug.apk`](https://github.com/vladimiracunadev-create/python-data-science-program/releases/download/v3.9.0/PythonDSProgram_android_v3.8.1_debug.apk) — 139 MB · Expo SDK 51 · `versionCode 39` · `versionName 3.8.1`.
+- 📱 [`PythonDSProgram_android_v3.8.1_debug.apk`](https://github.com/vladimiracunadev-create/python-data-science-program/releases/download/v3.10.0/PythonDSProgram_android_v3.8.1_debug.apk) — 139 MB · Expo SDK 51 · `versionCode 39` · `versionName 3.8.1`.
 
-Instalación directa en Android (habilitar "instalar de fuentes desconocidas"). Verificación de integridad en [`SHA256SUMS_v3.9.0.txt`](https://github.com/vladimiracunadev-create/python-data-science-program/releases/download/v3.9.0/SHA256SUMS_v3.9.0.txt).
+Instalación directa en Android (habilitar "instalar de fuentes desconocidas"). Verificación de integridad en [`SHA256SUMS_v3.10.0.txt`](https://github.com/vladimiracunadev-create/python-data-science-program/releases/download/v3.10.0/SHA256SUMS_v3.10.0.txt).
 
 ## Requisitos
 
