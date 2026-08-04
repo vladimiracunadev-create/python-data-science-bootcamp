@@ -67,7 +67,7 @@ Integra currículo modular extenso, laboratorio interactivo local, portal del al
 | 🧭 **Descubribilidad Pages** | ✅ tabla de contenidos automática + badges por clase + banner global de progreso |
 | 🧪 **Laboratorio de ejecución Python** | ✅ Flask shell + kernel Jupyter real (`jupyter_client` + `ipykernel`), lee los `classes/**/notebook.ipynb` reales, outputs ricos (HTML, imágenes, errores con traceback) — **herramienta separada** del viewer nativo, pensada para ejecutar código sobre los notebooks |
 | 🖥️ **App Windows** | ✅ **app Qt nativa** (PySide6) — sin web, sin localhost · la clase se renderiza en **HTML** con resaltado de sintaxis · [binario publicado en release v3.11.0](https://github.com/vladimiracunadev-create/python-data-science-program/releases/tag/v3.11.0) (`PythonDSProgram_windows_portable_v3.11.0.zip`) · [capturas](https://vladimiracunadev-create.github.io/python-data-science-program/app/) |
-| 📱 **App Android** | ✅ **232 clases embebidas** · [APK debug publicado en release v3.10.0](https://github.com/vladimiracunadev-create/python-data-science-program/releases/tag/v3.10.0) (`PythonDSProgram_android_v3.8.1_debug.apk`, 138 MB, Expo SDK 51, versionCode 39) — **sin cambios en v3.11.0**: esta versión solo toca la app de escritorio y el sitio |
+| 📱 **App Android** | ✅ **232 clases embebidas** · [APK debug publicado en release v3.11.0](https://github.com/vladimiracunadev-create/python-data-science-program/releases/tag/v3.11.0) (`PythonDSProgram_android_v3.11.0_debug.apk`, 138 MB, Expo SDK 51, versionCode 42) — **rebuildeado**: bundle JS regenerado (el commiteado estaba obsoleto y no traía el currículo) + icono del producto |
 | 🛡️ **Postura** | local-first — no internet abierta sin capas adicionales |
 
 ### 📥 Descarga rápida — Release v3.11.0 (2026-08-04)
@@ -77,11 +77,11 @@ Binarios oficiales del programa. Verificación de integridad en [`SHA256SUMS_v3.
 | Artefacto | Tamaño | Qué es |
 |---|---|---|
 | [`PythonDSProgram_windows_portable_v3.11.0.zip`](https://github.com/vladimiracunadev-create/python-data-science-program/releases/download/v3.11.0/PythonDSProgram_windows_portable_v3.11.0.zip) | 274 MB | App Windows Qt nativa (PySide6) — **la clase se renderiza en HTML** con el mismo conversor que GitHub Pages, código resaltado, cabecera de clase, zoom y tema oscuro real; bundle **slim**, sin PDFs/PPTX embebidos (el viewer los abre desde el repo) |
-| [`PythonDSProgram_android_v3.8.1_debug.apk`](https://github.com/vladimiracunadev-create/python-data-science-program/releases/download/v3.10.0/PythonDSProgram_android_v3.8.1_debug.apk) | 138 MB | APK Android debug (Expo SDK 51 · versionCode 39 · versionName 3.8.1) — **232 clases embebidas**. Se mantiene el asset del release v3.10.0: v3.11.0 no cambia la app móvil |
+| [`PythonDSProgram_android_v3.11.0_debug.apk`](https://github.com/vladimiracunadev-create/python-data-science-program/releases/download/v3.11.0/PythonDSProgram_android_v3.11.0_debug.apk) | 138 MB | APK Android debug (Expo SDK 51 · versionCode 42 · versionName 3.11.0) — **232 clases embebidas** (verificado dentro del APK) · icono del producto · bundle JS regenerado |
 
 > ℹ️ El release v3.11.0 **no** incluye instalador Inno Setup `.exe` (no hay Inno Setup en el entorno de build) — el ZIP portable es el artefacto autónomo. El script `installer/setup.iss` ya queda configurado con el icono del producto para cuando se compile. La versión v3.8.1 del instalador sigue disponible en su [release histórico](https://github.com/vladimiracunadev-create/python-data-science-program/releases/tag/v3.8.1).
 
-> ⚠️ El APK de `v3.8.0` se publicó con el catálogo vacío (mostraba 0 clases). El APK debug `v3.8.1` (con las 232 clases) se reutiliza sin cambios en este release.
+> ⚠️ El APK de `v3.8.0` se publicó con el catálogo vacío (mostraba 0 clases). Desde entonces se **verifica el contenido dentro del binario** antes de publicar: el de v3.11.0 se abrió y se contaron las 232 clases en su `index.android.bundle`.
 
 > 🔗 [Página completa del release v3.11.0](https://github.com/vladimiracunadev-create/python-data-science-program/releases/tag/v3.11.0)
 
@@ -94,8 +94,24 @@ que genera GitHub Pages ([`app/class_html.py`](app/class_html.py)): código con 
 sintaxis, tablas de verdad, columna de lectura acotada, tema claro/oscuro y zoom de texto.
 
 > 📸 Las 6 capturas (ambos temas, README y notebook) están en [`docs/screenshots/`](docs/screenshots/)
-> y en la página **[App de escritorio](https://vladimiracunadev-create.github.io/python-data-science-program/app/)** del portal.
+> y en la página **[Las apps](https://vladimiracunadev-create.github.io/python-data-science-program/app/)** del portal.
 > Se regeneran con `python scripts/capture_app_screenshots.py`.
+
+### 📱 Y la app Android
+
+<p align="left">
+  <img src="docs/screenshots/07-android-catalogo.png" alt="Catálogo de las 9 partes en la app Android" width="240">
+  <img src="docs/screenshots/09-android-clase.png" alt="Detalle de una clase en la app Android" width="240">
+</p>
+
+La app Android es la **versión de bolsillo**: embebe las **232 clases** en el bundle JS, así que el
+catálogo se consulta **sin conexión**, y cada clase abre su notebook en Colab con un toque. Muestra
+la **ficha** de la clase (objetivo, resultados, temas, materiales, práctica) en pestañas
+Teoría/Práctica con seguimiento de progreso — no el README completo, que es lo que sí muestran este
+repositorio, el portal y la app de escritorio.
+
+> 🎨 En **v3.11.0** también recibió el icono del producto: hasta v3.10.0 se instalaba con el robot
+> verde genérico del template de Expo.
 
 ### 🗺️ Las 9 partes del currículo
 
@@ -157,7 +173,7 @@ Cada parte tiene su **propio README** con narrativa completa: de qué trata, qu�
 | 🏛️ Vista institucional (`site/product/`) | presentación visual del producto | ✅ operativa |
 | 📚 Currículo modular (`classes/`) | **232 clases** en 9 partes (numeración secuencial 001-232): Prerrequisitos, ML clásico, Deep Learning, Estadística inferencial y causal, MLOps, Ingeniería de datos, Recomendadores, Ética, Capstones | 🟢 **Las 9 partes (232/232 = 100%) completas y modernizadas** — 35 clases dedicadas a temas 2024-2026 + stack MLOps + data engineering + recomendadores + ética/fairness/privacidad + 4 capstones integradores end-to-end |
 | 🖥️ App de escritorio Windows (`launcher.py` + `app_desktop/` + `program.spec` + `installer/`) | ventana Qt nativa (PySide6) — sin web, sin localhost, sin WebView, sin Python en el PC del alumno; la clase se renderiza en HTML con `app/class_html.py` | ✅ binario v3.11.0 publicado en release |
-| 📱 App Android (`mobile/`) | Expo/React Native con integración Google Colab | ✅ APK debug v3.8.1 publicado en el release v3.10.0 · 232 clases embebidas · sin cambios en v3.11.0 |
+| 📱 App Android (`mobile/`) | Expo/React Native con integración Google Colab | ✅ APK debug v3.11.0 publicado en el release · 232 clases embebidas · icono del producto |
 | 📄 PDFs (`docs/pdfs/`) | guías por clase + bundles por parte + curso completo | ✅ generados (232 por clase + 9 por parte + 1 unificado) |
 | 📊 Presentaciones (`docs/presentaciones/`) | decks `.pptx` por clase + bundles por parte + curso completo | ✅ generados (232 por clase + 9 por parte + 1 unificado) |
 
@@ -299,7 +315,7 @@ graph TD
 - Expo/React Native (SDK 51, RN 0.74.5, versionCode 39, versionName 3.8.1);
 - integración con Google Colab para ejecución de código sin Python local;
 - seguimiento de progreso local con AsyncStorage;
-- APK debug `v3.8.1` publicado en el release v3.10.0 y sin cambios en v3.11.0 · catálogo con las **232 clases en 9 partes**, generado desde `classes/**/README.md` con `scripts/generate_mobile_curriculum.py` (los enlaces a Colab ahora resuelven a notebooks reales);
+- APK debug `v3.11.0` (`versionCode 42`) publicado en el release · catálogo con las **232 clases en 9 partes**, generado desde `classes/**/README.md` con `scripts/generate_mobile_curriculum.py` (los enlaces a Colab ahora resuelven a notebooks reales);
 - navegación jerárquica: partes → clases (con buscador) → detalle de clase.
 
 ### 📊 Presentación y distribución de materiales

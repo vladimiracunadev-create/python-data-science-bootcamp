@@ -35,7 +35,7 @@ Un sistema de capacitación en Python y Data Science que integra:
 | 6 notebooks interactivos | ✅ operativo | `/api/notebooks` → 6 templates, ejecución por celda |
 | App de escritorio Windows | ✅ binario v3.11.0 publicado en release | PySide6 + PyInstaller — clase renderizada en HTML con el conversor compartido con Pages, resaltado Pygments, icono de producto propio; ZIP portable slim, sin Flask, sin localhost, sin Edge WebView2 |
 | Instalador Windows | ⏳ pendiente | el release v3.11.0 no incluye instalador Inno Setup `.exe` (no hay Inno Setup en el entorno de build) — el ZIP portable es el artefacto autónomo; `installer/setup.iss` ya queda con `SetupIconFile` apuntando al icono del producto. Pendiente además firmarlo con certificado de code-signing |
-| App Android | ✅ APK debug v3.8.1 publicado en release v3.10.0 | Expo SDK 51, versionCode 39 — 232 clases embebidas, navegación partes → clases → detalle. Sin cambios en v3.11.0 |
+| App Android | ✅ APK debug v3.11.0 publicado en release | Expo SDK 51, versionCode 42 — 232 clases embebidas (verificadas dentro del APK), navegación partes → clases → detalle, icono del producto |
 | Portal del alumno | ✅ en vivo | GitHub Pages — pendiente migrar al índice actual |
 | CI/CD | ✅ activo | 3 workflows: tests, security scan, deploy-pages |
 | Análisis de seguridad | ✅ limpio | Bandit: 0 High, 0 Medium, 0 Low |
@@ -95,7 +95,7 @@ Un sistema de capacitación en Python y Data Science que integra:
 Release oficial: [**v3.11.0**](https://github.com/vladimiracunadev-create/python-data-science-program/releases/tag/v3.11.0) (publicado 2026-08-04).
 
 - 🖥️ [`PythonDSProgram_windows_portable_v3.11.0.zip`](https://github.com/vladimiracunadev-create/python-data-science-program/releases/download/v3.11.0/PythonDSProgram_windows_portable_v3.11.0.zip) — descomprimir y ejecutar `PythonDSProgram.exe`, ventana Qt nativa sin instalación; clase renderizada en HTML ([capturas](https://vladimiracunadev-create.github.io/python-data-science-program/app/)).
-- 📱 [`PythonDSProgram_android_v3.8.1_debug.apk`](https://github.com/vladimiracunadev-create/python-data-science-program/releases/download/v3.10.0/PythonDSProgram_android_v3.8.1_debug.apk) (139 MB) — instalar directo en Android; se mantiene el asset del release v3.10.0 (v3.11.0 no cambia la app móvil).
+- 📱 [`PythonDSProgram_android_v3.11.0_debug.apk`](https://github.com/vladimiracunadev-create/python-data-science-program/releases/download/v3.11.0/PythonDSProgram_android_v3.11.0_debug.apk) (138 MB) — instalar directo en Android; rebuildeado con el bundle JS regenerado y el icono del producto.
 - 📄 [`curso-completo.pdf`](https://github.com/vladimiracunadev-create/python-data-science-program/releases/download/v3.11.0/curso-completo.pdf) y [`curso-completo.pptx`](https://github.com/vladimiracunadev-create/python-data-science-program/releases/download/v3.11.0/curso-completo.pptx) — currículo completo.
 - 🔐 [`SHA256SUMS_v3.11.0.txt`](https://github.com/vladimiracunadev-create/python-data-science-program/releases/download/v3.11.0/SHA256SUMS_v3.11.0.txt) — verificación de integridad.
 

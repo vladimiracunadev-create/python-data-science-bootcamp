@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>La app de escritorio | Python Data Science Program</title>
-  <meta name="description" content="Capturas y descarga de la app Windows nativa del Python Data Science Program: las 232 clases en HTML, notebooks con resaltado de sintaxis, tema claro/oscuro y zoom de texto.">
+  <title>Las apps del programa | Python Data Science Program</title>
+  <meta name="description" content="Capturas y descarga de las dos apps del Python Data Science Program: la de escritorio para Windows (232 clases en HTML, notebooks con resaltado de sintaxis, tema claro/oscuro) y la de Android (catálogo completo offline con enlaces a Colab).">
   <meta name="theme-color" content="#0f3d3e">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -26,6 +26,14 @@
     .badge-row { display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 0 6px; padding: 0; list-style: none; }
     .badge-row li { padding: 5px 12px; background: var(--purple-light); color: #4c1d95; border-radius: 999px; font-size: 0.87rem; font-weight: 500; }
     .dl-row { display: flex; flex-wrap: wrap; gap: 12px; margin: 22px 0 6px; }
+    .app-nav { display: flex; flex-wrap: wrap; gap: 10px; margin: 24px 0 8px; padding: 12px 16px; background: var(--bg-soft); border-left: 3px solid var(--teal); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; }
+    .app-nav a { color: var(--teal-dark); text-decoration: none; font-weight: 500; padding: 2px 8px; border-radius: 4px; }
+    .app-nav a:hover { background: var(--gold-light); color: var(--ink); }
+    .phone-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 24px; margin: 28px 0 8px; }
+    .phone { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px; box-shadow: var(--shadow); text-align: center; }
+    .phone img { width: 100%; max-width: 260px; height: auto; border-radius: var(--radius-sm); border: 1px solid var(--line); }
+    .phone figcaption { margin-top: 10px; font-size: 0.9rem; color: var(--ink-soft); }
+    .note { padding: 12px 16px; background: var(--bg-soft); border-left: 3px solid var(--gold); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; margin: 18px 0; font-size: 0.94rem; }
   </style>
 </head>
 <body class="curriculum-body">
@@ -34,7 +42,7 @@
       <span aria-hidden="true">🐍</span> Python Data Science Program
     </a>
     <nav class="cur-breadcrumbs">
-      <a href="../index.html">🏠 Portal</a><span class="sep">›</span><a href="../clases/index.html">Currículo</a><span class="sep">›</span><span>App de escritorio</span>
+      <a href="../index.html">🏠 Portal</a><span class="sep">›</span><a href="../clases/index.html">Currículo</a><span class="sep">›</span><span>Las apps</span>
     </nav>
   </header>
 
@@ -42,16 +50,24 @@
     <div class="app-hero">
       <img src="../assets/icon.png" alt="Icono del Python Data Science Program">
       <div>
-        <h1>La app de escritorio</h1>
-        <p>Las mismas 232 clases del portal, en una aplicación Windows nativa que funciona sin conexión.</p>
+        <h1>Las apps del programa</h1>
+        <p>Las mismas 232 clases del portal, en una app de escritorio para Windows y en una app Android. Las dos funcionan sin conexión.</p>
       </div>
     </div>
 
+    <nav class="app-nav">
+      <a href="#escritorio">🖥️ App de escritorio (Windows)</a>
+      <a href="#android">📱 App Android</a>
+      <a href="#comparativa">¿Cuál uso?</a>
+    </nav>
+
+    <h2 id="escritorio">🖥️ App de escritorio — Windows</h2>
+
     <p>
-      La app es un <strong>visor</strong>: recorre el currículo completo (árbol de 9 partes,
-      buscador incremental, navegación anterior/siguiente) y muestra cada clase con el mismo
-      contenido que ves en este sitio. No ejecuta código — para eso está el laboratorio Jupyter
-      que se comparte en clase.
+      Es un <strong>visor</strong>: recorre el currículo completo (árbol de 9 partes, buscador
+      incremental, navegación anterior/siguiente) y muestra cada clase con el mismo contenido que
+      ves en este sitio, más las celdas de su notebook. No ejecuta código — para eso está el
+      laboratorio Jupyter que se comparte en clase.
     </p>
 
     <p>
@@ -72,10 +88,10 @@
 
     <div class="dl-row">
       <a class="btn btn-primary" href="https://github.com/vladimiracunadev-create/python-data-science-program/releases/latest" target="_blank" rel="noreferrer">📥 Descargar la última versión</a>
+      <a class="btn btn-secondary" href="#android">📱 Ver la app Android</a>
       <a class="btn btn-secondary" href="../clases/index.html">Ver el currículo en la web</a>
     </div>
 
-    <h2>Capturas</h2>
     <p>Capturas reales de la aplicación, generadas automáticamente con
       <code>scripts/capture_app_screenshots.py</code> sobre clases del currículo — no son mockups.</p>
 
@@ -111,10 +127,53 @@
       </figure>
     </div>
 
-    <h2>¿Web o app?</h2>
+    <h2 id="android">📱 App Android</h2>
+
     <p>
-      Las dos superficies muestran <strong>exactamente el mismo contenido</strong>, porque las dos se
-      generan desde los <code>README.md</code> del repositorio. La diferencia es el contexto de uso:
+      La app Android es la <strong>versión de bolsillo</strong> del programa. Embebe el catálogo
+      completo —las 232 clases en 9 partes— en el bundle JS, así que se puede consultar
+      <strong>sin conexión</strong>; lo único que necesita internet es el botón
+      <em>Abrir en Colab</em>, que lanza el notebook de la clase en el navegador.
+    </p>
+
+    <p>
+      Muestra la clase en un formato pensado para pantalla chica: objetivo, resultados esperados,
+      temas, materiales y práctica, con pestañas <em>Teoría</em> / <em>Práctica</em> y seguimiento de
+      progreso por clase. No es el README completo —para eso están este sitio y la app de
+      escritorio—, sino la ficha de la clase para consultar en el colectivo o antes de una sesión.
+    </p>
+
+    <ul class="badge-row">
+      <li>📴 232 clases embebidas, sin conexión</li>
+      <li>✅ Progreso por clase</li>
+      <li>🚀 Abrir en Colab</li>
+      <li>🌙 Tema oscuro</li>
+    </ul>
+
+    <div class="phone-grid">
+      <figure class="phone">
+        <img src="../assets/screenshots/07-android-catalogo.png" alt="Pantalla principal de la app Android con las 9 partes y el progreso" loading="lazy">
+        <figcaption><strong>Catálogo.</strong> Las 9 partes con su rango de clases, nivel y progreso.</figcaption>
+      </figure>
+      <figure class="phone">
+        <img src="../assets/screenshots/08-android-parte.png" alt="Listado de clases de una parte en la app Android" loading="lazy">
+        <figcaption><strong>Parte.</strong> Las clases de la parte, en orden, con su estado.</figcaption>
+      </figure>
+      <figure class="phone">
+        <img src="../assets/screenshots/09-android-clase.png" alt="Detalle de una clase en la app Android con las pestañas Teoría y Práctica" loading="lazy">
+        <figcaption><strong>Clase.</strong> Ficha con teoría y práctica, y acceso directo a Colab.</figcaption>
+      </figure>
+    </div>
+
+    <p class="note">
+      📦 El APK es de tipo <strong>debug</strong> y se instala directamente (hay que habilitar
+      "instalar de fuentes desconocidas"). No está publicado en Google Play.
+    </p>
+
+    <h2 id="comparativa">¿Cuál uso?</h2>
+    <p>
+      Las tres superficies muestran <strong>el mismo currículo</strong>, porque las tres se generan
+      desde los <code>README.md</code> del repositorio. Cambian la profundidad y el contexto de uso:
     </p>
     <table>
       <thead>
@@ -122,9 +181,10 @@
       </thead>
       <tbody>
         <tr><td>Compartir un enlace a una clase</td><td>Este sitio (GitHub Pages)</td></tr>
-        <tr><td>Estudiar sin conexión</td><td>La app de escritorio</td></tr>
-        <tr><td>Leer desde el celular</td><td>Este sitio, o la app Android del release</td></tr>
-        <tr><td>Ejecutar el código de la clase</td><td>El laboratorio Jupyter del repositorio</td></tr>
+        <tr><td>Leer la clase completa sin conexión</td><td>La app de escritorio (Windows)</td></tr>
+        <tr><td>Consultar la ficha desde el celular</td><td>La app Android</td></tr>
+        <tr><td>Ver el notebook con sus celdas</td><td>La app de escritorio, pestaña <em>Notebook</em></td></tr>
+        <tr><td>Ejecutar el código de la clase</td><td>Colab (desde la app Android) o el laboratorio Jupyter del repositorio</td></tr>
       </tbody>
     </table>
   </main>

@@ -34,7 +34,18 @@ jobs:
         # (app local Qt/Flask, sin loader de recursos NLTK expuesto a input externo).
         # Revisar en https://osv.dev/vulnerability/PYSEC-2026-597 y quitar el --ignore
         # en cuanto salga un nltk parcheado.
-        run: pip-audit -r requirements.txt --ignore-vuln PYSEC-2026-597
+        #
+        # PYSEC-2026-3552: cryptography 49.0.0, corregida en 50.0.0. El fix NO es
+        # alcanzable: mlflow (todas sus versiones, hasta la 3.15.1) declara
+        # `cryptography<50`, así que forzar el piso da ResolutionImpossible —
+        # verificado con `pip install --dry-run`. cryptography entra solo como
+        # dependencia transitiva del stack de Jupyter/mlflow; este repo no expone
+        # TLS ni parsea certificados de terceros. Quitar el --ignore en cuanto
+        # mlflow suba su cota superior.
+        run: |
+          pip-audit -r requirements.txt \
+            --ignore-vuln PYSEC-2026-597 \
+            --ignore-vuln PYSEC-2026-3552
 
       - name: Static security scan
         run: |

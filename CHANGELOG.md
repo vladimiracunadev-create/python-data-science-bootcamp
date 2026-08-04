@@ -38,10 +38,19 @@ La app de escritorio mostraba el README de cada clase pasándolo crudo a `QTextB
 - Los títulos del árbol pierden el prefijo redundante `Clase NNN —` (el número ya va en su propia columna), ganan tooltip con el título completo y el contador de clases por parte.
 - Columna de lectura acotada a 940 px y centrada, en las dos pestañas.
 - El pie de las páginas generadas apunta a `releases/latest` en vez de a un tag fijo que quedaba desactualizado en cada versión.
-- Versión `3.10.0 → 3.11.0`. **El APK Android no cambia**: se sigue distribuyendo el binario `v3.8.1` (mismo `versionCode 39`), porque esta versión solo toca la app de escritorio y el sitio.
+- Versión `3.10.0 → 3.11.0`. Android: `versionCode 39 → 42`, `versionName 3.11.0`.
+
+### App Android
+- **Icono del producto también en Android.** Se instalaba con el **robot verde genérico del template de Expo**. `scripts/generate_product_icon.py` ahora genera además `mobile/assets/{icon,adaptive-icon,favicon,splash}.png` y los `mipmap-*` nativos del proyecto prebuildeado (`ic_launcher`, `ic_launcher_round`, `ic_launcher_foreground` en las 5 densidades) — sin ese último paso el APK habría seguido saliendo con el robot aunque el asset de Expo estuviera bien.
+- **Bundle JS regenerado.** El `index.android.bundle` commiteado en `mobile/android/app/src/main/assets/` era de abril y **no contenía nada del currículo** (0 coincidencias de cualquier clase). Un `assembleDebug` lo empaquetaba tal cual: el APK habría vuelto a instalarse con el catálogo vacío, el mismo fallo de `v3.8.0`. Regenerado con `expo export:embed` y **verificado dentro del APK**: 232 clases y `CURRICULUM_VERSION = v3.11.0`.
+- APK reconstruido, instalado en emulador y capturado: las tres pantallas están en `docs/screenshots/` y en la página del portal.
+
+### Seguridad
+- `pip-audit` en CI reportaba `cryptography 49.0.0` / **PYSEC-2026-3552**. El fix (50.0.0) **no es alcanzable**: mlflow declara `cryptography<50` en todas sus versiones hasta la 3.15.1 — forzar el piso da `ResolutionImpossible` (verificado con `pip install --dry-run`). Se documenta y se añade a la lista de `--ignore-vuln`, junto al de nltk que ya existía, con la condición de revisarlo cuando mlflow suba su cota.
 
 ### Release
 - **`PythonDSProgram_windows_portable_v3.11.0.zip`** — app Windows con el render HTML, la nueva UI de clase y el icono de producto.
+- **`PythonDSProgram_android_v3.11.0_debug.apk`** — APK reconstruido con el bundle JS al día y el icono del producto.
 
 ---
 

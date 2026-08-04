@@ -12,6 +12,8 @@ Qué resuelve:
         installer/icon.png   — 512 px, respaldo para Qt y para la documentación
         site/assets/icon.svg — el mismo SVG, para el favicon de GitHub Pages
         site/assets/icon.png — 512 px, para las tarjetas Open Graph del portal
+        mobile/assets/*.png  — icono, adaptive-icon, favicon y splash de la app
+                               Android (venían con el robot genérico de Expo)
 
 Uso:
     python scripts/generate_product_icon.py
@@ -32,6 +34,11 @@ SVG = ROOT / "installer" / "icon.svg"
 ICO = ROOT / "installer" / "icon.ico"
 PNG = ROOT / "installer" / "icon.png"
 SITE_ASSETS = ROOT / "site" / "assets"
+MOBILE_ASSETS = ROOT / "mobile" / "assets"
+
+#: Fondo de la placa del icono. Se usa para el splash y para el relleno del
+#: adaptive-icon de Android, que recorta la imagen a la forma del launcher.
+BRAND_BG = (10, 32, 41)  # #0a2029, el mismo del SVG
 
 #: Tamaños que Windows espera dentro de un .ico de aplicación.
 ICO_SIZES = [16, 24, 32, 48, 64, 128, 256]
@@ -134,7 +141,101 @@ def main() -> int:
     print(f"[ok] {(SITE_ASSETS / 'icon.svg').relative_to(ROOT)}")
     print(f"[ok] {(SITE_ASSETS / 'icon.png').relative_to(ROOT)}")
     print(f"[ok] {(SITE_ASSETS / 'apple-touch-icon.png').relative_to(ROOT)}")
+
+    write_mobile_assets(master, Image)
     return 0
+
+
+def write_mobile_assets(master, Image) -> None:
+    """Assets de la app Android (Expo). Traían el robot genérico del template.
+
+    Android recorta el ``adaptive-icon`` a la forma del launcher (círculo,
+    squircle…), así que el motivo va con margen dentro de un lienzo de 1024 px
+    sobre el color de marca: sin ese margen el recorte se come los lazos.
+    """
+    if not MOBILE_ASSETS.exists():
+        print("[skip] mobile/assets no existe — se omiten los assets Android")
+        return
+
+    icon_1024 = Image.open(io.BytesIO(rasterize(1024))).convert("RGBA")
+    icon_1024.save(MOBILE_ASSETS / "icon.png", format="PNG")
+
+    # Adaptive icon: 66% de zona segura centrada sobre el color de marca.
+    adaptive = Image.new("RGBA", (1024, 1024), (*BRAND_BG, 255))
+    inner = icon_1024.resize((676, 676), Image.LANCZOS)
+    adaptive.paste(inner, (174, 174), inner)
+    adaptive.save(MOBILE_ASSETS / "adaptive-icon.png", format="PNG")
+
+    master.resize((196, 196), Image.LANCZOS).save(
+        MOBILE_ASSETS / "favicon.png", format="PNG"
+    )
+
+    # Splash: el icono centrado sobre el color de marca, en 1284x2778 (retrato).
+    splash = Image.new("RGBA", (1284, 2778), (*BRAND_BG, 255))
+    mark = icon_1024.resize((420, 420), Image.LANCZOS)
+    splash.paste(mark, ((1284 - 420) // 2, (2778 - 420) // 2), mark)
+    splash.save(MOBILE_ASSETS / "splash.png", format="PNG")
+
+    for name in ("icon.png", "adaptive-icon.png", "favicon.png", "splash.png"):
+        print(f"[ok] {(MOBILE_ASSETS / name).relative_to(ROOT)}")
+
+    write_android_launcher_icons(icon_1024, Image)
+
+
+#: Densidades del launcher de Android y el lado del icono en px para cada una.
+#: `ic_launcher` es el icono legacy (cuadrado), `ic_launcher_round` el redondo y
+#: `ic_launcher_foreground` la capa recortable del adaptive icon (API 26+).
+ANDROID_DENSITIES = {
+    "mdpi": 48,
+    "hdpi": 72,
+    "xhdpi": 96,
+    "xxhdpi": 144,
+    "xxxhdpi": 192,
+}
+
+
+def write_android_launcher_icons(icon_1024, Image) -> None:
+    """Regenera los ``mipmap-*`` nativos del proyecto Android.
+
+    El proyecto vive prebuildeado (``mobile/android/`` está commiteado), así que
+    los iconos del launcher NO se derivan de ``app.json`` en cada build: son
+    PNGs versionados. Sin este paso el APK seguiría saliendo con el robot verde
+    del template aunque ``mobile/assets/icon.png`` ya tenga el del producto.
+    """
+    res_dir = ROOT / "mobile" / "android" / "app" / "src" / "main" / "res"
+    if not res_dir.exists():
+        print("[skip] no hay proyecto Android prebuildeado")
+        return
+
+    from PIL import ImageDraw
+
+    for density, size in ANDROID_DENSITIES.items():
+        target = res_dir / f"mipmap-{density}"
+        if not target.exists():
+            continue
+
+        square = icon_1024.resize((size, size), Image.LANCZOS)
+        square.save(target / "ic_launcher.png", format="PNG")
+
+        # Variante redonda: el mismo icono recortado a círculo.
+        round_icon = Image.new("RGBA", (size, size), (0, 0, 0, 0))
+        mask = Image.new("L", (size * 4, size * 4), 0)
+        ImageDraw.Draw(mask).ellipse((0, 0, size * 4 - 1, size * 4 - 1), fill=255)
+        round_icon.paste(square, (0, 0), mask.resize((size, size), Image.LANCZOS))
+        round_icon.save(target / "ic_launcher_round.png", format="PNG")
+
+        # Capa foreground del adaptive icon: el sistema recorta hasta un 33%,
+        # así que el motivo va al 66% centrado sobre lienzo transparente.
+        fg = Image.new("RGBA", (size, size), (0, 0, 0, 0))
+        inner = max(1, int(size * 0.66))
+        fg.paste(
+            icon_1024.resize((inner, inner), Image.LANCZOS),
+            ((size - inner) // 2, (size - inner) // 2),
+            icon_1024.resize((inner, inner), Image.LANCZOS),
+        )
+        fg.save(target / "ic_launcher_foreground.png", format="PNG")
+
+        print(f"[ok] mobile/android/.../mipmap-{density}/  ({size}px x3)")
 
 
 if __name__ == "__main__":
