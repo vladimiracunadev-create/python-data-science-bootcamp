@@ -1,6 +1,6 @@
 # 🪟 Guía: Build Windows — App de Escritorio (PySide6 / Qt nativo)
 
-Genera el ejecutable Windows del Python Data Science Program como **aplicación de escritorio Qt nativa** (v3.10.0+).
+Genera el ejecutable Windows del Python Data Science Program como **aplicación de escritorio Qt nativa** (v3.11.0+).
 No se abre ningún navegador, no se levanta Flask, no se reserva puerto local, no se usa WebView. La ventana es una app real de Windows hecha con PySide6.
 
 ---
@@ -9,10 +9,10 @@ No se abre ningún navegador, no se levanta Flask, no se reserva puerto local, n
 
 ```
 release_artifacts/
-  PythonDSProgram_windows_portable_v3.10.0.zip   ← portable slim (~274 MB; descomprimir y ejecutar)
+  PythonDSProgram_windows_portable_v3.11.0.zip   ← portable slim (~274 MB; descomprimir y ejecutar)
 
 dist_installer/
-  PythonDSProgram_Setup_v3.10.0.exe              ← instalador opcional (Inno Setup)
+  PythonDSProgram_Setup_v3.11.0.exe              ← instalador opcional (Inno Setup)
 
 dist/PythonDSProgram/
   PythonDSProgram.exe                           ← ejecutable directo (Qt nativo)
@@ -43,10 +43,10 @@ PythonDSProgram.exe
     dist/PythonDSProgram/  (bundle con Python + PySide6 + Qt embebidos)
 
     ↓ PowerShell Compress-Archive
-    release_artifacts/PythonDSProgram_windows_portable_v3.10.0.zip
+    release_artifacts/PythonDSProgram_windows_portable_v3.11.0.zip
 
     ↓ Inno Setup (installer/setup.iss)  — opcional
-    dist_installer/PythonDSProgram_Setup_v3.10.0.exe
+    dist_installer/PythonDSProgram_Setup_v3.11.0.exe
 ```
 
 **Componentes clave:**
@@ -112,7 +112,7 @@ python -m PyInstaller program.spec --noconfirm
 
 # Paso 3: Empaquetar portable (PowerShell)
 Compress-Archive -Path "dist\PythonDSProgram\*" `
-  -DestinationPath "release_artifacts\PythonDSProgram_windows_portable_v3.10.0.zip" -Force
+  -DestinationPath "release_artifacts\PythonDSProgram_windows_portable_v3.11.0.zip" -Force
 
 # Paso 4: Compilar el instalador (requiere Inno Setup instalado)
 # Ruta estándar (instalación oficial de jrsoftware.org):

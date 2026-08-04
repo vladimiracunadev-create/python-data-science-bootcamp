@@ -312,7 +312,7 @@ graph TD
 
 ### 📱 App Android
 
-- Expo/React Native (SDK 51, RN 0.74.5, versionCode 39, versionName 3.8.1);
+- Expo/React Native (SDK 51, RN 0.74.5, versionCode 42, versionName 3.11.0);
 - integración con Google Colab para ejecución de código sin Python local;
 - seguimiento de progreso local con AsyncStorage;
 - APK debug `v3.11.0` (`versionCode 42`) publicado en el release · catálogo con las **232 clases en 9 partes**, generado desde `classes/**/README.md` con `scripts/generate_mobile_curriculum.py` (los enlaces a Colab ahora resuelven a notebooks reales);
@@ -464,7 +464,7 @@ Workflows activos:
 ### ❌ Lo que este repo no vende
 
 - 🚫 una plataforma multiusuario endurecida para internet abierta;
-- 🚫 una app móvil ya en producción (el APK debug v3.8.1 embebe las 232 clases, pero es un build debug sin firmar, no una publicación en Play Store);
+- 🚫 una app móvil ya en producción (el APK debug v3.11.0 embebe las 232 clases, pero es un build debug sin firmar, no una publicación en Play Store);
 - 🚫 una promesa de personalización infinita antes de cerrar condiciones;
 - 🚫 profundidad total en todas las direcciones desde la primera versión.
 
