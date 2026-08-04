@@ -202,11 +202,11 @@
 <p><strong>Mini-ejemplo — extraer dominio de email con grupos nombrados:</strong></p>
 <div class="codehilite" style="background: #0d1117"><pre style="line-height: 125%;"><span></span><code><span style="color: #FF7B72">import</span><span style="color: #6E7681"> </span><span style="color: #FF7B72">re</span>
 
-<span style="color: #E6EDF3">email</span> <span style="color: #FF7B72; font-weight: bold">=</span> <span style="color: #A5D6FF">&quot;vladimir.acuna@gmail.com&quot;</span>
+<span style="color: #E6EDF3">email</span> <span style="color: #FF7B72; font-weight: bold">=</span> <span style="color: #A5D6FF">&quot;ana.garcia@example.com&quot;</span>
 <span style="color: #E6EDF3">pat</span> <span style="color: #FF7B72; font-weight: bold">=</span> <span style="color: #E6EDF3">re</span><span style="color: #FF7B72; font-weight: bold">.</span><span style="color: #E6EDF3">compile(</span><span style="color: #79C0FF">r</span><span style="color: #A5D6FF">&quot;(?P&lt;usuario&gt;[\w.]+)@(?P&lt;dominio&gt;[\w.]+)&quot;</span><span style="color: #E6EDF3">)</span>
 <span style="color: #E6EDF3">m</span> <span style="color: #FF7B72; font-weight: bold">=</span> <span style="color: #E6EDF3">pat</span><span style="color: #FF7B72; font-weight: bold">.</span><span style="color: #E6EDF3">search(email)</span>
-<span style="color: #E6EDF3">print(m</span><span style="color: #FF7B72; font-weight: bold">.</span><span style="color: #E6EDF3">group(</span><span style="color: #A5D6FF">&quot;usuario&quot;</span><span style="color: #E6EDF3">))</span>  <span style="color: #8B949E; font-style: italic"># vladimir.acuna</span>
-<span style="color: #E6EDF3">print(m</span><span style="color: #FF7B72; font-weight: bold">.</span><span style="color: #E6EDF3">group(</span><span style="color: #A5D6FF">&quot;dominio&quot;</span><span style="color: #E6EDF3">))</span>  <span style="color: #8B949E; font-style: italic"># gmail.com</span>
+<span style="color: #E6EDF3">print(m</span><span style="color: #FF7B72; font-weight: bold">.</span><span style="color: #E6EDF3">group(</span><span style="color: #A5D6FF">&quot;usuario&quot;</span><span style="color: #E6EDF3">))</span>  <span style="color: #8B949E; font-style: italic"># ana.garcia</span>
+<span style="color: #E6EDF3">print(m</span><span style="color: #FF7B72; font-weight: bold">.</span><span style="color: #E6EDF3">group(</span><span style="color: #A5D6FF">&quot;dominio&quot;</span><span style="color: #E6EDF3">))</span>  <span style="color: #8B949E; font-style: italic"># example.com</span>
 </code></pre></div>
 
 <p><strong>Raw strings (<code>r"..."</code>)</strong></p>

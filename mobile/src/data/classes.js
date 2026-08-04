@@ -1279,7 +1279,7 @@ export const CLASSES = [
         "explanation": "Código incluido en el material de la clase.",
         "schema": "python · 7 líneas",
         "language": "python",
-        "code": "import re\n\nemail = \"vladimir.acuna@gmail.com\"\npat = re.compile(r\"(?P<usuario>[\\w.]+)@(?P<dominio>[\\w.]+)\")\nm = pat.search(email)\nprint(m.group(\"usuario\"))  # vladimir.acuna\nprint(m.group(\"dominio\"))  # gmail.com"
+        "code": "import re\n\nemail = \"ana.garcia@example.com\"\npat = re.compile(r\"(?P<usuario>[\\w.]+)@(?P<dominio>[\\w.]+)\")\nm = pat.search(email)\nprint(m.group(\"usuario\"))  # ana.garcia\nprint(m.group(\"dominio\"))  # example.com"
       }
     ],
     "colabUrl": "https://colab.research.google.com/github/vladimiracunadev-create/python-data-science-program/blob/main/classes/parte-0-prerrequisitos/030-pandas-operaciones-vectorizadas-sobre-strings/notebook.ipynb"

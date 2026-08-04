@@ -69,11 +69,11 @@ Antes de meternos con `.str.extract` / `.str.contains`, conviene tener una intro
 ```python
 import re
 
-email = "vladimir.acuna@gmail.com"
+email = "ana.garcia@example.com"
 pat = re.compile(r"(?P<usuario>[\w.]+)@(?P<dominio>[\w.]+)")
 m = pat.search(email)
-print(m.group("usuario"))  # vladimir.acuna
-print(m.group("dominio"))  # gmail.com
+print(m.group("usuario"))  # ana.garcia
+print(m.group("dominio"))  # example.com
 ```
 
 **Raw strings (`r"..."`)**
