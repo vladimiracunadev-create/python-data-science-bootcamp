@@ -104,6 +104,15 @@ streamlit>=1.32
 # ─── Generación de PDF (utilidades del repo) ─────────────────────────────────
 fpdf2>=2.7
 
+# ─── Pisos de seguridad sobre dependencias transitivas ───────────────────────
+# No se importan directamente: se declaran solo para forzar una versión sin
+# vulnerabilidades conocidas cuando el paquete que las arrastra todavía no
+# subió su propio piso.
+#
+# cryptography — PYSEC-2026-3552, corregida en 50.0.0. Llega vía el stack de
+# Jupyter (jupyter_client → pyzmq/tornado → …).
+cryptography>=50.0.0
+
 # ─── Desarrollo y testing ────────────────────────────────────────────────────
 pytest>=8.0
 pytest-cov>=5.0
