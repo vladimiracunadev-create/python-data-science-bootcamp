@@ -28,6 +28,7 @@
 <h1 id="clase-097-agglomerative-birch-mean-shift-affinity-propagation-spectral">Clase 097 — Agglomerative, BIRCH, Mean Shift, Affinity Propagation, Spectral</h1>
 <blockquote>
 <p>Parte: <strong>1 — Machine Learning Clásico</strong> · Fuente: Géron, <strong>cap. 9</strong> § <em>Other Clustering Algorithms</em>. ⏱️ Duración estimada: <strong>70 min</strong>.</p>
+<p>🎚️ <strong>Nivel:</strong> Avanzado</p>
 </blockquote>
 <hr>
 <h2 id="objetivo">🎯 Objetivo</h2>
@@ -101,11 +102,15 @@
 <dt><strong>Clustering aglomerativo (jerárquico)</strong></dt>
 <dd>Algoritmo bottom-up: arranca con cada punto como su propio cluster y en cada paso fusiona los dos clusters más cercanos hasta llegar a uno solo. Produce una <strong>jerarquía completa</strong> que se visualiza como dendrograma. En sklearn: <code>AgglomerativeClustering(n_clusters=k)</code> o <code>distance_threshold=d</code> (entonces <code>n_clusters=None</code>).</dd>
 <dt><strong>Linkage</strong></dt>
-<dd>Criterio para medir la distancia entre dos clusters durante la fusión. Las cuatro opciones que importan:
-  - <strong><code>ward</code></strong> (default sklearn): minimiza la varianza intra-cluster al fusionar. Tiende a producir clusters de tamaño parecido. Solo con distancia euclidiana.
-  - <strong><code>complete</code></strong> (max-linkage): distancia entre los dos puntos más lejanos. Produce clusters compactos.
-  - <strong><code>average</code></strong>: promedio de todas las distancias entre puntos de ambos clusters. Compromiso razonable.
-  - <strong><code>single</code></strong> (min-linkage): distancia entre los dos puntos más cercanos. Sufre <em>chaining</em> — un puente fino de puntos une dos clusters que deberían quedar separados.</dd>
+<dd>Criterio para medir la distancia entre dos clusters durante la fusión. Las cuatro opciones que importan:</dd>
+</dl>
+<ul>
+<li><strong><code>ward</code></strong> (default sklearn): minimiza la varianza intra-cluster al fusionar. Tiende a producir clusters de tamaño parecido. Solo con distancia euclidiana.</li>
+<li><strong><code>complete</code></strong> (max-linkage): distancia entre los dos puntos más lejanos. Produce clusters compactos.</li>
+<li><strong><code>average</code></strong>: promedio de todas las distancias entre puntos de ambos clusters. Compromiso razonable.</li>
+<li><strong><code>single</code></strong> (min-linkage): distancia entre los dos puntos más cercanos. Sufre <em>chaining</em> — un puente fino de puntos une dos clusters que deberían quedar separados.</li>
+</ul>
+<dl>
 <dt><strong>Dendrograma</strong></dt>
 <dd>Diagrama de árbol invertido que muestra el orden y la altura (= distancia entre clusters fusionados) de cada merge. Cortar con una línea horizontal a altura <code>h</code> da los clusters resultantes. Se grafica con <code>scipy.cluster.hierarchy.dendrogram(Z)</code> donde <code>Z = linkage(X, method='ward')</code>.</dd>
 <dt><strong>BIRCH (Balanced Iterative Reducing and Clustering using Hierarchies)</strong></dt>
@@ -199,7 +204,8 @@
     <p>
       Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-1-machine-learning-clasico/097-clustering-agglomerative-birch-mean-shift-affinity-propagation-spectra/"><code>classes/parte-1-machine-learning-clasico/097-clustering-agglomerative-birch-mean-shift-affinity-propagation-spectra/</code></a>
       · <a href="../../../index.html">← Volver al portal del alumno</a>
-      · 📥 <a href="https://github.com/vladimiracunadev-create/python-data-science-program/releases/tag/v3.8.0" target="_blank" rel="noreferrer">Descargar binarios (release v3.8.0)</a>
+      · 🖥️ <a href="../../../app/index.html">App de escritorio</a>
+      · 📥 <a href="https://github.com/vladimiracunadev-create/python-data-science-program/releases/latest" target="_blank" rel="noreferrer">Descargar binarios</a>
     </p>
   </footer>
 </body>

@@ -28,6 +28,7 @@
 <h1 id="clase-210-pyspark-para-datasets-grandes">Clase 210 — PySpark para datasets grandes</h1>
 <blockquote>
 <p>Parte: <strong>5 — Ingeniería de Datos</strong> · Fuente: Chambers &amp; Zaharia <em>Spark: The Definitive Guide</em> (O'Reilly, 2018) + <a href="https://spark.apache.org/docs/latest/api/python/">PySpark docs 3.5+</a>. ⏱️ Duración estimada: <strong>90 min</strong>.</p>
+<p>🎚️ <strong>Nivel:</strong> Intermedio-Avanzado</p>
 </blockquote>
 <h2 id="objetivo">🎯 Objetivo</h2>
 <p>Procesar datasets que no entran en RAM con <strong>PySpark 3.5+</strong>: DataFrames con lazy evaluation, Spark SQL, particionado, joins eficientes (broadcast vs shuffle), y entender cuándo Spark <strong>gana</strong> vs pandas/Polars (&gt;10 GB) y cuándo <strong>pierde</strong> (&lt;1 GB, dev local).</p>
@@ -160,11 +161,13 @@
 </table>
 <h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
 <p><strong>❓ ¿PySpark, pandas, Polars o DuckDB?</strong></p>
-<p>Decisión por tamaño + uso:
-- <strong>&lt;1 GB local</strong>: pandas o Polars (Polars 5-10× más rápido).
-- <strong>1-50 GB single machine</strong>: Polars o DuckDB.
-- <strong>&gt;50 GB single machine</strong>: Polars streaming, DuckDB out-of-core, o PySpark local.
-- <strong>&gt;500 GB y/o cluster</strong>: PySpark.</p>
+<p>Decisión por tamaño + uso:</p>
+<ul>
+<li><strong>&lt;1 GB local</strong>: pandas o Polars (Polars 5-10× más rápido).</li>
+<li><strong>1-50 GB single machine</strong>: Polars o DuckDB.</li>
+<li><strong>&gt;50 GB single machine</strong>: Polars streaming, DuckDB out-of-core, o PySpark local.</li>
+<li><strong>&gt;500 GB y/o cluster</strong>: PySpark.</li>
+</ul>
 <p><strong>❓ ¿PySpark en local o necesito cluster?</strong></p>
 <p><code>master("local[*]")</code> corre Spark en tu laptop usando todos los cores — perfecto para dev/test con datasets hasta unos GB. Para producción TB: Databricks, EMR, GCP Dataproc, Azure Synapse, o K8s con Spark Operator.</p>
 <p><strong>❓ ¿UDF Python vs Spark SQL functions?</strong></p>
@@ -196,7 +199,8 @@
     <p>
       Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-5-ingenieria-de-datos/210-pyspark-para-datasets-grandes/"><code>classes/parte-5-ingenieria-de-datos/210-pyspark-para-datasets-grandes/</code></a>
       · <a href="../../../index.html">← Volver al portal del alumno</a>
-      · 📥 <a href="https://github.com/vladimiracunadev-create/python-data-science-program/releases/tag/v3.8.0" target="_blank" rel="noreferrer">Descargar binarios (release v3.8.0)</a>
+      · 🖥️ <a href="../../../app/index.html">App de escritorio</a>
+      · 📥 <a href="https://github.com/vladimiracunadev-create/python-data-science-program/releases/latest" target="_blank" rel="noreferrer">Descargar binarios</a>
     </p>
   </footer>
 </body>

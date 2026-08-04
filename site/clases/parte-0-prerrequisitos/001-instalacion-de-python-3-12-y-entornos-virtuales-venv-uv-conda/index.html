@@ -28,7 +28,8 @@
 <h1 id="clase-001-instalacion-de-python-312-y-entornos-virtuales-venv-uv-conda">Clase 001 — Instalación de Python 3.12+ y entornos virtuales (venv, uv, conda)</h1>
 <blockquote>
 <p>Parte: <strong>0 — Prerrequisitos</strong> · Fuente: VanderPlas, <em>Python Data Science Handbook</em>, prefacio "Installation Considerations".
-⏱️ Duración estimada: <strong>90 min</strong> (45 lectura + 45 práctica).</p>
+⏱️ Duración estimada: <strong>90 min</strong> (45 lectura + 45 práctica).
+🎚️ <strong>Nivel:</strong> Básico</p>
 </blockquote>
 <hr>
 <h2 id="objetivo">🎯 Objetivo</h2>
@@ -97,10 +98,12 @@
 </table>
 <h2 id="dataset-recursos">📂 Dataset / recursos</h2>
 <p><strong>No requiere dataset.</strong> Es una clase de setup. Los únicos archivos generados son los propios entornos virtuales (que se ignoran en git vía <code>.gitignore</code>).</p>
-<p>Recursos externos:
-- <a href="https://www.python.org/downloads/">Python.org downloads</a> — instalador oficial.
-- <a href="https://docs.astral.sh/uv/">uv docs</a> — gestor moderno de Astral.
-- <a href="https://docs.conda.io/projects/miniconda/">Miniconda</a> — instalación mínima de conda (evita Anaconda completo, pesa 3 GB).</p>
+<p>Recursos externos:</p>
+<ul>
+<li><a href="https://www.python.org/downloads/">Python.org downloads</a> — instalador oficial.</li>
+<li><a href="https://docs.astral.sh/uv/">uv docs</a> — gestor moderno de Astral.</li>
+<li><a href="https://docs.conda.io/projects/miniconda/">Miniconda</a> — instalación mínima de conda (evita Anaconda completo, pesa 3 GB).</li>
+</ul>
 <h2 id="ejercicios">🧪 Ejercicios</h2>
 <ol>
 <li><strong>Diagnóstico inicial.</strong> Abre una terminal y reporta: versión de Python (<code>python -V</code>), ruta absoluta (<code>where python</code> en Windows, <code>which python</code> en Unix) y el contenido de <code>sys.path</code> ejecutando un script. Anótalo — lo usarás de baseline.</li>
@@ -122,11 +125,12 @@
 <li>[ ] Output de <code>python verify.py</code> pegado al final del <code>README.md</code>.</li>
 </ul>
 <p><strong>Criterio de aceptación:</strong> otra persona debe poder clonar tu repo, ejecutar:</p>
-<pre><code class="language-bash">python -m venv .venv
-source .venv/bin/activate    # o .venv\Scripts\activate en Windows
-pip install -r requirements.txt
-python verify.py
-</code></pre>
+<div class="codehilite" style="background: #0d1117"><pre style="line-height: 125%;"><span></span><code>python<span style="color: #6E7681"> </span>-m<span style="color: #6E7681"> </span>venv<span style="color: #6E7681"> </span>.venv
+<span style="color: #E6EDF3">source</span><span style="color: #6E7681"> </span>.venv/bin/activate<span style="color: #6E7681">    </span><span style="color: #8B949E; font-style: italic"># o .venv\Scripts\activate en Windows</span>
+pip<span style="color: #6E7681"> </span>install<span style="color: #6E7681"> </span>-r<span style="color: #6E7681"> </span>requirements.txt
+python<span style="color: #6E7681"> </span>verify.py
+</code></pre></div>
+
 <p>…y obtener un output similar al que tú reportaste (mismo Python mayor.menor, mismos paquetes importables).</p>
 <h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
 <dl>
@@ -211,7 +215,8 @@ python verify.py
     <p>
       Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-0-prerrequisitos/001-instalacion-de-python-3-12-y-entornos-virtuales-venv-uv-conda/"><code>classes/parte-0-prerrequisitos/001-instalacion-de-python-3-12-y-entornos-virtuales-venv-uv-conda/</code></a>
       · <a href="../../../index.html">← Volver al portal del alumno</a>
-      · 📥 <a href="https://github.com/vladimiracunadev-create/python-data-science-program/releases/tag/v3.8.0" target="_blank" rel="noreferrer">Descargar binarios (release v3.8.0)</a>
+      · 🖥️ <a href="../../../app/index.html">App de escritorio</a>
+      · 📥 <a href="https://github.com/vladimiracunadev-create/python-data-science-program/releases/latest" target="_blank" rel="noreferrer">Descargar binarios</a>
     </p>
   </footer>
 </body>

@@ -27,7 +27,8 @@
 <nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#material-descargable">📥 Material descargable</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
 <h1 id="clase-062-clasificacion-binaria-con-mnist">Clase 062 — Clasificación binaria con MNIST</h1>
 <blockquote>
-<p>Parte: <strong>1 — Machine Learning Clásico</strong> · Fuente: Géron, <strong>cap. 3</strong>. ⏱️ Duración estimada: <strong>60 min</strong>.</p>
+<p>Parte: <strong>1 — Machine Learning Clásico</strong> · Fuente: Géron, <strong>cap. 3</strong>. ⏱️ Duración estimada: <strong>60 min</strong>.
+🎚️ <strong>Nivel:</strong> Intermedio</p>
 </blockquote>
 <hr>
 <h2 id="objetivo">🎯 Objetivo</h2>
@@ -101,15 +102,19 @@
 <dd>Entrena y evalúa <code>clf</code> en <code>cv</code> folds y devuelve un array de <code>cv</code> scores. Por default usa <code>StratifiedKFold</code> cuando la tarea es clasificación.</dd>
 </dl>
 <h2 id="dataset-recursos">📂 Dataset / recursos</h2>
+<blockquote>
+<p><strong>📌 Nota — dataset en el notebook:</strong> el <strong>notebook</strong> de esta clase usa <code>load_digits</code> de scikit-learn (dígitos manuscritos de <strong>8×8 = 64 features</strong>, ~1.800 imágenes, incluido en la librería) como <strong>sustituto offline de MNIST</strong>. La técnica y el flujo (clasificador binario 5-vs-no-5, <code>cross_val_score</code>, accuracy que engaña con clases desbalanceadas) son idénticos; se eligió <code>load_digits</code> para que la clase corra <strong>sin descargar los ~55 MB de MNIST ni depender del servidor de OpenML</strong>. El texto que sigue describe MNIST completo (<code>fetch_openml</code>) para quien quiera replicarlo a escala real.</p>
+</blockquote>
 <p><strong>MNIST vía <code>fetch_openml</code></strong> (se cachea localmente en <code>~/scikit_learn_data/</code> después de la primera descarga):</p>
-<pre><code class="language-python">from sklearn.datasets import fetch_openml
-mnist = fetch_openml('mnist_784', as_frame=False, parser='auto')
-X, y = mnist.data, mnist.target.astype(int)
-X_train, X_test = X[:60000], X[60000:]
-y_train, y_test = y[:60000], y[60000:]
-y_train_5 = (y_train == 5)
-y_test_5  = (y_test == 5)
-</code></pre>
+<div class="codehilite" style="background: #0d1117"><pre style="line-height: 125%;"><span></span><code><span style="color: #FF7B72">from</span><span style="color: #6E7681"> </span><span style="color: #FF7B72">sklearn.datasets</span><span style="color: #6E7681"> </span><span style="color: #FF7B72">import</span> <span style="color: #E6EDF3">fetch_openml</span>
+<span style="color: #E6EDF3">mnist</span> <span style="color: #FF7B72; font-weight: bold">=</span> <span style="color: #E6EDF3">fetch_openml(</span><span style="color: #A5D6FF">&#39;mnist_784&#39;</span><span style="color: #E6EDF3">,</span> <span style="color: #E6EDF3">as_frame</span><span style="color: #FF7B72; font-weight: bold">=</span><span style="color: #79C0FF">False</span><span style="color: #E6EDF3">,</span> <span style="color: #E6EDF3">parser</span><span style="color: #FF7B72; font-weight: bold">=</span><span style="color: #A5D6FF">&#39;auto&#39;</span><span style="color: #E6EDF3">)</span>
+<span style="color: #E6EDF3">X,</span> <span style="color: #E6EDF3">y</span> <span style="color: #FF7B72; font-weight: bold">=</span> <span style="color: #E6EDF3">mnist</span><span style="color: #FF7B72; font-weight: bold">.</span><span style="color: #E6EDF3">data,</span> <span style="color: #E6EDF3">mnist</span><span style="color: #FF7B72; font-weight: bold">.</span><span style="color: #E6EDF3">target</span><span style="color: #FF7B72; font-weight: bold">.</span><span style="color: #E6EDF3">astype(int)</span>
+<span style="color: #E6EDF3">X_train,</span> <span style="color: #E6EDF3">X_test</span> <span style="color: #FF7B72; font-weight: bold">=</span> <span style="color: #E6EDF3">X[:</span><span style="color: #A5D6FF">60000</span><span style="color: #E6EDF3">],</span> <span style="color: #E6EDF3">X[</span><span style="color: #A5D6FF">60000</span><span style="color: #E6EDF3">:]</span>
+<span style="color: #E6EDF3">y_train,</span> <span style="color: #E6EDF3">y_test</span> <span style="color: #FF7B72; font-weight: bold">=</span> <span style="color: #E6EDF3">y[:</span><span style="color: #A5D6FF">60000</span><span style="color: #E6EDF3">],</span> <span style="color: #E6EDF3">y[</span><span style="color: #A5D6FF">60000</span><span style="color: #E6EDF3">:]</span>
+<span style="color: #E6EDF3">y_train_5</span> <span style="color: #FF7B72; font-weight: bold">=</span> <span style="color: #E6EDF3">(y_train</span> <span style="color: #FF7B72; font-weight: bold">==</span> <span style="color: #A5D6FF">5</span><span style="color: #E6EDF3">)</span>
+<span style="color: #E6EDF3">y_test_5</span>  <span style="color: #FF7B72; font-weight: bold">=</span> <span style="color: #E6EDF3">(y_test</span> <span style="color: #FF7B72; font-weight: bold">==</span> <span style="color: #A5D6FF">5</span><span style="color: #E6EDF3">)</span>
+</code></pre></div>
+
 <h2 id="ejercicios">🧪 Ejercicios</h2>
 <p><strong>1.</strong> <strong>Cargar y explorar.</strong> Cargá MNIST, imprimí <code>X.shape</code> y <code>y.shape</code>, mostrá un dígito con <code>matplotlib.imshow(X[0].reshape(28, 28), cmap='binary')</code> y verificá que <code>y[0] == 5</code>.</p>
 <p><strong>2.</strong> <strong>Target binario + SGD.</strong> Construí <code>y_train_5</code>, entrená <code>SGDClassifier(random_state=42)</code> y predecí sobre <code>X[0]</code>. ¿Devuelve <code>True</code>?</p>
@@ -181,7 +186,8 @@ y_test_5  = (y_test == 5)
     <p>
       Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-1-machine-learning-clasico/062-clasificacion-binaria-con-mnist/"><code>classes/parte-1-machine-learning-clasico/062-clasificacion-binaria-con-mnist/</code></a>
       · <a href="../../../index.html">← Volver al portal del alumno</a>
-      · 📥 <a href="https://github.com/vladimiracunadev-create/python-data-science-program/releases/tag/v3.8.0" target="_blank" rel="noreferrer">Descargar binarios (release v3.8.0)</a>
+      · 🖥️ <a href="../../../app/index.html">App de escritorio</a>
+      · 📥 <a href="https://github.com/vladimiracunadev-create/python-data-science-program/releases/latest" target="_blank" rel="noreferrer">Descargar binarios</a>
     </p>
   </footer>
 </body>

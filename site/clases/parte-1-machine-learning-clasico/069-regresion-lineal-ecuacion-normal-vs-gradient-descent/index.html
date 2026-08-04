@@ -28,6 +28,7 @@
 <h1 id="clase-069-regresion-lineal-ecuacion-normal-vs-gradient-descent">Clase 069 — Regresión lineal: ecuación normal vs gradient descent</h1>
 <blockquote>
 <p>Parte: <strong>1 — Machine Learning Clásico</strong> · Fuente: Géron, <strong>cap. 4</strong> § <em>Linear Regression</em>. ⏱️ Duración estimada: <strong>60 min</strong>.</p>
+<p>🎚️ <strong>Nivel:</strong> Intermedio</p>
 </blockquote>
 <hr>
 <h2 id="objetivo">🎯 Objetivo</h2>
@@ -130,7 +131,7 @@
 </tr>
 <tr>
 <td><code>coef_</code> enormes y de signo contrario a lo esperado</td>
-<td>Features no escaladas y multicolinealidad. <strong>Fix</strong>: <code>StandardScaler</code> antes de fit, o usá regresión regularizada (Ridge/Lasso, clase 063).</td>
+<td>Features no escaladas y multicolinealidad. <strong>Fix</strong>: <code>StandardScaler</code> antes de fit, o usá regresión regularizada (Ridge/Lasso, clase 073).</td>
 </tr>
 <tr>
 <td>Olvido de la columna de unos en la ecuación normal manual</td>
@@ -156,7 +157,7 @@
 <p><strong>❓ ¿Necesito escalar features para regresión lineal?</strong></p>
 <p>Para que el modelo <strong>funcione</strong>, no — la ecuación normal da exactamente la misma predicción con o sin escalado. Para <strong>interpretar <code>coef_</code></strong> (comparar importancia entre features), sí. Para <strong>gradient descent</strong>, sí o sí (sin escalar la convergencia es lentísima).</p>
 <p><strong>❓ ¿Qué pasa si tengo más features que muestras ($n &gt; m$)?</strong></p>
-<p>$X^T X$ es singular → la ecuación normal falla. La pseudoinversa SVD devuelve la solución de <strong>norma mínima</strong> entre las infinitas posibles, pero el modelo va a sobreajustar feísimo. <strong>Fix real</strong>: regularización (Ridge/Lasso, clase 063) o reducción de dimensionalidad.</p>
+<p>$X^T X$ es singular → la ecuación normal falla. La pseudoinversa SVD devuelve la solución de <strong>norma mínima</strong> entre las infinitas posibles, pero el modelo va a sobreajustar feísimo. <strong>Fix real</strong>: regularización (Ridge/Lasso, clase 073) o reducción de dimensionalidad.</p>
 <h2 id="referencias">🔗 Referencias</h2>
 <ul>
 <li>Géron, <strong>cap. 4</strong> § <em>Linear Regression</em>, <em>The Normal Equation</em>, <em>Computational Complexity</em>.</li>
@@ -177,7 +178,8 @@
     <p>
       Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-1-machine-learning-clasico/069-regresion-lineal-ecuacion-normal-vs-gradient-descent/"><code>classes/parte-1-machine-learning-clasico/069-regresion-lineal-ecuacion-normal-vs-gradient-descent/</code></a>
       · <a href="../../../index.html">← Volver al portal del alumno</a>
-      · 📥 <a href="https://github.com/vladimiracunadev-create/python-data-science-program/releases/tag/v3.8.0" target="_blank" rel="noreferrer">Descargar binarios (release v3.8.0)</a>
+      · 🖥️ <a href="../../../app/index.html">App de escritorio</a>
+      · 📥 <a href="https://github.com/vladimiracunadev-create/python-data-science-program/releases/latest" target="_blank" rel="noreferrer">Descargar binarios</a>
     </p>
   </footer>
 </body>

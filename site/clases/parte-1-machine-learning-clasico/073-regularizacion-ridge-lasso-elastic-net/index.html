@@ -28,6 +28,7 @@
 <h1 id="clase-073-regularizacion-ridge-lasso-elastic-net">Clase 073 — Regularización: Ridge, Lasso, Elastic Net</h1>
 <blockquote>
 <p>Parte: <strong>1 — Machine Learning Clásico</strong> · Fuente: Géron, <strong>cap. 4</strong>. ⏱️ Duración estimada: <strong>70 min</strong>.</p>
+<p>🎚️ <strong>Nivel:</strong> Intermedio</p>
 </blockquote>
 <h2 id="objetivo">🎯 Objetivo</h2>
 <p>Aprender a controlar el overfitting en modelos lineales mediante regularización <strong>L2 (Ridge)</strong>, <strong>L1 (Lasso)</strong> y su combinación (<strong>Elastic Net</strong>), entendiendo el rol del hiperparámetro <strong>alpha</strong>, la importancia del <strong>scaling</strong>, y cuándo conviene cada variante.</p>
@@ -97,14 +98,22 @@
    - <strong>Ridge</strong>: pocas features, todas potencialmente relevantes, posible multicolinealidad.
    - <strong>Lasso</strong>: muchas features, sospechás que muchas son irrelevantes, querés un modelo interpretable.
    - <strong>Elastic Net</strong>: muchas features correlacionadas entre sí, o <code>p &gt; n</code> (más features que muestras).</li>
-<li><strong>¿Por qué Lasso anula coeficientes y Ridge no?</strong>
-   Geométricamente, la "bola" de la restricción L1 (rombo) tiene esquinas sobre los ejes; el óptimo bajo restricción cae en una esquina → coeficientes en 0. La bola L2 (círculo) es suave, el óptimo casi nunca cae sobre un eje.</li>
-<li><strong>¿Qué pasa si <code>alpha</code> es muy grande?</strong>
-   Todos los coeficientes se acercan a 0 (Ridge) o se anulan (Lasso) y el modelo predice ~la media de <code>y</code>. Underfitting.</li>
-<li><strong>¿Cómo elijo el rango de <code>alpha</code> para buscar?</strong>
-   Una grilla log-espaciada amplia, ej. <code>np.logspace(-4, 4, 100)</code>, y luego refinar alrededor del óptimo.</li>
-<li><strong>¿Sirve regularización con árboles o solo con modelos lineales?</strong>
-   Ridge/Lasso/Elastic Net son específicos de modelos lineales. Los árboles tienen sus propios mecanismos de regularización (<code>max_depth</code>, <code>min_samples_leaf</code>, <code>ccp_alpha</code>).</li>
+<li>
+<p><strong>¿Por qué Lasso anula coeficientes y Ridge no?</strong>
+   Geométricamente, la "bola" de la restricción L1 (rombo) tiene esquinas sobre los ejes; el óptimo bajo restricción cae en una esquina → coeficientes en 0. La bola L2 (círculo) es suave, el óptimo casi nunca cae sobre un eje.</p>
+</li>
+<li>
+<p><strong>¿Qué pasa si <code>alpha</code> es muy grande?</strong>
+   Todos los coeficientes se acercan a 0 (Ridge) o se anulan (Lasso) y el modelo predice ~la media de <code>y</code>. Underfitting.</p>
+</li>
+<li>
+<p><strong>¿Cómo elijo el rango de <code>alpha</code> para buscar?</strong>
+   Una grilla log-espaciada amplia, ej. <code>np.logspace(-4, 4, 100)</code>, y luego refinar alrededor del óptimo.</p>
+</li>
+<li>
+<p><strong>¿Sirve regularización con árboles o solo con modelos lineales?</strong>
+   Ridge/Lasso/Elastic Net son específicos de modelos lineales. Los árboles tienen sus propios mecanismos de regularización (<code>max_depth</code>, <code>min_samples_leaf</code>, <code>ccp_alpha</code>).</p>
+</li>
 </ol>
 <h2 id="referencias">🔗 Referencias</h2>
 <ul>
@@ -126,7 +135,8 @@
     <p>
       Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-1-machine-learning-clasico/073-regularizacion-ridge-lasso-elastic-net/"><code>classes/parte-1-machine-learning-clasico/073-regularizacion-ridge-lasso-elastic-net/</code></a>
       · <a href="../../../index.html">← Volver al portal del alumno</a>
-      · 📥 <a href="https://github.com/vladimiracunadev-create/python-data-science-program/releases/tag/v3.8.0" target="_blank" rel="noreferrer">Descargar binarios (release v3.8.0)</a>
+      · 🖥️ <a href="../../../app/index.html">App de escritorio</a>
+      · 📥 <a href="https://github.com/vladimiracunadev-create/python-data-science-program/releases/latest" target="_blank" rel="noreferrer">Descargar binarios</a>
     </p>
   </footer>
 </body>

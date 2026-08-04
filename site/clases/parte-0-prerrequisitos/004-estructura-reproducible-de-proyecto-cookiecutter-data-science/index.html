@@ -28,7 +28,8 @@
 <h1 id="clase-004-estructura-reproducible-de-proyecto-cookiecutter-data-science">Clase 004 — Estructura reproducible de proyecto (cookiecutter-data-science)</h1>
 <blockquote>
 <p>Parte: <strong>0 — Prerrequisitos</strong> · Fuente: cookiecutter-data-science v2 · <em>Hidden Technical Debt in ML Systems</em> (Sculley et al., 2015).
-⏱️ Duración estimada: <strong>60 min</strong>.</p>
+⏱️ Duración estimada: <strong>60 min</strong>.
+🎚️ <strong>Nivel:</strong> Básico</p>
 </blockquote>
 <hr>
 <h2 id="objetivo">🎯 Objetivo</h2>
@@ -122,20 +123,22 @@
 </tbody>
 </table>
 <p><strong>Mini-ejemplo.</strong> Función en <code>src/mi_proyecto/features.py</code>:</p>
-<pre><code class="language-python">def normalize(x):
-    return (x - x.mean()) / x.std()
-</code></pre>
-<p>Test en <code>tests/test_features.py</code>:</p>
-<pre><code class="language-python">import numpy as np
-import pandas as pd
-from mi_proyecto.features import normalize
+<div class="codehilite" style="background: #0d1117"><pre style="line-height: 125%;"><span></span><code><span style="color: #FF7B72">def</span><span style="color: #6E7681"> </span><span style="color: #D2A8FF; font-weight: bold">normalize</span><span style="color: #E6EDF3">(x):</span>
+    <span style="color: #FF7B72">return</span> <span style="color: #E6EDF3">(x</span> <span style="color: #FF7B72; font-weight: bold">-</span> <span style="color: #E6EDF3">x</span><span style="color: #FF7B72; font-weight: bold">.</span><span style="color: #E6EDF3">mean())</span> <span style="color: #FF7B72; font-weight: bold">/</span> <span style="color: #E6EDF3">x</span><span style="color: #FF7B72; font-weight: bold">.</span><span style="color: #E6EDF3">std()</span>
+</code></pre></div>
 
-def test_normalize_media_cero():
-    s = pd.Series([1.0, 2.0, 3.0, 4.0, 5.0])
-    result = normalize(s)
-    assert np.isclose(result.mean(), 0.0)
-    assert np.isclose(result.std(), 1.0)
-</code></pre>
+<p>Test en <code>tests/test_features.py</code>:</p>
+<div class="codehilite" style="background: #0d1117"><pre style="line-height: 125%;"><span></span><code><span style="color: #FF7B72">import</span><span style="color: #6E7681"> </span><span style="color: #FF7B72">numpy</span><span style="color: #6E7681"> </span><span style="color: #FF7B72">as</span><span style="color: #6E7681"> </span><span style="color: #FF7B72">np</span>
+<span style="color: #FF7B72">import</span><span style="color: #6E7681"> </span><span style="color: #FF7B72">pandas</span><span style="color: #6E7681"> </span><span style="color: #FF7B72">as</span><span style="color: #6E7681"> </span><span style="color: #FF7B72">pd</span>
+<span style="color: #FF7B72">from</span><span style="color: #6E7681"> </span><span style="color: #FF7B72">mi_proyecto.features</span><span style="color: #6E7681"> </span><span style="color: #FF7B72">import</span> <span style="color: #E6EDF3">normalize</span>
+
+<span style="color: #FF7B72">def</span><span style="color: #6E7681"> </span><span style="color: #D2A8FF; font-weight: bold">test_normalize_media_cero</span><span style="color: #E6EDF3">():</span>
+    <span style="color: #E6EDF3">s</span> <span style="color: #FF7B72; font-weight: bold">=</span> <span style="color: #E6EDF3">pd</span><span style="color: #FF7B72; font-weight: bold">.</span><span style="color: #E6EDF3">Series([</span><span style="color: #A5D6FF">1.0</span><span style="color: #E6EDF3">,</span> <span style="color: #A5D6FF">2.0</span><span style="color: #E6EDF3">,</span> <span style="color: #A5D6FF">3.0</span><span style="color: #E6EDF3">,</span> <span style="color: #A5D6FF">4.0</span><span style="color: #E6EDF3">,</span> <span style="color: #A5D6FF">5.0</span><span style="color: #E6EDF3">])</span>
+    <span style="color: #E6EDF3">result</span> <span style="color: #FF7B72; font-weight: bold">=</span> <span style="color: #E6EDF3">normalize(s)</span>
+    <span style="color: #FF7B72">assert</span> <span style="color: #E6EDF3">np</span><span style="color: #FF7B72; font-weight: bold">.</span><span style="color: #E6EDF3">isclose(result</span><span style="color: #FF7B72; font-weight: bold">.</span><span style="color: #E6EDF3">mean(),</span> <span style="color: #A5D6FF">0.0</span><span style="color: #E6EDF3">)</span>
+    <span style="color: #FF7B72">assert</span> <span style="color: #E6EDF3">np</span><span style="color: #FF7B72; font-weight: bold">.</span><span style="color: #E6EDF3">isclose(result</span><span style="color: #FF7B72; font-weight: bold">.</span><span style="color: #E6EDF3">std(),</span> <span style="color: #A5D6FF">1.0</span><span style="color: #E6EDF3">)</span>
+</code></pre></div>
+
 <p><strong>Correr los tests:</strong> <code>pytest -v</code> para ver todo lo que corre, <code>pytest --cov=src tests/</code> para incluir cobertura.</p>
 <p><strong>¿Qué testear en DS?</strong> Funciones puras de transformación (limpieza, encoding, feature engineering) <strong>sí</strong> — son determinísticas y rápidas. Modelos entrenados con aleatoriedad <strong>no</strong> se testean directamente sobre métricas exactas; o fijás <code>random_state</code>/seeds y verificás contra un valor congelado, o usás snapshots tolerantes (<code>pytest.approx</code>). Lo que importa es testear la lógica que escribiste, no reinventar <code>scikit-learn</code>.</p>
 <h2 id="definiciones-y-caracteristicas">📖 Definiciones y características</h2>
@@ -230,7 +233,8 @@ def test_normalize_media_cero():
     <p>
       Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-0-prerrequisitos/004-estructura-reproducible-de-proyecto-cookiecutter-data-science/"><code>classes/parte-0-prerrequisitos/004-estructura-reproducible-de-proyecto-cookiecutter-data-science/</code></a>
       · <a href="../../../index.html">← Volver al portal del alumno</a>
-      · 📥 <a href="https://github.com/vladimiracunadev-create/python-data-science-program/releases/tag/v3.8.0" target="_blank" rel="noreferrer">Descargar binarios (release v3.8.0)</a>
+      · 🖥️ <a href="../../../app/index.html">App de escritorio</a>
+      · 📥 <a href="https://github.com/vladimiracunadev-create/python-data-science-program/releases/latest" target="_blank" rel="noreferrer">Descargar binarios</a>
     </p>
   </footer>
 </body>

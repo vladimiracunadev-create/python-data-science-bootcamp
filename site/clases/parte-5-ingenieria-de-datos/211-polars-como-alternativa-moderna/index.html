@@ -28,6 +28,7 @@
 <h1 id="clase-211-polars-como-alternativa-moderna">Clase 211 — Polars como alternativa moderna</h1>
 <blockquote>
 <p>Parte: <strong>5 — Ingeniería de Datos</strong> · Fuente: <a href="https://docs.pola.rs/">docs Polars</a> + <a href="https://duckdblabs.github.io/db-benchmark/"><em>Polars vs pandas</em> benchmark</a>. ⏱️ Duración estimada: <strong>75 min</strong>.</p>
+<p>🎚️ <strong>Nivel:</strong> Intermedio-Avanzado</p>
 <p>📎 Esta clase es <strong>complementaria</strong> a la Clase 008 (Polars básico, Parte 0). Acá el foco es <strong>producción</strong>: lazy API, streaming engine, Arrow zero-copy, integración con DuckDB/Parquet.</p>
 </blockquote>
 <h2 id="objetivo">🎯 Objetivo</h2>
@@ -155,9 +156,11 @@
 <p><strong>❓ ¿Pandas se queda? ¿Migrar todo a Polars?</strong></p>
 <p>Pandas tiene 15 años de ecosistema: sklearn, statsmodels, plotly aceptan DataFrames nativos. Polars 1.x se integra (vía Arrow) pero algunas libs requieren conversión. Para <strong>pipelines de ETL/feature engineering</strong>: migrar a Polars. Para <strong>modeling/análisis exploratorio</strong>: pandas sigue cómodo.</p>
 <p><strong>❓ ¿Polars vs DuckDB?</strong></p>
-<p>Solapan, son complementarios.
-- <strong>Polars</strong>: DataFrame API, más natural si pensás en código Python. Pipelines de transformación.
-- <strong>DuckDB</strong>: SQL-first, OLAP optimized, ideal para análisis ad-hoc, queries complejas, joins masivos.</p>
+<p>Solapan, son complementarios.</p>
+<ul>
+<li><strong>Polars</strong>: DataFrame API, más natural si pensás en código Python. Pipelines de transformación.</li>
+<li><strong>DuckDB</strong>: SQL-first, OLAP optimized, ideal para análisis ad-hoc, queries complejas, joins masivos.</li>
+</ul>
 <p>Combinables: Polars para transformación, DuckDB para queries finales analíticas.</p>
 <p><strong>❓ ¿Lazy o eager por default?</strong></p>
 <p>En producción: <strong>lazy</strong> siempre. En notebooks exploratorios: eager está bien (es como pandas). El mantra: "si vas a hacer más de 2 ops sobre el DataFrame, usá lazy".</p>
@@ -188,7 +191,8 @@
     <p>
       Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-5-ingenieria-de-datos/211-polars-como-alternativa-moderna/"><code>classes/parte-5-ingenieria-de-datos/211-polars-como-alternativa-moderna/</code></a>
       · <a href="../../../index.html">← Volver al portal del alumno</a>
-      · 📥 <a href="https://github.com/vladimiracunadev-create/python-data-science-program/releases/tag/v3.8.0" target="_blank" rel="noreferrer">Descargar binarios (release v3.8.0)</a>
+      · 🖥️ <a href="../../../app/index.html">App de escritorio</a>
+      · 📥 <a href="https://github.com/vladimiracunadev-create/python-data-science-program/releases/latest" target="_blank" rel="noreferrer">Descargar binarios</a>
     </p>
   </footer>
 </body>

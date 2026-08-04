@@ -27,7 +27,8 @@
 <nav class="cur-toc"><strong>En esta clase:</strong> <a href="#objetivo">🎯 Objetivo</a> · <a href="#resultados-de-aprendizaje">📚 Resultados de aprendizaje</a> · <a href="#temas">🗺️ Temas</a> · <a href="#definiciones-y-caracteristicas">📖 Definiciones y características</a> · <a href="#dataset-recursos">📂 Dataset / recursos</a> · <a href="#ejercicios">🧪 Ejercicios</a> · <a href="#homework-verificable">📝 Homework verificable</a> · <a href="#errores-comunes">⚠️ Errores comunes</a> · <a href="#preguntas-frecuentes">❓ Preguntas frecuentes</a> · <a href="#referencias">🔗 Referencias</a> · <a href="#material-descargable">📥 Material descargable</a> · <a href="#siguiente-clase">➡️ Siguiente clase</a></nav>
 <h1 id="clase-064-class-imbalance-smote-adasyn-class_weight-threshold-tuning">Clase 064 — Class imbalance: SMOTE, ADASYN, class_weight, threshold tuning</h1>
 <blockquote>
-<p>Parte: <strong>1 — Machine Learning Clásico</strong> · Fuente: Chawla et al. (2002) SMOTE + He et al. (2008) ADASYN + <a href="https://imbalanced-learn.org/">imbalanced-learn</a> docs. ⏱️ Duración estimada: <strong>80 min</strong>.</p>
+<p>Parte: <strong>1 — Machine Learning Clásico</strong> · Fuente: Chawla et al. (2002) SMOTE + He et al. (2008) ADASYN + <a href="https://imbalanced-learn.org/">imbalanced-learn</a> docs. ⏱️ Duración estimada: <strong>80 min</strong>.
+🎚️ <strong>Nivel:</strong> Intermedio</p>
 </blockquote>
 <h2 id="objetivo">🎯 Objetivo</h2>
 <p>Tratar <strong>datasets desbalanceados</strong> —fraude (1 % positivo), churn (5 %), enfermedades raras—. Las trampas son sutiles: accuracy puede ser 99 % con un clasificador trivial. Cubrir las 4 estrategias estándar: <strong>class_weight</strong>, <strong>threshold tuning</strong>, <strong>oversampling (SMOTE, ADASYN)</strong>, <strong>undersampling (Tomek, ENN)</strong>. Y la decisión clave: ¿qué métrica reportar? (F1, PR-AUC, MCC, no accuracy).</p>
@@ -48,7 +49,7 @@
 <li>class_weight: penalizar más errores en minoría durante training.</li>
 <li>Threshold tuning: mover el umbral fuera del 0.5 default.</li>
 <li>SMOTE: interpola entre vecinos de la minoría.</li>
-<li>ADASIN: como SMOTE pero con más densidad en zonas "difíciles".</li>
+<li>ADASYN: como SMOTE pero con más densidad en zonas "difíciles".</li>
 <li>Tomek links / ENN: remueve borderline de la mayoría.</li>
 <li>imbalanced-learn pipelines.</li>
 </ul>
@@ -57,7 +58,7 @@
 <li><strong>Class imbalance</strong>: una clase mucho más frecuente que otra(s).</li>
 <li><strong>class_weight='balanced'</strong>: pesos automáticos inversamente proporcionales a frecuencia.</li>
 <li><strong>SMOTE</strong>: para cada sample minoritario, crear sintéticos en línea recta a sus k vecinos.</li>
-<li><strong>ADASIN</strong>: SMOTE adaptativo — genera más cerca de la frontera de decisión.</li>
+<li><strong>ADASYN</strong>: SMOTE adaptativo — genera más cerca de la frontera de decisión.</li>
 <li><strong>PR-AUC</strong>: área bajo Precision-Recall curve. Más informativa que ROC-AUC cuando hay imbalance fuerte.</li>
 <li><strong>MCC</strong>: <code>(TP*TN - FP*FN) / sqrt(...)</code>. Único valor en [-1, 1]. Robusto a imbalance.</li>
 <li><strong>Threshold tuning</strong>: elegir el cutoff <code>p &gt; τ → predict 1</code> que maximiza la métrica de negocio.</li>
@@ -146,7 +147,8 @@
     <p>
       Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-1-machine-learning-clasico/064-class-imbalance-smote-adasyn-class-weight/"><code>classes/parte-1-machine-learning-clasico/064-class-imbalance-smote-adasyn-class-weight/</code></a>
       · <a href="../../../index.html">← Volver al portal del alumno</a>
-      · 📥 <a href="https://github.com/vladimiracunadev-create/python-data-science-program/releases/tag/v3.8.0" target="_blank" rel="noreferrer">Descargar binarios (release v3.8.0)</a>
+      · 🖥️ <a href="../../../app/index.html">App de escritorio</a>
+      · 📥 <a href="https://github.com/vladimiracunadev-create/python-data-science-program/releases/latest" target="_blank" rel="noreferrer">Descargar binarios</a>
     </p>
   </footer>
 </body>

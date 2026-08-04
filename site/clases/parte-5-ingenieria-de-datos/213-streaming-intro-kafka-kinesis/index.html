@@ -28,6 +28,7 @@
 <h1 id="clase-213-streaming-intro-kafka-kinesis">Clase 213 — Streaming intro: Kafka, Kinesis</h1>
 <blockquote>
 <p>Parte: <strong>5 — Ingeniería de Datos</strong> · Fuente: Kreps, <a href="https://www.confluent.io/blog/build-real-time-data-pipeline/"><em>Building a Real-Time Data Pipeline</em></a> + Narkhede, Shapira, Palino <em>Kafka: The Definitive Guide</em> (O'Reilly, 2ª ed., 2021) + Reis &amp; Housley <strong>cap. 7</strong>. ⏱️ Duración estimada: <strong>85 min</strong>.</p>
+<p>🎚️ <strong>Nivel:</strong> Intermedio-Avanzado</p>
 </blockquote>
 <h2 id="objetivo">🎯 Objetivo</h2>
 <p>Entender el modelo <strong>streaming</strong> vs batch (Clase 208), producir y consumir mensajes en <strong>Kafka</strong> (con <code>confluent-kafka</code> o <code>kafka-python</code>), comparar contra <strong>AWS Kinesis Data Streams</strong> (managed equivalent), y reconocer los 3 problemas clásicos de streaming: <strong>exactly-once</strong>, <strong>out-of-order events</strong>, <strong>backpressure</strong>.</p>
@@ -177,11 +178,13 @@
 <p><strong>❓ ¿Cómo manejo schemas evolucionando?</strong></p>
 <p><strong>Schema Registry</strong> (Confluent, AWS Glue, Apicurio): producer registra schema Avro/Protobuf, consumer lo lee. Compatibilidad checks evita producer rompiendo consumers downstream.</p>
 <p><strong>❓ ¿Streaming SQL? ¿Flink, Spark Streaming, ksqlDB?</strong></p>
-<p>Para queries continuas (windowed aggregates, joins de streams):
-- <strong>Kafka Streams</strong>: lib Java/Scala, embed en tu app.
-- <strong>ksqlDB</strong>: SQL sobre Kafka topics.
-- <strong>Apache Flink</strong>: streaming-first, stateful, exactly-once.
-- <strong>Spark Structured Streaming</strong>: micro-batch (latencia ~seconds), reusa skills de Spark.</p>
+<p>Para queries continuas (windowed aggregates, joins de streams):</p>
+<ul>
+<li><strong>Kafka Streams</strong>: lib Java/Scala, embed en tu app.</li>
+<li><strong>ksqlDB</strong>: SQL sobre Kafka topics.</li>
+<li><strong>Apache Flink</strong>: streaming-first, stateful, exactly-once.</li>
+<li><strong>Spark Structured Streaming</strong>: micro-batch (latencia ~seconds), reusa skills de Spark.</li>
+</ul>
 <p>Para Python: PyFlink y Spark Structured Streaming son los más usados.</p>
 <h2 id="referencias">🔗 Referencias</h2>
 <ul>
@@ -204,7 +207,8 @@
     <p>
       Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-5-ingenieria-de-datos/213-streaming-intro-kafka-kinesis/"><code>classes/parte-5-ingenieria-de-datos/213-streaming-intro-kafka-kinesis/</code></a>
       · <a href="../../../index.html">← Volver al portal del alumno</a>
-      · 📥 <a href="https://github.com/vladimiracunadev-create/python-data-science-program/releases/tag/v3.8.0" target="_blank" rel="noreferrer">Descargar binarios (release v3.8.0)</a>
+      · 🖥️ <a href="../../../app/index.html">App de escritorio</a>
+      · 📥 <a href="https://github.com/vladimiracunadev-create/python-data-science-program/releases/latest" target="_blank" rel="noreferrer">Descargar binarios</a>
     </p>
   </footer>
 </body>

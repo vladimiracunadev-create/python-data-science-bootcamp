@@ -28,6 +28,7 @@
 <h1 id="clase-067-clasificacion-multiclase-multilabel-multioutput">Clase 067 — Clasificación multiclase, multilabel, multioutput</h1>
 <blockquote>
 <p>Parte: <strong>1 — Machine Learning Clásico</strong> · Fuente: Géron, <strong>cap. 3</strong>. ⏱️ Duración estimada: <strong>60 min</strong>.</p>
+<p>🎚️ <strong>Nivel:</strong> Intermedio</p>
 </blockquote>
 <hr>
 <h2 id="objetivo">🎯 Objetivo</h2>
@@ -152,7 +153,7 @@
 <p><strong>❓ ¿<code>MultiOutputClassifier</code> modela correlaciones entre las salidas?</strong></p>
 <p>No — entrena un modelo independiente por columna. Si las etiquetas están correlacionadas (ej.: "es perro" y "tiene cola"), <code>ClassifierChain</code> aprende esa estructura: pasa la predicción de la primera etiqueta como feature extra al modelo de la siguiente.</p>
 <p><strong>❓ ¿Por qué <code>cross_val_score</code> con <code>SGDClassifier</code> en MNIST da accuracy alta pero la matriz de confusión muestra confusión entre 3 y 5?</strong></p>
-<p>Accuracy global enmascara errores localizados entre pocas clases. La matriz de confusión normalizada por filas es indispensable en multiclase — la clase 060 (la próxima) se dedica exactamente a eso.</p>
+<p>Accuracy global enmascara errores localizados entre pocas clases. La matriz de confusión normalizada por filas es indispensable en multiclase — la clase 068 (la próxima) se dedica exactamente a eso.</p>
 <p><strong>❓ ¿Puedo combinar <code>class_weight</code> / SMOTE con multilabel?</strong></p>
 <p><code>class_weight='balanced'</code> sí, etiqueta por etiqueta. SMOTE multilabel es más delicado (existe <code>MLSMOTE</code> en <code>imbalanced-learn</code>, no en sklearn core). Para el curso: usá <code>class_weight</code> y métricas macro.</p>
 <h2 id="referencias">🔗 Referencias</h2>
@@ -175,7 +176,8 @@
     <p>
       Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-1-machine-learning-clasico/067-clasificacion-multiclase-multilabel-multioutput/"><code>classes/parte-1-machine-learning-clasico/067-clasificacion-multiclase-multilabel-multioutput/</code></a>
       · <a href="../../../index.html">← Volver al portal del alumno</a>
-      · 📥 <a href="https://github.com/vladimiracunadev-create/python-data-science-program/releases/tag/v3.8.0" target="_blank" rel="noreferrer">Descargar binarios (release v3.8.0)</a>
+      · 🖥️ <a href="../../../app/index.html">App de escritorio</a>
+      · 📥 <a href="https://github.com/vladimiracunadev-create/python-data-science-program/releases/latest" target="_blank" rel="noreferrer">Descargar binarios</a>
     </p>
   </footer>
 </body>

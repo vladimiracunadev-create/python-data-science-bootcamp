@@ -28,6 +28,7 @@
 <h1 id="clase-218-content-based-filtering">Clase 218 — Content-based filtering</h1>
 <blockquote>
 <p>Parte: <strong>6 — Sistemas de Recomendación</strong> · Fuente: Aggarwal <em>Recommender Systems: The Textbook</em> <strong>cap. 4</strong> + <a href="https://scikit-learn.org/stable/modules/feature_extraction.html#text-feature-extraction">docs scikit-learn <code>TfidfVectorizer</code></a>. ⏱️ Duración estimada: <strong>70 min</strong>.</p>
+<p>🎚️ <strong>Nivel:</strong> Intermedio-Avanzado</p>
 </blockquote>
 <h2 id="objetivo">🎯 Objetivo</h2>
 <p>Recomendar items basándose en sus <strong>atributos</strong> (texto, género, categoría) en vez de interacciones — útil cuando hay cold-start de items (Clase 221) o cuando los items tienen rica metadata. Combinar <strong>TF-IDF / embeddings</strong> sobre descripciones + scoring por similitud al perfil del usuario.</p>
@@ -152,9 +153,11 @@
 </table>
 <h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
 <p><strong>❓ ¿Content-based vs CF?</strong></p>
-<p>Resuelven cosas distintas, y la mejor solución suele ser <strong>hybrid</strong> (Clase 219).
-- <strong>Content-based</strong>: maneja item cold-start, explica por qué ("te recomendamos X porque te gustó Y, ambos de género acción"), pero filter bubble.
-- <strong>CF</strong>: capta señales sociales (a gente como vos le gustó), serendipia, pero no funciona con items nuevos.</p>
+<p>Resuelven cosas distintas, y la mejor solución suele ser <strong>hybrid</strong> (Clase 219).</p>
+<ul>
+<li><strong>Content-based</strong>: maneja item cold-start, explica por qué ("te recomendamos X porque te gustó Y, ambos de género acción"), pero filter bubble.</li>
+<li><strong>CF</strong>: capta señales sociales (a gente como vos le gustó), serendipia, pero no funciona con items nuevos.</li>
+</ul>
 <p><strong>❓ ¿TF-IDF o embeddings?</strong></p>
 <p>Embeddings (<code>sentence-transformers</code>) ganan en calidad semántica. TF-IDF gana en velocidad de inferencia y simplicidad. Para 2026 greenfield: empezá con embeddings, agregá FAISS para retrieval.</p>
 <p><strong>❓ ¿Cómo combino texto + features categóricas?</strong></p>
@@ -190,7 +193,8 @@
     <p>
       Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-6-sistemas-de-recomendacion/218-content-based-filtering/"><code>classes/parte-6-sistemas-de-recomendacion/218-content-based-filtering/</code></a>
       · <a href="../../../index.html">← Volver al portal del alumno</a>
-      · 📥 <a href="https://github.com/vladimiracunadev-create/python-data-science-program/releases/tag/v3.8.0" target="_blank" rel="noreferrer">Descargar binarios (release v3.8.0)</a>
+      · 🖥️ <a href="../../../app/index.html">App de escritorio</a>
+      · 📥 <a href="https://github.com/vladimiracunadev-create/python-data-science-program/releases/latest" target="_blank" rel="noreferrer">Descargar binarios</a>
     </p>
   </footer>
 </body>

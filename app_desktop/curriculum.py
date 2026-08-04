@@ -40,6 +40,10 @@ CLASSES_DIR = ROOT / "classes"
 GITHUB_REPO_URL = "https://github.com/vladimiracunadev-create/python-data-science-program"
 GITHUB_RAW_URL = f"{GITHUB_REPO_URL}/raw/main"
 
+# Portal del alumno en GitHub Pages. Cada clase tiene ahí su página HTML,
+# generada del MISMO README.md que muestra esta app.
+PAGES_URL = "https://vladimiracunadev-create.github.io/python-data-science-program"
+
 
 def _is_frozen() -> bool:
     """True si corre desde un bundle PyInstaller (sin assets pesados)."""
@@ -134,6 +138,25 @@ def class_repo_url(slug: str) -> str:
     return f"{GITHUB_REPO_URL}/tree/main/classes/{slug}"
 
 
+def class_page_url(slug: str) -> str:
+    """URL de la clase en GitHub Pages — la MISMA clase, versión web."""
+    return f"{PAGES_URL}/clases/{slug}/"
+
+
+def app_icon_path() -> str | None:
+    """Ruta al icono del producto (``.ico``), o ``None`` si no está.
+
+    Se busca primero el ``.ico`` multi-resolución que también usan PyInstaller
+    y el instalador Inno Setup; el ``.png`` es el respaldo para entornos donde
+    Qt no tenga el plugin de ICO.
+    """
+    for rel in ("installer/icon.ico", "installer/icon.png", "app_desktop/icon.ico"):
+        found = resolve_resource_path(rel)
+        if found:
+            return found
+    return None
+
+
 def class_notebook(slug: str) -> Path | None:
     """Ruta al notebook.ipynb de la clase o None."""
     path = class_dir(slug) / "notebook.ipynb"
@@ -175,6 +198,9 @@ __all__ = [
     "CLASSES_DIR",
     "GITHUB_REPO_URL",
     "GITHUB_RAW_URL",
+    "PAGES_URL",
+    "app_icon_path",
+    "class_page_url",
     "list_curriculum",
     "load_notebook",
     "resolve_resource_path",

@@ -28,7 +28,8 @@
 <h1 id="clase-030-pandas-operaciones-vectorizadas-sobre-strings">Clase 030 — Pandas: operaciones vectorizadas sobre strings</h1>
 <blockquote>
 <p>Parte: <strong>0 — Prerrequisitos</strong> · Fuente: VanderPlas, <strong>cap. 3</strong> § 3.11 <em>Vectorized String Operations</em>.
-⏱️ Duración estimada: <strong>60 min</strong>.</p>
+⏱️ Duración estimada: <strong>60 min</strong>.
+🎚️ <strong>Nivel:</strong> Básico</p>
 </blockquote>
 <hr>
 <h2 id="objetivo">🎯 Objetivo</h2>
@@ -199,14 +200,15 @@
 </tbody>
 </table>
 <p><strong>Mini-ejemplo — extraer dominio de email con grupos nombrados:</strong></p>
-<pre><code class="language-python">import re
+<div class="codehilite" style="background: #0d1117"><pre style="line-height: 125%;"><span></span><code><span style="color: #FF7B72">import</span><span style="color: #6E7681"> </span><span style="color: #FF7B72">re</span>
 
-email = &quot;vladimir.acuna@gmail.com&quot;
-pat = re.compile(r&quot;(?P&lt;usuario&gt;[\w.]+)@(?P&lt;dominio&gt;[\w.]+)&quot;)
-m = pat.search(email)
-print(m.group(&quot;usuario&quot;))  # vladimir.acuna
-print(m.group(&quot;dominio&quot;))  # gmail.com
-</code></pre>
+<span style="color: #E6EDF3">email</span> <span style="color: #FF7B72; font-weight: bold">=</span> <span style="color: #A5D6FF">&quot;vladimir.acuna@gmail.com&quot;</span>
+<span style="color: #E6EDF3">pat</span> <span style="color: #FF7B72; font-weight: bold">=</span> <span style="color: #E6EDF3">re</span><span style="color: #FF7B72; font-weight: bold">.</span><span style="color: #E6EDF3">compile(</span><span style="color: #79C0FF">r</span><span style="color: #A5D6FF">&quot;(?P&lt;usuario&gt;[\w.]+)@(?P&lt;dominio&gt;[\w.]+)&quot;</span><span style="color: #E6EDF3">)</span>
+<span style="color: #E6EDF3">m</span> <span style="color: #FF7B72; font-weight: bold">=</span> <span style="color: #E6EDF3">pat</span><span style="color: #FF7B72; font-weight: bold">.</span><span style="color: #E6EDF3">search(email)</span>
+<span style="color: #E6EDF3">print(m</span><span style="color: #FF7B72; font-weight: bold">.</span><span style="color: #E6EDF3">group(</span><span style="color: #A5D6FF">&quot;usuario&quot;</span><span style="color: #E6EDF3">))</span>  <span style="color: #8B949E; font-style: italic"># vladimir.acuna</span>
+<span style="color: #E6EDF3">print(m</span><span style="color: #FF7B72; font-weight: bold">.</span><span style="color: #E6EDF3">group(</span><span style="color: #A5D6FF">&quot;dominio&quot;</span><span style="color: #E6EDF3">))</span>  <span style="color: #8B949E; font-style: italic"># gmail.com</span>
+</code></pre></div>
+
 <p><strong>Raw strings (<code>r"..."</code>)</strong></p>
 <p>Siempre se usan raw strings con regex. Sin la <code>r</code>, Python interpreta <code>\d</code>, <code>\w</code>, <code>\s</code> como secuencias de escape y muchas veces te las come o te tira <code>DeprecationWarning</code>. Con <code>r"\d+"</code> le decís a Python "esto es literal, no lo toques, pasáselo crudo a <code>re</code>". Regla: <strong>toda regex va en raw string, sin excepciones</strong>.</p>
 <blockquote>
@@ -304,7 +306,8 @@ print(m.group(&quot;dominio&quot;))  # gmail.com
     <p>
       Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-0-prerrequisitos/030-pandas-operaciones-vectorizadas-sobre-strings/"><code>classes/parte-0-prerrequisitos/030-pandas-operaciones-vectorizadas-sobre-strings/</code></a>
       · <a href="../../../index.html">← Volver al portal del alumno</a>
-      · 📥 <a href="https://github.com/vladimiracunadev-create/python-data-science-program/releases/tag/v3.8.0" target="_blank" rel="noreferrer">Descargar binarios (release v3.8.0)</a>
+      · 🖥️ <a href="../../../app/index.html">App de escritorio</a>
+      · 📥 <a href="https://github.com/vladimiracunadev-create/python-data-science-program/releases/latest" target="_blank" rel="noreferrer">Descargar binarios</a>
     </p>
   </footer>
 </body>

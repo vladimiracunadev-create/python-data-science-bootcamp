@@ -83,6 +83,25 @@ QPushButton {
 QPushButton:hover { background-color: #0860c4; }
 QPushButton:disabled { background-color: #8c959f; }
 QScrollArea { border: none; background-color: #f7f7f9; }
+QSplitter::handle { background-color: #e4e7eb; width: 1px; }
+#classHeader {
+    background-color: #ffffff;
+    border: 1px solid #d0d7de;
+    border-bottom: 2px solid #0f766e;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+}
+#classBadge {
+    background-color: #0f766e;
+    color: #ffffff;
+    border-radius: 6px;
+    font-size: 15pt;
+    font-weight: 700;
+}
+#classTitle { font-size: 14pt; font-weight: 700; color: #1f2328; }
+#classContext { font-size: 9.5pt; color: #57606a; }
+#emptyTitle { font-size: 21pt; font-weight: 700; color: #0f766e; padding: 6px; }
+#emptySubtitle { font-size: 11.5pt; color: #57606a; padding: 6px; }
 """
 
 DARK_QSS = """
@@ -166,8 +185,26 @@ QPushButton {
 QPushButton:hover { background-color: #1a5dc4; }
 QPushButton:disabled { background-color: #6e7681; }
 QScrollArea { border: none; background-color: #0d1117; }
+QSplitter::handle { background-color: #21262d; width: 1px; }
+#classHeader {
+    background-color: #161b22;
+    border: 1px solid #30363d;
+    border-bottom: 2px solid #2dd4bf;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+}
+#classBadge {
+    background-color: #164e63;
+    color: #ffffff;
+    border-radius: 6px;
+    font-size: 15pt;
+    font-weight: 700;
+}
+#classTitle { font-size: 14pt; font-weight: 700; color: #e6edf3; }
+#classContext { font-size: 9.5pt; color: #9198a1; }
+#emptyTitle { font-size: 21pt; font-weight: 700; color: #2dd4bf; padding: 6px; }
+#emptySubtitle { font-size: 11.5pt; color: #9198a1; padding: 6px; }
 """
-
 
 def apply_theme(app: QApplication, mode: str) -> None:
     """Aplica el tema ``"light"`` o ``"dark"`` al QApplication."""

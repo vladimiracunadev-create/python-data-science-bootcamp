@@ -17,7 +17,7 @@ from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QApplication
 
 from app_desktop import __version__
-from app_desktop.curriculum import resolve_resource_path
+from app_desktop.curriculum import app_icon_path
 from app_desktop.main_window import MainWindow
 
 
@@ -42,10 +42,12 @@ def main() -> int:
     # Permitir Ctrl+C en consola desde el event loop de Qt.
     signal.signal(signal.SIGINT, signal.SIG_DFL)
 
-    # Ícono opcional (no falla si no existe).
-    icon_path = resolve_resource_path("app/static/img/logo.png")
+    # Ícono del producto — el mismo .ico que lleva el .exe y el instalador.
+    icon_path = app_icon_path()
     if icon_path and Path(icon_path).exists():
         app.setWindowIcon(QIcon(str(icon_path)))
+    else:
+        log.debug("Sin icono de producto: corré scripts/generate_product_icon.py")
 
     try:
         window = MainWindow()

@@ -2,19 +2,22 @@
 
 Qué resuelve:
     Layout maestro: QTreeView del currículo (con buscador) a la izquierda,
-    QTabWidget con README + Notebook a la derecha. Menubar, toolbar,
-    statusbar y persistencia con QSettings.
+    cabecera de clase + QTabWidget con README/Notebook a la derecha. Menubar,
+    toolbar, statusbar y persistencia con QSettings.
 """
 
 from __future__ import annotations
 
 import logging
+import re
 from typing import Any
 
 from PySide6.QtCore import QSettings, QSize, Qt
-from PySide6.QtGui import QAction, QActionGroup, QStandardItem, QStandardItemModel
+from PySide6.QtGui import QAction, QActionGroup, QIcon, QStandardItem, QStandardItemModel
 from PySide6.QtWidgets import (
     QApplication,
+    QFrame,
+    QHBoxLayout,
     QLabel,
     QLineEdit,
     QMainWindow,
@@ -30,8 +33,10 @@ from PySide6.QtWidgets import (
 
 from app_desktop import __version__
 from app_desktop.curriculum import (
+    app_icon_path,
     class_dir,
     class_notebook,
+    class_page_url,
     class_readme,
     class_repo_url,
     list_curriculum,
@@ -50,6 +55,65 @@ log = logging.getLogger(__name__)
 ROLE_SLUG = Qt.ItemDataRole.UserRole + 1
 ROLE_KIND = Qt.ItemDataRole.UserRole + 2  # "part" | "class"
 
+#: "Clase 007 — Comprehensions" → "Comprehensions". El número ya va en el badge,
+#: repetirlo en el árbol y en la cabecera desperdicia el ancho útil.
+_CLASS_PREFIX_RE = re.compile(r"^Clase\s+\d+\s*[—\-–]\s*")
+
+#: "Parte 0 — Prerrequisitos: Python…" → se usa tal cual; el prefijo "Parte N —"
+#: ya viene en el H1 del README de la parte, así que NO se antepone otra vez.
+_PART_PREFIX_RE = re.compile(r"^Parte\s+\d+\s*[—\-–]\s*")
+
+
+def _clean_class_title(title: str) -> str:
+    return _CLASS_PREFIX_RE.sub("", title or "").strip()
+
+
+def _clean_part_title(title: str) -> str:
+    """Quita el prefijo redundante y todo lo que siga a los dos puntos."""
+    stripped = _PART_PREFIX_RE.sub("", title or "").strip()
+    return stripped.split(":")[0].strip() or (title or "").strip()
+
+
+class ClassHeader(QFrame):
+    """Cabecera de la clase abierta: badge de número, título y contexto.
+
+    Qué resuelve:
+        El título completo de la clase no cabe en el árbol (se elide) y el
+        README lo repite recién después de hacer scroll. Esta cabecera fija
+        deja siempre visible qué clase se está leyendo y a qué parte pertenece.
+    """
+
+    def __init__(self, parent=None) -> None:
+        super().__init__(parent)
+        self.setObjectName("classHeader")
+        layout = QHBoxLayout(self)
+        layout.setContentsMargins(18, 12, 18, 12)
+        layout.setSpacing(14)
+
+        self._badge = QLabel("—")
+        self._badge.setObjectName("classBadge")
+        self._badge.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self._badge.setFixedSize(QSize(58, 42))
+        layout.addWidget(self._badge, 0)
+
+        text_col = QVBoxLayout()
+        text_col.setSpacing(2)
+        self._title = QLabel("Sin clase seleccionada")
+        self._title.setObjectName("classTitle")
+        self._title.setWordWrap(False)
+        self._context = QLabel("")
+        self._context.setObjectName("classContext")
+        text_col.addWidget(self._title)
+        text_col.addWidget(self._context)
+        layout.addLayout(text_col, 1)
+
+    def set_class(self, number: int, title: str, part_label: str, extra: str) -> None:
+        self._badge.setText(f"{number:03d}")
+        self._title.setText(_clean_class_title(title))
+        self._title.setToolTip(title)
+        pieces = [p for p in (part_label, extra) if p]
+        self._context.setText("  ·  ".join(pieces))
+
 
 class MainWindow(QMainWindow):
     """Ventana principal con árbol del currículo y tabs README/Notebook."""
@@ -60,10 +124,16 @@ class MainWindow(QMainWindow):
         self.setMinimumSize(QSize(1000, 700))
         self.resize(1400, 900)
 
+        icon = app_icon_path()
+        if icon is not None:
+            self.setWindowIcon(QIcon(icon))
+
         self._settings = QSettings("PythonDataScienceProgram", "Desktop")
         self._curriculum: list[dict[str, Any]] = []
         self._flat_class_slugs: list[str] = []  # para navegación anterior/siguiente
+        self._class_meta: dict[str, dict[str, Any]] = {}  # slug → nº, título, parte
         self._current_slug: str | None = None
+        self._theme = "light"
 
         self._build_ui()
         self._build_menu()
@@ -92,6 +162,9 @@ class MainWindow(QMainWindow):
         self._tree.setHeaderHidden(True)
         self._tree.setEditTriggers(QTreeView.EditTrigger.NoEditTriggers)
         self._tree.setSelectionMode(QTreeView.SelectionMode.SingleSelection)
+        self._tree.setTextElideMode(Qt.TextElideMode.ElideRight)
+        self._tree.setUniformRowHeights(True)
+        self._tree.setAnimated(True)
         self._tree.clicked.connect(self._on_tree_clicked)
         self._tree_model = QStandardItemModel(self)
         self._tree.setModel(self._tree_model)
@@ -110,32 +183,46 @@ class MainWindow(QMainWindow):
         self._empty_widget = QWidget()
         empty_layout = QVBoxLayout(self._empty_widget)
         empty_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        empty_title = QLabel("Bienvenido")
+        empty_title = QLabel("Python Data Science Program")
+        empty_title.setObjectName("emptyTitle")
         empty_title.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        empty_title.setStyleSheet("font-size: 22pt; font-weight: 700; padding: 8px;")
         empty_sub = QLabel(
-            "232 clases en 9 partes\nSeleccioná una clase del árbol"
+            "232 clases en 9 partes · README + notebook + PDF + PPTX\n"
+            "Seleccioná una clase en el árbol de la izquierda para empezar."
         )
+        empty_sub.setObjectName("emptySubtitle")
         empty_sub.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        empty_sub.setStyleSheet("font-size: 12pt; color: #57606a; padding: 8px;")
         empty_layout.addWidget(empty_title)
         empty_layout.addWidget(empty_sub)
         self._stack.addWidget(self._empty_widget)
 
-        # Tabs.
+        # Vista de clase: cabecera fija + tabs.
+        class_view = QWidget()
+        class_layout = QVBoxLayout(class_view)
+        class_layout.setContentsMargins(0, 0, 0, 0)
+        class_layout.setSpacing(0)
+
+        self._header = ClassHeader()
+        class_layout.addWidget(self._header)
+
         self._tabs = QTabWidget()
+        self._tabs.setDocumentMode(True)
         self._readme_view = ReadmeView()
         self._notebook_view = NotebookView()
-        self._tabs.addTab(self._readme_view, "📘 README")
-        self._tabs.addTab(self._notebook_view, "🧮 Notebook")
-        self._stack.addWidget(self._tabs)
+        self._tabs.addTab(self._readme_view, "📘  Clase")
+        self._tabs.addTab(self._notebook_view, "🧮  Notebook")
+        class_layout.addWidget(self._tabs, 1)
+
+        self._class_view = class_view
+        self._stack.addWidget(class_view)
 
         right_layout.addWidget(self._stack)
         splitter.addWidget(right)
 
         splitter.setStretchFactor(0, 0)
         splitter.setStretchFactor(1, 1)
-        splitter.setSizes([300, 1100])
+        splitter.setSizes([340, 1060])
+        splitter.setChildrenCollapsible(False)
         self.setCentralWidget(splitter)
         self._splitter = splitter
 
@@ -154,7 +241,7 @@ class MainWindow(QMainWindow):
         act_quit.triggered.connect(self.close)
         menu_file.addAction(act_quit)
 
-        # Ver — theme
+        # Ver — theme + zoom de texto
         menu_view = bar.addMenu("&Ver")
         self._theme_group = QActionGroup(self)
         self._theme_group.setExclusive(True)
@@ -164,6 +251,20 @@ class MainWindow(QMainWindow):
             self._theme_group.addAction(act)
             menu_view.addAction(act)
             act.triggered.connect(lambda _checked=False, m=mode: self._set_theme(m))
+
+        menu_view.addSeparator()
+        act_zoom_in = QAction("Texto más &grande", self)
+        act_zoom_in.setShortcuts(["Ctrl++", "Ctrl+="])
+        act_zoom_in.triggered.connect(self._zoom_in)
+        menu_view.addAction(act_zoom_in)
+        act_zoom_out = QAction("Texto más &chico", self)
+        act_zoom_out.setShortcut("Ctrl+-")
+        act_zoom_out.triggered.connect(self._zoom_out)
+        menu_view.addAction(act_zoom_out)
+        act_zoom_reset = QAction("Tamaño &original", self)
+        act_zoom_reset.setShortcut("Ctrl+0")
+        act_zoom_reset.triggered.connect(self._zoom_reset)
+        menu_view.addAction(act_zoom_reset)
 
         # Ayuda
         menu_help = bar.addMenu("A&yuda")
@@ -187,6 +288,11 @@ class MainWindow(QMainWindow):
         self._act_folder = QAction("📂 Carpeta de la clase", self)
         self._act_folder.triggered.connect(self._open_folder)
         tb.addAction(self._act_folder)
+
+        self._act_web = QAction("🌐 Ver en la web", self)
+        self._act_web.setToolTip("Abre esta misma clase en GitHub Pages")
+        self._act_web.triggered.connect(self._open_web)
+        tb.addAction(self._act_web)
 
         tb.addSeparator()
 
@@ -215,23 +321,37 @@ class MainWindow(QMainWindow):
             self._curriculum = []
 
         self._tree_model.clear()
+        self._class_meta = {}
         root = self._tree_model.invisibleRootItem()
         flat: list[str] = []
         for part in self._curriculum:
-            part_label = f"Parte {part['part_number']} — {part['part_title']}"
+            short_part = _clean_part_title(part["part_title"])
+            part_label = (
+                f"Parte {part['part_number']} — {short_part}  ({len(part['classes'])})"
+            )
             part_item = QStandardItem(part_label)
             part_item.setData("", ROLE_SLUG)
             part_item.setData("part", ROLE_KIND)
+            part_item.setToolTip(part["part_title"])
             part_item.setEditable(False)
             for cls in part["classes"]:
-                marker = "" if cls.get("has_notebook") else " (sin .ipynb)"
-                label = f"{cls['number']:03d} · {cls['title']}{marker}"
-                cls_item = QStandardItem(label)
+                # El número va aparte; repetir "Clase NNN —" dentro del título
+                # solo come ancho útil del árbol.
+                short_title = _clean_class_title(cls["title"])
+                marker = "" if cls.get("has_notebook") else "  ·  sin .ipynb"
+                cls_item = QStandardItem(f"{cls['number']:03d}   {short_title}{marker}")
                 cls_item.setData(cls["slug"], ROLE_SLUG)
                 cls_item.setData("class", ROLE_KIND)
+                cls_item.setToolTip(cls["title"])
                 cls_item.setEditable(False)
                 part_item.appendRow(cls_item)
                 flat.append(cls["slug"])
+                self._class_meta[cls["slug"]] = {
+                    "number": cls["number"],
+                    "title": cls["title"],
+                    "part_label": f"Parte {part['part_number']} — {short_part}",
+                    "has_notebook": bool(cls.get("has_notebook")),
+                }
             root.appendRow(part_item)
         self._flat_class_slugs = flat
         self._tree.expandToDepth(0)
@@ -268,7 +388,7 @@ class MainWindow(QMainWindow):
     # ------------------------------------------------------------------
     def _open_class(self, slug: str) -> None:
         self._current_slug = slug
-        self._stack.setCurrentWidget(self._tabs)
+        self._stack.setCurrentWidget(self._class_view)
 
         # README
         readme_path = class_readme(slug)
@@ -290,16 +410,37 @@ class MainWindow(QMainWindow):
             try:
                 nb = load_notebook(slug)
                 self._notebook_view.load_notebook(nb)
-                n_cells = int(nb.get("metadata", {}).get("n_cells", 0))
+                n_cells = int(nb.get("metadata", {}).get("n_cells", 0)) or len(
+                    nb.get("cells", []) or []
+                )
             except Exception as exc:
                 log.warning("Error cargando notebook %s: %s", slug, exc)
                 self._notebook_view.load_empty(f"Error cargando notebook: {exc}")
         else:
             self._notebook_view.load_empty(
-                "Esta clase no tiene notebook.ipynb — solo README/PDF/PPTX."
+                "Esta clase no tiene notebook.ipynb — su material es el README, el PDF y el PPTX."
             )
 
-        self._status_label.setText(f"{slug}  ·  {n_cells} celdas")
+        # Cabecera de clase.
+        meta = self._class_meta.get(slug, {})
+        extra = f"{n_cells} celdas" if n_cells else "sin notebook"
+        self._header.set_class(
+            int(meta.get("number", 0)),
+            str(meta.get("title", slug)),
+            str(meta.get("part_label", "")),
+            extra,
+        )
+        self._tabs.setTabEnabled(1, nb_path is not None)
+        if nb_path is None:
+            self._tabs.setCurrentIndex(0)
+
+        position = ""
+        if slug in self._flat_class_slugs:
+            position = (
+                f"clase {self._flat_class_slugs.index(slug) + 1} "
+                f"de {len(self._flat_class_slugs)}  ·  "
+            )
+        self._status_label.setText(f"{position}{slug}")
         self._update_class_actions_enabled()
         self._settings.setValue("last_slug", slug)
 
@@ -310,6 +451,7 @@ class MainWindow(QMainWindow):
         # bundle .exe slim), la acción abre la URL raw del repo en el browser.
         self._act_pdf.setEnabled(has_class)
         self._act_pptx.setEnabled(has_class)
+        self._act_web.setEnabled(has_class)
         # "Carpeta" solo cuando hay carpeta local (dev mode).
         self._act_folder.setEnabled(has_class and class_dir(slug).exists())
         self._act_prev.setEnabled(
@@ -345,6 +487,33 @@ class MainWindow(QMainWindow):
             # abrimos la carpeta del repo en GitHub.
             open_url(class_repo_url(self._current_slug))
 
+    def _open_web(self) -> None:
+        if not self._current_slug:
+            return
+        open_url(class_page_url(self._current_slug))
+
+    # ------------------------------------------------------------------
+    def _zoom_in(self) -> None:
+        self._readme_view.zoom_in()
+        self._notebook_view.set_scale(self._readme_view.scale)
+        self._persist_scale()
+
+    def _zoom_out(self) -> None:
+        self._readme_view.zoom_out()
+        self._notebook_view.set_scale(self._readme_view.scale)
+        self._persist_scale()
+
+    def _zoom_reset(self) -> None:
+        self._readme_view.zoom_reset()
+        self._notebook_view.set_scale(self._readme_view.scale)
+        self._persist_scale()
+
+    def _persist_scale(self) -> None:
+        self._settings.setValue("text_scale", self._readme_view.scale)
+        self.statusBar().showMessage(
+            f"Tamaño de texto: {int(self._readme_view.scale * 100)}%", 2000
+        )
+
     def _goto_prev(self) -> None:
         if not self._current_slug or self._current_slug not in self._flat_class_slugs:
             return
@@ -361,9 +530,15 @@ class MainWindow(QMainWindow):
 
     # ------------------------------------------------------------------
     def _set_theme(self, mode: str) -> None:
+        mode = "dark" if mode == "dark" else "light"
+        self._theme = mode
         app = QApplication.instance()
         if app is not None:
             apply_theme(app, mode)
+        # Los visores renderizan HTML propio: hay que reconstruirlo con la
+        # paleta del tema, no alcanza con el QSS de la ventana.
+        self._readme_view.set_theme(mode)
+        self._notebook_view.set_theme(mode)
         self._settings.setValue("theme", mode)
         if mode == "dark":
             self._act_dark.setChecked(True)
@@ -402,7 +577,17 @@ class MainWindow(QMainWindow):
     # ------------------------------------------------------------------
     def _restore_settings(self) -> None:
         theme = self._settings.value("theme", "light", type=str)
-        self._set_theme(theme)
+        self._theme = "dark" if theme == "dark" else "light"
+        # `_set_theme` corta temprano si el modo no cambia; forzamos la primera
+        # aplicación invirtiendo el estado interno de los visores.
+        self._readme_view.set_theme(self._theme)
+        self._notebook_view.set_theme(self._theme)
+        self._set_theme(self._theme)
+
+        scale = self._settings.value("text_scale", 1.0, type=float)
+        if scale and abs(scale - 1.0) > 0.001:
+            self._readme_view.set_scale(scale)
+            self._notebook_view.set_scale(self._readme_view.scale)
 
         size = self._settings.value("window/size")
         if isinstance(size, QSize) and size.isValid():

@@ -2,7 +2,7 @@
 
 App móvil del Python Data Science Program.
 
-> **Estado actual (v3.10.0):** la app embebe las **232 clases** del currículo (232/232 notebooks ejecutables). `src/data/classes.js` se **genera** desde `classes/**/README.md` con `python scripts/generate_mobile_curriculum.py` y se valida en `tests/test_mobile_curriculum.py`. El APK se **reutiliza sin cambios desde v3.8.1** (mismo catálogo, mismo `versionCode 39`; los enlaces a Colab ahora resuelven a notebooks reales del release v3.10.0).
+> **Estado actual (v3.11.0):** la app embebe las **232 clases** del currículo (232/232 notebooks ejecutables). `src/data/classes.js` se **genera** desde `classes/**/README.md` con `python scripts/generate_mobile_curriculum.py` y se valida en `tests/test_mobile_curriculum.py`. El APK se **mantiene sin cambios desde v3.8.1** (mismo catálogo, mismo `versionCode 39`). La versión v3.11.0 solo toca la app de escritorio y el sitio: la app móvil no se rebuildeó.
 >
 > La UX es jerárquica: **Home** lista las 9 partes con su progreso → **Parte** lista sus clases con buscador → **Clase** muestra objetivo, resultados, temas, materiales, práctica y el enlace a Colab.
 >

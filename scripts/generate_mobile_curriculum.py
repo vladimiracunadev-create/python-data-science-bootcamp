@@ -28,6 +28,21 @@ ROOT = Path(__file__).resolve().parents[1]
 CLASSES_DIR = ROOT / "classes"
 OUT_FILE = ROOT / "mobile" / "src" / "data" / "classes.js"
 
+
+def _project_version() -> str:
+    """Versión canónica del proyecto, leída de ``pyproject.toml``.
+
+    Estaba hardcodeada en la plantilla de abajo, así que cada bump dejaba el
+    bundle móvil anunciando la versión anterior hasta que alguien se acordaba
+    de editarla a mano.
+    """
+    text = (ROOT / "pyproject.toml").read_text(encoding="utf-8")
+    match = re.search(r'^version\s*=\s*"([^"]+)"', text, flags=re.MULTILINE)
+    return match.group(1) if match else "0.0.0"
+
+
+PROJECT_VERSION = _project_version()
+
 # Colab resolves notebooks straight from GitHub, so the branch has to be the
 # one that actually exists on the remote (``main``) — see mobile/src/utils/colab.js.
 GITHUB_USER = "vladimiracunadev-create"
@@ -338,7 +353,7 @@ def render(parts: list[dict[str, Any]], classes: list[dict[str, Any]]) -> str:
 // El contenido va embebido en el bundle JS para que el programa se pueda leer
 // sin conexión; solo los enlaces a Colab requieren internet.
 
-export const CURRICULUM_VERSION = "v3.10.0";
+export const CURRICULUM_VERSION = "v{PROJECT_VERSION}";
 
 export const PARTS = {dump(parts)};
 

@@ -47,6 +47,14 @@ jobs:
           QT_QPA_PLATFORM: offscreen
         run: pytest
 
+      - name: Check links (sitio, README de clase y URLs de la app)
+        # Detecta el 404 silencioso: una clase renombrada deja enlaces "Siguiente
+        # clase" apuntando a carpetas que ya no existen, tanto en site/ como en
+        # las URLs que arma la app de escritorio.
+        env:
+          QT_QPA_PLATFORM: offscreen
+        run: python scripts/check_links.py
+
   docker:
     runs-on: ubuntu-latest
     needs: test

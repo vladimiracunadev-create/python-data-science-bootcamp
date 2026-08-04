@@ -20,7 +20,7 @@ def test_package_metadata_importable():
     """El paquete y su versión deben importar sin tocar Qt."""
     import app_desktop
 
-    assert app_desktop.__version__ == "3.10.0"
+    assert app_desktop.__version__ == "3.11.0"
 
 
 def test_curriculum_adapter_lists_232_classes():
@@ -79,11 +79,57 @@ def test_notebook_view_renders_a_real_class(qapp):
     assert nb["metadata"]["n_cells"] > 0
 
 
-def test_readme_view_setmarkdown(qapp):
-    """ReadmeView usa QTextBrowser.setMarkdown — sin web engine de por medio."""
+def test_readme_view_renders_html(qapp):
+    """ReadmeView renderiza HTML (no markdown crudo) sin web engine de por medio."""
     from app_desktop.readme_view import ReadmeView
 
     view = ReadmeView()
     view.load_markdown("# Hola\n\nun párrafo con `código`.")
-    # Si llegamos acá Qt rindió bien el markdown como rich text.
-    assert "Hola" in view.toPlainText()
+    assert "Hola" in view._browser.toPlainText()
+    # El documento debe ser rich text con estilos, no texto plano.
+    assert "<h1" in view._browser.toHtml().lower()
+
+
+def test_readme_view_theme_and_zoom(qapp):
+    """Cambiar tema y zoom re-renderiza sin perder el contenido."""
+    from app_desktop.readme_view import MAX_SCALE, ReadmeView
+
+    view = ReadmeView()
+    view.load_markdown("# Título\n\nTexto de prueba.")
+    view.set_theme("dark")
+    assert "Texto de prueba" in view._browser.toPlainText()
+
+    before = view.scale
+    view.zoom_in()
+    assert view.scale > before
+    for _ in range(30):
+        view.zoom_in()
+    assert view.scale <= MAX_SCALE  # el zoom está acotado
+    view.zoom_reset()
+    assert view.scale == 1.0
+
+
+def test_main_window_opens_a_class_and_fills_header(qapp):
+    """Abrir una clase debe poblar la cabecera y habilitar las acciones."""
+    from app_desktop.main_window import MainWindow
+
+    win = MainWindow()
+    slug = "parte-0-prerrequisitos/001-instalacion-de-python-3-12-y-entornos-virtuales-venv-uv-conda"
+    win._open_class(slug)
+
+    assert win._current_slug == slug
+    assert "001" in win._header._badge.text()
+    assert win._header._title.text()  # título limpio, sin el prefijo "Clase NNN —"
+    assert not win._header._title.text().startswith("Clase 001")
+    assert win._act_web.isEnabled()
+
+
+def test_tree_labels_do_not_duplicate_the_part_prefix(qapp):
+    """El árbol no debe mostrar 'Parte 0 — Parte 0 — …' (regresión de v3.10.0)."""
+    from app_desktop.main_window import MainWindow
+
+    win = MainWindow()
+    root = win._tree_model.invisibleRootItem()
+    for i in range(root.rowCount()):
+        label = root.child(i).text()
+        assert label.count("Parte ") == 1, label

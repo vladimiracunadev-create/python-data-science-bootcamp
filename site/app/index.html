@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>La app de escritorio | Python Data Science Program</title>
+  <meta name="description" content="Capturas y descarga de la app Windows nativa del Python Data Science Program: las 232 clases en HTML, notebooks con resaltado de sintaxis, tema claro/oscuro y zoom de texto.">
+  <meta name="theme-color" content="#0f3d3e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../assets/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="stylesheet" href="../clases/curriculum.css">
+  <style>
+    .app-hero { display: grid; grid-template-columns: 96px 1fr; gap: 22px; align-items: center; margin-bottom: 8px; }
+    .app-hero img { width: 96px; height: 96px; border-radius: 22px; box-shadow: var(--shadow); }
+    .app-hero h1 { margin: 0 0 6px; }
+    .app-hero p { margin: 0; }
+    .shot-grid { display: grid; gap: 34px; margin: 32px 0 8px; }
+    .shot { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 16px; box-shadow: var(--shadow); }
+    .shot img { width: 100%; height: auto; display: block; border-radius: var(--radius-sm); border: 1px solid var(--line); }
+    .shot figcaption { margin: 12px 4px 2px; font-size: 0.94rem; color: var(--ink-soft); }
+    .shot figcaption strong { color: var(--ink); }
+    .badge-row { display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 0 6px; padding: 0; list-style: none; }
+    .badge-row li { padding: 5px 12px; background: var(--purple-light); color: #4c1d95; border-radius: 999px; font-size: 0.87rem; font-weight: 500; }
+    .dl-row { display: flex; flex-wrap: wrap; gap: 12px; margin: 22px 0 6px; }
+  </style>
+</head>
+<body class="curriculum-body">
+  <header class="cur-topbar">
+    <a class="brand" href="../index.html">
+      <span aria-hidden="true">🐍</span> Python Data Science Program
+    </a>
+    <nav class="cur-breadcrumbs">
+      <a href="../index.html">🏠 Portal</a><span class="sep">›</span><a href="../clases/index.html">Currículo</a><span class="sep">›</span><span>App de escritorio</span>
+    </nav>
+  </header>
+
+  <main class="cur-main">
+    <div class="app-hero">
+      <img src="../assets/icon.png" alt="Icono del Python Data Science Program">
+      <div>
+        <h1>La app de escritorio</h1>
+        <p>Las mismas 232 clases del portal, en una aplicación Windows nativa que funciona sin conexión.</p>
+      </div>
+    </div>
+
+    <p>
+      La app es un <strong>visor</strong>: recorre el currículo completo (árbol de 9 partes,
+      buscador incremental, navegación anterior/siguiente) y muestra cada clase con el mismo
+      contenido que ves en este sitio. No ejecuta código — para eso está el laboratorio Jupyter
+      que se comparte en clase.
+    </p>
+
+    <p>
+      Desde la <strong>v3.11.0</strong> la clase se renderiza como <strong>HTML</strong> dentro de la
+      app, usando el mismo conversor que genera estas páginas
+      (<code>app/class_html.py</code>). Antes el README se mostraba como markdown plano: sin colores
+      en el código, sin tablas de verdad y con el texto estirado de lado a lado de la pantalla.
+    </p>
+
+    <ul class="badge-row">
+      <li>📄 Clase en HTML</li>
+      <li>🎨 Código con resaltado de sintaxis</li>
+      <li>📏 Columna de lectura acotada</li>
+      <li>🌗 Tema claro y oscuro</li>
+      <li>🔍 Zoom de texto (Ctrl + / Ctrl −)</li>
+      <li>📴 Funciona sin conexión</li>
+    </ul>
+
+    <div class="dl-row">
+      <a class="btn btn-primary" href="https://github.com/vladimiracunadev-create/python-data-science-program/releases/latest" target="_blank" rel="noreferrer">📥 Descargar la última versión</a>
+      <a class="btn btn-secondary" href="../clases/index.html">Ver el currículo en la web</a>
+    </div>
+
+    <h2>Capturas</h2>
+    <p>Capturas reales de la aplicación, generadas automáticamente con
+      <code>scripts/capture_app_screenshots.py</code> sobre clases del currículo — no son mockups.</p>
+
+    <div class="shot-grid">
+      <figure class="shot">
+        <img src="../assets/screenshots/01-clase-readme-claro.png" alt="Vista de una clase con la cabecera fija y el README renderizado en HTML" loading="lazy">
+        <figcaption><strong>Vista de clase.</strong> Cabecera fija con el número y el título de la clase, árbol del currículo a la izquierda y el contenido en una columna de lectura centrada.</figcaption>
+      </figure>
+
+      <figure class="shot">
+        <img src="../assets/screenshots/02-clase-tabla-claro.png" alt="Tabla del temario renderizada como tabla real dentro de la app" loading="lazy">
+        <figcaption><strong>Tablas reales.</strong> El temario, las métricas y los cuadros comparativos se renderizan como tablas con encabezado, no como texto corrido.</figcaption>
+      </figure>
+
+      <figure class="shot">
+        <img src="../assets/screenshots/03-notebook-claro.png" alt="Pestaña Notebook con celdas de código resaltadas" loading="lazy">
+        <figcaption><strong>Pestaña Notebook.</strong> Las celdas del <code>.ipynb</code> con resaltado de sintaxis, número de ejecución y salidas (texto, errores e imágenes).</figcaption>
+      </figure>
+
+      <figure class="shot">
+        <img src="../assets/screenshots/04-clase-readme-oscuro.png" alt="La misma vista de clase en tema oscuro" loading="lazy">
+        <figcaption><strong>Tema oscuro.</strong> La paleta se aplica también al contenido de la clase, no solo al marco de la ventana.</figcaption>
+      </figure>
+
+      <figure class="shot">
+        <img src="../assets/screenshots/05-notebook-oscuro.png" alt="Notebook en tema oscuro" loading="lazy">
+        <figcaption><strong>Notebook en oscuro.</strong> Los bloques de código mantienen su fondo propio para despegarse de la página.</figcaption>
+      </figure>
+
+      <figure class="shot">
+        <img src="../assets/screenshots/06-buscador.png" alt="Buscador filtrando las clases del árbol" loading="lazy">
+        <figcaption><strong>Buscador.</strong> Filtra las 232 clases mientras escribís y colapsa las partes sin coincidencias.</figcaption>
+      </figure>
+    </div>
+
+    <h2>¿Web o app?</h2>
+    <p>
+      Las dos superficies muestran <strong>exactamente el mismo contenido</strong>, porque las dos se
+      generan desde los <code>README.md</code> del repositorio. La diferencia es el contexto de uso:
+    </p>
+    <table>
+      <thead>
+        <tr><th>Necesito…</th><th>Usá</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Compartir un enlace a una clase</td><td>Este sitio (GitHub Pages)</td></tr>
+        <tr><td>Estudiar sin conexión</td><td>La app de escritorio</td></tr>
+        <tr><td>Leer desde el celular</td><td>Este sitio, o la app Android del release</td></tr>
+        <tr><td>Ejecutar el código de la clase</td><td>El laboratorio Jupyter del repositorio</td></tr>
+      </tbody>
+    </table>
+  </main>
+
+  <footer class="cur-footer">
+    <p>
+      Capturas generadas desde el repositorio con
+      <a href="https://github.com/vladimiracunadev-create/python-data-science-program/blob/main/scripts/capture_app_screenshots.py"><code>scripts/capture_app_screenshots.py</code></a>
+      · <a href="../index.html">← Volver al portal del alumno</a>
+      · 📥 <a href="https://github.com/vladimiracunadev-create/python-data-science-program/releases/latest" target="_blank" rel="noreferrer">Descargar binarios</a>
+    </p>
+  </footer>
+</body>
+</html>

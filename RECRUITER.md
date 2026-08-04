@@ -18,7 +18,7 @@ Un sistema de capacitación en Python y Data Science que integra:
 
 - 📚 **currículo modular** (232 clases · 9 partes · v3.10.0 · pauta derivada de Géron 3ª ed., VanderPlas, Huyen, ISLP, Barocas/Hardt/Narayanan + Reis & Housley, Kimball & Ross, Aggarwal + Suresh-Guttag, Hardt-Price-Srebro, Chouldechova, Kleinberg, Dwork-Roth, Abadi, McMahan + Hyndman & Athanasopoulos FPP3 + timm/Lightning/Albumentations + MkDocs Material/Quarto + papers seminales 2002-2026) — 🎓 **232/232 READMEs · 232/232 notebooks ejecutables · cobertura 100% real** con Definiciones, Errores comunes y FAQ en cada clase + 35 clases dedicadas a temas modernos 2024-2026 + stack completo de MLOps (DVC, MLflow, Feast, K8s, FastAPI, drift, shadow/canary, SHAP, Great Expectations, behavioral tests) + data engineering (Airflow, PySpark, Polars, DuckDB/BQ/Snowflake, Kafka, Parquet/Avro, star schemas SCD2) + recomendadores (CF, SVD/ALS, content+FAISS, LightFM, métricas top-N, cold-start) + ética/fairness/privacidad (Suresh-Guttag taxonomía sesgos, DP/EO/calibration + impossibility theorem, privacidad diferencial (Laplace/Gauss/DP-SGD), federated learning (FedAvg + gradient leakage), GDPR + AI Act EU 2024/1689, reproducibilidad (seeds/lock files/model cards/datasheets)) + **Capstones integradores** (Capstone 1 tabular E2E (ColumnTransformer+GBM+Optuna+MLflow+FastAPI+Streamlit+SHAP+CI), Capstone 2 NLP/series (DistilBERT o forecasting con baselines+SARIMA+backtesting+cuantiles), Capstone 3 visión transfer learning (ConvNeXt/EfficientNetV2/ViT + RandAugment/MixUp/CutMix + ONNX), Portafolio público (MkDocs Material/Quarto + GitHub Pages + demos hosted + deck + CV técnico)); ya no quedan clases pendientes — siguiente foco: superficies (regen PDFs/PPTX, mobile UI, mejoras lab de ejecución Python);
 - 🧪 **laboratorio de ejecución Python** (Flask shell + kernel Jupyter real vía `jupyter_client`, lee notebooks reales del currículo, outputs ricos);
-- 🖥️ **app de escritorio nativa para Windows** (PySide6 / Qt nativo · v3.10.0 — sin web, sin localhost, sin WebView; widgets Qt puros con QTreeView, QTextBrowser `setMarkdown`, QScrollArea por celda de notebook · diferencial técnico vs el wrapper pywebview anterior);
+- 🖥️ **app de escritorio nativa para Windows** (PySide6 / Qt nativo · v3.11.0 — sin web, sin localhost, sin WebView; widgets Qt puros con QTreeView, `QTextBrowser.setHtml` alimentado por el **mismo renderizador markdown→HTML que genera GitHub Pages** (`app/class_html.py`), resaltado Pygments y QScrollArea por celda de notebook · diferencial técnico vs el wrapper pywebview anterior);
 - 📱 **app Android** (Expo/React Native, 232 clases embebidas + Google Colab);
 - 🌐 **portal público** (GitHub Pages para alumnos + vista institucional) — pendiente migrar al índice actual;
 - 📖 **documentación de producto** organizada por audiencia.
@@ -33,9 +33,9 @@ Un sistema de capacitación en Python y Data Science que integra:
 | Ejecución de código Python | ✅ operativo | Jupyter kernel real (`jupyter_client` + `ipykernel`), pandas, matplotlib, scikit-learn, timeout por celda + interrupt/restart |
 | 232 clases · 232 notebooks ejecutables (🎓 100% real) | ✅ operativo | `/api/classes` → 232 clases, `/api/class/<path:slug>` → HTML, `/api/curriculum` → 232/232 con `has_notebook: true` |
 | 6 notebooks interactivos | ✅ operativo | `/api/notebooks` → 6 templates, ejecución por celda |
-| App de escritorio Windows | ✅ binario v3.10.0 publicado en release | PySide6 + PyInstaller — reconstruido con los 232 notebooks reales; ZIP portable slim de 273 MB, sin Flask, sin localhost, sin Edge WebView2 |
-| Instalador Windows | ⏳ pendiente para v3.10.0 | el release v3.10.0 no incluye instalador Inno Setup `.exe` (no había Inno Setup en el entorno de build) — el ZIP portable es el artefacto autónomo; la versión v3.8.1 del instalador sigue en su release histórico. Pendiente además firmarlo con certificado de code-signing |
-| App Android | ✅ APK debug v3.8.1 reutilizado en release v3.10.0 | Expo SDK 51, versionCode 39 (sin cambios) — 232 clases embebidas, navegación partes → clases → detalle |
+| App de escritorio Windows | ✅ binario v3.11.0 publicado en release | PySide6 + PyInstaller — clase renderizada en HTML con el conversor compartido con Pages, resaltado Pygments, icono de producto propio; ZIP portable slim, sin Flask, sin localhost, sin Edge WebView2 |
+| Instalador Windows | ⏳ pendiente | el release v3.11.0 no incluye instalador Inno Setup `.exe` (no hay Inno Setup en el entorno de build) — el ZIP portable es el artefacto autónomo; `installer/setup.iss` ya queda con `SetupIconFile` apuntando al icono del producto. Pendiente además firmarlo con certificado de code-signing |
+| App Android | ✅ APK debug v3.8.1 publicado en release v3.10.0 | Expo SDK 51, versionCode 39 — 232 clases embebidas, navegación partes → clases → detalle. Sin cambios en v3.11.0 |
 | Portal del alumno | ✅ en vivo | GitHub Pages — pendiente migrar al índice actual |
 | CI/CD | ✅ activo | 3 workflows: tests, security scan, deploy-pages |
 | Análisis de seguridad | ✅ limpio | Bandit: 0 High, 0 Medium, 0 Low |
@@ -92,12 +92,12 @@ Un sistema de capacitación en Python y Data Science que integra:
 
 ## 📥 Descarga directa de binarios
 
-Release oficial: [**v3.10.0**](https://github.com/vladimiracunadev-create/python-data-science-program/releases/tag/v3.10.0) (publicado 2026-07-28).
+Release oficial: [**v3.11.0**](https://github.com/vladimiracunadev-create/python-data-science-program/releases/tag/v3.11.0) (publicado 2026-08-04).
 
-- 🖥️ [`PythonDSProgram_windows_portable_v3.10.0.zip`](https://github.com/vladimiracunadev-create/python-data-science-program/releases/download/v3.10.0/PythonDSProgram_windows_portable_v3.10.0.zip) (273 MB) — descomprimir y ejecutar `PythonDSProgram.exe`, ventana Qt nativa sin instalación; reconstruida con los 232 notebooks reales.
-- 📱 [`PythonDSProgram_android_v3.8.1_debug.apk`](https://github.com/vladimiracunadev-create/python-data-science-program/releases/download/v3.10.0/PythonDSProgram_android_v3.8.1_debug.apk) (139 MB) — instalar directo en Android; APK reutilizado sin cambios desde v3.8.1.
-- 📄 [`curso-completo.pdf`](https://github.com/vladimiracunadev-create/python-data-science-program/releases/download/v3.10.0/curso-completo.pdf) (1.9 MB) y [`curso-completo.pptx`](https://github.com/vladimiracunadev-create/python-data-science-program/releases/download/v3.10.0/curso-completo.pptx) (2.0 MB) — currículo completo.
-- 🔐 [`SHA256SUMS_v3.10.0.txt`](https://github.com/vladimiracunadev-create/python-data-science-program/releases/download/v3.10.0/SHA256SUMS_v3.10.0.txt) — verificación de integridad.
+- 🖥️ [`PythonDSProgram_windows_portable_v3.11.0.zip`](https://github.com/vladimiracunadev-create/python-data-science-program/releases/download/v3.11.0/PythonDSProgram_windows_portable_v3.11.0.zip) — descomprimir y ejecutar `PythonDSProgram.exe`, ventana Qt nativa sin instalación; clase renderizada en HTML ([capturas](https://vladimiracunadev-create.github.io/python-data-science-program/app/)).
+- 📱 [`PythonDSProgram_android_v3.8.1_debug.apk`](https://github.com/vladimiracunadev-create/python-data-science-program/releases/download/v3.10.0/PythonDSProgram_android_v3.8.1_debug.apk) (139 MB) — instalar directo en Android; se mantiene el asset del release v3.10.0 (v3.11.0 no cambia la app móvil).
+- 📄 [`curso-completo.pdf`](https://github.com/vladimiracunadev-create/python-data-science-program/releases/download/v3.11.0/curso-completo.pdf) y [`curso-completo.pptx`](https://github.com/vladimiracunadev-create/python-data-science-program/releases/download/v3.11.0/curso-completo.pptx) — currículo completo.
+- 🔐 [`SHA256SUMS_v3.11.0.txt`](https://github.com/vladimiracunadev-create/python-data-science-program/releases/download/v3.11.0/SHA256SUMS_v3.11.0.txt) — verificación de integridad.
 
 ---
 

@@ -18,16 +18,16 @@ import shutil
 import sys
 from pathlib import Path
 
-import markdown  # type: ignore
-
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+
+# Fuente única de la conversión markdown → HTML: el MISMO módulo que usa la
+# app Windows para renderizar la clase. Antes cada superficie tenía su propia
+# configuración de python-markdown y las clases se veían distinto en cada una.
+from app.class_html import render_markdown  # noqa: E402
+
 CLASSES = ROOT / "classes"
 OUT = ROOT / "site" / "clases"
-
-MD = markdown.Markdown(
-    extensions=["extra", "toc", "sane_lists", "tables", "fenced_code"],
-    output_format="html5",
-)
 
 PART_TITLES = {
     "parte-0-prerrequisitos": ("Parte 0", "Prerrequisitos", "Python, NumPy, pandas, viz, SQL, NoSQL, APIs"),
@@ -89,7 +89,8 @@ PAGE = """<!doctype html>
     <p>
       Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/{repo_path}"><code>{repo_path}</code></a>
       · <a href="{root}index.html">← Volver al portal del alumno</a>
-      · 📥 <a href="https://github.com/vladimiracunadev-create/python-data-science-program/releases/tag/v3.10.0" target="_blank" rel="noreferrer">Descargar binarios (release v3.10.0)</a>
+      · 🖥️ <a href="{root}app/index.html">App de escritorio</a>
+      · 📥 <a href="https://github.com/vladimiracunadev-create/python-data-science-program/releases/latest" target="_blank" rel="noreferrer">Descargar binarios</a>
     </p>
   </footer>
 </body>
@@ -112,8 +113,14 @@ CSS = """/* Curriculum pages — extiende styles.css del portal */
 .cur-main a { color: var(--teal); text-decoration: underline; text-decoration-color: var(--gold-light); text-underline-offset: 3px; }
 .cur-main a:hover { color: var(--teal-dark); text-decoration-color: var(--gold); }
 .cur-main code { font-family: 'JetBrains Mono', monospace; background: var(--purple-light); padding: 1px 6px; border-radius: 4px; font-size: 0.9em; color: #4c1d95; }
-.cur-main pre { background: #0f172a; color: #e2e8f0; padding: 16px 20px; border-radius: var(--radius-sm); overflow-x: auto; box-shadow: var(--shadow); }
+.cur-main pre { background: #0d1117; color: #e6edf3; padding: 16px 20px; border-radius: var(--radius-sm); overflow-x: auto; box-shadow: var(--shadow); }
 .cur-main pre code { background: transparent; color: inherit; padding: 0; }
+/* Bloques resaltados por Pygments (codehilite, estilos inline). El <div>
+   externo trae el fondo del tema; el <pre> interior debe quedar transparente
+   para no taparlo, y el scroll horizontal vive en el <div>. */
+.cur-main .codehilite { border-radius: var(--radius-sm); overflow-x: auto; box-shadow: var(--shadow); margin: 1.4em 0; }
+.cur-main .codehilite pre { background: transparent !important; box-shadow: none; margin: 0; border-radius: 0; }
+.cur-main .codehilite code { font-family: 'JetBrains Mono', monospace; font-size: 0.88em; }
 .cur-main blockquote { border-left: 4px solid var(--gold); background: var(--bg-soft); padding: 14px 18px; margin: 1.4em 0; border-radius: 0 var(--radius-sm) var(--radius-sm) 0; color: var(--ink); }
 .cur-main table { border-collapse: collapse; width: 100%; margin: 1.4em 0; background: var(--card); border-radius: var(--radius-sm); overflow: hidden; box-shadow: var(--shadow); }
 .cur-main th, .cur-main td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--line); }
@@ -170,8 +177,8 @@ def slugify_part(name: str) -> str:
 
 
 def render_md(text: str) -> str:
-    MD.reset()
-    return MD.convert(text)
+    """Delega en ``app.class_html`` — compartido con la app de escritorio."""
+    return render_markdown(text)
 
 
 def rewrite_links(html_body: str, part_dir: str, class_dir: str | None) -> str:

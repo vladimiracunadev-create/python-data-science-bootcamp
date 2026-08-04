@@ -13,6 +13,38 @@
 
 ---
 
+## [v3.11.0] — 2026-08-04 (La clase se ve bien: render HTML en la app, nueva UI de clase e icono de producto)
+
+La app de escritorio mostraba el README de cada clase pasándolo crudo a `QTextBrowser.setMarkdown()`. Eso significaba: bloques de código sin color, tablas del temario colapsadas a texto corrido, líneas de 200 caracteres de lado a lado de la pantalla y — en tema oscuro — el contenido con la paleta del tema claro. **La misma clase se veía bien en GitHub Pages y mal en la app.** Esta versión unifica las dos superficies detrás de un único renderizador.
+
+### Añadido
+- **`app/class_html.py` — renderizador compartido.** Una sola conversión markdown → HTML para las dos superficies: la app la usa con `QTextBrowser.setHtml()` y `scripts/generate_site_curriculum.py` la usa para generar GitHub Pages. Incluye la adaptación al subset de HTML/CSS que entiende el motor de rich text de Qt (bloques de código y citas envueltos en tablas de una celda, que es la única forma de que Qt pinte el fondo a todo el ancho) y anclas `<a name>` para el índice interno de la clase.
+- **Resaltado de sintaxis** con Pygments (`codehilite`, estilo `github-dark`) en los bloques de código de la clase y en las celdas del notebook — antes eran texto plano en los dos lados.
+- **Cabecera de clase fija** en la app: badge con el número, título completo (el árbol lo elide), parte a la que pertenece y cantidad de celdas del notebook.
+- **Zoom de texto** `Ctrl +` / `Ctrl −` / `Ctrl 0`, persistido entre sesiones.
+- **Botón "🌐 Ver en la web"**: abre la misma clase en GitHub Pages.
+- **Icono de producto** (`installer/icon.svg` → `icon.ico` multi-resolución 16–256 px) generado con `scripts/generate_product_icon.py`. Se usa en el `.exe`, en el instalador Inno Setup (`SetupIconFile`, que estaba comentado), en la ventana Qt y como favicon del portal.
+- **`scripts/capture_app_screenshots.py`**: capturas reales de la app (6 vistas, ambos temas) que alimentan `docs/screenshots/` y la nueva página **[App de escritorio](https://vladimiracunadev-create.github.io/python-data-science-program/app/)** del portal.
+- **`scripts/check_links.py`**: verifica enlaces del sitio, de los README de clase y de las URLs que arma la app. Corre en CI.
+
+### Corregido
+- **36 enlaces rotos** en las páginas publicadas de GitHub Pages: el HTML commiteado en `site/clases/` había quedado obsoleto y la navegación "clase siguiente" apuntaba a carpetas renombradas (`032a-polars…` en vez de `033-polars…`, entre otras).
+- **Listas pegadas al párrafo anterior.** `Recursos externos:` seguido de `- item` sin línea en blanco se renderizaba como un renglón corrido con guiones sueltos — en la app **y en el sitio**. `normalize_markdown()` inserta el salto que `sane_lists` exige, sin tocar los 232 README y sin alterar el contenido de los bloques ```.
+- **Tema oscuro real** en el contenido de la clase y del notebook: antes el QSS pintaba el marco de la ventana pero el documento seguía con los colores del tema claro.
+- **Etiqueta duplicada en el árbol**: mostraba `Parte 0 — Parte 0 — Prerrequisitos: …` porque el prefijo ya venía en el H1 del README de la parte. Cubierto por test de regresión.
+- Bloques ` ```bash ` ilegibles: Pygments solo colorea los tokens que reconoce y el resto heredaba el estilo del código *inline* (fondo claro, tinta violeta) sobre fondo oscuro.
+
+### Cambiado
+- Los títulos del árbol pierden el prefijo redundante `Clase NNN —` (el número ya va en su propia columna), ganan tooltip con el título completo y el contador de clases por parte.
+- Columna de lectura acotada a 940 px y centrada, en las dos pestañas.
+- El pie de las páginas generadas apunta a `releases/latest` en vez de a un tag fijo que quedaba desactualizado en cada versión.
+- Versión `3.10.0 → 3.11.0`. **El APK Android no cambia**: se sigue distribuyendo el binario `v3.8.1` (mismo `versionCode 39`), porque esta versión solo toca la app de escritorio y el sitio.
+
+### Release
+- **`PythonDSProgram_windows_portable_v3.11.0.zip`** — app Windows con el render HTML, la nueva UI de clase y el icono de producto.
+
+---
+
 ## [v3.10.0] — 2026-07-28 (Mejora pedagógica profunda — solucionario, niveles y ejecutabilidad para autoestudio)
 
 Tras una **auditoría pedagógica de las 232 clases** (lente autoestudio desde cero, informe en `docs/AUDITORIA_PEDAGOGICA.md`), se implementaron las mejoras que faltaban para que el curso sirva a un principiante **sin instructor**. Los dos gaps sistémicos que detectó la auditoría eran: (1) los ejercicios no traían solución trabajada, y (2) las clases concepto/CLI/despliegue no demostraban nada ejecutable.

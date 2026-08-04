@@ -28,6 +28,7 @@
 <h1 id="clase-072-curvas-de-aprendizaje-y-bias-variance-tradeoff">Clase 072 — Curvas de aprendizaje y bias-variance tradeoff</h1>
 <blockquote>
 <p>Parte: <strong>1 — Machine Learning Clásico</strong> · Fuente: Géron, <strong>cap. 4</strong>. ⏱️ Duración estimada: <strong>60 min</strong>.</p>
+<p>🎚️ <strong>Nivel:</strong> Intermedio</p>
 </blockquote>
 <h2 id="objetivo">🎯 Objetivo</h2>
 <p>Diagnosticar si un modelo sufre de <strong>alto sesgo</strong> o <strong>alta varianza</strong> leyendo curvas de aprendizaje
@@ -65,57 +66,91 @@
 </ul>
 <h2 id="dataset-recursos">📂 Dataset / recursos</h2>
 <ul>
-<li>Dataset sintético tipo "noisy quadratic": <code>y = 0.5·x² + x + 2 + ε</code> con <code>np.random.randn</code>. Permite controlar la
-  complejidad real y comparar con polinomios de distinto grado.</li>
-<li><code>sklearn.datasets.fetch_california_housing</code> (subset) para una corrida sobre datos reales.</li>
+<li>
+<p>Dataset sintético tipo "noisy quadratic": <code>y = 0.5·x² + x + 2 + ε</code> con <code>np.random.randn</code>. Permite controlar la
+  complejidad real y comparar con polinomios de distinto grado.</p>
+</li>
+<li>
+<p><code>sklearn.datasets.fetch_california_housing</code> (subset) para una corrida sobre datos reales.</p>
+</li>
 <li>API clave: <code>sklearn.model_selection.learning_curve</code>, <code>validation_curve</code>.</li>
 </ul>
 <h2 id="ejercicios">🧪 Ejercicios</h2>
 <ol>
-<li><strong>Curva base.</strong> Generá 200 puntos del dataset cuadrático ruidoso. Ajustá una <strong>regresión lineal</strong> y graficá la curva
-   de aprendizaje (train vs. val RMSE). ¿Qué patrón observás?</li>
-<li><strong>Aumentar capacidad.</strong> Repetí con <code>PolynomialFeatures(degree=2)</code> + <code>LinearRegression</code>. Comparalo con <code>degree=10</code>.
-   Identificá cuál es underfit, cuál fit, cuál overfit.</li>
-<li><strong>¿Más datos ayudan?</strong> Para el polinomio de grado 10, extendé el dataset a 2000 puntos y volvé a plotear.
-   ¿Se cierra el gap? Cuantificá.</li>
-<li><strong>Validation curve.</strong> Usá <code>validation_curve</code> para barrer <code>degree</code> de 1 a 15 sobre el mismo dataset. Encontrá el
-   "sweet spot" donde val_RMSE es mínimo.</li>
-<li><strong>Bias-variance empírico.</strong> Entrená 100 modelos <code>degree=10</code> sobre bootstraps del dataset y calculá, para una grilla
+<li>
+<p><strong>Curva base.</strong> Generá 200 puntos del dataset cuadrático ruidoso. Ajustá una <strong>regresión lineal</strong> y graficá la curva
+   de aprendizaje (train vs. val RMSE). ¿Qué patrón observás?</p>
+</li>
+<li>
+<p><strong>Aumentar capacidad.</strong> Repetí con <code>PolynomialFeatures(degree=2)</code> + <code>LinearRegression</code>. Comparalo con <code>degree=10</code>.
+   Identificá cuál es underfit, cuál fit, cuál overfit.</p>
+</li>
+<li>
+<p><strong>¿Más datos ayudan?</strong> Para el polinomio de grado 10, extendé el dataset a 2000 puntos y volvé a plotear.
+   ¿Se cierra el gap? Cuantificá.</p>
+</li>
+<li>
+<p><strong>Validation curve.</strong> Usá <code>validation_curve</code> para barrer <code>degree</code> de 1 a 15 sobre el mismo dataset. Encontrá el
+   "sweet spot" donde val_RMSE es mínimo.</p>
+</li>
+<li>
+<p><strong>Bias-variance empírico.</strong> Entrená 100 modelos <code>degree=10</code> sobre bootstraps del dataset y calculá, para una grilla
    de <code>x</code> de test, la <strong>varianza</strong> de las predicciones y el <strong>bias²</strong> vs. la función verdadera. Verificá que la suma
-   <code>bias² + var</code> se acerca al MSE total menos <code>σ²</code>.</li>
+   <code>bias² + var</code> se acerca al MSE total menos <code>σ²</code>.</p>
+</li>
 </ol>
 <h2 id="homework-verificable">📝 Homework verificable</h2>
 <p>Sobre el dataset <code>california_housing</code>:</p>
 <ol>
 <li>Entrená <code>DecisionTreeRegressor(max_depth=d)</code> para <code>d ∈ {2, 5, 10, None}</code>.</li>
 <li>Para cada uno, generá la curva de aprendizaje con <code>learning_curve(cv=5, scoring='neg_root_mean_squared_error')</code>.</li>
-<li>Clasificá cada modelo como <strong>underfit</strong>, <strong>fit razonable</strong> o <strong>overfit</strong> justificando con el gap final y el nivel
-   de error.</li>
-<li>Recomendá explícitamente, para cada caso, una de tres acciones: <code>["más datos", "más capacidad", "regularizar/podar"]</code>.</li>
+<li>
+<p>Clasificá cada modelo como <strong>underfit</strong>, <strong>fit razonable</strong> o <strong>overfit</strong> justificando con el gap final y el nivel
+   de error.</p>
+</li>
+<li>
+<p>Recomendá explícitamente, para cada caso, una de tres acciones: <code>["más datos", "más capacidad", "regularizar/podar"]</code>.</p>
+</li>
 </ol>
 <p><strong>Criterio de aceptación:</strong> un <code>.py</code> o notebook que, al ejecutarse, imprima una tabla con columnas
 <code>depth | train_rmse_final | val_rmse_final | gap | diagnostico | accion_recomendada</code> y guarde los 4 gráficos en
 <code>figs/learning_curve_depth_{d}.png</code>.</p>
 <h2 id="errores-comunes">⚠️ Errores comunes</h2>
 <ul>
-<li><strong>Confundir curva de aprendizaje con validation curve.</strong> La primera varía <code>m</code> (tamaño de train); la segunda varía un
-  <strong>hiperparámetro</strong>. No son intercambiables.</li>
-<li><strong>Leer el error de train absoluto como diagnóstico.</strong> Lo relevante es el <strong>gap</strong> y la <strong>tendencia asintótica</strong>, no
-  un punto aislado.</li>
-<li><strong>Recomendar "más datos" frente a high bias.</strong> Si ambas curvas ya convergieron alto, sumar filas no baja el error;
-  hay que cambiar el modelo o las features.</li>
-<li><strong>No promediar sobre CV.</strong> Una sola partición es ruidosa; <code>learning_curve</code> ya hace CV interno — usalo.</li>
+<li>
+<p><strong>Confundir curva de aprendizaje con validation curve.</strong> La primera varía <code>m</code> (tamaño de train); la segunda varía un
+  <strong>hiperparámetro</strong>. No son intercambiables.</p>
+</li>
+<li>
+<p><strong>Leer el error de train absoluto como diagnóstico.</strong> Lo relevante es el <strong>gap</strong> y la <strong>tendencia asintótica</strong>, no
+  un punto aislado.</p>
+</li>
+<li>
+<p><strong>Recomendar "más datos" frente a high bias.</strong> Si ambas curvas ya convergieron alto, sumar filas no baja el error;
+  hay que cambiar el modelo o las features.</p>
+</li>
+<li>
+<p><strong>No promediar sobre CV.</strong> Una sola partición es ruidosa; <code>learning_curve</code> ya hace CV interno — usalo.</p>
+</li>
 <li><strong>Olvidar el irreducible error.</strong> Apuntar a <code>val_rmse = 0</code> es absurdo si <code>σ</code> del ruido es positivo; siempre hay piso.</li>
 </ul>
 <h2 id="preguntas-frecuentes">❓ Preguntas frecuentes</h2>
 <ul>
-<li><strong>¿Más datos o modelo más complejo?</strong> Mirá el gap. Gap grande con train bajo ⇒ overfit ⇒ más datos o regularización
-  ayudan. Gap chico con error alto en ambas ⇒ underfit ⇒ más capacidad o features.</li>
-<li><strong>¿Cuántos puntos uso para <code>train_sizes</code>?</strong> Por defecto <code>np.linspace(0.1, 1.0, 10)</code> está bien. Para datasets grandes,
-  usá menos puntos pero más espaciados logarítmicamente.</li>
-<li><strong>¿Por qué el train_error sube al aumentar <code>m</code>?</strong> Con pocos datos el modelo memoriza (train_error ≈ 0); al sumar
-  filas le cuesta más ajustar todo. Es esperado.</li>
-<li><strong>¿Sirve para clasificación?</strong> Sí. Usá <code>scoring='accuracy'</code> o <code>'neg_log_loss'</code>; la interpretación del gap es análoga.</li>
+<li>
+<p><strong>¿Más datos o modelo más complejo?</strong> Mirá el gap. Gap grande con train bajo ⇒ overfit ⇒ más datos o regularización
+  ayudan. Gap chico con error alto en ambas ⇒ underfit ⇒ más capacidad o features.</p>
+</li>
+<li>
+<p><strong>¿Cuántos puntos uso para <code>train_sizes</code>?</strong> Por defecto <code>np.linspace(0.1, 1.0, 10)</code> está bien. Para datasets grandes,
+  usá menos puntos pero más espaciados logarítmicamente.</p>
+</li>
+<li>
+<p><strong>¿Por qué el train_error sube al aumentar <code>m</code>?</strong> Con pocos datos el modelo memoriza (train_error ≈ 0); al sumar
+  filas le cuesta más ajustar todo. Es esperado.</p>
+</li>
+<li>
+<p><strong>¿Sirve para clasificación?</strong> Sí. Usá <code>scoring='accuracy'</code> o <code>'neg_log_loss'</code>; la interpretación del gap es análoga.</p>
+</li>
 <li><strong>¿Bias-variance se mide en la práctica?</strong> Conceptualmente sí (vía bootstrap, como el ejercicio 5), pero en
   producción se usa el diagnóstico cualitativo de la curva — alcanza para decidir el próximo paso.</li>
 </ul>
@@ -138,7 +173,8 @@
     <p>
       Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-1-machine-learning-clasico/072-curvas-de-aprendizaje-bias-variance/"><code>classes/parte-1-machine-learning-clasico/072-curvas-de-aprendizaje-bias-variance/</code></a>
       · <a href="../../../index.html">← Volver al portal del alumno</a>
-      · 📥 <a href="https://github.com/vladimiracunadev-create/python-data-science-program/releases/tag/v3.8.0" target="_blank" rel="noreferrer">Descargar binarios (release v3.8.0)</a>
+      · 🖥️ <a href="../../../app/index.html">App de escritorio</a>
+      · 📥 <a href="https://github.com/vladimiracunadev-create/python-data-science-program/releases/latest" target="_blank" rel="noreferrer">Descargar binarios</a>
     </p>
   </footer>
 </body>

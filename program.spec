@@ -69,6 +69,20 @@ a = Analysis(  # noqa: F821 — PyInstaller inyecta Analysis
         # Recursos del paquete app_desktop (icono, estilos QSS si los hubiera).
         (str(ROOT / "app_desktop"), "app_desktop"),
 
+        # Icono del producto: además de ir incrustado en el .exe (ver `icon=`
+        # más abajo), la ventana Qt lo carga en runtime con
+        # `curriculum.app_icon_path()`, así que tiene que viajar como dato.
+        *(
+            [(str(ROOT / "installer" / "icon.ico"), "installer")]
+            if (ROOT / "installer" / "icon.ico").exists()
+            else []
+        ),
+        *(
+            [(str(ROOT / "installer" / "icon.png"), "installer")]
+            if (ROOT / "installer" / "icon.png").exists()
+            else []
+        ),
+
         # Datos internos de PySide6 (plugins de plataforma, fuentes, ICU).
         *pyside_datas,
         *shiboken_datas,
@@ -91,6 +105,16 @@ a = Analysis(  # noqa: F821 — PyInstaller inyecta Analysis
         "markdown",
         "markdown.extensions.fenced_code",
         "markdown.extensions.tables",
+        "markdown.extensions.codehilite",
+
+        # Resaltado de sintaxis de los bloques de código. `codehilite` importa
+        # Pygments por nombre en runtime, así que PyInstaller no lo detecta.
+        "pygments",
+        "pygments.formatters.html",
+        "pygments.lexers.python",
+        "pygments.styles",
+        # El estilo "github-dark" vive en este módulo; se resuelve por nombre.
+        "pygments.styles.gh_dark",
     ],
 
     # ---------------------------------------------------------------------------

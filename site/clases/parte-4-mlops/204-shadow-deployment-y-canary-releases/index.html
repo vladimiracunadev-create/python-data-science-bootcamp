@@ -28,6 +28,7 @@
 <h1 id="clase-204-shadow-deployment-y-canary-releases">Clase 204 — Shadow deployment y canary releases</h1>
 <blockquote>
 <p>Parte: <strong>4 — MLOps</strong> · Fuente: Huyen <strong>cap. 11</strong> + Fowler, <em>Continuous Delivery</em> + <a href="https://istio.io/latest/docs/concepts/traffic-management/">Istio traffic management</a>. ⏱️ Duración estimada: <strong>75 min</strong>.</p>
+<p>🎚️ <strong>Nivel:</strong> Avanzado</p>
 </blockquote>
 <h2 id="objetivo">🎯 Objetivo</h2>
 <p>Desplegar un modelo nuevo <strong>sin arriesgar producción</strong>: primero en <strong>shadow</strong> (recibe tráfico real pero sus predicciones no se devuelven al usuario), después <strong>canary</strong> (1% → 5% → 25% → 100% del tráfico). Convertir "creo que esto es mejor" en "lo medí en producción real".</p>
@@ -157,11 +158,13 @@
 <p><strong>❓ ¿Canary o blue-green?</strong></p>
 <p>Canary: gradual, deteccion temprana, recovery limitado. Blue-green: rollback instantáneo (un switch), sin gradualidad — el 100% se va o no se va. Para ML: canary es más común (cambios en distribución de tráfico revelan problemas que blue-green no).</p>
 <p><strong>❓ ¿Tengo que usar Istio?</strong></p>
-<p>No. Alternativas:
-- AWS ALB/NLB con weighted target groups
-- GCP Cloud Load Balancing weighted backends
-- App-level feature flag (LaunchDarkly, Unleash) — más simple, opera fuera del infra
-- Nginx con <code>split_clients</code></p>
+<p>No. Alternativas:</p>
+<ul>
+<li>AWS ALB/NLB con weighted target groups</li>
+<li>GCP Cloud Load Balancing weighted backends</li>
+<li>App-level feature flag (LaunchDarkly, Unleash) — más simple, opera fuera del infra</li>
+<li>Nginx con <code>split_clients</code></li>
+</ul>
 <p>Istio agrega valor cuando ya tenés service mesh.</p>
 <p><strong>❓ ¿Cómo elijo la métrica primaria del A/B?</strong></p>
 <p>Debe ser: (1) <strong>directly tied to business value</strong> (revenue, retention, conversion), (2) <strong>medible rápido</strong> (mejor: detectable en días, no meses), (3) <strong>una sola</strong> (multi-metric = comparison-shopping, mala práctica). Métricas técnicas (accuracy, AUC) son <strong>proxies</strong> — útiles pero no la métrica final.</p>
@@ -190,7 +193,8 @@
     <p>
       Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-4-mlops/204-shadow-deployment-y-canary-releases/"><code>classes/parte-4-mlops/204-shadow-deployment-y-canary-releases/</code></a>
       · <a href="../../../index.html">← Volver al portal del alumno</a>
-      · 📥 <a href="https://github.com/vladimiracunadev-create/python-data-science-program/releases/tag/v3.8.0" target="_blank" rel="noreferrer">Descargar binarios (release v3.8.0)</a>
+      · 🖥️ <a href="../../../app/index.html">App de escritorio</a>
+      · 📥 <a href="https://github.com/vladimiracunadev-create/python-data-science-program/releases/latest" target="_blank" rel="noreferrer">Descargar binarios</a>
     </p>
   </footer>
 </body>

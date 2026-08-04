@@ -28,6 +28,7 @@
 <h1 id="clase-095-clustering-k-means-seleccion-de-k-minibatch">Clase 095 — Clustering K-Means: selección de K, MiniBatch</h1>
 <blockquote>
 <p>Parte: <strong>1 — Machine Learning Clásico</strong> · Fuente: Géron, <strong>cap. 9</strong>. ⏱️ Duración estimada: <strong>70 min</strong>.</p>
+<p>🎚️ <strong>Nivel:</strong> Intermedio</p>
 </blockquote>
 <h2 id="objetivo">🎯 Objetivo</h2>
 <p>Aplicar K-Means para segmentar datos no etiquetados, elegir el número de clusters <code>K</code> con criterios reproducibles (elbow, silhouette) y escalar el algoritmo con <code>MiniBatchKMeans</code> cuando el dataset no entra cómodo en memoria.</p>
@@ -73,7 +74,7 @@
 <li>Para <code>K</code> en <code>range(2, 11)</code>, calculá <code>inertia_</code> y <code>silhouette_score</code>. Graficá ambas curvas y justificá el <code>K</code> elegido.</li>
 <li>Repetí el ajuste <strong>sin escalar</strong> un dataset donde una feature tenga escala 100× mayor que la otra. Compará con <code>StandardScaler</code> previo y comentá el cambio en las etiquetas.</li>
 <li>Sobre <code>load_digits()</code>, ajustá <code>KMeans(n_clusters=10)</code> y <code>MiniBatchKMeans(n_clusters=10, batch_size=256)</code>. Cronometrá ambos con <code>%timeit</code> y compará inercias.</li>
-<li>Probá K-Means sobre <code>make_moons(noise=0.05)</code>. Mostrá visualmente por qué falla y proponé qué algoritmo usarías en su lugar (te lo vamos a contestar en la clase 086).</li>
+<li>Probá K-Means sobre <code>make_moons(noise=0.05)</code>. Mostrá visualmente por qué falla y proponé qué algoritmo usarías en su lugar (te lo vamos a contestar en la clase 096).</li>
 </ol>
 <h2 id="homework-verificable">📝 Homework verificable</h2>
 <p>Entregá un script <code>homework_085.py</code> que:</p>
@@ -119,7 +120,8 @@
     <p>
       Fuente única del currículo: <a href="https://github.com/vladimiracunadev-create/python-data-science-program/tree/main/classes/parte-1-machine-learning-clasico/095-clustering-k-means-seleccion-de-k-mini-batch/"><code>classes/parte-1-machine-learning-clasico/095-clustering-k-means-seleccion-de-k-mini-batch/</code></a>
       · <a href="../../../index.html">← Volver al portal del alumno</a>
-      · 📥 <a href="https://github.com/vladimiracunadev-create/python-data-science-program/releases/tag/v3.8.0" target="_blank" rel="noreferrer">Descargar binarios (release v3.8.0)</a>
+      · 🖥️ <a href="../../../app/index.html">App de escritorio</a>
+      · 📥 <a href="https://github.com/vladimiracunadev-create/python-data-science-program/releases/latest" target="_blank" rel="noreferrer">Descargar binarios</a>
     </p>
   </footer>
 </body>

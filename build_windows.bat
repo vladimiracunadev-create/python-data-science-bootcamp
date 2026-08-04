@@ -27,7 +27,7 @@ REM ---------------------------------------------------------------------------
 set PYTHON=python
 set PIP=pip
 set APP_NAME=PythonDSProgram
-set VERSION=3.10.0
+set VERSION=3.11.0
 set SPEC_FILE=program.spec
 set INNO_SETUP="C:\Program Files (x86)\Inno Setup 6\ISCC.exe"
 set INNO_SCRIPT=installer\setup.iss
