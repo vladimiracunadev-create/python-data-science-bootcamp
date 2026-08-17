@@ -19,7 +19,7 @@ jobs:
         uses: actions/checkout@v5
 
       - name: Setup Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: "3.12"
 
@@ -42,10 +42,24 @@ jobs:
         # dependencia transitiva del stack de Jupyter/mlflow; este repo no expone
         # TLS ni parsea certificados de terceros. Quitar el --ignore en cuanto
         # mlflow suba su cota superior.
+        #
+        # PYSEC-2026-3624 / CVE-2026-58659: RCE en lightning al llamar
+        # `LightningModule.load_from_checkpoint` sobre un checkpoint malicioso
+        # (el hiperparámetro `_instantiator` importa y ejecuta un módulo
+        # arbitrario, saltándose `weights_only=True`). No hay versión publicada
+        # con el fix: 2.6.5 es la última en PyPI y sigue afectada; el parche vive
+        # solo en master (commit d710d68 / PR #21832). El aviso declara
+        # "fixed: 2022.6.15", que es un artefacto del calver viejo del paquete,
+        # no una versión a la que se pueda subir. En este repo lightning aparece
+        # únicamente como dependencia de notebooks de clase (Trainer) y
+        # `load_from_checkpoint` no se usa en ningún archivo — el alumno entrena
+        # sus propios checkpoints en local. Quitar el --ignore en cuanto
+        # Lightning-AI publique la release con d710d68.
         run: |
           pip-audit -r requirements.txt \
             --ignore-vuln PYSEC-2026-597 \
-            --ignore-vuln PYSEC-2026-3552
+            --ignore-vuln PYSEC-2026-3552 \
+            --ignore-vuln PYSEC-2026-3624
 
       - name: Static security scan
         run: |
