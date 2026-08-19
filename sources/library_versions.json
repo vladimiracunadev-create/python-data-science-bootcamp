@@ -1,0 +1,647 @@
+{
+  "schema_version": 1,
+  "checked_on": "2026-08-19",
+  "note": "Versión a la que apuntan los enlaces de documentación del material. Se elige probando de la release más nueva hacia atrás hasta que la documentación responde 200; `installed_version` es la que tiene el entorno donde se corrió esta comprobación.",
+  "libraries": [
+    {
+      "library": "apache-airflow",
+      "distribution": "apache-airflow",
+      "installed_version": null,
+      "floating_prefixes": [
+        "https://airflow.apache.org/docs/apache-airflow/stable/"
+      ],
+      "template": "https://airflow.apache.org/docs/apache-airflow/{full}/",
+      "version": "3.3.1",
+      "docs_prefix": "https://airflow.apache.org/docs/apache-airflow/3.3.1/",
+      "paths_probed": 1,
+      "paths_ok": 1,
+      "http_status": 200,
+      "tried": [
+        {
+          "version": "3.3.1",
+          "prefix": "https://airflow.apache.org/docs/apache-airflow/3.3.1/",
+          "paths_ok": 1,
+          "paths": 1
+        }
+      ],
+      "docs_version": "3.3.1"
+    },
+    {
+      "library": "imbalanced-learn",
+      "distribution": "imbalanced-learn",
+      "installed_version": null,
+      "floating_prefixes": [
+        "https://imbalanced-learn.org/stable/"
+      ],
+      "template": "https://imbalanced-learn.org/{mm}/",
+      "version": "0.14.2",
+      "docs_prefix": "https://imbalanced-learn.org/0.14/",
+      "paths_probed": 2,
+      "paths_ok": 2,
+      "http_status": 200,
+      "tried": [
+        {
+          "version": "0.14.2",
+          "prefix": "https://imbalanced-learn.org/0.14/",
+          "paths_ok": 2,
+          "paths": 2
+        }
+      ],
+      "docs_version": "0.14"
+    },
+    {
+      "library": "ipython",
+      "distribution": "ipython",
+      "installed_version": "9.12.0",
+      "floating_prefixes": [
+        "https://ipython.readthedocs.io/en/stable/"
+      ],
+      "template": "https://ipython.readthedocs.io/en/{full}/",
+      "version": "9.12.0",
+      "docs_prefix": "https://ipython.readthedocs.io/en/9.12.0/",
+      "paths_probed": 2,
+      "paths_ok": 2,
+      "http_status": 200,
+      "tried": [
+        {
+          "version": "9.12.0",
+          "prefix": "https://ipython.readthedocs.io/en/9.12.0/",
+          "paths_ok": 2,
+          "paths": 2
+        }
+      ],
+      "docs_version": "9.12.0"
+    },
+    {
+      "library": "lightgbm",
+      "distribution": "lightgbm",
+      "installed_version": "4.7.0",
+      "floating_prefixes": [
+        "https://lightgbm.readthedocs.io/en/stable/",
+        "https://lightgbm.readthedocs.io/en/latest/"
+      ],
+      "template": "https://lightgbm.readthedocs.io/en/v{full}/",
+      "version": "4.7.0",
+      "docs_prefix": "https://lightgbm.readthedocs.io/en/v4.7.0/",
+      "paths_probed": 1,
+      "paths_ok": 1,
+      "http_status": 200,
+      "tried": [
+        {
+          "version": "4.7.0",
+          "prefix": "https://lightgbm.readthedocs.io/en/v4.7.0/",
+          "paths_ok": 1,
+          "paths": 1
+        }
+      ],
+      "docs_version": "4.7.0"
+    },
+    {
+      "library": "lightning",
+      "distribution": "lightning",
+      "installed_version": null,
+      "floating_prefixes": [
+        "https://lightning.ai/docs/pytorch/stable/"
+      ],
+      "template": "https://lightning.ai/docs/pytorch/{full}/",
+      "version": "2.5.6",
+      "docs_prefix": "https://lightning.ai/docs/pytorch/2.5.6/",
+      "paths_probed": 1,
+      "paths_ok": 1,
+      "http_status": 200,
+      "tried": [
+        {
+          "version": "2.6.5",
+          "prefix": "https://lightning.ai/docs/pytorch/2.6.5/",
+          "paths_ok": 0,
+          "paths": 1
+        },
+        {
+          "version": "2.5.6",
+          "prefix": "https://lightning.ai/docs/pytorch/2.5.6/",
+          "paths_ok": 1,
+          "paths": 1
+        }
+      ],
+      "docs_version": "2.5.6"
+    },
+    {
+      "library": "matplotlib",
+      "distribution": "matplotlib",
+      "installed_version": "3.10.8",
+      "floating_prefixes": [
+        "https://matplotlib.org/stable/"
+      ],
+      "template": "https://matplotlib.org/{full}/",
+      "version": "3.10.8",
+      "docs_prefix": "https://matplotlib.org/3.10.8/",
+      "paths_probed": 7,
+      "paths_ok": 7,
+      "http_status": 200,
+      "tried": [
+        {
+          "version": "3.10.8",
+          "prefix": "https://matplotlib.org/3.10.8/",
+          "paths_ok": 7,
+          "paths": 7
+        }
+      ],
+      "docs_version": "3.10.8"
+    },
+    {
+      "library": "mlflow",
+      "distribution": "mlflow",
+      "installed_version": null,
+      "floating_prefixes": [
+        "https://mlflow.org/docs/latest/"
+      ],
+      "template": "https://mlflow.org/docs/{full}/",
+      "version": "2.19.0",
+      "docs_prefix": "https://mlflow.org/docs/2.19.0/",
+      "paths_probed": 3,
+      "paths_ok": 3,
+      "http_status": 200,
+      "tried": [
+        {
+          "version": "3.15.1",
+          "prefix": "https://mlflow.org/docs/3.15.1/",
+          "paths_ok": 0,
+          "paths": 3
+        },
+        {
+          "version": "3.14.0",
+          "prefix": "https://mlflow.org/docs/3.14.0/",
+          "paths_ok": 0,
+          "paths": 3
+        },
+        {
+          "version": "3.13.0",
+          "prefix": "https://mlflow.org/docs/3.13.0/",
+          "paths_ok": 0,
+          "paths": 3
+        },
+        {
+          "version": "3.12.0",
+          "prefix": "https://mlflow.org/docs/3.12.0/",
+          "paths_ok": 0,
+          "paths": 3
+        },
+        {
+          "version": "3.11.1",
+          "prefix": "https://mlflow.org/docs/3.11.1/",
+          "paths_ok": 0,
+          "paths": 3
+        },
+        {
+          "version": "3.10.1",
+          "prefix": "https://mlflow.org/docs/3.10.1/",
+          "paths_ok": 0,
+          "paths": 3
+        },
+        {
+          "version": "3.9.0",
+          "prefix": "https://mlflow.org/docs/3.9.0/",
+          "paths_ok": 0,
+          "paths": 3
+        },
+        {
+          "version": "3.8.1",
+          "prefix": "https://mlflow.org/docs/3.8.1/",
+          "paths_ok": 0,
+          "paths": 3
+        },
+        {
+          "version": "3.7.0",
+          "prefix": "https://mlflow.org/docs/3.7.0/",
+          "paths_ok": 0,
+          "paths": 3
+        },
+        {
+          "version": "3.6.0",
+          "prefix": "https://mlflow.org/docs/3.6.0/",
+          "paths_ok": 0,
+          "paths": 3
+        },
+        {
+          "version": "3.5.1",
+          "prefix": "https://mlflow.org/docs/3.5.1/",
+          "paths_ok": 0,
+          "paths": 3
+        },
+        {
+          "version": "3.4.0",
+          "prefix": "https://mlflow.org/docs/3.4.0/",
+          "paths_ok": 0,
+          "paths": 3
+        },
+        {
+          "version": "3.3.2",
+          "prefix": "https://mlflow.org/docs/3.3.2/",
+          "paths_ok": 0,
+          "paths": 3
+        },
+        {
+          "version": "3.2.0",
+          "prefix": "https://mlflow.org/docs/3.2.0/",
+          "paths_ok": 0,
+          "paths": 3
+        },
+        {
+          "version": "3.1.4",
+          "prefix": "https://mlflow.org/docs/3.1.4/",
+          "paths_ok": 0,
+          "paths": 3
+        },
+        {
+          "version": "3.0.1",
+          "prefix": "https://mlflow.org/docs/3.0.1/",
+          "paths_ok": 0,
+          "paths": 3
+        },
+        {
+          "version": "2.22.5",
+          "prefix": "https://mlflow.org/docs/2.22.5/",
+          "paths_ok": 0,
+          "paths": 3
+        },
+        {
+          "version": "2.21.3",
+          "prefix": "https://mlflow.org/docs/2.21.3/",
+          "paths_ok": 0,
+          "paths": 3
+        },
+        {
+          "version": "2.20.4",
+          "prefix": "https://mlflow.org/docs/2.20.4/",
+          "paths_ok": 0,
+          "paths": 3
+        },
+        {
+          "version": "2.19.0",
+          "prefix": "https://mlflow.org/docs/2.19.0/",
+          "paths_ok": 3,
+          "paths": 3
+        }
+      ],
+      "docs_version": "2.19.0"
+    },
+    {
+      "library": "numpy",
+      "distribution": "numpy",
+      "installed_version": "2.4.4",
+      "floating_prefixes": [
+        "https://numpy.org/doc/stable/"
+      ],
+      "template": "https://numpy.org/doc/{mm}/",
+      "version": "2.4.4",
+      "docs_prefix": "https://numpy.org/doc/2.4/",
+      "paths_probed": 10,
+      "paths_ok": 10,
+      "http_status": 200,
+      "tried": [
+        {
+          "version": "2.4.4",
+          "prefix": "https://numpy.org/doc/2.4/",
+          "paths_ok": 10,
+          "paths": 10
+        }
+      ],
+      "docs_version": "2.4"
+    },
+    {
+      "library": "optuna",
+      "distribution": "optuna",
+      "installed_version": null,
+      "floating_prefixes": [
+        "https://optuna.readthedocs.io/en/stable/",
+        "https://optuna.readthedocs.io/en/latest/"
+      ],
+      "template": "https://optuna.readthedocs.io/en/v{full}/",
+      "version": "4.9.0",
+      "docs_prefix": "https://optuna.readthedocs.io/en/v4.9.0/",
+      "paths_probed": 1,
+      "paths_ok": 1,
+      "http_status": 200,
+      "tried": [
+        {
+          "version": "4.9.0",
+          "prefix": "https://optuna.readthedocs.io/en/v4.9.0/",
+          "paths_ok": 1,
+          "paths": 1
+        }
+      ],
+      "docs_version": "4.9.0"
+    },
+    {
+      "library": "pandas",
+      "distribution": "pandas",
+      "installed_version": "3.0.2",
+      "floating_prefixes": [
+        "https://pandas.pydata.org/docs/"
+      ],
+      "template": "https://pandas.pydata.org/pandas-docs/version/{mm}/",
+      "version": "3.0.2",
+      "docs_prefix": "https://pandas.pydata.org/pandas-docs/version/3.0/",
+      "paths_probed": 12,
+      "paths_ok": 12,
+      "http_status": 200,
+      "tried": [
+        {
+          "version": "3.0.2",
+          "prefix": "https://pandas.pydata.org/pandas-docs/version/3.0/",
+          "paths_ok": 12,
+          "paths": 12
+        }
+      ],
+      "docs_version": "3.0"
+    },
+    {
+      "library": "pydantic",
+      "distribution": "pydantic",
+      "installed_version": "2.12.5",
+      "floating_prefixes": [
+        "https://docs.pydantic.dev/latest/"
+      ],
+      "template": "https://docs.pydantic.dev/{mm}/",
+      "version": "2.12.5",
+      "docs_prefix": "https://docs.pydantic.dev/2.12/",
+      "paths_probed": 1,
+      "paths_ok": 1,
+      "http_status": 200,
+      "tried": [
+        {
+          "version": "2.12.5",
+          "prefix": "https://docs.pydantic.dev/2.12/",
+          "paths_ok": 1,
+          "paths": 1
+        }
+      ],
+      "docs_version": "2.12"
+    },
+    {
+      "library": "pyspark",
+      "distribution": "pyspark",
+      "installed_version": null,
+      "floating_prefixes": [
+        "https://spark.apache.org/docs/latest/"
+      ],
+      "template": "https://spark.apache.org/docs/{full}/",
+      "version": "4.2.0",
+      "docs_prefix": "https://spark.apache.org/docs/4.2.0/",
+      "paths_probed": 2,
+      "paths_ok": 2,
+      "http_status": 200,
+      "tried": [
+        {
+          "version": "4.2.0",
+          "prefix": "https://spark.apache.org/docs/4.2.0/",
+          "paths_ok": 2,
+          "paths": 2
+        }
+      ],
+      "docs_version": "4.2.0"
+    },
+    {
+      "library": "python",
+      "distribution": null,
+      "installed_version": null,
+      "floating_prefixes": [
+        "https://docs.python.org/3/"
+      ],
+      "template": "https://docs.python.org/{raw}/",
+      "version": "3.12",
+      "docs_prefix": "https://docs.python.org/3.12/",
+      "paths_probed": 12,
+      "paths_ok": 12,
+      "http_status": 200,
+      "tried": [
+        {
+          "version": "3.12",
+          "prefix": "https://docs.python.org/3.12/",
+          "paths_ok": 12,
+          "paths": 12
+        }
+      ],
+      "docs_version": "3.12"
+    },
+    {
+      "library": "ray",
+      "distribution": "ray",
+      "installed_version": null,
+      "floating_prefixes": [
+        "https://docs.ray.io/en/latest/"
+      ],
+      "template": "https://docs.ray.io/en/releases-{full}/",
+      "version": "2.57.0",
+      "docs_prefix": "https://docs.ray.io/en/releases-2.57.0/",
+      "paths_probed": 1,
+      "paths_ok": 1,
+      "http_status": 200,
+      "tried": [
+        {
+          "version": "2.57.0",
+          "prefix": "https://docs.ray.io/en/releases-2.57.0/",
+          "paths_ok": 1,
+          "paths": 1
+        }
+      ],
+      "docs_version": "2.57.0"
+    },
+    {
+      "library": "scikit-learn",
+      "distribution": "scikit-learn",
+      "installed_version": "1.8.0",
+      "floating_prefixes": [
+        "https://scikit-learn.org/stable/"
+      ],
+      "template": "https://scikit-learn.org/{mm}/",
+      "version": "1.8.0",
+      "docs_prefix": "https://scikit-learn.org/1.8/",
+      "paths_probed": 12,
+      "paths_ok": 12,
+      "http_status": 200,
+      "tried": [
+        {
+          "version": "1.8.0",
+          "prefix": "https://scikit-learn.org/1.8/",
+          "paths_ok": 12,
+          "paths": 12
+        }
+      ],
+      "docs_version": "1.8"
+    },
+    {
+      "library": "scipy",
+      "distribution": "scipy",
+      "installed_version": "1.17.1",
+      "floating_prefixes": [
+        "https://docs.scipy.org/doc/scipy/"
+      ],
+      "template": "https://docs.scipy.org/doc/scipy-{full}/",
+      "version": "1.18.0",
+      "docs_prefix": "https://docs.scipy.org/doc/scipy-1.18.0/",
+      "paths_probed": 11,
+      "paths_ok": 11,
+      "http_status": 200,
+      "tried": [
+        {
+          "version": "1.17.1",
+          "prefix": "https://docs.scipy.org/doc/scipy-1.17.1/",
+          "paths_ok": 0,
+          "paths": 11
+        },
+        {
+          "version": "1.18.0",
+          "prefix": "https://docs.scipy.org/doc/scipy-1.18.0/",
+          "paths_ok": 11,
+          "paths": 11
+        }
+      ],
+      "docs_version": "1.18.0"
+    },
+    {
+      "library": "statsmodels",
+      "distribution": "statsmodels",
+      "installed_version": "0.14.6",
+      "floating_prefixes": [
+        "https://www.statsmodels.org/stable/"
+      ],
+      "template": "https://www.statsmodels.org/v{full}/",
+      "version": "0.14.6",
+      "docs_prefix": "https://www.statsmodels.org/v0.14.6/",
+      "paths_probed": 4,
+      "paths_ok": 4,
+      "http_status": 200,
+      "tried": [
+        {
+          "version": "0.14.6",
+          "prefix": "https://www.statsmodels.org/v0.14.6/",
+          "paths_ok": 4,
+          "paths": 4
+        }
+      ],
+      "docs_version": "0.14.6"
+    },
+    {
+      "library": "torch",
+      "distribution": "torch",
+      "installed_version": null,
+      "floating_prefixes": [
+        "https://pytorch.org/docs/stable/"
+      ],
+      "template": "https://pytorch.org/docs/{mm}/",
+      "version": "2.13.0",
+      "docs_prefix": "https://pytorch.org/docs/2.13/",
+      "paths_probed": 3,
+      "paths_ok": 3,
+      "http_status": 200,
+      "tried": [
+        {
+          "version": "2.13.0",
+          "prefix": "https://pytorch.org/docs/2.13/",
+          "paths_ok": 3,
+          "paths": 3
+        }
+      ],
+      "docs_version": "2.13"
+    },
+    {
+      "library": "transformers",
+      "distribution": "transformers",
+      "installed_version": null,
+      "floating_prefixes": [
+        "https://huggingface.co/docs/transformers/"
+      ],
+      "template": "https://huggingface.co/docs/transformers/v{full}/en/",
+      "version": "5.15.1",
+      "docs_prefix": "https://huggingface.co/docs/transformers/v5.15.1/en/",
+      "paths_probed": 1,
+      "paths_ok": 1,
+      "http_status": 200,
+      "tried": [
+        {
+          "version": "5.15.1",
+          "prefix": "https://huggingface.co/docs/transformers/v5.15.1/en/",
+          "paths_ok": 1,
+          "paths": 1
+        }
+      ],
+      "docs_version": "5.15.1"
+    },
+    {
+      "library": "urllib3",
+      "distribution": "urllib3",
+      "installed_version": "2.7.0",
+      "floating_prefixes": [
+        "https://urllib3.readthedocs.io/en/stable/"
+      ],
+      "template": "https://urllib3.readthedocs.io/en/{full}/",
+      "version": "2.7.0",
+      "docs_prefix": "https://urllib3.readthedocs.io/en/2.7.0/",
+      "paths_probed": 1,
+      "paths_ok": 1,
+      "http_status": 200,
+      "tried": [
+        {
+          "version": "2.7.0",
+          "prefix": "https://urllib3.readthedocs.io/en/2.7.0/",
+          "paths_ok": 1,
+          "paths": 1
+        }
+      ],
+      "docs_version": "2.7.0"
+    },
+    {
+      "library": "vowpalwabbit",
+      "distribution": "vowpalwabbit",
+      "installed_version": null,
+      "floating_prefixes": [
+        "https://vowpalwabbit.org/docs/vowpal_wabbit/python/latest/"
+      ],
+      "template": "https://vowpalwabbit.org/docs/vowpal_wabbit/python/{full}/",
+      "version": "9.11.2",
+      "docs_prefix": "https://vowpalwabbit.org/docs/vowpal_wabbit/python/9.11.2/",
+      "paths_probed": 1,
+      "paths_ok": 1,
+      "http_status": 200,
+      "tried": [
+        {
+          "version": "9.11.2",
+          "prefix": "https://vowpalwabbit.org/docs/vowpal_wabbit/python/9.11.2/",
+          "paths_ok": 1,
+          "paths": 1
+        }
+      ],
+      "docs_version": "9.11.2"
+    },
+    {
+      "library": "xgboost",
+      "distribution": "xgboost",
+      "installed_version": "3.3.0",
+      "floating_prefixes": [
+        "https://xgboost.readthedocs.io/en/stable/",
+        "https://xgboost.readthedocs.io/en/latest/"
+      ],
+      "template": "https://xgboost.readthedocs.io/en/release_{full}/",
+      "version": "3.3.0",
+      "docs_prefix": "https://xgboost.readthedocs.io/en/release_3.3.0/",
+      "paths_probed": 1,
+      "paths_ok": 1,
+      "http_status": 200,
+      "tried": [
+        {
+          "version": "3.3.0",
+          "prefix": "https://xgboost.readthedocs.io/en/release_3.3.0/",
+          "paths_ok": 1,
+          "paths": 1
+        }
+      ],
+      "docs_version": "3.3.0"
+    }
+  ],
+  "floating_sin_alternativa": {
+    "docs.aws.amazon.com": "AWS publica su documentación solo bajo /latest/; no hay URL por versión.",
+    "istio.io": "istio.io/latest/ es la dirección canónica del proyecto; las versiones antiguas se archivan aparte.",
+    "arch.readthedocs.io": "el proyecto arch solo publica las ramas stable y latest en Read the Docs."
+  }
+}

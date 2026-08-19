@@ -1,0 +1,1285 @@
+#!/usr/bin/env python
+"""Resuelve y refresca el registro de fuentes contra la red. NO bloquea el CI.
+
+Qué resuelve:
+    El registro solo vale si sus localizadores resuelven de verdad. Comprobarlo
+    exige red, y la red no puede entrar en el CI: un job que falla porque
+    openlibrary.org tardó 3 segundos se acaba ignorando, y con él se ignora todo
+    lo demás. Por eso la comprobación está partida en dos:
+
+      scripts/verify-sources    offline, determinista, bloquea en CI
+      scripts/refresh-sources   este script: con red, manual o programado
+
+    Este script nunca borra una entrada. Lo que deja de resolver se marca
+    `pendiente` con el motivo y se conserva: un hueco declarado es información,
+    un hueco tapado es una invención con formato de bibliografía.
+
+Fases (se pueden pedir sueltas o todas con --all):
+
+    --versions      Averigua a qué versión de cada librería apunta la
+                    documentación y comprueba que esa versión existe. Escribe
+                    sources/library_versions.json.
+    --anchor-links  Reescribe en las clases los enlaces de documentación que
+                    apuntan a /stable/ o /latest/ (rutas que cambian de
+                    contenido sin avisar) por su equivalente anclado a versión.
+    --seed          Da de alta en el registro las fuentes citadas que aún no
+                    tienen entrada, y recalcula `used_in`. No usa red.
+    --resolve       Resuelve ISBN contra openlibrary.org, DOI contra
+                    api.crossref.org / api.datacite.org, y hace GET a cada URL
+                    de norma o documentación. Actualiza `accessed`.
+
+Uso:
+    python scripts/refresh-sources --all
+    python scripts/refresh-sources --seed              # sin red
+    python scripts/refresh-sources --resolve --limit 50
+
+Salida: informe por consola con lo que resolvió y lo que quedó pendiente.
+    Código 0 siempre que el script complete; que una fuente no resuelva no es
+    un fallo del script, es un dato del informe.
+"""
+
+from __future__ import annotations
+
+import argparse
+import concurrent.futures
+import json
+import re
+import sys
+import threading
+import time
+import urllib.error
+import urllib.parse
+import urllib.request
+from datetime import date, datetime, timezone
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+
+from sources_lib import (  # noqa: E402
+    CLASSES_DIR,
+    LIBRARY_VERSIONS_PATH,
+    ROOT,
+    SCHEMA_VERSION,
+    build_index,
+    fold,
+    iter_citations,
+    load_registry,
+    match_citation,
+    save_registry,
+    slugify,
+    strip_markdown,
+)
+
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+
+USER_AGENT = (
+    "python-data-science-program/sources-refresh "
+    "(+https://github.com/vladimiracunadev-create/python-data-science-program)"
+)
+TIMEOUT = 25
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Tabla de documentación por librería
+#
+# `floating` es el prefijo que el material usa hoy y que se mueve bajo los pies
+# del lector: la misma URL describe una API distinta en cada release. `template`
+# es la forma anclada. Ninguna se da por buena sin probarla: el script pide la
+# lista real de releases a PyPI y prueba de la más nueva hacia atrás hasta que
+# una devuelve 200.
+# ─────────────────────────────────────────────────────────────────────────────
+
+LIBRARY_DOCS = [
+    {
+        "library": "scikit-learn",
+        "dist": "scikit-learn",
+        "floating": ["https://scikit-learn.org/stable/"],
+        "template": "https://scikit-learn.org/{mm}/",
+        "probe": "modules/tree.html",
+    },
+    {
+        "library": "pandas",
+        "dist": "pandas",
+        "floating": ["https://pandas.pydata.org/docs/"],
+        "template": "https://pandas.pydata.org/pandas-docs/version/{mm}/",
+        "probe": "user_guide/indexing.html",
+    },
+    {
+        "library": "numpy",
+        "dist": "numpy",
+        "floating": ["https://numpy.org/doc/stable/"],
+        "template": "https://numpy.org/doc/{mm}/",
+        "probe": "user/basics.creation.html",
+    },
+    {
+        "library": "scipy",
+        "dist": "scipy",
+        "floating": ["https://docs.scipy.org/doc/scipy/"],
+        "template": "https://docs.scipy.org/doc/scipy-{full}/",
+        "probe": "reference/stats.html",
+    },
+    {
+        "library": "python",
+        "dist": None,
+        "versions": ["3.12"],
+        "floating": ["https://docs.python.org/3/"],
+        "template": "https://docs.python.org/{raw}/",
+        "probe": "library/pathlib.html",
+    },
+    {
+        "library": "matplotlib",
+        "dist": "matplotlib",
+        "floating": ["https://matplotlib.org/stable/"],
+        "template": "https://matplotlib.org/{full}/",
+        "probe": "users/explain/quick_start.html",
+    },
+    {
+        "library": "torch",
+        "dist": "torch",
+        "floating": ["https://pytorch.org/docs/stable/"],
+        "template": "https://pytorch.org/docs/{mm}/",
+        "probe": "nn.html",
+    },
+    {
+        "library": "statsmodels",
+        "dist": "statsmodels",
+        "floating": ["https://www.statsmodels.org/stable/"],
+        "template": "https://www.statsmodels.org/v{full}/",
+        "probe": "index.html",
+    },
+    {
+        "library": "xgboost",
+        "dist": "xgboost",
+        "floating": [
+            "https://xgboost.readthedocs.io/en/stable/",
+            "https://xgboost.readthedocs.io/en/latest/",
+        ],
+        "template": "https://xgboost.readthedocs.io/en/release_{full}/",
+        "probe": "parameter.html",
+    },
+    {
+        "library": "lightgbm",
+        "dist": "lightgbm",
+        "floating": [
+            "https://lightgbm.readthedocs.io/en/stable/",
+            "https://lightgbm.readthedocs.io/en/latest/",
+        ],
+        "template": "https://lightgbm.readthedocs.io/en/v{full}/",
+        "probe": "Parameters.html",
+    },
+    {
+        "library": "imbalanced-learn",
+        "dist": "imbalanced-learn",
+        "floating": ["https://imbalanced-learn.org/stable/"],
+        "template": "https://imbalanced-learn.org/{mm}/",
+        "probe": "references/index.html",
+    },
+    {
+        "library": "optuna",
+        "dist": "optuna",
+        "floating": [
+            "https://optuna.readthedocs.io/en/stable/",
+            "https://optuna.readthedocs.io/en/latest/",
+        ],
+        "template": "https://optuna.readthedocs.io/en/v{full}/",
+        "probe": "index.html",
+    },
+    {
+        "library": "mlflow",
+        "dist": "mlflow",
+        "floating": ["https://mlflow.org/docs/latest/"],
+        "template": "https://mlflow.org/docs/{full}/",
+        "probe": "index.html",
+    },
+    {
+        "library": "transformers",
+        "dist": "transformers",
+        "floating": ["https://huggingface.co/docs/transformers/"],
+        "template": "https://huggingface.co/docs/transformers/v{full}/en/",
+        "probe": "index",
+    },
+    {
+        "library": "apache-airflow",
+        "dist": "apache-airflow",
+        "floating": ["https://airflow.apache.org/docs/apache-airflow/stable/"],
+        "template": "https://airflow.apache.org/docs/apache-airflow/{full}/",
+        "probe": "index.html",
+    },
+    {
+        "library": "pyspark",
+        "dist": "pyspark",
+        "floating": ["https://spark.apache.org/docs/latest/"],
+        "template": "https://spark.apache.org/docs/{full}/",
+        "probe": "sql-programming-guide.html",
+    },
+    {
+        "library": "ipython",
+        "dist": "ipython",
+        "floating": ["https://ipython.readthedocs.io/en/stable/"],
+        "template": "https://ipython.readthedocs.io/en/{full}/",
+        "probe": "interactive/magics.html",
+    },
+    {
+        "library": "urllib3",
+        "dist": "urllib3",
+        "floating": ["https://urllib3.readthedocs.io/en/stable/"],
+        "template": "https://urllib3.readthedocs.io/en/{full}/",
+        "probe": "reference/urllib3.util.html",
+    },
+    {
+        "library": "ray",
+        "dist": "ray",
+        "floating": ["https://docs.ray.io/en/latest/"],
+        "template": "https://docs.ray.io/en/releases-{full}/",
+        "probe": "tune/index.html",
+    },
+    {
+        "library": "lightning",
+        "dist": "lightning",
+        "floating": ["https://lightning.ai/docs/pytorch/stable/"],
+        "template": "https://lightning.ai/docs/pytorch/{full}/",
+        "probe": "",
+    },
+    {
+        "library": "pydantic",
+        "dist": "pydantic",
+        "floating": ["https://docs.pydantic.dev/latest/"],
+        "template": "https://docs.pydantic.dev/{mm}/",
+        "probe": "migration/",
+    },
+    {
+        "library": "vowpalwabbit",
+        "dist": "vowpalwabbit",
+        "floating": ["https://vowpalwabbit.org/docs/vowpal_wabbit/python/latest/"],
+        "template": "https://vowpalwabbit.org/docs/vowpal_wabbit/python/{full}/",
+        "probe": "tutorials/python_Contextual_bandits_and_Vowpal_Wabbit.html",
+    },
+]
+
+#: Rutas que llevan /latest/ o /stable/ como parte permanente de su dirección
+#: canónica, no como marcador de versión: no existe una forma anclada a la que
+#: apuntar. Se declaran aquí para que el verificador no las cuente como deuda
+#: silenciosa.
+FLOATING_SIN_ALTERNATIVA = {
+    "docs.aws.amazon.com": "AWS publica su documentación solo bajo /latest/; no hay URL por versión.",
+    "istio.io": "istio.io/latest/ es la dirección canónica del proyecto; las versiones antiguas se archivan aparte.",
+    "arch.readthedocs.io": "el proyecto arch solo publica las ramas stable y latest en Read the Docs.",
+}
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Clasificación de URLs
+# ─────────────────────────────────────────────────────────────────────────────
+
+PAPER_HOSTS = (
+    "arxiv.org", "doi.org", "dl.acm.org", "papers.nips.cc", "proceedings.neurips.cc",
+    "proceedings.mlr.press", "jmlr.org", "aclanthology.org", "joss.theoj.org",
+    "jstatsoft.org", "ieeexplore.ieee.org", "link.springer.com", "sciencedirect.com",
+    "biorxiv.org", "openreview.net", "nature.com", "journals.plos.org", "plos.org",
+    "academic.oup.com", "journals.sagepub.com", "pubs.acs.org", "arxiv.org",
+    "papers.ssrn.com", "onlinelibrary.wiley.com", "projecteuclid.org",
+)
+STANDARD_HOSTS = (
+    "peps.python.org", "eur-lex.europa.eu", "nist.gov", "www.nist.gov", "iso.org",
+    "w3.org", "www.w3.org", "ietf.org", "datatracker.ietf.org", "rfc-editor.org",
+    "gdpr-info.eu", "artificialintelligenceact.eu", "oecd.org", "unesco.org",
+    "eugdpr.org", "edpb.europa.eu", "who.int", "owasp.org",
+)
+DATASET_HOSTS = (
+    "archive.ics.uci.edu", "openml.org", "www.openml.org", "datahub.io",
+    "grouplens.org", "files.grouplens.org", "naturalearthdata.com",
+    "www.naturalearthdata.com", "www.kaggle.com", "kaggle.com",
+)
+
+
+def classify_url(url: str) -> str:
+    host = urllib.parse.urlparse(url).netloc.lower()
+    path = urllib.parse.urlparse(url).path.lower()
+    if host in DATASET_HOSTS or (host == "huggingface.co" and path.startswith("/datasets")):
+        return "dataset"
+    if any(host == h or host.endswith("." + h) for h in PAPER_HOSTS):
+        return "paper"
+    if any(host == h or host.endswith("." + h) for h in STANDARD_HOSTS):
+        return "standard"
+    return "reference"
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Red
+# ─────────────────────────────────────────────────────────────────────────────
+
+
+#: Respuestas que no dicen nada sobre la fuente, solo sobre el momento: se
+#: reintentan para no marcar como pendiente algo que sí resuelve.
+RETRYABLE = (0, 429, 500, 502, 503, 504)
+
+
+#: Intervalo mínimo entre peticiones a los catálogos, en segundos. arXiv pide
+#: explícitamente no bajar de 3 s; los demás no lo exigen pero tampoco están para
+#: aguantar 8 hilos de un script de mantenimiento.
+_HOST_INTERVAL = {
+    "export.arxiv.org": 4.0,
+    "openlibrary.org": 1.0,
+    "api.crossref.org": 0.5,
+    "api.datacite.org": 0.5,
+}
+_HOST_LOCK = threading.Lock()
+_HOST_LAST: dict[str, float] = {}
+
+
+def _throttle(url: str) -> None:
+    """Espacia las peticiones a los catálogos para no hacerles un DoS de cortesía."""
+    host = urllib.parse.urlparse(url).netloc.lower()
+    interval = _HOST_INTERVAL.get(host)
+    if not interval:
+        return
+    while True:
+        with _HOST_LOCK:
+            now = time.monotonic()
+            wait = _HOST_LAST.get(host, 0.0) + interval - now
+            if wait <= 0:
+                _HOST_LAST[host] = now
+                return
+        time.sleep(wait)
+
+
+def http_get(url: str, timeout: int = TIMEOUT, attempts: int = 3) -> tuple[int, bytes]:
+    """GET con user-agent propio. Devuelve (código, cuerpo). No lanza por 4xx/5xx."""
+    code = 0
+    body = b""
+    _throttle(url)
+    for attempt in range(attempts):
+        request = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
+        try:
+            with urllib.request.urlopen(request, timeout=timeout) as response:
+                return response.getcode(), response.read()
+        except urllib.error.HTTPError as exc:  # 4xx / 5xx: el código ES el dato
+            code, body = exc.code, b""
+        except Exception:  # noqa: BLE001 — DNS, TLS, timeout: se reporta como 0
+            code, body = 0, b""
+        if code not in RETRYABLE:
+            break
+        # 429 significa "vas demasiado rápido": esperar unos segundos más no es
+        # cortesía, es la única forma de que la siguiente petición sirva.
+        time.sleep((8.0 if code == 429 else 1.5) * (attempt + 1))
+    return code, body
+
+
+def http_json(url: str, timeout: int = TIMEOUT) -> dict | None:
+    code, body = http_get(url, timeout)
+    if code != 200 or not body:
+        return None
+    try:
+        return json.loads(body.decode("utf-8", "replace"))
+    except json.JSONDecodeError:
+        return None
+
+
+def http_status(url: str, timeout: int = TIMEOUT) -> int:
+    return http_get(url, timeout)[0]
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Fase: versiones de librería
+# ─────────────────────────────────────────────────────────────────────────────
+
+
+def installed_version(dist: str | None) -> str | None:
+    if not dist:
+        return None
+    try:
+        import importlib.metadata as md
+
+        return md.version(dist)
+    except Exception:  # noqa: BLE001 — no instalada en este entorno
+        return None
+
+
+def pypi_releases(dist: str) -> list[str]:
+    """Versiones estables publicadas, de la más nueva a la más vieja."""
+    data = http_json(f"https://pypi.org/pypi/{dist}/json")
+    if not data:
+        return []
+    releases = [v for v in data.get("releases", {}) if re.fullmatch(r"\d+(\.\d+)*", v)]
+
+    def key(v: str) -> tuple:
+        return tuple(int(p) for p in v.split("."))
+
+    ordered = sorted(releases, key=key, reverse=True)
+    # Un parche no cambia la estructura de la documentación: basta con probar el
+    # más nuevo de cada serie menor. Así la escalera llega a versiones antiguas
+    # sin gastar 40 peticiones en 3.15.1, 3.15.0, 3.14.0…
+    seen: set[tuple] = set()
+    minors = []
+    for version in ordered:
+        parts = key(version)[:2]
+        if parts in seen:
+            continue
+        seen.add(parts)
+        minors.append(version)
+    return minors
+
+
+def class_doc_paths(spec: dict, sample: int = 12) -> list[str]:
+    """Rutas de documentación de esta librería que el material cita hoy.
+
+    Qué resuelve:
+        Anclar a una versión cuya portada responde 200 no sirve de nada si la
+        página concreta que la clase enlaza desapareció en esa versión. La
+        versión se elige probando las rutas reales del material, no un índice.
+    """
+    paths: list[str] = []
+    for citation in iter_citations():
+        if citation.kind != "link":
+            continue
+        for floating in spec["floating"]:
+            if citation.url.startswith(floating):
+                tail = citation.url[len(floating) :]
+                if tail and tail not in paths:
+                    paths.append(tail)
+    paths.sort()
+    if len(paths) <= sample:
+        return paths
+    step = len(paths) / sample
+    return [paths[int(i * step)] for i in range(sample)]
+
+
+def probe_library(spec: dict, ladder: int = 30) -> dict:
+    """Elige la versión más nueva en la que responden las páginas que cita el material."""
+    dist = spec.get("dist")
+    inst = installed_version(dist)
+    candidates: list[str] = list(spec.get("versions", []))
+    if not candidates:
+        releases = pypi_releases(dist) if dist else []
+        if inst:
+            # arranca por la instalada: es la versión con la que se ejecutó el
+            # material, y por tanto la que mejor describe lo que enseña la clase
+            releases = [inst] + [r for r in releases if r != inst]
+        candidates = releases[:ladder]
+    paths = class_doc_paths(spec) or [spec["probe"]]
+    result = {
+        "library": spec["library"],
+        "distribution": dist,
+        "installed_version": inst,
+        "floating_prefixes": spec["floating"],
+        "template": spec["template"],
+        "version": None,
+        "docs_prefix": None,
+        "paths_probed": len(paths),
+        "paths_ok": None,
+        "http_status": None,
+        "tried": [],
+    }
+    best = None
+    for version in candidates[:ladder]:
+        parts = version.split(".")
+        prefix = spec["template"].format(full=version, mm=".".join(parts[:2]), raw=version)
+        with concurrent.futures.ThreadPoolExecutor(max_workers=6) as pool:
+            codes = list(pool.map(lambda p: http_status(prefix + p), paths))
+        ok = sum(1 for c in codes if c == 200)
+        result["tried"].append(
+            {"version": version, "prefix": prefix, "paths_ok": ok, "paths": len(paths)}
+        )
+        if best is None or ok > best[1]:
+            best = (version, ok, prefix)
+        if ok == len(paths):
+            break
+    if best and best[1] > 0:
+        version, ok, prefix = best
+        series = ".".join(version.split(".")[:2]) if "{mm}" in spec["template"] else version
+        result.update(
+            version=version,
+            docs_version=series,
+            docs_prefix=prefix,
+            paths_ok=ok,
+            http_status=200 if ok == len(paths) else None,
+        )
+    return result
+
+
+def phase_versions() -> dict:
+    print("── versiones de documentación ──────────────────────────────────────")
+    libraries = []
+    with concurrent.futures.ThreadPoolExecutor(max_workers=6) as pool:
+        for result in pool.map(probe_library, LIBRARY_DOCS):
+            libraries.append(result)
+            total = result["paths_probed"]
+            ok = result["paths_ok"]
+            mark = "ok " if ok == total else ("~~ " if result["version"] else "SIN")
+            print(
+                f"  {mark} {result['library']:<18} "
+                f"anclada={result['version'] or '—':<10} "
+                f"instalada={result['installed_version'] or '—':<10} "
+                f"rutas={ok if ok is not None else 0}/{total}  "
+                f"{result['docs_prefix'] or 'sin forma versionada que responda'}"
+            )
+    payload = {
+        "schema_version": SCHEMA_VERSION,
+        "checked_on": date.today().isoformat(),
+        "note": (
+            "Versión a la que apuntan los enlaces de documentación del material. "
+            "Se elige probando de la release más nueva hacia atrás hasta que la "
+            "documentación responde 200; `installed_version` es la que tiene el "
+            "entorno donde se corrió esta comprobación."
+        ),
+        "libraries": sorted(libraries, key=lambda x: x["library"]),
+        "floating_sin_alternativa": FLOATING_SIN_ALTERNATIVA,
+    }
+    LIBRARY_VERSIONS_PATH.parent.mkdir(parents=True, exist_ok=True)
+    LIBRARY_VERSIONS_PATH.write_text(
+        json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+    )
+    anchored = sum(1 for x in libraries if x["version"])
+    print(f"  → {anchored}/{len(libraries)} librerías con documentación anclada a versión")
+    return payload
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Fase: anclaje de enlaces en las clases
+# ─────────────────────────────────────────────────────────────────────────────
+
+
+def phase_anchor_links(versions: dict, apply: bool = True) -> int:
+    print("── anclaje de enlaces de documentación ─────────────────────────────")
+    rules: list[tuple[str, str]] = []
+    for lib in versions.get("libraries", []):
+        if not lib.get("docs_prefix"):
+            continue
+        for floating in lib["floating_prefixes"]:
+            rules.append((floating, lib["docs_prefix"]))
+    if not rules:
+        print("  sin reglas: ejecutá antes --versions")
+        return 0
+    changed_files = 0
+    changed_links = 0
+    for path in sorted(CLASSES_DIR.glob("*/*/README.md")):
+        text = path.read_text(encoding="utf-8")
+        original = text
+        for floating, anchored in rules:
+            if floating in text:
+                changed_links += text.count(floating)
+                text = text.replace(floating, anchored)
+        if text != original:
+            changed_files += 1
+            if apply:
+                path.write_text(text, encoding="utf-8")
+    verb = "reescritos" if apply else "reescribiría"
+    print(f"  {verb} {changed_links} enlaces en {changed_files} clases")
+    return changed_links
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Fase: alta de entradas (sin red)
+# ─────────────────────────────────────────────────────────────────────────────
+
+PARTICLES = {"van", "von", "de", "del", "der", "den", "la", "le", "di", "da", "dos"}
+
+
+def author_lead(text: str) -> str:
+    """Bloque de autoría con el que abre una cita de obra."""
+    head = re.split(r"\(", re.sub(r"[*_`]", "", text))[0]
+    out: list[str] = []
+    for token in head.split():
+        base = token.strip(".,;:&")
+        if not base:
+            continue
+        low = base.lower()
+        if low in {"y", "et", "al", "and"} or base == "&":
+            out.append(low)
+            continue
+        if base[0].islower() and low not in PARTICLES:
+            break
+        out.append(low)
+        if len(out) >= 9:
+            break
+    return fold(" ".join(out))
+
+
+#: Señales de que una cita de obra es un libro y no un artículo. Salen del propio
+#: material: quien cita un capítulo o una editorial está citando un libro.
+BOOK_SIGNALS = (
+    r"\bcaps?\b", r"\bcap[ií]tulos?\b", r"\bo'?reilly\b", r"\bspringer\b",
+    r"\bmit press\b", r"\bcambridge\b", r"\bwiley\b", r"\bcrc\b", r"\bchapman\b",
+    r"\bmcgraw\b", r"\bmanning\b", r"\bpackt\b", r"\baddison\b", r"\bpearson\b",
+    r"\bno starch\b", r"\botexts\b", r"\blibro\b", r"\bhandbook\b", r"\btextbook\b",
+    r"\b\d(?:a|ª|rd|nd|th|ra|ta)?\s*ed\b", r"\b\de\b", r"\bthesis\b",
+)
+#: Señales de artículo: el material nombra la conferencia o la revista.
+PAPER_SIGNALS = (
+    r"\bneurips\b", r"\bnips\b", r"\bicml\b", r"\biclr\b", r"\bcvpr\b", r"\bkdd\b",
+    r"\bjmlr\b", r"\bjasa\b", r"\barxiv\b", r"\bnature\b", r"\bacl\b", r"\bemnlp\b",
+    r"\baistats\b", r"\biccv\b", r"\beccv\b", r"\bwsdm\b", r"\bsosp\b", r"\bijcnn\b",
+    r"\bicdm\b", r"\bbiometrika\b", r"\bplos\b", r"\bjoss\b", r"\bieee\b", r"\bacm\b",
+    r"\bfat\b", r"\bfacct\b", r"\bsigmod\b", r"\bvldb\b", r"\bosdi\b", r"\bmlsys\b",
+    r"\brecsys\b", r"\bcikm\b", r"\bjair\b", r"\bpaper\b", r"\bannals\b",
+    r"\beconometric", r"\bstatistical science\b", r"\bamerican statistician\b",
+)
+
+
+def guess_work_type(text: str) -> str:
+    """Clasifica una cita de obra en libro o artículo con las señales del texto.
+
+    La resolución posterior corrige el error si hace falta: un `paper` que no
+    aparece en Crossref pero sí en el catálogo de libros se reclasifica solo.
+    """
+    folded = fold(text)
+    book = sum(1 for rx in BOOK_SIGNALS if re.search(rx, folded))
+    paper = sum(1 for rx in PAPER_SIGNALS if re.search(rx, folded))
+    if book > paper:
+        return "book"
+    if paper > book:
+        return "paper"
+    return "paper" if citation_year(text) else "book"
+
+
+def citation_year(text: str) -> str:
+    match = re.search(r"\b(1[89]\d{2}|20\d{2})\b", text)
+    return match.group(1) if match else ""
+
+
+#: Cola de una cita que localiza dentro de la obra, no la nombra: sobra para
+#: buscarla en un catálogo.
+_LOCATOR_TAIL = re.compile(
+    r"[,;]?\s*(caps?\.|cap[ií]tulos?|§+|secci[oó]n(es)?|pp?\.|vol\.|[ií]tem)\b.*$",
+    re.IGNORECASE,
+)
+
+
+def citation_title(bullet: str) -> str:
+    """Título tal como lo escribe el material.
+
+    El material marca el título en cursiva o entre comillas casi siempre; cuando
+    no lo hace, se recorta la autoría y el localizador de capítulo y se deja el
+    resto. Si eso no da un título usable, la entrada queda pendiente con motivo:
+    inventarle un título a una cita sería fabricar bibliografía.
+    """
+    for pattern in (r"\*([^*]{6,}?)\*", r"[\"“]([^\"”]{6,}?)[\"”]"):
+        match = re.search(pattern, bullet)
+        if match:
+            return match.group(1).strip(" .,;:—–")
+    cleaned = strip_markdown(bullet)
+    cleaned = re.split(r"\s+[—–]\s+", cleaned)[0]
+    cleaned = re.sub(r"\((?:[^()]*)\)", " ", cleaned)  # (3ª ed., O'Reilly, 2022)
+    head = citation_authors_raw(bullet)
+    sin_autoria = cleaned
+    if head and cleaned.lower().startswith(head.lower()):
+        sin_autoria = cleaned[len(head) :]
+    sin_autoria = _LOCATOR_TAIL.sub("", sin_autoria)
+    titulo = re.sub(r"\s+", " ", sin_autoria).strip(" .,;:—–")
+    if titulo:
+        return titulo
+    # La cita no separa autoría de título: el nombre de la obra ES toda la línea
+    # («APA Publication Manual 7th ed.»). Se conserva entera antes que dejarla sin
+    # título, que es lo mismo que dejarla sin identificar.
+    return re.sub(r"\s+", " ", _LOCATOR_TAIL.sub("", cleaned)).strip(" .,;:—–")
+
+
+def citation_authors_raw(bullet: str) -> str:
+    """Bloque literal de autoría: lo que va antes del título."""
+    head = re.split(r"[*\"“(]", bullet, maxsplit=1)[0]
+    return re.sub(r"[*_`]", "", head).strip(" .,;:—–")
+
+
+def citation_authors(bullet: str) -> list[str]:
+    """Autores tal como los nombra el material, sin partir 'Apellido, Inicial'."""
+    head = citation_authors_raw(bullet)
+    head = re.sub(r"\b(et al\.?|and others)\b", "", head, flags=re.IGNORECASE)
+    parts = [p.strip(" .,;") for p in re.split(r"\s*(?:&|\sy\s)\s*", head)]
+    return [p for p in parts if len(p) > 1]
+
+
+def link_title(bullet: str, url: str) -> str:
+    """Texto del enlace markdown, si la viñeta lo trae."""
+    for text, _, href in re.findall(
+        r"\[([^\]]*)\]\((<?)(https?://[^)\s]+)>?\)", bullet
+    ):
+        if href.rstrip(".,;") == url:
+            clean = re.sub(r"[*_`]", "", text).strip()
+            if clean:
+                return clean
+    path = urllib.parse.urlparse(url).path.strip("/")
+    tail = path.split("/")[-1] if path else urllib.parse.urlparse(url).netloc
+    tail = re.sub(r"\.(html?|pdf|json)$", "", tail).replace("-", " ").replace("_", " ")
+    return tail.strip() or urllib.parse.urlparse(url).netloc
+
+
+def phase_seed(registry: dict) -> dict:
+    print("── alta de fuentes citadas sin entrada ─────────────────────────────")
+    citations = iter_citations()
+    by_url, patterns = build_index(registry)
+    existing_ids = {e["id"] for e in registry["entries"]}
+
+    unclaimed_links: dict[str, list] = {}
+    unclaimed_works: dict[tuple[str, str], list] = {}
+    ambiguous = 0
+    for citation in citations:
+        matches = match_citation(citation, by_url, patterns)
+        if len(matches) > 1:
+            ambiguous += 1
+            continue
+        if matches:
+            continue
+        if citation.kind == "link":
+            unclaimed_links.setdefault(citation.url, []).append(citation)
+        else:
+            key = (author_lead(citation.text), citation_year(citation.text))
+            unclaimed_works.setdefault(key, []).append(citation)
+
+    new_entries = []
+    for url, group in sorted(unclaimed_links.items()):
+        parsed = urllib.parse.urlparse(url)
+        base = f"{parsed.netloc}-{parsed.path}".replace(".", "-")
+        entry_id = slugify(base, max_words=10)
+        suffix = 2
+        while entry_id in existing_ids:
+            entry_id = f"{slugify(base, max_words=10)}-{suffix}"
+            suffix += 1
+        existing_ids.add(entry_id)
+        new_entries.append(
+            {
+                "id": entry_id,
+                "type": classify_url(url),
+                "authors": [],
+                "title": link_title(group[0].bullet, url),
+                "published": "",
+                "authority": parsed.netloc,
+                "locator": url,
+                "accessed": None,
+                "status": "pendiente",
+                "pending_reason": "sin comprobar contra la fuente: ejecutar --resolve",
+                "aliases": [],
+                "class_urls": [url],
+                "used_in": [],
+                "origin": "alta automática desde las clases",
+            }
+        )
+
+    for (lead, year), group in sorted(unclaimed_works.items()):
+        title = citation_title(group[0].bullet)
+        entry_id = slugify(f"{lead} {title}", max_words=9)
+        if year:
+            entry_id = f"{entry_id}-{year}"
+        suffix = 2
+        base_id = entry_id
+        while entry_id in existing_ids:
+            entry_id = f"{base_id}-{suffix}"
+            suffix += 1
+        existing_ids.add(entry_id)
+        aliases = sorted({f"^{re.escape(fold(c.text))}$" for c in group})
+        new_entries.append(
+            {
+                "id": entry_id,
+                "type": guess_work_type(group[0].text),
+                "authors": citation_authors(group[0].bullet),
+                "title": title,
+                "published": year,
+                "authority": "",
+                "locator": None,
+                "accessed": None,
+                "status": "pendiente",
+                "pending_reason": (
+                    "sin identificador: ejecutar --resolve"
+                    if title
+                    else "la cita no nombra un título buscable en un catálogo"
+                ),
+                "aliases": aliases,
+                "class_urls": [],
+                "used_in": [],
+                "origin": "alta automática desde las clases",
+            }
+        )
+
+    registry["entries"].extend(new_entries)
+
+    # Reparación: una entrada sin título es una entrada sin identificar. Ocurre
+    # cuando la cita no separa autoría de título ("APA Publication Manual 7th
+    # ed."). Se recupera de la propia cita, que sigue ahí.
+    reparadas = 0
+    by_url, patterns = build_index(registry)
+    origen: dict[str, list] = {}
+    for citation in citations:
+        for entry in match_citation(citation, by_url, patterns):
+            origen.setdefault(entry["id"], []).append(citation)
+    for entry in registry["entries"]:
+        if entry.get("title"):
+            continue
+        muestras = origen.get(entry["id"], [])
+        if not muestras:
+            continue
+        entry["title"] = citation_title(muestras[0].bullet) or muestras[0].text
+        entry["authors"] = entry.get("authors") or citation_authors(muestras[0].bullet)
+        reparadas += 1
+
+    print(f"  citas leídas          : {len(citations)}")
+    print(f"  entradas reparadas    : {reparadas}")
+    print(f"  entradas nuevas       : {len(new_entries)}")
+    print(f"  citas ambiguas        : {ambiguous}")
+    return registry
+
+
+def phase_usage(registry: dict) -> dict:
+    """Recalcula `used_in` desde las clases. Es dato derivado, no se edita a mano."""
+    citations = iter_citations()
+    by_url, patterns = build_index(registry)
+    usage: dict[str, set] = {}
+    for citation in citations:
+        for entry in match_citation(citation, by_url, patterns):
+            usage.setdefault(entry["id"], set()).add(citation.class_path)
+    for entry in registry["entries"]:
+        entry["used_in"] = sorted(usage.get(entry["id"], []))
+    return registry
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Fase: resolución de identificadores
+# ─────────────────────────────────────────────────────────────────────────────
+
+_ISBN13 = re.compile(r"^\d{13}$")
+
+#: Tipos de Crossref que sí son un artículo. Un `book-chapter` o un `monograph`
+#: con DOI sigue siendo un libro, y como libro necesita ISBN-13.
+ARTICLE_TYPES = {
+    "journal-article",
+    "proceedings-article",
+    "posted-content",
+    "report",
+    "report-component",
+    "dissertation",
+}
+
+
+def isbn13_ok(value: str) -> bool:
+    if not _ISBN13.match(value or ""):
+        return False
+    total = sum(int(d) * (1 if i % 2 == 0 else 3) for i, d in enumerate(value[:12]))
+    return (10 - total % 10) % 10 == int(value[12])
+
+
+def titles_match(left: str, right: str) -> bool:
+    """Dos títulos designan la misma obra.
+
+    Se acepta la coincidencia exacta y el caso del subtítulo: el catálogo trae
+    'Practical Statistics for Data Scientists: 50 Essential Concepts' donde la
+    clase escribe solo la primera mitad. El subtítulo se recorta **solo del
+    candidato**, nunca del título que trae el material: recortar los dos hace
+    que 'Recommender Systems: The Textbook' encaje con 'Recommender Systems:
+    Techniques and Effects', que es otro libro. No se acepta parecido difuso.
+    """
+    a, b = fold(left), fold(right)
+    if not a or not b:
+        return False
+    if a == b:
+        return True
+    if ":" not in left and fold(right.split(":")[0]) == a:
+        return True
+    if ":" not in right and fold(left.split(":")[0]) == b:
+        return True
+    shorter, longer = (a, b) if len(a) <= len(b) else (b, a)
+    return longer.startswith(shorter) and len(shorter) >= 0.7 * len(longer)
+
+
+def surname_of(author: str) -> str:
+    """Apellido con el que se cita a alguien: el primer bloque antes de la coma."""
+    head = author.split(",")[0]
+    tokens = [t for t in fold(head).split() if len(t) > 2]
+    return tokens[-1] if tokens else ""
+
+
+def authors_match(expected: list, candidates: list) -> bool:
+    """El primer autor que nombra el material aparece entre los del catálogo.
+
+    Qué resuelve:
+        Un título puede coincidir por casualidad entre dos obras distintas. La
+        autoría es el segundo candado: si el material cita a Aggarwal y el
+        catálogo devuelve a otra persona, no es la misma obra. Cuando la cita no
+        nombra autoría no hay nada que comparar y el candado no se aplica.
+    """
+    surname = next((surname_of(a) for a in expected if surname_of(a)), "")
+    if not surname:
+        return True
+    haystack = fold(" ".join(candidates))
+    return bool(haystack) and surname in haystack
+
+
+def resolve_book(entry: dict) -> dict:
+    """Busca el ISBN-13 en openlibrary.org exigiendo que el título coincida."""
+    query = urllib.parse.quote(f"{entry['title']} {' '.join(entry['authors'][:1])}")
+    data = http_json(
+        f"https://openlibrary.org/search.json?q={query}"
+        "&fields=key,title,author_name,first_publish_year&limit=5"
+    )
+    if not data or not data.get("docs"):
+        return {"ok": False, "reason": "openlibrary no devolvió candidatos"}
+    doc = next(
+        (
+            d
+            for d in data["docs"]
+            if titles_match(entry["title"], d.get("title", ""))
+            and authors_match(entry.get("authors", []), d.get("author_name", []))
+        ),
+        None,
+    )
+    if doc is None:
+        return {
+            "ok": False,
+            "reason": f"ningún candidato de openlibrary coincide en título y autoría "
+            f"(mejor: {data['docs'][0].get('title', '?')!r})",
+        }
+    editions = http_json(
+        f"https://openlibrary.org{doc['key']}/editions.json?limit=200"
+    )
+    if not editions:
+        return {"ok": False, "reason": "openlibrary no devolvió ediciones"}
+    wanted_year = entry.get("published") or ""
+    candidates = []
+    for ed in editions.get("entries", []):
+        isbns = [i.replace("-", "") for i in ed.get("isbn_13", [])]
+        isbns = [i for i in isbns if isbn13_ok(i)]
+        if not isbns:
+            continue
+        year = ""
+        match = re.search(r"\b(1[89]\d{2}|20\d{2})\b", str(ed.get("publish_date", "")))
+        if match:
+            year = match.group(1)
+        if wanted_year and year and year != wanted_year:
+            continue
+        for isbn in isbns:
+            candidates.append(
+                {
+                    "isbn13": isbn,
+                    "year": year,
+                    "title": ed.get("title", ""),
+                    "publishers": ed.get("publishers", []),
+                }
+            )
+    if not candidates:
+        return {
+            "ok": False,
+            "reason": f"openlibrary tiene la obra pero ninguna edición con ISBN-13"
+            + (f" del año {wanted_year}" if wanted_year else ""),
+        }
+    chosen = sorted(candidates, key=lambda c: c["isbn13"])[0]
+    status = http_status(f"https://openlibrary.org/isbn/{chosen['isbn13']}")
+    if status not in (200, 302):
+        return {"ok": False, "reason": f"openlibrary.org/isbn devolvió {status}"}
+    return {
+        "ok": True,
+        "isbn13": chosen["isbn13"],
+        "locator": f"https://openlibrary.org/isbn/{chosen['isbn13']}",
+        "authority": (chosen["publishers"] or [entry.get("authority") or ""])[0],
+        "published": chosen["year"] or entry.get("published", ""),
+        "resolution": {
+            "source": "openlibrary.org",
+            "work": doc["key"],
+            "matched_title": chosen["title"],
+            "editions_con_isbn13": len(candidates),
+            "regla": "menor ISBN-13 entre las ediciones que coinciden en año",
+            "http_status": status,
+        },
+    }
+
+
+def arxiv_id_from(urls: list[str]) -> str | None:
+    for url in urls:
+        match = re.search(r"arxiv\.org/(?:abs|pdf)/([0-9]{4}\.[0-9]{4,5}|[a-z\-]+/\d{7})", url)
+        if match:
+            return match.group(1)
+    return None
+
+
+def resolve_paper(entry: dict) -> dict:
+    """DOI por DataCite (arXiv) o por Crossref, exigiendo coincidencia de título."""
+    arxiv = arxiv_id_from(entry.get("class_urls", []))
+    if arxiv:
+        doi = f"10.48550/arXiv.{arxiv}"
+        data = http_json(f"https://api.datacite.org/dois/{urllib.parse.quote(doi, safe='')}")
+        if data:
+            attrs = data.get("data", {}).get("attributes", {})
+            titles = [t.get("title", "") for t in attrs.get("titles", [])]
+            return {
+                "ok": True,
+                "doi": doi,
+                "locator": f"https://doi.org/{doi}",
+                "title": titles[0] if titles else entry["title"],
+                "authors": [c.get("name", "") for c in attrs.get("creators", []) if c.get("name")],
+                "published": str(attrs.get("publicationYear") or entry.get("published", "")),
+                "authority": "arXiv (DataCite)",
+                "resolution": {"source": "api.datacite.org", "arxiv_id": arxiv},
+            }
+        return {"ok": False, "reason": f"datacite no resolvió {doi}"}
+
+    query = urllib.parse.quote(entry["title"])
+    data = http_json(
+        f"https://api.crossref.org/works?query.bibliographic={query}&rows=5"
+        "&select=DOI,title,author,issued,type,container-title"
+    )
+    items = (data or {}).get("message", {}).get("items", [])
+    for item in items:
+        candidate = (item.get("title") or [""])[0]
+        if not titles_match(entry["title"], candidate):
+            continue
+        authors = [
+            f"{a.get('family', '')}, {a.get('given', '')}".strip(", ")
+            for a in item.get("author", [])
+        ]
+        if not authors_match(entry.get("authors", []), authors):
+            continue
+        container = (item.get("container-title") or [""])[0]
+        return {
+            "ok": True,
+            "doi": item["DOI"],
+            "locator": f"https://doi.org/{item['DOI']}",
+            "title": candidate,
+            "authors": authors or entry["authors"],
+            "authority": container or "Crossref",
+            "published": str((item.get("issued", {}).get("date-parts") or [[""]])[0][0] or ""),
+            "crossref_type": item.get("type", ""),
+            "resolution": {"source": "api.crossref.org", "crossref_type": item.get("type")},
+        }
+    found = resolve_paper_arxiv(entry)
+    if found:
+        return found
+    best = (items[0].get("title") or ["?"])[0] if items else "sin candidatos"
+    return {"ok": False, "reason": f"crossref no coincide en título (mejor: {best!r})"}
+
+
+def resolve_paper_arxiv(entry: dict) -> dict | None:
+    """Último recurso: buscar el título en arXiv.
+
+    Qué resuelve:
+        Buena parte de la bibliografía de ML vive en actas (NeurIPS, ICML, ICLR)
+        que no registran DOI en Crossref, pero sí tiene preprint en arXiv, y
+        arXiv sí emite DOI. Se exige coincidencia exacta de título: un parecido
+        no es la misma obra.
+    """
+    title = entry.get("title", "")
+    if len(title) < 12:
+        return None
+    query = urllib.parse.urlencode(
+        {"search_query": f'ti:"{title}"', "max_results": 5, "start": 0}
+    )
+    code, body = http_get(f"http://export.arxiv.org/api/query?{query}")
+    if code != 200 or not body:
+        return None
+    feed = body.decode("utf-8", "replace")
+    entries = re.findall(r"<entry>(.*?)</entry>", feed, re.S)
+    for raw in entries:
+        found_title = re.search(r"<title>(.*?)</title>", raw, re.S)
+        found_id = re.search(r"<id>https?://arxiv\.org/abs/([^<v]+)", raw)
+        if not found_title or not found_id:
+            continue
+        candidate = re.sub(r"\s+", " ", found_title.group(1)).strip()
+        authors = re.findall(r"<name>(.*?)</name>", raw)
+        if not titles_match(title, candidate):
+            continue
+        if not authors_match(entry.get("authors", []), authors):
+            continue
+        arxiv = found_id.group(1)
+        doi = f"10.48550/arXiv.{arxiv}"
+        published = re.search(r"<published>(\d{4})", raw)
+        return {
+            "ok": True,
+            "doi": doi,
+            "locator": f"https://doi.org/{doi}",
+            "title": candidate,
+            "authors": authors or entry["authors"],
+            "authority": "arXiv",
+            "published": published.group(1) if published else entry.get("published", ""),
+            "resolution": {"source": "export.arxiv.org", "arxiv_id": arxiv},
+        }
+    return None
+
+
+def resolve_url_entry(entry: dict) -> dict:
+    locator = entry.get("locator") or (entry.get("class_urls") or [None])[0]
+    if not locator:
+        return {
+            "ok": False,
+            "reason": (
+                "la cita nombra la fuente pero no incluye su URL; hace falta que "
+                "alguien la aporte para poder comprobarla"
+            ),
+        }
+    status = http_status(locator)
+    if status == 200:
+        return {"ok": True, "locator": locator, "resolution": {"http_status": 200}}
+    if status in (401, 403, 405, 406, 429):
+        # El servidor no dice que la página no exista: dice que no atiende a un
+        # cliente automático. Se declara como no comprobable, no como rota.
+        return {
+            "ok": False,
+            "reason": f"el servidor bloquea la comprobación automática (HTTP {status})",
+            "http_status": status,
+        }
+    if status == 404:
+        return {"ok": False, "reason": "enlace roto: la fuente devolvió 404", "http_status": 404}
+    return {
+        "ok": False,
+        "reason": f"sin respuesta comprobable (HTTP {status or 'sin conexión'})",
+        "http_status": status,
+    }
+
+
+def resolve_entry(entry: dict) -> tuple[dict, dict]:
+    """Resuelve una entrada, con reclasificación si el tipo estaba mal adivinado.
+
+    Qué resuelve:
+        Del texto de una cita no siempre se deduce si detrás hay un libro o un
+        artículo. En vez de fallar, se prueba el otro catálogo: si un supuesto
+        `paper` aparece en el catálogo de libros con el mismo título, la entrada
+        cambia de tipo y queda verificada en lugar de pendiente sin motivo real.
+    """
+    kind = entry["type"]
+    if kind == "book":
+        result = resolve_book(entry)
+        if not result.get("ok") and not entry.get("class_urls"):
+            alt = resolve_paper(entry)
+            # Un libro solo se reclasifica como artículo si el catálogo dice que
+            # lo es. Un DOI de la edición electrónica de un libro no lo convierte
+            # en un paper: en ese caso la entrada sigue siendo un libro sin
+            # ISBN-13 resuelto, y eso es lo que hay que declarar.
+            if alt.get("ok") and alt.get("crossref_type", "") in ARTICLE_TYPES:
+                alt["retype"] = "paper"
+                return entry, alt
+            if alt.get("ok"):
+                return entry, {
+                    "ok": False,
+                    "reason": (
+                        "el catálogo de libros no tiene ISBN-13 para esta obra; "
+                        f"sí existe DOI de la edición electrónica: {alt.get('doi')}"
+                    ),
+                }
+        return entry, result
+    if kind == "paper":
+        result = resolve_paper(entry)
+        if not result.get("ok"):
+            alt = resolve_book(entry)
+            if alt.get("ok"):
+                alt["retype"] = "book"
+                return entry, alt
+        return entry, result
+    return entry, resolve_url_entry(entry)
+
+
+def phase_resolve(registry: dict, limit: int | None, only_pending: bool, workers: int = 8) -> dict:
+    print("── resolución de localizadores ─────────────────────────────────────")
+    targets = [
+        e
+        for e in registry["entries"]
+        if not only_pending or e.get("status") != "verificada"
+    ]
+    if limit:
+        targets = targets[:limit]
+    today = date.today().isoformat()
+    resolved = 0
+    failed = 0
+    started = time.monotonic()
+    with concurrent.futures.ThreadPoolExecutor(max_workers=workers) as pool:
+        for entry, result in pool.map(lambda e: resolve_entry(e), targets):
+            if result.get("ok"):
+                resolved += 1
+                if result.get("retype"):
+                    entry["type"] = result["retype"]
+                entry["locator"] = result["locator"]
+                entry["accessed"] = today
+                entry["status"] = "verificada"
+                entry.pop("pending_reason", None)
+                for field in ("isbn13", "doi", "title", "authors", "published", "authority"):
+                    if result.get(field):
+                        entry[field] = result[field]
+                if result.get("resolution"):
+                    entry["resolution"] = result["resolution"]
+            else:
+                failed += 1
+                entry["status"] = "pendiente"
+                entry["pending_reason"] = result.get("reason", "sin resolver")
+                entry["accessed"] = today
+    elapsed = time.monotonic() - started
+    print(f"  comprobadas {len(targets)} en {elapsed:.0f}s")
+    print(f"  verificadas : {resolved}")
+    print(f"  pendientes  : {failed}")
+    return registry
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Informe
+# ─────────────────────────────────────────────────────────────────────────────
+
+
+def report(registry: dict) -> None:
+    entries = registry["entries"]
+    by_status: dict[str, int] = {}
+    by_type: dict[str, dict[str, int]] = {}
+    for entry in entries:
+        by_status[entry["status"]] = by_status.get(entry["status"], 0) + 1
+        bucket = by_type.setdefault(entry["type"], {"verificada": 0, "pendiente": 0})
+        bucket[entry["status"]] += 1
+    print("── registro ────────────────────────────────────────────────────────")
+    print(f"  entradas    : {len(entries)}")
+    for kind in sorted(by_type):
+        b = by_type[kind]
+        print(f"    {kind:<10} verificadas={b['verificada']:<5} pendientes={b['pendiente']}")
+    pend = [e for e in entries if e["status"] == "pendiente"]
+    if pend:
+        print(f"\n  pendientes ({len(pend)}) — motivos más frecuentes:")
+        reasons: dict[str, int] = {}
+        for entry in pend:
+            key = re.sub(r"\(.*\)", "(…)", entry.get("pending_reason", "?"))[:80]
+            reasons[key] = reasons.get(key, 0) + 1
+        for reason, count in sorted(reasons.items(), key=lambda x: -x[1])[:12]:
+            print(f"    {count:>4}  {reason}")
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    parser.add_argument("--versions", action="store_true", help="probar versiones de docs")
+    parser.add_argument("--anchor-links", action="store_true", help="anclar enlaces en clases")
+    parser.add_argument("--seed", action="store_true", help="dar de alta fuentes citadas")
+    parser.add_argument("--resolve", action="store_true", help="resolver ISBN/DOI/URL")
+    parser.add_argument("--all", action="store_true", help="todas las fases en orden")
+    parser.add_argument("--limit", type=int, default=None, help="tope de entradas a resolver")
+    parser.add_argument(
+        "--force",
+        action="store_true",
+        help="reintentar también las entradas ya verificadas",
+    )
+    parser.add_argument(
+        "--workers",
+        type=int,
+        default=8,
+        help="hilos de resolución; bajalo a 1 cuando los catálogos devuelvan 429",
+    )
+    parser.add_argument("--dry-run", action="store_true", help="no escribir las clases")
+    args = parser.parse_args()
+
+    if not any([args.versions, args.anchor_links, args.seed, args.resolve, args.all]):
+        parser.error("elegí al menos una fase (o --all)")
+
+    do = lambda flag: args.all or flag  # noqa: E731
+
+    versions = None
+    if do(args.versions):
+        versions = phase_versions()
+    if do(args.anchor_links):
+        versions = versions or json.loads(LIBRARY_VERSIONS_PATH.read_text(encoding="utf-8"))
+        phase_anchor_links(versions, apply=not args.dry_run)
+
+    registry = load_registry()
+    if do(args.seed):
+        registry = phase_seed(registry)
+    if do(args.resolve):
+        registry = phase_resolve(
+            registry, args.limit, only_pending=not args.force, workers=max(1, args.workers)
+        )
+
+    registry = phase_usage(registry)
+    registry["verified_on"] = date.today().isoformat()
+    registry["generated_by"] = "scripts/refresh-sources"
+    registry["generated_at"] = datetime.now(timezone.utc).replace(microsecond=0).isoformat()
+    save_registry(registry)
+    report(registry)
+    print(f"\nregistro escrito en {ROOT.name}/sources/bibliography.json")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
