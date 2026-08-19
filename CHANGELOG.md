@@ -13,6 +13,30 @@
 
 ---
 
+## [Sin publicar] — Trazabilidad de fuentes: registro con localizador resoluble y verificador en CI
+
+Las 232 clases citaban obras reales y cada bloque de fuentes era distinto — el contenido nunca fue el problema. El problema era que **no existía ningún sitio donde comprobar qué obra hay detrás de cada cita**: 1.028 citas repartidas por el currículo y el README declarando cinco libros. Una bibliografía sin localizadores es una lista de títulos: se lee bien y no se puede verificar.
+
+### Añadido
+- **`sources/bibliography.json` — el registro.** 740 entradas, una por obra o enlace citado, con autoría, título, quién responde por la fuente, en qué clases se usa y un localizador de forma canónica: libro → ISBN-13 con dígito de control válido (`openlibrary.org/isbn/…`), artículo → DOI (`doi.org/…`), norma o documentación → URL https con fecha de consulta. **585 verificadas contra su fuente (79,1 %)**; las 155 restantes quedan `pendiente` **con el motivo escrito**, no borradas.
+- **`sources/library_versions.json`** — a qué versión apunta la documentación de cada librería y con cuál se ejecutó el material.
+- **`scripts/verify-sources` — offline, determinista, bloquea en CI.** Comprueba esquema, forma del localizador, que toda cita tenga entrada y toda entrada tenga uso, que ningún bloque de fuentes se repita entre clases, que ningún enlace apunte a `/stable/` cuando esa librería publica por versión, y que **las cifras del README coincidan con el recuento**. Las escribe él mismo con `--write-readme`: en el README no hay ni un número a mano.
+- **`scripts/refresh-sources` — con red, manual, no bloquea.** Resuelve ISBN contra `openlibrary.org` y DOI contra `api.crossref.org` / `api.datacite.org` / arXiv, exigiendo coincidencia de **título y autoría** antes de dar nada por bueno; hace GET a cada URL y actualiza `accessed`. Reporta lo que dejó de resolver sin borrarlo.
+- **`tests/test_sources.py`** — 24 tests sobre el extractor de citas y la forma de los localizadores: si la extracción se rompe en silencio, el verificador seguiría en verde mirando la mitad del material.
+- **Paso «Check sources» en `ci.yml`** y objetivos `make sources-verify` / `make sources-refresh`.
+
+### Cambiado
+- **189 enlaces de documentación en 107 clases dejan de apuntar a `/stable/` y `/latest/`.** `scikit-learn.org/stable/modules/tree.html` no es una fuente: es una redirección a lo que scikit-learn publique hoy, y describía otra API hace dos versiones sin que la cita cambiara una letra. Ahora apuntan a `scikit-learn.org/1.8/…`, `numpy.org/doc/2.4/…`, `docs.python.org/3.12/…` y equivalentes. **22 librerías ancladas**, y la versión no se eligió a ojo: se pide a PyPI la lista real de releases y se prueban **las rutas concretas que el material enlaza** hasta dar con la versión en la que responden todas.
+- Quedan 6 enlaces con `/latest/` en AWS, Istio y `arch`, que **no tienen forma versionada**; están declarados como excepción en `library_versions.json` en lugar de contar como deuda silenciosa.
+
+### Corregido
+- **4 enlaces rotos** que el material arrastraba sin que nadie lo notara: tres guías de `keras.io` (`customizing_what_happens_in_fit`, `preprocessing_layers`, `working_with_rnns`) y un post de `feast.dev` devuelven 404. Quedan marcados en el registro con su motivo.
+
+### Pendiente declarado
+- **595 de 1.028 citas (57,9 %) todavía no dicen para qué usa la clase esa fuente**, solo cuál es. Rellenarlo automáticamente habría sido texto de relleno con forma de bibliografía; la cifra la publica el verificador para que se vea bajar.
+
+---
+
 ## [v3.11.0] — 2026-08-04 (La clase se ve bien: render HTML en la app, nueva UI de clase e icono de producto)
 
 La app de escritorio mostraba el README de cada clase pasándolo crudo a `QTextBrowser.setMarkdown()`. Eso significaba: bloques de código sin color, tablas del temario colapsadas a texto corrido, líneas de 200 caracteres de lado a lado de la pantalla y — en tema oscuro — el contenido con la paleta del tema claro. **La misma clase se veía bien en GitHub Pages y mal en la app.** Esta versión unifica las dos superficies detrás de un único renderizador.

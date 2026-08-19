@@ -56,6 +56,86 @@ Integra currículo modular extenso, laboratorio interactivo local, portal del al
 
 ---
 
+<!-- BEGIN:fuentes -->
+
+## 📚 Fuentes y trazabilidad
+
+[![Fuentes](https://img.shields.io/badge/fuentes-740%20entradas%20%C2%B7%2079%25%20verificadas-1f6feb?style=for-the-badge)](sources/bibliography.json)
+
+Las clases de este programa se apoyan en obras concretas, y cada una de esas
+obras tiene ficha propia en [`sources/bibliography.json`](sources/bibliography.json):
+quién responde por ella, con qué localizador se comprueba (ISBN-13, DOI o URL
+de la fuente primaria) y en qué clases se usa. Lo que no resuelve se marca
+`pendiente` con su motivo — no se borra ni se rellena a ojo.
+
+| Métrica | Valor |
+|---|---:|
+| Clases con bloque de fuentes | 232 / 232 |
+| Citas en las clases | 1028 |
+| Entradas en el registro | 740 |
+| Cobertura del registro | 100.0 % |
+| Verificadas contra su fuente | 585 (79.1 %) |
+| Pendientes declaradas | 155 |
+| Citas que declaran su uso | 433 (42.1 %) |
+| Enlaces de documentación anclados a versión | 22 / 22 librerías |
+| Última comprobación con red | 2026-08-19 |
+
+### 🧪 Documentación de librerías — versión verificada
+
+El material no enlaza a `/stable/`: esa ruta describe una API distinta en cada
+release y convierte una cita en una promesa. Cada enlace apunta a la versión
+con la que se comprobó la clase.
+
+| Librería | Versión verificada | Instalada al verificar | Documentación |
+|---|---|---|---|
+| `apache-airflow` | 3.3.1 | — | [https://airflow.apache.org/docs/apache-airflow/3.3.1/](https://airflow.apache.org/docs/apache-airflow/3.3.1/) |
+| `imbalanced-learn` | 0.14 | — | [https://imbalanced-learn.org/0.14/](https://imbalanced-learn.org/0.14/) |
+| `ipython` | 9.12.0 | 9.12.0 | [https://ipython.readthedocs.io/en/9.12.0/](https://ipython.readthedocs.io/en/9.12.0/) |
+| `lightgbm` | 4.7.0 | 4.7.0 | [https://lightgbm.readthedocs.io/en/v4.7.0/](https://lightgbm.readthedocs.io/en/v4.7.0/) |
+| `lightning` | 2.5.6 | — | [https://lightning.ai/docs/pytorch/2.5.6/](https://lightning.ai/docs/pytorch/2.5.6/) |
+| `matplotlib` | 3.10.8 | 3.10.8 | [https://matplotlib.org/3.10.8/](https://matplotlib.org/3.10.8/) |
+| `mlflow` | 2.19.0 | — | [https://mlflow.org/docs/2.19.0/](https://mlflow.org/docs/2.19.0/) |
+| `numpy` | 2.4 | 2.4.4 | [https://numpy.org/doc/2.4/](https://numpy.org/doc/2.4/) |
+| `optuna` | 4.9.0 | — | [https://optuna.readthedocs.io/en/v4.9.0/](https://optuna.readthedocs.io/en/v4.9.0/) |
+| `pandas` | 3.0 | 3.0.2 | [https://pandas.pydata.org/pandas-docs/version/3.0/](https://pandas.pydata.org/pandas-docs/version/3.0/) |
+| `pydantic` | 2.12 | 2.12.5 | [https://docs.pydantic.dev/2.12/](https://docs.pydantic.dev/2.12/) |
+| `pyspark` | 4.2.0 | — | [https://spark.apache.org/docs/4.2.0/](https://spark.apache.org/docs/4.2.0/) |
+| `python` | 3.12 | — | [https://docs.python.org/3.12/](https://docs.python.org/3.12/) |
+| `ray` | 2.57.0 | — | [https://docs.ray.io/en/releases-2.57.0/](https://docs.ray.io/en/releases-2.57.0/) |
+| `scikit-learn` | 1.8 | 1.8.0 | [https://scikit-learn.org/1.8/](https://scikit-learn.org/1.8/) |
+| `scipy` | 1.18.0 | 1.17.1 | [https://docs.scipy.org/doc/scipy-1.18.0/](https://docs.scipy.org/doc/scipy-1.18.0/) |
+| `statsmodels` | 0.14.6 | 0.14.6 | [https://www.statsmodels.org/v0.14.6/](https://www.statsmodels.org/v0.14.6/) |
+| `torch` | 2.13 | — | [https://pytorch.org/docs/2.13/](https://pytorch.org/docs/2.13/) |
+| `transformers` | 5.15.1 | — | [https://huggingface.co/docs/transformers/v5.15.1/en/](https://huggingface.co/docs/transformers/v5.15.1/en/) |
+| `urllib3` | 2.7.0 | 2.7.0 | [https://urllib3.readthedocs.io/en/2.7.0/](https://urllib3.readthedocs.io/en/2.7.0/) |
+| `vowpalwabbit` | 9.11.2 | — | [https://vowpalwabbit.org/docs/vowpal_wabbit/python/9.11.2/](https://vowpalwabbit.org/docs/vowpal_wabbit/python/9.11.2/) |
+| `xgboost` | 3.3.0 | 3.3.0 | [https://xgboost.readthedocs.io/en/release_3.3.0/](https://xgboost.readthedocs.io/en/release_3.3.0/) |
+
+### 📖 Obras rectoras
+
+Las diez fuentes que sostienen más clases del programa.
+
+| Clases | Obra | Localizador |
+|---:|---|---|
+| 97 | Géron, Aurélien — *Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow* | _pendiente_ |
+| 27 | VanderPlas, Jake — *Python Data Science Handbook* | [openlibrary.org/isbn/9781098121228](https://openlibrary.org/isbn/9781098121228) |
+| 13 | Huyen, Chip — *Designing Machine Learning Systems* | [openlibrary.org/isbn/9781098107963](https://openlibrary.org/isbn/9781098107963) |
+| 7 | Bruce, Peter, Bruce, Andrew — *Practical Statistics for Data Scientists* | [openlibrary.org/isbn/9781491952962](https://openlibrary.org/isbn/9781491952962) |
+| 7 | James, Gareth, Witten, Daniela — *An Introduction to Statistical Learning with Applications in Python* | _pendiente_ |
+| 6 | Ramalho, Luciano — *Fluent Python* | [openlibrary.org/isbn/9781491946008](https://openlibrary.org/isbn/9781491946008) |
+| 5 | Knees, Peter, Neidhardt, Julia — *Recommender Systems: Techniques, Effects, and Measures Toward Pluralism and Fairness* | [doi.org/10.1007/978-3-031-45304-5_27](https://doi.org/10.1007/978-3-031-45304-5_27) |
+| 5 | Mitchell, Margaret, Wu, Simone — *Model Cards for Model Reporting* | [doi.org/10.48550/arXiv.1810.03993](https://doi.org/10.48550/arXiv.1810.03993) |
+| 5 | Reis, Joe, Housley, Matt — *Fundamentals of Data Engineering* | [openlibrary.org/isbn/9781098108304](https://openlibrary.org/isbn/9781098108304) |
+| 5 | Sutton, Richard S., Barto, Andrew G. — *Reinforcement Learning: An Introduction* | [openlibrary.org/isbn/9780262039246](https://openlibrary.org/isbn/9780262039246) |
+
+> Estas cifras las produce `python scripts/verify-sources --write-readme` a
+> partir del registro y de las clases. No se escriben a mano: si dejan de
+> cuadrar, el CI falla.
+
+<!-- END:fuentes -->
+
+---
+
 ## 📊 Estado actual del producto
 
 | 🎯 Aspecto | Estado |
@@ -380,6 +460,9 @@ Ver [docs/BUILD_INSTALLER.md](docs/BUILD_INSTALLER.md) para instrucciones comple
 pytest                   # suite completa
 ruff check .             # lint
 python -m bandit -r app run_program.py launcher.py app_desktop -x app/saved_notebooks  # seguridad estática
+python scripts/check_links.py    # enlaces internos del sitio, las clases y la app
+python scripts/verify-sources    # registro de fuentes (offline, corre en CI)
+python scripts/refresh-sources --all   # comprueba ISBN/DOI/URL contra la red (manual)
 ```
 
 Workflows activos:
@@ -427,6 +510,7 @@ Workflows activos:
 | 🛣️ [ROADMAP.md](ROADMAP.md) | dirección futura del producto |
 | ⚙️ [RUNBOOK.md](RUNBOOK.md) | operación diaria |
 | 🔐 [SECURITY.md](SECURITY.md) | postura de seguridad y límites |
+| 📚 [sources/README.md](sources/README.md) | registro de fuentes: qué obra hay detrás de cada cita y cómo se comprueba |
 | 🧭 [docs/INDEX.md](docs/INDEX.md) | índice completo por audiencia y objetivo |
 | 📦 [docs/CATALOGO_PRODUCTO.md](docs/CATALOGO_PRODUCTO.md) | fuente de verdad de superficies y artefactos |
 | 🏗️ [docs/ARQUITECTURA_PRODUCTO.md](docs/ARQUITECTURA_PRODUCTO.md) | arquitectura funcional con diagramas |
