@@ -18,3 +18,9 @@ test:
 
 docker-up:
 	docker compose up --build
+
+sources-verify:
+	python scripts/verify-sources
+
+sources-refresh:
+	python scripts/refresh-sources --all

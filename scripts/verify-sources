@@ -1,0 +1,498 @@
+#!/usr/bin/env python
+"""Verifica el registro de fuentes contra las clases. Sin red. Bloquea el CI.
+
+Qué resuelve:
+    Un registro de fuentes se pudre en silencio: una clase nueva cita algo que
+    nadie dio de alta, una entrada se queda sin usar cuando se reescribe una
+    clase, el README repite una cifra que dejó de ser cierta hace tres meses.
+    Nada de eso rompe ningún test, así que nadie se entera.
+
+    Este verificador comprueba, sin tocar la red y de forma determinista:
+
+      [esquema]   el registro parsea y cada entrada tiene los campos del esquema
+      [localiza]  libro -> ISBN-13 con dígito de control válido
+                  artículo -> DOI
+                  norma, documentación o dataset -> URL https con fecha de consulta
+                  y el `locator` en la forma canónica de su tipo
+      [cobertura] toda obra citada en una clase existe en el registro
+      [uso]       ninguna entrada del registro queda sin usar
+      [ancla]     ningún enlace de documentación apunta a /stable/ o /latest/
+                  cuando esa librería tiene forma anclada a versión
+      [único]     ningún bloque de fuentes se repite entre clases
+      [readme]    las cifras del README coinciden con el recuento del registro
+
+    Lo que exige red —que el ISBN exista, que el DOI resuelva, que la URL siga
+    en pie— es trabajo de scripts/refresh-sources, que no bloquea.
+
+Uso:
+    python scripts/verify-sources                 # revisa todo
+    python scripts/verify-sources --write-readme  # regenera el bloque del README
+    python scripts/verify-sources --json          # métricas para otra herramienta
+
+Salida: código 0 si no hay fallos, 1 si hay al menos uno.
+"""
+
+from __future__ import annotations
+
+import argparse
+import collections
+import json
+import sys
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+
+from sources_lib import (  # noqa: E402
+    ENTRY_STATUS,
+    ENTRY_TYPES,
+    README_BEGIN,
+    README_END,
+    README_PATH,
+    REGISTRY_PATH,
+    SCHEMA_VERSION,
+    build_index,
+    doi_is_wellformed,
+    expected_locator,
+    floating_marker,
+    is_iso_date,
+    is_kebab_id,
+    isbn13_is_valid,
+    iter_class_references,
+    load_library_versions,
+    load_registry,
+    match_citation,
+)
+
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+
+REPO = "https://github.com/vladimiracunadev-create/python-data-science-program"
+
+REQUIRED_FIELDS = ("id", "type", "authors", "title", "authority", "status", "used_in")
+
+
+class Report:
+    """Acumula fallos y avisos con la ubicación exacta de cada uno."""
+
+    def __init__(self) -> None:
+        self.failures: list[tuple[str, str]] = []
+        self.warnings: list[tuple[str, str]] = []
+
+    def fail(self, scope: str, message: str) -> None:
+        self.failures.append((scope, message))
+
+    def warn(self, scope: str, message: str) -> None:
+        self.warnings.append((scope, message))
+
+    @property
+    def ok(self) -> bool:
+        return not self.failures
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Comprobaciones
+# ─────────────────────────────────────────────────────────────────────────────
+
+
+def check_schema(registry: dict, report: Report) -> None:
+    if registry.get("schema_version") != SCHEMA_VERSION:
+        report.fail("esquema", f"schema_version debe ser {SCHEMA_VERSION}")
+    if not registry.get("policy"):
+        report.fail("esquema", "falta `policy`: el registro tiene que declarar su regla")
+    if not is_iso_date(registry.get("verified_on") or ""):
+        report.fail("esquema", "`verified_on` no es una fecha AAAA-MM-DD")
+
+    seen_ids: set[str] = set()
+    for entry in registry.get("entries", []):
+        eid = entry.get("id", "<sin id>")
+        scope = f"entrada {eid}"
+        for field in REQUIRED_FIELDS:
+            if field not in entry:
+                report.fail(scope, f"falta el campo `{field}`")
+        if not is_kebab_id(eid):
+            report.fail(scope, "el id no es kebab-case")
+        if eid in seen_ids:
+            report.fail(scope, "id duplicado")
+        seen_ids.add(eid)
+        if entry.get("type") not in ENTRY_TYPES:
+            report.fail(scope, f"tipo desconocido: {entry.get('type')!r}")
+        if entry.get("status") not in ENTRY_STATUS:
+            report.fail(scope, f"status desconocido: {entry.get('status')!r}")
+        if not entry.get("title"):
+            report.fail(scope, "sin título")
+        if entry.get("status") == "pendiente" and not entry.get("pending_reason"):
+            report.fail(scope, "pendiente sin motivo declarado")
+
+
+def check_locators(registry: dict, report: Report) -> None:
+    """Un localizador o es de la forma canónica de su tipo, o no es un localizador."""
+    for entry in registry.get("entries", []):
+        if entry.get("status") != "verificada":
+            continue
+        scope = f"entrada {entry['id']}"
+        kind = entry["type"]
+        locator = entry.get("locator") or ""
+        if kind == "book":
+            isbn = entry.get("isbn13", "")
+            if not isbn13_is_valid(isbn):
+                report.fail(scope, f"ISBN-13 inválido o ausente: {isbn!r}")
+                continue
+        elif kind == "paper":
+            doi = entry.get("doi", "")
+            if not doi_is_wellformed(doi):
+                report.fail(scope, f"DOI mal formado o ausente: {doi!r}")
+                continue
+        canonical = expected_locator(entry)
+        if canonical and locator != canonical:
+            report.fail(scope, f"locator no canónico: {locator!r} debería ser {canonical!r}")
+        if not locator.startswith("https://"):
+            report.fail(scope, f"locator sin https: {locator!r}")
+        if not is_iso_date(entry.get("accessed") or ""):
+            report.fail(scope, "verificada sin fecha de consulta (`accessed`)")
+
+
+def check_coverage(registry: dict, report: Report) -> dict:
+    """Toda cita tiene entrada, y toda entrada tiene al menos una cita."""
+    by_url, patterns = build_index(registry)
+    references = iter_class_references()
+    citations = [c for refs in references for c in refs.citations]
+
+    usage: dict[str, set] = collections.defaultdict(set)
+    unmatched = 0
+    ambiguous = 0
+    for citation in citations:
+        matches = match_citation(citation, by_url, patterns)
+        if not matches:
+            unmatched += 1
+            if unmatched <= 15:
+                report.fail(
+                    f"{citation.class_path}:{citation.line}",
+                    f"cita sin entrada en el registro: {citation.bullet[:90]!r}",
+                )
+            continue
+        if len(matches) > 1:
+            ambiguous += 1
+            if ambiguous <= 15:
+                report.fail(
+                    f"{citation.class_path}:{citation.line}",
+                    "la cita encaja con "
+                    + str(len(matches))
+                    + " entradas ("
+                    + ", ".join(m["id"] for m in matches[:3])
+                    + "): el emparejamiento tiene que ser único",
+                )
+            continue
+        usage[matches[0]["id"]].add(citation.class_path)
+    if unmatched > 15:
+        report.fail("cobertura", f"...y {unmatched - 15} citas más sin entrada")
+    if ambiguous > 15:
+        report.fail("cobertura", f"...y {ambiguous - 15} citas ambiguas más")
+
+    for entry in registry.get("entries", []):
+        computed = sorted(usage.get(entry["id"], []))
+        if not computed:
+            report.fail(
+                f"entrada {entry['id']}",
+                "ninguna clase la cita: una entrada sin uso es ruido en el registro",
+            )
+        if entry.get("used_in") != computed:
+            report.fail(
+                f"entrada {entry['id']}",
+                "`used_in` no coincide con las clases que la citan "
+                f"(registro: {len(entry.get('used_in', []))}, real: {len(computed)}) "
+                "— regenerá con `python scripts/refresh-sources --seed`",
+            )
+    return {
+        "clases": len(references),
+        "citas": len(citations),
+        "citas_sin_entrada": unmatched,
+        "citas_ambiguas": ambiguous,
+        "citas_con_uso_declarado": sum(1 for c in citations if c.gloss),
+    }
+
+
+def check_unique_blocks(report: Report) -> None:
+    """Dos clases con el mismo bloque de fuentes es una clase sin fuentes propias."""
+    seen: dict[str, str] = {}
+    for refs in iter_class_references():
+        if not refs.block:
+            report.fail(refs.path, "el bloque de fuentes está vacío")
+            continue
+        previous = seen.get(refs.block)
+        if previous:
+            report.fail(refs.path, f"bloque de fuentes idéntico al de {previous}")
+        else:
+            seen[refs.block] = refs.path
+
+
+def check_anchoring(report: Report, versions: dict) -> dict:
+    """Ningún enlace flota cuando esa librería tiene documentación por versión."""
+    anchored_hosts = {}
+    for library in versions.get("libraries", []):
+        if not library.get("docs_prefix"):
+            continue
+        for floating in library["floating_prefixes"]:
+            anchored_hosts[floating] = library
+    excepted = versions.get("floating_sin_alternativa", {})
+
+    flotantes = 0
+    declaradas = 0
+    for refs in iter_class_references():
+        for citation in refs.citations:
+            if citation.kind != "link":
+                continue
+            marker = floating_marker(citation.url)
+            if not marker:
+                continue
+            for floating, library in anchored_hosts.items():
+                if citation.url.startswith(floating):
+                    flotantes += 1
+                    report.fail(
+                        f"{refs.path}:{citation.line}",
+                        f"enlace sin anclar a versión: {citation.url} — "
+                        f"{library['library']} publica {library['docs_prefix']}",
+                    )
+                    break
+            else:
+                host = citation.url.split("/")[2]
+                if host in excepted:
+                    declaradas += 1
+                else:
+                    report.warn(
+                        f"{refs.path}:{citation.line}",
+                        f"enlace con {marker} y sin alternativa declarada: {citation.url}",
+                    )
+    return {"flotantes_sin_anclar": flotantes, "flotantes_declaradas": declaradas}
+
+
+def check_library_versions(report: Report, versions: dict) -> None:
+    if not versions.get("libraries"):
+        report.fail(
+            "versiones",
+            "sources/library_versions.json vacío — corré `refresh-sources --versions`",
+        )
+        return
+    for library in versions["libraries"]:
+        if not library.get("version"):
+            report.warn(
+                "versiones",
+                f"{library['library']}: sin versión anclada "
+                f"({library.get('paths_probed', 0)} rutas probadas)",
+            )
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Métricas y bloque del README
+# ─────────────────────────────────────────────────────────────────────────────
+
+
+def metrics(registry: dict, coverage: dict, anchoring: dict, versions: dict) -> dict:
+    entries = registry["entries"]
+    by_type = collections.Counter(e["type"] for e in entries)
+    verificadas = sum(1 for e in entries if e["status"] == "verificada")
+    pendientes = len(entries) - verificadas
+    return {
+        "verified_on": registry.get("verified_on"),
+        "clases": coverage["clases"],
+        "citas": coverage["citas"],
+        "citas_con_uso_declarado": coverage["citas_con_uso_declarado"],
+        "citas_sin_entrada": coverage["citas_sin_entrada"],
+        "entradas": len(entries),
+        "verificadas": verificadas,
+        "pendientes": pendientes,
+        "por_tipo": dict(sorted(by_type.items())),
+        "librerias_ancladas": sum(1 for x in versions.get("libraries", []) if x.get("version")),
+        "librerias": len(versions.get("libraries", [])),
+        **anchoring,
+    }
+
+
+def pct(part: int, whole: int) -> str:
+    return f"{100.0 * part / whole:.1f} %" if whole else "—"
+
+
+def render_readme_block(registry: dict, data: dict, versions: dict) -> str:
+    entries = registry["entries"]
+    cobertura = pct(data["citas"] - data["citas_sin_entrada"], data["citas"])
+    verificadas_pct = pct(data["verificadas"], data["entradas"])
+    entero = round(100.0 * data["verificadas"] / data["entradas"]) if data["entradas"] else 0
+    badge = (
+        "https://img.shields.io/badge/fuentes-"
+        f"{data['entradas']}%20entradas%20%C2%B7%20{entero}%25%20verificadas"
+        "-1f6feb?style=for-the-badge"
+    )
+
+    lines: list[str] = [
+        README_BEGIN,
+        "",
+        "## 📚 Fuentes y trazabilidad",
+        "",
+        f"[![Fuentes]({badge})](sources/bibliography.json)",
+        "",
+        "Las clases de este programa se apoyan en obras concretas, y cada una de esas",
+        "obras tiene ficha propia en [`sources/bibliography.json`](sources/bibliography.json):",
+        "quién responde por ella, con qué localizador se comprueba (ISBN-13, DOI o URL",
+        "de la fuente primaria) y en qué clases se usa. Lo que no resuelve se marca",
+        "`pendiente` con su motivo — no se borra ni se rellena a ojo.",
+        "",
+        "| Métrica | Valor |",
+        "|---|---:|",
+        f"| Clases con bloque de fuentes | {data['clases']} / {data['clases']} |",
+        f"| Citas en las clases | {data['citas']} |",
+        f"| Entradas en el registro | {data['entradas']} |",
+        f"| Cobertura del registro | {cobertura} |",
+        f"| Verificadas contra su fuente | {data['verificadas']} ({verificadas_pct}) |",
+        f"| Pendientes declaradas | {data['pendientes']} |",
+        f"| Citas que declaran su uso | {data['citas_con_uso_declarado']} "
+        f"({pct(data['citas_con_uso_declarado'], data['citas'])}) |",
+        f"| Enlaces de documentación anclados a versión | "
+        f"{data['librerias_ancladas']} / {data['librerias']} librerías |",
+        f"| Última comprobación con red | {data['verified_on']} |",
+        "",
+        "### 🧪 Documentación de librerías — versión verificada",
+        "",
+        "El material no enlaza a `/stable/`: esa ruta describe una API distinta en cada",
+        "release y convierte una cita en una promesa. Cada enlace apunta a la versión",
+        "con la que se comprobó la clase.",
+        "",
+        "| Librería | Versión verificada | Instalada al verificar | Documentación |",
+        "|---|---|---|---|",
+    ]
+    for library in versions.get("libraries", []):
+        if not library.get("version"):
+            continue
+        lines.append(
+            f"| `{library['library']}` "
+            f"| {library.get('docs_version') or library['version']} "
+            f"| {library.get('installed_version') or '—'} "
+            f"| [{library['docs_prefix']}]({library['docs_prefix']}) |"
+        )
+
+    rectoras = sorted(entries, key=lambda e: (-len(e.get("used_in", [])), e["id"]))[:10]
+    lines += [
+        "",
+        "### 📖 Obras rectoras",
+        "",
+        "Las diez fuentes que sostienen más clases del programa.",
+        "",
+        "| Clases | Obra | Localizador |",
+        "|---:|---|---|",
+    ]
+    for entry in rectoras:
+        authors = ", ".join(entry.get("authors", [])[:2]) or "—"
+        locator = entry.get("locator")
+        cell = f"[{locator.split('//')[-1][:48]}]({locator})" if locator else "_pendiente_"
+        lines.append(f"| {len(entry.get('used_in', []))} | {authors} — *{entry['title']}* | {cell} |")
+
+    lines += [
+        "",
+        "> Estas cifras las produce `python scripts/verify-sources --write-readme` a",
+        "> partir del registro y de las clases. No se escriben a mano: si dejan de",
+        "> cuadrar, el CI falla.",
+        "",
+        README_END,
+    ]
+    return "\n".join(lines)
+
+
+def check_readme(report: Report, block: str, write: bool) -> None:
+    text = README_PATH.read_text(encoding="utf-8")
+    if README_BEGIN not in text or README_END not in text:
+        if write:
+            anchor = "## 📊 Estado actual del producto"
+            if anchor in text:
+                text = text.replace(anchor, block + "\n\n---\n\n" + anchor, 1)
+            else:
+                text = text.rstrip() + "\n\n" + block + "\n"
+            README_PATH.write_text(text, encoding="utf-8")
+            print("  README: bloque de fuentes insertado")
+            return
+        report.fail("README.md", "no tiene el bloque de fuentes generado")
+        return
+
+    start = text.index(README_BEGIN)
+    end = text.index(README_END) + len(README_END)
+    current = text[start:end]
+    if current == block:
+        return
+    if write:
+        README_PATH.write_text(text[:start] + block + text[end:], encoding="utf-8")
+        print("  README: bloque de fuentes actualizado")
+        return
+    report.fail(
+        "README.md",
+        "las cifras del bloque de fuentes no coinciden con el registro — "
+        "regenerá con `python scripts/verify-sources --write-readme`",
+    )
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    parser.add_argument(
+        "--write-readme", action="store_true", help="regenera el bloque del README"
+    )
+    parser.add_argument("--json", action="store_true", help="imprime solo las métricas")
+    args = parser.parse_args()
+
+    if not REGISTRY_PATH.exists():
+        print(f"✗ no existe {REGISTRY_PATH}", file=sys.stderr)
+        return 1
+
+    registry = load_registry()
+    versions = load_library_versions()
+    report = Report()
+
+    check_schema(registry, report)
+    check_locators(registry, report)
+    coverage = check_coverage(registry, report)
+    check_unique_blocks(report)
+    anchoring = check_anchoring(report, versions)
+    check_library_versions(report, versions)
+
+    data = metrics(registry, coverage, anchoring, versions)
+    block = render_readme_block(registry, data, versions)
+    check_readme(report, block, args.write_readme)
+
+    if args.json:
+        print(json.dumps(data, ensure_ascii=False, indent=2))
+        return 0 if report.ok else 1
+
+    print("── registro de fuentes ─────────────────────────────────────────────")
+    print(f"  clases con bloque de fuentes : {data['clases']}")
+    print(f"  citas en las clases          : {data['citas']}")
+    print(f"  entradas del registro        : {data['entradas']}")
+    for kind, count in data["por_tipo"].items():
+        print(f"      {kind:<10} {count}")
+    print(f"  verificadas                  : {data['verificadas']} ({pct(data['verificadas'], data['entradas'])})")
+    print(f"  pendientes declaradas        : {data['pendientes']}")
+    print(f"  citas sin entrada            : {data['citas_sin_entrada']}")
+    print(f"  citas que declaran su uso    : {data['citas_con_uso_declarado']} "
+          f"({pct(data['citas_con_uso_declarado'], data['citas'])})")
+    print(f"  librerías ancladas a versión : {data['librerias_ancladas']}/{data['librerias']}")
+    print(f"  enlaces flotantes declarados : {data['flotantes_declaradas']}")
+
+    if report.warnings:
+        print(f"\n── avisos ({len(report.warnings)}) ─────────────────────────────────────────────")
+        for scope, message in report.warnings[:20]:
+            print(f"  ! {scope}: {message}")
+        if len(report.warnings) > 20:
+            print(f"  ! ...y {len(report.warnings) - 20} avisos más")
+
+    if report.failures:
+        print(f"\n── fallos ({len(report.failures)}) ─────────────────────────────────────────────")
+        for scope, message in report.failures[:40]:
+            print(f"  ✗ {scope}: {message}")
+        if len(report.failures) > 40:
+            print(f"  ✗ ...y {len(report.failures) - 40} fallos más")
+        print("\n✗ verificación de fuentes: FALLA")
+        return 1
+
+    print("\n✓ verificación de fuentes: en verde")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

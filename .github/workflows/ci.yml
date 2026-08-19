@@ -55,6 +55,13 @@ jobs:
           QT_QPA_PLATFORM: offscreen
         run: python scripts/check_links.py
 
+      - name: Check sources (registro de fuentes)
+        # Detecta la deuda que no rompe ningún test: una clase que cita algo que
+        # nadie dio de alta, una entrada del registro que ya no usa nadie, o una
+        # cifra del README que dejó de ser cierta. Sin red: lo que exige red lo
+        # hace scripts/refresh-sources, que no bloquea.
+        run: python scripts/verify-sources
+
   docker:
     runs-on: ubuntu-latest
     needs: test
