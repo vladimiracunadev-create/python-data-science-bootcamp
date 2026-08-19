@@ -1,6 +1,6 @@
 # Clase 184 — BCa bootstrap y APIs modernas de scipy
 
-> Parte: **3 — Estadística Inferencial y Causal** · Fuente: Efron (1987) BCa + DiCiccio & Efron (1996) + [scipy.stats.bootstrap docs](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.bootstrap.html). ⏱️ Duración estimada: **75 min**.
+> Parte: **3 — Estadística Inferencial y Causal** · Fuente: Efron (1987) BCa + DiCiccio & Efron (1996) + [scipy.stats.bootstrap docs](https://docs.scipy.org/doc/scipy-1.18.0/reference/generated/scipy.stats.bootstrap.html). ⏱️ Duración estimada: **75 min**.
 
 > 🎚️ **Nivel:** Intermedio-Avanzado
 
@@ -96,8 +96,8 @@ Si tu statistic acepta `axis=`, sí — 100× más rápido.
 
 - Efron (1987), *Better Bootstrap Confidence Intervals*, JASA.
 - DiCiccio & Efron (1996), *Bootstrap Confidence Intervals*, Statistical Science.
-- [`scipy.stats.bootstrap`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.bootstrap.html).
-- [`scipy.stats.permutation_test`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.permutation_test.html).
+- [`scipy.stats.bootstrap`](https://docs.scipy.org/doc/scipy-1.18.0/reference/generated/scipy.stats.bootstrap.html).
+- [`scipy.stats.permutation_test`](https://docs.scipy.org/doc/scipy-1.18.0/reference/generated/scipy.stats.permutation_test.html).
 
 ## 📥 Material descargable
 

@@ -105,7 +105,7 @@ Sí — `crosstab(y_true, y_pred)` da la **confusion matrix**, y un chi² sobre 
 - ISLP, **cap. 4** — *Classification*, parte sobre datos categóricos.
 - Bruce & Bruce, **cap. 3** — sección *Chi-Square Test*.
 - Cochran, W.G. (1954), *Some Methods for Strengthening the Common χ² Tests*, Biometrics.
-- [`scipy.stats.chi2_contingency`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.chi2_contingency.html) y [`fisher_exact`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.fisher_exact.html).
+- [`scipy.stats.chi2_contingency`](https://docs.scipy.org/doc/scipy-1.18.0/reference/generated/scipy.stats.chi2_contingency.html) y [`fisher_exact`](https://docs.scipy.org/doc/scipy-1.18.0/reference/generated/scipy.stats.fisher_exact.html).
 - [pingouin.chi2_independence](https://pingouin-stats.org/generated/pingouin.chi2_independence.html) — reporta Cramér's V automáticamente.
 
 ## 📥 Material descargable

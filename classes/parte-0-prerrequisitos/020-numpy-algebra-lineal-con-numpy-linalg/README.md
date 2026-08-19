@@ -108,7 +108,7 @@ NumPy ya los usa por debajo (vía OpenBLAS o MKL). Si tu `np.linalg.solve` parec
 ## 🔗 Referencias
 
 - VanderPlas cap. 2 (overview NumPy).
-- [`numpy.linalg` reference](https://numpy.org/doc/stable/reference/routines.linalg.html)
+- [`numpy.linalg` reference](https://numpy.org/doc/2.4/reference/routines.linalg.html)
 - [PEP 465 — `@` operator](https://peps.python.org/pep-0465/)
 - Trefethen & Bau, *Numerical Linear Algebra* (1997) — fondo matemático.
 

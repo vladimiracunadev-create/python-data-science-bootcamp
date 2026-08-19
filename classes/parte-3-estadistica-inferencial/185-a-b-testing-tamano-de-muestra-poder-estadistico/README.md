@@ -111,7 +111,7 @@ Opciones: (a) aumentar MDE (¿es realista el efecto que esperás?), (b) reducir 
 - Kohavi, R., Tang, D. & Xu, Y. (2020), *Trustworthy Online Controlled Experiments*, Cambridge University Press — la biblia industrial.
 - Deng, A. et al. (2013), *Improving the Sensitivity of Online Controlled Experiments by Utilizing Pre-Experiment Data*, WSDM (CUPED original).
 - Howard, Ramdas, McAuliffe & Sekhon (2021), *Time-Uniform, Nonparametric, Nonasymptotic Confidence Sequences*, Annals of Statistics.
-- [`statsmodels.stats.power`](https://www.statsmodels.org/stable/stats.html#power-and-sample-size-calculations).
+- [`statsmodels.stats.power`](https://www.statsmodels.org/v0.14.6/stats.html#power-and-sample-size-calculations).
 - [confseq](https://github.com/gostevehoward/confseq) — always-valid CIs.
 
 ## 📥 Material descargable

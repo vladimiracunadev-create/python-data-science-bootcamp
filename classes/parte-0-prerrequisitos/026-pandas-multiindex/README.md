@@ -105,7 +105,7 @@ MultiIndex tiene overhead. Para datasets grandes (>1M filas) con acceso intenso,
 ## 🔗 Referencias
 
 - VanderPlas, **cap. 3** § 3.6.
-- [pandas MultiIndex user guide](https://pandas.pydata.org/docs/user_guide/advanced.html)
+- [pandas MultiIndex user guide](https://pandas.pydata.org/pandas-docs/version/3.0/user_guide/advanced.html)
 
 ## 📥 Material descargable
 

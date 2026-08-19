@@ -115,8 +115,8 @@ Empezá con `0.01`. Si diverge, dividilo por 10. Si converge pero lento, multipl
 ## 🔗 Referencias
 
 - Géron, **cap. 4** — *Training Models*, sección "Gradient Descent".
-- [scikit-learn — `SGDRegressor`](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.SGDRegressor.html)
-- [scikit-learn — Stochastic Gradient Descent user guide](https://scikit-learn.org/stable/modules/sgd.html)
+- [scikit-learn — `SGDRegressor`](https://scikit-learn.org/1.8/modules/generated/sklearn.linear_model.SGDRegressor.html)
+- [scikit-learn — Stochastic Gradient Descent user guide](https://scikit-learn.org/1.8/modules/sgd.html)
 - [Sebastian Ruder — *An overview of gradient descent optimization algorithms*](https://www.ruder.io/optimizing-gradient-descent/)
 
 ## 📥 Material descargable

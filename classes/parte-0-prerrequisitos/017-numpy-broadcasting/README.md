@@ -108,7 +108,7 @@ Operaciones que no se ajustan a las reglas: usa `np.einsum` (más expresivo), `n
 ## 🔗 Referencias
 
 - VanderPlas, **cap. 2** § 2.5 *Broadcasting*.
-- [NumPy broadcasting docs](https://numpy.org/doc/stable/user/basics.broadcasting.html)
+- [NumPy broadcasting docs](https://numpy.org/doc/2.4/user/basics.broadcasting.html)
 
 ## 📥 Material descargable
 

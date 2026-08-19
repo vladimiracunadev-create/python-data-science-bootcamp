@@ -1,6 +1,6 @@
 # Clase 210 — PySpark para datasets grandes
 
-> Parte: **5 — Ingeniería de Datos** · Fuente: Chambers & Zaharia *Spark: The Definitive Guide* (O'Reilly, 2018) + [PySpark docs 3.5+](https://spark.apache.org/docs/latest/api/python/). ⏱️ Duración estimada: **90 min**.
+> Parte: **5 — Ingeniería de Datos** · Fuente: Chambers & Zaharia *Spark: The Definitive Guide* (O'Reilly, 2018) + [PySpark docs 3.5+](https://spark.apache.org/docs/4.2.0/api/python/). ⏱️ Duración estimada: **90 min**.
 >
 > 🎚️ **Nivel:** Intermedio-Avanzado
 
@@ -113,9 +113,9 @@ Equivalentes en performance (mismo Catalyst). DataFrame API: refactor-friendly, 
 ## 🔗 Referencias
 
 - Chambers, B. & Zaharia, M. *Spark: The Definitive Guide* (O'Reilly, 2018) — algo viejo pero los conceptos siguen.
-- [PySpark docs 3.5+](https://spark.apache.org/docs/latest/api/python/) — empezar por *Quickstart: DataFrame*.
+- [PySpark docs 3.5+](https://spark.apache.org/docs/4.2.0/api/python/) — empezar por *Quickstart: DataFrame*.
 - [*Adaptive Query Execution deep dive*](https://www.databricks.com/blog/2020/05/29/adaptive-query-execution-speeding-up-spark-sql-at-runtime.html).
-- [*Spark Performance Tuning* (official)](https://spark.apache.org/docs/latest/sql-performance-tuning.html).
+- [*Spark Performance Tuning* (official)](https://spark.apache.org/docs/4.2.0/sql-performance-tuning.html).
 - [`pyspark-stubs`](https://github.com/zero323/pyspark-stubs) — type hints (incluidos en 3.4+).
 
 ## 📥 Material descargable

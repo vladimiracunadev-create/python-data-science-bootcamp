@@ -104,7 +104,7 @@ En matplotlib moderno, basta `subplot_kw={'projection': '3d'}` — no necesitas 
 ## 🔗 Referencias
 
 - VanderPlas, **cap. 4** § 4.12.
-- [matplotlib mplot3d tutorial](https://matplotlib.org/stable/users/explain/toolkits/mplot3d.html)
+- [matplotlib mplot3d tutorial](https://matplotlib.org/3.10.8/users/explain/toolkits/mplot3d.html)
 
 ## 📥 Material descargable
 

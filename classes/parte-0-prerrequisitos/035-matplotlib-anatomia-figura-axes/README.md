@@ -105,8 +105,8 @@ Para 1 plot rápido en notebook, OK. Para cualquier cosa más compleja (subplots
 ## 🔗 Referencias
 
 - VanderPlas, **cap. 4** § 4.1.
-- [matplotlib quick start](https://matplotlib.org/stable/users/explain/quick_start.html)
-- [Anatomy of a figure (matplotlib gallery)](https://matplotlib.org/stable/gallery/showcase/anatomy.html)
+- [matplotlib quick start](https://matplotlib.org/3.10.8/users/explain/quick_start.html)
+- [Anatomy of a figure (matplotlib gallery)](https://matplotlib.org/3.10.8/gallery/showcase/anatomy.html)
 
 ## 📥 Material descargable
 

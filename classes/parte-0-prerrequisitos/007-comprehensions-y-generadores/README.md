@@ -107,7 +107,7 @@ Sí, pero ojo: **nunca** lo conviertas a lista directo (`list(gen)`) — bucle i
 - Ramalho, *Fluent Python* 2e — caps. 2 y 17.
 - [PEP 202 — List Comprehensions](https://peps.python.org/pep-0202/)
 - [PEP 255 — Simple Generators](https://peps.python.org/pep-0255/)
-- [`itertools` docs](https://docs.python.org/3/library/itertools.html)
+- [`itertools` docs](https://docs.python.org/3.12/library/itertools.html)
 
 ## 📥 Material descargable
 

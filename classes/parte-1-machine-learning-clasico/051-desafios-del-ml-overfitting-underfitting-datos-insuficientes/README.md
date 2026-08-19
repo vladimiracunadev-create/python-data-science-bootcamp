@@ -111,8 +111,8 @@ Casi siempre. La excepción rara: cuando deploy y train son el **mismo** univers
 ## 🔗 Referencias
 
 - Géron, **cap. 1** § "Main challenges of machine learning" y § "Testing and validating".
-- [sklearn — Validation curves](https://scikit-learn.org/stable/modules/learning_curve.html)
-- [sklearn — Underfitting vs. overfitting](https://scikit-learn.org/stable/auto_examples/model_selection/plot_underfitting_overfitting.html)
+- [sklearn — Validation curves](https://scikit-learn.org/1.8/modules/learning_curve.html)
+- [sklearn — Underfitting vs. overfitting](https://scikit-learn.org/1.8/auto_examples/model_selection/plot_underfitting_overfitting.html)
 - Banko & Brill (2001), *Scaling to very very large corpora for natural language disambiguation*.
 - Halevy, Norvig & Pereira (2009), *The Unreasonable Effectiveness of Data*.
 

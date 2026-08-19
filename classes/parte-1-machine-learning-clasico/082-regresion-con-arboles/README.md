@@ -81,8 +81,8 @@ Entregar un script `tarea_073.py` que:
 ## 🔗 Referencias
 
 - Géron, A. *Hands-On Machine Learning with Scikit-Learn, Keras & TensorFlow*, 3ra ed., **cap. 6 — sección "Regression"**.
-- scikit-learn: [`DecisionTreeRegressor`](https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeRegressor.html).
-- scikit-learn user guide: [Decision Trees — Regression](https://scikit-learn.org/stable/modules/tree.html#regression).
+- scikit-learn: [`DecisionTreeRegressor`](https://scikit-learn.org/1.8/modules/generated/sklearn.tree.DecisionTreeRegressor.html).
+- scikit-learn user guide: [Decision Trees — Regression](https://scikit-learn.org/1.8/modules/tree.html#regression).
 
 ## 📥 Material descargable
 

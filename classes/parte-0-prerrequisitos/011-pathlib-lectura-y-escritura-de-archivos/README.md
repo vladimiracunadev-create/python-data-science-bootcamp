@@ -116,7 +116,7 @@ Regla práctica: **CSV solo para intercambio con no-técnicos** (alguien lo va a
 
 ## 🔗 Referencias
 
-- [`pathlib` docs](https://docs.python.org/3/library/pathlib.html)
+- [`pathlib` docs](https://docs.python.org/3.12/library/pathlib.html)
 - [PEP 428 — Object-oriented filesystem paths](https://peps.python.org/pep-0428/)
 - Slatkin, *Effective Python* 2e — ítem 38 *Use Pathlib instead of os.path*.
 - [Apache Arrow / Parquet](https://arrow.apache.org/docs/python/parquet.html)

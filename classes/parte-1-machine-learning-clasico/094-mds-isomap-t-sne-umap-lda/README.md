@@ -83,7 +83,7 @@ Tomá `load_digits` y producí un script `compare_dimred.py` que:
 - Géron, *Hands-On ML*, cap. 8 — "Other Dimensionality Reduction Techniques".
 - McInnes, Healy & Melville (2018). *UMAP: Uniform Manifold Approximation and Projection*. arXiv:1802.03426.
 - van der Maaten & Hinton (2008). *Visualizing Data using t-SNE*. JMLR.
-- Documentación: <https://umap-learn.readthedocs.io/> · <https://scikit-learn.org/stable/modules/manifold.html>
+- Documentación: <https://umap-learn.readthedocs.io/> · <https://scikit-learn.org/1.8/modules/manifold.html>
 
 ## 📥 Material descargable
 

@@ -95,7 +95,7 @@ Sí, con `TF_CONFIG` env var y orquestación (K8s, Slurm, Vertex AI). Vertex AI 
 
 - Géron, **cap. 19** — *Training Models Across Multiple Devices*.
 - [tf.distribute guide](https://www.tensorflow.org/guide/distributed_training).
-- [PyTorch DDP](https://pytorch.org/docs/stable/notes/ddp.html), [FSDP](https://pytorch.org/docs/stable/fsdp.html).
+- [PyTorch DDP](https://pytorch.org/docs/2.13/notes/ddp.html), [FSDP](https://pytorch.org/docs/2.13/fsdp.html).
 - [DeepSpeed](https://www.deepspeed.ai/).
 - Rajbhandari et al. (2020), *ZeRO: Memory Optimizations Toward Training Trillion Parameter Models*.
 

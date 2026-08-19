@@ -105,7 +105,7 @@ No. Es entregable obligatorio. 1-2 páginas Markdown con: propósito, datos, mé
 
 - Huyen, C. *Designing Machine Learning Systems* (O'Reilly, 2022) — caps. 4 (Training Data), 5 (Feature Engineering), 7 (Model Deployment).
 - Géron, A. *Hands-On Machine Learning with Scikit-Learn, Keras & TensorFlow*, 3ª ed. (O'Reilly, 2022) — caps. 2-3, el end-to-end project canónico.
-- [MLflow Tracking](https://mlflow.org/docs/latest/tracking.html) — runs, params, metrics, artifacts.
+- [MLflow Tracking](https://mlflow.org/docs/2.19.0/tracking.html) — runs, params, metrics, artifacts.
 - [FastAPI tutorial](https://fastapi.tiangolo.com/tutorial/) — Pydantic v2 + OpenAPI auto.
 - [Streamlit docs](https://docs.streamlit.io/) — `cache_resource`, `cache_data`, layout.
 - Mitchell, M. et al. [*Model Cards for Model Reporting*](https://arxiv.org/abs/1810.03993) (FAT* 2019) — el template oficial.

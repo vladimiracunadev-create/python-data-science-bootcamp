@@ -89,7 +89,7 @@ Sobre `make_regression(n_samples=200, n_features=50, n_informative=10, noise=10,
 ## 🔗 Referencias
 
 - Géron, A. *Hands-On Machine Learning with Scikit-Learn, Keras & TensorFlow* (3.ª ed.), **cap. 4** — sección "Regularized Linear Models".
-- scikit-learn — [Linear Models: Ridge, Lasso, Elastic Net](https://scikit-learn.org/stable/modules/linear_model.html#ridge-regression).
+- scikit-learn — [Linear Models: Ridge, Lasso, Elastic Net](https://scikit-learn.org/1.8/modules/linear_model.html#ridge-regression).
 - Hastie, Tibshirani, Friedman — *The Elements of Statistical Learning*, cap. 3.4 (Shrinkage Methods).
 - Zou & Hastie (2005), "Regularization and variable selection via the elastic net".
 

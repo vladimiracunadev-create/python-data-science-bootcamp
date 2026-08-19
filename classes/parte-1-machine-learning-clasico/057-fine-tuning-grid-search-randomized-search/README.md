@@ -123,9 +123,9 @@ Con CV adentro de `GridSearchCV` ya tenés validación honesta sobre folds del t
 ## 🔗 Referencias
 
 - Géron, **cap. 2** § *Fine-Tune Your Model*.
-- [sklearn — `GridSearchCV`](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.GridSearchCV.html)
-- [sklearn — `RandomizedSearchCV`](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.RandomizedSearchCV.html)
-- [sklearn — Successive Halving (experimental)](https://scikit-learn.org/stable/modules/grid_search.html#successive-halving-user-guide)
+- [sklearn — `GridSearchCV`](https://scikit-learn.org/1.8/modules/generated/sklearn.model_selection.GridSearchCV.html)
+- [sklearn — `RandomizedSearchCV`](https://scikit-learn.org/1.8/modules/generated/sklearn.model_selection.RandomizedSearchCV.html)
+- [sklearn — Successive Halving (experimental)](https://scikit-learn.org/1.8/modules/grid_search.html#successive-halving-user-guide)
 - [Optuna docs](https://optuna.readthedocs.io/) — TPE, pruners, dashboard.
 - Bergstra & Bengio (2012), *Random Search for Hyper-Parameter Optimization*, JMLR.
 

@@ -101,7 +101,7 @@ Si forman parte del **mismo objetivo de inferencia** (la misma "familia"), sí. 
 - ISLP, **cap. 13** — *Multiple Testing*.
 - Benjamini, Y. & Hochberg, Y. (1995), *Controlling the False Discovery Rate*, JRSS Series B.
 - Holm, S. (1979), *A Simple Sequentially Rejective Multiple Test Procedure*, Scandinavian Journal of Statistics.
-- [`statsmodels.stats.multitest.multipletests`](https://www.statsmodels.org/stable/generated/statsmodels.stats.multitest.multipletests.html) — todos los métodos en una sola función.
+- [`statsmodels.stats.multitest.multipletests`](https://www.statsmodels.org/v0.14.6/generated/statsmodels.stats.multitest.multipletests.html) — todos los métodos en una sola función.
 - Efron, B. (2010), *Large-Scale Inference: Empirical Bayes Methods for Estimation, Testing, and Prediction*.
 
 ## 📥 Material descargable

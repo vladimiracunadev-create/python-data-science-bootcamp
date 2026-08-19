@@ -161,9 +161,9 @@ Porque te olvidaste de la `r` del raw string. `"\d"` en Python plano no es un es
 ## 🔗 Referencias
 
 - VanderPlas, **cap. 3** § 3.11.
-- [pandas Text data user guide](https://pandas.pydata.org/docs/user_guide/text.html)
-- [pandas Categorical](https://pandas.pydata.org/docs/user_guide/categorical.html)
-- [Python `re` HOWTO](https://docs.python.org/3/howto/regex.html)
+- [pandas Text data user guide](https://pandas.pydata.org/pandas-docs/version/3.0/user_guide/text.html)
+- [pandas Categorical](https://pandas.pydata.org/pandas-docs/version/3.0/user_guide/categorical.html)
+- [Python `re` HOWTO](https://docs.python.org/3.12/howto/regex.html)
 
 ## 📥 Material descargable
 

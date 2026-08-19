@@ -107,7 +107,7 @@ El error decrece como `1/√N`. Para 1 decimal de precisión: N ≈ 100. Para 2 
 
 ## 🔗 Referencias
 
-- [NumPy `random.Generator`](https://numpy.org/doc/stable/reference/random/generator.html)
+- [NumPy `random.Generator`](https://numpy.org/doc/2.4/reference/random/generator.html)
 - [NEP 19 — Random number generator policy](https://numpy.org/neps/nep-0019-rng-policy.html)
 - Press et al., *Numerical Recipes* 3e — cap. 7 *Random Numbers*.
 

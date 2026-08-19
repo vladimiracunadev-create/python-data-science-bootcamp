@@ -122,9 +122,9 @@ Para `SGDClassifier` sí, conviene (los píxeles 0-255 son grandes y SGD es sens
 ## 🔗 Referencias
 
 - Géron, **cap. 3** § "Training a Binary Classifier" y "Measuring Accuracy Using Cross-Validation".
-- [sklearn `SGDClassifier`](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.SGDClassifier.html)
-- [sklearn `fetch_openml`](https://scikit-learn.org/stable/modules/generated/sklearn.datasets.fetch_openml.html)
-- [sklearn `StratifiedKFold`](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.StratifiedKFold.html)
+- [sklearn `SGDClassifier`](https://scikit-learn.org/1.8/modules/generated/sklearn.linear_model.SGDClassifier.html)
+- [sklearn `fetch_openml`](https://scikit-learn.org/1.8/modules/generated/sklearn.datasets.fetch_openml.html)
+- [sklearn `StratifiedKFold`](https://scikit-learn.org/1.8/modules/generated/sklearn.model_selection.StratifiedKFold.html)
 
 ## 📥 Material descargable
 

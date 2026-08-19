@@ -88,7 +88,7 @@ Sobre el dataset `load_breast_cancer`, entrená un `RandomForestClassifier` y en
 ## 🔗 Referencias
 
 - Géron, A. *Hands-On Machine Learning with Scikit-Learn, Keras & TensorFlow* (3rd ed.), cap. 7 "Ensemble Learning and Random Forests" — sección "Feature Importance".
-- scikit-learn docs: [Permutation feature importance](https://scikit-learn.org/stable/modules/permutation_importance.html) y [`partial_dependence`](https://scikit-learn.org/stable/modules/partial_dependence.html).
+- scikit-learn docs: [Permutation feature importance](https://scikit-learn.org/1.8/modules/permutation_importance.html) y [`partial_dependence`](https://scikit-learn.org/1.8/modules/partial_dependence.html).
 - SHAP docs: <https://shap.readthedocs.io/> — Lundberg & Lee (2017), *A Unified Approach to Interpreting Model Predictions*, NeurIPS.
 - LIME paper: Ribeiro, Singh & Guestrin (2016), *"Why Should I Trust You?": Explaining the Predictions of Any Classifier*, KDD. Repo: <https://github.com/marcotcr/lime>.
 - Molnar, C. *Interpretable Machine Learning* (libro online gratuito): <https://christophm.github.io/interpretable-ml-book/>.

@@ -102,7 +102,7 @@ No paramétrico siempre. Ranks son la operación natural sobre escalas ordinales
 - Bruce & Bruce, **cap. 3** — *Resampling and Non-parametric Tests*.
 - Conover, W.J. (1999), *Practical Nonparametric Statistics* (3rd ed.) — referencia canónica.
 - Romano et al. (2006) — interpretación de Cliff's δ.
-- [`scipy.stats.mannwhitneyu`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.mannwhitneyu.html), [`wilcoxon`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.wilcoxon.html), [`kruskal`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.kruskal.html).
+- [`scipy.stats.mannwhitneyu`](https://docs.scipy.org/doc/scipy-1.18.0/reference/generated/scipy.stats.mannwhitneyu.html), [`wilcoxon`](https://docs.scipy.org/doc/scipy-1.18.0/reference/generated/scipy.stats.wilcoxon.html), [`kruskal`](https://docs.scipy.org/doc/scipy-1.18.0/reference/generated/scipy.stats.kruskal.html).
 - [scikit-posthocs](https://scikit-posthocs.readthedocs.io/) — Dunn, Conover, Nemenyi.
 
 ## 📥 Material descargable

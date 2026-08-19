@@ -116,9 +116,9 @@ Mal. Con N chico, las predicciones OOF tienen mucha varianza y el blender no enc
 
 - Géron, **cap. 7** § *Stacking*.
 - Wolpert, D. (1992). *Stacked Generalization*. Neural Networks 5(2).
-- [sklearn `StackingClassifier`](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.StackingClassifier.html)
-- [sklearn `StackingRegressor`](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.StackingRegressor.html)
-- [sklearn user guide — Stacked generalization](https://scikit-learn.org/stable/modules/ensemble.html#stacked-generalization)
+- [sklearn `StackingClassifier`](https://scikit-learn.org/1.8/modules/generated/sklearn.ensemble.StackingClassifier.html)
+- [sklearn `StackingRegressor`](https://scikit-learn.org/1.8/modules/generated/sklearn.ensemble.StackingRegressor.html)
+- [sklearn user guide — Stacked generalization](https://scikit-learn.org/1.8/modules/ensemble.html#stacked-generalization)
 
 ## 📥 Material descargable
 

@@ -110,9 +110,9 @@ Ahí la curva PR brilla y la ROC engaña. Lo cierra la clase 058 (ROC y AUC).
 ## 🔗 Referencias
 
 - Géron, **cap. 3** § *Precision/Recall Tradeoff* y § *The ROC Curve*.
-- [scikit-learn — `precision_recall_curve`](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.precision_recall_curve.html)
-- [scikit-learn — `average_precision_score`](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.average_precision_score.html)
-- [scikit-learn — Precision-Recall example](https://scikit-learn.org/stable/auto_examples/model_selection/plot_precision_recall.html)
+- [scikit-learn — `precision_recall_curve`](https://scikit-learn.org/1.8/modules/generated/sklearn.metrics.precision_recall_curve.html)
+- [scikit-learn — `average_precision_score`](https://scikit-learn.org/1.8/modules/generated/sklearn.metrics.average_precision_score.html)
+- [scikit-learn — Precision-Recall example](https://scikit-learn.org/1.8/auto_examples/model_selection/plot_precision_recall.html)
 
 ## 📥 Material descargable
 

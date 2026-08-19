@@ -122,9 +122,9 @@ Casi nunca — es el default de `predict()` pero no tiene base teórica. Con `pr
 ## 🔗 Referencias
 
 - Géron, **cap. 3** — *Performance Measures*, *Confusion Matrix*, *Precision and Recall*, *The Precision/Recall Trade-off*.
-- [scikit-learn — Classification metrics](https://scikit-learn.org/stable/modules/model_evaluation.html#classification-metrics)
-- [imbalanced-learn — User guide](https://imbalanced-learn.org/stable/user_guide.html)
-- [imbalanced-learn — SMOTE](https://imbalanced-learn.org/stable/references/generated/imblearn.over_sampling.SMOTE.html)
+- [scikit-learn — Classification metrics](https://scikit-learn.org/1.8/modules/model_evaluation.html#classification-metrics)
+- [imbalanced-learn — User guide](https://imbalanced-learn.org/0.14/user_guide.html)
+- [imbalanced-learn — SMOTE](https://imbalanced-learn.org/0.14/references/generated/imblearn.over_sampling.SMOTE.html)
 - Chawla et al. (2002), *SMOTE: Synthetic Minority Over-sampling Technique*, JAIR 16.
 
 ## 📥 Material descargable

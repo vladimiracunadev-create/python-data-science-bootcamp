@@ -108,7 +108,7 @@ No si la usás como gate de release. Auditorías regulatorias (EU AI Act 2024, N
 - Gebru, T. et al. [*Datasheets for Datasets*](https://arxiv.org/abs/1803.09010) (CACM 2021).
 - Mitchell, M. et al. [*Model Cards for Model Reporting*](https://arxiv.org/abs/1810.03993) (FAT* 2019).
 - Hutson, M. *Artificial intelligence faces reproducibility crisis* (Science, 2018).
-- [PyTorch Reproducibility notes](https://pytorch.org/docs/stable/notes/randomness.html) — qué controla cada flag.
+- [PyTorch Reproducibility notes](https://pytorch.org/docs/2.13/notes/randomness.html) — qué controla cada flag.
 - [DVC docs](https://dvc.org/doc) · [uv (lock files modernos)](https://docs.astral.sh/uv/).
 
 ## 📥 Material descargable

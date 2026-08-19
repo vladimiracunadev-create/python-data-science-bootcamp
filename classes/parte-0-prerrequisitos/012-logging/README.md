@@ -104,9 +104,9 @@ Por default, sí — cada logger propaga al padre hasta root. Si configuras hand
 
 ## 🔗 Referencias
 
-- [Logging HOWTO](https://docs.python.org/3/howto/logging.html)
-- [Logging Cookbook](https://docs.python.org/3/howto/logging-cookbook.html)
-- [`logging.config` — dictConfig](https://docs.python.org/3/library/logging.config.html)
+- [Logging HOWTO](https://docs.python.org/3.12/howto/logging.html)
+- [Logging Cookbook](https://docs.python.org/3.12/howto/logging-cookbook.html)
+- [`logging.config` — dictConfig](https://docs.python.org/3.12/library/logging.config.html)
 
 ## 📥 Material descargable
 

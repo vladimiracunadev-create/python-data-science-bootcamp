@@ -114,9 +114,9 @@ Accuracy global enmascara errores localizados entre pocas clases. La matriz de c
 ## 🔗 Referencias
 
 - Géron, **cap. 3** § *Multiclass / Multilabel / Multioutput Classification*.
-- [sklearn — Multiclass and multioutput algorithms](https://scikit-learn.org/stable/modules/multiclass.html)
-- [sklearn — `MultiOutputClassifier`](https://scikit-learn.org/stable/modules/generated/sklearn.multioutput.MultiOutputClassifier.html)
-- [sklearn — Métricas de clasificación (`hamming_loss`, `f1_score`)](https://scikit-learn.org/stable/modules/model_evaluation.html#classification-metrics)
+- [sklearn — Multiclass and multioutput algorithms](https://scikit-learn.org/1.8/modules/multiclass.html)
+- [sklearn — `MultiOutputClassifier`](https://scikit-learn.org/1.8/modules/generated/sklearn.multioutput.MultiOutputClassifier.html)
+- [sklearn — Métricas de clasificación (`hamming_loss`, `f1_score`)](https://scikit-learn.org/1.8/modules/model_evaluation.html#classification-metrics)
 
 ## 📥 Material descargable
 

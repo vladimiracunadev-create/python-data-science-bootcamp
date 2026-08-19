@@ -1,6 +1,6 @@
 # Clase 106 — Ray Tune: HPO distribuido y a escala
 
-> Parte: **2 — Deep Learning** · Fuente: Liaw et al. (2018) Ray Tune + [Ray docs](https://docs.ray.io/en/latest/tune/index.html). ⏱️ Duración estimada: **75 min**.
+> Parte: **2 — Deep Learning** · Fuente: Liaw et al. (2018) Ray Tune + [Ray docs](https://docs.ray.io/en/releases-2.57.0/tune/index.html). ⏱️ Duración estimada: **75 min**.
 > 🎚️ **Nivel:** Avanzado
 
 ## 🎯 Objetivo
@@ -95,7 +95,7 @@ Cloud service from Ray creators. Para producción serio sin manejar infra propia
 - Liaw et al. (2018), *Tune: A Research Platform for Distributed Model Selection and Training*.
 - Li et al. (2018), *ASHA*.
 - Jaderberg et al. (2017), *Population Based Training*, DeepMind.
-- [Ray Tune docs](https://docs.ray.io/en/latest/tune/index.html).
+- [Ray Tune docs](https://docs.ray.io/en/releases-2.57.0/tune/index.html).
 
 ## 📥 Material descargable
 

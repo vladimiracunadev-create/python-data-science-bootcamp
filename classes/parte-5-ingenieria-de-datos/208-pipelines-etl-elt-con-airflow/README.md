@@ -114,7 +114,7 @@ Sí — el scheduler parsea todos los DAGs cada `min_file_process_interval` segu
 ## 🔗 Referencias
 
 - Reis, J. & Housley, M. *Fundamentals of Data Engineering* (O'Reilly, 2022), **cap. 8** — *Queries, Modeling, and Transformation*.
-- [Airflow docs 2.x](https://airflow.apache.org/docs/apache-airflow/stable/) — TaskFlow API.
+- [Airflow docs 2.x](https://airflow.apache.org/docs/apache-airflow/3.3.1/) — TaskFlow API.
 - [Awesome Apache Airflow](https://github.com/jghoman/awesome-apache-airflow).
 - [dbt-core](https://docs.getdbt.com/) — el complemento natural para ELT.
 - *Designing Data-Intensive Applications* (Kleppmann, 2017) — fundamentos.

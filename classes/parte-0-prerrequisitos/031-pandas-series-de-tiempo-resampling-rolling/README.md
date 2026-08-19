@@ -108,7 +108,7 @@ Default: NaN en los primeros N-1 (no hay datos suficientes para la ventana). Si 
 ## 🔗 Referencias
 
 - VanderPlas, **cap. 3** § 3.12.
-- [pandas Time Series user guide](https://pandas.pydata.org/docs/user_guide/timeseries.html)
+- [pandas Time Series user guide](https://pandas.pydata.org/pandas-docs/version/3.0/user_guide/timeseries.html)
 
 ## 📥 Material descargable
 

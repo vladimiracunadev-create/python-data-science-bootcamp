@@ -105,7 +105,7 @@ Cuando los datos ya están en formato wide y solo necesitas plot/agregaciones �
 ## 🔗 Referencias
 
 - VanderPlas, **cap. 3** § 3.10.
-- [pandas Pivot guide](https://pandas.pydata.org/docs/user_guide/reshaping.html)
+- [pandas Pivot guide](https://pandas.pydata.org/pandas-docs/version/3.0/user_guide/reshaping.html)
 
 ## 📥 Material descargable
 

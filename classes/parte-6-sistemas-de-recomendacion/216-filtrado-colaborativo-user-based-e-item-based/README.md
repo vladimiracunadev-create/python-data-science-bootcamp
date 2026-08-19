@@ -110,7 +110,7 @@ kNN no escala. Saltá directo a factorización de matrices con ALS distribuido (
 - Aggarwal, C. *Recommender Systems: The Textbook* (Springer, 2016), **cap. 2** — *Neighborhood-Based Collaborative Filtering*.
 - Linden, G., Smith, B., York, J. *Amazon.com Recommendations: Item-to-Item Collaborative Filtering* (IEEE Internet Computing, 2003) — el paper fundacional.
 - [MovieLens datasets](https://grouplens.org/datasets/movielens/).
-- [`sklearn.metrics.pairwise.cosine_similarity`](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.pairwise.cosine_similarity.html) — con `dense_output=False` para sparse.
+- [`sklearn.metrics.pairwise.cosine_similarity`](https://scikit-learn.org/1.8/modules/generated/sklearn.metrics.pairwise.cosine_similarity.html) — con `dense_output=False` para sparse.
 - *Programming Collective Intelligence* (Segaran, 2007) — introducción accesible.
 
 ## 📥 Material descargable

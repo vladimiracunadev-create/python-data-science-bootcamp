@@ -92,7 +92,7 @@ Seaborn maneja su propio system con `sns.set_theme()`. Coordinar ambos puede col
 
 **❓ ¿Cómo veo todos los styles?**
 
-`plt.style.available` lista todos. Para galería visual: [matplotlib style sheets reference](https://matplotlib.org/stable/gallery/style_sheets/style_sheets_reference.html).
+`plt.style.available` lista todos. Para galería visual: [matplotlib style sheets reference](https://matplotlib.org/3.10.8/gallery/style_sheets/style_sheets_reference.html).
 
 **❓ ¿`bmh` qué es?**
 
@@ -105,7 +105,7 @@ Style del libro *Bayesian Methods for Hackers* — popular para gráficos estad�
 ## 🔗 Referencias
 
 - VanderPlas, **cap. 4** § 4.11.
-- [matplotlib stylesheets gallery](https://matplotlib.org/stable/gallery/style_sheets/style_sheets_reference.html)
+- [matplotlib stylesheets gallery](https://matplotlib.org/3.10.8/gallery/style_sheets/style_sheets_reference.html)
 
 ## 📥 Material descargable
 

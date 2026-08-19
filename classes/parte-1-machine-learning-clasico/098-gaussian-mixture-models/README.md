@@ -88,8 +88,8 @@ Sobre `load_iris` (sin usar la etiqueta para entrenar):
 ## 🔗 Referencias
 
 - Géron, *Hands-On ML* (3ª ed.), cap. 9 § "Gaussian Mixtures".
-- scikit-learn — [Gaussian Mixture Models](https://scikit-learn.org/stable/modules/mixture.html).
-- scikit-learn — [`GaussianMixture`](https://scikit-learn.org/stable/modules/generated/sklearn.mixture.GaussianMixture.html) y [`BayesianGaussianMixture`](https://scikit-learn.org/stable/modules/generated/sklearn.mixture.BayesianGaussianMixture.html).
+- scikit-learn — [Gaussian Mixture Models](https://scikit-learn.org/1.8/modules/mixture.html).
+- scikit-learn — [`GaussianMixture`](https://scikit-learn.org/1.8/modules/generated/sklearn.mixture.GaussianMixture.html) y [`BayesianGaussianMixture`](https://scikit-learn.org/1.8/modules/generated/sklearn.mixture.BayesianGaussianMixture.html).
 - Bishop, *Pattern Recognition and Machine Learning*, cap. 9 (EM y mixtures).
 
 ## 📥 Material descargable

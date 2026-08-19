@@ -108,7 +108,7 @@ Notebook con penguins: (a) 5 plots básicos cada uno bien etiquetado; (b) scatte
 ## 🔗 Referencias
 
 - VanderPlas, **cap. 4** §§ 4.2-4.5.
-- [matplotlib gallery](https://matplotlib.org/stable/gallery/index.html)
+- [matplotlib gallery](https://matplotlib.org/3.10.8/gallery/index.html)
 
 ## 📥 Material descargable
 

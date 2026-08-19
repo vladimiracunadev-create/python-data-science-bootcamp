@@ -105,8 +105,8 @@ Ambos válidos. `.loc[mask, cols]` para máscaras computadas; `.query()` para fi
 ## 🔗 Referencias
 
 - VanderPlas, **cap. 3** § 3.3.
-- [pandas Indexing user guide](https://pandas.pydata.org/docs/user_guide/indexing.html)
-- [SettingWithCopyWarning explained](https://pandas.pydata.org/docs/user_guide/indexing.html#returning-a-view-versus-a-copy)
+- [pandas Indexing user guide](https://pandas.pydata.org/pandas-docs/version/3.0/user_guide/indexing.html)
+- [SettingWithCopyWarning explained](https://pandas.pydata.org/pandas-docs/version/3.0/user_guide/indexing.html#returning-a-view-versus-a-copy)
 
 ## 📥 Material descargable
 

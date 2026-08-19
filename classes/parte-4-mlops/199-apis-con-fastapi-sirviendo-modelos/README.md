@@ -105,7 +105,7 @@ Sí, pero para producción seria conviene un **inference server** dedicado: Torc
 
 - Huyen, Chip. *Designing Machine Learning Systems* (O'Reilly, 2022), **cap. 11**.
 - [FastAPI docs](https://fastapi.tiangolo.com/) — *Tutorial* y *Advanced User Guide*.
-- [Pydantic v2 migration guide](https://docs.pydantic.dev/latest/migration/) — qué cambió desde v1.
+- [Pydantic v2 migration guide](https://docs.pydantic.dev/2.12/migration/) — qué cambió desde v1.
 - [Locust](https://locust.io/) — loadtest distribuido en Python.
 - [NVIDIA Triton](https://github.com/triton-inference-server/server) — alternativa para producción seria.
 

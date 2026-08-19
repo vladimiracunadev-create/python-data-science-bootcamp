@@ -122,8 +122,8 @@ Platt e isotonic son **monótonas no-decrecientes** → no cambian el ranking ni
 ## 🔗 Referencias
 
 - Géron, **cap. 4** § *Logistic Regression* y § *Softmax Regression*.
-- [sklearn — Probability calibration](https://scikit-learn.org/stable/modules/calibration.html)
-- [sklearn — `LogisticRegression`](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html)
+- [sklearn — Probability calibration](https://scikit-learn.org/1.8/modules/calibration.html)
+- [sklearn — `LogisticRegression`](https://scikit-learn.org/1.8/modules/generated/sklearn.linear_model.LogisticRegression.html)
 - Niculescu-Mizil & Caruana (2005), *Predicting Good Probabilities With Supervised Learning*, ICML — paper canónico sobre Platt vs isotonic en RF, SVM, boosting, NB.
 - Guo et al. (2017), *On Calibration of Modern Neural Networks* — temperature scaling.
 

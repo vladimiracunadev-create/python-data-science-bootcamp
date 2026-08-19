@@ -103,9 +103,9 @@ Casi todo PyTorch desde 2022. Los modelos modernos (Llama, Mistral, Mixtral, etc
 
 - Géron, **cap. 12** — *Custom Training Loops*.
 - [PyTorch tutorials](https://pytorch.org/tutorials/).
-- [PyTorch Lightning docs](https://lightning.ai/docs/pytorch/stable/).
+- [PyTorch Lightning docs](https://lightning.ai/docs/pytorch/2.5.6/).
 - Falcon et al. (2019), *PyTorch Lightning*.
-- [Hugging Face — Trainer (built on Lightning concepts)](https://huggingface.co/docs/transformers/trainer).
+- [Hugging Face — Trainer (built on Lightning concepts)](https://huggingface.co/docs/transformers/v5.15.1/en/trainer).
 
 ## 📥 Material descargable
 

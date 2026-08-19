@@ -107,8 +107,8 @@ Modelo no balanceado: usar **Type III SS** (`statsmodels` lo soporta vía `sm.st
 - ISLP, **cap. 13** — sección sobre ANOVA y multiple testing.
 - Bruce & Bruce, **cap. 3** — sección *ANOVA*.
 - Welch, B.L. (1951), *On the comparison of several mean values: an alternative approach*, Biometrika.
-- [`scipy.stats.f_oneway`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.f_oneway.html), [`pingouin.welch_anova`](https://pingouin-stats.org/generated/pingouin.welch_anova.html), [`pingouin.pairwise_tukey`](https://pingouin-stats.org/generated/pingouin.pairwise_tukey.html).
-- [statsmodels — ANOVA](https://www.statsmodels.org/stable/anova.html) (para Type II/III SS y modelos mixtos).
+- [`scipy.stats.f_oneway`](https://docs.scipy.org/doc/scipy-1.18.0/reference/generated/scipy.stats.f_oneway.html), [`pingouin.welch_anova`](https://pingouin-stats.org/generated/pingouin.welch_anova.html), [`pingouin.pairwise_tukey`](https://pingouin-stats.org/generated/pingouin.pairwise_tukey.html).
+- [statsmodels — ANOVA](https://www.statsmodels.org/v0.14.6/anova.html) (para Type II/III SS y modelos mixtos).
 
 ## 📥 Material descargable
 

@@ -109,7 +109,7 @@ Por eso existen los gates: shadow → canary → full rollout. Si la métrica on
 ## 🔗 Referencias
 
 - Huyen, Chip. *Designing Machine Learning Systems* (O'Reilly, 2022), **cap. 9** — *Continual Learning and Test in Production*.
-- [Airflow docs](https://airflow.apache.org/docs/apache-airflow/stable/) — DAGs y operators.
+- [Airflow docs](https://airflow.apache.org/docs/apache-airflow/3.3.1/) — DAGs y operators.
 - [Prefect docs](https://docs.prefect.io/) — flows modernos.
 - Kirkpatrick et al. *Overcoming catastrophic forgetting in neural networks* (PNAS, 2017) — EWC.
 - [SageMaker Pipelines](https://docs.aws.amazon.com/sagemaker/latest/dg/pipelines.html) — equivalente managed AWS.

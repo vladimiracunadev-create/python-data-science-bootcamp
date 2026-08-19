@@ -112,8 +112,8 @@ No. Las curvas ROC/PR son para **threshold tuning** y comparación de modelos a 
 
 - Géron, *Hands-On ML*, **cap. 3** § "Error Analysis".
 - Andrew Ng — [A Chat with Andrew on MLOps: From Model-centric to Data-centric AI](https://www.youtube.com/watch?v=06-AZXmwHjo).
-- [scikit-learn — `confusion_matrix` y `ConfusionMatrixDisplay`](https://scikit-learn.org/stable/modules/model_evaluation.html#confusion-matrix).
-- [scikit-learn — `cross_val_predict`](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.cross_val_predict.html).
+- [scikit-learn — `confusion_matrix` y `ConfusionMatrixDisplay`](https://scikit-learn.org/1.8/modules/model_evaluation.html#confusion-matrix).
+- [scikit-learn — `cross_val_predict`](https://scikit-learn.org/1.8/modules/generated/sklearn.model_selection.cross_val_predict.html).
 
 ## 📥 Material descargable
 

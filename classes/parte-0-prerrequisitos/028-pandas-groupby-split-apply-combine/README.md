@@ -108,7 +108,7 @@ Con N=1M filas y K=1000 grupos, debería ser <1s. Si es más lento, posibles cau
 ## 🔗 Referencias
 
 - VanderPlas, **cap. 3** § 3.9.
-- [pandas groupby user guide](https://pandas.pydata.org/docs/user_guide/groupby.html)
+- [pandas groupby user guide](https://pandas.pydata.org/pandas-docs/version/3.0/user_guide/groupby.html)
 - Wickham, ["The split-apply-combine strategy for data analysis"](https://www.jstatsoft.org/article/view/v040i01) (J Stat Software, 2011).
 
 ## 📥 Material descargable

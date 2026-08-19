@@ -77,7 +77,7 @@ Generá un Swiss roll con `n_samples=1500` y `random_state=42`. Aplicá LLE est�
 
 - Géron, A. *Hands-On Machine Learning*, 3ra ed., **cap. 8 — Dimensionality Reduction**, sección "LLE".
 - Roweis, S. & Saul, L. (2000). *Nonlinear Dimensionality Reduction by Locally Linear Embedding*. **Science**, 290(5500).
-- scikit-learn docs: [`LocallyLinearEmbedding`](https://scikit-learn.org/stable/modules/generated/sklearn.manifold.LocallyLinearEmbedding.html) y [manifold learning comparison](https://scikit-learn.org/stable/modules/manifold.html).
+- scikit-learn docs: [`LocallyLinearEmbedding`](https://scikit-learn.org/1.8/modules/generated/sklearn.manifold.LocallyLinearEmbedding.html) y [manifold learning comparison](https://scikit-learn.org/1.8/modules/manifold.html).
 - Zhang, Z. & Wang, J. (2007). *MLLE: Modified Locally Linear Embedding Using Multiple Weights*.
 
 ## 📥 Material descargable

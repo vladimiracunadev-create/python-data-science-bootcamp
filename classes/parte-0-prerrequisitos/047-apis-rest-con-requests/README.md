@@ -125,11 +125,11 @@ Regla práctica: cuando tenés **>20 requests simultáneos** al mismo proveedor 
 ## 🔗 Referencias
 
 - [requests docs](https://requests.readthedocs.io/)
-- [urllib3 Retry](https://urllib3.readthedocs.io/en/stable/reference/urllib3.util.html#urllib3.util.Retry)
+- [urllib3 Retry](https://urllib3.readthedocs.io/en/2.7.0/reference/urllib3.util.html#urllib3.util.Retry)
 - [GitHub REST API](https://docs.github.com/en/rest)
 - [HTTP status codes (MDN)](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status)
 - [httpx docs](https://www.python-httpx.org/)
-- [asyncio + Jupyter (autoawait)](https://ipython.readthedocs.io/en/stable/interactive/autoawait.html)
+- [asyncio + Jupyter (autoawait)](https://ipython.readthedocs.io/en/9.12.0/interactive/autoawait.html)
 
 ## 📥 Material descargable
 

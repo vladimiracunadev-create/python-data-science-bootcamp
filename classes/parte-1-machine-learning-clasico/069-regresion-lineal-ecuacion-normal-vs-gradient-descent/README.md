@@ -117,8 +117,8 @@ $X^T X$ es singular → la ecuación normal falla. La pseudoinversa SVD devuelve
 ## 🔗 Referencias
 
 - Géron, **cap. 4** § *Linear Regression*, *The Normal Equation*, *Computational Complexity*.
-- [sklearn LinearRegression](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LinearRegression.html)
-- [NumPy `linalg.pinv`](https://numpy.org/doc/stable/reference/generated/numpy.linalg.pinv.html)
+- [sklearn LinearRegression](https://scikit-learn.org/1.8/modules/generated/sklearn.linear_model.LinearRegression.html)
+- [NumPy `linalg.pinv`](https://numpy.org/doc/2.4/reference/generated/numpy.linalg.pinv.html)
 - [Wikipedia — Moore-Penrose pseudoinverse](https://en.wikipedia.org/wiki/Moore%E2%80%93Penrose_inverse)
 
 ## 📥 Material descargable

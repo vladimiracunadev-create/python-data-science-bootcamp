@@ -96,7 +96,7 @@ Mucho menos crítico — los árboles manejan categóricas razonable. Pero targe
 - Micci-Barreca (2001), *A Preprocessing Scheme for High-Cardinality Categorical Attributes*.
 - Van Buuren (2018), *Flexible Imputation of Missing Data* (libro gratuito).
 - [category_encoders docs](https://contrib.scikit-learn.org/category_encoders/).
-- [`sklearn IterativeImputer`](https://scikit-learn.org/stable/modules/generated/sklearn.impute.IterativeImputer.html).
+- [`sklearn IterativeImputer`](https://scikit-learn.org/1.8/modules/generated/sklearn.impute.IterativeImputer.html).
 
 ## 📥 Material descargable
 

@@ -106,7 +106,7 @@ Probablemente trae outputs binarios grandes (imágenes inline en base64). El JSO
 ## 🔗 Referencias
 
 - VanderPlas, **cap. 1** — *IPython: Beyond Normal Python*.
-- [IPython magics reference](https://ipython.readthedocs.io/en/stable/interactive/magics.html)
+- [IPython magics reference](https://ipython.readthedocs.io/en/9.12.0/interactive/magics.html)
 - [JupyterLab user guide](https://jupyterlab.readthedocs.io/)
 
 ## 📥 Material descargable

@@ -105,7 +105,7 @@ Suelen empatar (`**` también es ufunc). Para potencias enteras pequeñas (2, 3)
 ## 🔗 Referencias
 
 - VanderPlas, **cap. 2** § 2.3 *Computation on NumPy Arrays*.
-- [NumPy ufuncs reference](https://numpy.org/doc/stable/reference/ufuncs.html)
+- [NumPy ufuncs reference](https://numpy.org/doc/2.4/reference/ufuncs.html)
 
 ## 📥 Material descargable
 

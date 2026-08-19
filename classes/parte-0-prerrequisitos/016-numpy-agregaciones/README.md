@@ -108,7 +108,7 @@ No directa. Usa `np.partition(arr, -3)[-3:]` para los 3 mayores (más rápido qu
 ## 🔗 Referencias
 
 - VanderPlas, **cap. 2** § 2.4.
-- [NumPy statistics functions](https://numpy.org/doc/stable/reference/routines.statistics.html)
+- [NumPy statistics functions](https://numpy.org/doc/2.4/reference/routines.statistics.html)
 
 ## 📥 Material descargable
 

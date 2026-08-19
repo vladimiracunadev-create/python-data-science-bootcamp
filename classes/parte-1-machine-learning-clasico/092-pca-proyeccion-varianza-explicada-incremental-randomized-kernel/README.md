@@ -84,7 +84,7 @@ Construí un pipeline `StandardScaler → PCA → LogisticRegression` sobre MNIS
 ## 🔗 Referencias
 
 - Géron, A. *Hands-On Machine Learning*, 3ª ed., **cap. 8 — Dimensionality Reduction**, secciones "PCA", "Randomized PCA", "Incremental PCA", "Kernel PCA".
-- scikit-learn user guide: <https://scikit-learn.org/stable/modules/decomposition.html#pca>
+- scikit-learn user guide: <https://scikit-learn.org/1.8/modules/decomposition.html#pca>
 - Halko, Martinsson & Tropp (2011), *Finding structure with randomness* — paper original de Randomized SVD.
 - Schölkopf, Smola & Müller (1998), *Nonlinear component analysis as a kernel eigenvalue problem*.
 

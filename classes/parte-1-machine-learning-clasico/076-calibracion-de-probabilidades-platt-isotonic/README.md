@@ -98,7 +98,7 @@ Logueá `(prob_predicha, y_real)`. Cada N días, calculá Brier y ECE. Si drift,
 - Platt (1999), *Probabilistic Outputs for Support Vector Machines*.
 - Niculescu-Mizil & Caruana (2005), *Predicting Good Probabilities With Supervised Learning*, ICML.
 - Guo et al. (2017), *On Calibration of Modern Neural Networks*, ICML.
-- [sklearn calibration docs](https://scikit-learn.org/stable/modules/calibration.html).
+- [sklearn calibration docs](https://scikit-learn.org/1.8/modules/calibration.html).
 
 ## 📥 Material descargable
 

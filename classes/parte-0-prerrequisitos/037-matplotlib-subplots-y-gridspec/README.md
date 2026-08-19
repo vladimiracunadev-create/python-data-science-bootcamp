@@ -105,7 +105,7 @@ Para artículos: ancho de columna (típicamente 3.5" para 1 col, 7" para ancho p
 ## 🔗 Referencias
 
 - VanderPlas, **cap. 4** § 4.6.
-- [GridSpec tutorial](https://matplotlib.org/stable/users/explain/axes/arranging_axes.html)
+- [GridSpec tutorial](https://matplotlib.org/3.10.8/users/explain/axes/arranging_axes.html)
 
 ## 📥 Material descargable
 

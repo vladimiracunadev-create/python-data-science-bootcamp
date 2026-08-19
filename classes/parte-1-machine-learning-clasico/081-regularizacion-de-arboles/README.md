@@ -114,8 +114,8 @@ Porque (a) requiere doble pasada (path + CV), (b) en ensembles ya tenés regular
 ## 🔗 Referencias
 
 - Géron, **cap. 6** § "Regularization Hyperparameters".
-- [scikit-learn — Decision Trees user guide](https://scikit-learn.org/stable/modules/tree.html)
-- [scikit-learn — Post pruning decision trees with cost complexity pruning](https://scikit-learn.org/stable/auto_examples/tree/plot_cost_complexity_pruning.html)
+- [scikit-learn — Decision Trees user guide](https://scikit-learn.org/1.8/modules/tree.html)
+- [scikit-learn — Post pruning decision trees with cost complexity pruning](https://scikit-learn.org/1.8/auto_examples/tree/plot_cost_complexity_pruning.html)
 - Breiman, Friedman, Olshen & Stone (1984), *Classification and Regression Trees* — el paper original de CART y cost-complexity pruning.
 
 ## 📥 Material descargable

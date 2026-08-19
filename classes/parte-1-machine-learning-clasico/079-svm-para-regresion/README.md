@@ -81,8 +81,8 @@ Entregar un script `svr_california.py` que:
 
 - Géron, A. *Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow* (3ª ed.), O'Reilly, cap. 5 — "SVM Regression".
 - Smola, A. & Schölkopf, B. *A Tutorial on Support Vector Regression* (2004).
-- scikit-learn docs: [`sklearn.svm.SVR`](https://scikit-learn.org/stable/modules/generated/sklearn.svm.SVR.html) y [`sklearn.svm.LinearSVR`](https://scikit-learn.org/stable/modules/generated/sklearn.svm.LinearSVR.html).
-- scikit-learn user guide: [Support Vector Machines — Regression](https://scikit-learn.org/stable/modules/svm.html#regression).
+- scikit-learn docs: [`sklearn.svm.SVR`](https://scikit-learn.org/1.8/modules/generated/sklearn.svm.SVR.html) y [`sklearn.svm.LinearSVR`](https://scikit-learn.org/1.8/modules/generated/sklearn.svm.LinearSVR.html).
+- scikit-learn user guide: [Support Vector Machines — Regression](https://scikit-learn.org/1.8/modules/svm.html#regression).
 
 ## 📥 Material descargable
 

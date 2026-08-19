@@ -122,9 +122,9 @@ Features que dependen **solo de la fila** (ratios, log, sin/cos): antes o despu�
 ## 🔗 Referencias
 
 - Géron, **cap. 2** — *End-to-End Machine Learning Project* (California Housing).
-- [sklearn — `Pipeline` y `ColumnTransformer`](https://scikit-learn.org/stable/modules/compose.html)
-- [sklearn — `impute` (`SimpleImputer`, `KNNImputer`, `IterativeImputer`)](https://scikit-learn.org/stable/modules/impute.html)
-- [sklearn — `TargetEncoder`](https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.TargetEncoder.html)
+- [sklearn — `Pipeline` y `ColumnTransformer`](https://scikit-learn.org/1.8/modules/compose.html)
+- [sklearn — `impute` (`SimpleImputer`, `KNNImputer`, `IterativeImputer`)](https://scikit-learn.org/1.8/modules/impute.html)
+- [sklearn — `TargetEncoder`](https://scikit-learn.org/1.8/modules/generated/sklearn.preprocessing.TargetEncoder.html)
 - [`category_encoders` docs](https://contrib.scikit-learn.org/category_encoders/)
 - Rubin, D. B. (1976). *Inference and missing data*. Biometrika.
 

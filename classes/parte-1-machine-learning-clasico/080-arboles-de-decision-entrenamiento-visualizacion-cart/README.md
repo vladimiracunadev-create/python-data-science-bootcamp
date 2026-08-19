@@ -116,8 +116,8 @@ Devuelve la **clase con índice menor** entre las empatadas (orden de `clf.class
 ## 🔗 Referencias
 
 - Géron, **cap. 6** — *Decision Trees*, secciones *Training and Visualizing* y *Making Predictions*.
-- [sklearn — Decision Trees user guide](https://scikit-learn.org/stable/modules/tree.html)
-- [`DecisionTreeClassifier` API](https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html)
+- [sklearn — Decision Trees user guide](https://scikit-learn.org/1.8/modules/tree.html)
+- [`DecisionTreeClassifier` API](https://scikit-learn.org/1.8/modules/generated/sklearn.tree.DecisionTreeClassifier.html)
 - [Graphviz](https://graphviz.org/) — para `export_graphviz` + `dot`.
 
 ## 📥 Material descargable

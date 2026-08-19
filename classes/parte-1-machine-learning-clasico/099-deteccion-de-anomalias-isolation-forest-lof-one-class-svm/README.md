@@ -115,9 +115,9 @@ Inspección manual del top-k con `score_samples`. Si hay labels parciales o un s
 ## 🔗 Referencias
 
 - Géron, **cap. 9** § *Anomaly Detection*.
-- [sklearn — Novelty and Outlier Detection](https://scikit-learn.org/stable/modules/outlier_detection.html)
-- [sklearn — IsolationForest](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.IsolationForest.html)
-- [sklearn — LocalOutlierFactor](https://scikit-learn.org/stable/modules/generated/sklearn.neighbors.LocalOutlierFactor.html)
+- [sklearn — Novelty and Outlier Detection](https://scikit-learn.org/1.8/modules/outlier_detection.html)
+- [sklearn — IsolationForest](https://scikit-learn.org/1.8/modules/generated/sklearn.ensemble.IsolationForest.html)
+- [sklearn — LocalOutlierFactor](https://scikit-learn.org/1.8/modules/generated/sklearn.neighbors.LocalOutlierFactor.html)
 - Liu, Ting & Zhou (2008), *Isolation Forest*, ICDM.
 
 ## 📥 Material descargable

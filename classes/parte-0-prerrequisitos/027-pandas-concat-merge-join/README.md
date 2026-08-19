@@ -111,7 +111,7 @@ Con N=1M ya empieza a notarse. Acelera: setea index a la key antes (`set_index('
 ## 🔗 Referencias
 
 - VanderPlas, **cap. 3** §§ 3.7-3.8.
-- [pandas Merge user guide](https://pandas.pydata.org/docs/user_guide/merging.html)
+- [pandas Merge user guide](https://pandas.pydata.org/pandas-docs/version/3.0/user_guide/merging.html)
 
 ## 📥 Material descargable
 

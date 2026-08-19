@@ -108,7 +108,7 @@ Mínimo (es solo una referencia). Lo costoso es la **invocación** repetida en b
 ## 🔗 Referencias
 
 - Ramalho, *Fluent Python* 2e — caps. 7 y 9.
-- [Python docs — More on Defining Functions](https://docs.python.org/3/tutorial/controlflow.html#more-on-defining-functions)
+- [Python docs — More on Defining Functions](https://docs.python.org/3.12/tutorial/controlflow.html#more-on-defining-functions)
 - [PEP 3102 — Keyword-Only Arguments](https://peps.python.org/pep-3102/)
 
 ## 📥 Material descargable

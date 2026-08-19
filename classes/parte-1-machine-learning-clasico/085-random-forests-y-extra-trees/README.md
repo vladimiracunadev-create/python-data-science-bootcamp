@@ -84,7 +84,7 @@ Sobre `fetch_california_housing`:
 - Géron, A. *Hands-On Machine Learning with Scikit-Learn, Keras & TensorFlow* (3ra ed.), **cap. 7 — Ensemble Learning and Random Forests**, sección "Random Forests".
 - Breiman, L. (2001). *Random Forests*. Machine Learning, 45(1), 5–32.
 - Geurts, P., Ernst, D., & Wehenkel, L. (2006). *Extremely Randomized Trees*. Machine Learning, 63(1), 3–42.
-- Documentación scikit-learn: [`RandomForestClassifier`](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html) y [`ExtraTreesClassifier`](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.ExtraTreesClassifier.html).
+- Documentación scikit-learn: [`RandomForestClassifier`](https://scikit-learn.org/1.8/modules/generated/sklearn.ensemble.RandomForestClassifier.html) y [`ExtraTreesClassifier`](https://scikit-learn.org/1.8/modules/generated/sklearn.ensemble.ExtraTreesClassifier.html).
 
 ## 📥 Material descargable
 

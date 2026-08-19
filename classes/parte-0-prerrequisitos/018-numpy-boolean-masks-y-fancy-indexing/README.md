@@ -105,7 +105,7 @@ Idénticos cuando `where` se llama con un solo argumento. `nonzero` es más expl
 ## 🔗 Referencias
 
 - VanderPlas, **cap. 2** §§ 2.6, 2.7.
-- [NumPy indexing user guide](https://numpy.org/doc/stable/user/basics.indexing.html)
+- [NumPy indexing user guide](https://numpy.org/doc/2.4/user/basics.indexing.html)
 
 ## 📥 Material descargable
 

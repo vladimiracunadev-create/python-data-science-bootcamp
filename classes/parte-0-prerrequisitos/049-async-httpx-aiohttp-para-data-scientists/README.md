@@ -98,7 +98,7 @@ Django 4+ soporta async views. Flask 2+ también. FastAPI es async-native (defau
 ## 🔗 Referencias
 
 - [httpx docs](https://www.python-httpx.org/)
-- [asyncio docs](https://docs.python.org/3/library/asyncio.html)
+- [asyncio docs](https://docs.python.org/3.12/library/asyncio.html)
 - [aiohttp docs](https://docs.aiohttp.org/)
 - Beazley, D. *Python Concurrency from the Ground Up* (PyCon 2015).
 - [tenacity](https://tenacity.readthedocs.io/) para retries.

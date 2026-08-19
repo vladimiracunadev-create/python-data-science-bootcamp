@@ -1,6 +1,6 @@
 # Clase 123 — PyTorch Lightning: Trainer, callbacks, distributed
 
-> Parte: **2 — Deep Learning** · Fuente: [Lightning docs](https://lightning.ai/docs/pytorch/stable/). ⏱️ Duración estimada: **80 min**.
+> Parte: **2 — Deep Learning** · Fuente: [Lightning docs](https://lightning.ai/docs/pytorch/2.5.6/). ⏱️ Duración estimada: **80 min**.
 > 🎚️ **Nivel:** Avanzado
 
 ## 🎯 Objetivo
@@ -92,7 +92,7 @@ W&B (Weights & Biases) — mejor DX, comparación de experimentos. TensorBoard s
 
 ## 🔗 Referencias
 
-- [Lightning docs](https://lightning.ai/docs/pytorch/stable/).
+- [Lightning docs](https://lightning.ai/docs/pytorch/2.5.6/).
 - Falcon et al. (2019), *PyTorch Lightning*.
 - W&B: <https://wandb.ai/>.
 

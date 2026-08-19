@@ -112,7 +112,7 @@ No. **Cross-domain transfer** (gustos en Spotify → recomendaciones en Audible)
 - Schein, A. et al. *Methods and Metrics for Cold-Start Recommendations* (SIGIR 2002).
 - Aggarwal *Recommender Systems: The Textbook* (Springer, 2016), **cap. 13** — *Advanced Topics* (incluye cold-start).
 - Sutton & Barto, *Reinforcement Learning: An Introduction* (2nd ed., 2018), **cap. 2** — Multi-armed bandits.
-- [Vowpal Wabbit contextual bandits](https://vowpalwabbit.org/docs/vowpal_wabbit/python/latest/tutorials/python_Contextual_bandits_and_Vowpal_Wabbit.html).
+- [Vowpal Wabbit contextual bandits](https://vowpalwabbit.org/docs/vowpal_wabbit/python/9.11.2/tutorials/python_Contextual_bandits_and_Vowpal_Wabbit.html).
 - *Two Decades of Recommender Systems at Amazon* (Smith & Linden, IEEE, 2017) — perspectiva histórica.
 
 ## 📥 Material descargable

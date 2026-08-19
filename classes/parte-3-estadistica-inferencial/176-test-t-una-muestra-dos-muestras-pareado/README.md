@@ -110,7 +110,7 @@ Porque son la misma información presentada de otra forma. Si el IC95 % de `μ_a
 - Delacre, Lakens & Leys (2017), *Why Psychologists Should by Default Use Welch's t-test*, IRSP.
 - Cohen, J. (1988), *Statistical Power Analysis for the Behavioral Sciences* — referencia canónica de effect size.
 - [pingouin docs](https://pingouin-stats.org/) — Vallat, R. (2018), *Pingouin: statistics in Python*, JOSS.
-- [`scipy.stats.ttest_ind`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.ttest_ind.html) — atención a `equal_var` y `alternative`.
+- [`scipy.stats.ttest_ind`](https://docs.scipy.org/doc/scipy-1.18.0/reference/generated/scipy.stats.ttest_ind.html) — atención a `equal_var` y `alternative`.
 
 ## 📥 Material descargable
 

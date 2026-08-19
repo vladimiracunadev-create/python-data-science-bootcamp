@@ -115,9 +115,9 @@ Si `len(svm.support_) > 0.5 · n_train`, el modelo está overfitteando o `C` es 
 ## 🔗 Referencias
 
 - Géron, **cap. 5** — *Nonlinear SVM Classification* y *The Kernel Trick*.
-- [sklearn — SVC](https://scikit-learn.org/stable/modules/generated/sklearn.svm.SVC.html)
-- [sklearn — RBF kernel intuition](https://scikit-learn.org/stable/auto_examples/svm/plot_rbf_parameters.html)
-- [sklearn — Kernel approximation (Nystroem)](https://scikit-learn.org/stable/modules/kernel_approximation.html)
+- [sklearn — SVC](https://scikit-learn.org/1.8/modules/generated/sklearn.svm.SVC.html)
+- [sklearn — RBF kernel intuition](https://scikit-learn.org/1.8/auto_examples/svm/plot_rbf_parameters.html)
+- [sklearn — Kernel approximation (Nystroem)](https://scikit-learn.org/1.8/modules/kernel_approximation.html)
 
 ## 📥 Material descargable
 

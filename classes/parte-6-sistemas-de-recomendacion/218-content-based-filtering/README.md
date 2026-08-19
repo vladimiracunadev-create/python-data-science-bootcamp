@@ -1,6 +1,6 @@
 # Clase 218 — Content-based filtering
 
-> Parte: **6 — Sistemas de Recomendación** · Fuente: Aggarwal *Recommender Systems: The Textbook* **cap. 4** + [docs scikit-learn `TfidfVectorizer`](https://scikit-learn.org/stable/modules/feature_extraction.html#text-feature-extraction). ⏱️ Duración estimada: **70 min**.
+> Parte: **6 — Sistemas de Recomendación** · Fuente: Aggarwal *Recommender Systems: The Textbook* **cap. 4** + [docs scikit-learn `TfidfVectorizer`](https://scikit-learn.org/1.8/modules/feature_extraction.html#text-feature-extraction). ⏱️ Duración estimada: **70 min**.
 >
 > 🎚️ **Nivel:** Intermedio-Avanzado
 
@@ -108,7 +108,7 @@ Si tenés <10K items: cosine_similarity con sklearn alcanza. Si tenés >100K ite
 ## 🔗 Referencias
 
 - Aggarwal, C. *Recommender Systems: The Textbook* (Springer, 2016), **cap. 4** — *Content-Based Recommender Systems*.
-- [sklearn TfidfVectorizer](https://scikit-learn.org/stable/modules/generated/sklearn.feature_extraction.text.TfidfVectorizer.html).
+- [sklearn TfidfVectorizer](https://scikit-learn.org/1.8/modules/generated/sklearn.feature_extraction.text.TfidfVectorizer.html).
 - [`sentence-transformers`](https://www.sbert.net/) — modelo pre-entrenados.
 - [FAISS](https://github.com/facebookresearch/faiss) — similarity search.
 - Carbonell & Goldstein, *The Use of MMR, Diversity-Based Reranking for Reordering Documents* (1998) — para combatir filter bubble.

@@ -108,8 +108,8 @@ No nativo. Usa `sklearn.impute.KNNImputer` o `IterativeImputer` (= MICE). Más c
 ## 🔗 Referencias
 
 - VanderPlas, **cap. 3** § 3.5.
-- [pandas — Missing data user guide](https://pandas.pydata.org/docs/user_guide/missing_data.html)
-- [pandas nullable Integer dtypes](https://pandas.pydata.org/docs/user_guide/integer_na.html)
+- [pandas — Missing data user guide](https://pandas.pydata.org/pandas-docs/version/3.0/user_guide/missing_data.html)
+- [pandas nullable Integer dtypes](https://pandas.pydata.org/pandas-docs/version/3.0/user_guide/integer_na.html)
 
 ## 📥 Material descargable
 

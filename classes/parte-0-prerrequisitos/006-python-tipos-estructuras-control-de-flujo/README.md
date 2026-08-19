@@ -104,9 +104,9 @@ El segundo valor sobrescribe al primero. El orden de inserción se preserva (Pyt
 
 ## 🔗 Referencias
 
-- [Python Tutorial — Data Structures](https://docs.python.org/3/tutorial/datastructures.html)
+- [Python Tutorial — Data Structures](https://docs.python.org/3.12/tutorial/datastructures.html)
 - Ramalho, *Fluent Python* 2e — cap. 1 *The Python Data Model*.
-- [Python Tutorial — Control flow](https://docs.python.org/3/tutorial/controlflow.html)
+- [Python Tutorial — Control flow](https://docs.python.org/3.12/tutorial/controlflow.html)
 
 ## 📥 Material descargable
 

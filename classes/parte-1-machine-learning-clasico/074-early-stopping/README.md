@@ -79,7 +79,7 @@ Sobre California Housing (split 60/20/20 train/val/test, features escaladas con 
 ## 🔗 Referencias
 
 - Géron, A. (2022). *Hands-On Machine Learning with Scikit-Learn, Keras & TensorFlow* (3ª ed.), cap. 4, sección "Early Stopping".
-- scikit-learn docs: [`SGDRegressor`](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.SGDRegressor.html) (parámetros `early_stopping`, `validation_fraction`, `n_iter_no_change`, `tol`).
+- scikit-learn docs: [`SGDRegressor`](https://scikit-learn.org/1.8/modules/generated/sklearn.linear_model.SGDRegressor.html) (parámetros `early_stopping`, `validation_fraction`, `n_iter_no_change`, `tol`).
 - Prechelt, L. (1998). *Early Stopping — But When?* en *Neural Networks: Tricks of the Trade*.
 
 ## 📥 Material descargable

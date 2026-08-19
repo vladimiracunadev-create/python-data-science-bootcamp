@@ -108,9 +108,9 @@ Funciona pero está deprecated en favor del nuevo API. Razones: estado global (p
 ## 🔗 Referencias
 
 - VanderPlas, **cap. 2**, §§ 2.1–2.2 *Understanding Data Types* + *The Basics of NumPy Arrays*.
-- [NumPy user guide — Array creation](https://numpy.org/doc/stable/user/basics.creation.html)
-- [NumPy dtypes](https://numpy.org/doc/stable/reference/arrays.dtypes.html)
-- [`Generator` random API](https://numpy.org/doc/stable/reference/random/generator.html)
+- [NumPy user guide — Array creation](https://numpy.org/doc/2.4/user/basics.creation.html)
+- [NumPy dtypes](https://numpy.org/doc/2.4/reference/arrays.dtypes.html)
+- [`Generator` random API](https://numpy.org/doc/2.4/reference/random/generator.html)
 
 ## 📥 Material descargable
 

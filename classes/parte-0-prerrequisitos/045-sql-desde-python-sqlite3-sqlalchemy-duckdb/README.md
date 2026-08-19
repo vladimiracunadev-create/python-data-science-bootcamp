@@ -107,7 +107,7 @@ Usa context manager: `with sqlite3.connect(...) as con: ...` o `con.close()` en 
 
 ## 🔗 Referencias
 
-- [Python `sqlite3` docs](https://docs.python.org/3/library/sqlite3.html)
+- [Python `sqlite3` docs](https://docs.python.org/3.12/library/sqlite3.html)
 - [SQLAlchemy tutorial](https://docs.sqlalchemy.org/en/20/tutorial/)
 - [DuckDB Python API](https://duckdb.org/docs/api/python/overview)
 - [OWASP — SQL injection prevention](https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html)

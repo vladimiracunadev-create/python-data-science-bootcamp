@@ -1,6 +1,6 @@
 # Clase 231 — Capstone 3: visión por computadora con transfer learning
 
-> Parte: **8 — Capstones** · Fuente: Géron, *Hands-On ML* 3ª ed. **cap. 14-15** + [timm](https://huggingface.co/docs/timm/) + [PyTorch Lightning docs](https://lightning.ai/docs/pytorch/stable/). ⏱️ Duración estimada: **180 min**.
+> Parte: **8 — Capstones** · Fuente: Géron, *Hands-On ML* 3ª ed. **cap. 14-15** + [timm](https://huggingface.co/docs/timm/) + [PyTorch Lightning docs](https://lightning.ai/docs/pytorch/2.5.6/). ⏱️ Duración estimada: **180 min**.
 >
 > 🎚️ **Nivel:** Avanzado
 
@@ -108,7 +108,7 @@ Solo si el dataset tiene **atributos sensibles** (rostros con edad/género/etnia
 
 - Géron, A. *Hands-On Machine Learning with Scikit-Learn, Keras & TensorFlow* 3ª ed. (O'Reilly, 2022), **cap. 14** (CNN) y **15** (transfer learning).
 - [timm — PyTorch Image Models](https://huggingface.co/docs/timm/) (Ross Wightman) — 1000+ backbones preentrenados con API única.
-- [PyTorch Lightning docs](https://lightning.ai/docs/pytorch/stable/) — el training loop estándar de facto.
+- [PyTorch Lightning docs](https://lightning.ai/docs/pytorch/2.5.6/) — el training loop estándar de facto.
 - [Albumentations docs](https://albumentations.ai/docs/) — augmentation rápida y composable.
 - He, K. et al. *Deep Residual Learning for Image Recognition* (CVPR 2016). <https://arxiv.org/abs/1512.03385>
 - Dosovitskiy, A. et al. *An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale* (ICLR 2021, ViT). <https://arxiv.org/abs/2010.11929>

@@ -84,7 +84,7 @@ Sobre `load_breast_cancer()` con `train_test_split(test_size=0.2, random_state=4
 ## 🔗 Referencias
 
 - Géron, **Hands-On Machine Learning**, 3ra ed., cap. 7 — "Ensemble Learning and Random Forests", sección **Boosting**.
-- scikit-learn user guide: [Ensemble methods → Boosting](https://scikit-learn.org/stable/modules/ensemble.html#adaboost).
+- scikit-learn user guide: [Ensemble methods → Boosting](https://scikit-learn.org/1.8/modules/ensemble.html#adaboost).
 - Friedman, J. (2001). *Greedy Function Approximation: A Gradient Boosting Machine*. Annals of Statistics.
 - Freund & Schapire (1997). *A Decision-Theoretic Generalization of On-Line Learning and an Application to Boosting*.
 

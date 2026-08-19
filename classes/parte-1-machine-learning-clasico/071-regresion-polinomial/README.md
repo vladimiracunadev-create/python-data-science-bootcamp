@@ -111,8 +111,8 @@ Polinomial es el ejemplo canónico de modelo con **alto bias** en grado bajo y *
 ## 🔗 Referencias
 
 - Géron, **cap. 4** § *Polynomial Regression* y § *Learning Curves*.
-- [sklearn `PolynomialFeatures`](https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.PolynomialFeatures.html)
-- [sklearn user guide § Polynomial regression](https://scikit-learn.org/stable/modules/linear_model.html#polynomial-regression-extending-linear-models-with-basis-functions)
+- [sklearn `PolynomialFeatures`](https://scikit-learn.org/1.8/modules/generated/sklearn.preprocessing.PolynomialFeatures.html)
+- [sklearn user guide § Polynomial regression](https://scikit-learn.org/1.8/modules/linear_model.html#polynomial-regression-extending-linear-models-with-basis-functions)
 
 ## 📥 Material descargable
 

@@ -122,8 +122,8 @@ No. PCA proyecta sobre direcciones de **máxima varianza** (lineal). Spectral us
 ## 🔗 Referencias
 
 - Géron, *Hands-On ML*, **cap. 9** § *Other Clustering Algorithms*.
-- [scikit-learn — Clustering overview (tabla comparativa)](https://scikit-learn.org/stable/modules/clustering.html#overview-of-clustering-methods)
-- [scipy `linkage` + `dendrogram`](https://docs.scipy.org/doc/scipy/reference/cluster.hierarchy.html)
+- [scikit-learn — Clustering overview (tabla comparativa)](https://scikit-learn.org/1.8/modules/clustering.html#overview-of-clustering-methods)
+- [scipy `linkage` + `dendrogram`](https://docs.scipy.org/doc/scipy-1.18.0/reference/cluster.hierarchy.html)
 - [Frey & Dueck (2007) — Affinity Propagation paper](https://www.science.org/doi/10.1126/science.1136800)
 - [von Luxburg (2007) — A Tutorial on Spectral Clustering](https://arxiv.org/abs/0711.0189)
 

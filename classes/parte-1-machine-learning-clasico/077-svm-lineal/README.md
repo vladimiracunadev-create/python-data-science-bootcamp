@@ -82,8 +82,8 @@ Entregá un script `tarea_068.py` que:
 ## 🔗 Referencias
 
 - Géron, A. *Hands-On Machine Learning*, 3ra ed., **cap. 5 — "Support Vector Machines"**, sección *"Linear SVM Classification"*.
-- scikit-learn user guide: [1.4. Support Vector Machines](https://scikit-learn.org/stable/modules/svm.html).
-- API: [`sklearn.svm.LinearSVC`](https://scikit-learn.org/stable/modules/generated/sklearn.svm.LinearSVC.html).
+- scikit-learn user guide: [1.4. Support Vector Machines](https://scikit-learn.org/1.8/modules/svm.html).
+- API: [`sklearn.svm.LinearSVC`](https://scikit-learn.org/1.8/modules/generated/sklearn.svm.LinearSVC.html).
 
 ## 📥 Material descargable
 

@@ -107,9 +107,9 @@ Sí, con `raise ExceptionNueva(...) from e` — preserva el stacktrace original 
 
 ## 🔗 Referencias
 
-- [Python Tutorial — Errors and Exceptions](https://docs.python.org/3/tutorial/errors.html)
+- [Python Tutorial — Errors and Exceptions](https://docs.python.org/3.12/tutorial/errors.html)
 - Ramalho, *Fluent Python* 2e — cap. 18 *Context Managers and else Blocks*.
-- [`contextlib` docs](https://docs.python.org/3/library/contextlib.html)
+- [`contextlib` docs](https://docs.python.org/3.12/library/contextlib.html)
 
 ## 📥 Material descargable
 

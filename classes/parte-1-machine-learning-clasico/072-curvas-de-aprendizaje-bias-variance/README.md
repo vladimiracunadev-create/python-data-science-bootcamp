@@ -102,8 +102,8 @@ Sobre el dataset `california_housing`:
 ## 🔗 Referencias
 
 - Géron, A. *Hands-On Machine Learning*, 3ª ed., **cap. 4 — "Learning Curves"** y **cap. 7 — "Bias/Variance Tradeoff"**.
-- scikit-learn user guide: [Validation curves: plotting scores to evaluate models](https://scikit-learn.org/stable/modules/learning_curve.html).
-- API: [`sklearn.model_selection.learning_curve`](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.learning_curve.html).
+- scikit-learn user guide: [Validation curves: plotting scores to evaluate models](https://scikit-learn.org/1.8/modules/learning_curve.html).
+- API: [`sklearn.model_selection.learning_curve`](https://scikit-learn.org/1.8/modules/generated/sklearn.model_selection.learning_curve.html).
 
 ## 📥 Material descargable
 

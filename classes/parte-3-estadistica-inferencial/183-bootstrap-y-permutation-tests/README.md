@@ -110,7 +110,7 @@ Sí — Random Forest hace bootstrap sobre filas para cada árbol, y las muestra
 - Efron, B. & Tibshirani, R. (1993), *An Introduction to the Bootstrap*, Chapman & Hall.
 - Efron, B. (1987), *Better Bootstrap Confidence Intervals*, JASA — paper original de BCa.
 - DiCiccio & Efron (1996), *Bootstrap Confidence Intervals*, Statistical Science.
-- [`scipy.stats.bootstrap`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.bootstrap.html) y [`permutation_test`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.permutation_test.html).
+- [`scipy.stats.bootstrap`](https://docs.scipy.org/doc/scipy-1.18.0/reference/generated/scipy.stats.bootstrap.html) y [`permutation_test`](https://docs.scipy.org/doc/scipy-1.18.0/reference/generated/scipy.stats.permutation_test.html).
 - [arch.bootstrap](https://arch.readthedocs.io/en/latest/bootstrap/bootstrap.html) — block bootstrap para series temporales.
 
 ## 📥 Material descargable

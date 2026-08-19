@@ -119,9 +119,9 @@ Porque sin el mapa, cada algoritmo nuevo se siente desconectado del anterior. Co
 ## 🔗 Referencias
 
 - Géron, A. *Hands-On Machine Learning with Scikit-Learn, Keras & TensorFlow* (3rd ed., O'Reilly, 2022), **cap. 1** — *The Machine Learning Landscape*.
-- [scikit-learn User Guide — Supervised learning](https://scikit-learn.org/stable/supervised_learning.html)
-- [scikit-learn User Guide — Unsupervised learning](https://scikit-learn.org/stable/unsupervised_learning.html)
-- [scikit-learn — Scaling strategies (out-of-core)](https://scikit-learn.org/stable/computing/scaling_strategies.html) — base teórica de `partial_fit`.
+- [scikit-learn User Guide — Supervised learning](https://scikit-learn.org/1.8/supervised_learning.html)
+- [scikit-learn User Guide — Unsupervised learning](https://scikit-learn.org/1.8/unsupervised_learning.html)
+- [scikit-learn — Scaling strategies (out-of-core)](https://scikit-learn.org/1.8/computing/scaling_strategies.html) — base teórica de `partial_fit`.
 - Mitchell, T. *Machine Learning* (McGraw-Hill, 1997) — definición clásica de aprendizaje (T, P, E).
 - [Distill — *A visual exploration of Gaussian Processes*](https://distill.pub/2019/visual-exploration-gaussian-processes/) — bonus para entender model-based no paramétrico.
 

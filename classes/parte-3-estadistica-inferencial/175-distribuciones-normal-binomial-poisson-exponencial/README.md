@@ -102,8 +102,8 @@ Porque `P(X > s + t | X > s) = P(X > t)`. Aplicado a un servidor que lleva 3 h s
 
 - ISLP (James et al.), **cap. 2** — *Statistical Learning*, sección sobre distribuciones.
 - Bruce, P. & Bruce, A. *Practical Statistics for Data Scientists* (2ª ed., O'Reilly), **cap. 2** *Data and Sampling Distributions*.
-- [scipy.stats reference](https://docs.scipy.org/doc/scipy/reference/stats.html) — objetos `norm`, `binom`, `poisson`, `expon`.
-- [`numpy.random.Generator`](https://numpy.org/doc/stable/reference/random/generator.html) — API moderna recomendada desde NumPy 1.17.
+- [scipy.stats reference](https://docs.scipy.org/doc/scipy-1.18.0/reference/stats.html) — objetos `norm`, `binom`, `poisson`, `expon`.
+- [`numpy.random.Generator`](https://numpy.org/doc/2.4/reference/random/generator.html) — API moderna recomendada desde NumPy 1.17.
 - 3Blue1Brown — *Why π appears in the normal distribution* (intuición visual del TCL).
 
 ## 📥 Material descargable

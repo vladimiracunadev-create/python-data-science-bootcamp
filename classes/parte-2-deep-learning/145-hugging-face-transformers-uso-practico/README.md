@@ -96,7 +96,7 @@ Sí, para prototipos. Para producción serio, self-host con `transformers` o **v
 
 ## 🔗 Referencias
 
-- [Hugging Face Transformers docs](https://huggingface.co/docs/transformers/).
+- [Hugging Face Transformers docs](https://huggingface.co/docs/transformers/v5.15.1/en/).
 - [Hugging Face course](https://huggingface.co/learn/nlp-course) — el mejor recurso gratuito para empezar.
 - Wolf et al. (2020), *Transformers: State-of-the-Art Natural Language Processing*, EMNLP demo.
 

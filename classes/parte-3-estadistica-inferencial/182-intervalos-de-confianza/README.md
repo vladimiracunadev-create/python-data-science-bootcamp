@@ -101,8 +101,8 @@ Para la media t-based, sí. Para proporciones y bootstrap, **no** — sobre todo
 - Bruce & Bruce, **cap. 2** — *Confidence Intervals*.
 - Agresti, A. & Coull, B. (1998), *Approximate is Better than 'Exact' for Interval Estimation of Binomial Proportions*, American Statistician.
 - Brown, Cai & DasGupta (2001), *Interval Estimation for a Binomial Proportion*, Statistical Science — review de métodos.
-- [`statsmodels.stats.proportion.proportion_confint`](https://www.statsmodels.org/stable/generated/statsmodels.stats.proportion.proportion_confint.html).
-- [`scipy.stats.bootstrap`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.bootstrap.html) — API moderna.
+- [`statsmodels.stats.proportion.proportion_confint`](https://www.statsmodels.org/v0.14.6/generated/statsmodels.stats.proportion.proportion_confint.html).
+- [`scipy.stats.bootstrap`](https://docs.scipy.org/doc/scipy-1.18.0/reference/generated/scipy.stats.bootstrap.html) — API moderna.
 
 ## 📥 Material descargable
 

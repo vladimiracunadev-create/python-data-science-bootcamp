@@ -1,6 +1,6 @@
 # Clase 195 — Versionado de modelos y experimentos con MLflow
 
-> Parte: **4 — MLOps** · Fuente: Huyen, *Designing Machine Learning Systems* **cap. 6 + 11** + [docs MLflow 2.x](https://mlflow.org/docs/latest/). ⏱️ Duración estimada: **75 min**.
+> Parte: **4 — MLOps** · Fuente: Huyen, *Designing Machine Learning Systems* **cap. 6 + 11** + [docs MLflow 2.x](https://mlflow.org/docs/2.19.0/). ⏱️ Duración estimada: **75 min**.
 >
 > 🎚️ **Nivel:** Avanzado
 
@@ -105,9 +105,9 @@ MLflow registra automáticamente el commit git (`mlflow.source.git.commit` tag) 
 ## 🔗 Referencias
 
 - Huyen, Chip. *Designing Machine Learning Systems* (O'Reilly, 2022), **cap. 6** (experimentos) y **cap. 11** (model serving).
-- [MLflow Docs](https://mlflow.org/docs/latest/) — Tracking + Model Registry + Models.
-- [`mlflow.sklearn.autolog`](https://mlflow.org/docs/latest/python_api/mlflow.sklearn.html#mlflow.sklearn.autolog) — qué se captura automáticamente.
-- [MLflow Model Registry](https://mlflow.org/docs/latest/model-registry.html) — stages, aliases (2.5+), webhooks.
+- [MLflow Docs](https://mlflow.org/docs/2.19.0/) — Tracking + Model Registry + Models.
+- [`mlflow.sklearn.autolog`](https://mlflow.org/docs/2.19.0/python_api/mlflow.sklearn.html#mlflow.sklearn.autolog) — qué se captura automáticamente.
+- [MLflow Model Registry](https://mlflow.org/docs/2.19.0/model-registry.html) — stages, aliases (2.5+), webhooks.
 - [Comparativa MLflow vs W&B vs Neptune (2024)](https://neptune.ai/blog/mlflow-vs-wandb-vs-neptune) — tomar con grano de sal (parte interesada).
 
 ## 📥 Material descargable

@@ -108,7 +108,7 @@ Overhead del index, manejo de NaN, dtype-aware. Para operaciones puramente numé
 ## 🔗 Referencias
 
 - VanderPlas, **cap. 3** § 3.4.
-- [pandas — apply, map](https://pandas.pydata.org/docs/user_guide/basics.html#function-application)
+- [pandas — apply, map](https://pandas.pydata.org/pandas-docs/version/3.0/user_guide/basics.html#function-application)
 
 ## 📥 Material descargable
 

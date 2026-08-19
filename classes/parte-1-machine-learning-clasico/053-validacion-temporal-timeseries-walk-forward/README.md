@@ -94,7 +94,7 @@ Recomendado para tuning + evaluation honesta. Outer TSSplit para reportar, inner
 
 - Bergmeir & Benítez (2012), *On the use of cross-validation for time series predictor evaluation*.
 - López de Prado (2018), *Advances in Financial Machine Learning*, cap. 7.
-- [`sklearn.model_selection.TimeSeriesSplit`](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.TimeSeriesSplit.html).
+- [`sklearn.model_selection.TimeSeriesSplit`](https://scikit-learn.org/1.8/modules/generated/sklearn.model_selection.TimeSeriesSplit.html).
 - Hyndman & Athanasopoulos, *Forecasting: Principles and Practice*.
 
 ## 📥 Material descargable

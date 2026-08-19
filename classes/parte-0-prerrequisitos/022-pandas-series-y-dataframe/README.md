@@ -116,7 +116,7 @@ Por ahora, no. **Pandas primero** — es la base del curso, lo vas a ver en clas
 ## 🔗 Referencias
 
 - VanderPlas, **cap. 3** §§ 3.1, 3.2.
-- [pandas user guide — DataFrame](https://pandas.pydata.org/docs/user_guide/dsintro.html)
+- [pandas user guide — DataFrame](https://pandas.pydata.org/pandas-docs/version/3.0/user_guide/dsintro.html)
 - [Palmer Penguins](https://github.com/allisonhorst/palmerpenguins)
 - [Polars user guide](https://docs.pola.rs/)
 

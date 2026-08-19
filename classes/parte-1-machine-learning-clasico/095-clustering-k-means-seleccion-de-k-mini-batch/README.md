@@ -82,7 +82,7 @@ Entregá un script `homework_085.py` que:
 ## 🔗 Referencias
 
 - Géron, A. *Hands-On Machine Learning* (3ra ed.), cap. 9 — sección "K-Means".
-- scikit-learn user guide: [Clustering — K-Means](https://scikit-learn.org/stable/modules/clustering.html#k-means).
+- scikit-learn user guide: [Clustering — K-Means](https://scikit-learn.org/1.8/modules/clustering.html#k-means).
 - Arthur, D. & Vassilvitskii, S. (2007). *k-means++: The Advantages of Careful Seeding*.
 - Sculley, D. (2010). *Web-Scale K-Means Clustering* (paper original de MiniBatchKMeans).
 

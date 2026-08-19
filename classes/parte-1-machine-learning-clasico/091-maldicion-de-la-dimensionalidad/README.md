@@ -116,7 +116,7 @@ Métodos: (a) PCA + curva de varianza explicada (rápido, lineal); (b) `sklearn.
 - Bellman, R. (1961). *Adaptive Control Processes: A Guided Tour* — origen del término.
 - Beyer, K. et al. (1999). *When Is "Nearest Neighbor" Meaningful?* — paper clásico sobre concentración de distancias.
 - Radovanović, M. (2010). *Hubs in space: Popular nearest neighbors in high-dimensional data* — fenómeno de hubness.
-- [scikit-learn — Manifold learning](https://scikit-learn.org/stable/modules/manifold.html)
+- [scikit-learn — Manifold learning](https://scikit-learn.org/1.8/modules/manifold.html)
 
 ## 📥 Material descargable
 

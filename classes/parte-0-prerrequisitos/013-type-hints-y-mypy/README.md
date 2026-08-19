@@ -109,7 +109,7 @@ Empieza permisivo (sin `--strict`), arregla lo obvio, luego activa `--strict` gr
 ## 🔗 Referencias
 
 - Ramalho, *Fluent Python* 2e — cap. 8.
-- [`typing` docs](https://docs.python.org/3/library/typing.html)
+- [`typing` docs](https://docs.python.org/3.12/library/typing.html)
 - [mypy docs](https://mypy.readthedocs.io/)
 - [PEP 484 — Type Hints](https://peps.python.org/pep-0484/)
 - [PEP 604 — `X | Y` syntax](https://peps.python.org/pep-0604/)

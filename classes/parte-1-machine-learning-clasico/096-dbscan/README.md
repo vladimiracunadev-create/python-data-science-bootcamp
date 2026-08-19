@@ -116,7 +116,7 @@ Siempre que los clusters tengan **densidades distintas** entre sí. DBSCAN usa u
 ## 🔗 Referencias
 
 - Géron, **cap. 9** § "DBSCAN".
-- [scikit-learn DBSCAN user guide](https://scikit-learn.org/stable/modules/clustering.html#dbscan)
+- [scikit-learn DBSCAN user guide](https://scikit-learn.org/1.8/modules/clustering.html#dbscan)
 - [HDBSCAN docs](https://hdbscan.readthedocs.io/)
 - Ester et al. (1996), *A Density-Based Algorithm for Discovering Clusters in Large Spatial Databases with Noise* — paper original.
 

@@ -107,7 +107,7 @@ Sí si tenés ≥ 4 cores o ≥ 2 GPUs. Optuna `n_jobs` también paraleliza pero
 - Li et al. (2017), *Hyperband*, JMLR.
 - Akiba et al. (2019), *Optuna: A Next-Generation Hyperparameter Optimization Framework*, KDD.
 - Liaw et al. (2018), *Tune: A Research Platform for Distributed Model Selection and Training*.
-- [Keras Tuner docs](https://keras.io/keras_tuner/), [Optuna docs](https://optuna.org/), [Ray Tune docs](https://docs.ray.io/en/latest/tune/index.html).
+- [Keras Tuner docs](https://keras.io/keras_tuner/), [Optuna docs](https://optuna.org/), [Ray Tune docs](https://docs.ray.io/en/releases-2.57.0/tune/index.html).
 
 ## 📥 Material descargable
 

@@ -119,9 +119,9 @@ Sí, pero entendé que estás haciendo CV anidada implícita. Lo correcto cuando
 ## 🔗 Referencias
 
 - Géron, *Hands-On ML*, **cap. 2** — End-to-End ML Project (sección "Better Evaluation Using Cross-Validation").
-- [sklearn — Cross-validation user guide](https://scikit-learn.org/stable/modules/cross_validation.html)
-- [sklearn — `TimeSeriesSplit`](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.TimeSeriesSplit.html)
-- [sklearn — `GridSearchCV` / `RandomizedSearchCV`](https://scikit-learn.org/stable/modules/grid_search.html)
+- [sklearn — Cross-validation user guide](https://scikit-learn.org/1.8/modules/cross_validation.html)
+- [sklearn — `TimeSeriesSplit`](https://scikit-learn.org/1.8/modules/generated/sklearn.model_selection.TimeSeriesSplit.html)
+- [sklearn — `GridSearchCV` / `RandomizedSearchCV`](https://scikit-learn.org/1.8/modules/grid_search.html)
 - Bergstra & Bengio (2012), *Random Search for Hyper-Parameter Optimization*, JMLR.
 - Wolpert (1996), *The Lack of A Priori Distinctions Between Learning Algorithms*.
 

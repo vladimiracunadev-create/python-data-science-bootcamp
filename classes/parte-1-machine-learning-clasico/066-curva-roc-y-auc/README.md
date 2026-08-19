@@ -112,9 +112,9 @@ AUC sirve para **comparar modelos**. Para deployar tenés que elegir umbral seg�
 ## 🔗 Referencias
 
 - Géron, **cap. 3** § *The ROC Curve* y § *Precision/Recall Trade-off*.
-- [scikit-learn — `roc_curve`](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.roc_curve.html)
-- [scikit-learn — `roc_auc_score`](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.roc_auc_score.html)
-- [scikit-learn — *Precision-Recall vs ROC*](https://scikit-learn.org/stable/auto_examples/model_selection/plot_precision_recall.html)
+- [scikit-learn — `roc_curve`](https://scikit-learn.org/1.8/modules/generated/sklearn.metrics.roc_curve.html)
+- [scikit-learn — `roc_auc_score`](https://scikit-learn.org/1.8/modules/generated/sklearn.metrics.roc_auc_score.html)
+- [scikit-learn — *Precision-Recall vs ROC*](https://scikit-learn.org/1.8/auto_examples/model_selection/plot_precision_recall.html)
 - Saito & Rehmsmeier (2015), *The Precision-Recall Plot Is More Informative than the ROC Plot When Evaluating Binary Classifiers on Imbalanced Datasets*.
 
 ## 📥 Material descargable

@@ -104,7 +104,7 @@ Para filtros, sí (mismo nivel expresivo). Para joins y aggregations, no — usa
 ## 🔗 Referencias
 
 - VanderPlas, **cap. 3** § 3.13.
-- [pandas eval/query docs](https://pandas.pydata.org/docs/user_guide/enhancingperf.html)
+- [pandas eval/query docs](https://pandas.pydata.org/pandas-docs/version/3.0/user_guide/enhancingperf.html)
 - [`numexpr` project](https://numexpr.readthedocs.io/)
 
 ## 📥 Material descargable

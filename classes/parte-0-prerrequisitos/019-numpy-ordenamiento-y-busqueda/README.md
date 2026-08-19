@@ -105,7 +105,7 @@ Si solo necesitas los valores ordenados, `sort`. Si necesitas el orden para **ap
 ## 🔗 Referencias
 
 - VanderPlas, **cap. 2** § 2.8.
-- [NumPy sorting reference](https://numpy.org/doc/stable/reference/routines.sort.html)
+- [NumPy sorting reference](https://numpy.org/doc/2.4/reference/routines.sort.html)
 
 ## 📥 Material descargable
 

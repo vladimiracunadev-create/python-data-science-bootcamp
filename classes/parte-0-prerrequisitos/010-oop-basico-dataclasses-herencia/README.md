@@ -111,8 +111,8 @@ Optimización: define los atributos permitidos y ahorra memoria (~50%) al no usa
 ## 🔗 Referencias
 
 - Ramalho, *Fluent Python* 2e — caps. 5, 11, 14.
-- [`dataclasses` docs](https://docs.python.org/3/library/dataclasses.html)
-- [Python Tutorial — Classes](https://docs.python.org/3/tutorial/classes.html)
+- [`dataclasses` docs](https://docs.python.org/3.12/library/dataclasses.html)
+- [Python Tutorial — Classes](https://docs.python.org/3.12/tutorial/classes.html)
 
 ## 📥 Material descargable
 

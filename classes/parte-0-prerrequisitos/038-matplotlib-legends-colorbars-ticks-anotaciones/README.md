@@ -105,7 +105,7 @@ Si los datos cubren >2 órdenes de magnitud (1, 100, 10000), sí. Pero **siempre
 ## 🔗 Referencias
 
 - VanderPlas, **cap. 4** §§ 4.7-4.9.
-- [matplotlib text and annotations](https://matplotlib.org/stable/users/explain/text/annotations.html)
+- [matplotlib text and annotations](https://matplotlib.org/3.10.8/users/explain/text/annotations.html)
 
 ## 📥 Material descargable
 

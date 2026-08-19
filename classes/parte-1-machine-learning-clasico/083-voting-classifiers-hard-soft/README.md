@@ -81,8 +81,8 @@ Entregar un script `voting.py` que:
 ## 🔗 Referencias
 
 - Géron, A. *Hands-On Machine Learning with Scikit-Learn, Keras & TensorFlow* (3ª ed.), cap. 7 — sección "Voting Classifiers".
-- scikit-learn — [`VotingClassifier`](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.VotingClassifier.html).
-- scikit-learn — [Ensemble methods: voting classifier](https://scikit-learn.org/stable/modules/ensemble.html#voting-classifier).
+- scikit-learn — [`VotingClassifier`](https://scikit-learn.org/1.8/modules/generated/sklearn.ensemble.VotingClassifier.html).
+- scikit-learn — [Ensemble methods: voting classifier](https://scikit-learn.org/1.8/modules/ensemble.html#voting-classifier).
 
 ## 📥 Material descargable
 

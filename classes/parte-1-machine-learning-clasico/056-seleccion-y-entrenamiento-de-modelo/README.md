@@ -41,7 +41,7 @@ Al finalizar la clase, el alumno podrá:
 : Entrena `cv` veces sobre folds disjuntos y devuelve un array de scores. En sklearn, **scoring siempre es "más alto es mejor"** — por eso para RMSE se usa `neg_root_mean_squared_error` (negado) y después se invierte el signo.
 
 **`scoring`**
-: String que selecciona la métrica. Para regresión: `'neg_root_mean_squared_error'`, `'neg_mean_absolute_error'`, `'r2'`. Para clasificación: `'accuracy'`, `'f1'`, `'roc_auc'`. La lista completa está en [Scoring parameter](https://scikit-learn.org/stable/modules/model_evaluation.html#scoring-parameter).
+: String que selecciona la métrica. Para regresión: `'neg_root_mean_squared_error'`, `'neg_mean_absolute_error'`, `'r2'`. Para clasificación: `'accuracy'`, `'f1'`, `'roc_auc'`. La lista completa está en [Scoring parameter](https://scikit-learn.org/1.8/modules/model_evaluation.html#scoring-parameter).
 
 **Learning curve**
 : Gráfico de score (train y validation) en función del **tamaño del training set**. Diagnostica: brecha grande train ↔ val = overfitting (varianza alta); ambas curvas bajas y juntas = underfitting (bias alto); ambas convergen alto = modelo OK.
@@ -112,9 +112,9 @@ Sí, pero solo como **diagnóstico**, no como métrica de selección. Train bajo
 ## 🔗 Referencias
 
 - Géron, **cap. 2** § *Select and Train a Model* + § *Better Evaluation Using Cross-Validation*.
-- [sklearn `cross_val_score`](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.cross_val_score.html)
-- [sklearn `learning_curve`](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.learning_curve.html)
-- [sklearn Scoring parameter](https://scikit-learn.org/stable/modules/model_evaluation.html#scoring-parameter)
+- [sklearn `cross_val_score`](https://scikit-learn.org/1.8/modules/generated/sklearn.model_selection.cross_val_score.html)
+- [sklearn `learning_curve`](https://scikit-learn.org/1.8/modules/generated/sklearn.model_selection.learning_curve.html)
+- [sklearn Scoring parameter](https://scikit-learn.org/1.8/modules/model_evaluation.html#scoring-parameter)
 - [Model Cards for Model Reporting (Mitchell et al., 2019)](https://arxiv.org/abs/1810.03993)
 
 ## 📥 Material descargable

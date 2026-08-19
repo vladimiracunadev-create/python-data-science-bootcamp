@@ -115,8 +115,8 @@ Casi. Random Forest = bagging de árboles + sampling de features **en cada split
 ## 🔗 Referencias
 
 - Géron, *Hands-On ML*, **cap. 7** § "Bagging and Pasting", "Out-of-Bag Evaluation", "Random Patches and Random Subspaces".
-- [sklearn `BaggingClassifier`](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.BaggingClassifier.html)
-- [sklearn user guide — Bagging](https://scikit-learn.org/stable/modules/ensemble.html#bagging)
+- [sklearn `BaggingClassifier`](https://scikit-learn.org/1.8/modules/generated/sklearn.ensemble.BaggingClassifier.html)
+- [sklearn user guide — Bagging](https://scikit-learn.org/1.8/modules/ensemble.html#bagging)
 - Breiman, L. (1996). *Bagging predictors*. Machine Learning, 24(2).
 
 ## 📥 Material descargable
