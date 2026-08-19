@@ -50,6 +50,7 @@ from sources_lib import (  # noqa: E402
     README_PATH,
     REGISTRY_PATH,
     SCHEMA_VERSION,
+    authors_match,
     build_index,
     doi_is_wellformed,
     expected_locator,
@@ -61,6 +62,7 @@ from sources_lib import (  # noqa: E402
     load_library_versions,
     load_registry,
     match_citation,
+    titles_match,
 )
 
 if hasattr(sys.stdout, "reconfigure"):
@@ -120,8 +122,19 @@ def check_schema(registry: dict, report: Report) -> None:
             report.fail(scope, f"status desconocido: {entry.get('status')!r}")
         if not entry.get("title"):
             report.fail(scope, "sin título")
-        if entry.get("status") == "pendiente" and not entry.get("pending_reason"):
-            report.fail(scope, "pendiente sin motivo declarado")
+        if entry.get("status") == "pendiente":
+            if not entry.get("pending_reason"):
+                report.fail(scope, "pendiente sin motivo declarado")
+            # Un libro o artículo pendiente con DOI o ISBN es un emparejamiento
+            # rechazado que dejó su rastro: se lee como si siguiera valiendo. En
+            # las URLs no aplica — ahí el localizador es la propia cita de la
+            # clase, y `pendiente` solo dice que no se pudo comprobar que responda.
+            if entry.get("type") in ("book", "paper"):
+                for campo in ("doi", "isbn13", "locator"):
+                    if entry.get(campo):
+                        report.fail(
+                            scope, f"pendiente pero conserva `{campo}`: {entry[campo]!r}"
+                        )
 
 
 def check_locators(registry: dict, report: Report) -> None:
@@ -149,6 +162,30 @@ def check_locators(registry: dict, report: Report) -> None:
             report.fail(scope, f"locator sin https: {locator!r}")
         if not is_iso_date(entry.get("accessed") or ""):
             report.fail(scope, "verificada sin fecha de consulta (`accessed`)")
+        # El careo que impide que un emparejamiento malo se confirme a sí mismo:
+        # el título que devolvió el catálogo tiene que seguir designando la obra
+        # que cita la clase, no la que quedó escrita en la pasada anterior.
+        citado = entry.get("title_citado")
+        if entry.get("class_urls"):
+            # La cita trae la URL: ese es el ancla, más fuerte que un título.
+            # Comparar el texto del enlace con el título del catálogo solo
+            # produciría ruido ("1810.03993" contra "Model Cards for…").
+            continue
+        if kind not in ("book", "paper") or not citado:
+            continue
+        if not titles_match(citado, entry["title"]):
+            report.fail(
+                scope,
+                f"la obra resuelta no coincide con la citada: la clase cita "
+                f"{citado!r} y el localizador apunta a {entry['title']!r}",
+            )
+        elif not authors_match(entry.get("authors_citados") or [], entry.get("authors") or []):
+            report.fail(
+                scope,
+                "el título coincide pero la autoría no: la clase cita a "
+                f"{entry.get('authors_citados')} y el localizador lleva a "
+                f"{entry.get('authors')}",
+            )
 
 
 def check_coverage(registry: dict, report: Report) -> dict:
@@ -311,7 +348,52 @@ def pct(part: int, whole: int) -> str:
     return f"{100.0 * part / whole:.1f} %" if whole else "—"
 
 
+def _autores(entry: dict, maximo: int = 2) -> str:
+    """Autoría en la forma corta que se lee en una tabla.
+
+    Cuando la cita no separa autoría de título ("APA Publication Manual 7th
+    ed.") el campo repetiría el título entero: en ese caso se deja vacío en
+    lugar de decir dos veces lo mismo.
+    """
+    autores = entry.get("authors") or entry.get("authors_citados") or []
+    titulo = (entry.get("title_citado") or entry.get("title") or "").lower()
+    autores = [a for a in autores if a.strip().lower() not in titulo]
+    if not autores:
+        return "—"
+    corta = ", ".join(a.split(",")[0].strip() for a in autores[:maximo])
+    return f"{corta} et al." if len(autores) > maximo else corta
+
+
+def _localizador(entry: dict) -> str:
+    """Celda con el enlace comprobable, o el motivo por el que todavía no lo hay."""
+    locator = entry.get("locator")
+    if not locator:
+        return "_pendiente_"
+    if entry.get("isbn13"):
+        return f"[{entry['isbn13']}]({locator})"
+    if entry.get("doi"):
+        return f"[{entry['doi']}]({locator})"
+    return f"[{locator.split('//')[-1][:52]}]({locator})"
+
+
+def _de_tipo(entries: list, kind: str) -> list:
+    """Entradas de un tipo, de la más usada a la menos usada."""
+    return sorted(
+        (e for e in entries if e["type"] == kind),
+        key=lambda e: (-len(e.get("used_in", [])), e.get("title", "")),
+    )
+
+
 def render_readme_block(registry: dict, data: dict, versions: dict) -> str:
+    """Genera el bloque de fuentes del README.
+
+    Qué resuelve:
+        Un lector que quiere saber en qué se apoya el programa no quiere leer un
+        porcentaje: quiere ver los libros, la documentación y las normas. Por eso
+        el bloque enseña primero las fuentes con su localizador y deja el
+        recuento en un desplegable, sin dejar de generarlo — las cifras siguen
+        saliendo del registro y el CI sigue fallando si dejan de cuadrar.
+    """
     entries = registry["entries"]
     cobertura = pct(data["citas"] - data["citas_sin_entrada"], data["citas"])
     verificadas_pct = pct(data["verificadas"], data["entradas"])
@@ -322,18 +404,109 @@ def render_readme_block(registry: dict, data: dict, versions: dict) -> str:
         "-1f6feb?style=for-the-badge"
     )
 
+    libros = _de_tipo(entries, "book")
+    papers = _de_tipo(entries, "paper")
+    normas = _de_tipo(entries, "standard")
+    datasets = _de_tipo(entries, "dataset")
+    papers_top = papers[:15]
+
     lines: list[str] = [
         README_BEGIN,
         "",
-        "## 📚 Fuentes y trazabilidad",
+        "## 📚 Fuentes",
         "",
         f"[![Fuentes]({badge})](sources/bibliography.json)",
         "",
-        "Las clases de este programa se apoyan en obras concretas, y cada una de esas",
-        "obras tiene ficha propia en [`sources/bibliography.json`](sources/bibliography.json):",
-        "quién responde por ella, con qué localizador se comprueba (ISBN-13, DOI o URL",
-        "de la fuente primaria) y en qué clases se usa. Lo que no resuelve se marca",
-        "`pendiente` con su motivo — no se borra ni se rellena a ojo.",
+        f"Estas son las obras en las que se apoyan las {data['clases']} clases. "
+        "Cada una tiene ficha",
+        f"en [`sources/bibliography.json`](sources/bibliography.json) — {data['entradas']} "
+        "entradas — con un",
+        "localizador que se puede abrir y comprobar: **ISBN-13** para los libros, **DOI** para",
+        "los artículos, **URL de la fuente primaria** para documentación y normas. Lo que no",
+        "resuelve queda marcado `pendiente` con su motivo: no se borra ni se rellena a ojo.",
+        "",
+        f"### 📕 Libros ({len(libros)})",
+        "",
+        "| Clases | Autoría | Obra | Año | ISBN-13 |",
+        "|---:|---|---|---:|---|",
+    ]
+    for entry in libros:
+        titulo = entry.get("title_citado") or entry["title"]
+        lines.append(
+            f"| {len(entry.get('used_in', []))} | {_autores(entry)} | *{titulo}* "
+            f"| {entry.get('published') or '—'} | {_localizador(entry)} |"
+        )
+
+    lines += [
+        "",
+        "### 🧪 Documentación oficial de librerías",
+        "",
+        "El material no enlaza a `/stable/`: esa ruta describe una API distinta en cada",
+        "release y convierte una cita en una promesa. Cada enlace apunta a la versión con la",
+        "que se comprobó la clase.",
+        "",
+        "| Librería | Versión enlazada | Instalada al verificar | Documentación |",
+        "|---|---|---|---|",
+    ]
+    for library in versions.get("libraries", []):
+        if not library.get("version"):
+            continue
+        lines.append(
+            f"| `{library['library']}` "
+            f"| {library.get('docs_version') or library['version']} "
+            f"| {library.get('installed_version') or '—'} "
+            f"| [{library['docs_prefix'].split('//')[-1]}]({library['docs_prefix']}) |"
+        )
+
+    if normas:
+        lines += [
+            "",
+            f"### ⚖️ Normas y documentos oficiales ({len(normas)})",
+            "",
+            "| Clases | Documento | Fuente |",
+            "|---:|---|---|",
+        ]
+        for entry in normas:
+            titulo = entry.get("title_citado") or entry["title"]
+            lines.append(
+                f"| {len(entry.get('used_in', []))} | {titulo} | {_localizador(entry)} |"
+            )
+
+    if papers_top:
+        lines += [
+            "",
+            f"### 📄 Artículos más citados ({len(papers_top)} de {len(papers)})",
+            "",
+            f"El registro tiene {len(papers)} artículos; aquí van los que sostienen más clases.",
+            "",
+            "| Clases | Autoría | Artículo | DOI |",
+            "|---:|---|---|---|",
+        ]
+        for entry in papers_top:
+            titulo = entry.get("title_citado") or entry["title"]
+            lines.append(
+                f"| {len(entry.get('used_in', []))} | {_autores(entry)} | *{titulo}* "
+                f"| {_localizador(entry)} |"
+            )
+
+    if datasets:
+        lines += [
+            "",
+            f"### 🗃️ Datasets ({len(datasets)})",
+            "",
+            "| Clases | Dataset | Fuente |",
+            "|---:|---|---|",
+        ]
+        for entry in datasets:
+            titulo = entry.get("title_citado") or entry["title"]
+            lines.append(
+                f"| {len(entry.get('used_in', []))} | {titulo} | {_localizador(entry)} |"
+            )
+
+    lines += [
+        "",
+        "<details>",
+        "<summary>📊 Estado del registro (lo genera el verificador, no se escribe a mano)</summary>",
         "",
         "| Métrica | Valor |",
         "|---|---:|",
@@ -349,46 +522,11 @@ def render_readme_block(registry: dict, data: dict, versions: dict) -> str:
         f"{data['librerias_ancladas']} / {data['librerias']} librerías |",
         f"| Última comprobación con red | {data['verified_on']} |",
         "",
-        "### 🧪 Documentación de librerías — versión verificada",
+        "Las cifras salen de `python scripts/verify-sources --write-readme`, que las lee del",
+        "registro y de las clases. Si dejan de cuadrar, el CI falla. Cómo funciona el aparato",
+        "completo: [`sources/README.md`](sources/README.md).",
         "",
-        "El material no enlaza a `/stable/`: esa ruta describe una API distinta en cada",
-        "release y convierte una cita en una promesa. Cada enlace apunta a la versión",
-        "con la que se comprobó la clase.",
-        "",
-        "| Librería | Versión verificada | Instalada al verificar | Documentación |",
-        "|---|---|---|---|",
-    ]
-    for library in versions.get("libraries", []):
-        if not library.get("version"):
-            continue
-        lines.append(
-            f"| `{library['library']}` "
-            f"| {library.get('docs_version') or library['version']} "
-            f"| {library.get('installed_version') or '—'} "
-            f"| [{library['docs_prefix']}]({library['docs_prefix']}) |"
-        )
-
-    rectoras = sorted(entries, key=lambda e: (-len(e.get("used_in", [])), e["id"]))[:10]
-    lines += [
-        "",
-        "### 📖 Obras rectoras",
-        "",
-        "Las diez fuentes que sostienen más clases del programa.",
-        "",
-        "| Clases | Obra | Localizador |",
-        "|---:|---|---|",
-    ]
-    for entry in rectoras:
-        authors = ", ".join(entry.get("authors", [])[:2]) or "—"
-        locator = entry.get("locator")
-        cell = f"[{locator.split('//')[-1][:48]}]({locator})" if locator else "_pendiente_"
-        lines.append(f"| {len(entry.get('used_in', []))} | {authors} — *{entry['title']}* | {cell} |")
-
-    lines += [
-        "",
-        "> Estas cifras las produce `python scripts/verify-sources --write-readme` a",
-        "> partir del registro y de las clases. No se escriben a mano: si dejan de",
-        "> cuadrar, el CI falla.",
+        "</details>",
         "",
         README_END,
     ]

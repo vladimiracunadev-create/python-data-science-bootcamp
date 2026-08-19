@@ -110,6 +110,57 @@ def slugify(text: str, max_words: int = 9) -> str:
     return "-".join(words[:max_words]) or "sin-titulo"
 
 
+def titles_match(cited: str, resolved: str) -> bool:
+    """El título del catálogo designa la misma obra que cita el material.
+
+    Qué resuelve:
+        La resolución guarda en `title` el título autoritativo de la fuente. Si
+        el emparejamiento salió mal, ese título equivocado se queda ahí y la
+        siguiente pasada lo compara consigo mismo y lo confirma. `title_citado`
+        no se mueve nunca, y esta función es el careo entre los dos.
+
+        Se acepta la coincidencia exacta y el caso del subtítulo (el catálogo
+        trae "Practical Statistics for Data Scientists: 50 Essential Concepts"
+        donde la clase escribe la primera mitad). El subtítulo se recorta solo
+        del lado del catálogo: recortar los dos hace que "Recommender Systems:
+        The Textbook" encaje con "Recommender Systems: Techniques and Effects",
+        que es otro libro.
+    """
+    a, b = fold(cited), fold(resolved)
+    if not a or not b:
+        return False
+    if a == b:
+        return True
+    if ":" not in cited and fold(resolved.split(":")[0]) == a:
+        return True
+    if ":" not in resolved and fold(cited.split(":")[0]) == b:
+        return True
+    shorter, longer = (a, b) if len(a) <= len(b) else (b, a)
+    return longer.startswith(shorter) and len(shorter) >= 0.7 * len(longer)
+
+
+def surname_of(author: str) -> str:
+    """Apellido con el que se cita a alguien: el bloque anterior a la coma."""
+    tokens = [t for t in fold(author.split(",")[0]).split() if len(t) > 2]
+    return tokens[-1] if tokens else ""
+
+
+def authors_match(cited: list, resolved: list) -> bool:
+    """La autoría citada aparece entre la que devolvió el catálogo.
+
+    Qué resuelve:
+        Dos obras distintas pueden llevar exactamente el mismo título. *Attention
+        Is All You Need* existe en arXiv (Vaswani et al.) y como otro documento
+        en SSRN de otra autoría: comparando solo títulos, el localizador acaba
+        apuntando al equivocado. Cuando la cita no nombra autoría no hay nada
+        que comparar y el candado no se aplica.
+    """
+    surname = next((surname_of(a) for a in cited if surname_of(a)), "")
+    if not surname:
+        return True
+    return surname in fold(" ".join(resolved))
+
+
 def isbn13_is_valid(isbn: str) -> bool:
     """Valida un ISBN-13 con su dígito de control (norma ISO 2108)."""
     if not isinstance(isbn, str) or not re.fullmatch(r"\d{13}", isbn):

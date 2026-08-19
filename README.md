@@ -58,15 +58,143 @@ Integra currículo modular extenso, laboratorio interactivo local, portal del al
 
 <!-- BEGIN:fuentes -->
 
-## 📚 Fuentes y trazabilidad
+## 📚 Fuentes
 
-[![Fuentes](https://img.shields.io/badge/fuentes-740%20entradas%20%C2%B7%2079%25%20verificadas-1f6feb?style=for-the-badge)](sources/bibliography.json)
+[![Fuentes](https://img.shields.io/badge/fuentes-740%20entradas%20%C2%B7%2077%25%20verificadas-1f6feb?style=for-the-badge)](sources/bibliography.json)
 
-Las clases de este programa se apoyan en obras concretas, y cada una de esas
-obras tiene ficha propia en [`sources/bibliography.json`](sources/bibliography.json):
-quién responde por ella, con qué localizador se comprueba (ISBN-13, DOI o URL
-de la fuente primaria) y en qué clases se usa. Lo que no resuelve se marca
-`pendiente` con su motivo — no se borra ni se rellena a ojo.
+Estas son las obras en las que se apoyan las 232 clases. Cada una tiene ficha
+en [`sources/bibliography.json`](sources/bibliography.json) — 740 entradas — con un
+localizador que se puede abrir y comprobar: **ISBN-13** para los libros, **DOI** para
+los artículos, **URL de la fuente primaria** para documentación y normas. Lo que no
+resuelve queda marcado `pendiente` con su motivo: no se borra ni se rellena a ojo.
+
+### 📕 Libros (41)
+
+| Clases | Autoría | Obra | Año | ISBN-13 |
+|---:|---|---|---:|---|
+| 97 | Géron | *Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow* | 2022 | [9781098122461](https://openlibrary.org/isbn/9781098122461) |
+| 27 | VanderPlas | *Python Data Science Handbook* | 2023 | [9781098121228](https://openlibrary.org/isbn/9781098121228) |
+| 13 | Huyen | *Designing Machine Learning Systems* | 2022 | [9781098107963](https://openlibrary.org/isbn/9781098107963) |
+| 7 | James, Witten et al. | *An Introduction to Statistical Learning with Applications in Python* | 2023 | _pendiente_ |
+| 7 | Bruce, Bruce | *Practical Statistics for Data Scientists* | 2017 | [9781491952962](https://openlibrary.org/isbn/9781491952962) |
+| 6 | Ramalho | *Fluent Python* | 2015 | [9781491946008](https://openlibrary.org/isbn/9781491946008) |
+| 5 | Reis, Housley | *Fundamentals of Data Engineering* | 2022 | [9781098108304](https://openlibrary.org/isbn/9781098108304) |
+| 5 | Sutton, Barto | *Reinforcement Learning: An Introduction* | 2018 | [9780262039246](https://openlibrary.org/isbn/9780262039246) |
+| 4 | Kohavi, Tang et al. | *Trustworthy Online Controlled Experiments* | 2020 | [9781108601375](https://openlibrary.org/isbn/9781108601375) |
+| 2 | — | *Designing Data-Intensive Applications* | 2017 | [9781449373320](https://openlibrary.org/isbn/9781449373320) |
+| 2 | Hyndman, Athanasopoulos | *Forecasting: Principles and Practice* | 2021 | [9780987507136](https://openlibrary.org/isbn/9780987507136) |
+| 2 | Tanimura | *SQL for Data Scientists* | — | _pendiente_ |
+| 2 | McElreath | *Statistical Rethinking* | 2020 | [9780367139919](https://openlibrary.org/isbn/9780367139919) |
+| 1 | — | *APA Publication Manual 7th ed* | — | _pendiente_ |
+| 1 | López de Prado | *Advances in Financial Machine Learning* | 2018 | [9781119482109](https://openlibrary.org/isbn/9781119482109) |
+| 1 | Efron, Tibshirani | *An Introduction to the Bootstrap* | 1993 | [9781489945419](https://openlibrary.org/isbn/9781489945419) |
+| 1 | Gelman | *Bayesian Data Analysis* | 2013 | [9780429113079](https://openlibrary.org/isbn/9780429113079) |
+| 1 | 3Blue1Brown — serie | *But what is a neural network?* | — | _pendiente_ |
+| 1 | Imbens, Rubin | *Causal Inference for Statistics, Social, and Biomedical Sciences* | 2015 | [9780521885881](https://openlibrary.org/isbn/9780521885881) |
+| 1 | Pearl, Jewell | *Causal Inference in Statistics: A Primer* | 2016 | [9781119186847](https://openlibrary.org/isbn/9781119186847) |
+| 1 | Howard, Gugger | *Deep Learning for Coders with fastai & PyTorch* | — | _pendiente_ |
+| 1 | Montgomery | *Design and Analysis of Experiments* | 2017 | _pendiente_ |
+| 1 | Slatkin | *Effective Python* | 2015 | [9780134034287](https://openlibrary.org/isbn/9780134034287) |
+| 1 | Barocas | *Fairness and Machine Learning* | 2023 | [9780262048613](https://openlibrary.org/isbn/9780262048613) |
+| 1 | Van Buuren | *Flexible Imputation of Missing Data* | 2018 | [9780429492259](https://openlibrary.org/isbn/9780429492259) |
+| 1 | — | *Google CausalImpact* | — | _pendiente_ |
+| 1 | Narkhede | *Kafka: The Definitive Guide* | 2021 | [9781492043034](https://openlibrary.org/isbn/9781492043034) |
+| 1 | Burns | *Kubernetes: Up and Running* | 2022 | [9781098110208](https://openlibrary.org/isbn/9781098110208) |
+| 1 | Bradshaw | *MongoDB: The Definitive Guide* | — | _pendiente_ |
+| 1 | Angrist, Pischke | *Mostly Harmless Econometrics* | 2009 | [9780691120355](https://openlibrary.org/isbn/9780691120355) |
+| 1 | — | *NVIDIA H100 / Hopper architecture whitepaper* | — | _pendiente_ |
+| 1 | Trefethen, Bau | *Numerical Linear Algebra* | 1997 | [9780898719574](https://openlibrary.org/isbn/9780898719574) |
+| 1 | Press | *Numerical Recipes* | 1992 | [9780521431088](https://openlibrary.org/isbn/9780521431088) |
+| 1 | Bishop | *Pattern Recognition and Machine Learning* | 2016 | [9781493938438](https://openlibrary.org/isbn/9781493938438) |
+| 1 | Conover | *Practical Nonparametric Statistics* | 1999 | _pendiente_ |
+| 1 | — | *Programming Collective Intelligence* | 2007 | [9780596517601](https://openlibrary.org/isbn/9780596517601) |
+| 1 | — | *Recommender Systems: An Introduction* | 2010 | [9780511911309](https://openlibrary.org/isbn/9780511911309) |
+| 1 | Kimball, Ross | *The Data Warehouse Toolkit* | 2013 | _pendiente_ |
+| 1 | Hastie | *The Elements of Statistical Learning* | 2013 | [9780387216065](https://openlibrary.org/isbn/9780387216065) |
+| 1 | Mitchell | *Web Scraping with Python* | 2015 | [9781491910252](https://openlibrary.org/isbn/9781491910252) |
+| 1 | 3Blue1Brown | *Why π appears in the normal distribution* | — | _pendiente_ |
+
+### 🧪 Documentación oficial de librerías
+
+El material no enlaza a `/stable/`: esa ruta describe una API distinta en cada
+release y convierte una cita en una promesa. Cada enlace apunta a la versión con la
+que se comprobó la clase.
+
+| Librería | Versión enlazada | Instalada al verificar | Documentación |
+|---|---|---|---|
+| `apache-airflow` | 3.3.1 | — | [airflow.apache.org/docs/apache-airflow/3.3.1/](https://airflow.apache.org/docs/apache-airflow/3.3.1/) |
+| `imbalanced-learn` | 0.14 | — | [imbalanced-learn.org/0.14/](https://imbalanced-learn.org/0.14/) |
+| `ipython` | 9.12.0 | 9.12.0 | [ipython.readthedocs.io/en/9.12.0/](https://ipython.readthedocs.io/en/9.12.0/) |
+| `lightgbm` | 4.7.0 | 4.7.0 | [lightgbm.readthedocs.io/en/v4.7.0/](https://lightgbm.readthedocs.io/en/v4.7.0/) |
+| `lightning` | 2.5.6 | — | [lightning.ai/docs/pytorch/2.5.6/](https://lightning.ai/docs/pytorch/2.5.6/) |
+| `matplotlib` | 3.10.8 | 3.10.8 | [matplotlib.org/3.10.8/](https://matplotlib.org/3.10.8/) |
+| `mlflow` | 2.19.0 | — | [mlflow.org/docs/2.19.0/](https://mlflow.org/docs/2.19.0/) |
+| `numpy` | 2.4 | 2.4.4 | [numpy.org/doc/2.4/](https://numpy.org/doc/2.4/) |
+| `optuna` | 4.9.0 | — | [optuna.readthedocs.io/en/v4.9.0/](https://optuna.readthedocs.io/en/v4.9.0/) |
+| `pandas` | 3.0 | 3.0.2 | [pandas.pydata.org/pandas-docs/version/3.0/](https://pandas.pydata.org/pandas-docs/version/3.0/) |
+| `pydantic` | 2.12 | 2.12.5 | [docs.pydantic.dev/2.12/](https://docs.pydantic.dev/2.12/) |
+| `pyspark` | 4.2.0 | — | [spark.apache.org/docs/4.2.0/](https://spark.apache.org/docs/4.2.0/) |
+| `python` | 3.12 | — | [docs.python.org/3.12/](https://docs.python.org/3.12/) |
+| `ray` | 2.57.0 | — | [docs.ray.io/en/releases-2.57.0/](https://docs.ray.io/en/releases-2.57.0/) |
+| `scikit-learn` | 1.8 | 1.8.0 | [scikit-learn.org/1.8/](https://scikit-learn.org/1.8/) |
+| `scipy` | 1.18.0 | 1.17.1 | [docs.scipy.org/doc/scipy-1.18.0/](https://docs.scipy.org/doc/scipy-1.18.0/) |
+| `statsmodels` | 0.14.6 | 0.14.6 | [www.statsmodels.org/v0.14.6/](https://www.statsmodels.org/v0.14.6/) |
+| `torch` | 2.13 | — | [pytorch.org/docs/2.13/](https://pytorch.org/docs/2.13/) |
+| `transformers` | 5.15.1 | — | [huggingface.co/docs/transformers/v5.15.1/en/](https://huggingface.co/docs/transformers/v5.15.1/en/) |
+| `urllib3` | 2.7.0 | 2.7.0 | [urllib3.readthedocs.io/en/2.7.0/](https://urllib3.readthedocs.io/en/2.7.0/) |
+| `vowpalwabbit` | 9.11.2 | — | [vowpalwabbit.org/docs/vowpal_wabbit/python/9.11.2/](https://vowpalwabbit.org/docs/vowpal_wabbit/python/9.11.2/) |
+| `xgboost` | 3.3.0 | 3.3.0 | [xgboost.readthedocs.io/en/release_3.3.0/](https://xgboost.readthedocs.io/en/release_3.3.0/) |
+
+### ⚖️ Normas y documentos oficiales (14)
+
+| Clases | Documento | Fuente |
+|---:|---|---|
+| 2 | EU AI Act — documentación técnica (Anexo IV) | [artificialintelligenceact.eu/](https://artificialintelligenceact.eu/) |
+| 1 | European Data Protection Board — guidelines y decisiones | [www.edpb.europa.eu/](https://www.edpb.europa.eu/) |
+| 1 | OWASP — SQL injection prevention | [cheatsheetseries.owasp.org/cheatsheets/SQL_Injection](https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html) |
+| 1 | PEP 202 — List Comprehensions | [peps.python.org/pep-0202/](https://peps.python.org/pep-0202/) |
+| 1 | PEP 255 — Simple Generators | [peps.python.org/pep-0255/](https://peps.python.org/pep-0255/) |
+| 1 | PEP 3102 — Keyword-Only Arguments | [peps.python.org/pep-3102/](https://peps.python.org/pep-3102/) |
+| 1 | PEP 405 | [peps.python.org/pep-0405/](https://peps.python.org/pep-0405/) |
+| 1 | PEP 428 — Object-oriented filesystem paths | [peps.python.org/pep-0428/](https://peps.python.org/pep-0428/) |
+| 1 | PEP 465 — @ operator | [peps.python.org/pep-0465/](https://peps.python.org/pep-0465/) |
+| 1 | PEP 484 — Type Hints | [peps.python.org/pep-0484/](https://peps.python.org/pep-0484/) |
+| 1 | PEP 604 — X | Y syntax | [peps.python.org/pep-0604/](https://peps.python.org/pep-0604/) |
+| 1 | Reglamento UE 2016/679 (GDPR) — texto consolidado en EUR-Lex | [eur-lex.europa.eu/eli/reg/2016/679/oj](https://eur-lex.europa.eu/eli/reg/2016/679/oj) |
+| 1 | Reglamento UE 2024/1689 (AI Act) — texto consolidado en EUR-Lex | [eur-lex.europa.eu/eli/reg/2024/1689/oj](https://eur-lex.europa.eu/eli/reg/2024/1689/oj) |
+| 1 | ai risk management framework | [www.nist.gov/itl/ai-risk-management-framework](https://www.nist.gov/itl/ai-risk-management-framework) |
+
+### 📄 Artículos más citados (15 de 238)
+
+El registro tiene 238 artículos; aquí van los que sostienen más clases.
+
+| Clases | Autoría | Artículo | DOI |
+|---:|---|---|---|
+| 5 | Mitchell, Wu et al. | *Model Cards for Model Reporting (Mitchell et al., 2019)* | [10.48550/arXiv.1810.03993](https://doi.org/10.48550/arXiv.1810.03993) |
+| 5 | Aggarwal | *Recommender Systems: The Textbook* | _pendiente_ |
+| 3 | Mitchell, Wu et al. | *Model Cards for Model Reporting* | [10.1145/3287560.3287596](https://doi.org/10.1145/3287560.3287596) |
+| 3 | Bergstra, Bengio | *Random Search for Hyper-Parameter Optimization* | _pendiente_ |
+| 3 | Glorot, Bengio | *Understanding the difficulty of training deep feedforward neural networks* | _pendiente_ |
+| 2 | Lundberg, Lee | *A Unified Approach to Interpreting Model Predictions* | _pendiente_ |
+| 2 | Zhang, Rao et al. | *Adding Conditional Control to Text-to-Image Diffusion Models* | [10.1109/iccv51070.2023.00355](https://doi.org/10.1109/iccv51070.2023.00355) |
+| 2 | Krizhevsky | *AlexNet* | _pendiente_ |
+| 2 | Vaswani | *Attention Is All You Need* | _pendiente_ |
+| 2 | Efron | *Better Bootstrap Confidence Intervals* | [10.21236/ada150798](https://doi.org/10.21236/ada150798) |
+| 2 | DiCiccio, Efron | *Bootstrap Confidence Intervals* | _pendiente_ |
+| 2 | Romano | *Cliff's δ interpretation* | _pendiente_ |
+| 2 | Gebru, Morgenstern et al. | *Datasheets for Datasets* | [10.48550/arXiv.1803.09010](https://doi.org/10.48550/arXiv.1803.09010) |
+| 2 | Huang | *Deep Networks with Stochastic Depth* | _pendiente_ |
+| 2 | Rafailov | *Direct Preference Optimization* | _pendiente_ |
+
+### 🗃️ Datasets (2)
+
+| Clases | Dataset | Fuente |
+|---:|---|---|
+| 1 | MovieLens datasets | [grouplens.org/datasets/movielens/](https://grouplens.org/datasets/movielens/) |
+| 1 | Natural Earth GeoJSON | [datahub.io/core/geo-countries](https://datahub.io/core/geo-countries) |
+
+<details>
+<summary>📊 Estado del registro (lo genera el verificador, no se escribe a mano)</summary>
 
 | Métrica | Valor |
 |---|---:|
@@ -74,63 +202,17 @@ de la fuente primaria) y en qué clases se usa. Lo que no resuelve se marca
 | Citas en las clases | 1028 |
 | Entradas en el registro | 740 |
 | Cobertura del registro | 100.0 % |
-| Verificadas contra su fuente | 585 (79.1 %) |
-| Pendientes declaradas | 155 |
+| Verificadas contra su fuente | 567 (76.6 %) |
+| Pendientes declaradas | 173 |
 | Citas que declaran su uso | 433 (42.1 %) |
 | Enlaces de documentación anclados a versión | 22 / 22 librerías |
 | Última comprobación con red | 2026-08-19 |
 
-### 🧪 Documentación de librerías — versión verificada
+Las cifras salen de `python scripts/verify-sources --write-readme`, que las lee del
+registro y de las clases. Si dejan de cuadrar, el CI falla. Cómo funciona el aparato
+completo: [`sources/README.md`](sources/README.md).
 
-El material no enlaza a `/stable/`: esa ruta describe una API distinta en cada
-release y convierte una cita en una promesa. Cada enlace apunta a la versión
-con la que se comprobó la clase.
-
-| Librería | Versión verificada | Instalada al verificar | Documentación |
-|---|---|---|---|
-| `apache-airflow` | 3.3.1 | — | [https://airflow.apache.org/docs/apache-airflow/3.3.1/](https://airflow.apache.org/docs/apache-airflow/3.3.1/) |
-| `imbalanced-learn` | 0.14 | — | [https://imbalanced-learn.org/0.14/](https://imbalanced-learn.org/0.14/) |
-| `ipython` | 9.12.0 | 9.12.0 | [https://ipython.readthedocs.io/en/9.12.0/](https://ipython.readthedocs.io/en/9.12.0/) |
-| `lightgbm` | 4.7.0 | 4.7.0 | [https://lightgbm.readthedocs.io/en/v4.7.0/](https://lightgbm.readthedocs.io/en/v4.7.0/) |
-| `lightning` | 2.5.6 | — | [https://lightning.ai/docs/pytorch/2.5.6/](https://lightning.ai/docs/pytorch/2.5.6/) |
-| `matplotlib` | 3.10.8 | 3.10.8 | [https://matplotlib.org/3.10.8/](https://matplotlib.org/3.10.8/) |
-| `mlflow` | 2.19.0 | — | [https://mlflow.org/docs/2.19.0/](https://mlflow.org/docs/2.19.0/) |
-| `numpy` | 2.4 | 2.4.4 | [https://numpy.org/doc/2.4/](https://numpy.org/doc/2.4/) |
-| `optuna` | 4.9.0 | — | [https://optuna.readthedocs.io/en/v4.9.0/](https://optuna.readthedocs.io/en/v4.9.0/) |
-| `pandas` | 3.0 | 3.0.2 | [https://pandas.pydata.org/pandas-docs/version/3.0/](https://pandas.pydata.org/pandas-docs/version/3.0/) |
-| `pydantic` | 2.12 | 2.12.5 | [https://docs.pydantic.dev/2.12/](https://docs.pydantic.dev/2.12/) |
-| `pyspark` | 4.2.0 | — | [https://spark.apache.org/docs/4.2.0/](https://spark.apache.org/docs/4.2.0/) |
-| `python` | 3.12 | — | [https://docs.python.org/3.12/](https://docs.python.org/3.12/) |
-| `ray` | 2.57.0 | — | [https://docs.ray.io/en/releases-2.57.0/](https://docs.ray.io/en/releases-2.57.0/) |
-| `scikit-learn` | 1.8 | 1.8.0 | [https://scikit-learn.org/1.8/](https://scikit-learn.org/1.8/) |
-| `scipy` | 1.18.0 | 1.17.1 | [https://docs.scipy.org/doc/scipy-1.18.0/](https://docs.scipy.org/doc/scipy-1.18.0/) |
-| `statsmodels` | 0.14.6 | 0.14.6 | [https://www.statsmodels.org/v0.14.6/](https://www.statsmodels.org/v0.14.6/) |
-| `torch` | 2.13 | — | [https://pytorch.org/docs/2.13/](https://pytorch.org/docs/2.13/) |
-| `transformers` | 5.15.1 | — | [https://huggingface.co/docs/transformers/v5.15.1/en/](https://huggingface.co/docs/transformers/v5.15.1/en/) |
-| `urllib3` | 2.7.0 | 2.7.0 | [https://urllib3.readthedocs.io/en/2.7.0/](https://urllib3.readthedocs.io/en/2.7.0/) |
-| `vowpalwabbit` | 9.11.2 | — | [https://vowpalwabbit.org/docs/vowpal_wabbit/python/9.11.2/](https://vowpalwabbit.org/docs/vowpal_wabbit/python/9.11.2/) |
-| `xgboost` | 3.3.0 | 3.3.0 | [https://xgboost.readthedocs.io/en/release_3.3.0/](https://xgboost.readthedocs.io/en/release_3.3.0/) |
-
-### 📖 Obras rectoras
-
-Las diez fuentes que sostienen más clases del programa.
-
-| Clases | Obra | Localizador |
-|---:|---|---|
-| 97 | Géron, Aurélien — *Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow* | _pendiente_ |
-| 27 | VanderPlas, Jake — *Python Data Science Handbook* | [openlibrary.org/isbn/9781098121228](https://openlibrary.org/isbn/9781098121228) |
-| 13 | Huyen, Chip — *Designing Machine Learning Systems* | [openlibrary.org/isbn/9781098107963](https://openlibrary.org/isbn/9781098107963) |
-| 7 | Bruce, Peter, Bruce, Andrew — *Practical Statistics for Data Scientists* | [openlibrary.org/isbn/9781491952962](https://openlibrary.org/isbn/9781491952962) |
-| 7 | James, Gareth, Witten, Daniela — *An Introduction to Statistical Learning with Applications in Python* | _pendiente_ |
-| 6 | Ramalho, Luciano — *Fluent Python* | [openlibrary.org/isbn/9781491946008](https://openlibrary.org/isbn/9781491946008) |
-| 5 | Knees, Peter, Neidhardt, Julia — *Recommender Systems: Techniques, Effects, and Measures Toward Pluralism and Fairness* | [doi.org/10.1007/978-3-031-45304-5_27](https://doi.org/10.1007/978-3-031-45304-5_27) |
-| 5 | Mitchell, Margaret, Wu, Simone — *Model Cards for Model Reporting* | [doi.org/10.48550/arXiv.1810.03993](https://doi.org/10.48550/arXiv.1810.03993) |
-| 5 | Reis, Joe, Housley, Matt — *Fundamentals of Data Engineering* | [openlibrary.org/isbn/9781098108304](https://openlibrary.org/isbn/9781098108304) |
-| 5 | Sutton, Richard S., Barto, Andrew G. — *Reinforcement Learning: An Introduction* | [openlibrary.org/isbn/9780262039246](https://openlibrary.org/isbn/9780262039246) |
-
-> Estas cifras las produce `python scripts/verify-sources --write-readme` a
-> partir del registro y de las clases. No se escriben a mano: si dejan de
-> cuadrar, el CI falla.
+</details>
 
 <!-- END:fuentes -->
 

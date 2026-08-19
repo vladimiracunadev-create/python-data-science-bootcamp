@@ -24,6 +24,9 @@ Fases (se pueden pedir sueltas o todas con --all):
                     contenido sin avisar) por su equivalente anclado a versión.
     --seed          Da de alta en el registro las fuentes citadas que aún no
                     tienen entrada, y recalcula `used_in`. No usa red.
+    --audit-titles  Careo sin red entre el título que cita la clase y el que
+                    devolvió el catálogo. Lo que resolvió a otra obra pierde el
+                    sello de verificada y vuelve a `pendiente` con el motivo.
     --resolve       Resuelve ISBN contra openlibrary.org, DOI contra
                     api.crossref.org / api.datacite.org, y hace GET a cada URL
                     de norma o documentación. Actualiza `accessed`.
@@ -60,6 +63,7 @@ from sources_lib import (  # noqa: E402
     LIBRARY_VERSIONS_PATH,
     ROOT,
     SCHEMA_VERSION,
+    SOURCES_DIR,
     build_index,
     fold,
     iter_citations,
@@ -67,7 +71,9 @@ from sources_lib import (  # noqa: E402
     match_citation,
     save_registry,
     slugify,
+    authors_match,
     strip_markdown,
+    titles_match,
 )
 
 if hasattr(sys.stdout, "reconfigure"):
@@ -312,6 +318,25 @@ def classify_url(url: str) -> str:
 #: reintentan para no marcar como pendiente algo que sí resuelve.
 RETRYABLE = (0, 429, 500, 502, 503, 504)
 
+#: Tope de cuerpo leído. Solo se mira la cabecera y el JSON de los catálogos; un
+#: servidor que gotea megabytes sin cerrar la conexión colgaba el proceso entero
+#: porque el timeout del socket se renueva con cada byte que llega.
+MAX_BODY = 4 * 1024 * 1024
+
+
+def _read_bounded(response, timeout: int) -> bytes:
+    """Lee la respuesta con tope de tamaño y de tiempo total."""
+    limite = time.monotonic() + timeout
+    trozos: list[bytes] = []
+    leidos = 0
+    while leidos < MAX_BODY and time.monotonic() < limite:
+        trozo = response.read(65536)
+        if not trozo:
+            break
+        trozos.append(trozo)
+        leidos += len(trozo)
+    return b"".join(trozos)
+
 
 #: Intervalo mínimo entre peticiones a los catálogos, en segundos. arXiv pide
 #: explícitamente no bajar de 3 s; los demás no lo exigen pero tampoco están para
@@ -351,7 +376,7 @@ def http_get(url: str, timeout: int = TIMEOUT, attempts: int = 3) -> tuple[int, 
         request = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
         try:
             with urllib.request.urlopen(request, timeout=timeout) as response:
-                return response.getcode(), response.read()
+                return response.getcode(), _read_bounded(response, timeout)
         except urllib.error.HTTPError as exc:  # 4xx / 5xx: el código ES el dato
             code, body = exc.code, b""
         except Exception:  # noqa: BLE001 — DNS, TLS, timeout: se reporta como 0
@@ -702,8 +727,60 @@ def link_title(bullet: str, url: str) -> str:
     return tail.strip() or urllib.parse.urlparse(url).netloc
 
 
+CURATED_PATH = SOURCES_DIR / "curated_works.json"
+
+
+def apply_curated(registry: dict) -> int:
+    """Reaplica la identificación humana de las obras citadas de muchas formas.
+
+    Qué resuelve:
+        «Géron, cap. 11 — Batch Normalization» y «Géron, A. Hands-On Machine
+        Learning… 3ª ed.» son el mismo libro, y ninguna heurística lo deduce con
+        seguridad. Esa decisión la toma una persona y vive en
+        sources/curated_works.json. Se reaplica en cada pasada para que ningún
+        catálogo pueda pisarla: es el ancla contra la que se comprueba todo lo
+        demás.
+    """
+    if not CURATED_PATH.exists():
+        return 0
+    data = json.loads(CURATED_PATH.read_text(encoding="utf-8"))
+    by_id = {e["id"]: e for e in registry["entries"]}
+    aplicadas = 0
+    for work in data.get("works", []):
+        entry = by_id.get(work["id"])
+        if entry is None:
+            entry = {
+                "id": work["id"],
+                "locator": None,
+                "accessed": None,
+                "status": "pendiente",
+                "pending_reason": "localizador sin resolver: ejecutar --resolve",
+                "class_urls": [],
+                "used_in": [],
+                "origin": "curada",
+            }
+            registry["entries"].append(entry)
+            by_id[work["id"]] = entry
+        entry["origin"] = "curada"
+        entry["aliases"] = work["aliases"]
+        entry["authority"] = entry.get("authority") or work.get("authority", "")
+        entry["published"] = entry.get("published") or work.get("published", "")
+        entry["title_citado"] = work["title"]
+        entry["type_citado"] = work["type"]
+        entry["authors_citados"] = work["authors"]
+        entry.setdefault("title", work["title"])
+        entry.setdefault("type", work["type"])
+        entry.setdefault("authors", work["authors"])
+        if work.get("notes"):
+            entry["notes"] = work["notes"]
+        aplicadas += 1
+    return aplicadas
+
+
 def phase_seed(registry: dict) -> dict:
     print("── alta de fuentes citadas sin entrada ─────────────────────────────")
+    curadas = apply_curated(registry)
+    print(f"  obras curadas aplicadas: {curadas}")
     citations = iter_citations()
     by_url, patterns = build_index(registry)
     existing_ids = {e["id"] for e in registry["entries"]}
@@ -790,9 +867,12 @@ def phase_seed(registry: dict) -> dict:
 
     registry["entries"].extend(new_entries)
 
-    # Reparación: una entrada sin título es una entrada sin identificar. Ocurre
-    # cuando la cita no separa autoría de título ("APA Publication Manual 7th
-    # ed."). Se recupera de la propia cita, que sigue ahí.
+    # Cómo lo cita el material queda fijo y aparte de cómo lo llama el catálogo.
+    #
+    # Qué resuelve: la resolución sobrescribe `title` con el título autoritativo
+    # de la fuente. Si un emparejamiento sale mal, la siguiente pasada compara
+    # contra ese título equivocado y lo confirma sola. `title_citado` es el
+    # ancla que no se mueve: contra eso se comprueba siempre.
     reparadas = 0
     by_url, patterns = build_index(registry)
     origen: dict[str, list] = {}
@@ -800,19 +880,104 @@ def phase_seed(registry: dict) -> dict:
         for entry in match_citation(citation, by_url, patterns):
             origen.setdefault(entry["id"], []).append(citation)
     for entry in registry["entries"]:
-        if entry.get("title"):
-            continue
         muestras = origen.get(entry["id"], [])
-        if not muestras:
+        if not muestras or entry.get("origin") == "curada":
+            continue  # lo curado manda: la identificación humana no se recalcula
+        cita = muestras[0]
+        if cita.kind == "link":
+            citado = link_title(cita.bullet, cita.url)
+            tipo = classify_url(cita.url)
+        else:
+            citado = citation_title(cita.bullet) or cita.text
+            tipo = guess_work_type(cita.text)
+        if entry.get("title_citado") != citado or entry.get("type_citado") != tipo:
+            reparadas += 1
+        entry["title_citado"] = citado
+        entry["type_citado"] = tipo
+        if not entry.get("title"):
+            entry["title"] = citado
+        # La autoría citada se recalcula siempre, igual que el título: heredarla
+        # de `authors` la tomaría de una resolución anterior y el careo acabaría
+        # comparando un resultado consigo mismo.
+        if cita.kind == "work":
+            entry["authors_citados"] = citation_authors(cita.bullet)
+            if not entry.get("authors"):
+                entry["authors"] = entry["authors_citados"]
+        else:
+            entry.setdefault("authors_citados", [])
+
+    # Una entrada pendiente no puede arrastrar los restos del emparejamiento que
+    # se rechazó: un DOI o una autoría que ya no se sostienen se leen como si
+    # siguieran valiendo. Se limpian aquí, sin red.
+    limpiadas = 0
+    for entry in registry["entries"]:
+        if entry.get("status") != "pendiente":
             continue
-        entry["title"] = citation_title(muestras[0].bullet) or muestras[0].text
-        entry["authors"] = entry.get("authors") or citation_authors(muestras[0].bullet)
-        reparadas += 1
+        if entry.get("type") not in ("book", "paper"):
+            continue  # en las URLs el localizador es la propia cita, se conserva
+        sobras = [c for c in ("doi", "isbn13", "resolution") if entry.get(c)]
+        citados = entry.get("authors_citados") or []
+        if not sobras and entry.get("locator") is None and (
+            not citados or entry.get("authors") == citados
+        ):
+            continue
+        for campo in sobras:
+            entry.pop(campo, None)
+        entry["locator"] = None
+        if citados:
+            entry["authors"] = citados
+        limpiadas += 1
 
     print(f"  citas leídas          : {len(citations)}")
-    print(f"  entradas reparadas    : {reparadas}")
+    print(f"  citas ancladas al texto: {reparadas}")
+    print(f"  pendientes saneadas   : {limpiadas}")
     print(f"  entradas nuevas       : {len(new_entries)}")
     print(f"  citas ambiguas        : {ambiguous}")
+    return registry
+
+
+def phase_audit_titles(registry: dict) -> dict:
+    """Retira el sello de verificada a lo que el catálogo resolvió como otra obra.
+
+    Qué resuelve:
+        La resolución guarda el título autoritativo en `title`. Cuando un
+        emparejamiento sale mal, ese título equivocado se queda escrito y la
+        pasada siguiente lo compara consigo mismo y lo confirma. Este careo va
+        contra `title_citado`, que no se mueve: si el localizador apunta a otra
+        obra, la entrada vuelve a `pendiente` con el motivo. Es preferible un
+        hueco declarado a un DOI que lleva a otro paper. No usa red.
+    """
+    print("── careo entre lo citado y lo resuelto ─────────────────────────────")
+    revocadas = 0
+    for entry in registry["entries"]:
+        if entry.get("status") != "verificada" or entry["type"] not in ("book", "paper"):
+            continue
+        if entry.get("class_urls"):
+            continue  # la cita trae la URL: ese es el ancla, no el título
+        citado = entry.get("title_citado")
+        citados = entry.get("authors_citados") or []
+        titulo_ok = bool(citado) and titles_match(citado, entry.get("title", ""))
+        autoria_ok = authors_match(citados, entry.get("authors") or [])
+        if not citado or (titulo_ok and autoria_ok):
+            continue
+        print(f"  ✗ {entry['id']}")
+        print(f"      cita     : {citado}")
+        print(f"      resolvió : {entry.get('title')}  ({entry.get('doi') or entry.get('isbn13')})")
+        entry["status"] = "pendiente"
+        entry["pending_reason"] = (
+            "el catálogo devolvió otra obra distinta de la que cita la clase "
+            + ("(otro título: " if not titulo_ok else "(otra autoría: ")
+            + repr(entry.get("title") if not titulo_ok else entry.get("authors"))
+            + "); hace falta identificarla a mano"
+        )
+        entry["title"] = citado
+        if citados:
+            entry["authors"] = citados
+        for campo in ("doi", "isbn13", "locator", "resolution"):
+            entry.pop(campo, None)
+        entry["locator"] = None
+        revocadas += 1
+    print(f"  entradas devueltas a pendiente: {revocadas}")
     return registry
 
 
@@ -877,36 +1042,27 @@ def titles_match(left: str, right: str) -> bool:
     return longer.startswith(shorter) and len(shorter) >= 0.7 * len(longer)
 
 
-def surname_of(author: str) -> str:
-    """Apellido con el que se cita a alguien: el primer bloque antes de la coma."""
-    head = author.split(",")[0]
-    tokens = [t for t in fold(head).split() if len(t) > 2]
-    return tokens[-1] if tokens else ""
-
-
-def authors_match(expected: list, candidates: list) -> bool:
-    """El primer autor que nombra el material aparece entre los del catálogo.
-
-    Qué resuelve:
-        Un título puede coincidir por casualidad entre dos obras distintas. La
-        autoría es el segundo candado: si el material cita a Aggarwal y el
-        catálogo devuelve a otra persona, no es la misma obra. Cuando la cita no
-        nombra autoría no hay nada que comparar y el candado no se aplica.
-    """
-    surname = next((surname_of(a) for a in expected if surname_of(a)), "")
-    if not surname:
-        return True
-    haystack = fold(" ".join(candidates))
-    return bool(haystack) and surname in haystack
 
 
 def resolve_book(entry: dict) -> dict:
     """Busca el ISBN-13 en openlibrary.org exigiendo que el título coincida."""
-    query = urllib.parse.quote(f"{entry['title']} {' '.join(entry['authors'][:1])}")
-    data = http_json(
-        f"https://openlibrary.org/search.json?q={query}"
-        "&fields=key,title,author_name,first_publish_year&limit=5"
-    )
+    # La búsqueda de openlibrary devuelve cero resultados si la consulta lleva
+    # comas o dos puntos: "Hands-On Machine Learning with Scikit-Learn, Keras,
+    # and TensorFlow" no encuentra nada y sin las comas sí. Se limpia y, si aun
+    # así no hay candidatos, se reintenta solo con el título.
+    def _consulta(texto: str) -> dict | None:
+        limpio = re.sub(r"[,:;]", " ", texto)
+        limpio = re.sub(r"\s+", " ", limpio).strip()
+        return http_json(
+            "https://openlibrary.org/search.json?q="
+            + urllib.parse.quote(limpio)
+            + "&fields=key,title,author_name,first_publish_year&limit=5"
+        )
+
+    autor = entry["authors"][0] if entry.get("authors") else ""
+    data = _consulta(f"{entry['title']} {autor}")
+    if not data or not data.get("docs"):
+        data = _consulta(entry["title"])
     if not data or not data.get("docs"):
         return {"ok": False, "reason": "openlibrary no devolvió candidatos"}
     doc = next(
@@ -914,7 +1070,10 @@ def resolve_book(entry: dict) -> dict:
             d
             for d in data["docs"]
             if titles_match(entry["title"], d.get("title", ""))
-            and authors_match(entry.get("authors", []), d.get("author_name", []))
+            and authors_match(
+                entry.get("authors_citados") or entry.get("authors", []),
+                d.get("author_name", []),
+            )
         ),
         None,
     )
@@ -958,9 +1117,9 @@ def resolve_book(entry: dict) -> dict:
             + (f" del año {wanted_year}" if wanted_year else ""),
         }
     chosen = sorted(candidates, key=lambda c: c["isbn13"])[0]
-    status = http_status(f"https://openlibrary.org/isbn/{chosen['isbn13']}")
-    if status not in (200, 302):
-        return {"ok": False, "reason": f"openlibrary.org/isbn devolvió {status}"}
+    # El ISBN sale del propio endpoint de ediciones de openlibrary: pedirle otra
+    # vez la misma ficha para "confirmarlo" no añade evidencia y convierte un
+    # 429 del catálogo en un pendiente falso. La procedencia queda registrada.
     return {
         "ok": True,
         "isbn13": chosen["isbn13"],
@@ -973,7 +1132,6 @@ def resolve_book(entry: dict) -> dict:
             "matched_title": chosen["title"],
             "editions_con_isbn13": len(candidates),
             "regla": "menor ISBN-13 entre las ediciones que coinciden en año",
-            "http_status": status,
         },
     }
 
@@ -1021,7 +1179,7 @@ def resolve_paper(entry: dict) -> dict:
             f"{a.get('family', '')}, {a.get('given', '')}".strip(", ")
             for a in item.get("author", [])
         ]
-        if not authors_match(entry.get("authors", []), authors):
+        if not authors_match(entry.get("authors_citados") or entry.get("authors", []), authors):
             continue
         container = (item.get("container-title") or [""])[0]
         return {
@@ -1071,7 +1229,7 @@ def resolve_paper_arxiv(entry: dict) -> dict | None:
         authors = re.findall(r"<name>(.*?)</name>", raw)
         if not titles_match(title, candidate):
             continue
-        if not authors_match(entry.get("authors", []), authors):
+        if not authors_match(entry.get("authors_citados") or entry.get("authors", []), authors):
             continue
         arxiv = found_id.group(1)
         doi = f"10.48550/arXiv.{arxiv}"
@@ -1160,15 +1318,35 @@ def resolve_entry(entry: dict) -> tuple[dict, dict]:
     return entry, resolve_url_entry(entry)
 
 
-def phase_resolve(registry: dict, limit: int | None, only_pending: bool, workers: int = 8) -> dict:
+def phase_resolve(
+    registry: dict,
+    limit: int | None,
+    only_pending: bool,
+    workers: int = 8,
+    types: set | None = None,
+) -> dict:
     print("── resolución de localizadores ─────────────────────────────────────")
     targets = [
         e
         for e in registry["entries"]
-        if not only_pending or e.get("status") != "verificada"
+        if (not only_pending or e.get("status") != "verificada")
+        and (not types or e["type"] in types)
     ]
     if limit:
         targets = targets[:limit]
+    if not only_pending:
+        # Reintento a fondo: se vuelve a partir de lo que dice el material, no
+        # de lo que dejó escrito la pasada anterior. Si aquella se equivocó de
+        # obra, comparar contra su propio resultado la confirmaría otra vez.
+        for entry in targets:
+            if entry.get("title_citado"):
+                entry["title"] = entry["title_citado"]
+            if entry.get("type_citado"):
+                entry["type"] = entry["type_citado"]
+            if entry.get("authors_citados"):
+                entry["authors"] = entry["authors_citados"]
+            for campo in ("isbn13", "doi", "resolution"):
+                entry.pop(campo, None)
     today = date.today().isoformat()
     resolved = 0
     failed = 0
@@ -1235,6 +1413,11 @@ def main() -> int:
     parser.add_argument("--anchor-links", action="store_true", help="anclar enlaces en clases")
     parser.add_argument("--seed", action="store_true", help="dar de alta fuentes citadas")
     parser.add_argument("--resolve", action="store_true", help="resolver ISBN/DOI/URL")
+    parser.add_argument(
+        "--audit-titles",
+        action="store_true",
+        help="careo offline: revoca lo que resolvio a otra obra distinta de la citada",
+    )
     parser.add_argument("--all", action="store_true", help="todas las fases en orden")
     parser.add_argument("--limit", type=int, default=None, help="tope de entradas a resolver")
     parser.add_argument(
@@ -1248,10 +1431,17 @@ def main() -> int:
         default=8,
         help="hilos de resolución; bajalo a 1 cuando los catálogos devuelvan 429",
     )
+    parser.add_argument(
+        "--types",
+        default=None,
+        help="limita la resolucion a estos tipos, separados por coma (book,paper,...)",
+    )
     parser.add_argument("--dry-run", action="store_true", help="no escribir las clases")
     args = parser.parse_args()
 
-    if not any([args.versions, args.anchor_links, args.seed, args.resolve, args.all]):
+    if not any(
+        [args.versions, args.anchor_links, args.seed, args.resolve, args.audit_titles, args.all]
+    ):
         parser.error("elegí al menos una fase (o --all)")
 
     do = lambda flag: args.all or flag  # noqa: E731
@@ -1266,9 +1456,15 @@ def main() -> int:
     registry = load_registry()
     if do(args.seed):
         registry = phase_seed(registry)
+    if do(args.audit_titles):
+        registry = phase_audit_titles(registry)
     if do(args.resolve):
         registry = phase_resolve(
-            registry, args.limit, only_pending=not args.force, workers=max(1, args.workers)
+            registry,
+            args.limit,
+            only_pending=not args.force,
+            workers=max(1, args.workers),
+            types={t.strip() for t in args.types.split(",")} if args.types else None,
         )
 
     registry = phase_usage(registry)

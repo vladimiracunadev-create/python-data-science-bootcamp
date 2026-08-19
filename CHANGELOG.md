@@ -18,7 +18,8 @@
 Las 232 clases citaban obras reales y cada bloque de fuentes era distinto — el contenido nunca fue el problema. El problema era que **no existía ningún sitio donde comprobar qué obra hay detrás de cada cita**: 1.028 citas repartidas por el currículo y el README declarando cinco libros. Una bibliografía sin localizadores es una lista de títulos: se lee bien y no se puede verificar.
 
 ### Añadido
-- **`sources/bibliography.json` — el registro.** 740 entradas, una por obra o enlace citado, con autoría, título, quién responde por la fuente, en qué clases se usa y un localizador de forma canónica: libro → ISBN-13 con dígito de control válido (`openlibrary.org/isbn/…`), artículo → DOI (`doi.org/…`), norma o documentación → URL https con fecha de consulta. **585 verificadas contra su fuente (79,1 %)**; las 155 restantes quedan `pendiente` **con el motivo escrito**, no borradas.
+- **`sources/bibliography.json` — el registro.** 740 entradas, una por obra o enlace citado, con autoría, título, quién responde por la fuente, en qué clases se usa y un localizador de forma canónica: libro → ISBN-13 con dígito de control válido (`openlibrary.org/isbn/…`), artículo → DOI (`doi.org/…`), norma o documentación → URL https con fecha de consulta. **567 verificadas contra su fuente (76,6 %)** — 29 libros, 93 artículos, 431 páginas de documentación, 12 normas y 2 datasets; las 173 restantes quedan `pendiente` **con el motivo escrito**, no borradas.
+- **`sources/curated_works.json`** — la identificación humana de las 23 obras que el material cita de muchas formas distintas («Géron, cap. 11» y «Géron, A. *Hands-On Machine Learning*… 3ª ed.» son el mismo libro). Es el ancla contra la que se comprueba todo lo demás, y ningún catálogo la sobrescribe.
 - **`sources/library_versions.json`** — a qué versión apunta la documentación de cada librería y con cuál se ejecutó el material.
 - **`scripts/verify-sources` — offline, determinista, bloquea en CI.** Comprueba esquema, forma del localizador, que toda cita tenga entrada y toda entrada tenga uso, que ningún bloque de fuentes se repita entre clases, que ningún enlace apunte a `/stable/` cuando esa librería publica por versión, y que **las cifras del README coincidan con el recuento**. Las escribe él mismo con `--write-readme`: en el README no hay ni un número a mano.
 - **`scripts/refresh-sources` — con red, manual, no bloquea.** Resuelve ISBN contra `openlibrary.org` y DOI contra `api.crossref.org` / `api.datacite.org` / arXiv, exigiendo coincidencia de **título y autoría** antes de dar nada por bueno; hace GET a cada URL y actualiza `accessed`. Reporta lo que dejó de resolver sin borrarlo.
@@ -32,8 +33,13 @@ Las 232 clases citaban obras reales y cada bloque de fuentes era distinto — el
 ### Corregido
 - **4 enlaces rotos** que el material arrastraba sin que nadie lo notara: tres guías de `keras.io` (`customizing_what_happens_in_fit`, `preprocessing_layers`, `working_with_rnns`) y un post de `feast.dev` devuelven 404. Quedan marcados en el registro con su motivo.
 
+### Seguridad del propio verificador
+- **El careo que impide que un emparejamiento malo se confirme solo.** La resolución guarda en la entrada el título autoritativo del catálogo; si el emparejamiento fue erróneo, la pasada siguiente compara contra ese título equivocado y lo da por bueno. Ahora `title_citado` y `authors_citados` guardan cómo lo cita la clase y no los toca nadie, y tanto `verify-sources` (offline) como `refresh-sources --audit-titles` carean contra ellos.
+- Ese careo **revocó 22 localizadores que apuntaban a otra obra**: *Attention Is All You Need* llevaba a un artículo de SSRN sobre valoración de tokens de IA, *Random Forests* a un capítulo de otra autoría, *LightGBM: A Highly Efficient Gradient Boosting Decision Tree* a un paper sobre fidelización de clientes en banca, *Recommender Systems: The Textbook* de Aggarwal a otro libro que empieza igual, y *Machine Learning* de Mitchell a un tutorial de sklearn. Todos vuelven a `pendiente` con el motivo: un hueco declarado vale más que un DOI que lleva a otro sitio.
+
 ### Pendiente declarado
 - **595 de 1.028 citas (57,9 %) todavía no dicen para qué usa la clase esa fuente**, solo cuál es. Rellenarlo automáticamente habría sido texto de relleno con forma de bibliografía; la cifra la publica el verificador para que se vea bajar.
+- **145 de 238 artículos siguen sin DOI.** Buena parte de la bibliografía de ML vive en actas (NeurIPS, ICML, JMLR) que no registran DOI en Crossref, y la búsqueda en arXiv se topó con el límite de peticiones del servidor. `refresh-sources --resolve` los recupera en una pasada posterior sin bloquear nada.
 
 ---
 

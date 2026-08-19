@@ -1,0 +1,335 @@
+{
+  "schema_version": 1,
+  "note": "Identificacion humana de las obras que el material cita con muchas redacciones distintas (el mismo libro escrito de seis formas). scripts/refresh-sources --seed reaplica estos campos en cada pasada: son el ancla contra la que se comprueba la resolucion, y no los sobrescribe ningun catalogo.",
+  "works": [
+    {
+      "id": "geron-hands-on-machine-learning-3e",
+      "type": "book",
+      "authors": [
+        "Géron, Aurélien"
+      ],
+      "title": "Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow",
+      "published": "2022",
+      "authority": "O'Reilly Media",
+      "aliases": [
+        "^geron\\b"
+      ],
+      "notes": "3.ª edición"
+    },
+    {
+      "id": "vanderplas-python-data-science-handbook",
+      "type": "book",
+      "authors": [
+        "VanderPlas, Jake"
+      ],
+      "title": "Python Data Science Handbook",
+      "published": "",
+      "authority": "O'Reilly Media",
+      "aliases": [
+        "^vanderplas\\b"
+      ]
+    },
+    {
+      "id": "huyen-designing-machine-learning-systems",
+      "type": "book",
+      "authors": [
+        "Huyen, Chip"
+      ],
+      "title": "Designing Machine Learning Systems",
+      "published": "2022",
+      "authority": "O'Reilly Media",
+      "aliases": [
+        "^huyen\\b"
+      ]
+    },
+    {
+      "id": "bruce-practical-statistics-for-data-scientists-2e",
+      "type": "book",
+      "authors": [
+        "Bruce, Peter",
+        "Bruce, Andrew"
+      ],
+      "title": "Practical Statistics for Data Scientists",
+      "published": "",
+      "authority": "O'Reilly Media",
+      "aliases": [
+        "^bruce\\b"
+      ],
+      "notes": "2.ª edición"
+    },
+    {
+      "id": "sutton-barto-reinforcement-learning-2e",
+      "type": "book",
+      "authors": [
+        "Sutton, Richard S.",
+        "Barto, Andrew G."
+      ],
+      "title": "Reinforcement Learning: An Introduction",
+      "published": "2018",
+      "authority": "MIT Press",
+      "aliases": [
+        "^sutton barto\\b"
+      ],
+      "notes": "2.ª edición"
+    },
+    {
+      "id": "aggarwal-recommender-systems-the-textbook",
+      "type": "book",
+      "authors": [
+        "Aggarwal, Charu C."
+      ],
+      "title": "Recommender Systems: The Textbook",
+      "published": "2016",
+      "authority": "Springer",
+      "aliases": [
+        "^aggarwal\\b"
+      ]
+    },
+    {
+      "id": "reis-housley-fundamentals-of-data-engineering",
+      "type": "book",
+      "authors": [
+        "Reis, Joe",
+        "Housley, Matt"
+      ],
+      "title": "Fundamentals of Data Engineering",
+      "published": "2022",
+      "authority": "O'Reilly Media",
+      "aliases": [
+        "^reis\\b"
+      ]
+    },
+    {
+      "id": "kohavi-trustworthy-online-controlled-experiments",
+      "type": "book",
+      "authors": [
+        "Kohavi, Ron",
+        "Tang, Diane",
+        "Xu, Ya"
+      ],
+      "title": "Trustworthy Online Controlled Experiments",
+      "published": "2020",
+      "authority": "Cambridge University Press",
+      "aliases": [
+        "^kohavi\\b"
+      ]
+    },
+    {
+      "id": "ramalho-fluent-python-2e",
+      "type": "book",
+      "authors": [
+        "Ramalho, Luciano"
+      ],
+      "title": "Fluent Python",
+      "published": "",
+      "authority": "O'Reilly Media",
+      "aliases": [
+        "^ramalho\\b"
+      ],
+      "notes": "2.ª edición"
+    },
+    {
+      "id": "james-introduction-to-statistical-learning-python",
+      "type": "book",
+      "authors": [
+        "James, Gareth",
+        "Witten, Daniela",
+        "Hastie, Trevor",
+        "Tibshirani, Robert",
+        "Taylor, Jonathan"
+      ],
+      "title": "An Introduction to Statistical Learning with Applications in Python",
+      "published": "2023",
+      "authority": "Springer",
+      "aliases": [
+        "^islp\\b"
+      ],
+      "notes": "El material lo cita por la sigla ISLP; la identificacion se confirma contra el catalogo antes de darla por verificada."
+    },
+    {
+      "id": "hyndman-forecasting-principles-and-practice",
+      "type": "book",
+      "authors": [
+        "Hyndman, Rob J.",
+        "Athanasopoulos, George"
+      ],
+      "title": "Forecasting: Principles and Practice",
+      "published": "2021",
+      "authority": "OTexts",
+      "aliases": [
+        "^hyndman\\b"
+      ]
+    },
+    {
+      "id": "mcelreath-statistical-rethinking-2e",
+      "type": "book",
+      "authors": [
+        "McElreath, Richard"
+      ],
+      "title": "Statistical Rethinking",
+      "published": "2020",
+      "authority": "CRC Press",
+      "aliases": [
+        "^mcelreath\\b"
+      ],
+      "notes": "2.ª edición"
+    },
+    {
+      "id": "efron-better-bootstrap-confidence-intervals",
+      "type": "paper",
+      "authors": [
+        "Efron, Bradley"
+      ],
+      "title": "Better Bootstrap Confidence Intervals",
+      "published": "1987",
+      "authority": "Journal of the American Statistical Association",
+      "aliases": [
+        "^efron\\b(?!.*tibshirani).*better bootstrap"
+      ]
+    },
+    {
+      "id": "mitchell-model-cards-for-model-reporting",
+      "type": "paper",
+      "authors": [
+        "Mitchell, Margaret",
+        "Wu, Simone",
+        "Zaldivar, Andrew"
+      ],
+      "title": "Model Cards for Model Reporting",
+      "published": "2019",
+      "authority": "ACM FAT* 2019",
+      "aliases": [
+        "^mitchell m\\b.*model cards"
+      ]
+    },
+    {
+      "id": "lundberg-lee-unified-approach-shap",
+      "type": "paper",
+      "authors": [
+        "Lundberg, Scott M.",
+        "Lee, Su-In"
+      ],
+      "title": "A Unified Approach to Interpreting Model Predictions",
+      "published": "2017",
+      "authority": "NeurIPS",
+      "aliases": [
+        "^lundberg (lee|s )"
+      ]
+    },
+    {
+      "id": "zhang-controlnet",
+      "type": "paper",
+      "authors": [
+        "Zhang, Lvmin",
+        "Rao, Anyi",
+        "Agrawala, Maneesh"
+      ],
+      "title": "Adding Conditional Control to Text-to-Image Diffusion Models",
+      "published": "2023",
+      "authority": "ICCV",
+      "aliases": [
+        "^zhang\\b.*controlnet"
+      ],
+      "notes": "El material lo cita por el nombre corto ControlNet."
+    },
+    {
+      "id": "pascanu-difficulty-training-rnn",
+      "type": "paper",
+      "authors": [
+        "Pascanu, Razvan",
+        "Mikolov, Tomas",
+        "Bengio, Yoshua"
+      ],
+      "title": "On the difficulty of training recurrent neural networks",
+      "published": "2013",
+      "authority": "ICML",
+      "aliases": [
+        "^pascanu\\b"
+      ]
+    },
+    {
+      "id": "cohen-statistical-power-analysis",
+      "type": "book",
+      "authors": [
+        "Cohen, Jacob"
+      ],
+      "title": "Statistical Power Analysis for the Behavioral Sciences",
+      "published": "1988",
+      "authority": "Lawrence Erlbaum Associates",
+      "aliases": [
+        "^cohen\\b.*statistical power"
+      ]
+    },
+    {
+      "id": "deng-improving-sensitivity-cuped",
+      "type": "paper",
+      "authors": [
+        "Deng, Alex",
+        "Xu, Ya",
+        "Kohavi, Ron",
+        "Walker, Toby"
+      ],
+      "title": "Improving the Sensitivity of Online Controlled Experiments by Utilizing Pre-Experiment Data",
+      "published": "2013",
+      "authority": "WSDM",
+      "aliases": [
+        "^deng\\b.*improving the sensitivity"
+      ]
+    },
+    {
+      "id": "chernozhukov-double-debiased-machine-learning",
+      "type": "paper",
+      "authors": [
+        "Chernozhukov, Victor",
+        "Chetverikov, Denis",
+        "Demirer, Mert"
+      ],
+      "title": "Double/Debiased Machine Learning for Treatment and Structural Parameters",
+      "published": "2018",
+      "authority": "The Econometrics Journal",
+      "aliases": [
+        "^chernozhukov\\b"
+      ]
+    },
+    {
+      "id": "mckinney-apache-arrow-10-things",
+      "type": "reference",
+      "authors": [
+        "McKinney, Wes"
+      ],
+      "title": "Apache Arrow and the \"10 Things I Hate About pandas\"",
+      "published": "",
+      "authority": "wesmckinney.com",
+      "aliases": [
+        "^mckinney\\b.*apache arrow"
+      ],
+      "notes": "El material fecha esta misma entrada en 2017 en una clase y en 2022 en otra; la fecha se toma de la fuente primaria, no del material."
+    },
+    {
+      "id": "anthropic-building-effective-agents",
+      "type": "reference",
+      "authors": [
+        "Anthropic"
+      ],
+      "title": "Building Effective Agents",
+      "published": "2024",
+      "authority": "anthropic.com",
+      "aliases": [
+        "^anthropic\\b.*building effective agents"
+      ]
+    },
+    {
+      "id": "anthropic-introducing-model-context-protocol",
+      "type": "reference",
+      "authors": [
+        "Anthropic"
+      ],
+      "title": "Introducing the Model Context Protocol",
+      "published": "2024",
+      "authority": "anthropic.com",
+      "aliases": [
+        "^anthropic\\b.*model context protocol"
+      ]
+    }
+  ]
+}
